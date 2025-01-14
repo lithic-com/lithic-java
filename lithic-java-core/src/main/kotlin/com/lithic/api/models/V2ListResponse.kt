@@ -21,6 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -335,17 +336,15 @@ private constructor(
 
         fun build(): V2ListResponse =
             V2ListResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountTokens) { "`accountTokens` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(cardTokens) { "`cardTokens` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(currentVersion) { "`currentVersion` is required but was not set" },
-                checkNotNull(draftVersion) { "`draftVersion` is required but was not set" },
-                checkNotNull(name) { "`name` is required but was not set" },
-                checkNotNull(programLevel) { "`programLevel` is required but was not set" },
-                checkNotNull(state) { "`state` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountTokens", accountTokens).map { it.toImmutable() },
+                checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
+                checkRequired("currentVersion", currentVersion),
+                checkRequired("draftVersion", draftVersion),
+                checkRequired("name", name),
+                checkRequired("programLevel", programLevel),
+                checkRequired("state", state),
+                checkRequired("type", type),
                 (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
@@ -462,8 +461,8 @@ private constructor(
 
             fun build(): CurrentVersion =
                 CurrentVersion(
-                    checkNotNull(parameters) { "`parameters` is required but was not set" },
-                    checkNotNull(version) { "`version` is required but was not set" },
+                    checkRequired("parameters", parameters),
+                    checkRequired("version", version),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -711,8 +710,7 @@ private constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            checkNotNull(conditions) { "`conditions` is required but was not set" }
-                                .map { it.toImmutable() },
+                            checkRequired("conditions", conditions).map { it.toImmutable() },
                             additionalProperties.toImmutable()
                         )
                 }
@@ -1515,8 +1513,8 @@ private constructor(
 
             fun build(): DraftVersion =
                 DraftVersion(
-                    checkNotNull(parameters) { "`parameters` is required but was not set" },
-                    checkNotNull(version) { "`version` is required but was not set" },
+                    checkRequired("parameters", parameters),
+                    checkRequired("version", version),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1764,8 +1762,7 @@ private constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            checkNotNull(conditions) { "`conditions` is required but was not set" }
-                                .map { it.toImmutable() },
+                            checkRequired("conditions", conditions).map { it.toImmutable() },
                             additionalProperties.toImmutable()
                         )
                 }

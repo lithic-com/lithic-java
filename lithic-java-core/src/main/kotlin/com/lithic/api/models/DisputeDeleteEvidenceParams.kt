@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -201,8 +202,8 @@ constructor(
 
         fun build(): DisputeDeleteEvidenceParams =
             DisputeDeleteEvidenceParams(
-                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
-                checkNotNull(evidenceToken) { "`evidenceToken` is required but was not set" },
+                checkRequired("disputeToken", disputeToken),
+                checkRequired("evidenceToken", evidenceToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),

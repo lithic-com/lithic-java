@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -140,13 +141,9 @@ private constructor(
 
         fun build(): PaymentSimulateActionResponse =
             PaymentSimulateActionResponse(
-                checkNotNull(debuggingRequestId) {
-                    "`debuggingRequestId` is required but was not set"
-                },
-                checkNotNull(result) { "`result` is required but was not set" },
-                checkNotNull(transactionEventToken) {
-                    "`transactionEventToken` is required but was not set"
-                },
+                checkRequired("debuggingRequestId", debuggingRequestId),
+                checkRequired("result", result),
+                checkRequired("transactionEventToken", transactionEventToken),
                 additionalProperties.toImmutable(),
             )
     }

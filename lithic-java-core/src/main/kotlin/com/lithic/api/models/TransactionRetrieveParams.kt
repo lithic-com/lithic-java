@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -160,7 +161,7 @@ constructor(
 
         fun build(): TransactionRetrieveParams =
             TransactionRetrieveParams(
-                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
+                checkRequired("transactionToken", transactionToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

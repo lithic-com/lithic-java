@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -162,8 +163,8 @@ constructor(
 
             fun build(): CreditProductPrimeRateCreateBody =
                 CreditProductPrimeRateCreateBody(
-                    checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
-                    checkNotNull(rate) { "`rate` is required but was not set" },
+                    checkRequired("effectiveDate", effectiveDate),
+                    checkRequired("rate", rate),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -350,9 +351,7 @@ constructor(
 
         fun build(): CreditProductPrimeRateCreateParams =
             CreditProductPrimeRateCreateParams(
-                checkNotNull(creditProductToken) {
-                    "`creditProductToken` is required but was not set"
-                },
+                checkRequired("creditProductToken", creditProductToken),
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

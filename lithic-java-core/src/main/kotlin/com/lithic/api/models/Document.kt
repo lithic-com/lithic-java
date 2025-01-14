@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -199,16 +200,13 @@ private constructor(
 
         fun build(): Document =
             Document(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountHolderToken) {
-                    "`accountHolderToken` is required but was not set"
+                checkRequired("token", token),
+                checkRequired("accountHolderToken", accountHolderToken),
+                checkRequired("documentType", documentType),
+                checkRequired("entityToken", entityToken),
+                checkRequired("requiredDocumentUploads", requiredDocumentUploads).map {
+                    it.toImmutable()
                 },
-                checkNotNull(documentType) { "`documentType` is required but was not set" },
-                checkNotNull(entityToken) { "`entityToken` is required but was not set" },
-                checkNotNull(requiredDocumentUploads) {
-                        "`requiredDocumentUploads` is required but was not set"
-                    }
-                    .map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -718,22 +716,19 @@ private constructor(
 
             fun build(): RequiredDocumentUpload =
                 RequiredDocumentUpload(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(acceptedEntityStatusReasons) {
-                            "`acceptedEntityStatusReasons` is required but was not set"
-                        }
-                        .map { it.toImmutable() },
-                    checkNotNull(created) { "`created` is required but was not set" },
-                    checkNotNull(imageType) { "`imageType` is required but was not set" },
-                    checkNotNull(rejectedEntityStatusReasons) {
-                            "`rejectedEntityStatusReasons` is required but was not set"
-                        }
-                        .map { it.toImmutable() },
-                    checkNotNull(status) { "`status` is required but was not set" },
-                    checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
-                        .map { it.toImmutable() },
-                    checkNotNull(updated) { "`updated` is required but was not set" },
-                    checkNotNull(uploadUrl) { "`uploadUrl` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("acceptedEntityStatusReasons", acceptedEntityStatusReasons).map {
+                        it.toImmutable()
+                    },
+                    checkRequired("created", created),
+                    checkRequired("imageType", imageType),
+                    checkRequired("rejectedEntityStatusReasons", rejectedEntityStatusReasons).map {
+                        it.toImmutable()
+                    },
+                    checkRequired("status", status),
+                    checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
+                    checkRequired("updated", updated),
+                    checkRequired("uploadUrl", uploadUrl),
                     additionalProperties.toImmutable(),
                 )
         }

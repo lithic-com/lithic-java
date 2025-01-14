@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
@@ -130,9 +131,7 @@ private constructor(
 
         fun build(): CardSpendLimits =
             CardSpendLimits(
-                checkNotNull(availableSpendLimit) {
-                    "`availableSpendLimit` is required but was not set"
-                },
+                checkRequired("availableSpendLimit", availableSpendLimit),
                 spendLimit,
                 spendVelocity,
                 additionalProperties.toImmutable(),

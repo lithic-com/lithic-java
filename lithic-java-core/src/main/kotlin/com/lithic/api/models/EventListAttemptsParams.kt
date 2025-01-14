@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -287,7 +288,7 @@ constructor(
 
         fun build(): EventListAttemptsParams =
             EventListAttemptsParams(
-                checkNotNull(eventToken) { "`eventToken` is required but was not set" },
+                checkRequired("eventToken", eventToken),
                 begin,
                 end,
                 endingBefore,

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -562,37 +563,26 @@ private constructor(
 
         fun build(): SettlementDetail =
             SettlementDetail(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
-                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(disputesGrossAmount) {
-                    "`disputesGrossAmount` is required but was not set"
-                },
-                checkNotNull(eventTokens) { "`eventTokens` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(institution) { "`institution` is required but was not set" },
-                checkNotNull(interchangeFeeExtendedPrecision) {
-                    "`interchangeFeeExtendedPrecision` is required but was not set"
-                },
-                checkNotNull(interchangeGrossAmount) {
-                    "`interchangeGrossAmount` is required but was not set"
-                },
-                checkNotNull(network) { "`network` is required but was not set" },
-                checkNotNull(otherFeesDetails) { "`otherFeesDetails` is required but was not set" },
-                checkNotNull(otherFeesGrossAmount) {
-                    "`otherFeesGrossAmount` is required but was not set"
-                },
-                checkNotNull(reportDate) { "`reportDate` is required but was not set" },
-                checkNotNull(settlementDate) { "`settlementDate` is required but was not set" },
-                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
-                checkNotNull(transactionsGrossAmount) {
-                    "`transactionsGrossAmount` is required but was not set"
-                },
-                checkNotNull(type) { "`type` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardProgramToken", cardProgramToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("disputesGrossAmount", disputesGrossAmount),
+                checkRequired("eventTokens", eventTokens).map { it.toImmutable() },
+                checkRequired("institution", institution),
+                checkRequired("interchangeFeeExtendedPrecision", interchangeFeeExtendedPrecision),
+                checkRequired("interchangeGrossAmount", interchangeGrossAmount),
+                checkRequired("network", network),
+                checkRequired("otherFeesDetails", otherFeesDetails),
+                checkRequired("otherFeesGrossAmount", otherFeesGrossAmount),
+                checkRequired("reportDate", reportDate),
+                checkRequired("settlementDate", settlementDate),
+                checkRequired("transactionToken", transactionToken),
+                checkRequired("transactionsGrossAmount", transactionsGrossAmount),
+                checkRequired("type", type),
+                checkRequired("updated", updated),
                 feeDescription,
                 additionalProperties.toImmutable(),
             )

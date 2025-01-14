@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -477,19 +478,17 @@ private constructor(
 
         fun build(): Kyb =
             Kyb(
-                checkNotNull(beneficialOwnerEntities) {
-                        "`beneficialOwnerEntities` is required but was not set"
-                    }
-                    .map { it.toImmutable() },
-                checkNotNull(beneficialOwnerIndividuals) {
-                        "`beneficialOwnerIndividuals` is required but was not set"
-                    }
-                    .map { it.toImmutable() },
-                checkNotNull(businessEntity) { "`businessEntity` is required but was not set" },
-                checkNotNull(controlPerson) { "`controlPerson` is required but was not set" },
-                checkNotNull(natureOfBusiness) { "`natureOfBusiness` is required but was not set" },
-                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
-                checkNotNull(workflow) { "`workflow` is required but was not set" },
+                checkRequired("beneficialOwnerEntities", beneficialOwnerEntities).map {
+                    it.toImmutable()
+                },
+                checkRequired("beneficialOwnerIndividuals", beneficialOwnerIndividuals).map {
+                    it.toImmutable()
+                },
+                checkRequired("businessEntity", businessEntity),
+                checkRequired("controlPerson", controlPerson),
+                checkRequired("natureOfBusiness", natureOfBusiness),
+                checkRequired("tosTimestamp", tosTimestamp),
+                checkRequired("workflow", workflow),
                 externalId,
                 kybPassedTimestamp,
                 websiteUrl,
@@ -738,13 +737,10 @@ private constructor(
 
             fun build(): BusinessEntity =
                 BusinessEntity(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
-                    checkNotNull(legalBusinessName) {
-                        "`legalBusinessName` is required but was not set"
-                    },
-                    checkNotNull(phoneNumbers) { "`phoneNumbers` is required but was not set" }
-                        .map { it.toImmutable() },
+                    checkRequired("address", address),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("legalBusinessName", legalBusinessName),
+                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
                     dbaBusinessName,
                     parentCompany,
                     additionalProperties.toImmutable(),
@@ -1006,12 +1002,12 @@ private constructor(
 
             fun build(): KybIndividual =
                 KybIndividual(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(dob) { "`dob` is required but was not set" },
-                    checkNotNull(email) { "`email` is required but was not set" },
-                    checkNotNull(firstName) { "`firstName` is required but was not set" },
-                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
-                    checkNotNull(lastName) { "`lastName` is required but was not set" },
+                    checkRequired("address", address),
+                    checkRequired("dob", dob),
+                    checkRequired("email", email),
+                    checkRequired("firstName", firstName),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("lastName", lastName),
                     phoneNumber,
                     additionalProperties.toImmutable(),
                 )

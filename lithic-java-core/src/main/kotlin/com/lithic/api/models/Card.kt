@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -854,19 +855,17 @@ private constructor(
 
         fun build(): Card =
             Card(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(funding) { "`funding` is required but was not set" },
-                checkNotNull(lastFour) { "`lastFour` is required but was not set" },
-                checkNotNull(pinStatus) { "`pinStatus` is required but was not set" },
-                checkNotNull(spendLimit) { "`spendLimit` is required but was not set" },
-                checkNotNull(spendLimitDuration) {
-                    "`spendLimitDuration` is required but was not set"
-                },
-                checkNotNull(state) { "`state` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardProgramToken", cardProgramToken),
+                checkRequired("created", created),
+                checkRequired("funding", funding),
+                checkRequired("lastFour", lastFour),
+                checkRequired("pinStatus", pinStatus),
+                checkRequired("spendLimit", spendLimit),
+                checkRequired("spendLimitDuration", spendLimitDuration),
+                checkRequired("state", state),
+                checkRequired("type", type),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
                 cvv,
@@ -1146,11 +1145,11 @@ private constructor(
 
             fun build(): FundingAccount =
                 FundingAccount(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(created) { "`created` is required but was not set" },
-                    checkNotNull(lastFour) { "`lastFour` is required but was not set" },
-                    checkNotNull(state) { "`state` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("created", created),
+                    checkRequired("lastFour", lastFour),
+                    checkRequired("state", state),
+                    checkRequired("type", type),
                     accountName,
                     nickname,
                     additionalProperties.toImmutable(),

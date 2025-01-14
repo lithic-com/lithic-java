@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -157,7 +158,7 @@ constructor(
 
         fun build(): CardProgramRetrieveParams =
             CardProgramRetrieveParams(
-                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
+                checkRequired("cardProgramToken", cardProgramToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

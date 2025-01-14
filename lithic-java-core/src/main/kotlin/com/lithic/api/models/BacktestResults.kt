@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
@@ -131,11 +132,9 @@ private constructor(
 
         fun build(): BacktestResults =
             BacktestResults(
-                checkNotNull(backtestToken) { "`backtestToken` is required but was not set" },
-                checkNotNull(results) { "`results` is required but was not set" },
-                checkNotNull(simulationParameters) {
-                    "`simulationParameters` is required but was not set"
-                },
+                checkRequired("backtestToken", backtestToken),
+                checkRequired("results", results),
+                checkRequired("simulationParameters", simulationParameters),
                 additionalProperties.toImmutable(),
             )
     }

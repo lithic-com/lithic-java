@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -491,29 +492,24 @@ private constructor(
 
         fun build(): Payment =
             Payment(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(category) { "`category` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
-                checkNotNull(direction) { "`direction` is required but was not set" },
-                checkNotNull(events) { "`events` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(externalBankAccountToken) {
-                    "`externalBankAccountToken` is required but was not set"
-                },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(method) { "`method` is required but was not set" },
-                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
-                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
-                checkNotNull(result) { "`result` is required but was not set" },
-                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
-                checkNotNull(source) { "`source` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
-                checkNotNull(userDefinedId) { "`userDefinedId` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("category", category),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("descriptor", descriptor),
+                checkRequired("direction", direction),
+                checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("externalBankAccountToken", externalBankAccountToken),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("method", method),
+                checkRequired("methodAttributes", methodAttributes),
+                checkRequired("pendingAmount", pendingAmount),
+                checkRequired("result", result),
+                checkRequired("settledAmount", settledAmount),
+                checkRequired("source", source),
+                checkRequired("status", status),
+                checkRequired("updated", updated),
+                checkRequired("userDefinedId", userDefinedId),
                 additionalProperties.toImmutable(),
             )
     }
@@ -903,11 +899,11 @@ private constructor(
 
             fun build(): PaymentEvent =
                 PaymentEvent(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(created) { "`created` is required but was not set" },
-                    checkNotNull(result) { "`result` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("amount", amount),
+                    checkRequired("created", created),
+                    checkRequired("result", result),
+                    checkRequired("type", type),
                     (detailedResults ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
@@ -1417,17 +1413,12 @@ private constructor(
 
             fun build(): PaymentMethodAttributes =
                 PaymentMethodAttributes(
-                    checkNotNull(companyId) { "`companyId` is required but was not set" },
-                    checkNotNull(receiptRoutingNumber) {
-                        "`receiptRoutingNumber` is required but was not set"
-                    },
-                    checkNotNull(retries) { "`retries` is required but was not set" },
-                    checkNotNull(returnReasonCode) {
-                        "`returnReasonCode` is required but was not set"
-                    },
-                    checkNotNull(secCode) { "`secCode` is required but was not set" },
-                    checkNotNull(traceNumbers) { "`traceNumbers` is required but was not set" }
-                        .map { it.toImmutable() },
+                    checkRequired("companyId", companyId),
+                    checkRequired("receiptRoutingNumber", receiptRoutingNumber),
+                    checkRequired("retries", retries),
+                    checkRequired("returnReasonCode", returnReasonCode),
+                    checkRequired("secCode", secCode),
+                    checkRequired("traceNumbers", traceNumbers).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }

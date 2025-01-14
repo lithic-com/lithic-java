@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -307,22 +308,16 @@ private constructor(
 
         fun build(): LineItemListResponse =
             LineItemListResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(category) { "`category` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
-                checkNotNull(eventType) { "`eventType` is required but was not set" },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(financialTransactionEventToken) {
-                    "`financialTransactionEventToken` is required but was not set"
-                },
-                checkNotNull(financialTransactionToken) {
-                    "`financialTransactionToken` is required but was not set"
-                },
+                checkRequired("token", token),
+                checkRequired("amount", amount),
+                checkRequired("category", category),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("effectiveDate", effectiveDate),
+                checkRequired("eventType", eventType),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("financialTransactionEventToken", financialTransactionEventToken),
+                checkRequired("financialTransactionToken", financialTransactionToken),
                 cardToken,
                 descriptor,
                 additionalProperties.toImmutable(),

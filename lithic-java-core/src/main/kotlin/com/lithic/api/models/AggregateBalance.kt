@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -324,24 +325,16 @@ private constructor(
 
         fun build(): AggregateBalance =
             AggregateBalance(
-                checkNotNull(availableAmount) { "`availableAmount` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(financialAccountType) {
-                    "`financialAccountType` is required but was not set"
-                },
-                checkNotNull(lastFinancialAccountToken) {
-                    "`lastFinancialAccountToken` is required but was not set"
-                },
-                checkNotNull(lastTransactionEventToken) {
-                    "`lastTransactionEventToken` is required but was not set"
-                },
-                checkNotNull(lastTransactionToken) {
-                    "`lastTransactionToken` is required but was not set"
-                },
-                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
-                checkNotNull(totalAmount) { "`totalAmount` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkRequired("availableAmount", availableAmount),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("financialAccountType", financialAccountType),
+                checkRequired("lastFinancialAccountToken", lastFinancialAccountToken),
+                checkRequired("lastTransactionEventToken", lastTransactionEventToken),
+                checkRequired("lastTransactionToken", lastTransactionToken),
+                checkRequired("pendingAmount", pendingAmount),
+                checkRequired("totalAmount", totalAmount),
+                checkRequired("updated", updated),
                 additionalProperties.toImmutable(),
             )
     }

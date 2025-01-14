@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
@@ -244,11 +245,11 @@ private constructor(
 
         fun build(): CardProgram =
             CardProgram(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(name) { "`name` is required but was not set" },
-                checkNotNull(panRangeEnd) { "`panRangeEnd` is required but was not set" },
-                checkNotNull(panRangeStart) { "`panRangeStart` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("created", created),
+                checkRequired("name", name),
+                checkRequired("panRangeEnd", panRangeEnd),
+                checkRequired("panRangeStart", panRangeStart),
                 cardholderCurrency,
                 (settlementCurrencies ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
