@@ -15,7 +15,7 @@ class EventSubscriptionTest {
                 .description("description")
                 .disabled(true)
                 .url("https://example.com")
-                .eventTypes(listOf(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED))
+                .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
                 .build()
         assertThat(eventSubscription).isNotNull
         assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")

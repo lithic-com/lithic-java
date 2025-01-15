@@ -11,7 +11,8 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
     fun createExternalBankAccountMicroDepositCreateParams() {
         ExternalBankAccountMicroDepositCreateParams.builder()
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .microDeposits(listOf(0L, 0L))
+            .addMicroDeposit(0L)
+            .addMicroDeposit(0L)
             .build()
     }
 
@@ -20,7 +21,8 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(0L, 0L))
+                .addMicroDeposit(0L)
+                .addMicroDeposit(0L)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -32,7 +34,8 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(0L, 0L))
+                .addMicroDeposit(0L)
+                .addMicroDeposit(0L)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -44,7 +47,8 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(0L, 0L))
+                .addMicroDeposit(0L)
+                .addMicroDeposit(0L)
                 .build()
         assertThat(params).isNotNull
         // path param "externalBankAccountToken"

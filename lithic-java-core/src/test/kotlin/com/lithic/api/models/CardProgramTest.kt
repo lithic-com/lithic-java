@@ -18,7 +18,8 @@ class CardProgramTest {
                 .panRangeEnd("52304803")
                 .panRangeStart("52304803")
                 .cardholderCurrency("USD")
-                .settlementCurrencies(listOf("USD", "CAD"))
+                .addSettlementCurrency("USD")
+                .addSettlementCurrency("CAD")
                 .build()
         assertThat(cardProgram).isNotNull
         assertThat(cardProgram.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

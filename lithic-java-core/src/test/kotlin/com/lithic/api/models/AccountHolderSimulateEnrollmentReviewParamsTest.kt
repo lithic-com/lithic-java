@@ -12,11 +12,9 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
         AccountHolderSimulateEnrollmentReviewParams.builder()
             .accountHolderToken("account_holder_token")
             .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
-            .statusReasons(
-                listOf(
-                    AccountHolderSimulateEnrollmentReviewParams.StatusReason
-                        .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
-                )
+            .addStatusReason(
+                AccountHolderSimulateEnrollmentReviewParams.StatusReason
+                    .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
             )
             .build()
     }
@@ -27,11 +25,9 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
             AccountHolderSimulateEnrollmentReviewParams.builder()
                 .accountHolderToken("account_holder_token")
                 .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
-                .statusReasons(
-                    listOf(
-                        AccountHolderSimulateEnrollmentReviewParams.StatusReason
-                            .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
-                    )
+                .addStatusReason(
+                    AccountHolderSimulateEnrollmentReviewParams.StatusReason
+                        .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
                 )
                 .build()
         val body = params.getBody()

@@ -14,51 +14,46 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             AccountHolderSimulateEnrollmentReviewResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .beneficialOwnerEntities(
-                    listOf(
-                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
-                            .address(
-                                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity
-                                    .Address2
-                                    .builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("114-123-1513")
-                            .legalBusinessName("Acme, Inc.")
-                            .phoneNumbers(listOf("+12124007676"))
-                            .dbaBusinessName("dba_business_name")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
+                .addBeneficialOwnerEntity(
+                    AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                        .address(
+                            AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
+                                .builder()
+                                .address1("123 Old Forest Way")
+                                .city("Omaha")
+                                .country("USA")
+                                .postalCode("68022")
+                                .state("NE")
+                                .address2("address2")
+                                .build()
+                        )
+                        .governmentId("114-123-1513")
+                        .legalBusinessName("Acme, Inc.")
+                        .addPhoneNumber("+12124007676")
+                        .dbaBusinessName("dba_business_name")
+                        .parentCompany("parent_company")
+                        .build()
                 )
-                .beneficialOwnerIndividuals(
-                    listOf(
-                        AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
-                            .address(
-                                AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
-                                    .builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .dob("1991-03-08 08:00:00")
-                            .email("tom@middle-earth.com")
-                            .firstName("Tom")
-                            .governmentId("111-23-1412")
-                            .lastName("Bombadil")
-                            .phoneNumber("+12124007676")
-                            .build()
-                    )
+                .addBeneficialOwnerIndividual(
+                    AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
+                        .address(
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                                .builder()
+                                .address1("123 Old Forest Way")
+                                .city("Omaha")
+                                .country("USA")
+                                .postalCode("68022")
+                                .state("NE")
+                                .address2("address2")
+                                .build()
+                        )
+                        .dob("1991-03-08 08:00:00")
+                        .email("tom@middle-earth.com")
+                        .firstName("Tom")
+                        .governmentId("111-23-1412")
+                        .lastName("Bombadil")
+                        .phoneNumber("+12124007676")
+                        .build()
                 )
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .businessEntity(
@@ -76,7 +71,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                         )
                         .governmentId("114-123-1513")
                         .legalBusinessName("Acme, Inc.")
-                        .phoneNumbers(listOf("+12124007676"))
+                        .addPhoneNumber("+12124007676")
                         .dbaBusinessName("dba_business_name")
                         .parentCompany("parent_company")
                         .build()
@@ -131,21 +126,17 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 )
                 .natureOfBusiness("nature_of_business")
                 .phoneNumber("phone_number")
-                .requiredDocuments(
-                    listOf(
-                        RequiredDocument.builder()
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .statusReasons(listOf("string"))
-                            .validDocuments(listOf("string"))
-                            .build()
-                    )
+                .addRequiredDocument(
+                    RequiredDocument.builder()
+                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addStatusReason("string")
+                        .addValidDocument("string")
+                        .build()
                 )
                 .status(AccountHolderSimulateEnrollmentReviewResponse.Status.ACCEPTED)
-                .statusReasons(
-                    listOf(
-                        AccountHolderSimulateEnrollmentReviewResponse.StatusReasons
-                            .ADDRESS_VERIFICATION_FAILURE
-                    )
+                .addStatusReason(
+                    AccountHolderSimulateEnrollmentReviewResponse.StatusReasons
+                        .ADDRESS_VERIFICATION_FAILURE
                 )
                 .userType(AccountHolderSimulateEnrollmentReviewResponse.UserType.BUSINESS)
                 .verificationApplication(
@@ -156,13 +147,10 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                                 .Status
                                 .ACCEPTED
                         )
-                        .statusReasons(
-                            listOf(
-                                AccountHolderSimulateEnrollmentReviewResponse
-                                    .VerificationApplication
-                                    .StatusReasons
-                                    .ADDRESS_VERIFICATION_FAILURE
-                            )
+                        .addStatusReason(
+                            AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication
+                                .StatusReasons
+                                .ADDRESS_VERIFICATION_FAILURE
                         )
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
@@ -190,7 +178,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                     )
                     .governmentId("114-123-1513")
                     .legalBusinessName("Acme, Inc.")
-                    .phoneNumbers(listOf("+12124007676"))
+                    .addPhoneNumber("+12124007676")
                     .dbaBusinessName("dba_business_name")
                     .parentCompany("parent_company")
                     .build()
@@ -234,7 +222,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                     )
                     .governmentId("114-123-1513")
                     .legalBusinessName("Acme, Inc.")
-                    .phoneNumbers(listOf("+12124007676"))
+                    .addPhoneNumber("+12124007676")
                     .dbaBusinessName("dba_business_name")
                     .parentCompany("parent_company")
                     .build()
@@ -296,8 +284,8 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .containsExactly(
                 RequiredDocument.builder()
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .statusReasons(listOf("string"))
-                    .validDocuments(listOf("string"))
+                    .addStatusReason("string")
+                    .addValidDocument("string")
                     .build()
             )
         assertThat(accountHolderSimulateEnrollmentReviewResponse.status())
@@ -317,12 +305,10 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                         AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication.Status
                             .ACCEPTED
                     )
-                    .statusReasons(
-                        listOf(
-                            AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication
-                                .StatusReasons
-                                .ADDRESS_VERIFICATION_FAILURE
-                        )
+                    .addStatusReason(
+                        AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication
+                            .StatusReasons
+                            .ADDRESS_VERIFICATION_FAILURE
                     )
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()

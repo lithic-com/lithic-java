@@ -12,21 +12,19 @@ class V2CreateResponseTest {
         val v2CreateResponse =
             V2CreateResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-                .cardTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2CreateResponse.CurrentVersion.builder()
                         .parameters(
                             V2CreateResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
                                 ConditionalBlockParameters.builder()
-                                    .conditions(
-                                        listOf(
-                                            AuthRuleCondition.builder()
-                                                .attribute(ConditionalAttribute.MCC)
-                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                                .value(AuthRuleCondition.Value.ofString("string"))
-                                                .build()
-                                        )
+                                    .addCondition(
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
+                                            .build()
                                     )
                                     .build()
                             )
@@ -39,14 +37,12 @@ class V2CreateResponseTest {
                         .parameters(
                             V2CreateResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
                                 ConditionalBlockParameters.builder()
-                                    .conditions(
-                                        listOf(
-                                            AuthRuleCondition.builder()
-                                                .attribute(ConditionalAttribute.MCC)
-                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                                .value(AuthRuleCondition.Value.ofString("string"))
-                                                .build()
-                                        )
+                                    .addCondition(
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
+                                            .build()
                                     )
                                     .build()
                             )
@@ -58,7 +54,7 @@ class V2CreateResponseTest {
                 .programLevel(true)
                 .state(V2CreateResponse.AuthRuleState.ACTIVE)
                 .type(V2CreateResponse.AuthRuleType.CONDITIONAL_BLOCK)
-                .excludedCardTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(v2CreateResponse).isNotNull
         assertThat(v2CreateResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -72,14 +68,12 @@ class V2CreateResponseTest {
                     .parameters(
                         V2CreateResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
                             ConditionalBlockParameters.builder()
-                                .conditions(
-                                    listOf(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value(AuthRuleCondition.Value.ofString("string"))
+                                        .build()
                                 )
                                 .build()
                         )
@@ -93,14 +87,12 @@ class V2CreateResponseTest {
                     .parameters(
                         V2CreateResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
                             ConditionalBlockParameters.builder()
-                                .conditions(
-                                    listOf(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value(AuthRuleCondition.Value.ofString("string"))
+                                        .build()
                                 )
                                 .build()
                         )

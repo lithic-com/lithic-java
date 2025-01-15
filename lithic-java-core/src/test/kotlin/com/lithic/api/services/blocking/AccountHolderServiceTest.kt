@@ -49,7 +49,7 @@ class AccountHolderServiceTest {
                                         )
                                         .governmentId("114-123-1513")
                                         .legalBusinessName("Acme, Inc.")
-                                        .phoneNumbers(listOf("+15555555555"))
+                                        .addPhoneNumber("+15555555555")
                                         .dbaBusinessName("dba_business_name")
                                         .parentCompany("parent_company")
                                         .build()
@@ -91,7 +91,7 @@ class AccountHolderServiceTest {
                                     )
                                     .governmentId("114-123-1513")
                                     .legalBusinessName("Acme, Inc.")
-                                    .phoneNumbers(listOf("+15555555555"))
+                                    .addPhoneNumber("+15555555555")
                                     .dbaBusinessName("dba_business_name")
                                     .parentCompany("parent_company")
                                     .build()
@@ -234,7 +234,7 @@ class AccountHolderServiceTest {
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                     .documentUploadToken("document_upload_token")
                     .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-                    .acceptedEntityStatusReasons(listOf("string"))
+                    .addAcceptedEntityStatusReason("string")
                     .statusReason(
                         AccountHolderSimulateEnrollmentDocumentReviewParams
                             .DocumentUploadStatusReasons
@@ -259,11 +259,9 @@ class AccountHolderServiceTest {
                 AccountHolderSimulateEnrollmentReviewParams.builder()
                     .accountHolderToken("account_holder_token")
                     .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
-                    .statusReasons(
-                        listOf(
-                            AccountHolderSimulateEnrollmentReviewParams.StatusReason
-                                .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
-                        )
+                    .addStatusReason(
+                        AccountHolderSimulateEnrollmentReviewParams.StatusReason
+                            .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
                     )
                     .build()
             )

@@ -23,7 +23,8 @@ class MicroDepositServiceTest {
             microDepositService.create(
                 ExternalBankAccountMicroDepositCreateParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .microDeposits(listOf(0L, 0L))
+                    .addMicroDeposit(0L)
+                    .addMicroDeposit(0L)
                     .build()
             )
         println(microDepositCreateResponse)

@@ -37,9 +37,7 @@ class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .eventTypes(
-                        listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
-                    )
+                    .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
         println(eventSubscription)
@@ -79,9 +77,7 @@ class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .eventTypes(
-                        listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
-                    )
+                    .addEventType(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
         println(eventSubscription)
