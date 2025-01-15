@@ -17,17 +17,15 @@ class V2ApplyResponseTest {
                 .currentVersion(
                     V2ApplyResponse.CurrentVersion.builder()
                         .parameters(
-                            V2ApplyResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
-                                ConditionalBlockParameters.builder()
-                                    .addCondition(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
-                                    .build()
-                            )
+                            ConditionalBlockParameters.builder()
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
+                                .build()
                         )
                         .version(0L)
                         .build()
@@ -35,17 +33,15 @@ class V2ApplyResponseTest {
                 .draftVersion(
                     V2ApplyResponse.DraftVersion.builder()
                         .parameters(
-                            V2ApplyResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                                ConditionalBlockParameters.builder()
-                                    .addCondition(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
-                                    .build()
-                            )
+                            ConditionalBlockParameters.builder()
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
+                                .build()
                         )
                         .version(0L)
                         .build()
@@ -66,17 +62,15 @@ class V2ApplyResponseTest {
             .contains(
                 V2ApplyResponse.CurrentVersion.builder()
                     .parameters(
-                        V2ApplyResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
-                            ConditionalBlockParameters.builder()
-                                .addCondition(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                        .value(AuthRuleCondition.Value.ofString("string"))
-                                        .build()
-                                )
-                                .build()
-                        )
+                        ConditionalBlockParameters.builder()
+                            .addCondition(
+                                AuthRuleCondition.builder()
+                                    .attribute(ConditionalAttribute.MCC)
+                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .value("string")
+                                    .build()
+                            )
+                            .build()
                     )
                     .version(0L)
                     .build()
@@ -85,17 +79,15 @@ class V2ApplyResponseTest {
             .contains(
                 V2ApplyResponse.DraftVersion.builder()
                     .parameters(
-                        V2ApplyResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                            ConditionalBlockParameters.builder()
-                                .addCondition(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                        .value(AuthRuleCondition.Value.ofString("string"))
-                                        .build()
-                                )
-                                .build()
-                        )
+                        ConditionalBlockParameters.builder()
+                            .addCondition(
+                                AuthRuleCondition.builder()
+                                    .attribute(ConditionalAttribute.MCC)
+                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .value("string")
+                                    .build()
+                            )
+                            .build()
                     )
                     .version(0L)
                     .build()

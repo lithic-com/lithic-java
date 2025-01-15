@@ -15,7 +15,7 @@ class ConditionalBlockParametersTest {
                     AuthRuleCondition.builder()
                         .attribute(ConditionalAttribute.MCC)
                         .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                        .value(AuthRuleCondition.Value.ofString("string"))
+                        .value("string")
                         .build()
                 )
                 .build()
@@ -25,7 +25,7 @@ class ConditionalBlockParametersTest {
                 AuthRuleCondition.builder()
                     .attribute(ConditionalAttribute.MCC)
                     .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                    .value(AuthRuleCondition.Value.ofString("string"))
+                    .value("string")
                     .build()
             )
     }
