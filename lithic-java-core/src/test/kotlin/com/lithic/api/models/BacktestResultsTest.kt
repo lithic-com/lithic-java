@@ -19,16 +19,12 @@ class BacktestResultsTest {
                             BacktestResults.Results.RuleStats.builder()
                                 .approved(0L)
                                 .declined(0L)
-                                .examples(
-                                    listOf(
-                                        BacktestResults.Results.RuleStats.Example.builder()
-                                            .approved(true)
-                                            .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                            .timestamp(
-                                                OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
-                                            )
-                                            .build()
-                                    )
+                                .addExample(
+                                    BacktestResults.Results.RuleStats.Example.builder()
+                                        .approved(true)
+                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                        .build()
                                 )
                                 .version(0L)
                                 .build()
@@ -37,16 +33,12 @@ class BacktestResultsTest {
                             BacktestResults.Results.RuleStats.builder()
                                 .approved(0L)
                                 .declined(0L)
-                                .examples(
-                                    listOf(
-                                        BacktestResults.Results.RuleStats.Example.builder()
-                                            .approved(true)
-                                            .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                            .timestamp(
-                                                OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
-                                            )
-                                            .build()
-                                    )
+                                .addExample(
+                                    BacktestResults.Results.RuleStats.Example.builder()
+                                        .approved(true)
+                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                        .build()
                                 )
                                 .version(0L)
                                 .build()
@@ -71,14 +63,12 @@ class BacktestResultsTest {
                         BacktestResults.Results.RuleStats.builder()
                             .approved(0L)
                             .declined(0L)
-                            .examples(
-                                listOf(
-                                    BacktestResults.Results.RuleStats.Example.builder()
-                                        .approved(true)
-                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                        .build()
-                                )
+                            .addExample(
+                                BacktestResults.Results.RuleStats.Example.builder()
+                                    .approved(true)
+                                    .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                    .build()
                             )
                             .version(0L)
                             .build()
@@ -87,14 +77,12 @@ class BacktestResultsTest {
                         BacktestResults.Results.RuleStats.builder()
                             .approved(0L)
                             .declined(0L)
-                            .examples(
-                                listOf(
-                                    BacktestResults.Results.RuleStats.Example.builder()
-                                        .approved(true)
-                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                        .build()
-                                )
+                            .addExample(
+                                BacktestResults.Results.RuleStats.Example.builder()
+                                    .approved(true)
+                                    .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                    .build()
                             )
                             .version(0L)
                             .build()

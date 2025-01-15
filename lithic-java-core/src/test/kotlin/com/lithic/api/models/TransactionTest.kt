@@ -131,93 +131,81 @@ class TransactionTest {
                         .build()
                 )
                 .updated(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
-                .events(
-                    listOf(
-                        Transaction.TransactionEvent.builder()
-                            .token("bbbf1e86-322d-11ee-9779-00505685a123")
-                            .amount(1800L)
-                            .amounts(
-                                Transaction.TransactionEvent.TransactionEventAmounts.builder()
-                                    .cardholder(
-                                        Transaction.TransactionEvent.TransactionEventAmounts
-                                            .Cardholder
-                                            .builder()
-                                            .amount(1800L)
-                                            .conversionRate("1.000000")
-                                            .currency(Currency.AED)
-                                            .build()
-                                    )
-                                    .merchant(
-                                        Transaction.TransactionEvent.TransactionEventAmounts
-                                            .Merchant
-                                            .builder()
-                                            .amount(1800L)
-                                            .currency(Currency.AED)
-                                            .build()
-                                    )
-                                    .settlement(
-                                        Transaction.TransactionEvent.TransactionEventAmounts
-                                            .Settlement
-                                            .builder()
-                                            .amount(1000L)
-                                            .conversionRate("1.000000")
-                                            .currency(Currency.AED)
-                                            .build()
-                                    )
-                                    .build()
-                            )
-                            .created(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
-                            .detailedResults(
-                                listOf(
-                                    Transaction.TransactionEvent.DetailedResult
-                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                                )
-                            )
-                            .effectivePolarity(
-                                Transaction.TransactionEvent.EffectivePolarity.CREDIT
-                            )
-                            .networkInfo(
-                                Transaction.TransactionEvent.NetworkInfo.builder()
-                                    .acquirer(
-                                        Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
-                                            .acquirerReferenceNumber(null)
-                                            .retrievalReferenceNumber("064386558597")
-                                            .build()
-                                    )
-                                    .mastercard(
-                                        Transaction.TransactionEvent.NetworkInfo.Mastercard
-                                            .builder()
-                                            .banknetReferenceNumber("U1HSCJ")
-                                            .switchSerialNumber(null)
-                                            .build()
-                                    )
-                                    .visa(
-                                        Transaction.TransactionEvent.NetworkInfo.Visa.builder()
-                                            .transactionId("transaction_id")
-                                            .build()
-                                    )
-                                    .build()
-                            )
-                            .result(
-                                Transaction.TransactionEvent.DeclineResult
-                                    .ACCOUNT_STATE_TRANSACTION_FAIL
-                            )
-                            .ruleResults(
-                                listOf(
-                                    Transaction.TransactionEvent.RuleResult.builder()
-                                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                        .explanation("explanation")
-                                        .name("name")
-                                        .result(
-                                            Transaction.TransactionEvent.RuleResult.DetailedResult
-                                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                                        )
+                .addEvent(
+                    Transaction.TransactionEvent.builder()
+                        .token("bbbf1e86-322d-11ee-9779-00505685a123")
+                        .amount(1800L)
+                        .amounts(
+                            Transaction.TransactionEvent.TransactionEventAmounts.builder()
+                                .cardholder(
+                                    Transaction.TransactionEvent.TransactionEventAmounts.Cardholder
+                                        .builder()
+                                        .amount(1800L)
+                                        .conversionRate("1.000000")
+                                        .currency(Currency.AED)
                                         .build()
                                 )
-                            )
-                            .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
-                            .build()
-                    )
+                                .merchant(
+                                    Transaction.TransactionEvent.TransactionEventAmounts.Merchant
+                                        .builder()
+                                        .amount(1800L)
+                                        .currency(Currency.AED)
+                                        .build()
+                                )
+                                .settlement(
+                                    Transaction.TransactionEvent.TransactionEventAmounts.Settlement
+                                        .builder()
+                                        .amount(1000L)
+                                        .conversionRate("1.000000")
+                                        .currency(Currency.AED)
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .created(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
+                        .addDetailedResult(
+                            Transaction.TransactionEvent.DetailedResult
+                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        )
+                        .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
+                        .networkInfo(
+                            Transaction.TransactionEvent.NetworkInfo.builder()
+                                .acquirer(
+                                    Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
+                                        .acquirerReferenceNumber(null)
+                                        .retrievalReferenceNumber("064386558597")
+                                        .build()
+                                )
+                                .mastercard(
+                                    Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
+                                        .banknetReferenceNumber("U1HSCJ")
+                                        .switchSerialNumber(null)
+                                        .build()
+                                )
+                                .visa(
+                                    Transaction.TransactionEvent.NetworkInfo.Visa.builder()
+                                        .transactionId("transaction_id")
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .result(
+                            Transaction.TransactionEvent.DeclineResult
+                                .ACCOUNT_STATE_TRANSACTION_FAIL
+                        )
+                        .addRuleResult(
+                            Transaction.TransactionEvent.RuleResult.builder()
+                                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .explanation("explanation")
+                                .name("name")
+                                .result(
+                                    Transaction.TransactionEvent.RuleResult.DetailedResult
+                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                )
+                                .build()
+                        )
+                        .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                        .build()
                 )
                 .build()
         assertThat(transaction).isNotNull
@@ -375,11 +363,9 @@ class TransactionTest {
                             .build()
                     )
                     .created(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
-                    .detailedResults(
-                        listOf(
-                            Transaction.TransactionEvent.DetailedResult
-                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                        )
+                    .addDetailedResult(
+                        Transaction.TransactionEvent.DetailedResult
+                            .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
                     )
                     .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
                     .networkInfo(
@@ -406,18 +392,16 @@ class TransactionTest {
                     .result(
                         Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
                     )
-                    .ruleResults(
-                        listOf(
-                            Transaction.TransactionEvent.RuleResult.builder()
-                                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .explanation("explanation")
-                                .name("name")
-                                .result(
-                                    Transaction.TransactionEvent.RuleResult.DetailedResult
-                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                                )
-                                .build()
-                        )
+                    .addRuleResult(
+                        Transaction.TransactionEvent.RuleResult.builder()
+                            .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .explanation("explanation")
+                            .name("name")
+                            .result(
+                                Transaction.TransactionEvent.RuleResult.DetailedResult
+                                    .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                            )
+                            .build()
                     )
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .build()

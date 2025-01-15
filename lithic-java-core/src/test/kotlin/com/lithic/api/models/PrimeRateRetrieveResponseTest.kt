@@ -12,13 +12,11 @@ class PrimeRateRetrieveResponseTest {
     fun createPrimeRateRetrieveResponse() {
         val primeRateRetrieveResponse =
             PrimeRateRetrieveResponse.builder()
-                .data(
-                    listOf(
-                        PrimeRateRetrieveResponse.InterestRate.builder()
-                            .effectiveDate(LocalDate.parse("2019-12-27"))
-                            .rate("rate")
-                            .build()
-                    )
+                .addData(
+                    PrimeRateRetrieveResponse.InterestRate.builder()
+                        .effectiveDate(LocalDate.parse("2019-12-27"))
+                        .rate("rate")
+                        .build()
                 )
                 .hasMore(true)
                 .build()

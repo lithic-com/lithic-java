@@ -22,15 +22,13 @@ class TokenizationTest {
                 .tokenizationChannel(Tokenization.TokenizationChannel.DIGITAL_WALLET)
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .events(
-                    listOf(
-                        Tokenization.TokenizationEvent.builder()
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .result(Tokenization.TokenizationEvent.Result.APPROVED)
-                            .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
-                            .build()
-                    )
+                .addEvent(
+                    Tokenization.TokenizationEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .result(Tokenization.TokenizationEvent.Result.APPROVED)
+                        .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
+                        .build()
                 )
                 .build()
         assertThat(tokenization).isNotNull

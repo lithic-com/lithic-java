@@ -40,20 +40,16 @@ class V2ServiceTest {
                                 AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
                                     .ofConditionalBlockParameters(
                                         ConditionalBlockParameters.builder()
-                                            .conditions(
-                                                listOf(
-                                                    AuthRuleCondition.builder()
-                                                        .attribute(ConditionalAttribute.MCC)
-                                                        .operation(
-                                                            AuthRuleCondition.Operation.IS_ONE_OF
-                                                        )
-                                                        .value(
-                                                            AuthRuleCondition.Value.ofString(
-                                                                "string"
-                                                            )
-                                                        )
-                                                        .build()
-                                                )
+                                            .addCondition(
+                                                AuthRuleCondition.builder()
+                                                    .attribute(ConditionalAttribute.MCC)
+                                                    .operation(
+                                                        AuthRuleCondition.Operation.IS_ONE_OF
+                                                    )
+                                                    .value(
+                                                        AuthRuleCondition.Value.ofString("string")
+                                                    )
+                                                    .build()
                                             )
                                             .build()
                                     )
@@ -160,14 +156,12 @@ class V2ServiceTest {
                     .parameters(
                         AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
                             ConditionalBlockParameters.builder()
-                                .conditions(
-                                    listOf(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value(AuthRuleCondition.Value.ofString("string"))
+                                        .build()
                                 )
                                 .build()
                         )
