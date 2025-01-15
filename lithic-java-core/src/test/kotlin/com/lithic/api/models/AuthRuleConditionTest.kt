@@ -13,7 +13,7 @@ class AuthRuleConditionTest {
             AuthRuleCondition.builder()
                 .attribute(ConditionalAttribute.MCC)
                 .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                .value(AuthRuleCondition.Value.ofString("string"))
+                .value("string")
                 .build()
         assertThat(authRuleCondition).isNotNull
         assertThat(authRuleCondition.attribute()).contains(ConditionalAttribute.MCC)
