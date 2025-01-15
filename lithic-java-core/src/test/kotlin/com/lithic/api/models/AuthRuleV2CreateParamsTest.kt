@@ -21,7 +21,7 @@ class AuthRuleV2CreateParamsTest {
                                         AuthRuleCondition.builder()
                                             .attribute(ConditionalAttribute.MCC)
                                             .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
+                                            .value("string")
                                             .build()
                                     )
                                     .build()

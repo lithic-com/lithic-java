@@ -17,7 +17,7 @@ class VelocityLimitParamsTest {
                         .addIncludeMcc("5542")
                         .build()
                 )
-                .period(VelocityLimitParams.Period.ofInteger(10L))
+                .period(10L)
                 .scope(VelocityLimitParams.Scope.CARD)
                 .limitAmount(10000L)
                 .limitCount(0L)
