@@ -30,7 +30,7 @@ class AccountTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
-                .authRuleTokens(listOf("string"))
+                .addAuthRuleToken("string")
                 .cardholderCurrency("USD")
                 .verificationAddress(
                     Account.VerificationAddress.builder()

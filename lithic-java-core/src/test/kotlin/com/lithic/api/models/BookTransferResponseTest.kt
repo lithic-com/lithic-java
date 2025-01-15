@@ -17,23 +17,19 @@ class BookTransferResponseTest {
                 .category(BookTransferResponse.Category.ADJUSTMENT)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
-                .events(
-                    listOf(
-                        BookTransferResponse.BookTransferEvent.builder()
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .amount(0L)
-                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .detailedResults(
-                                listOf(
-                                    BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
-                                )
-                            )
-                            .memo("memo")
-                            .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
-                            .subtype("subtype")
-                            .type("type")
-                            .build()
-                    )
+                .addEvent(
+                    BookTransferResponse.BookTransferEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .addDetailedResult(
+                            BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
+                        )
+                        .memo("memo")
+                        .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
+                        .subtype("subtype")
+                        .type("type")
+                        .build()
                 )
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(0L)
@@ -56,8 +52,8 @@ class BookTransferResponseTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .detailedResults(
-                        listOf(BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED)
+                    .addDetailedResult(
+                        BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
                     )
                     .memo("memo")
                     .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)

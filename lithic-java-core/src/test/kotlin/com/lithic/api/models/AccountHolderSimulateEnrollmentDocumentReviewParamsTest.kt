@@ -12,7 +12,7 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
         AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
             .documentUploadToken("document_upload_token")
             .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-            .acceptedEntityStatusReasons(listOf("string"))
+            .addAcceptedEntityStatusReason("string")
             .statusReason(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
                     .DOCUMENT_MISSING_REQUIRED_DATA
@@ -26,7 +26,7 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
             AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                 .documentUploadToken("document_upload_token")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-                .acceptedEntityStatusReasons(listOf("string"))
+                .addAcceptedEntityStatusReason("string")
                 .statusReason(
                     AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
                         .DOCUMENT_MISSING_REQUIRED_DATA

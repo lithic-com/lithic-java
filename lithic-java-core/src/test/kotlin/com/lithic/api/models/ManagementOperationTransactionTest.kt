@@ -18,34 +18,29 @@ class ManagementOperationTransactionTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
                 .direction(ManagementOperationTransaction.ManagementOperationDirection.CREDIT)
-                .events(
-                    listOf(
-                        ManagementOperationTransaction.ManagementOperationEvent.builder()
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .amount(0L)
-                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .detailedResults(
-                                listOf(
-                                    ManagementOperationTransaction.ManagementOperationEvent
-                                        .DetailedResults
-                                        .APPROVED
-                                )
-                            )
-                            .effectiveDate(LocalDate.parse("2019-12-27"))
-                            .memo("memo")
-                            .result(
-                                ManagementOperationTransaction.ManagementOperationEvent
-                                    .TransactionResult
-                                    .APPROVED
-                            )
-                            .type(
-                                ManagementOperationTransaction.ManagementOperationEvent
-                                    .ManagementOperationEventType
-                                    .CASH_BACK
-                            )
-                            .subtype("subtype")
-                            .build()
-                    )
+                .addEvent(
+                    ManagementOperationTransaction.ManagementOperationEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .addDetailedResult(
+                            ManagementOperationTransaction.ManagementOperationEvent.DetailedResults
+                                .APPROVED
+                        )
+                        .effectiveDate(LocalDate.parse("2019-12-27"))
+                        .memo("memo")
+                        .result(
+                            ManagementOperationTransaction.ManagementOperationEvent
+                                .TransactionResult
+                                .APPROVED
+                        )
+                        .type(
+                            ManagementOperationTransaction.ManagementOperationEvent
+                                .ManagementOperationEventType
+                                .CASH_BACK
+                        )
+                        .subtype("subtype")
+                        .build()
                 )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(0L)
@@ -71,11 +66,9 @@ class ManagementOperationTransactionTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .detailedResults(
-                        listOf(
-                            ManagementOperationTransaction.ManagementOperationEvent.DetailedResults
-                                .APPROVED
-                        )
+                    .addDetailedResult(
+                        ManagementOperationTransaction.ManagementOperationEvent.DetailedResults
+                            .APPROVED
                     )
                     .effectiveDate(LocalDate.parse("2019-12-27"))
                     .memo("memo")

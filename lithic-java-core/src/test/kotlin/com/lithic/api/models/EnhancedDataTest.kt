@@ -15,15 +15,13 @@ class EnhancedDataTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .common(
                     EnhancedData.CommonData.builder()
-                        .lineItems(
-                            listOf(
-                                EnhancedData.CommonData.LineItem.builder()
-                                    .amount(0.0)
-                                    .description("description")
-                                    .productCode("product_code")
-                                    .quantity(0.0)
-                                    .build()
-                            )
+                        .addLineItem(
+                            EnhancedData.CommonData.LineItem.builder()
+                                .amount(0.0)
+                                .description("description")
+                                .productCode("product_code")
+                                .quantity(0.0)
+                                .build()
                         )
                         .tax(
                             EnhancedData.CommonData.TaxData.builder()
@@ -40,32 +38,30 @@ class EnhancedDataTest {
                         .build()
                 )
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .fleet(
-                    listOf(
-                        EnhancedData.Fleet.builder()
-                            .amountTotals(
-                                EnhancedData.Fleet.AmountTotals.builder()
-                                    .discount(0L)
-                                    .grossSale(0L)
-                                    .netSale(0L)
-                                    .build()
-                            )
-                            .fuel(
-                                EnhancedData.Fleet.FuelData.builder()
-                                    .quantity(0.0)
-                                    .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
-                                    .unitOfMeasure(
-                                        EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS
-                                    )
-                                    .unitPrice(0L)
-                                    .build()
-                            )
-                            .driverNumber("driver_number")
-                            .odometer(0L)
-                            .serviceType(EnhancedData.Fleet.ServiceType.UNKNOWN)
-                            .vehicleNumber("vehicle_number")
-                            .build()
-                    )
+                .addFleet(
+                    EnhancedData.Fleet.builder()
+                        .amountTotals(
+                            EnhancedData.Fleet.AmountTotals.builder()
+                                .discount(0L)
+                                .grossSale(0L)
+                                .netSale(0L)
+                                .build()
+                        )
+                        .fuel(
+                            EnhancedData.Fleet.FuelData.builder()
+                                .quantity(0.0)
+                                .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
+                                .unitOfMeasure(
+                                    EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS
+                                )
+                                .unitPrice(0L)
+                                .build()
+                        )
+                        .driverNumber("driver_number")
+                        .odometer(0L)
+                        .serviceType(EnhancedData.Fleet.ServiceType.UNKNOWN)
+                        .vehicleNumber("vehicle_number")
+                        .build()
                 )
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -74,15 +70,13 @@ class EnhancedDataTest {
         assertThat(enhancedData.common())
             .isEqualTo(
                 EnhancedData.CommonData.builder()
-                    .lineItems(
-                        listOf(
-                            EnhancedData.CommonData.LineItem.builder()
-                                .amount(0.0)
-                                .description("description")
-                                .productCode("product_code")
-                                .quantity(0.0)
-                                .build()
-                        )
+                    .addLineItem(
+                        EnhancedData.CommonData.LineItem.builder()
+                            .amount(0.0)
+                            .description("description")
+                            .productCode("product_code")
+                            .quantity(0.0)
+                            .build()
                     )
                     .tax(
                         EnhancedData.CommonData.TaxData.builder()

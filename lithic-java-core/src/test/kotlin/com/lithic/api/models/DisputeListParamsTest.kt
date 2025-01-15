@@ -18,7 +18,7 @@ class DisputeListParamsTest {
             .pageSize(1L)
             .startingAfter("starting_after")
             .status(DisputeListParams.Status.ARBITRATION)
-            .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+            .addTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -32,7 +32,7 @@ class DisputeListParamsTest {
                 .pageSize(1L)
                 .startingAfter("starting_after")
                 .status(DisputeListParams.Status.ARBITRATION)
-                .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .addTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = QueryParams.builder()
         expected.put("begin", "2019-12-27T18:11:19.117Z")

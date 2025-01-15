@@ -19,7 +19,7 @@ class SettlementDetailTest {
                 .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .currency("840")
                 .disputesGrossAmount(0L)
-                .eventTokens(listOf("e34a817f-119d-4976-9fb3-8b020b8bbec3"))
+                .addEventToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
                 .institution("00001")
                 .interchangeFeeExtendedPrecision(-70000L)
                 .interchangeGrossAmount(-7L)
