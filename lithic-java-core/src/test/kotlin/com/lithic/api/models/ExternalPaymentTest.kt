@@ -17,26 +17,22 @@ class ExternalPaymentTest {
                 .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
-                .events(
-                    listOf(
-                        ExternalPayment.ExternalPaymentEvent.builder()
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .amount(0L)
-                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .detailedResults(
-                                listOf(
-                                    ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED
-                                )
-                            )
-                            .effectiveDate(LocalDate.parse("2019-12-27"))
-                            .memo("memo")
-                            .result(ExternalPayment.ExternalPaymentEvent.TransactionResult.APPROVED)
-                            .type(
-                                ExternalPayment.ExternalPaymentEvent.ExternalPaymentEventType
-                                    .EXTERNAL_WIRE_INITIATED
-                            )
-                            .build()
-                    )
+                .addEvent(
+                    ExternalPayment.ExternalPaymentEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .addDetailedResult(
+                            ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED
+                        )
+                        .effectiveDate(LocalDate.parse("2019-12-27"))
+                        .memo("memo")
+                        .result(ExternalPayment.ExternalPaymentEvent.TransactionResult.APPROVED)
+                        .type(
+                            ExternalPayment.ExternalPaymentEvent.ExternalPaymentEventType
+                                .EXTERNAL_WIRE_INITIATED
+                        )
+                        .build()
                 )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentType(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
@@ -60,8 +56,8 @@ class ExternalPaymentTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .detailedResults(
-                        listOf(ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED)
+                    .addDetailedResult(
+                        ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED
                     )
                     .effectiveDate(LocalDate.parse("2019-12-27"))
                     .memo("memo")

@@ -13,7 +13,7 @@ class EventSubscriptionCreateParamsTest {
             .url("https://example.com")
             .description("description")
             .disabled(true)
-            .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
+            .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
             .build()
     }
 
@@ -24,7 +24,7 @@ class EventSubscriptionCreateParamsTest {
                 .url("https://example.com")
                 .description("description")
                 .disabled(true)
-                .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
+                .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull

@@ -12,8 +12,8 @@ class RequiredDocumentTest {
         val requiredDocument =
             RequiredDocument.builder()
                 .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .statusReasons(listOf("string"))
-                .validDocuments(listOf("string"))
+                .addStatusReason("string")
+                .addValidDocument("string")
                 .build()
         assertThat(requiredDocument).isNotNull
         assertThat(requiredDocument.entityToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

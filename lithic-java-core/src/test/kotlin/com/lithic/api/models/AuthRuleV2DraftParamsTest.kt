@@ -14,14 +14,12 @@ class AuthRuleV2DraftParamsTest {
             .parameters(
                 AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
                     ConditionalBlockParameters.builder()
-                        .conditions(
-                            listOf(
-                                AuthRuleCondition.builder()
-                                    .attribute(ConditionalAttribute.MCC)
-                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                    .value(AuthRuleCondition.Value.ofString("string"))
-                                    .build()
-                            )
+                        .addCondition(
+                            AuthRuleCondition.builder()
+                                .attribute(ConditionalAttribute.MCC)
+                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                .value(AuthRuleCondition.Value.ofString("string"))
+                                .build()
                         )
                         .build()
                 )
@@ -37,14 +35,12 @@ class AuthRuleV2DraftParamsTest {
                 .parameters(
                     AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
                         ConditionalBlockParameters.builder()
-                            .conditions(
-                                listOf(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                        .value(AuthRuleCondition.Value.ofString("string"))
-                                        .build()
-                                )
+                            .addCondition(
+                                AuthRuleCondition.builder()
+                                    .attribute(ConditionalAttribute.MCC)
+                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .value(AuthRuleCondition.Value.ofString("string"))
+                                    .build()
                             )
                             .build()
                     )
@@ -56,14 +52,12 @@ class AuthRuleV2DraftParamsTest {
             .contains(
                 AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
                     ConditionalBlockParameters.builder()
-                        .conditions(
-                            listOf(
-                                AuthRuleCondition.builder()
-                                    .attribute(ConditionalAttribute.MCC)
-                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                    .value(AuthRuleCondition.Value.ofString("string"))
-                                    .build()
-                            )
+                        .addCondition(
+                            AuthRuleCondition.builder()
+                                .attribute(ConditionalAttribute.MCC)
+                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                .value(AuthRuleCondition.Value.ofString("string"))
+                                .build()
                         )
                         .build()
                 )

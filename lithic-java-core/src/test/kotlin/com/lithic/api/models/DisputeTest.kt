@@ -18,7 +18,7 @@ class DisputeTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerNote("customer_note")
-                .networkClaimIds(listOf("string"))
+                .addNetworkClaimId("string")
                 .networkFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .networkReasonCode("network_reason_code")
                 .prearbitrationDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

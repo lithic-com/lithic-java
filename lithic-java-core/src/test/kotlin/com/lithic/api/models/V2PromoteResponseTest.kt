@@ -12,26 +12,20 @@ class V2PromoteResponseTest {
         val v2PromoteResponse =
             V2PromoteResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-                .cardTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2PromoteResponse.CurrentVersion.builder()
                         .parameters(
                             V2PromoteResponse.CurrentVersion.Parameters
                                 .ofConditionalBlockParameters(
                                     ConditionalBlockParameters.builder()
-                                        .conditions(
-                                            listOf(
-                                                AuthRuleCondition.builder()
-                                                    .attribute(ConditionalAttribute.MCC)
-                                                    .operation(
-                                                        AuthRuleCondition.Operation.IS_ONE_OF
-                                                    )
-                                                    .value(
-                                                        AuthRuleCondition.Value.ofString("string")
-                                                    )
-                                                    .build()
-                                            )
+                                        .addCondition(
+                                            AuthRuleCondition.builder()
+                                                .attribute(ConditionalAttribute.MCC)
+                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                                .value(AuthRuleCondition.Value.ofString("string"))
+                                                .build()
                                         )
                                         .build()
                                 )
@@ -44,14 +38,12 @@ class V2PromoteResponseTest {
                         .parameters(
                             V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
                                 ConditionalBlockParameters.builder()
-                                    .conditions(
-                                        listOf(
-                                            AuthRuleCondition.builder()
-                                                .attribute(ConditionalAttribute.MCC)
-                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                                .value(AuthRuleCondition.Value.ofString("string"))
-                                                .build()
-                                        )
+                                    .addCondition(
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
+                                            .build()
                                     )
                                     .build()
                             )
@@ -63,7 +55,7 @@ class V2PromoteResponseTest {
                 .programLevel(true)
                 .state(V2PromoteResponse.AuthRuleState.ACTIVE)
                 .type(V2PromoteResponse.AuthRuleType.CONDITIONAL_BLOCK)
-                .excludedCardTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(v2PromoteResponse).isNotNull
         assertThat(v2PromoteResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -77,14 +69,12 @@ class V2PromoteResponseTest {
                     .parameters(
                         V2PromoteResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
                             ConditionalBlockParameters.builder()
-                                .conditions(
-                                    listOf(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value(AuthRuleCondition.Value.ofString("string"))
+                                        .build()
                                 )
                                 .build()
                         )
@@ -98,14 +88,12 @@ class V2PromoteResponseTest {
                     .parameters(
                         V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
                             ConditionalBlockParameters.builder()
-                                .conditions(
-                                    listOf(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                            .value(AuthRuleCondition.Value.ofString("string"))
-                                            .build()
-                                    )
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value(AuthRuleCondition.Value.ofString("string"))
+                                        .build()
                                 )
                                 .build()
                         )

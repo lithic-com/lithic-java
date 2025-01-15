@@ -12,7 +12,7 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
         AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
             .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
             .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-            .acceptedEntityStatusReasons(listOf("string"))
+            .addAcceptedEntityStatusReason("string")
             .statusReason(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
                     .DOCUMENT_MISSING_REQUIRED_DATA
@@ -26,7 +26,7 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
             AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                 .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-                .acceptedEntityStatusReasons(listOf("string"))
+                .addAcceptedEntityStatusReason("string")
                 .statusReason(
                     AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
                         .DOCUMENT_MISSING_REQUIRED_DATA

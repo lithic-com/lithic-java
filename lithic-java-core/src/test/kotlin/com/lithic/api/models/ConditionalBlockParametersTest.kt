@@ -11,14 +11,12 @@ class ConditionalBlockParametersTest {
     fun createConditionalBlockParameters() {
         val conditionalBlockParameters =
             ConditionalBlockParameters.builder()
-                .conditions(
-                    listOf(
-                        AuthRuleCondition.builder()
-                            .attribute(ConditionalAttribute.MCC)
-                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                            .value(AuthRuleCondition.Value.ofString("string"))
-                            .build()
-                    )
+                .addCondition(
+                    AuthRuleCondition.builder()
+                        .attribute(ConditionalAttribute.MCC)
+                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                        .value(AuthRuleCondition.Value.ofString("string"))
+                        .build()
                 )
                 .build()
         assertThat(conditionalBlockParameters).isNotNull
