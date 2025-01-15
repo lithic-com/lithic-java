@@ -34,6 +34,7 @@ private constructor(
     @JsonProperty("created_at")
     @ExcludeMissing
     private val createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("dpan") @ExcludeMissing private val dpan: JsonField<String> = JsonMissing.of(),
     @JsonProperty("status")
     @ExcludeMissing
     private val status: JsonField<Status> = JsonMissing.of(),
@@ -69,6 +70,9 @@ private constructor(
 
     /** Date and time when the tokenization first occurred. UTC time zone. */
     fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
+
+    /** The network's dynamic pan for the tokenized transaction. */
+    fun dpan(): Optional<String> = Optional.ofNullable(dpan.getNullable("dpan"))
 
     /** The status of the tokenization request */
     fun status(): Status = status.getRequired("status")
@@ -114,6 +118,9 @@ private constructor(
     @JsonProperty("created_at")
     @ExcludeMissing
     fun _createdAt(): JsonField<OffsetDateTime> = createdAt
+
+    /** The network's dynamic pan for the tokenized transaction. */
+    @JsonProperty("dpan") @ExcludeMissing fun _dpan(): JsonField<String> = dpan
 
     /** The status of the tokenization request */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
@@ -167,6 +174,7 @@ private constructor(
         accountToken()
         cardToken()
         createdAt()
+        dpan()
         status()
         tokenRequestorName()
         tokenUniqueReference()
@@ -190,6 +198,7 @@ private constructor(
         private var accountToken: JsonField<String>? = null
         private var cardToken: JsonField<String>? = null
         private var createdAt: JsonField<OffsetDateTime>? = null
+        private var dpan: JsonField<String>? = null
         private var status: JsonField<Status>? = null
         private var tokenRequestorName: JsonField<TokenRequestorName>? = null
         private var tokenUniqueReference: JsonField<String>? = null
@@ -205,6 +214,7 @@ private constructor(
             accountToken = tokenization.accountToken
             cardToken = tokenization.cardToken
             createdAt = tokenization.createdAt
+            dpan = tokenization.dpan
             status = tokenization.status
             tokenRequestorName = tokenization.tokenRequestorName
             tokenUniqueReference = tokenization.tokenUniqueReference
@@ -240,6 +250,15 @@ private constructor(
 
         /** Date and time when the tokenization first occurred. UTC time zone. */
         fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
+
+        /** The network's dynamic pan for the tokenized transaction. */
+        fun dpan(dpan: String?) = dpan(JsonField.ofNullable(dpan))
+
+        /** The network's dynamic pan for the tokenized transaction. */
+        fun dpan(dpan: Optional<String>) = dpan(dpan.orElse(null))
+
+        /** The network's dynamic pan for the tokenized transaction. */
+        fun dpan(dpan: JsonField<String>) = apply { this.dpan = dpan }
 
         /** The status of the tokenization request */
         fun status(status: Status) = status(JsonField.of(status))
@@ -346,6 +365,7 @@ private constructor(
                 checkRequired("accountToken", accountToken),
                 checkRequired("cardToken", cardToken),
                 checkRequired("createdAt", createdAt),
+                checkRequired("dpan", dpan),
                 checkRequired("status", status),
                 checkRequired("tokenRequestorName", tokenRequestorName),
                 checkRequired("tokenUniqueReference", tokenUniqueReference),
@@ -964,15 +984,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Tokenization && token == other.token && accountToken == other.accountToken && cardToken == other.cardToken && createdAt == other.createdAt && status == other.status && tokenRequestorName == other.tokenRequestorName && tokenUniqueReference == other.tokenUniqueReference && tokenizationChannel == other.tokenizationChannel && updatedAt == other.updatedAt && digitalCardArtToken == other.digitalCardArtToken && events == other.events && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Tokenization && token == other.token && accountToken == other.accountToken && cardToken == other.cardToken && createdAt == other.createdAt && dpan == other.dpan && status == other.status && tokenRequestorName == other.tokenRequestorName && tokenUniqueReference == other.tokenUniqueReference && tokenizationChannel == other.tokenizationChannel && updatedAt == other.updatedAt && digitalCardArtToken == other.digitalCardArtToken && events == other.events && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardToken, createdAt, status, tokenRequestorName, tokenUniqueReference, tokenizationChannel, updatedAt, digitalCardArtToken, events, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardToken, createdAt, dpan, status, tokenRequestorName, tokenUniqueReference, tokenizationChannel, updatedAt, digitalCardArtToken, events, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Tokenization{token=$token, accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, status=$status, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, tokenizationChannel=$tokenizationChannel, updatedAt=$updatedAt, digitalCardArtToken=$digitalCardArtToken, events=$events, additionalProperties=$additionalProperties}"
+        "Tokenization{token=$token, accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, dpan=$dpan, status=$status, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, tokenizationChannel=$tokenizationChannel, updatedAt=$updatedAt, digitalCardArtToken=$digitalCardArtToken, events=$events, additionalProperties=$additionalProperties}"
 }
