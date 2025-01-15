@@ -46,9 +46,7 @@ class V2ServiceTest {
                                                     .operation(
                                                         AuthRuleCondition.Operation.IS_ONE_OF
                                                     )
-                                                    .value(
-                                                        AuthRuleCondition.Value.ofString("string")
-                                                    )
+                                                    .value("string")
                                                     .build()
                                             )
                                             .build()
@@ -154,17 +152,15 @@ class V2ServiceTest {
                 AuthRuleV2DraftParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .parameters(
-                        AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
-                            ConditionalBlockParameters.builder()
-                                .addCondition(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
-                                        .value(AuthRuleCondition.Value.ofString("string"))
-                                        .build()
-                                )
-                                .build()
-                        )
+                        ConditionalBlockParameters.builder()
+                            .addCondition(
+                                AuthRuleCondition.builder()
+                                    .attribute(ConditionalAttribute.MCC)
+                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .value("string")
+                                    .build()
+                            )
+                            .build()
                     )
                     .build()
             )
