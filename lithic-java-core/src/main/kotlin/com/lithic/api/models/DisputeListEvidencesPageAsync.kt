@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List evidence metadata for a dispute. */
 class DisputeListEvidencesPageAsync
 private constructor(
     private val disputesService: DisputeServiceAsync,

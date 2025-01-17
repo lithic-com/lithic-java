@@ -489,6 +489,7 @@ private constructor(
             "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
+    /** Specifies the type of KYC workflow to run. */
     class Workflow
     @JsonCreator
     private constructor(

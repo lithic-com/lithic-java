@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List account configurations. */
 class AccountListPageAsync
 private constructor(
     private val accountsService: AccountServiceAsync,

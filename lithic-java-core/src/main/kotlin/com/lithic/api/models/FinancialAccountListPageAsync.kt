@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** Retrieve information on your financial accounts including routing and account number. */
 class FinancialAccountListPageAsync
 private constructor(
     private val financialAccountsService: FinancialAccountServiceAsync,

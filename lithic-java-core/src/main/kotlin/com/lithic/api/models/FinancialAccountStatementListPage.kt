@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List the statements for a given financial account. */
 class FinancialAccountStatementListPage
 private constructor(
     private val statementsService: StatementService,

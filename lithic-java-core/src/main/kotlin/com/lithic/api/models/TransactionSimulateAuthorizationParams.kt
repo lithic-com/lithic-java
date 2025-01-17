@@ -883,6 +883,20 @@ constructor(
             )
     }
 
+    /**
+     * Type of event to simulate.
+     * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+     *   step is required to settle the transaction.
+     * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+     *   most often observed when a cardholder requests to view a card's balance at an ATM.
+     * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+     *   meaning a subsequent clearing step is required to settle the transaction.
+     * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+     *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
+     *   the transaction.
+     * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+     *   funds immediately, and no subsequent clearing is required to settle the transaction.
+     */
     class Status
     @JsonCreator
     private constructor(

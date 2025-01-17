@@ -231,6 +231,7 @@ constructor(
             )
     }
 
+    /** List balances for a given Financial Account type. */
     class FinancialAccountType
     @JsonCreator
     private constructor(

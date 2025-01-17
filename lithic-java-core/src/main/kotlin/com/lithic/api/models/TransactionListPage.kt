@@ -19,6 +19,10 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/**
+ * List card transactions. All amounts are in the smallest unit of their respective currency (e.g.,
+ * cents for USD) and inclusive of any acquirer fees.
+ */
 class TransactionListPage
 private constructor(
     private val transactionsService: TransactionService,

@@ -735,6 +735,10 @@ constructor(
             "Transaction{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * When set will use the following values as part of the Simulated Authentication. When not set
+     * defaults to MATCH
+     */
     class CardExpiryCheck
     @JsonCreator
     private constructor(

@@ -315,6 +315,7 @@ constructor(
             )
     }
 
+    /** Financial Transaction category to be returned. */
     class Category
     @JsonCreator
     private constructor(
@@ -372,6 +373,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** Financial Transaction result to be returned. */
     class Result
     @JsonCreator
     private constructor(
@@ -429,6 +431,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** Financial Transaction status to be returned. */
     class Status
     @JsonCreator
     private constructor(

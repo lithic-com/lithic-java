@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** Lists V2 authorization rules */
 class AuthRuleV2ListPageAsync
 private constructor(
     private val v2Service: V2ServiceAsync,

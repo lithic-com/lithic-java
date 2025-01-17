@@ -375,6 +375,11 @@ constructor(
             )
     }
 
+    /**
+     * The communication method that the user has selected to use to receive the authentication
+     * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
+     * "EMAIL_TO_CARDHOLDER_ADDRESS"
+     */
     class ActivationMethodType
     @JsonCreator
     private constructor(

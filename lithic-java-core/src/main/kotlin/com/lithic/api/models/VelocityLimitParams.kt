@@ -591,8 +591,18 @@ private constructor(
 
         interface Visitor<out T> {
 
+            /**
+             * The size of the trailing window to calculate Spend Velocity over in seconds. The
+             * minimum value is 10 seconds, and the maximum value is 2678400 seconds.
+             */
             fun visitInteger(integer: Long): T
 
+            /**
+             * The window of time to calculate Spend Velocity over.
+             * - `DAY`: Velocity over the current day since midnight Eastern Time.
+             * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
+             *   month in Eastern Time.
+             */
             fun visitVelocityLimitParamsPeriodWindow(
                 velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
             ): T

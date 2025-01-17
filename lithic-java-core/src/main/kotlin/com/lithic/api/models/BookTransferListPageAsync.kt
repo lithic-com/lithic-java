@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List book transfers */
 class BookTransferListPageAsync
 private constructor(
     private val bookTransfersService: BookTransferServiceAsync,

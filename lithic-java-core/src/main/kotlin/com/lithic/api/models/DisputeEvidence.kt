@@ -263,6 +263,14 @@ private constructor(
             )
     }
 
+    /**
+     * Upload status types:
+     * - `DELETED` - Evidence was deleted.
+     * - `ERROR` - Evidence upload failed.
+     * - `PENDING` - Evidence is pending upload.
+     * - `REJECTED` - Evidence was rejected.
+     * - `UPLOADED` - Evidence was uploaded.
+     */
     class UploadStatus
     @JsonCreator
     private constructor(

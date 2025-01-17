@@ -474,6 +474,10 @@ private constructor(
             )
     }
 
+    /**
+     * Status types:
+     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     */
     class Category
     @JsonCreator
     private constructor(
@@ -704,6 +708,10 @@ private constructor(
                 )
         }
 
+        /**
+         * APPROVED financial events were successful while DECLINED financial events were declined
+         * by user, Lithic, or the network.
+         */
         class Result
         @JsonCreator
         private constructor(
@@ -1196,6 +1204,10 @@ private constructor(
             "FinancialEvent{token=$token, amount=$amount, created=$created, result=$result, type=$type, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * APPROVED transactions were successful while DECLINED transactions were declined by user,
+     * Lithic, or the network.
+     */
     class Result
     @JsonCreator
     private constructor(
@@ -1253,6 +1265,14 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Status types:
+     * - `DECLINED` - The transfer was declined.
+     * - `EXPIRED` - The transfer was held in pending for too long and expired.
+     * - `PENDING` - The transfer is pending release from a hold.
+     * - `SETTLED` - The transfer is completed.
+     * - `VOIDED` - The transfer was reversed before it settled.
+     */
     class Status
     @JsonCreator
     private constructor(

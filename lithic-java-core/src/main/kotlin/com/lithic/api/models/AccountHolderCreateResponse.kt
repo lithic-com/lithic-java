@@ -304,6 +304,12 @@ private constructor(
             )
     }
 
+    /**
+     * KYC and KYB evaluation states.
+     *
+     * Note:
+     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     */
     class Status
     @JsonCreator
     private constructor(
@@ -379,6 +385,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Status Reasons for KYC/KYB enrollment states */
     class StatusReasons
     @JsonCreator
     private constructor(

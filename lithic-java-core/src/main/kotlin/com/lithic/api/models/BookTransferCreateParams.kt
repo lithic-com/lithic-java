@@ -630,6 +630,7 @@ constructor(
             )
     }
 
+    /** Category of the book transfer */
     class Category
     @JsonCreator
     private constructor(
@@ -717,6 +718,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** Type of book_transfer */
     class Type
     @JsonCreator
     private constructor(

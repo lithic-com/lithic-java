@@ -1349,6 +1349,7 @@ private constructor(
             "AccountHolderIndividualResponse{address=$address, dob=$dob, email=$email, entityToken=$entityToken, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
+    /** The type of KYC exemption for a KYC-Exempt Account Holder. */
     class ExemptionType
     @JsonCreator
     private constructor(
@@ -1406,6 +1407,14 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * <Deprecated. Use verification_application.status instead>
+     *
+     * KYC and KYB evaluation states.
+     *
+     * Note:
+     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     */
     class Status
     @JsonCreator
     private constructor(
@@ -1592,6 +1601,12 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
+     * present. If the type is "BUSINESS" then the "business_entity", "control_person",
+     * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
+     * "website_url" attributes will be present.
+     */
     class UserType
     @JsonCreator
     private constructor(
@@ -1835,6 +1850,12 @@ private constructor(
                 )
         }
 
+        /**
+         * KYC and KYB evaluation states.
+         *
+         * Note:
+         * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+         */
         class Status
         @JsonCreator
         private constructor(

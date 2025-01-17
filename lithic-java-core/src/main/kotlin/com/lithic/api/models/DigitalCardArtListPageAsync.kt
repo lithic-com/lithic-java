@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List digital card art. */
 class DigitalCardArtListPageAsync
 private constructor(
     private val digitalCardArtService: DigitalCardArtServiceAsync,

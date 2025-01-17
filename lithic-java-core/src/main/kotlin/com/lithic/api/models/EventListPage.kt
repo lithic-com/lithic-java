@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List all events. */
 class EventListPage
 private constructor(
     private val eventsService: EventService,

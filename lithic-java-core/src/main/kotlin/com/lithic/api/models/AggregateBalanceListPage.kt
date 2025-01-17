@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Get the aggregated balance across all end-user accounts by financial account type */
 class AggregateBalanceListPage
 private constructor(
     private val aggregateBalancesService: AggregateBalanceService,

@@ -588,6 +588,7 @@ private constructor(
             )
     }
 
+    /** Card network where the transaction took place. */
     class Network
     @JsonCreator
     private constructor(
@@ -755,6 +756,7 @@ private constructor(
             "OtherFeesDetails{isa=$isa, additionalProperties=$additionalProperties}"
     }
 
+    /** The type of settlement record. */
     class Type
     @JsonCreator
     private constructor(

@@ -253,6 +253,7 @@ private constructor(
             )
     }
 
+    /** The status of the event attempt. */
     class Status
     @JsonCreator
     private constructor(
