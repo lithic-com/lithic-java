@@ -359,6 +359,7 @@ constructor(
             )
     }
 
+    /** External Payment category to be returned. */
     class ExternalPaymentCategory
     @JsonCreator
     private constructor(
@@ -428,6 +429,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** External Payment result to be returned. */
     class TransactionResult
     @JsonCreator
     private constructor(
@@ -485,6 +487,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** Book transfer status to be returned. */
     class TransactionStatus
     @JsonCreator
     private constructor(

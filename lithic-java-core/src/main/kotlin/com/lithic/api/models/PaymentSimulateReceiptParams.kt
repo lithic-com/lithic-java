@@ -440,6 +440,7 @@ constructor(
             )
     }
 
+    /** Receipt Type */
     class ReceiptType
     @JsonCreator
     private constructor(

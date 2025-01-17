@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List all the message attempts for a given event subscription. */
 class EventSubscriptionListAttemptsPage
 private constructor(
     private val subscriptionsService: SubscriptionService,

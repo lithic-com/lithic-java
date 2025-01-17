@@ -176,6 +176,7 @@ constructor(
             )
     }
 
+    /** Get the aggregate balance for a given Financial Account type. */
     class FinancialAccountType
     @JsonCreator
     private constructor(

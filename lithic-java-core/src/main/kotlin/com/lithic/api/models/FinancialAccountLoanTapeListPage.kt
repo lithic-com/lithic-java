@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List the loan tapes for a given financial account. */
 class FinancialAccountLoanTapeListPage
 private constructor(
     private val loanTapesService: LoanTapeService,

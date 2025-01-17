@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** Get a list of individual or business account holders and their KYC or KYB evaluation status. */
 class AccountHolderListPageAsync
 private constructor(
     private val accountHoldersService: AccountHolderServiceAsync,

@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List management operations */
 class ManagementOperationListPageAsync
 private constructor(
     private val managementOperationsService: ManagementOperationServiceAsync,

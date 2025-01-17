@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List card programs. */
 class CardProgramListPage
 private constructor(
     private val cardProgramsService: CardProgramService,

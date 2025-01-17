@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List external payments */
 class ExternalPaymentListPageAsync
 private constructor(
     private val externalPaymentsService: ExternalPaymentServiceAsync,

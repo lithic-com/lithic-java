@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Get a list of individual or business account holders and their KYC or KYB evaluation status. */
 class AccountHolderListPage
 private constructor(
     private val accountHoldersService: AccountHolderService,

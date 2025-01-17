@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** Get the aggregated balance across all end-user accounts by financial account type */
 class AggregateBalanceListPageAsync
 private constructor(
     private val aggregateBalancesService: AggregateBalanceServiceAsync,

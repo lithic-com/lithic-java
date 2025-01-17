@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Lists V2 authorization rules */
 class AuthRuleV2ListPage
 private constructor(
     private val v2Service: V2Service,

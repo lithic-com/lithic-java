@@ -301,6 +301,7 @@ constructor(
             )
     }
 
+    /** Returns cards with the specified state. */
     class State
     @JsonCreator
     private constructor(

@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List all the payments for the provided search criteria. */
 class PaymentListPageAsync
 private constructor(
     private val paymentsService: PaymentServiceAsync,

@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List all the external bank accounts for the provided search criteria. */
 class ExternalBankAccountListPageAsync
 private constructor(
     private val externalBankAccountsService: ExternalBankAccountServiceAsync,

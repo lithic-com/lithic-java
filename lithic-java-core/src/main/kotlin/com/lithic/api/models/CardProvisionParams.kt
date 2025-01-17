@@ -655,6 +655,7 @@ constructor(
             )
     }
 
+    /** Name of digital wallet provider. */
     class DigitalWallet
     @JsonCreator
     private constructor(

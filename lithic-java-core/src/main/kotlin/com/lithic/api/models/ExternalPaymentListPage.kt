@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List external payments */
 class ExternalPaymentListPage
 private constructor(
     private val externalPaymentsService: ExternalPaymentService,
