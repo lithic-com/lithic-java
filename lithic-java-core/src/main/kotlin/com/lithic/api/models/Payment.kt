@@ -514,6 +514,7 @@ private constructor(
             )
     }
 
+    /** Payment category */
     class Category
     @JsonCreator
     private constructor(
@@ -909,6 +910,10 @@ private constructor(
                 )
         }
 
+        /**
+         * APPROVED financial events were successful while DECLINED financial events were declined
+         * by user, Lithic, or the network.
+         */
         class Result
         @JsonCreator
         private constructor(
@@ -966,6 +971,23 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Event types:
+         * - `ACH_ORIGINATION_INITIATED` - ACH origination received and pending approval/release
+         *   from an ACH hold.
+         * - `ACH_ORIGINATION_REVIEWED` - ACH origination has completed the review process.
+         * - `ACH_ORIGINATION_CANCELLED` - ACH origination has been cancelled.
+         * - `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the fed.
+         * - `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
+         * - `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
+         *   balance.
+         * - `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
+         *   Institution.
+         * - `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
+         * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
+         * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
+         * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         */
         class PaymentEventType
         @JsonCreator
         private constructor(
@@ -1504,6 +1526,10 @@ private constructor(
             "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, traceNumbers=$traceNumbers, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * APPROVED payments were successful while DECLINED payments were declined by Lithic or
+     * returned.
+     */
     class Result
     @JsonCreator
     private constructor(
@@ -1618,6 +1644,14 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Status types:
+     * - `DECLINED` - The payment was declined.
+     * - `PENDING` - The payment is being processed and has yet to settle or release (origination
+     *   debit).
+     * - `RETURNED` - The payment has been returned.
+     * - `SETTLED` - The payment is completed.
+     */
     class Status
     @JsonCreator
     private constructor(

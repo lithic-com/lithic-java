@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List the financial transactions for a given financial account. */
 class FinancialTransactionListPageAsync
 private constructor(
     private val financialTransactionsService: FinancialTransactionServiceAsync,

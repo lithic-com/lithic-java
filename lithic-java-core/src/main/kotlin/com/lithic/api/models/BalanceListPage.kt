@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Get the balances for a program, business, or a given end-user account */
 class BalanceListPage
 private constructor(
     private val balancesService: BalanceService,

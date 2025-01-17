@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List card programs. */
 class CardProgramListPageAsync
 private constructor(
     private val cardProgramsService: CardProgramServiceAsync,

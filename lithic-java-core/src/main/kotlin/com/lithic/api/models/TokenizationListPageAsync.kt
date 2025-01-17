@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List card tokenizations */
 class TokenizationListPageAsync
 private constructor(
     private val tokenizationsService: TokenizationServiceAsync,

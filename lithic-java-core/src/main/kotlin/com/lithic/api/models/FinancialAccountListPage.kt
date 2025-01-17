@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Retrieve information on your financial accounts including routing and account number. */
 class FinancialAccountListPage
 private constructor(
     private val financialAccountsService: FinancialAccountService,

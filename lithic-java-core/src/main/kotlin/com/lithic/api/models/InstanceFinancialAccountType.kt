@@ -7,6 +7,7 @@ import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.errors.LithicInvalidDataException
 
+/** Type of instance financial account */
 class InstanceFinancialAccountType
 @JsonCreator
 private constructor(

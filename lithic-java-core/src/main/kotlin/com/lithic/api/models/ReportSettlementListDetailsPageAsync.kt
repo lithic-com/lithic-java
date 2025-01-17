@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List details. */
 class ReportSettlementListDetailsPageAsync
 private constructor(
     private val settlementService: SettlementServiceAsync,

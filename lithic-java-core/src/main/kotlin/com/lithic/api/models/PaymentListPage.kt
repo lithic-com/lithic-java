@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List all the payments for the provided search criteria. */
 class PaymentListPage
 private constructor(
     private val paymentsService: PaymentService,

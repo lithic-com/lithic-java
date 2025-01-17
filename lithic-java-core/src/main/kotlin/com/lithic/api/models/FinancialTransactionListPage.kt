@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List the financial transactions for a given financial account. */
 class FinancialTransactionListPage
 private constructor(
     private val financialTransactionsService: FinancialTransactionService,

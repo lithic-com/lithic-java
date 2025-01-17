@@ -168,6 +168,7 @@ private constructor(
      * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
      * information instead.
      */
+    @Deprecated("deprecated")
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
@@ -317,6 +318,7 @@ private constructor(
      * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
      * information instead.
      */
+    @Deprecated("deprecated")
     @JsonProperty("auth_rule_tokens")
     @ExcludeMissing
     fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
@@ -659,6 +661,7 @@ private constructor(
          * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
          * information instead.
          */
+        @Deprecated("deprecated")
         fun authRuleTokens(authRuleTokens: List<String>) =
             authRuleTokens(JsonField.of(authRuleTokens))
 
@@ -668,6 +671,7 @@ private constructor(
          * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
          * information instead.
          */
+        @Deprecated("deprecated")
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
             this.authRuleTokens = authRuleTokens.map { it.toMutableList() }
         }
@@ -678,6 +682,7 @@ private constructor(
          * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
          * information instead.
          */
+        @Deprecated("deprecated")
         fun addAuthRuleToken(authRuleToken: String) = apply {
             authRuleTokens =
                 (authRuleTokens ?: JsonField.of(mutableListOf())).apply {
@@ -1156,6 +1161,15 @@ private constructor(
                 )
         }
 
+        /**
+         * State of funding source.
+         *
+         * Funding source states:
+         * - `ENABLED` - The funding account is available to use for card creation and transactions.
+         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
+         *   verification.
+         * - `DELETED` - The founding account has been deleted.
+         */
         class State
         @JsonCreator
         private constructor(
@@ -1219,6 +1233,11 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Types of funding source:
+         * - `DEPOSITORY_CHECKING` - Bank checking account.
+         * - `DEPOSITORY_SAVINGS` - Bank savings account.
+         */
         class Type
         @JsonCreator
         private constructor(
@@ -1294,6 +1313,9 @@ private constructor(
             "FundingAccount{token=$token, created=$created, lastFour=$lastFour, state=$state, type=$type, accountName=$accountName, nickname=$nickname, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     */
     class PinStatus
     @JsonCreator
     private constructor(
@@ -1357,6 +1379,23 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Card state values:
+     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
+     *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
+     *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
+     *   physical card itself is present.
+     * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
+     *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
+     *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
+     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
+     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
+     *
+     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     */
     class State
     @JsonCreator
     private constructor(
@@ -1432,6 +1471,20 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Card types:
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+     *   [lithic.com/contact](https://lithic.com/contact) for more information.
+     * - `SINGLE_USE` - Card is closed upon first successful authorization.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     *   authorizes the card.
+     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     *   instead.
+     */
     class Type
     @JsonCreator
     private constructor(

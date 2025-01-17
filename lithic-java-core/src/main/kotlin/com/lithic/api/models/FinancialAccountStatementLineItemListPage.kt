@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List the line items for a given statement within a given financial account. */
 class FinancialAccountStatementLineItemListPage
 private constructor(
     private val lineItemsService: LineItemService,

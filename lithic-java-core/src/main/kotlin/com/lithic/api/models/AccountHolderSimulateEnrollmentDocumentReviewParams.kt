@@ -485,6 +485,7 @@ constructor(
             )
     }
 
+    /** An account holder document's upload status for use within the simulation. */
     class Status
     @JsonCreator
     private constructor(
@@ -554,6 +555,10 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Status reason that will be associated with the simulated account holder status. Only required
+     * for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+     */
     class DocumentUploadStatusReasons
     @JsonCreator
     private constructor(

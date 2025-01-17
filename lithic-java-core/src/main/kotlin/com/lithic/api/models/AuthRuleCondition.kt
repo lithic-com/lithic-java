@@ -279,6 +279,7 @@ private constructor(
             )
     }
 
+    /** The operation to apply to the attribute */
     class Operation
     @JsonCreator
     private constructor(
@@ -458,10 +459,13 @@ private constructor(
 
         interface Visitor<out T> {
 
+            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
             fun visitString(string: String): T
 
+            /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
             fun visitInteger(integer: Long): T
 
+            /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
             fun visitStrings(strings: List<String>): T
 
             fun unknown(json: JsonValue?): T {
