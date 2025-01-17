@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List all the external bank accounts for the provided search criteria. */
 class ExternalBankAccountListPage
 private constructor(
     private val externalBankAccountsService: ExternalBankAccountService,

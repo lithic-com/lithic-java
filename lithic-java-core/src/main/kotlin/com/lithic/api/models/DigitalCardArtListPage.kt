@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List digital card art. */
 class DigitalCardArtListPage
 private constructor(
     private val digitalCardArtService: DigitalCardArtService,

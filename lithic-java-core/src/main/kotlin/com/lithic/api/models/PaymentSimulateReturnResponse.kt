@@ -148,6 +148,7 @@ private constructor(
             )
     }
 
+    /** Request Result */
     class Result
     @JsonCreator
     private constructor(

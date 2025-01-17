@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List card tokenizations */
 class TokenizationListPage
 private constructor(
     private val tokenizationsService: TokenizationService,

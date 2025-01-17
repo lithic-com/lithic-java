@@ -1526,6 +1526,20 @@ constructor(
             )
     }
 
+    /**
+     * Card types:
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+     *   [lithic.com/contact](https://lithic.com/contact) for more information.
+     * - `SINGLE_USE` - Card is closed upon first successful authorization.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     *   authorizes the card.
+     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     *   instead.
+     */
     class Type
     @JsonCreator
     private constructor(
@@ -1607,6 +1621,16 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
+     * `STANDARD` require additional permissions.
+     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+     * - `2_DAY` - FedEx 2-day shipping, with tracking
+     * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     */
     class ShippingMethod
     @JsonCreator
     private constructor(
@@ -1688,6 +1712,11 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Card state values:
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     */
     class State
     @JsonCreator
     private constructor(

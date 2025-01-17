@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** Get the balances for a given card. */
 class CardBalanceListPageAsync
 private constructor(
     private val balancesService: BalanceServiceAsync,

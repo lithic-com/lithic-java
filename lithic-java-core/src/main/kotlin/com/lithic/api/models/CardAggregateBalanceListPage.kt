@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** Get the aggregated card balance across all end-user accounts. */
 class CardAggregateBalanceListPage
 private constructor(
     private val aggregateBalancesService: AggregateBalanceService,

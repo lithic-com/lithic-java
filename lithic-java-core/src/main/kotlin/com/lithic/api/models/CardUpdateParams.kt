@@ -800,6 +800,10 @@ constructor(
             )
     }
 
+    /**
+     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     * Can only be set to `OK` to unblock a card.
+     */
     class PinStatus
     @JsonCreator
     private constructor(
@@ -851,6 +855,12 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Card state values:
+     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     */
     class State
     @JsonCreator
     private constructor(

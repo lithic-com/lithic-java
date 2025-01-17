@@ -7,6 +7,12 @@ import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.errors.LithicInvalidDataException
 
+/**
+ * The window of time to calculate Spend Velocity over.
+ * - `DAY`: Velocity over the current day since midnight Eastern Time.
+ * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month in
+ *   Eastern Time.
+ */
 class VelocityLimitParamsPeriodWindow
 @JsonCreator
 private constructor(

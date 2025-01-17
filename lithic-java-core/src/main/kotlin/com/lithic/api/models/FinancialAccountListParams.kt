@@ -203,6 +203,7 @@ constructor(
             )
     }
 
+    /** List financial accounts of a given type */
     class Type
     @JsonCreator
     private constructor(

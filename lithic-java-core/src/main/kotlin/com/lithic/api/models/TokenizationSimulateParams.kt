@@ -630,6 +630,7 @@ constructor(
             )
     }
 
+    /** The source of the tokenization request. */
     class TokenizationSource
     @JsonCreator
     private constructor(
@@ -699,6 +700,7 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    /** The decision that the Digital Wallet's recommend */
     class WalletRecommendedDecision
     @JsonCreator
     private constructor(

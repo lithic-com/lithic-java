@@ -20,6 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
+/** List the loan tapes for a given financial account. */
 class FinancialAccountLoanTapeListPageAsync
 private constructor(
     private val loanTapesService: LoanTapeServiceAsync,

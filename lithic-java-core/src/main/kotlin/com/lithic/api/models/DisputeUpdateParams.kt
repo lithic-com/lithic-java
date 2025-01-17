@@ -425,6 +425,7 @@ constructor(
             )
     }
 
+    /** Reason for dispute */
     class Reason
     @JsonCreator
     private constructor(

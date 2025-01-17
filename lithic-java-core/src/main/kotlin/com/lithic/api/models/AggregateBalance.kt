@@ -339,6 +339,7 @@ private constructor(
             )
     }
 
+    /** Type of financial account */
     class FinancialAccountType
     @JsonCreator
     private constructor(

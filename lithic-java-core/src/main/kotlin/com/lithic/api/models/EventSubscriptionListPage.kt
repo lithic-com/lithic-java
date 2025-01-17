@@ -19,6 +19,7 @@ import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
+/** List all the event subscriptions. */
 class EventSubscriptionListPage
 private constructor(
     private val subscriptionsService: SubscriptionService,

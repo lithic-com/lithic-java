@@ -1886,6 +1886,10 @@ private constructor(
             "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * The type of KYC exemption for a KYC-Exempt Account Holder. "None" if the account holder is
+     * not KYC-Exempt.
+     */
     class ExemptionType
     @JsonCreator
     private constructor(
@@ -1943,6 +1947,14 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * <Deprecated. Use verification_application.status instead>
+     *
+     * KYC and KYB evaluation states.
+     *
+     * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
+     * workflow.
+     */
     class Status
     @JsonCreator
     private constructor(
@@ -2012,6 +2024,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Status Reasons for KYC/KYB enrollment states */
     class StatusReasons
     @JsonCreator
     private constructor(
@@ -2250,6 +2263,15 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
+     * present.
+     *
+     * If the type is "BUSINESS" then the "business_entity", "control_person",
+     * "beneficial_owner_individuals", "beneficial_owner_entities",
+     *
+     * "nature_of_business", and "website_url" attributes will be present.
+     */
     class UserType
     @JsonCreator
     private constructor(
@@ -2486,6 +2508,12 @@ private constructor(
                 )
         }
 
+        /**
+         * KYC and KYB evaluation states.
+         *
+         * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
+         * workflow.
+         */
         class Status
         @JsonCreator
         private constructor(
@@ -2555,6 +2583,7 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /** Status Reasons for KYC/KYB enrollment states */
         class StatusReasons
         @JsonCreator
         private constructor(

@@ -64,7 +64,7 @@ private constructor(
      * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
      */
-    fun currency(): String = currency.getRequired("currency")
+    @Deprecated("deprecated") fun currency(): String = currency.getRequired("currency")
 
     fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
 
@@ -73,6 +73,7 @@ private constructor(
      * in a future version of the API. To compute total amounts, Lithic recommends that customers
      * sum the relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
 
     /**
@@ -80,6 +81,7 @@ private constructor(
      * version of the API. To compute total amounts, Lithic recommends that customers sum the
      * relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     fun interchangeGrossAmount(): Long =
         interchangeGrossAmount.getRequired("interchange_gross_amount")
 
@@ -91,6 +93,7 @@ private constructor(
      * be removed in a future version of the API. To compute total amounts, Lithic recommends that
      * customers sum the relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
 
     /** Date of when the report was first generated. */
@@ -102,6 +105,7 @@ private constructor(
      * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
      * within `details`.)
      */
+    @Deprecated("deprecated")
     fun settledNetAmount(): Long = settledNetAmount.getRequired("settled_net_amount")
 
     /**
@@ -110,6 +114,7 @@ private constructor(
      * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
      * found within `details`.)
      */
+    @Deprecated("deprecated")
     fun transactionsGrossAmount(): Long =
         transactionsGrossAmount.getRequired("transactions_gross_amount")
 
@@ -123,7 +128,10 @@ private constructor(
      * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
      */
-    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
+    @Deprecated("deprecated")
+    @JsonProperty("currency")
+    @ExcludeMissing
+    fun _currency(): JsonField<String> = currency
 
     @JsonProperty("details")
     @ExcludeMissing
@@ -134,6 +142,7 @@ private constructor(
      * in a future version of the API. To compute total amounts, Lithic recommends that customers
      * sum the relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
     fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
@@ -143,6 +152,7 @@ private constructor(
      * version of the API. To compute total amounts, Lithic recommends that customers sum the
      * relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
     fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
@@ -155,6 +165,7 @@ private constructor(
      * be removed in a future version of the API. To compute total amounts, Lithic recommends that
      * customers sum the relevant settlement amounts found within `details`.)
      */
+    @Deprecated("deprecated")
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
     fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
@@ -168,6 +179,7 @@ private constructor(
      * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
      * within `details`.)
      */
+    @Deprecated("deprecated")
     @JsonProperty("settled_net_amount")
     @ExcludeMissing
     fun _settledNetAmount(): JsonField<Long> = settledNetAmount
@@ -178,6 +190,7 @@ private constructor(
      * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
      * found within `details`.)
      */
+    @Deprecated("deprecated")
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
     fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
@@ -258,12 +271,13 @@ private constructor(
          * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
          * future version of the API.)
          */
-        fun currency(currency: String) = currency(JsonField.of(currency))
+        @Deprecated("deprecated") fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
          * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
          * future version of the API.)
          */
+        @Deprecated("deprecated")
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
@@ -290,6 +304,7 @@ private constructor(
          * removed in a future version of the API. To compute total amounts, Lithic recommends that
          * customers sum the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun disputesGrossAmount(disputesGrossAmount: Long) =
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
@@ -298,6 +313,7 @@ private constructor(
          * removed in a future version of the API. To compute total amounts, Lithic recommends that
          * customers sum the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
             this.disputesGrossAmount = disputesGrossAmount
         }
@@ -307,6 +323,7 @@ private constructor(
          * future version of the API. To compute total amounts, Lithic recommends that customers sum
          * the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun interchangeGrossAmount(interchangeGrossAmount: Long) =
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
@@ -315,6 +332,7 @@ private constructor(
          * future version of the API. To compute total amounts, Lithic recommends that customers sum
          * the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
             this.interchangeGrossAmount = interchangeGrossAmount
         }
@@ -330,6 +348,7 @@ private constructor(
          * will be removed in a future version of the API. To compute total amounts, Lithic
          * recommends that customers sum the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun otherFeesGrossAmount(otherFeesGrossAmount: Long) =
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
@@ -338,6 +357,7 @@ private constructor(
          * will be removed in a future version of the API. To compute total amounts, Lithic
          * recommends that customers sum the relevant settlement amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
             this.otherFeesGrossAmount = otherFeesGrossAmount
         }
@@ -354,6 +374,7 @@ private constructor(
          * compute total amounts, Lithic recommends that customers sum the relevant settlement
          * amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun settledNetAmount(settledNetAmount: Long) =
             settledNetAmount(JsonField.of(settledNetAmount))
 
@@ -363,6 +384,7 @@ private constructor(
          * compute total amounts, Lithic recommends that customers sum the relevant settlement
          * amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun settledNetAmount(settledNetAmount: JsonField<Long>) = apply {
             this.settledNetAmount = settledNetAmount
         }
@@ -373,6 +395,7 @@ private constructor(
          * To compute total amounts, Lithic recommends that customers sum the relevant settlement
          * amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun transactionsGrossAmount(transactionsGrossAmount: Long) =
             transactionsGrossAmount(JsonField.of(transactionsGrossAmount))
 
@@ -382,6 +405,7 @@ private constructor(
          * To compute total amounts, Lithic recommends that customers sum the relevant settlement
          * amounts found within `details`.)
          */
+        @Deprecated("deprecated")
         fun transactionsGrossAmount(transactionsGrossAmount: JsonField<Long>) = apply {
             this.transactionsGrossAmount = transactionsGrossAmount
         }

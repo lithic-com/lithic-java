@@ -307,6 +307,10 @@ constructor(
             )
     }
 
+    /**
+     * Filter for tokenizations by tokenization channel. If this is not specified, only
+     * DIGITAL_WALLET tokenizations will be returned.
+     */
     class TokenizationChannel
     @JsonCreator
     private constructor(
