@@ -37,7 +37,7 @@ import com.lithic.api.services.async.transactions.EventServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class TransactionServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TransactionServiceAsync {
 

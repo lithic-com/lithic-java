@@ -30,7 +30,7 @@ import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
 
 class PaymentServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : PaymentService {
 

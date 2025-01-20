@@ -22,7 +22,7 @@ import com.lithic.api.models.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
 
 class AccountServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AccountServiceAsync {
 

@@ -17,7 +17,7 @@ import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
 
 class FinancialTransactionServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : FinancialTransactionService {
 

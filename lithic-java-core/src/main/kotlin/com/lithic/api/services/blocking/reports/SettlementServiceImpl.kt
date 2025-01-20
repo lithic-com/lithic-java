@@ -17,7 +17,7 @@ import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
 
 class SettlementServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : SettlementService {
 

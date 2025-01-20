@@ -15,7 +15,7 @@ import com.lithic.api.models.AggregateBalanceListPage
 import com.lithic.api.models.AggregateBalanceListParams
 
 class AggregateBalanceServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AggregateBalanceService {
 

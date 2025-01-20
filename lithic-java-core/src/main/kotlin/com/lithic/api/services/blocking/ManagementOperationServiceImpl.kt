@@ -20,7 +20,7 @@ import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
 
 class ManagementOperationServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ManagementOperationService {
 

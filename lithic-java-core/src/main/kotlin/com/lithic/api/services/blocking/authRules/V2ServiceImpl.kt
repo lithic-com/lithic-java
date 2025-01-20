@@ -32,7 +32,7 @@ import com.lithic.api.services.blocking.authRules.v2.BacktestService
 import com.lithic.api.services.blocking.authRules.v2.BacktestServiceImpl
 
 class V2ServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : V2Service {
 

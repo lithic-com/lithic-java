@@ -17,7 +17,7 @@ import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 
 class CardProgramServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardProgramService {
 

@@ -15,7 +15,7 @@ import com.lithic.api.models.EnhancedCommercialDataRetrieveResponse
 import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
 
 class EnhancedCommercialDataServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EnhancedCommercialDataService {
 

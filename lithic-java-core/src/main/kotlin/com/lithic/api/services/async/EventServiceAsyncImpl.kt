@@ -25,7 +25,7 @@ import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class EventServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EventServiceAsync {
 

@@ -9,7 +9,7 @@ import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsyncImpl
 
 class ThreeDSServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ThreeDSServiceAsync {
 

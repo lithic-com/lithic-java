@@ -21,7 +21,7 @@ import com.lithic.api.models.ManagementOperationTransaction
 import java.util.concurrent.CompletableFuture
 
 class ManagementOperationServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ManagementOperationServiceAsync {
 

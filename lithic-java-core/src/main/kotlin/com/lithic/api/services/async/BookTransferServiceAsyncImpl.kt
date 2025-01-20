@@ -21,7 +21,7 @@ import com.lithic.api.models.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
 
 class BookTransferServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BookTransferServiceAsync {
 

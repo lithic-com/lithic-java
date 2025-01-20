@@ -18,7 +18,7 @@ import com.lithic.api.models.LoanTape
 import java.util.concurrent.CompletableFuture
 
 class LoanTapeServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : LoanTapeServiceAsync {
 

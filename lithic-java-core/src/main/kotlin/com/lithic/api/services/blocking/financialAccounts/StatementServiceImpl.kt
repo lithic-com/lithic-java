@@ -19,7 +19,7 @@ import com.lithic.api.services.blocking.financialAccounts.statements.LineItemSer
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemServiceImpl
 
 class StatementServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : StatementService {
 

@@ -16,7 +16,7 @@ import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 class EnhancedCommercialDataServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EnhancedCommercialDataServiceAsync {
 

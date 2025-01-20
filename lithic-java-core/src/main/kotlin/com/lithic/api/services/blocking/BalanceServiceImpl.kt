@@ -15,7 +15,7 @@ import com.lithic.api.models.BalanceListPage
 import com.lithic.api.models.BalanceListParams
 
 class BalanceServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BalanceService {
 
