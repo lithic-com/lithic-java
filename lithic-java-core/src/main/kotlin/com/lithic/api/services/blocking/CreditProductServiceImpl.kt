@@ -9,7 +9,7 @@ import com.lithic.api.services.blocking.creditProducts.PrimeRateService
 import com.lithic.api.services.blocking.creditProducts.PrimeRateServiceImpl
 
 class CreditProductServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CreditProductService {
 

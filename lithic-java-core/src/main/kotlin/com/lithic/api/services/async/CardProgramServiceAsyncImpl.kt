@@ -18,7 +18,7 @@ import com.lithic.api.models.CardProgramRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 class CardProgramServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardProgramServiceAsync {
 

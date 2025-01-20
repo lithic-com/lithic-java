@@ -31,7 +31,7 @@ import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import java.util.concurrent.CompletableFuture
 
 class SubscriptionServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : SubscriptionServiceAsync {
 

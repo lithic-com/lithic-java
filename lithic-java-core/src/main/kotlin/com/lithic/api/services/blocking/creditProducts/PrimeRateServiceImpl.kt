@@ -18,7 +18,7 @@ import com.lithic.api.models.CreditProductPrimeRateRetrieveParams
 import com.lithic.api.models.PrimeRateRetrieveResponse
 
 class PrimeRateServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : PrimeRateService {
 

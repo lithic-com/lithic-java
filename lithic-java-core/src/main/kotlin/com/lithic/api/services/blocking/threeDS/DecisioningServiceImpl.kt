@@ -22,7 +22,7 @@ import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
 import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 
 class DecisioningServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : DecisioningService {
 

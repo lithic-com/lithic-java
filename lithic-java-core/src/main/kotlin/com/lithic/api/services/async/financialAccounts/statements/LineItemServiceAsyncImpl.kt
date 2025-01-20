@@ -16,7 +16,7 @@ import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import java.util.concurrent.CompletableFuture
 
 class LineItemServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : LineItemServiceAsync {
 

@@ -44,7 +44,7 @@ import javax.crypto.spec.SecretKeySpec
 import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardServiceAsync {
 

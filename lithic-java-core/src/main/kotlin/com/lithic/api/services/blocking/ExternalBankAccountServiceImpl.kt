@@ -28,7 +28,7 @@ import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositServiceImpl
 
 class ExternalBankAccountServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ExternalBankAccountService {
 

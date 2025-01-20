@@ -43,7 +43,7 @@ import javax.crypto.spec.SecretKeySpec
 import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardService {
 

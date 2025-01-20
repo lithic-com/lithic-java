@@ -29,7 +29,7 @@ import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsy
 import java.util.concurrent.CompletableFuture
 
 class ExternalBankAccountServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ExternalBankAccountServiceAsync {
 

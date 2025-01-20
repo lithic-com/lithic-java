@@ -17,7 +17,7 @@ import com.lithic.api.models.DigitalCardArtListParams
 import com.lithic.api.models.DigitalCardArtRetrieveParams
 
 class DigitalCardArtServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : DigitalCardArtService {
 

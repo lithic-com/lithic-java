@@ -15,7 +15,7 @@ import com.lithic.api.models.CardBalanceListPage
 import com.lithic.api.models.CardBalanceListParams
 
 class BalanceServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BalanceService {
 

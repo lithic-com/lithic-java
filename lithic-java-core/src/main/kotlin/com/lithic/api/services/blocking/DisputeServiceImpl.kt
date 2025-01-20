@@ -32,7 +32,7 @@ import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 
 class DisputeServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : DisputeService {
 

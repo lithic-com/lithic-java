@@ -9,7 +9,7 @@ import com.lithic.api.services.async.creditProducts.PrimeRateServiceAsync
 import com.lithic.api.services.async.creditProducts.PrimeRateServiceAsyncImpl
 
 class CreditProductServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CreditProductServiceAsync {
 

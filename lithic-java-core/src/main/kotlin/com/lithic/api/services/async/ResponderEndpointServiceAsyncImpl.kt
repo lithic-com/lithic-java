@@ -21,7 +21,7 @@ import com.lithic.api.models.ResponderEndpointStatus
 import java.util.concurrent.CompletableFuture
 
 class ResponderEndpointServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ResponderEndpointServiceAsync {
 

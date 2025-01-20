@@ -7,7 +7,7 @@ import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDa
 import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDataServiceImpl
 
 class EventServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EventService {
 

@@ -16,7 +16,7 @@ import com.lithic.api.models.ExtendedCredit
 import java.util.concurrent.CompletableFuture
 
 class ExtendedCreditServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ExtendedCreditServiceAsync {
 
