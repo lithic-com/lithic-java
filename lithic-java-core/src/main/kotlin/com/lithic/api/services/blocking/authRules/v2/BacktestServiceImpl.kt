@@ -18,7 +18,7 @@ import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 
 class BacktestServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BacktestService {
 

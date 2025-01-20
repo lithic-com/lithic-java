@@ -36,7 +36,7 @@ import com.lithic.api.services.blocking.transactions.EventService
 import com.lithic.api.services.blocking.transactions.EventServiceImpl
 
 class TransactionServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TransactionService {
 

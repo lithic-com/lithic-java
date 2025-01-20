@@ -7,7 +7,7 @@ import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataS
 import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataServiceAsyncImpl
 
 class EventServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EventServiceAsync {
 

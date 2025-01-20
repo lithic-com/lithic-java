@@ -7,7 +7,7 @@ import com.lithic.api.services.async.reports.SettlementServiceAsync
 import com.lithic.api.services.async.reports.SettlementServiceAsyncImpl
 
 class ReportServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ReportServiceAsync {
 

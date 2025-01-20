@@ -15,7 +15,7 @@ import com.lithic.api.models.FinancialAccountStatementLineItemListPage
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 
 class LineItemServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : LineItemService {
 

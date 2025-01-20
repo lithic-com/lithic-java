@@ -18,7 +18,7 @@ import com.lithic.api.models.FinancialTransaction
 import java.util.concurrent.CompletableFuture
 
 class FinancialTransactionServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : FinancialTransactionServiceAsync {
 

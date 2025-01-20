@@ -19,7 +19,7 @@ import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import java.util.concurrent.CompletableFuture
 
 class AuthenticationServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AuthenticationServiceAsync {
 

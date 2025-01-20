@@ -37,7 +37,7 @@ import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class CardServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardServiceAsync {
 

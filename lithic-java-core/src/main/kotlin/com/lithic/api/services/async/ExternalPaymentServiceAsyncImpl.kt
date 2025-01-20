@@ -24,7 +24,7 @@ import com.lithic.api.models.ExternalPaymentSettleParams
 import java.util.concurrent.CompletableFuture
 
 class ExternalPaymentServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ExternalPaymentServiceAsync {
 

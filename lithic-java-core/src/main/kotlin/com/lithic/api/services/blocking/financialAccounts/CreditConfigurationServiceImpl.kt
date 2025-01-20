@@ -17,7 +17,7 @@ import com.lithic.api.models.FinancialAccountCreditConfigurationRetrieveParams
 import com.lithic.api.models.FinancialAccountCreditConfigurationUpdateParams
 
 class CreditConfigurationServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CreditConfigurationService {
 

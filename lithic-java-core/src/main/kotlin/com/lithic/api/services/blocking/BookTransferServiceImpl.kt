@@ -20,7 +20,7 @@ import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 
 class BookTransferServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BookTransferService {
 

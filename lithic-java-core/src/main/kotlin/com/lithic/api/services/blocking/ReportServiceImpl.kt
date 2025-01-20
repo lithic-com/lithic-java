@@ -7,7 +7,7 @@ import com.lithic.api.services.blocking.reports.SettlementService
 import com.lithic.api.services.blocking.reports.SettlementServiceImpl
 
 class ReportServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ReportService {
 

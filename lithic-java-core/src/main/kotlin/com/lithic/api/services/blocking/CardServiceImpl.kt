@@ -36,7 +36,7 @@ import com.lithic.api.services.blocking.cards.FinancialTransactionService
 import com.lithic.api.services.blocking.cards.FinancialTransactionServiceImpl
 
 class CardServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CardService {
 

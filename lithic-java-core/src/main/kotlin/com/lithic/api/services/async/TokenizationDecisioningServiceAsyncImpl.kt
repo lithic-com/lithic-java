@@ -19,7 +19,7 @@ import com.lithic.api.models.TokenizationSecret
 import java.util.concurrent.CompletableFuture
 
 class TokenizationDecisioningServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TokenizationDecisioningServiceAsync {
 

@@ -31,7 +31,7 @@ import com.lithic.api.models.Document
 import java.time.Duration
 
 class AccountHolderServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AccountHolderService {
 

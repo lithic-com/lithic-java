@@ -19,7 +19,7 @@ import com.lithic.api.models.BacktestResults
 import java.util.concurrent.CompletableFuture
 
 class BacktestServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BacktestServiceAsync {
 
