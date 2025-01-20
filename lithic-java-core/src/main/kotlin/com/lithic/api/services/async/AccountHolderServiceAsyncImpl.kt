@@ -32,7 +32,7 @@ import java.time.Duration
 import java.util.concurrent.CompletableFuture
 
 class AccountHolderServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AccountHolderServiceAsync {
 

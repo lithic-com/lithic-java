@@ -19,7 +19,7 @@ import com.lithic.api.models.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
 
 class AuthStreamEnrollmentServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AuthStreamEnrollmentServiceAsync {
 

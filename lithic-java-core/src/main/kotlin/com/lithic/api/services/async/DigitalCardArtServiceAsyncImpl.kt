@@ -18,7 +18,7 @@ import com.lithic.api.models.DigitalCardArtRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 class DigitalCardArtServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : DigitalCardArtServiceAsync {
 

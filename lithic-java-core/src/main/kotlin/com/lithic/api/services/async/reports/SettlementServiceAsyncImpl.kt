@@ -18,7 +18,7 @@ import com.lithic.api.models.SettlementReport
 import java.util.concurrent.CompletableFuture
 
 class SettlementServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : SettlementServiceAsync {
 

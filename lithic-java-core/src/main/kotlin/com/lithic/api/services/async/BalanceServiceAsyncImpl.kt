@@ -16,7 +16,7 @@ import com.lithic.api.models.BalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class BalanceServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : BalanceServiceAsync {
 

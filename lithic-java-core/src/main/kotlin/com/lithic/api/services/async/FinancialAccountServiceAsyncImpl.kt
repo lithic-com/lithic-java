@@ -33,7 +33,7 @@ import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class FinancialAccountServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : FinancialAccountServiceAsync {
 

@@ -15,7 +15,7 @@ import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import com.lithic.api.models.ExtendedCredit
 
 class ExtendedCreditServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ExtendedCreditService {
 

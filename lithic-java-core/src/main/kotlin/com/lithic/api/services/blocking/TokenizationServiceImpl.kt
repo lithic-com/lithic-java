@@ -28,7 +28,7 @@ import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 
 class TokenizationServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TokenizationService {
 

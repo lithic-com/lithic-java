@@ -18,7 +18,7 @@ import com.lithic.api.models.TokenizationDecisioningRotateSecretResponse
 import com.lithic.api.models.TokenizationSecret
 
 class TokenizationDecisioningServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TokenizationDecisioningService {
 

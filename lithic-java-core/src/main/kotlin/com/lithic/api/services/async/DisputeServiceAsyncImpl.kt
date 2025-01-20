@@ -28,7 +28,7 @@ import com.lithic.api.models.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
 
 class DisputeServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : DisputeServiceAsync {
 

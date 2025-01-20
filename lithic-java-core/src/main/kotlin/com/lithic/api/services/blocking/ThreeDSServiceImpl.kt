@@ -9,7 +9,7 @@ import com.lithic.api.services.blocking.threeDS.DecisioningService
 import com.lithic.api.services.blocking.threeDS.DecisioningServiceImpl
 
 class ThreeDSServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ThreeDSService {
 

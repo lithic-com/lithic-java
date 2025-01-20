@@ -17,7 +17,7 @@ import com.lithic.api.models.FinancialAccountLoanTapeRetrieveParams
 import com.lithic.api.models.LoanTape
 
 class LoanTapeServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : LoanTapeService {
 

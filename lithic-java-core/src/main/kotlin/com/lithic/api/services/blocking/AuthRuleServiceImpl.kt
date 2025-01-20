@@ -7,7 +7,7 @@ import com.lithic.api.services.blocking.authRules.V2Service
 import com.lithic.api.services.blocking.authRules.V2ServiceImpl
 
 class AuthRuleServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : AuthRuleService {
 

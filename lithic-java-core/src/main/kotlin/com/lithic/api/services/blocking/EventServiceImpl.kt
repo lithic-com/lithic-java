@@ -21,7 +21,7 @@ import com.lithic.api.services.blocking.events.SubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionServiceImpl
 
 class EventServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : EventService {
 

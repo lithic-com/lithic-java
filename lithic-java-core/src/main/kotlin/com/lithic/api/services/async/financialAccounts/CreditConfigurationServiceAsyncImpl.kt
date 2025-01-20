@@ -18,7 +18,7 @@ import com.lithic.api.models.FinancialAccountCreditConfigurationUpdateParams
 import java.util.concurrent.CompletableFuture
 
 class CreditConfigurationServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : CreditConfigurationServiceAsync {
 

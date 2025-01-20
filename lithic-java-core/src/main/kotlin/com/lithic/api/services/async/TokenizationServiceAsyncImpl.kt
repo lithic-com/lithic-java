@@ -29,7 +29,7 @@ import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 import java.util.concurrent.CompletableFuture
 
 class TokenizationServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TokenizationServiceAsync {
 

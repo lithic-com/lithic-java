@@ -19,7 +19,7 @@ import com.lithic.api.models.PrimeRateRetrieveResponse
 import java.util.concurrent.CompletableFuture
 
 class PrimeRateServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : PrimeRateServiceAsync {
 
