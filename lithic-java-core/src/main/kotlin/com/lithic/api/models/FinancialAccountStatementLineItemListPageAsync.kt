@@ -30,7 +30,7 @@ private constructor(
 
     fun response(): Response = response
 
-    fun data(): List<LineItemListResponse> = response().data()
+    fun data(): List<StatementLineItems.StatementLineItemResponse> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -101,18 +101,21 @@ private constructor(
     @JsonCreator
     constructor(
         @JsonProperty("data")
-        private val data: JsonField<List<LineItemListResponse>> = JsonMissing.of(),
+        private val data: JsonField<List<StatementLineItems.StatementLineItemResponse>> =
+            JsonMissing.of(),
         @JsonProperty("has_more") private val hasMore: JsonField<Boolean> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        fun data(): List<LineItemListResponse> = data.getNullable("data") ?: listOf()
+        fun data(): List<StatementLineItems.StatementLineItemResponse> =
+            data.getNullable("data") ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<LineItemListResponse>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<StatementLineItems.StatementLineItemResponse>>> =
+            Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -155,7 +158,8 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<LineItemListResponse>> = JsonMissing.of()
+            private var data: JsonField<List<StatementLineItems.StatementLineItemResponse>> =
+                JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -166,9 +170,12 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<LineItemListResponse>) = data(JsonField.of(data))
+            fun data(data: List<StatementLineItems.StatementLineItemResponse>) =
+                data(JsonField.of(data))
 
-            fun data(data: JsonField<List<LineItemListResponse>>) = apply { this.data = data }
+            fun data(data: JsonField<List<StatementLineItems.StatementLineItemResponse>>) = apply {
+                this.data = data
+            }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -193,11 +200,11 @@ private constructor(
     ) {
 
         fun forEach(
-            action: Predicate<LineItemListResponse>,
+            action: Predicate<StatementLineItems.StatementLineItemResponse>,
             executor: Executor
         ): CompletableFuture<Void> {
             fun CompletableFuture<Optional<FinancialAccountStatementLineItemListPageAsync>>.forEach(
-                action: (LineItemListResponse) -> Boolean,
+                action: (StatementLineItems.StatementLineItemResponse) -> Boolean,
                 executor: Executor
             ): CompletableFuture<Void> =
                 thenComposeAsync(
@@ -213,8 +220,10 @@ private constructor(
                 .forEach(action::test, executor)
         }
 
-        fun toList(executor: Executor): CompletableFuture<List<LineItemListResponse>> {
-            val values = mutableListOf<LineItemListResponse>()
+        fun toList(
+            executor: Executor
+        ): CompletableFuture<List<StatementLineItems.StatementLineItemResponse>> {
+            val values = mutableListOf<StatementLineItems.StatementLineItemResponse>()
             return forEach(values::add, executor).thenApply { values }
         }
     }
