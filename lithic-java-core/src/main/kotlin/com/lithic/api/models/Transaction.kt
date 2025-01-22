@@ -4555,7 +4555,7 @@ private constructor(
         fun token(): String = token.getRequired("token")
 
         /** Amount of the event in the settlement currency. */
-        fun amount(): Long = amount.getRequired("amount")
+        @Deprecated("deprecated") fun amount(): Long = amount.getRequired("amount")
 
         fun amounts(): TransactionEventAmounts = amounts.getRequired("amounts")
 
@@ -4591,7 +4591,10 @@ private constructor(
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /** Amount of the event in the settlement currency. */
-        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+        @Deprecated("deprecated")
+        @JsonProperty("amount")
+        @ExcludeMissing
+        fun _amount(): JsonField<Long> = amount
 
         @JsonProperty("amounts")
         @ExcludeMissing
@@ -4697,9 +4700,10 @@ private constructor(
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Amount of the event in the settlement currency. */
-            fun amount(amount: Long) = amount(JsonField.of(amount))
+            @Deprecated("deprecated") fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /** Amount of the event in the settlement currency. */
+            @Deprecated("deprecated")
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun amounts(amounts: TransactionEventAmounts) = amounts(JsonField.of(amounts))
