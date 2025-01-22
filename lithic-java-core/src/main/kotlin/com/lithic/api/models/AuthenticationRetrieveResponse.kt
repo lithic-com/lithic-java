@@ -55,6 +55,10 @@ private constructor(
     @JsonProperty("message_category")
     @ExcludeMissing
     private val messageCategory: JsonField<MessageCategory> = JsonMissing.of(),
+    @JsonProperty("three_ds_requestor_challenge_indicator")
+    @ExcludeMissing
+    private val threeDSRequestorChallengeIndicator: JsonField<ThreeDSRequestorChallengeIndicator> =
+        JsonMissing.of(),
     @JsonProperty("additional_data")
     @ExcludeMissing
     private val additionalData: JsonField<AdditionalData> = JsonMissing.of(),
@@ -118,6 +122,20 @@ private constructor(
      * additional_data and transaction fields are not populated.
      */
     fun messageCategory(): MessageCategory = messageCategory.getRequired("message_category")
+
+    /**
+     * Indicates whether a challenge is requested for this transaction
+     * - `NO_PREFERENCE` - No Preference
+     * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+     * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+     * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+     * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
+     *   is already performed)
+     * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+     * - `OTHER` - Other indicators not captured by above. These are rarely used
+     */
+    fun threeDSRequestorChallengeIndicator(): ThreeDSRequestorChallengeIndicator =
+        threeDSRequestorChallengeIndicator.getRequired("three_ds_requestor_challenge_indicator")
 
     /**
      * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
@@ -218,6 +236,22 @@ private constructor(
     fun _messageCategory(): JsonField<MessageCategory> = messageCategory
 
     /**
+     * Indicates whether a challenge is requested for this transaction
+     * - `NO_PREFERENCE` - No Preference
+     * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+     * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+     * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+     * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
+     *   is already performed)
+     * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+     * - `OTHER` - Other indicators not captured by above. These are rarely used
+     */
+    @JsonProperty("three_ds_requestor_challenge_indicator")
+    @ExcludeMissing
+    fun _threeDSRequestorChallengeIndicator(): JsonField<ThreeDSRequestorChallengeIndicator> =
+        threeDSRequestorChallengeIndicator
+
+    /**
      * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
      * spec (e.g., specific fields that only certain card networks send but are not required across
      * all 3DS requests).
@@ -288,6 +322,7 @@ private constructor(
         decisionMadeBy()
         merchant().validate()
         messageCategory()
+        threeDSRequestorChallengeIndicator()
         additionalData().ifPresent { it.validate() }
         app().ifPresent { it.validate() }
         authenticationRequestType()
@@ -317,6 +352,9 @@ private constructor(
         private var decisionMadeBy: JsonField<DecisionMadeBy>? = null
         private var merchant: JsonField<Merchant>? = null
         private var messageCategory: JsonField<MessageCategory>? = null
+        private var threeDSRequestorChallengeIndicator:
+            JsonField<ThreeDSRequestorChallengeIndicator>? =
+            null
         private var additionalData: JsonField<AdditionalData> = JsonMissing.of()
         private var app: JsonField<App> = JsonMissing.of()
         private var authenticationRequestType: JsonField<AuthenticationRequestType> =
@@ -339,6 +377,8 @@ private constructor(
             decisionMadeBy = authenticationRetrieveResponse.decisionMadeBy
             merchant = authenticationRetrieveResponse.merchant
             messageCategory = authenticationRetrieveResponse.messageCategory
+            threeDSRequestorChallengeIndicator =
+                authenticationRetrieveResponse.threeDSRequestorChallengeIndicator
             additionalData = authenticationRetrieveResponse.additionalData
             app = authenticationRetrieveResponse.app
             authenticationRequestType = authenticationRetrieveResponse.authenticationRequestType
@@ -460,6 +500,36 @@ private constructor(
         fun messageCategory(messageCategory: JsonField<MessageCategory>) = apply {
             this.messageCategory = messageCategory
         }
+
+        /**
+         * Indicates whether a challenge is requested for this transaction
+         * - `NO_PREFERENCE` - No Preference
+         * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+         * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+         * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+         * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk
+         *   analysis is already performed)
+         * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+         * - `OTHER` - Other indicators not captured by above. These are rarely used
+         */
+        fun threeDSRequestorChallengeIndicator(
+            threeDSRequestorChallengeIndicator: ThreeDSRequestorChallengeIndicator
+        ) = threeDSRequestorChallengeIndicator(JsonField.of(threeDSRequestorChallengeIndicator))
+
+        /**
+         * Indicates whether a challenge is requested for this transaction
+         * - `NO_PREFERENCE` - No Preference
+         * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+         * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+         * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+         * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk
+         *   analysis is already performed)
+         * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+         * - `OTHER` - Other indicators not captured by above. These are rarely used
+         */
+        fun threeDSRequestorChallengeIndicator(
+            threeDSRequestorChallengeIndicator: JsonField<ThreeDSRequestorChallengeIndicator>
+        ) = apply { this.threeDSRequestorChallengeIndicator = threeDSRequestorChallengeIndicator }
 
         /**
          * Object containing additional data about the 3DS request that is beyond the EMV 3DS
@@ -616,6 +686,10 @@ private constructor(
                 checkRequired("decisionMadeBy", decisionMadeBy),
                 checkRequired("merchant", merchant),
                 checkRequired("messageCategory", messageCategory),
+                checkRequired(
+                    "threeDSRequestorChallengeIndicator",
+                    threeDSRequestorChallengeIndicator
+                ),
                 additionalData,
                 app,
                 authenticationRequestType,
@@ -2682,6 +2756,109 @@ private constructor(
     }
 
     /**
+     * Indicates whether a challenge is requested for this transaction
+     * - `NO_PREFERENCE` - No Preference
+     * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+     * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+     * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+     * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
+     *   is already performed)
+     * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+     * - `OTHER` - Other indicators not captured by above. These are rarely used
+     */
+    class ThreeDSRequestorChallengeIndicator
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val NO_PREFERENCE = of("NO_PREFERENCE")
+
+            @JvmField val NO_CHALLENGE_REQUESTED = of("NO_CHALLENGE_REQUESTED")
+
+            @JvmField val CHALLENGE_PREFERENCE = of("CHALLENGE_PREFERENCE")
+
+            @JvmField val CHALLENGE_MANDATE = of("CHALLENGE_MANDATE")
+
+            @JvmField
+            val NO_CHALLENGE_RISK_ALREADY_ASSESSED = of("NO_CHALLENGE_RISK_ALREADY_ASSESSED")
+
+            @JvmField val DATA_SHARE_ONLY = of("DATA_SHARE_ONLY")
+
+            @JvmField val OTHER = of("OTHER")
+
+            @JvmStatic
+            fun of(value: String) = ThreeDSRequestorChallengeIndicator(JsonField.of(value))
+        }
+
+        enum class Known {
+            NO_PREFERENCE,
+            NO_CHALLENGE_REQUESTED,
+            CHALLENGE_PREFERENCE,
+            CHALLENGE_MANDATE,
+            NO_CHALLENGE_RISK_ALREADY_ASSESSED,
+            DATA_SHARE_ONLY,
+            OTHER,
+        }
+
+        enum class Value {
+            NO_PREFERENCE,
+            NO_CHALLENGE_REQUESTED,
+            CHALLENGE_PREFERENCE,
+            CHALLENGE_MANDATE,
+            NO_CHALLENGE_RISK_ALREADY_ASSESSED,
+            DATA_SHARE_ONLY,
+            OTHER,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                NO_PREFERENCE -> Value.NO_PREFERENCE
+                NO_CHALLENGE_REQUESTED -> Value.NO_CHALLENGE_REQUESTED
+                CHALLENGE_PREFERENCE -> Value.CHALLENGE_PREFERENCE
+                CHALLENGE_MANDATE -> Value.CHALLENGE_MANDATE
+                NO_CHALLENGE_RISK_ALREADY_ASSESSED -> Value.NO_CHALLENGE_RISK_ALREADY_ASSESSED
+                DATA_SHARE_ONLY -> Value.DATA_SHARE_ONLY
+                OTHER -> Value.OTHER
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                NO_PREFERENCE -> Known.NO_PREFERENCE
+                NO_CHALLENGE_REQUESTED -> Known.NO_CHALLENGE_REQUESTED
+                CHALLENGE_PREFERENCE -> Known.CHALLENGE_PREFERENCE
+                CHALLENGE_MANDATE -> Known.CHALLENGE_MANDATE
+                NO_CHALLENGE_RISK_ALREADY_ASSESSED -> Known.NO_CHALLENGE_RISK_ALREADY_ASSESSED
+                DATA_SHARE_ONLY -> Known.DATA_SHARE_ONLY
+                OTHER -> Known.OTHER
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown ThreeDSRequestorChallengeIndicator: $value"
+                    )
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ThreeDSRequestorChallengeIndicator && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /**
      * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
      * spec (e.g., specific fields that only certain card networks send but are not required across
      * all 3DS requests).
@@ -3983,15 +4160,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthenticationRetrieveResponse && token == other.token && accountType == other.accountType && authenticationResult == other.authenticationResult && cardExpiryCheck == other.cardExpiryCheck && cardToken == other.cardToken && cardholder == other.cardholder && channel == other.channel && created == other.created && decisionMadeBy == other.decisionMadeBy && merchant == other.merchant && messageCategory == other.messageCategory && additionalData == other.additionalData && app == other.app && authenticationRequestType == other.authenticationRequestType && browser == other.browser && threeRiRequestType == other.threeRiRequestType && transaction == other.transaction && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AuthenticationRetrieveResponse && token == other.token && accountType == other.accountType && authenticationResult == other.authenticationResult && cardExpiryCheck == other.cardExpiryCheck && cardToken == other.cardToken && cardholder == other.cardholder && channel == other.channel && created == other.created && decisionMadeBy == other.decisionMadeBy && merchant == other.merchant && messageCategory == other.messageCategory && threeDSRequestorChallengeIndicator == other.threeDSRequestorChallengeIndicator && additionalData == other.additionalData && app == other.app && authenticationRequestType == other.authenticationRequestType && browser == other.browser && threeRiRequestType == other.threeRiRequestType && transaction == other.transaction && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountType, authenticationResult, cardExpiryCheck, cardToken, cardholder, channel, created, decisionMadeBy, merchant, messageCategory, additionalData, app, authenticationRequestType, browser, threeRiRequestType, transaction, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountType, authenticationResult, cardExpiryCheck, cardToken, cardholder, channel, created, decisionMadeBy, merchant, messageCategory, threeDSRequestorChallengeIndicator, additionalData, app, authenticationRequestType, browser, threeRiRequestType, transaction, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AuthenticationRetrieveResponse{token=$token, accountType=$accountType, authenticationResult=$authenticationResult, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, decisionMadeBy=$decisionMadeBy, merchant=$merchant, messageCategory=$messageCategory, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, browser=$browser, threeRiRequestType=$threeRiRequestType, transaction=$transaction, additionalProperties=$additionalProperties}"
+        "AuthenticationRetrieveResponse{token=$token, accountType=$accountType, authenticationResult=$authenticationResult, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, decisionMadeBy=$decisionMadeBy, merchant=$merchant, messageCategory=$messageCategory, threeDSRequestorChallengeIndicator=$threeDSRequestorChallengeIndicator, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, browser=$browser, threeRiRequestType=$threeRiRequestType, transaction=$transaction, additionalProperties=$additionalProperties}"
 }

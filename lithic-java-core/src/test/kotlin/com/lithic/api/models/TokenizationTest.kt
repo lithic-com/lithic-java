@@ -31,6 +31,7 @@ class TokenizationTest {
                         .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
                         .build()
                 )
+                .paymentAccountReferenceId("payment_account_reference_id")
                 .build()
         assertThat(tokenization).isNotNull
         assertThat(tokenization.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -58,5 +59,7 @@ class TokenizationTest {
                     .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
                     .build()
             )
+        assertThat(tokenization.paymentAccountReferenceId())
+            .contains("payment_account_reference_id")
     }
 }
