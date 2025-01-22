@@ -92,6 +92,9 @@ class AuthenticationRetrieveResponseTest {
                 .messageCategory(
                     AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION
                 )
+                .threeDSRequestorChallengeIndicator(
+                    AuthenticationRetrieveResponse.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
+                )
                 .additionalData(
                     AuthenticationRetrieveResponse.AdditionalData.builder()
                         .networkDecision(
@@ -218,6 +221,10 @@ class AuthenticationRetrieveResponseTest {
             )
         assertThat(authenticationRetrieveResponse.messageCategory())
             .isEqualTo(AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION)
+        assertThat(authenticationRetrieveResponse.threeDSRequestorChallengeIndicator())
+            .isEqualTo(
+                AuthenticationRetrieveResponse.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
+            )
         assertThat(authenticationRetrieveResponse.additionalData())
             .contains(
                 AuthenticationRetrieveResponse.AdditionalData.builder()

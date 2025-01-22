@@ -33,6 +33,7 @@ class TokenizationUpdateDigitalCardArtResponseTest {
                                 .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
                                 .build()
                         )
+                        .paymentAccountReferenceId("payment_account_reference_id")
                         .build()
                 )
                 .build()
@@ -59,6 +60,7 @@ class TokenizationUpdateDigitalCardArtResponseTest {
                             .type(Tokenization.TokenizationEvent.Type.TOKENIZATION_2_FA)
                             .build()
                     )
+                    .paymentAccountReferenceId("payment_account_reference_id")
                     .build()
             )
     }
