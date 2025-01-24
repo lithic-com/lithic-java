@@ -516,8 +516,8 @@ constructor(
             }
 
             /** Parameters for the current version of the Auth Rule */
-            fun parameters(conditionalBlockParameters: ConditionalBlockParameters) =
-                parameters(Parameters.ofConditionalBlockParameters(conditionalBlockParameters))
+            fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(velocityLimitParams: VelocityLimitParams) =
@@ -563,23 +563,23 @@ constructor(
         @JsonSerialize(using = Parameters.Serializer::class)
         class Parameters
         private constructor(
-            private val conditionalBlockParameters: ConditionalBlockParameters? = null,
+            private val conditionalBlock: ConditionalBlockParameters? = null,
             private val velocityLimitParams: VelocityLimitParams? = null,
             private val _json: JsonValue? = null,
         ) {
 
-            fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
-                Optional.ofNullable(conditionalBlockParameters)
+            fun conditionalBlock(): Optional<ConditionalBlockParameters> =
+                Optional.ofNullable(conditionalBlock)
 
             fun velocityLimitParams(): Optional<VelocityLimitParams> =
                 Optional.ofNullable(velocityLimitParams)
 
-            fun isConditionalBlockParameters(): Boolean = conditionalBlockParameters != null
+            fun isConditionalBlock(): Boolean = conditionalBlock != null
 
             fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
 
-            fun asConditionalBlockParameters(): ConditionalBlockParameters =
-                conditionalBlockParameters.getOrThrow("conditionalBlockParameters")
+            fun asConditionalBlock(): ConditionalBlockParameters =
+                conditionalBlock.getOrThrow("conditionalBlock")
 
             fun asVelocityLimitParams(): VelocityLimitParams =
                 velocityLimitParams.getOrThrow("velocityLimitParams")
@@ -588,8 +588,7 @@ constructor(
 
             fun <T> accept(visitor: Visitor<T>): T {
                 return when {
-                    conditionalBlockParameters != null ->
-                        visitor.visitConditionalBlockParameters(conditionalBlockParameters)
+                    conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                     velocityLimitParams != null ->
                         visitor.visitVelocityLimitParams(velocityLimitParams)
                     else -> visitor.unknown(_json)
@@ -605,10 +604,10 @@ constructor(
 
                 accept(
                     object : Visitor<Unit> {
-                        override fun visitConditionalBlockParameters(
-                            conditionalBlockParameters: ConditionalBlockParameters
+                        override fun visitConditionalBlock(
+                            conditionalBlock: ConditionalBlockParameters
                         ) {
-                            conditionalBlockParameters.validate()
+                            conditionalBlock.validate()
                         }
 
                         override fun visitVelocityLimitParams(
@@ -626,15 +625,14 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Parameters && conditionalBlockParameters == other.conditionalBlockParameters && velocityLimitParams == other.velocityLimitParams /* spotless:on */
+                return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams /* spotless:on */
             }
 
-            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlockParameters, velocityLimitParams) /* spotless:on */
+            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams) /* spotless:on */
 
             override fun toString(): String =
                 when {
-                    conditionalBlockParameters != null ->
-                        "Parameters{conditionalBlockParameters=$conditionalBlockParameters}"
+                    conditionalBlock != null -> "Parameters{conditionalBlock=$conditionalBlock}"
                     velocityLimitParams != null ->
                         "Parameters{velocityLimitParams=$velocityLimitParams}"
                     _json != null -> "Parameters{_unknown=$_json}"
@@ -644,9 +642,8 @@ constructor(
             companion object {
 
                 @JvmStatic
-                fun ofConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ) = Parameters(conditionalBlockParameters = conditionalBlockParameters)
+                fun ofConditionalBlock(conditionalBlock: ConditionalBlockParameters) =
+                    Parameters(conditionalBlock = conditionalBlock)
 
                 @JvmStatic
                 fun ofVelocityLimitParams(velocityLimitParams: VelocityLimitParams) =
@@ -655,9 +652,7 @@ constructor(
 
             interface Visitor<out T> {
 
-                fun visitConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ): T
+                fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
@@ -675,7 +670,7 @@ constructor(
                             it.validate()
                         }
                         ?.let {
-                            return Parameters(conditionalBlockParameters = it, _json = json)
+                            return Parameters(conditionalBlock = it, _json = json)
                         }
                     tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
                         ?.let {
@@ -694,8 +689,8 @@ constructor(
                     provider: SerializerProvider
                 ) {
                     when {
-                        value.conditionalBlockParameters != null ->
-                            generator.writeObject(value.conditionalBlockParameters)
+                        value.conditionalBlock != null ->
+                            generator.writeObject(value.conditionalBlock)
                         value.velocityLimitParams != null ->
                             generator.writeObject(value.velocityLimitParams)
                         value._json != null -> generator.writeObject(value._json)
@@ -915,8 +910,8 @@ constructor(
             }
 
             /** Parameters for the current version of the Auth Rule */
-            fun parameters(conditionalBlockParameters: ConditionalBlockParameters) =
-                parameters(Parameters.ofConditionalBlockParameters(conditionalBlockParameters))
+            fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(velocityLimitParams: VelocityLimitParams) =
@@ -962,23 +957,23 @@ constructor(
         @JsonSerialize(using = Parameters.Serializer::class)
         class Parameters
         private constructor(
-            private val conditionalBlockParameters: ConditionalBlockParameters? = null,
+            private val conditionalBlock: ConditionalBlockParameters? = null,
             private val velocityLimitParams: VelocityLimitParams? = null,
             private val _json: JsonValue? = null,
         ) {
 
-            fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
-                Optional.ofNullable(conditionalBlockParameters)
+            fun conditionalBlock(): Optional<ConditionalBlockParameters> =
+                Optional.ofNullable(conditionalBlock)
 
             fun velocityLimitParams(): Optional<VelocityLimitParams> =
                 Optional.ofNullable(velocityLimitParams)
 
-            fun isConditionalBlockParameters(): Boolean = conditionalBlockParameters != null
+            fun isConditionalBlock(): Boolean = conditionalBlock != null
 
             fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
 
-            fun asConditionalBlockParameters(): ConditionalBlockParameters =
-                conditionalBlockParameters.getOrThrow("conditionalBlockParameters")
+            fun asConditionalBlock(): ConditionalBlockParameters =
+                conditionalBlock.getOrThrow("conditionalBlock")
 
             fun asVelocityLimitParams(): VelocityLimitParams =
                 velocityLimitParams.getOrThrow("velocityLimitParams")
@@ -987,8 +982,7 @@ constructor(
 
             fun <T> accept(visitor: Visitor<T>): T {
                 return when {
-                    conditionalBlockParameters != null ->
-                        visitor.visitConditionalBlockParameters(conditionalBlockParameters)
+                    conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                     velocityLimitParams != null ->
                         visitor.visitVelocityLimitParams(velocityLimitParams)
                     else -> visitor.unknown(_json)
@@ -1004,10 +998,10 @@ constructor(
 
                 accept(
                     object : Visitor<Unit> {
-                        override fun visitConditionalBlockParameters(
-                            conditionalBlockParameters: ConditionalBlockParameters
+                        override fun visitConditionalBlock(
+                            conditionalBlock: ConditionalBlockParameters
                         ) {
-                            conditionalBlockParameters.validate()
+                            conditionalBlock.validate()
                         }
 
                         override fun visitVelocityLimitParams(
@@ -1025,15 +1019,14 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Parameters && conditionalBlockParameters == other.conditionalBlockParameters && velocityLimitParams == other.velocityLimitParams /* spotless:on */
+                return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams /* spotless:on */
             }
 
-            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlockParameters, velocityLimitParams) /* spotless:on */
+            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams) /* spotless:on */
 
             override fun toString(): String =
                 when {
-                    conditionalBlockParameters != null ->
-                        "Parameters{conditionalBlockParameters=$conditionalBlockParameters}"
+                    conditionalBlock != null -> "Parameters{conditionalBlock=$conditionalBlock}"
                     velocityLimitParams != null ->
                         "Parameters{velocityLimitParams=$velocityLimitParams}"
                     _json != null -> "Parameters{_unknown=$_json}"
@@ -1043,9 +1036,8 @@ constructor(
             companion object {
 
                 @JvmStatic
-                fun ofConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ) = Parameters(conditionalBlockParameters = conditionalBlockParameters)
+                fun ofConditionalBlock(conditionalBlock: ConditionalBlockParameters) =
+                    Parameters(conditionalBlock = conditionalBlock)
 
                 @JvmStatic
                 fun ofVelocityLimitParams(velocityLimitParams: VelocityLimitParams) =
@@ -1054,9 +1046,7 @@ constructor(
 
             interface Visitor<out T> {
 
-                fun visitConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ): T
+                fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
@@ -1074,7 +1064,7 @@ constructor(
                             it.validate()
                         }
                         ?.let {
-                            return Parameters(conditionalBlockParameters = it, _json = json)
+                            return Parameters(conditionalBlock = it, _json = json)
                         }
                     tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
                         ?.let {
@@ -1093,8 +1083,8 @@ constructor(
                     provider: SerializerProvider
                 ) {
                     when {
-                        value.conditionalBlockParameters != null ->
-                            generator.writeObject(value.conditionalBlockParameters)
+                        value.conditionalBlock != null ->
+                            generator.writeObject(value.conditionalBlock)
                         value.velocityLimitParams != null ->
                             generator.writeObject(value.velocityLimitParams)
                         value._json != null -> generator.writeObject(value._json)
@@ -1339,8 +1329,8 @@ constructor(
             }
 
             /** Parameters for the current version of the Auth Rule */
-            fun parameters(conditionalBlockParameters: ConditionalBlockParameters) =
-                parameters(Parameters.ofConditionalBlockParameters(conditionalBlockParameters))
+            fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(velocityLimitParams: VelocityLimitParams) =
@@ -1387,23 +1377,23 @@ constructor(
         @JsonSerialize(using = Parameters.Serializer::class)
         class Parameters
         private constructor(
-            private val conditionalBlockParameters: ConditionalBlockParameters? = null,
+            private val conditionalBlock: ConditionalBlockParameters? = null,
             private val velocityLimitParams: VelocityLimitParams? = null,
             private val _json: JsonValue? = null,
         ) {
 
-            fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
-                Optional.ofNullable(conditionalBlockParameters)
+            fun conditionalBlock(): Optional<ConditionalBlockParameters> =
+                Optional.ofNullable(conditionalBlock)
 
             fun velocityLimitParams(): Optional<VelocityLimitParams> =
                 Optional.ofNullable(velocityLimitParams)
 
-            fun isConditionalBlockParameters(): Boolean = conditionalBlockParameters != null
+            fun isConditionalBlock(): Boolean = conditionalBlock != null
 
             fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
 
-            fun asConditionalBlockParameters(): ConditionalBlockParameters =
-                conditionalBlockParameters.getOrThrow("conditionalBlockParameters")
+            fun asConditionalBlock(): ConditionalBlockParameters =
+                conditionalBlock.getOrThrow("conditionalBlock")
 
             fun asVelocityLimitParams(): VelocityLimitParams =
                 velocityLimitParams.getOrThrow("velocityLimitParams")
@@ -1412,8 +1402,7 @@ constructor(
 
             fun <T> accept(visitor: Visitor<T>): T {
                 return when {
-                    conditionalBlockParameters != null ->
-                        visitor.visitConditionalBlockParameters(conditionalBlockParameters)
+                    conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                     velocityLimitParams != null ->
                         visitor.visitVelocityLimitParams(velocityLimitParams)
                     else -> visitor.unknown(_json)
@@ -1429,10 +1418,10 @@ constructor(
 
                 accept(
                     object : Visitor<Unit> {
-                        override fun visitConditionalBlockParameters(
-                            conditionalBlockParameters: ConditionalBlockParameters
+                        override fun visitConditionalBlock(
+                            conditionalBlock: ConditionalBlockParameters
                         ) {
-                            conditionalBlockParameters.validate()
+                            conditionalBlock.validate()
                         }
 
                         override fun visitVelocityLimitParams(
@@ -1450,15 +1439,14 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Parameters && conditionalBlockParameters == other.conditionalBlockParameters && velocityLimitParams == other.velocityLimitParams /* spotless:on */
+                return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams /* spotless:on */
             }
 
-            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlockParameters, velocityLimitParams) /* spotless:on */
+            override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams) /* spotless:on */
 
             override fun toString(): String =
                 when {
-                    conditionalBlockParameters != null ->
-                        "Parameters{conditionalBlockParameters=$conditionalBlockParameters}"
+                    conditionalBlock != null -> "Parameters{conditionalBlock=$conditionalBlock}"
                     velocityLimitParams != null ->
                         "Parameters{velocityLimitParams=$velocityLimitParams}"
                     _json != null -> "Parameters{_unknown=$_json}"
@@ -1468,9 +1456,8 @@ constructor(
             companion object {
 
                 @JvmStatic
-                fun ofConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ) = Parameters(conditionalBlockParameters = conditionalBlockParameters)
+                fun ofConditionalBlock(conditionalBlock: ConditionalBlockParameters) =
+                    Parameters(conditionalBlock = conditionalBlock)
 
                 @JvmStatic
                 fun ofVelocityLimitParams(velocityLimitParams: VelocityLimitParams) =
@@ -1479,9 +1466,7 @@ constructor(
 
             interface Visitor<out T> {
 
-                fun visitConditionalBlockParameters(
-                    conditionalBlockParameters: ConditionalBlockParameters
-                ): T
+                fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
@@ -1499,7 +1484,7 @@ constructor(
                             it.validate()
                         }
                         ?.let {
-                            return Parameters(conditionalBlockParameters = it, _json = json)
+                            return Parameters(conditionalBlock = it, _json = json)
                         }
                     tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
                         ?.let {
@@ -1518,8 +1503,8 @@ constructor(
                     provider: SerializerProvider
                 ) {
                     when {
-                        value.conditionalBlockParameters != null ->
-                            generator.writeObject(value.conditionalBlockParameters)
+                        value.conditionalBlock != null ->
+                            generator.writeObject(value.conditionalBlock)
                         value.velocityLimitParams != null ->
                             generator.writeObject(value.velocityLimitParams)
                         value._json != null -> generator.writeObject(value._json)
