@@ -1,6 +1,7 @@
 package com.lithic.api.core.http
 
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.errors.LithicIoException
 import java.io.IOException
 import java.time.Clock
@@ -259,7 +260,7 @@ private constructor(
 
         fun build(): HttpClient =
             RetryingHttpClient(
-                checkNotNull(httpClient) { "`httpClient` is required but was not set" },
+                checkRequired("httpClient", httpClient),
                 clock,
                 maxRetries,
                 idempotencyHeader,
