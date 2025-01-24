@@ -180,11 +180,16 @@ class TransactionTest {
                                     Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
                                         .banknetReferenceNumber("U1HSCJ")
                                         .switchSerialNumber(null)
+                                        .originalBanknetReferenceNumber(
+                                            "original_banknet_reference_number"
+                                        )
+                                        .originalSwitchSerialNumber("original_switch_serial_number")
                                         .build()
                                 )
                                 .visa(
                                     Transaction.TransactionEvent.NetworkInfo.Visa.builder()
                                         .transactionId("transaction_id")
+                                        .originalTransactionId("original_transaction_id")
                                         .build()
                                 )
                                 .build()
@@ -380,11 +385,16 @@ class TransactionTest {
                                 Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
                                     .banknetReferenceNumber("U1HSCJ")
                                     .switchSerialNumber(null)
+                                    .originalBanknetReferenceNumber(
+                                        "original_banknet_reference_number"
+                                    )
+                                    .originalSwitchSerialNumber("original_switch_serial_number")
                                     .build()
                             )
                             .visa(
                                 Transaction.TransactionEvent.NetworkInfo.Visa.builder()
                                     .transactionId("transaction_id")
+                                    .originalTransactionId("original_transaction_id")
                                     .build()
                             )
                             .build()
