@@ -38,7 +38,7 @@ class V2ServiceTest {
                             .name("name")
                             .parameters(
                                 AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
-                                    .ofConditionalBlockParameters(
+                                    .ofConditionalBlock(
                                         ConditionalBlockParameters.builder()
                                             .addCondition(
                                                 AuthRuleCondition.builder()

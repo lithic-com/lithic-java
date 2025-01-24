@@ -46,7 +46,7 @@ class AuthRuleV2DraftParamsTest {
         assertThat(body).isNotNull
         assertThat(body.parameters())
             .contains(
-                AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
+                AuthRuleV2DraftParams.Parameters.ofConditionalBlock(
                     ConditionalBlockParameters.builder()
                         .addCondition(
                             AuthRuleCondition.builder()
