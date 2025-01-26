@@ -25,7 +25,7 @@ import java.util.Objects
  * in a URL._
  */
 class CardSearchByPanParams
-constructor(
+private constructor(
     private val body: CardSearchByPanBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -86,7 +86,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var pan: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -152,7 +152,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: CardSearchByPanBody.Builder = CardSearchByPanBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

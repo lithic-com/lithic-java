@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Simulates a receipt of a Payment. */
 class PaymentSimulateReceiptParams
-constructor(
+private constructor(
     private val body: PaymentSimulateReceiptBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -155,7 +155,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null
@@ -266,7 +266,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: PaymentSimulateReceiptBody.Builder = PaymentSimulateReceiptBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

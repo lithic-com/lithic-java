@@ -230,7 +230,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var beneficialOwnerEntities: JsonField<MutableList<BusinessEntity>>? = null
         private var beneficialOwnerIndividuals: JsonField<MutableList<KybIndividual>>? = null
@@ -615,7 +615,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address: JsonField<Address>? = null
             private var governmentId: JsonField<String>? = null
@@ -890,7 +890,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address: JsonField<Address>? = null
             private var dob: JsonField<String>? = null

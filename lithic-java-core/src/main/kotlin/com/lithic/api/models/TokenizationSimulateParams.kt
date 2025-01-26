@@ -26,7 +26,7 @@ import java.util.Optional
  * tokenization ecosystem.
  */
 class TokenizationSimulateParams
-constructor(
+private constructor(
     private val body: TokenizationSimulateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -253,7 +253,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var cvv: JsonField<String>? = null
             private var expirationDate: JsonField<String>? = null
@@ -415,7 +415,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TokenizationSimulateBody.Builder = TokenizationSimulateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

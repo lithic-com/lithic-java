@@ -227,7 +227,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String> = JsonMissing.of()
         private var category: JsonField<Category> = JsonMissing.of()
@@ -619,7 +619,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String> = JsonMissing.of()
             private var amount: JsonField<Long> = JsonMissing.of()

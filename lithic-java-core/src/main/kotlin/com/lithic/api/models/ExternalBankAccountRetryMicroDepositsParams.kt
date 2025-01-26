@@ -21,7 +21,7 @@ import java.util.Optional
 
 /** Retry external bank account micro deposit verification. */
 class ExternalBankAccountRetryMicroDepositsParams
-constructor(
+private constructor(
     private val externalBankAccountToken: String,
     private val body: ExternalBankAccountRetryMicroDepositsBody,
     private val additionalHeaders: Headers,
@@ -93,7 +93,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var financialAccountToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -167,7 +167,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
         private var body: ExternalBankAccountRetryMicroDepositsBody.Builder =

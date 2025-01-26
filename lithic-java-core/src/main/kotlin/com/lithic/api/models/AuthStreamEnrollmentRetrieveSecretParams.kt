@@ -15,7 +15,7 @@ import java.util.Objects
  * more detail about verifying ASA webhooks.
  */
 class AuthStreamEnrollmentRetrieveSecretParams
-constructor(
+private constructor(
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
@@ -36,7 +36,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()

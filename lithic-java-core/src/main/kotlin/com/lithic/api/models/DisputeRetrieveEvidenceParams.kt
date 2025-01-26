@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get a dispute's evidence metadata. */
 class DisputeRetrieveEvidenceParams
-constructor(
+private constructor(
     private val disputeToken: String,
     private val evidenceToken: String,
     private val additionalHeaders: Headers,
@@ -45,7 +45,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var disputeToken: String? = null
         private var evidenceToken: String? = null

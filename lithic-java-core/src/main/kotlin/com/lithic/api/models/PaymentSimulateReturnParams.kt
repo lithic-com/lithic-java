@@ -21,7 +21,7 @@ import java.util.Optional
 
 /** Simulates a return of a Payment. */
 class PaymentSimulateReturnParams
-constructor(
+private constructor(
     private val body: PaymentSimulateReturnBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -105,7 +105,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var paymentToken: JsonField<String>? = null
             private var returnReasonCode: JsonField<String> = JsonMissing.of()
@@ -188,7 +188,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: PaymentSimulateReturnBody.Builder = PaymentSimulateReturnBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

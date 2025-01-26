@@ -11,7 +11,7 @@ import java.util.Optional
 
 /** List the line items for a given statement within a given financial account. */
 class FinancialAccountStatementLineItemListParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val statementToken: String,
     private val endingBefore: String?,
@@ -74,7 +74,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var statementToken: String? = null

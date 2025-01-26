@@ -22,7 +22,7 @@ import java.util.Optional
 
 /** Cancel external payment */
 class ExternalPaymentCancelParams
-constructor(
+private constructor(
     private val externalPaymentToken: String,
     private val body: ExternalPaymentCancelBody,
     private val additionalHeaders: Headers,
@@ -105,7 +105,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
             private var memo: JsonField<String> = JsonMissing.of()
@@ -181,7 +181,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalPaymentToken: String? = null
         private var body: ExternalPaymentCancelBody.Builder = ExternalPaymentCancelBody.builder()

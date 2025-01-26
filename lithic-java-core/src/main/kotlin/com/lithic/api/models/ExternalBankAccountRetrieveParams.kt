@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get the external bank account by token. */
 class ExternalBankAccountRetrieveParams
-constructor(
+private constructor(
     private val externalBankAccountToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

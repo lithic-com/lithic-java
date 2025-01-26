@@ -23,7 +23,7 @@ import java.util.Objects
  * An authorization advice changes the pending amount of the transaction.
  */
 class TransactionSimulateAuthorizationAdviceParams
-constructor(
+private constructor(
     private val body: TransactionSimulateAuthorizationAdviceBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -114,7 +114,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null
@@ -202,7 +202,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateAuthorizationAdviceBody.Builder =
             TransactionSimulateAuthorizationAdviceBody.builder()

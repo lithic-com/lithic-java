@@ -24,7 +24,7 @@ import java.util.Optional
 
 /** Create management operation */
 class ManagementOperationCreateParams
-constructor(
+private constructor(
     private val body: ManagementOperationCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -205,7 +205,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var category: JsonField<ManagementOperationCategory>? = null
@@ -352,7 +352,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: ManagementOperationCreateBody.Builder =
             ManagementOperationCreateBody.builder()

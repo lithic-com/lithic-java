@@ -10,7 +10,7 @@ import java.util.Optional
 
 /** List digital card art. */
 class DigitalCardArtListParams
-constructor(
+private constructor(
     private val endingBefore: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
@@ -57,7 +57,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var endingBefore: String? = null
         private var pageSize: Long? = null

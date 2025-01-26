@@ -67,8 +67,7 @@ import com.lithic.api.services.blocking.TransferServiceImpl
 import com.lithic.api.services.blocking.WebhookService
 import com.lithic.api.services.blocking.WebhookServiceImpl
 
-class LithicClientImpl
-constructor(
+class LithicClientImpl(
     private val clientOptions: ClientOptions,
 ) : LithicClient {
 

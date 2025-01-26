@@ -14,7 +14,7 @@ import java.util.Objects
 
 /** Check the status of a responder endpoint */
 class ResponderEndpointCheckStatusParams
-constructor(
+private constructor(
     private val type: Type,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -45,7 +45,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var type: Type? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -16,7 +16,7 @@ import java.util.Optional
 
 /** List cards. */
 class CardListParams
-constructor(
+private constructor(
     private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
@@ -93,7 +93,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: String? = null
         private var begin: OffsetDateTime? = null

@@ -23,7 +23,7 @@ import java.util.Objects
  * /v1/three_ds_decisioning/simulate/challenge
  */
 class ThreeDSDecisioningSimulateChallengeResponseParams
-constructor(
+private constructor(
     private val body: ThreeDSDecisioningSimulateChallengeResponseBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -121,7 +121,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var challengeResponse: JsonField<ChallengeResult>? = null
@@ -216,7 +216,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: ThreeDSDecisioningSimulateChallengeResponseBody.Builder =
             ThreeDSDecisioningSimulateChallengeResponseBody.builder()

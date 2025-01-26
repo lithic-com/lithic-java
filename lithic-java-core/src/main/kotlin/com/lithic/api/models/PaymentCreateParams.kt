@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Initiates a payment between a financial account and an external bank account. */
 class PaymentCreateParams
-constructor(
+private constructor(
     private val body: PaymentCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -204,7 +204,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var externalBankAccountToken: JsonField<String>? = null
@@ -347,7 +347,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: PaymentCreateBody.Builder = PaymentCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -637,7 +637,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var secCode: JsonField<SecCode>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()

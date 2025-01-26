@@ -22,7 +22,7 @@ import java.util.Objects
 
 /** Update issuing account state to charged off */
 class FinancialAccountChargeOffParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val body: FinancialAccountChargeOffBody,
     private val additionalHeaders: Headers,
@@ -95,7 +95,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var reason: JsonField<ChargedOffReason>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -166,7 +166,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var body: FinancialAccountChargeOffBody.Builder =

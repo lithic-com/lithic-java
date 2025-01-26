@@ -12,7 +12,7 @@ import java.util.Optional
 
 /** Get Credit Product Prime Rates */
 class CreditProductPrimeRateRetrieveParams
-constructor(
+private constructor(
     private val creditProductToken: String,
     private val endingBefore: LocalDate?,
     private val startingAfter: LocalDate?,
@@ -59,7 +59,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var creditProductToken: String? = null
         private var endingBefore: LocalDate? = null

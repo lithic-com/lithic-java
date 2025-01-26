@@ -123,7 +123,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var filters: JsonField<Filters>? = null
         private var period: JsonField<Period>? = null
@@ -337,7 +337,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var includeCountries: JsonField<MutableList<String>>? = null
             private var includeMccs: JsonField<MutableList<String>>? = null
@@ -612,7 +612,7 @@ private constructor(
             }
         }
 
-        class Deserializer : BaseDeserializer<Period>(Period::class) {
+        internal class Deserializer : BaseDeserializer<Period>(Period::class) {
 
             override fun ObjectCodec.deserialize(node: JsonNode): Period {
                 val json = JsonValue.fromJsonNode(node)
@@ -628,7 +628,7 @@ private constructor(
             }
         }
 
-        class Serializer : BaseSerializer<Period>(Period::class) {
+        internal class Serializer : BaseSerializer<Period>(Period::class) {
 
             override fun serialize(
                 value: Period,

@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Simulate payment lifecycle event */
 class PaymentSimulateActionParams
-constructor(
+private constructor(
     private val paymentToken: String,
     private val body: PaymentSimulateActionBody,
     private val additionalHeaders: Headers,
@@ -136,7 +136,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var eventType: JsonField<SupportedSimulationTypes>? = null
             private var declineReason: JsonField<SupportedSimulationDeclineReasons> =
@@ -232,7 +232,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var paymentToken: String? = null
         private var body: PaymentSimulateActionBody.Builder = PaymentSimulateActionBody.builder()

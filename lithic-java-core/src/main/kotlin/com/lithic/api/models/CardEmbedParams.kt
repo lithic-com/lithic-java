@@ -34,7 +34,7 @@ import java.util.Objects
  * API key into front end code, as doing so introduces a serious security vulnerability**.
  */
 class CardEmbedParams
-constructor(
+private constructor(
     private val embedRequest: String,
     private val hmac: String,
     private val additionalHeaders: Headers,
@@ -70,7 +70,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var embedRequest: String? = null
         private var hmac: String? = null

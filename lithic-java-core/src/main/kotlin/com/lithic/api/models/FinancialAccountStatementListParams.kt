@@ -12,7 +12,7 @@ import java.util.Optional
 
 /** List the statements for a given financial account. */
 class FinancialAccountStatementListParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val begin: LocalDate?,
     private val end: LocalDate?,
@@ -94,7 +94,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var begin: LocalDate? = null

@@ -164,7 +164,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
         private var accountTokens: JsonField<MutableList<String>>? = null
@@ -401,7 +401,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var parameters: JsonField<Parameters>? = null
             private var version: JsonField<Long>? = null
@@ -570,7 +570,7 @@ private constructor(
                 }
             }
 
-            class Deserializer : BaseDeserializer<Parameters>(Parameters::class) {
+            internal class Deserializer : BaseDeserializer<Parameters>(Parameters::class) {
 
                 override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
                     val json = JsonValue.fromJsonNode(node)
@@ -590,7 +590,7 @@ private constructor(
                 }
             }
 
-            class Serializer : BaseSerializer<Parameters>(Parameters::class) {
+            internal class Serializer : BaseSerializer<Parameters>(Parameters::class) {
 
                 override fun serialize(
                     value: Parameters,
@@ -678,7 +678,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var parameters: JsonField<Parameters>? = null
             private var version: JsonField<Long>? = null
@@ -847,7 +847,7 @@ private constructor(
                 }
             }
 
-            class Deserializer : BaseDeserializer<Parameters>(Parameters::class) {
+            internal class Deserializer : BaseDeserializer<Parameters>(Parameters::class) {
 
                 override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
                     val json = JsonValue.fromJsonNode(node)
@@ -867,7 +867,7 @@ private constructor(
                 }
             }
 
-            class Serializer : BaseSerializer<Parameters>(Parameters::class) {
+            internal class Serializer : BaseSerializer<Parameters>(Parameters::class) {
 
                 override fun serialize(
                     value: Parameters,
