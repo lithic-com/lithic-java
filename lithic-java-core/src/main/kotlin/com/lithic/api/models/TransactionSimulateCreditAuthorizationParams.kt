@@ -24,7 +24,7 @@ import java.util.Optional
  * network approved a credit authorization on your behalf.
  */
 class TransactionSimulateCreditAuthorizationParams
-constructor(
+private constructor(
     private val body: TransactionSimulateCreditAuthorizationBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -184,7 +184,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var descriptor: JsonField<String>? = null
@@ -312,7 +312,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateCreditAuthorizationBody.Builder =
             TransactionSimulateCreditAuthorizationBody.builder()

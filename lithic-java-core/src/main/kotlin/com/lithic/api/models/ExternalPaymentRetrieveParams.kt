@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get external payment */
 class ExternalPaymentRetrieveParams
-constructor(
+private constructor(
     private val externalPaymentToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalPaymentToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

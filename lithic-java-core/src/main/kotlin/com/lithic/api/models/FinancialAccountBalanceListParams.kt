@@ -13,7 +13,7 @@ import java.util.Optional
 
 /** Get the balances for a given financial account. */
 class FinancialAccountBalanceListParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val balanceDate: OffsetDateTime?,
     private val lastTransactionEventToken: String?,
@@ -70,7 +70,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var balanceDate: OffsetDateTime? = null

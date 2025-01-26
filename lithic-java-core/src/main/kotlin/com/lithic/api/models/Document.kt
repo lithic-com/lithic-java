@@ -106,7 +106,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
         private var accountHolderToken: JsonField<String>? = null
@@ -528,7 +528,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var acceptedEntityStatusReasons: JsonField<MutableList<String>>? = null

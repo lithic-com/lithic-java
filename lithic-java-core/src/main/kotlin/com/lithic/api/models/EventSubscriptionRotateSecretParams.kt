@@ -16,7 +16,7 @@ import java.util.Optional
  * hours.
  */
 class EventSubscriptionRotateSecretParams
-constructor(
+private constructor(
     private val eventSubscriptionToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -54,7 +54,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get a specific loan tape for a given financial account. */
 class FinancialAccountLoanTapeRetrieveParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val loanTapeToken: String,
     private val additionalHeaders: Headers,
@@ -47,7 +47,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var loanTapeToken: String? = null

@@ -12,7 +12,7 @@ import java.util.Objects
  * Get all L2/L3 enhanced commercial data associated with a transaction. Not available in sandbox.
  */
 class TransactionEnhancedCommercialDataRetrieveParams
-constructor(
+private constructor(
     private val transactionToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -43,7 +43,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var transactionToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get the card financial transaction for the provided token. */
 class CardFinancialTransactionRetrieveParams
-constructor(
+private constructor(
     private val cardToken: String,
     private val financialTransactionToken: String,
     private val additionalHeaders: Headers,
@@ -45,7 +45,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var cardToken: String? = null
         private var financialTransactionToken: String? = null

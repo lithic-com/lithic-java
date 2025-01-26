@@ -26,7 +26,7 @@ import java.util.Objects
  * Stream at the time a backtest is requested.
  */
 class AuthRuleV2BacktestRetrieveParams
-constructor(
+private constructor(
     private val authRuleToken: String,
     private val authRuleBacktestToken: String,
     private val additionalHeaders: Headers,
@@ -61,7 +61,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var authRuleToken: String? = null
         private var authRuleBacktestToken: String? = null

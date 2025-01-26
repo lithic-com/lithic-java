@@ -17,7 +17,7 @@ import java.util.Optional
 
 /** List all events. */
 class EventListParams
-constructor(
+private constructor(
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
@@ -96,7 +96,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null

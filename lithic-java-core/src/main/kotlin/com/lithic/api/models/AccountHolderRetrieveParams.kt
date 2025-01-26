@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
 class AccountHolderRetrieveParams
-constructor(
+private constructor(
     private val accountHolderToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountHolderToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

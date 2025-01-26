@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Send an example message for event. */
 class EventSubscriptionSendSimulatedExampleParams
-constructor(
+private constructor(
     private val eventSubscriptionToken: String,
     private val body: EventSubscriptionSendSimulatedExampleBody,
     private val additionalHeaders: Headers,
@@ -99,7 +99,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var eventType: JsonField<EventType> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -171,7 +171,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
         private var body: EventSubscriptionSendSimulatedExampleBody.Builder =

@@ -188,7 +188,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
@@ -448,7 +448,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var daily: JsonField<Long>? = null
             private var lifetime: JsonField<Long>? = null
@@ -682,7 +682,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var businessAccountToken: JsonField<String>? = null
@@ -887,7 +887,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address1: JsonField<String>? = null
             private var city: JsonField<String>? = null

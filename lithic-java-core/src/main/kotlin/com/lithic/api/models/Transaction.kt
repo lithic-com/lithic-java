@@ -365,7 +365,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
         private var accountToken: JsonField<String>? = null
@@ -866,7 +866,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var cardholder: JsonField<Cardholder>? = null
             private var hold: JsonField<Hold>? = null
@@ -1013,7 +1013,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
                 private var conversionRate: JsonField<String>? = null
@@ -1177,7 +1177,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
                 private var currency: JsonField<Currency>? = null
@@ -1317,7 +1317,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
                 private var currency: JsonField<Currency>? = null
@@ -1457,7 +1457,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
                 private var currency: JsonField<Currency>? = null
@@ -1605,7 +1605,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address: JsonField<String>? = null
             private var zipcode: JsonField<String>? = null
@@ -1848,7 +1848,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var _3dsVersion: JsonField<String>? = null
             private var acquirerExemption: JsonField<AcquirerExemption>? = null
@@ -2642,7 +2642,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var acceptorId: JsonField<String>? = null
             private var acquiringInstitutionId: JsonField<String>? = null
@@ -2905,7 +2905,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var entryMode: JsonField<PosEntryMode>? = null
             private var terminal: JsonField<PosTerminal>? = null
@@ -3024,7 +3024,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var card: JsonField<Card>? = null
                 private var cardholder: JsonField<Cardholder>? = null
@@ -3558,7 +3558,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var attended: JsonField<Boolean>? = null
                 private var cardRetentionCapable: JsonField<Boolean>? = null
@@ -4355,7 +4355,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var walletType: JsonField<WalletType>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -4668,7 +4668,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null
@@ -4918,7 +4918,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var cardholder: JsonField<Cardholder>? = null
                 private var merchant: JsonField<Merchant>? = null
@@ -5062,7 +5062,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var amount: JsonField<Long>? = null
                     private var conversionRate: JsonField<String>? = null
@@ -5220,7 +5220,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var amount: JsonField<Long>? = null
                     private var currency: JsonField<Currency>? = null
@@ -5378,7 +5378,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var amount: JsonField<Long>? = null
                     private var conversionRate: JsonField<String>? = null
@@ -6010,7 +6010,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var acquirer: JsonField<Acquirer>? = null
                 private var mastercard: JsonField<Mastercard>? = null
@@ -6149,7 +6149,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var acquirerReferenceNumber: JsonField<String>? = null
                     private var retrievalReferenceNumber: JsonField<String>? = null
@@ -6384,7 +6384,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var banknetReferenceNumber: JsonField<String>? = null
                     private var switchSerialNumber: JsonField<String>? = null
@@ -6633,7 +6633,7 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                class Builder internal constructor() {
 
                     private var transactionId: JsonField<String>? = null
                     private var originalTransactionId: JsonField<String> = JsonMissing.of()
@@ -7023,7 +7023,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            class Builder internal constructor() {
 
                 private var authRuleToken: JsonField<String>? = null
                 private var explanation: JsonField<String>? = null

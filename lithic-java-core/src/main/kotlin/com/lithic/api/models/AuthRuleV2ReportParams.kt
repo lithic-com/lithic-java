@@ -56,7 +56,7 @@ import java.util.Optional
  * report.
  */
 class AuthRuleV2ReportParams
-constructor(
+private constructor(
     private val authRuleToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -94,7 +94,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var authRuleToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

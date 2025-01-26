@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get an Account's credit configuration */
 class FinancialAccountCreditConfigurationRetrieveParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

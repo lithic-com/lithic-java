@@ -21,7 +21,7 @@ import java.util.Objects
 
 /** Post Credit Product Prime Rate */
 class CreditProductPrimeRateCreateParams
-constructor(
+private constructor(
     private val creditProductToken: String,
     private val body: CreditProductPrimeRateCreateBody,
     private val additionalHeaders: Headers,
@@ -113,7 +113,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
             private var rate: JsonField<String>? = null
@@ -195,7 +195,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var creditProductToken: String? = null
         private var body: CreditProductPrimeRateCreateBody.Builder =

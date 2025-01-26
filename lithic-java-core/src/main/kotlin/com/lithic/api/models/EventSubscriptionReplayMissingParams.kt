@@ -20,7 +20,7 @@ import java.util.Optional
  * [Retry Schedule](https://docs.lithic.com/docs/events-api#retry-schedule) for details.
  */
 class EventSubscriptionReplayMissingParams
-constructor(
+private constructor(
     private val eventSubscriptionToken: String,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
@@ -83,7 +83,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
         private var begin: OffsetDateTime? = null

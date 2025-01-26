@@ -23,7 +23,7 @@ import java.util.Objects
  * credit authorizations, or credit authorizations that have cleared.
  */
 class TransactionSimulateReturnReversalParams
-constructor(
+private constructor(
     private val body: TransactionSimulateReturnReversalBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -86,7 +86,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -158,7 +158,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateReturnReversalBody.Builder =
             TransactionSimulateReturnReversalBody.builder()

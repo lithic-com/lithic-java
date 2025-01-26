@@ -68,8 +68,7 @@ import com.lithic.api.services.async.WebhookServiceAsync
 import com.lithic.api.services.async.WebhookServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class LithicClientAsyncImpl
-constructor(
+class LithicClientAsyncImpl(
     private val clientOptions: ClientOptions,
 ) : LithicClientAsync {
 

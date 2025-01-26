@@ -13,7 +13,7 @@ import java.util.Optional
 
 /** Withdraw dispute. */
 class DisputeDeleteParams
-constructor(
+private constructor(
     private val disputeToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -51,7 +51,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var disputeToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
