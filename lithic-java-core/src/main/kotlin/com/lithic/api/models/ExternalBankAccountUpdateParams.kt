@@ -22,7 +22,7 @@ import java.util.Optional
 
 /** Update the external bank account by token. */
 class ExternalBankAccountUpdateParams
-constructor(
+private constructor(
     private val externalBankAccountToken: String,
     private val body: ExternalBankAccountUpdateBody,
     private val additionalHeaders: Headers,
@@ -231,7 +231,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address: JsonField<ExternalBankAccountAddress> = JsonMissing.of()
             private var companyId: JsonField<String> = JsonMissing.of()
@@ -378,7 +378,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
         private var body: ExternalBankAccountUpdateBody.Builder =

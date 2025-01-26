@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get a specific statement for a given financial account. */
 class FinancialAccountStatementRetrieveParams
-constructor(
+private constructor(
     private val financialAccountToken: String,
     private val statementToken: String,
     private val additionalHeaders: Headers,
@@ -47,7 +47,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
         private var statementToken: String? = null

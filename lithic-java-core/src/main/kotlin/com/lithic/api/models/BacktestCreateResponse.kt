@@ -57,7 +57,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var backtestToken: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()

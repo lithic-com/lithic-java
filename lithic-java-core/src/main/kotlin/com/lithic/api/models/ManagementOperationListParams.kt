@@ -16,7 +16,7 @@ import java.util.Optional
 
 /** List management operations */
 class ManagementOperationListParams
-constructor(
+private constructor(
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
     private val category: ManagementOperationCategory?,
@@ -109,7 +109,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var begin: OffsetDateTime? = null
         private var businessAccountToken: String? = null

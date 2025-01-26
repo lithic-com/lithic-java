@@ -156,7 +156,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var address: JsonField<Address>? = null
         private var email: JsonField<String>? = null

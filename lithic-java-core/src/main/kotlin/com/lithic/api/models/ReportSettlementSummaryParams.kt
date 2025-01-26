@@ -11,7 +11,7 @@ import java.util.Objects
 
 /** Get the settlement report for a specified report date. Not available in sandbox. */
 class ReportSettlementSummaryParams
-constructor(
+private constructor(
     private val reportDate: LocalDate,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -42,7 +42,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var reportDate: LocalDate? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

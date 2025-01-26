@@ -16,7 +16,7 @@ import java.util.Optional
 
 /** List all the payments for the provided search criteria. */
 class PaymentListParams
-constructor(
+private constructor(
     private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
@@ -111,7 +111,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: String? = null
         private var begin: OffsetDateTime? = null

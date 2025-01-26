@@ -29,7 +29,7 @@ import java.util.Optional
  * that are part of the program that the calling API key manages.
  */
 class AccountHolderCreateParams
-constructor(
+private constructor(
     private val body: AccountHolderCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -132,7 +132,7 @@ constructor(
             }
         }
 
-        class Deserializer :
+        internal class Deserializer :
             BaseDeserializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
 
             override fun ObjectCodec.deserialize(node: JsonNode): AccountHolderCreateBody {
@@ -152,7 +152,8 @@ constructor(
             }
         }
 
-        class Serializer : BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+        internal class Serializer :
+            BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
 
             override fun serialize(
                 value: AccountHolderCreateBody,
@@ -178,7 +179,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: AccountHolderCreateBody? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get book transfer by token */
 class BookTransferRetrieveParams
-constructor(
+private constructor(
     private val bookTransferToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var bookTransferToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

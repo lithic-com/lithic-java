@@ -25,7 +25,7 @@ import java.util.Optional
  * workflows that may required intervention such as `KYB_BASIC`.
  */
 class AccountHolderSimulateEnrollmentReviewParams
-constructor(
+private constructor(
     private val body: AccountHolderSimulateEnrollmentReviewBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -138,7 +138,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var accountHolderToken: JsonField<String> = JsonMissing.of()
             private var status: JsonField<Status> = JsonMissing.of()
@@ -260,7 +260,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: AccountHolderSimulateEnrollmentReviewBody.Builder =
             AccountHolderSimulateEnrollmentReviewBody.builder()

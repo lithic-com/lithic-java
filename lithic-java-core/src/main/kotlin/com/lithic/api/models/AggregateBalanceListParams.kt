@@ -14,7 +14,7 @@ import java.util.Optional
 
 /** Get the aggregated balance across all end-user accounts by financial account type */
 class AggregateBalanceListParams
-constructor(
+private constructor(
     private val financialAccountType: FinancialAccountType?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -48,7 +48,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var financialAccountType: FinancialAccountType? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

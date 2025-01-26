@@ -13,7 +13,7 @@ import java.util.Optional
 
 /** List evidence metadata for a dispute. */
 class DisputeListEvidencesParams
-constructor(
+private constructor(
     private val disputeToken: String,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
@@ -90,7 +90,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var disputeToken: String? = null
         private var begin: OffsetDateTime? = null

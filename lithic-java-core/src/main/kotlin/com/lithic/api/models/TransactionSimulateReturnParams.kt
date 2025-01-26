@@ -23,7 +23,7 @@ import java.util.Objects
  * immediately, without prior authorization, and result in a `SETTLED` transaction status.
  */
 class TransactionSimulateReturnParams
-constructor(
+private constructor(
     private val body: TransactionSimulateReturnBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -118,7 +118,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var descriptor: JsonField<String>? = null
@@ -207,7 +207,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateReturnBody.Builder =
             TransactionSimulateReturnBody.builder()

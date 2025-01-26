@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get card configuration such as spend limit and state. */
 class CardRetrieveParams
-constructor(
+private constructor(
     private val cardToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var cardToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

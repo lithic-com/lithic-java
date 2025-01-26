@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get 3DS Authentication by token */
 class ThreeDSAuthenticationRetrieveParams
-constructor(
+private constructor(
     private val threeDSAuthenticationToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var threeDSAuthenticationToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

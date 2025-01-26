@@ -20,7 +20,7 @@ import java.util.Objects
 
 /** Verify the external bank account by providing the micro deposit amounts. */
 class ExternalBankAccountMicroDepositCreateParams
-constructor(
+private constructor(
     private val externalBankAccountToken: String,
     private val body: ExternalBankAccountMicroDepositCreateBody,
     private val additionalHeaders: Headers,
@@ -91,7 +91,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var microDeposits: JsonField<MutableList<Long>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -180,7 +180,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
         private var body: ExternalBankAccountMicroDepositCreateBody.Builder =

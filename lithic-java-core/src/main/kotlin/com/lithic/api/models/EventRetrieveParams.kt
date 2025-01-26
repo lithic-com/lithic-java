@@ -10,7 +10,7 @@ import java.util.Objects
 
 /** Get an event. */
 class EventRetrieveParams
-constructor(
+private constructor(
     private val eventToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -41,7 +41,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

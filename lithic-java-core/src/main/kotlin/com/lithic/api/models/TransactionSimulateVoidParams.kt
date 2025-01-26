@@ -28,7 +28,7 @@ import java.util.Optional
  * supported but will be added soon._
  */
 class TransactionSimulateVoidParams
-constructor(
+private constructor(
     private val body: TransactionSimulateVoidBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -149,7 +149,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long> = JsonMissing.of()
@@ -253,7 +253,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateVoidBody.Builder =
             TransactionSimulateVoidBody.builder()

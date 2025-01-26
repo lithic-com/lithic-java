@@ -13,7 +13,7 @@ import java.util.Objects
  * currency (e.g., cents for USD).
  */
 class TransactionRetrieveParams
-constructor(
+private constructor(
     private val transactionToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -44,7 +44,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var transactionToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -35,7 +35,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Creates an external bank account within a program or Lithic account. */
 class ExternalBankAccountCreateParams
-constructor(
+private constructor(
     private val body: ExternalBankAccountCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -199,7 +199,7 @@ constructor(
             }
         }
 
-        class Deserializer :
+        internal class Deserializer :
             BaseDeserializer<ExternalBankAccountCreateBody>(ExternalBankAccountCreateBody::class) {
 
             override fun ObjectCodec.deserialize(node: JsonNode): ExternalBankAccountCreateBody {
@@ -238,7 +238,7 @@ constructor(
             }
         }
 
-        class Serializer :
+        internal class Serializer :
             BaseSerializer<ExternalBankAccountCreateBody>(ExternalBankAccountCreateBody::class) {
 
             override fun serialize(
@@ -268,7 +268,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: ExternalBankAccountCreateBody? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -659,7 +659,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var accountNumber: JsonField<String>? = null
             private var country: JsonField<String>? = null
@@ -1112,7 +1112,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var owner: JsonField<String>? = null
             private var ownerType: JsonField<OwnerType>? = null
@@ -1490,7 +1490,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var accountNumber: JsonField<String>? = null
             private var country: JsonField<String>? = null

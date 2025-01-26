@@ -16,7 +16,7 @@ import java.util.Optional
 
 /** List external payments */
 class ExternalPaymentListParams
-constructor(
+private constructor(
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
     private val category: ExternalPaymentCategory?,
@@ -114,7 +114,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var begin: OffsetDateTime? = null
         private var businessAccountToken: String? = null

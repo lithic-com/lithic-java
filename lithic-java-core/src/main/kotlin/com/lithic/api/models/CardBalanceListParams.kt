@@ -13,7 +13,7 @@ import java.util.Optional
 
 /** Get the balances for a given card. */
 class CardBalanceListParams
-constructor(
+private constructor(
     private val cardToken: String,
     private val balanceDate: OffsetDateTime?,
     private val lastTransactionEventToken: String?,
@@ -70,7 +70,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var cardToken: String? = null
         private var balanceDate: OffsetDateTime? = null

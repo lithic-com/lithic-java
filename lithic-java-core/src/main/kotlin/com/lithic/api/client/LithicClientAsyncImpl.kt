@@ -66,8 +66,7 @@ import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.TransferServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class LithicClientAsyncImpl
-constructor(
+class LithicClientAsyncImpl(
     private val clientOptions: ClientOptions,
 ) : LithicClientAsync {
 
