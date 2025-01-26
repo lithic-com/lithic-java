@@ -21,7 +21,7 @@ import java.util.Optional
  * more information.
  */
 class TokenizationActivateParams
-constructor(
+private constructor(
     private val tokenizationToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -59,7 +59,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var tokenizationToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

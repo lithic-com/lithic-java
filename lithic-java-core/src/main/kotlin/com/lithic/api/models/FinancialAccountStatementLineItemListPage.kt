@@ -191,8 +191,7 @@ private constructor(
         }
     }
 
-    class AutoPager
-    constructor(
+    class AutoPager(
         private val firstPage: FinancialAccountStatementLineItemListPage,
     ) : Iterable<StatementLineItems.StatementLineItemResponse> {
 

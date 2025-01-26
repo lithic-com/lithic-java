@@ -12,7 +12,7 @@ import java.util.Objects
  * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in sandbox.
  */
 class TransactionEventEnhancedCommercialDataRetrieveParams
-constructor(
+private constructor(
     private val eventToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -43,7 +43,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

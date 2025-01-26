@@ -135,7 +135,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: JsonField<String>? = null
         private var chargedOffReason: JsonField<ChargedOffReason>? = null

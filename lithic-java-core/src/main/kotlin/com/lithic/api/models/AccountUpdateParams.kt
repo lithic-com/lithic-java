@@ -27,7 +27,7 @@ import java.util.Optional
  * able to transact or create new cards.
  */
 class AccountUpdateParams
-constructor(
+private constructor(
     private val accountToken: String,
     private val body: AccountUpdateBody,
     private val additionalHeaders: Headers,
@@ -248,7 +248,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var dailySpendLimit: JsonField<Long> = JsonMissing.of()
             private var lifetimeSpendLimit: JsonField<Long> = JsonMissing.of()
@@ -405,7 +405,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: String? = null
         private var body: AccountUpdateBody.Builder = AccountUpdateBody.builder()
@@ -772,7 +772,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var address1: JsonField<String> = JsonMissing.of()
             private var address2: JsonField<String> = JsonMissing.of()

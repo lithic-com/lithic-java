@@ -15,7 +15,7 @@ import java.util.Objects
  * available spend limit returned would be $400.
  */
 class AccountRetrieveSpendLimitsParams
-constructor(
+private constructor(
     private val accountToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -46,7 +46,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

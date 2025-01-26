@@ -10,7 +10,7 @@ import java.util.Optional
 
 /** Get the aggregated card balance across all end-user accounts. */
 class CardAggregateBalanceListParams
-constructor(
+private constructor(
     private val accountToken: String?,
     private val businessAccountToken: String?,
     private val additionalHeaders: Headers,
@@ -48,7 +48,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountToken: String? = null
         private var businessAccountToken: String? = null

@@ -65,8 +65,7 @@ import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
 
-class LithicClientImpl
-constructor(
+class LithicClientImpl(
     private val clientOptions: ClientOptions,
 ) : LithicClient {
 

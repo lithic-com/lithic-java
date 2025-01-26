@@ -26,7 +26,7 @@ import java.util.Optional
  * to physical cards.
  */
 class CardCreateParams
-constructor(
+private constructor(
     private val body: CardCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -686,7 +686,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var type: JsonField<Type>? = null
             private var accountToken: JsonField<String> = JsonMissing.of()
@@ -1094,7 +1094,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: CardCreateBody.Builder = CardCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

@@ -167,7 +167,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
         private var category: JsonField<ManagementOperationCategory>? = null
@@ -557,7 +557,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null

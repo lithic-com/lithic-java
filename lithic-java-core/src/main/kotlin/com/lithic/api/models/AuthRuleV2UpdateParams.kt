@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Updates an authorization rule's properties */
 class AuthRuleV2UpdateParams
-constructor(
+private constructor(
     private val authRuleToken: String,
     private val body: AuthRuleV2UpdateBody,
     private val additionalHeaders: Headers,
@@ -136,7 +136,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var name: JsonField<String> = JsonMissing.of()
             private var state: JsonField<State> = JsonMissing.of()
@@ -229,7 +229,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var authRuleToken: String? = null
         private var body: AuthRuleV2UpdateBody.Builder = AuthRuleV2UpdateBody.builder()

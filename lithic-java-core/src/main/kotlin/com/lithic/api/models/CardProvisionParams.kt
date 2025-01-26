@@ -30,7 +30,7 @@ import java.util.Optional
  * information.
  */
 class CardProvisionParams
-constructor(
+private constructor(
     private val cardToken: String,
     private val body: CardProvisionBody,
     private val additionalHeaders: Headers,
@@ -264,7 +264,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var certificate: JsonField<String> = JsonMissing.of()
             private var clientDeviceId: JsonField<String> = JsonMissing.of()
@@ -430,7 +430,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var cardToken: String? = null
         private var body: CardProvisionBody.Builder = CardProvisionBody.builder()

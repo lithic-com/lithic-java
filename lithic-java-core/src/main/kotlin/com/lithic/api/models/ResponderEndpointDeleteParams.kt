@@ -17,7 +17,7 @@ import java.util.Optional
 
 /** Disenroll a responder endpoint */
 class ResponderEndpointDeleteParams
-constructor(
+private constructor(
     private val type: Type,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -55,7 +55,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var type: Type? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

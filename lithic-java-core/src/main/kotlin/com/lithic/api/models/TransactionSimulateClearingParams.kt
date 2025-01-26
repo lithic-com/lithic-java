@@ -27,7 +27,7 @@ import java.util.Optional
  * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
  */
 class TransactionSimulateClearingParams
-constructor(
+private constructor(
     private val body: TransactionSimulateClearingBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -144,7 +144,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long> = JsonMissing.of()
@@ -244,7 +244,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransactionSimulateClearingBody.Builder =
             TransactionSimulateClearingBody.builder()

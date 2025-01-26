@@ -159,7 +159,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var availableAmount: JsonField<Long>? = null
         private var created: JsonField<OffsetDateTime>? = null

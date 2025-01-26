@@ -17,7 +17,7 @@ import java.util.Optional
 
 /** List all the message attempts for a given event. */
 class EventListAttemptsParams
-constructor(
+private constructor(
     private val eventToken: String,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
@@ -98,7 +98,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventToken: String? = null
         private var begin: OffsetDateTime? = null

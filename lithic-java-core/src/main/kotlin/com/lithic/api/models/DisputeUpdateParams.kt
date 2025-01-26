@@ -24,7 +24,7 @@ import java.util.Optional
 
 /** Update dispute. Can only be modified if status is `NEW`. */
 class DisputeUpdateParams
-constructor(
+private constructor(
     private val disputeToken: String,
     private val body: DisputeUpdateBody,
     private val additionalHeaders: Headers,
@@ -151,7 +151,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long> = JsonMissing.of()
             private var customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -252,7 +252,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var disputeToken: String? = null
         private var body: DisputeUpdateBody.Builder = DisputeUpdateBody.builder()

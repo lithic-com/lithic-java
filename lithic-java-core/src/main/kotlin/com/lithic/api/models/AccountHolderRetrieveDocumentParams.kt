@@ -24,7 +24,7 @@ import java.util.Objects
  * corresponding `image_type`.
  */
 class AccountHolderRetrieveDocumentParams
-constructor(
+private constructor(
     private val accountHolderToken: String,
     private val documentToken: String,
     private val additionalHeaders: Headers,
@@ -59,7 +59,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var accountHolderToken: String? = null
         private var documentToken: String? = null

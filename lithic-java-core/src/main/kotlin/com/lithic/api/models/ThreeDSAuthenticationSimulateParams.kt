@@ -27,7 +27,7 @@ import java.util.Optional
  * decisioning endpoint to be set up properly (respond with a valid JSON).
  */
 class ThreeDSAuthenticationSimulateParams
-constructor(
+private constructor(
     private val body: ThreeDSAuthenticationSimulateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -145,7 +145,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var merchant: JsonField<Merchant>? = null
             private var pan: JsonField<String>? = null
@@ -251,7 +251,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: ThreeDSAuthenticationSimulateBody.Builder =
             ThreeDSAuthenticationSimulateBody.builder()
@@ -508,7 +508,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var id: JsonField<String>? = null
             private var country: JsonField<String>? = null
@@ -665,7 +665,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var currency: JsonField<String>? = null

@@ -22,7 +22,7 @@ import java.util.Optional
 
 /** Reverse a management operation */
 class ManagementOperationReverseParams
-constructor(
+private constructor(
     private val managementOperationToken: String,
     private val body: ManagementOperationReverseBody,
     private val additionalHeaders: Headers,
@@ -105,7 +105,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
             private var memo: JsonField<String> = JsonMissing.of()
@@ -183,7 +183,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var managementOperationToken: String? = null
         private var body: ManagementOperationReverseBody.Builder =

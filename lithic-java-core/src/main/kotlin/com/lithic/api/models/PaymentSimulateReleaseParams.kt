@@ -20,7 +20,7 @@ import java.util.Objects
 
 /** Simulates a release of a Payment. */
 class PaymentSimulateReleaseParams
-constructor(
+private constructor(
     private val body: PaymentSimulateReleaseBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -85,7 +85,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var paymentToken: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -157,7 +157,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: PaymentSimulateReleaseBody.Builder = PaymentSimulateReleaseBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()

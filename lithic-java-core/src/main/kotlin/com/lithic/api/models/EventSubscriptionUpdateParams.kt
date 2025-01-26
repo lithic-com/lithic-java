@@ -23,7 +23,7 @@ import java.util.Optional
 
 /** Update an event subscription. */
 class EventSubscriptionUpdateParams
-constructor(
+private constructor(
     private val eventSubscriptionToken: String,
     private val body: EventSubscriptionUpdateBody,
     private val additionalHeaders: Headers,
@@ -160,7 +160,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var url: JsonField<String>? = null
             private var description: JsonField<String> = JsonMissing.of()
@@ -284,7 +284,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
         private var body: EventSubscriptionUpdateBody.Builder =

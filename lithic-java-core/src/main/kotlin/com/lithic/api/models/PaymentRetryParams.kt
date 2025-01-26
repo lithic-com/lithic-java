@@ -13,7 +13,7 @@ import java.util.Optional
 
 /** Retry an origination which has been returned. */
 class PaymentRetryParams
-constructor(
+private constructor(
     private val paymentToken: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -51,7 +51,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var paymentToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()

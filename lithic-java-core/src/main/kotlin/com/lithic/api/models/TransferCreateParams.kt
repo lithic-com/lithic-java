@@ -21,7 +21,7 @@ import java.util.Optional
 
 /** Transfer funds between two financial accounts or between a financial account and card */
 class TransferCreateParams
-constructor(
+private constructor(
     private val body: TransferCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -194,7 +194,7 @@ constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
             private var from: JsonField<String>? = null
@@ -323,7 +323,7 @@ constructor(
     }
 
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var body: TransferCreateBody.Builder = TransferCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
