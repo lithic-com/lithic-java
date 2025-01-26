@@ -49,6 +49,12 @@ import com.lithic.api.services.blocking.TransferService
  */
 interface LithicClient {
 
+    /**
+     * Returns a version of this client that uses asynchronous execution.
+     *
+     * The returned client shares its resources, like its connection pool and thread pools, with
+     * this client.
+     */
     fun async(): LithicClientAsync
 
     fun accounts(): AccountService
