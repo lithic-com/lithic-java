@@ -78,6 +78,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AccountListParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

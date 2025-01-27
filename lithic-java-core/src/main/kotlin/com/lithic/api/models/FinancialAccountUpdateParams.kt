@@ -90,6 +90,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [FinancialAccountUpdateBody]. */
         class Builder internal constructor() {
 
             private var nickname: JsonField<String> = JsonMissing.of()
@@ -154,6 +155,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [FinancialAccountUpdateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

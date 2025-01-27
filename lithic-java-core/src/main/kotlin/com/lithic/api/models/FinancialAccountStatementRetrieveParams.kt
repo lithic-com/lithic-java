@@ -46,6 +46,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [FinancialAccountStatementRetrieveParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

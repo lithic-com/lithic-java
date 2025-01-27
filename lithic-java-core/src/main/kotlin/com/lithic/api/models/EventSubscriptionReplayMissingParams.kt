@@ -82,6 +82,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [EventSubscriptionReplayMissingParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

@@ -54,6 +54,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [Carrier]. */
     class Builder internal constructor() {
 
         private var qrCodeUrl: JsonField<String> = JsonMissing.of()

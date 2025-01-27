@@ -50,6 +50,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [DisputeDeleteParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

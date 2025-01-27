@@ -86,6 +86,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [TransactionSimulateReturnReversalBody]. */
         class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
@@ -157,6 +158,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionSimulateReturnReversalParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

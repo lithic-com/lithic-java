@@ -58,6 +58,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthenticationSimulateResponse]. */
     class Builder internal constructor() {
 
         private var token: JsonField<String> = JsonMissing.of()

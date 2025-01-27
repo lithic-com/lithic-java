@@ -113,6 +113,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [CreditProductPrimeRateCreateBody]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -194,6 +195,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CreditProductPrimeRateCreateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

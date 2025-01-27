@@ -55,6 +55,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [V2ReportResponse]. */
     class Builder internal constructor() {
 
         private var reportToken: JsonField<String> = JsonMissing.of()

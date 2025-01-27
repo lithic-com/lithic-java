@@ -78,6 +78,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CardSpendLimits]. */
     class Builder internal constructor() {
 
         private var availableSpendLimit: JsonField<AvailableSpendLimit>? = null
@@ -215,6 +216,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [AvailableSpendLimit]. */
         class Builder internal constructor() {
 
             private var annually: JsonField<Long> = JsonMissing.of()
@@ -371,6 +373,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [SpendLimit]. */
         class Builder internal constructor() {
 
             private var annually: JsonField<Long> = JsonMissing.of()
@@ -527,6 +530,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [SpendVelocity]. */
         class Builder internal constructor() {
 
             private var annually: JsonField<Long> = JsonMissing.of()

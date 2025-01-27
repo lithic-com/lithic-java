@@ -52,6 +52,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ApiStatus]. */
     class Builder internal constructor() {
 
         private var message: JsonField<String> = JsonMissing.of()

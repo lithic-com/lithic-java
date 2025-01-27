@@ -52,6 +52,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TokenizationRetrieveResponse]. */
     class Builder internal constructor() {
 
         private var data: JsonField<Tokenization> = JsonMissing.of()
