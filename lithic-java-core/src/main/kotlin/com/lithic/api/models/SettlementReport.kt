@@ -230,6 +230,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [SettlementReport]. */
     class Builder internal constructor() {
 
         private var created: JsonField<OffsetDateTime>? = null

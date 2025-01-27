@@ -43,6 +43,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionRetrieveParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

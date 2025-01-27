@@ -54,6 +54,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ConditionalBlockParameters]. */
     class Builder internal constructor() {
 
         private var conditions: JsonField<MutableList<AuthRuleCondition>>? = null

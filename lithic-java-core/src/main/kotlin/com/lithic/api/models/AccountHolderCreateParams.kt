@@ -119,6 +119,10 @@ private constructor(
             fun ofKycExempt(kycExempt: KycExempt) = AccountHolderCreateBody(kycExempt = kycExempt)
         }
 
+        /**
+         * An interface that defines how to map each variant of [AccountHolderCreateBody] to a value
+         * of type [T].
+         */
         interface Visitor<out T> {
 
             fun visitKyb(kyb: Kyb): T
@@ -127,6 +131,16 @@ private constructor(
 
             fun visitKycExempt(kycExempt: KycExempt): T
 
+            /**
+             * Maps an unknown variant of [AccountHolderCreateBody] to a value of type [T].
+             *
+             * An instance of [AccountHolderCreateBody] can contain an unknown variant if it was
+             * deserialized from data that doesn't match any known variant. For example, if the SDK
+             * is on an older version than the API, then the API may respond with new variants that
+             * the SDK is unaware of.
+             *
+             * @throws LithicInvalidDataException in the default implementation.
+             */
             fun unknown(json: JsonValue?): T {
                 throw LithicInvalidDataException("Unknown AccountHolderCreateBody: $json")
             }
@@ -178,6 +192,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AccountHolderCreateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

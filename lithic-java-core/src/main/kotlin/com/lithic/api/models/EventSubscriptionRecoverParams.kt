@@ -77,6 +77,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [EventSubscriptionRecoverParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

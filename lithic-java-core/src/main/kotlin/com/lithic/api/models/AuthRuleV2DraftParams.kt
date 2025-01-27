@@ -113,6 +113,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [AuthRuleV2DraftBody]. */
         class Builder internal constructor() {
 
             private var parameters: JsonField<Parameters> = JsonMissing.of()
@@ -191,6 +192,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthRuleV2DraftParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
@@ -445,12 +447,25 @@ private constructor(
                 Parameters(velocityLimitParams = velocityLimitParams)
         }
 
+        /**
+         * An interface that defines how to map each variant of [Parameters] to a value of type [T].
+         */
         interface Visitor<out T> {
 
             fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
             fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
+            /**
+             * Maps an unknown variant of [Parameters] to a value of type [T].
+             *
+             * An instance of [Parameters] can contain an unknown variant if it was deserialized
+             * from data that doesn't match any known variant. For example, if the SDK is on an
+             * older version than the API, then the API may respond with new variants that the SDK
+             * is unaware of.
+             *
+             * @throws LithicInvalidDataException in the default implementation.
+             */
             fun unknown(json: JsonValue?): T {
                 throw LithicInvalidDataException("Unknown Parameters: $json")
             }

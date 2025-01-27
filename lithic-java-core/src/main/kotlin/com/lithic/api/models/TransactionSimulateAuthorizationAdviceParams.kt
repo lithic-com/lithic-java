@@ -114,6 +114,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [TransactionSimulateAuthorizationAdviceBody]. */
         class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
@@ -201,6 +202,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionSimulateAuthorizationAdviceParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

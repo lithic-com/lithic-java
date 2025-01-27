@@ -89,6 +89,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ExternalBankAccountAddress]. */
     class Builder internal constructor() {
 
         private var address1: JsonField<String>? = null

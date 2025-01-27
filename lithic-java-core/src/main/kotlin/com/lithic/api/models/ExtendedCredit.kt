@@ -54,6 +54,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ExtendedCredit]. */
     class Builder internal constructor() {
 
         private var creditExtended: JsonField<Long>? = null
