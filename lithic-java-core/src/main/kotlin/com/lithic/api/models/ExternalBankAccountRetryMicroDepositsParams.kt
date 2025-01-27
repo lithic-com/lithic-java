@@ -93,6 +93,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [ExternalBankAccountRetryMicroDepositsBody]. */
         class Builder internal constructor() {
 
             private var financialAccountToken: JsonField<String> = JsonMissing.of()
@@ -166,6 +167,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ExternalBankAccountRetryMicroDepositsParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

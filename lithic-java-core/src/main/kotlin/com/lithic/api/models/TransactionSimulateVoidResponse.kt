@@ -57,6 +57,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionSimulateVoidResponse]. */
     class Builder internal constructor() {
 
         private var debuggingRequestId: JsonField<String> = JsonMissing.of()

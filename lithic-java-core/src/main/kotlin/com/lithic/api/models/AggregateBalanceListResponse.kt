@@ -159,6 +159,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AggregateBalanceListResponse]. */
     class Builder internal constructor() {
 
         private var availableAmount: JsonField<Long>? = null

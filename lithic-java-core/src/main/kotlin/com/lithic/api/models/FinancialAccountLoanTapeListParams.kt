@@ -85,6 +85,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [FinancialAccountLoanTapeListParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

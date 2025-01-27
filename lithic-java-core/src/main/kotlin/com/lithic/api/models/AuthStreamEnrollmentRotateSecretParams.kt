@@ -44,6 +44,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthStreamEnrollmentRotateSecretParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

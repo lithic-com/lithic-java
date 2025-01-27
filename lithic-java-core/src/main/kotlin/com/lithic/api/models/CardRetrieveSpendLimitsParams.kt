@@ -45,6 +45,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CardRetrieveSpendLimitsParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

@@ -143,6 +143,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthRuleCondition]. */
     class Builder internal constructor() {
 
         private var attribute: JsonField<ConditionalAttribute> = JsonMissing.of()
@@ -286,6 +287,14 @@ private constructor(
         private val value: JsonField<String>,
     ) : Enum {
 
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         companion object {
@@ -305,6 +314,7 @@ private constructor(
             @JvmStatic fun of(value: String) = Operation(JsonField.of(value))
         }
 
+        /** An enum containing [Operation]'s known values. */
         enum class Known {
             IS_ONE_OF,
             IS_NOT_ONE_OF,
@@ -314,6 +324,15 @@ private constructor(
             IS_LESS_THAN,
         }
 
+        /**
+         * An enum containing [Operation]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Operation] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
         enum class Value {
             IS_ONE_OF,
             IS_NOT_ONE_OF,
@@ -321,9 +340,19 @@ private constructor(
             DOES_NOT_MATCH,
             IS_GREATER_THAN,
             IS_LESS_THAN,
+            /**
+             * An enum member indicating that [Operation] was instantiated with an unknown value.
+             */
             _UNKNOWN,
         }
 
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
         fun value(): Value =
             when (this) {
                 IS_ONE_OF -> Value.IS_ONE_OF
@@ -335,6 +364,15 @@ private constructor(
                 else -> Value._UNKNOWN
             }
 
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
         fun known(): Known =
             when (this) {
                 IS_ONE_OF -> Known.IS_ONE_OF
@@ -457,6 +495,7 @@ private constructor(
             @JvmStatic fun ofStrings(strings: List<String>) = Value(strings = strings)
         }
 
+        /** An interface that defines how to map each variant of [Value] to a value of type [T]. */
         interface Visitor<out T> {
 
             /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
@@ -468,6 +507,16 @@ private constructor(
             /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
             fun visitStrings(strings: List<String>): T
 
+            /**
+             * Maps an unknown variant of [Value] to a value of type [T].
+             *
+             * An instance of [Value] can contain an unknown variant if it was deserialized from
+             * data that doesn't match any known variant. For example, if the SDK is on an older
+             * version than the API, then the API may respond with new variants that the SDK is
+             * unaware of.
+             *
+             * @throws LithicInvalidDataException in the default implementation.
+             */
             fun unknown(json: JsonValue?): T {
                 throw LithicInvalidDataException("Unknown Value: $json")
             }

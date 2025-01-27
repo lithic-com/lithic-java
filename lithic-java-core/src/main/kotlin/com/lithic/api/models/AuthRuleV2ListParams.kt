@@ -66,6 +66,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthRuleV2ListParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
