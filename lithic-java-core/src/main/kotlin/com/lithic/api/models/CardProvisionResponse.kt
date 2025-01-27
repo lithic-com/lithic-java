@@ -55,6 +55,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CardProvisionResponse]. */
     class Builder internal constructor() {
 
         private var provisioningPayload: JsonField<String> = JsonMissing.of()

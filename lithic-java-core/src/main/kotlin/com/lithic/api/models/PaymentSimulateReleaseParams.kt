@@ -85,6 +85,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [PaymentSimulateReleaseBody]. */
         class Builder internal constructor() {
 
             private var paymentToken: JsonField<String>? = null
@@ -156,6 +157,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [PaymentSimulateReleaseParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

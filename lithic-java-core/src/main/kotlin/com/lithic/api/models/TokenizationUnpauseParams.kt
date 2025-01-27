@@ -57,6 +57,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TokenizationUnpauseParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

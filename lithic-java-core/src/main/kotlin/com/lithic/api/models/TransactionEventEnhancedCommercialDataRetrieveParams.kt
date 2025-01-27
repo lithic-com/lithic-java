@@ -42,6 +42,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionEventEnhancedCommercialDataRetrieveParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

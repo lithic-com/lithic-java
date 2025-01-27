@@ -118,6 +118,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [ThreeDSDecisioningChallengeResponseBody]. */
         class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
@@ -209,6 +210,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ThreeDSDecisioningChallengeResponseParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

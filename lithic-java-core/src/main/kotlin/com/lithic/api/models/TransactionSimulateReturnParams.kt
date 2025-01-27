@@ -118,6 +118,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [TransactionSimulateReturnBody]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
@@ -206,6 +207,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TransactionSimulateReturnParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

@@ -128,6 +128,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CardProgram]. */
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null

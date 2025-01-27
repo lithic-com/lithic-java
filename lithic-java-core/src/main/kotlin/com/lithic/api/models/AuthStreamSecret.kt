@@ -54,6 +54,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthStreamSecret]. */
     class Builder internal constructor() {
 
         private var secret: JsonField<String> = JsonMissing.of()

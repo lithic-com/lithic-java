@@ -133,6 +133,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [AuthRuleV2BacktestCreateBody]. */
         class Builder internal constructor() {
 
             private var end: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -211,6 +212,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthRuleV2BacktestCreateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

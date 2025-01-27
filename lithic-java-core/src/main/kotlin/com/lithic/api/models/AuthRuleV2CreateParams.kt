@@ -161,6 +161,10 @@ private constructor(
                 )
         }
 
+        /**
+         * An interface that defines how to map each variant of [AuthRuleV2CreateBody] to a value of
+         * type [T].
+         */
         interface Visitor<out T> {
 
             fun visitCreateAuthRuleRequestAccountTokens(
@@ -175,6 +179,16 @@ private constructor(
                 createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
             ): T
 
+            /**
+             * Maps an unknown variant of [AuthRuleV2CreateBody] to a value of type [T].
+             *
+             * An instance of [AuthRuleV2CreateBody] can contain an unknown variant if it was
+             * deserialized from data that doesn't match any known variant. For example, if the SDK
+             * is on an older version than the API, then the API may respond with new variants that
+             * the SDK is unaware of.
+             *
+             * @throws LithicInvalidDataException in the default implementation.
+             */
             fun unknown(json: JsonValue?): T {
                 throw LithicInvalidDataException("Unknown AuthRuleV2CreateBody: $json")
             }
@@ -235,6 +249,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AuthRuleV2CreateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
@@ -456,6 +471,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [CreateAuthRuleRequestAccountTokens]. */
         class Builder internal constructor() {
 
             private var accountTokens: JsonField<MutableList<String>>? = null
@@ -652,12 +668,26 @@ private constructor(
                     Parameters(velocityLimitParams = velocityLimitParams)
             }
 
+            /**
+             * An interface that defines how to map each variant of [Parameters] to a value of type
+             * [T].
+             */
             interface Visitor<out T> {
 
                 fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
+                /**
+                 * Maps an unknown variant of [Parameters] to a value of type [T].
+                 *
+                 * An instance of [Parameters] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws LithicInvalidDataException in the default implementation.
+                 */
                 fun unknown(json: JsonValue?): T {
                     throw LithicInvalidDataException("Unknown Parameters: $json")
                 }
@@ -709,6 +739,14 @@ private constructor(
             private val value: JsonField<String>,
         ) : Enum {
 
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             companion object {
@@ -720,17 +758,38 @@ private constructor(
                 @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
             }
 
+            /** An enum containing [AuthRuleType]'s known values. */
             enum class Known {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
             }
 
+            /**
+             * An enum containing [AuthRuleType]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [AuthRuleType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
             enum class Value {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
+                /**
+                 * An enum member indicating that [AuthRuleType] was instantiated with an unknown
+                 * value.
+                 */
                 _UNKNOWN,
             }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
             fun value(): Value =
                 when (this) {
                     CONDITIONAL_BLOCK -> Value.CONDITIONAL_BLOCK
@@ -738,6 +797,15 @@ private constructor(
                     else -> Value._UNKNOWN
                 }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
             fun known(): Known =
                 when (this) {
                     CONDITIONAL_BLOCK -> Known.CONDITIONAL_BLOCK
@@ -852,6 +920,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [CreateAuthRuleRequestCardTokens]. */
         class Builder internal constructor() {
 
             private var cardTokens: JsonField<MutableList<String>>? = null
@@ -1046,12 +1115,26 @@ private constructor(
                     Parameters(velocityLimitParams = velocityLimitParams)
             }
 
+            /**
+             * An interface that defines how to map each variant of [Parameters] to a value of type
+             * [T].
+             */
             interface Visitor<out T> {
 
                 fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
+                /**
+                 * Maps an unknown variant of [Parameters] to a value of type [T].
+                 *
+                 * An instance of [Parameters] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws LithicInvalidDataException in the default implementation.
+                 */
                 fun unknown(json: JsonValue?): T {
                     throw LithicInvalidDataException("Unknown Parameters: $json")
                 }
@@ -1103,6 +1186,14 @@ private constructor(
             private val value: JsonField<String>,
         ) : Enum {
 
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             companion object {
@@ -1114,17 +1205,38 @@ private constructor(
                 @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
             }
 
+            /** An enum containing [AuthRuleType]'s known values. */
             enum class Known {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
             }
 
+            /**
+             * An enum containing [AuthRuleType]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [AuthRuleType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
             enum class Value {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
+                /**
+                 * An enum member indicating that [AuthRuleType] was instantiated with an unknown
+                 * value.
+                 */
                 _UNKNOWN,
             }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
             fun value(): Value =
                 when (this) {
                     CONDITIONAL_BLOCK -> Value.CONDITIONAL_BLOCK
@@ -1132,6 +1244,15 @@ private constructor(
                     else -> Value._UNKNOWN
                 }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
             fun known(): Known =
                 when (this) {
                     CONDITIONAL_BLOCK -> Known.CONDITIONAL_BLOCK
@@ -1259,6 +1380,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [CreateAuthRuleRequestProgramLevel]. */
         class Builder internal constructor() {
 
             private var programLevel: JsonField<Boolean>? = null
@@ -1466,12 +1588,26 @@ private constructor(
                     Parameters(velocityLimitParams = velocityLimitParams)
             }
 
+            /**
+             * An interface that defines how to map each variant of [Parameters] to a value of type
+             * [T].
+             */
             interface Visitor<out T> {
 
                 fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
                 fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
+                /**
+                 * Maps an unknown variant of [Parameters] to a value of type [T].
+                 *
+                 * An instance of [Parameters] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws LithicInvalidDataException in the default implementation.
+                 */
                 fun unknown(json: JsonValue?): T {
                     throw LithicInvalidDataException("Unknown Parameters: $json")
                 }
@@ -1523,6 +1659,14 @@ private constructor(
             private val value: JsonField<String>,
         ) : Enum {
 
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             companion object {
@@ -1534,17 +1678,38 @@ private constructor(
                 @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
             }
 
+            /** An enum containing [AuthRuleType]'s known values. */
             enum class Known {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
             }
 
+            /**
+             * An enum containing [AuthRuleType]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [AuthRuleType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
             enum class Value {
                 CONDITIONAL_BLOCK,
                 VELOCITY_LIMIT,
+                /**
+                 * An enum member indicating that [AuthRuleType] was instantiated with an unknown
+                 * value.
+                 */
                 _UNKNOWN,
             }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
             fun value(): Value =
                 when (this) {
                     CONDITIONAL_BLOCK -> Value.CONDITIONAL_BLOCK
@@ -1552,6 +1717,15 @@ private constructor(
                     else -> Value._UNKNOWN
                 }
 
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
             fun known(): Known =
                 when (this) {
                     CONDITIONAL_BLOCK -> Known.CONDITIONAL_BLOCK

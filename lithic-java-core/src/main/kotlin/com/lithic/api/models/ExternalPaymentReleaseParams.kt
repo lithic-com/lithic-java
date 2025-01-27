@@ -105,6 +105,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [ExternalPaymentReleaseBody]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -181,6 +182,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ExternalPaymentReleaseParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

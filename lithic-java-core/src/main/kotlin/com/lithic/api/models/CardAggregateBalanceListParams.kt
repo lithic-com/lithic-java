@@ -47,6 +47,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CardAggregateBalanceListParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 

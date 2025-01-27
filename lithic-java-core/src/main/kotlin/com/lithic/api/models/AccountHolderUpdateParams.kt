@@ -176,6 +176,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
+        /** A builder for [AccountHolderUpdateBody]. */
         class Builder internal constructor() {
 
             private var businessAccountToken: JsonField<String> = JsonMissing.of()
@@ -289,6 +290,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [AccountHolderUpdateParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
