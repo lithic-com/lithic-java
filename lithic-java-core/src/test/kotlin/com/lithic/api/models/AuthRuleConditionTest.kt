@@ -18,6 +18,6 @@ class AuthRuleConditionTest {
         assertThat(authRuleCondition).isNotNull
         assertThat(authRuleCondition.attribute()).contains(ConditionalAttribute.MCC)
         assertThat(authRuleCondition.operation()).contains(AuthRuleCondition.Operation.IS_ONE_OF)
-        assertThat(authRuleCondition.value()).contains(AuthRuleCondition.Value.ofString("string"))
+        assertThat(authRuleCondition.value()).contains(AuthRuleCondition.Value.ofRegex("string"))
     }
 }

@@ -7,6 +7,7 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AuthRuleCondition
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
+import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
@@ -94,9 +95,14 @@ class V2ServiceTest {
         val v2UpdateResponse =
             v2Service.update(
                 AuthRuleV2UpdateParams.builder()
+                    .forAccountLevelRule(
+                        AuthRuleV2UpdateParams.AccountLevelRule.builder()
+                            .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                            .name("name")
+                            .state(AuthRuleV2UpdateParams.AccountLevelRule.State.INACTIVE)
+                            .build()
+                    )
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .name("name")
-                    .state(AuthRuleV2UpdateParams.State.INACTIVE)
                     .build()
             )
         println(v2UpdateResponse)
@@ -114,6 +120,21 @@ class V2ServiceTest {
         val response = v2Service.list(AuthRuleV2ListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
+    }
+
+    @Test
+    fun callDelete() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val v2Service = client.authRules().v2()
+        v2Service.delete(
+            AuthRuleV2DeleteParams.builder()
+                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
     }
 
     @Test

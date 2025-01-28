@@ -11,11 +11,8 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-/**
- * Promotes the draft version of an authorization rule to the currently active version such that it
- * is enforced in the authorization stream.
- */
-class AuthRuleV2PromoteParams
+/** Deletes a V2 authorization rule */
+class AuthRuleV2DeleteParams
 private constructor(
     private val authRuleToken: String,
     private val additionalHeaders: Headers,
@@ -53,7 +50,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [AuthRuleV2PromoteParams]. */
+    /** A builder for [AuthRuleV2DeleteParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
@@ -63,12 +60,12 @@ private constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(authRuleV2PromoteParams: AuthRuleV2PromoteParams) = apply {
-            authRuleToken = authRuleV2PromoteParams.authRuleToken
-            additionalHeaders = authRuleV2PromoteParams.additionalHeaders.toBuilder()
-            additionalQueryParams = authRuleV2PromoteParams.additionalQueryParams.toBuilder()
+        internal fun from(authRuleV2DeleteParams: AuthRuleV2DeleteParams) = apply {
+            authRuleToken = authRuleV2DeleteParams.authRuleToken
+            additionalHeaders = authRuleV2DeleteParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2DeleteParams.additionalQueryParams.toBuilder()
             additionalBodyProperties =
-                authRuleV2PromoteParams.additionalBodyProperties.toMutableMap()
+                authRuleV2DeleteParams.additionalBodyProperties.toMutableMap()
         }
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
@@ -193,8 +190,8 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
-        fun build(): AuthRuleV2PromoteParams =
-            AuthRuleV2PromoteParams(
+        fun build(): AuthRuleV2DeleteParams =
+            AuthRuleV2DeleteParams(
                 checkRequired("authRuleToken", authRuleToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -207,11 +204,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2PromoteParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2DeleteParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
-        "AuthRuleV2PromoteParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AuthRuleV2DeleteParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

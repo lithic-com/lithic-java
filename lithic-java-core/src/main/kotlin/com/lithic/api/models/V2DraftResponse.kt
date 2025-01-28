@@ -365,13 +365,13 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         fun parameters(): Parameters = parameters.getRequired("parameters")
 
         /** The version of the rule, this is incremented whenever the rule's parameters change. */
         fun version(): Long = version.getRequired("version")
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         @JsonProperty("parameters")
         @ExcludeMissing
         fun _parameters(): JsonField<Parameters> = parameters
@@ -416,19 +416,19 @@ private constructor(
                 additionalProperties = currentVersion.additionalProperties.toMutableMap()
             }
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(parameters: JsonField<Parameters>) = apply {
                 this.parameters = parameters
             }
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(conditionalBlock: ConditionalBlockParameters) =
                 parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(velocityLimitParams: VelocityLimitParams) =
                 parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
@@ -469,7 +469,7 @@ private constructor(
                 )
         }
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         @JsonDeserialize(using = Parameters.Deserializer::class)
         @JsonSerialize(using = Parameters.Serializer::class)
         class Parameters
@@ -657,13 +657,13 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         fun parameters(): Parameters = parameters.getRequired("parameters")
 
         /** The version of the rule, this is incremented whenever the rule's parameters change. */
         fun version(): Long = version.getRequired("version")
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         @JsonProperty("parameters")
         @ExcludeMissing
         fun _parameters(): JsonField<Parameters> = parameters
@@ -708,19 +708,19 @@ private constructor(
                 additionalProperties = draftVersion.additionalProperties.toMutableMap()
             }
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(parameters: JsonField<Parameters>) = apply {
                 this.parameters = parameters
             }
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(conditionalBlock: ConditionalBlockParameters) =
                 parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
-            /** Parameters for the current version of the Auth Rule */
+            /** Parameters for the Auth Rule */
             fun parameters(velocityLimitParams: VelocityLimitParams) =
                 parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
@@ -761,7 +761,7 @@ private constructor(
                 )
         }
 
-        /** Parameters for the current version of the Auth Rule */
+        /** Parameters for the Auth Rule */
         @JsonDeserialize(using = Parameters.Deserializer::class)
         @JsonSerialize(using = Parameters.Serializer::class)
         class Parameters
