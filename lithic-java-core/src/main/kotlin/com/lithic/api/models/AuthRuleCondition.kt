@@ -244,13 +244,14 @@ private constructor(
         fun value(value: JsonField<Value>) = apply { this.value = value }
 
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-        fun value(string: String) = value(Value.ofString(string))
+        fun value(regex: String) = value(Value.ofRegex(regex))
 
         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-        fun value(integer: Long) = value(Value.ofInteger(integer))
+        fun value(number: Long) = value(Value.ofNumber(number))
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-        fun valueOfStrings(strings: List<String>) = value(Value.ofStrings(strings))
+        fun valueOfListOfStrings(listOfStrings: List<String>) =
+            value(Value.ofListOfStrings(listOfStrings))
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -404,43 +405,43 @@ private constructor(
     @JsonSerialize(using = Value.Serializer::class)
     class Value
     private constructor(
-        private val string: String? = null,
-        private val integer: Long? = null,
-        private val strings: List<String>? = null,
+        private val regex: String? = null,
+        private val number: Long? = null,
+        private val listOfStrings: List<String>? = null,
         private val _json: JsonValue? = null,
     ) {
 
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-        fun string(): Optional<String> = Optional.ofNullable(string)
+        fun regex(): Optional<String> = Optional.ofNullable(regex)
 
         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-        fun integer(): Optional<Long> = Optional.ofNullable(integer)
+        fun number(): Optional<Long> = Optional.ofNullable(number)
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-        fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
+        fun listOfStrings(): Optional<List<String>> = Optional.ofNullable(listOfStrings)
 
-        fun isString(): Boolean = string != null
+        fun isRegex(): Boolean = regex != null
 
-        fun isInteger(): Boolean = integer != null
+        fun isNumber(): Boolean = number != null
 
-        fun isStrings(): Boolean = strings != null
+        fun isListOfStrings(): Boolean = listOfStrings != null
 
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-        fun asString(): String = string.getOrThrow("string")
+        fun asRegex(): String = regex.getOrThrow("regex")
 
         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-        fun asInteger(): Long = integer.getOrThrow("integer")
+        fun asNumber(): Long = number.getOrThrow("number")
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-        fun asStrings(): List<String> = strings.getOrThrow("strings")
+        fun asListOfStrings(): List<String> = listOfStrings.getOrThrow("listOfStrings")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
         fun <T> accept(visitor: Visitor<T>): T {
             return when {
-                string != null -> visitor.visitString(string)
-                integer != null -> visitor.visitInteger(integer)
-                strings != null -> visitor.visitStrings(strings)
+                regex != null -> visitor.visitRegex(regex)
+                number != null -> visitor.visitNumber(number)
+                listOfStrings != null -> visitor.visitListOfStrings(listOfStrings)
                 else -> visitor.unknown(_json)
             }
         }
@@ -454,11 +455,11 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitString(string: String) {}
+                    override fun visitRegex(regex: String) {}
 
-                    override fun visitInteger(integer: Long) {}
+                    override fun visitNumber(number: Long) {}
 
-                    override fun visitStrings(strings: List<String>) {}
+                    override fun visitListOfStrings(listOfStrings: List<String>) {}
                 }
             )
             validated = true
@@ -469,16 +470,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Value && string == other.string && integer == other.integer && strings == other.strings /* spotless:on */
+            return /* spotless:off */ other is Value && regex == other.regex && number == other.number && listOfStrings == other.listOfStrings /* spotless:on */
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, integer, strings) /* spotless:on */
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(regex, number, listOfStrings) /* spotless:on */
 
         override fun toString(): String =
             when {
-                string != null -> "Value{string=$string}"
-                integer != null -> "Value{integer=$integer}"
-                strings != null -> "Value{strings=$strings}"
+                regex != null -> "Value{regex=$regex}"
+                number != null -> "Value{number=$number}"
+                listOfStrings != null -> "Value{listOfStrings=$listOfStrings}"
                 _json != null -> "Value{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Value")
             }
@@ -486,26 +487,27 @@ private constructor(
         companion object {
 
             /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-            @JvmStatic fun ofString(string: String) = Value(string = string)
+            @JvmStatic fun ofRegex(regex: String) = Value(regex = regex)
 
             /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-            @JvmStatic fun ofInteger(integer: Long) = Value(integer = integer)
+            @JvmStatic fun ofNumber(number: Long) = Value(number = number)
 
             /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-            @JvmStatic fun ofStrings(strings: List<String>) = Value(strings = strings)
+            @JvmStatic
+            fun ofListOfStrings(listOfStrings: List<String>) = Value(listOfStrings = listOfStrings)
         }
 
         /** An interface that defines how to map each variant of [Value] to a value of type [T]. */
         interface Visitor<out T> {
 
             /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-            fun visitString(string: String): T
+            fun visitRegex(regex: String): T
 
             /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-            fun visitInteger(integer: Long): T
+            fun visitNumber(number: Long): T
 
             /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-            fun visitStrings(strings: List<String>): T
+            fun visitListOfStrings(listOfStrings: List<String>): T
 
             /**
              * Maps an unknown variant of [Value] to a value of type [T].
@@ -528,13 +530,13 @@ private constructor(
                 val json = JsonValue.fromJsonNode(node)
 
                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
-                    return Value(string = it, _json = json)
+                    return Value(regex = it, _json = json)
                 }
                 tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                    return Value(integer = it, _json = json)
+                    return Value(number = it, _json = json)
                 }
                 tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
-                    return Value(strings = it, _json = json)
+                    return Value(listOfStrings = it, _json = json)
                 }
 
                 return Value(_json = json)
@@ -549,9 +551,9 @@ private constructor(
                 provider: SerializerProvider
             ) {
                 when {
-                    value.string != null -> generator.writeObject(value.string)
-                    value.integer != null -> generator.writeObject(value.integer)
-                    value.strings != null -> generator.writeObject(value.strings)
+                    value.regex != null -> generator.writeObject(value.regex)
+                    value.number != null -> generator.writeObject(value.number)
+                    value.listOfStrings != null -> generator.writeObject(value.listOfStrings)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Value")
                 }
