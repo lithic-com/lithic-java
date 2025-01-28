@@ -7,6 +7,7 @@ package com.lithic.api.services.async.authRules
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
+import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPageAsync
 import com.lithic.api.models.AuthRuleV2ListParams
@@ -35,14 +36,19 @@ interface V2ServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<V2CreateResponse>
 
-    /** Fetches an authorization rule by its token */
+    /** Fetches a V2 authorization rule by its token */
     @JvmOverloads
     fun retrieve(
         params: AuthRuleV2RetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<V2RetrieveResponse>
 
-    /** Updates an authorization rule's properties */
+    /**
+     * Updates a V2 authorization rule's properties
+     *
+     * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided,
+     * this will replace existing associations with the provided list of entities.
+     */
     @JvmOverloads
     fun update(
         params: AuthRuleV2UpdateParams,
@@ -56,10 +62,17 @@ interface V2ServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AuthRuleV2ListPageAsync>
 
+    /** Deletes a V2 authorization rule */
+    @JvmOverloads
+    fun delete(
+        params: AuthRuleV2DeleteParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<Void>
+
     /**
-     * Associates an authorization rules with a card program, the provided account(s) or card(s).
+     * Associates a V2 authorization rule with a card program, the provided account(s) or card(s).
      *
-     * This endpoint will replace any existing associations with the provided list of entities.
+     * Prefer using the `PATCH` method for this operation.
      */
     @JvmOverloads
     fun apply(
@@ -68,7 +81,7 @@ interface V2ServiceAsync {
     ): CompletableFuture<V2ApplyResponse>
 
     /**
-     * Creates a new draft version of an authorization rules that will be ran in shadow mode.
+     * Creates a new draft version of a rule that will be ran in shadow mode.
      *
      * This can also be utilized to reset the draft parameters, causing a draft version to no longer
      * be ran in shadow mode.
@@ -80,7 +93,7 @@ interface V2ServiceAsync {
     ): CompletableFuture<V2DraftResponse>
 
     /**
-     * Promotes a draft version of an authorization rule to the currently active version such that
+     * Promotes the draft version of an authorization rule to the currently active version such that
      * it is enforced in the authorization stream.
      */
     @JvmOverloads

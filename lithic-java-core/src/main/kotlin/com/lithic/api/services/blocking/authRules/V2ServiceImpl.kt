@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking.authRules
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -14,6 +15,7 @@ import com.lithic.api.core.json
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
+import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPage
 import com.lithic.api.models.AuthRuleV2ListParams
@@ -74,7 +76,7 @@ internal constructor(
     private val retrieveHandler: Handler<V2RetrieveResponse> =
         jsonHandler<V2RetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Fetches an authorization rule by its token */
+    /** Fetches a V2 authorization rule by its token */
     override fun retrieve(
         params: AuthRuleV2RetrieveParams,
         requestOptions: RequestOptions
@@ -102,7 +104,12 @@ internal constructor(
     private val updateHandler: Handler<V2UpdateResponse> =
         jsonHandler<V2UpdateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Updates an authorization rule's properties */
+    /**
+     * Updates a V2 authorization rule's properties
+     *
+     * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided,
+     * this will replace existing associations with the provided list of entities.
+     */
     override fun update(
         params: AuthRuleV2UpdateParams,
         requestOptions: RequestOptions
@@ -158,13 +165,32 @@ internal constructor(
         }
     }
 
+    private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+
+    /** Deletes a V2 authorization rule */
+    override fun delete(params: AuthRuleV2DeleteParams, requestOptions: RequestOptions) {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.DELETE)
+                .addPathSegments("v2", "auth_rules", params.getPathParam(0))
+                .putAllQueryParams(clientOptions.queryParams)
+                .replaceAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .replaceAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .build()
+        clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response.use { deleteHandler.handle(it) }
+        }
+    }
+
     private val applyHandler: Handler<V2ApplyResponse> =
         jsonHandler<V2ApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Associates an authorization rules with a card program, the provided account(s) or card(s).
+     * Associates a V2 authorization rule with a card program, the provided account(s) or card(s).
      *
-     * This endpoint will replace any existing associations with the provided list of entities.
+     * Prefer using the `PATCH` method for this operation.
      */
     override fun apply(
         params: AuthRuleV2ApplyParams,
@@ -195,7 +221,7 @@ internal constructor(
         jsonHandler<V2DraftResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Creates a new draft version of an authorization rules that will be ran in shadow mode.
+     * Creates a new draft version of a rule that will be ran in shadow mode.
      *
      * This can also be utilized to reset the draft parameters, causing a draft version to no longer
      * be ran in shadow mode.
@@ -229,7 +255,7 @@ internal constructor(
         jsonHandler<V2PromoteResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Promotes a draft version of an authorization rule to the currently active version such that
+     * Promotes the draft version of an authorization rule to the currently active version such that
      * it is enforced in the authorization stream.
      */
     override fun promote(
