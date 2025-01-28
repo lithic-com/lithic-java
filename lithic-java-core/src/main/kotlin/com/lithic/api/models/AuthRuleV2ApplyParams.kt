@@ -31,9 +31,9 @@ import java.util.Objects
 import java.util.Optional
 
 /**
- * Associates an authorization rules with a card program, the provided account(s) or card(s).
+ * Associates a V2 authorization rule with a card program, the provided account(s) or card(s).
  *
- * This endpoint will replace any existing associations with the provided list of entities.
+ * Prefer using the `PATCH` method for this operation.
  */
 class AuthRuleV2ApplyParams
 private constructor(

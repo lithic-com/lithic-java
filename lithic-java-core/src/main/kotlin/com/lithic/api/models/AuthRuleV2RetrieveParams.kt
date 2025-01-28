@@ -8,7 +8,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
-/** Fetches an authorization rule by its token */
+/** Fetches a V2 authorization rule by its token */
 class AuthRuleV2RetrieveParams
 private constructor(
     private val authRuleToken: String,

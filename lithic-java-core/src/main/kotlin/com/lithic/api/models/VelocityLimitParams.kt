@@ -53,7 +53,7 @@ private constructor(
 
     /**
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-     * value is 10 seconds, and the maximum value is 2678400 seconds.
+     * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      */
     fun period(): Period = period.getRequired("period")
 
@@ -77,7 +77,7 @@ private constructor(
 
     /**
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-     * value is 10 seconds, and the maximum value is 2678400 seconds.
+     * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      */
     @JsonProperty("period") @ExcludeMissing fun _period(): JsonField<Period> = period
 
@@ -149,21 +149,21 @@ private constructor(
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
         fun period(period: Period) = period(JsonField.of(period))
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
         fun period(period: JsonField<Period>) = apply { this.period = period }
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
-        fun period(integer: Long) = period(Period.ofInteger(integer))
+        fun period(trailingWindow: Long) = period(Period.ofTrailingWindow(trailingWindow))
 
         /**
          * The window of time to calculate Spend Velocity over.
@@ -477,22 +477,22 @@ private constructor(
 
     /**
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-     * value is 10 seconds, and the maximum value is 2678400 seconds.
+     * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      */
     @JsonDeserialize(using = Period.Deserializer::class)
     @JsonSerialize(using = Period.Serializer::class)
     class Period
     private constructor(
-        private val integer: Long? = null,
+        private val trailingWindow: Long? = null,
         private val velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow? = null,
         private val _json: JsonValue? = null,
     ) {
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
-        fun integer(): Optional<Long> = Optional.ofNullable(integer)
+        fun trailingWindow(): Optional<Long> = Optional.ofNullable(trailingWindow)
 
         /**
          * The window of time to calculate Spend Velocity over.
@@ -503,15 +503,15 @@ private constructor(
         fun velocityLimitParamsPeriodWindow(): Optional<VelocityLimitParamsPeriodWindow> =
             Optional.ofNullable(velocityLimitParamsPeriodWindow)
 
-        fun isInteger(): Boolean = integer != null
+        fun isTrailingWindow(): Boolean = trailingWindow != null
 
         fun isVelocityLimitParamsPeriodWindow(): Boolean = velocityLimitParamsPeriodWindow != null
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
-        fun asInteger(): Long = integer.getOrThrow("integer")
+        fun asTrailingWindow(): Long = trailingWindow.getOrThrow("trailingWindow")
 
         /**
          * The window of time to calculate Spend Velocity over.
@@ -526,7 +526,7 @@ private constructor(
 
         fun <T> accept(visitor: Visitor<T>): T {
             return when {
-                integer != null -> visitor.visitInteger(integer)
+                trailingWindow != null -> visitor.visitTrailingWindow(trailingWindow)
                 velocityLimitParamsPeriodWindow != null ->
                     visitor.visitVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)
                 else -> visitor.unknown(_json)
@@ -542,7 +542,7 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitInteger(integer: Long) {}
+                    override fun visitTrailingWindow(trailingWindow: Long) {}
 
                     override fun visitVelocityLimitParamsPeriodWindow(
                         velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
@@ -557,14 +557,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Period && integer == other.integer && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
+            return /* spotless:off */ other is Period && trailingWindow == other.trailingWindow && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(integer, velocityLimitParamsPeriodWindow) /* spotless:on */
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(trailingWindow, velocityLimitParamsPeriodWindow) /* spotless:on */
 
         override fun toString(): String =
             when {
-                integer != null -> "Period{integer=$integer}"
+                trailingWindow != null -> "Period{trailingWindow=$trailingWindow}"
                 velocityLimitParamsPeriodWindow != null ->
                     "Period{velocityLimitParamsPeriodWindow=$velocityLimitParamsPeriodWindow}"
                 _json != null -> "Period{_unknown=$_json}"
@@ -575,9 +575,10 @@ private constructor(
 
             /**
              * The size of the trailing window to calculate Spend Velocity over in seconds. The
-             * minimum value is 10 seconds, and the maximum value is 2678400 seconds.
+             * minimum value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
              */
-            @JvmStatic fun ofInteger(integer: Long) = Period(integer = integer)
+            @JvmStatic
+            fun ofTrailingWindow(trailingWindow: Long) = Period(trailingWindow = trailingWindow)
 
             /**
              * The window of time to calculate Spend Velocity over.
@@ -596,9 +597,9 @@ private constructor(
 
             /**
              * The size of the trailing window to calculate Spend Velocity over in seconds. The
-             * minimum value is 10 seconds, and the maximum value is 2678400 seconds.
+             * minimum value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
              */
-            fun visitInteger(integer: Long): T
+            fun visitTrailingWindow(trailingWindow: Long): T
 
             /**
              * The window of time to calculate Spend Velocity over.
@@ -631,7 +632,7 @@ private constructor(
                 val json = JsonValue.fromJsonNode(node)
 
                 tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                    return Period(integer = it, _json = json)
+                    return Period(trailingWindow = it, _json = json)
                 }
                 tryDeserialize(node, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())?.let {
                     return Period(velocityLimitParamsPeriodWindow = it, _json = json)
@@ -649,7 +650,7 @@ private constructor(
                 provider: SerializerProvider
             ) {
                 when {
-                    value.integer != null -> generator.writeObject(value.integer)
+                    value.trailingWindow != null -> generator.writeObject(value.trailingWindow)
                     value.velocityLimitParamsPeriodWindow != null ->
                         generator.writeObject(value.velocityLimitParamsPeriodWindow)
                     value._json != null -> generator.writeObject(value._json)
