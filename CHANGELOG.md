@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.74.0 (2025-01-28)
+
+Full Changelog: [v0.73.0...v0.74.0](https://github.com/lithic-com/lithic-java/compare/v0.73.0...v0.74.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** better union variant method and variable names ([#460](https://github.com/lithic-com/lithic-java/issues/460))
+
+### Features
+
+* **api:** adds additional fields to TransactionEvents ([#461](https://github.com/lithic-com/lithic-java/issues/461)) ([fd9ddcc](https://github.com/lithic-com/lithic-java/commit/fd9ddcc00f39bf88634758d5c3b5e7bd50be3d34))
+* **api:** adds additional request types for updating an Auth Rule ([#468](https://github.com/lithic-com/lithic-java/issues/468)) ([ff1495c](https://github.com/lithic-com/lithic-java/commit/ff1495c47bbdc49146fe15c2cf4f52e6e54be531))
+* **client:** add `close` method ([#463](https://github.com/lithic-com/lithic-java/issues/463)) ([e621cd6](https://github.com/lithic-com/lithic-java/commit/e621cd657a2862918e3689a4df802051008cf23d))
+* **client:** better union variant method and variable names ([#460](https://github.com/lithic-com/lithic-java/issues/460)) ([47448bb](https://github.com/lithic-com/lithic-java/commit/47448bb9d0ed1c4c85d735da8e9219f989466794))
+
+
+### Bug Fixes
+
+* **client:** make some classes and constructors non-public ([#466](https://github.com/lithic-com/lithic-java/issues/466)) ([2e98bdf](https://github.com/lithic-com/lithic-java/commit/2e98bdfa2e9e93a00b93d5eb5cb8c3b7d88321a9))
+
+
+### Chores
+
+* add max retries to test ([#462](https://github.com/lithic-com/lithic-java/issues/462)) ([ce18db7](https://github.com/lithic-com/lithic-java/commit/ce18db777880b6030c5f9331635cd13e60be5ef7))
+* **api:** additional field added to 3DS Responses and Tokenization ([#454](https://github.com/lithic-com/lithic-java/issues/454)) ([c7bcb9d](https://github.com/lithic-com/lithic-java/commit/c7bcb9d667f94b0700b1489697bad3d965ccd92c))
+* **internal:** remove some unnecessary `constructor` keywords ([2e98bdf](https://github.com/lithic-com/lithic-java/commit/2e98bdfa2e9e93a00b93d5eb5cb8c3b7d88321a9))
+* **internal:** swap `checkNotNull` to `checkRequired` ([#459](https://github.com/lithic-com/lithic-java/issues/459)) ([190676f](https://github.com/lithic-com/lithic-java/commit/190676f931b6b0a140f9794a1ccb0b3615d8c979))
+* update tests ([#457](https://github.com/lithic-com/lithic-java/issues/457)) ([a937d5f](https://github.com/lithic-com/lithic-java/commit/a937d5ff36bf79255e9cdf3d94d0d21964a7614d))
+
+
+### Documentation
+
+* `async` and `sync` method comments ([#465](https://github.com/lithic-com/lithic-java/issues/465)) ([a6c1769](https://github.com/lithic-com/lithic-java/commit/a6c17699fa9e5bc713269a206b8f65cb79d2dc0e))
+* add client documentation ([#464](https://github.com/lithic-com/lithic-java/issues/464)) ([3cb8525](https://github.com/lithic-com/lithic-java/commit/3cb8525162d8b1cd4b48c5c52f0b29f50b4676d4))
+* builder, enum, and union comments ([#467](https://github.com/lithic-com/lithic-java/issues/467)) ([ac8eabd](https://github.com/lithic-com/lithic-java/commit/ac8eabd7d8248b349bce0c190d68eacee24a5099))
+* move up requirements section ([#458](https://github.com/lithic-com/lithic-java/issues/458)) ([d779ba1](https://github.com/lithic-com/lithic-java/commit/d779ba14c6b1d9626561fe8c4f0401b717e0793e))
+* update readme ([#456](https://github.com/lithic-com/lithic-java/issues/456)) ([a015030](https://github.com/lithic-com/lithic-java/commit/a01503000abe9e727b421638e112443d4a767218))
+
 ## 0.73.0 (2025-01-21)
 
 Full Changelog: [v0.72.0...v0.73.0](https://github.com/lithic-com/lithic-java/compare/v0.72.0...v0.73.0)
