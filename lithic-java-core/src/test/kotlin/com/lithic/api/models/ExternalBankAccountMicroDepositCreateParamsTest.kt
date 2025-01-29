@@ -17,27 +17,27 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addMicroDeposit(0L)
                 .addMicroDeposit(0L)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addMicroDeposit(0L)
                 .addMicroDeposit(0L)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }

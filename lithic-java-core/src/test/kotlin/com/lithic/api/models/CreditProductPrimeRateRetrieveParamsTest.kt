@@ -19,7 +19,7 @@ class CreditProductPrimeRateRetrieveParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             CreditProductPrimeRateRetrieveParams.builder()
                 .creditProductToken("credit_product_token")
@@ -29,17 +29,17 @@ class CreditProductPrimeRateRetrieveParamsTest {
         val expected = QueryParams.builder()
         expected.put("ending_before", "2019-12-27")
         expected.put("starting_after", "2019-12-27")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             CreditProductPrimeRateRetrieveParams.builder()
                 .creditProductToken("credit_product_token")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

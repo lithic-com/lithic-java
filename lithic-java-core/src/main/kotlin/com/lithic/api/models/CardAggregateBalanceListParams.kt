@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -15,7 +16,7 @@ private constructor(
     private val businessAccountToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     /** Cardholder to retrieve aggregate balances for. */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -27,10 +28,9 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.accountToken?.let { queryParams.put("account_token", listOf(it.toString())) }
         this.businessAccountToken?.let {

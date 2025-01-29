@@ -11,6 +11,7 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
@@ -230,11 +231,8 @@ class LithicClientImpl(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "status")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { apiStatusHandler.handle(it) }

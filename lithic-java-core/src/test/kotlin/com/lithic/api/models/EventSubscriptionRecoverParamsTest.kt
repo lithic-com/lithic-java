@@ -19,7 +19,7 @@ class EventSubscriptionRecoverParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             EventSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -29,17 +29,17 @@ class EventSubscriptionRecoverParamsTest {
         val expected = QueryParams.builder()
         expected.put("begin", "2019-12-27T18:11:19.117Z")
         expected.put("end", "2019-12-27T18:11:19.117Z")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             EventSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

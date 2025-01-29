@@ -20,7 +20,7 @@ class DisputeCreateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             DisputeCreateParams.builder()
                 .amount(10000L)
@@ -29,7 +29,7 @@ class DisputeCreateParamsTest {
                 .customerFiledDate(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                 .customerNote("customer_note")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(10000L)
         assertThat(body.reason()).isEqualTo(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
@@ -39,14 +39,14 @@ class DisputeCreateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             DisputeCreateParams.builder()
                 .amount(10000L)
                 .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
                 .transactionToken("12345624-aa69-4cbc-a946-30d90181b621")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(10000L)
         assertThat(body.reason()).isEqualTo(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)

@@ -27,7 +27,7 @@ class PaymentCreateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             PaymentCreateParams.builder()
                 .amount(1L)
@@ -44,7 +44,7 @@ class PaymentCreateParamsTest {
                 .memo("memo")
                 .userDefinedId("user_defined_id")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())
@@ -64,7 +64,7 @@ class PaymentCreateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             PaymentCreateParams.builder()
                 .amount(1L)
@@ -78,7 +78,7 @@ class PaymentCreateParamsTest {
                 )
                 .type(PaymentCreateParams.Type.COLLECTION)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())

@@ -16,26 +16,26 @@ class ThreeDSDecisioningSimulateChallengeResponseParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .challengeResponse(ChallengeResult.APPROVE)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.challengeResponse()).isEqualTo(ChallengeResult.APPROVE)
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .challengeResponse(ChallengeResult.APPROVE)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.challengeResponse()).isEqualTo(ChallengeResult.APPROVE)

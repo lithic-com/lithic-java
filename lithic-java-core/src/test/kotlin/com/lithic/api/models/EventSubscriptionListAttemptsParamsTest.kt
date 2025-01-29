@@ -23,7 +23,7 @@ class EventSubscriptionListAttemptsParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             EventSubscriptionListAttemptsParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -41,17 +41,17 @@ class EventSubscriptionListAttemptsParamsTest {
         expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
         expected.put("status", EventSubscriptionListAttemptsParams.Status.FAILED.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             EventSubscriptionListAttemptsParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

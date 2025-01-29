@@ -17,14 +17,14 @@ class TransactionSimulateVoidParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             TransactionSimulateVoidParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(100L)
                 .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).contains(100L)
@@ -32,12 +32,12 @@ class TransactionSimulateVoidParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateVoidParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
