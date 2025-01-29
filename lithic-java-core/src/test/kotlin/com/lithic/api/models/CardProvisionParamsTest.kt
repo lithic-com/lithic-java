@@ -21,7 +21,7 @@ class CardProvisionParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             CardProvisionParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -32,7 +32,7 @@ class CardProvisionParamsTest {
                 .nonce("U3RhaW5sZXNzIHJvY2tz")
                 .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.certificate()).contains("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.clientDeviceId()).contains("client_device_id")
@@ -43,10 +43,10 @@ class CardProvisionParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             CardProvisionParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 

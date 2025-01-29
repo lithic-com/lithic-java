@@ -15,23 +15,23 @@ class TransactionSimulateReturnReversalParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             TransactionSimulateReturnReversalParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateReturnReversalParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }

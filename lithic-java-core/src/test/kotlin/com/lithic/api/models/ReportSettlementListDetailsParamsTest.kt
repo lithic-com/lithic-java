@@ -20,7 +20,7 @@ class ReportSettlementListDetailsParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ReportSettlementListDetailsParams.builder()
                 .reportDate(LocalDate.parse("2023-09-01"))
@@ -32,17 +32,17 @@ class ReportSettlementListDetailsParamsTest {
         expected.put("ending_before", "ending_before")
         expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             ReportSettlementListDetailsParams.builder()
                 .reportDate(LocalDate.parse("2023-09-01"))
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

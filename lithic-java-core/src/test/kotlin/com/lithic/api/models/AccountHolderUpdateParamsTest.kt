@@ -18,7 +18,7 @@ class AccountHolderUpdateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             AccountHolderUpdateParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -26,7 +26,7 @@ class AccountHolderUpdateParamsTest {
                 .email("email")
                 .phoneNumber("phone_number")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.businessAccountToken()).contains("business_account_token")
         assertThat(body.email()).contains("email")
@@ -34,12 +34,12 @@ class AccountHolderUpdateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             AccountHolderUpdateParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 

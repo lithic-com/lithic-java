@@ -19,7 +19,7 @@ class ExternalPaymentSettleParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ExternalPaymentSettleParams.builder()
                 .externalPaymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -27,7 +27,7 @@ class ExternalPaymentSettleParamsTest {
                 .memo("memo")
                 .progressTo(ExternalPaymentSettleParams.ExternalPaymentProgressTo.SETTLED)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.memo()).contains("memo")
@@ -36,13 +36,13 @@ class ExternalPaymentSettleParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ExternalPaymentSettleParams.builder()
                 .externalPaymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
     }

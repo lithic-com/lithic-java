@@ -27,7 +27,7 @@ class AccountHolderListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             AccountHolderListParams.builder()
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -54,13 +54,13 @@ class AccountHolderListParamsTest {
         expected.put("limit", "0")
         expected.put("phone_number", "phone_number")
         expected.put("starting_after", "starting_after")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = AccountHolderListParams.builder().build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

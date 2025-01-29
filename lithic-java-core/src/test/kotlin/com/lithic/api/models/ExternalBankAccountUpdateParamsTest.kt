@@ -33,7 +33,7 @@ class ExternalBankAccountUpdateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ExternalBankAccountUpdateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -55,7 +55,7 @@ class ExternalBankAccountUpdateParamsTest {
                 .ownerType(OwnerType.INDIVIDUAL)
                 .userDefinedId("x")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.address())
             .contains(
@@ -78,12 +78,12 @@ class ExternalBankAccountUpdateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ExternalBankAccountUpdateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 
