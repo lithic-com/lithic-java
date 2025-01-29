@@ -17,14 +17,14 @@ class TransactionSimulateReturnParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             TransactionSimulateReturnParams.builder()
                 .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
@@ -32,14 +32,14 @@ class TransactionSimulateReturnParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateReturnParams.builder()
                 .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")

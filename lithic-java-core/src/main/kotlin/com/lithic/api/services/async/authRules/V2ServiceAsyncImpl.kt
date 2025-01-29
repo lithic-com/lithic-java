@@ -12,6 +12,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
+import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
@@ -57,22 +58,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { createHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { createHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val retrieveHandler: Handler<V2RetrieveResponse> =
@@ -87,21 +86,19 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val updateHandler: Handler<V2UpdateResponse> =
@@ -121,22 +118,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { updateHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { updateHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val listHandler: Handler<AuthRuleV2ListPageAsync.Response> =
@@ -152,22 +147,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v2", "auth_rules")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-                .let { AuthRuleV2ListPageAsync.of(this, params, it) }
-        }
+                    .let { AuthRuleV2ListPageAsync.of(this, params, it) }
+            }
     }
 
     private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
@@ -181,16 +174,12 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { deleteHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { deleteHandler.handle(it) } }
     }
 
     private val applyHandler: Handler<V2ApplyResponse> =
@@ -209,22 +198,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "apply")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { applyHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { applyHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val draftHandler: Handler<V2DraftResponse> =
@@ -244,22 +231,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "draft")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { draftHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { draftHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val promoteHandler: Handler<V2PromoteResponse> =
@@ -277,22 +262,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "promote")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { promoteHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { promoteHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val reportHandler: Handler<V2ReportResponse> =
@@ -352,21 +335,19 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "report")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { reportHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { reportHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 }

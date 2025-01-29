@@ -24,7 +24,7 @@ class FinancialTransactionListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -44,17 +44,17 @@ class FinancialTransactionListParamsTest {
         expected.put("result", FinancialTransactionListParams.Result.APPROVED.toString())
         expected.put("starting_after", "starting_after")
         expected.put("status", FinancialTransactionListParams.Status.DECLINED.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

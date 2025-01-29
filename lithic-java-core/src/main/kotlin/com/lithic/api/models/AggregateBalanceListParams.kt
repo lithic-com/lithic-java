@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -18,7 +19,7 @@ private constructor(
     private val financialAccountType: FinancialAccountType?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     /** Get the aggregate balance for a given Financial Account type. */
     fun financialAccountType(): Optional<FinancialAccountType> =
@@ -28,10 +29,9 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.financialAccountType?.let {
             queryParams.put("financial_account_type", listOf(it.toString()))

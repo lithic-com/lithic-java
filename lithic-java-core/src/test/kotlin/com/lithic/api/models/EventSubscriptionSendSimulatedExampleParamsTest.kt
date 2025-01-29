@@ -16,7 +16,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -24,19 +24,19 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
                     EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .contains(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 

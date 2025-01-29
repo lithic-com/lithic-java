@@ -16,24 +16,24 @@ class DisputeInitiateEvidenceUploadParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             DisputeInitiateEvidenceUploadParams.builder()
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .filename("filename")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.filename()).contains("filename")
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             DisputeInitiateEvidenceUploadParams.builder()
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 

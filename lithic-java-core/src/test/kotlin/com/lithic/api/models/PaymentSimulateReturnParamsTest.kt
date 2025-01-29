@@ -16,25 +16,25 @@ class PaymentSimulateReturnParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             PaymentSimulateReturnParams.builder()
                 .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .returnReasonCode("R12")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.paymentToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.returnReasonCode()).contains("R12")
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             PaymentSimulateReturnParams.builder()
                 .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.paymentToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }

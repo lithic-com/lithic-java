@@ -33,7 +33,7 @@ class CardConvertPhysicalParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             CardConvertPhysicalParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -56,7 +56,7 @@ class CardConvertPhysicalParamsTest {
                 .productId("product_id")
                 .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(
@@ -80,7 +80,7 @@ class CardConvertPhysicalParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             CardConvertPhysicalParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -96,7 +96,7 @@ class CardConvertPhysicalParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(

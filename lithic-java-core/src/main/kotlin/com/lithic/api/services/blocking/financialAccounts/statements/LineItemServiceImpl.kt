@@ -10,6 +10,7 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccountStatementLineItemListPage
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
@@ -41,11 +42,8 @@ internal constructor(
                     params.getPathParam(1),
                     "line_items"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { listHandler.handle(it) }

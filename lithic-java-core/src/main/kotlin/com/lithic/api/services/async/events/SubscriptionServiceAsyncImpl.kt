@@ -12,6 +12,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
+import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.EventSubscription
 import com.lithic.api.models.EventSubscriptionCreateParams
@@ -49,22 +50,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "event_subscriptions")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { createHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { createHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val retrieveHandler: Handler<EventSubscription> =
@@ -79,21 +78,19 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val updateHandler: Handler<EventSubscription> =
@@ -108,22 +105,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { updateHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { updateHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val listHandler: Handler<EventSubscriptionListPageAsync.Response> =
@@ -139,22 +134,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "event_subscriptions")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-                .let { EventSubscriptionListPageAsync.of(this, params, it) }
-        }
+                    .let { EventSubscriptionListPageAsync.of(this, params, it) }
+            }
     }
 
     private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
@@ -168,16 +161,12 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { deleteHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { deleteHandler.handle(it) } }
     }
 
     private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageAsync.Response> =
@@ -193,22 +182,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "attempts")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listAttemptsHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listAttemptsHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-                .let { EventSubscriptionListAttemptsPageAsync.of(this, params, it) }
-        }
+                    .let { EventSubscriptionListAttemptsPageAsync.of(this, params, it) }
+            }
     }
 
     private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
@@ -222,16 +209,12 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "recover")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { recoverHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { recoverHandler.handle(it) } }
     }
 
     private val replayMissingHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
@@ -255,16 +238,12 @@ internal constructor(
                     params.getPathParam(0),
                     "replay_missing"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { replayMissingHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { replayMissingHandler.handle(it) } }
     }
 
     private val retrieveSecretHandler: Handler<SubscriptionRetrieveSecretResponse> =
@@ -280,21 +259,19 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "secret")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { retrieveSecretHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { retrieveSecretHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val rotateSecretHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
@@ -317,16 +294,12 @@ internal constructor(
                     "secret",
                     "rotate"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { rotateSecretHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { rotateSecretHandler.handle(it) } }
     }
 
     private val sendSimulatedExampleHandler: Handler<Void?> =
@@ -347,15 +320,11 @@ internal constructor(
                     params.getPathParam(0),
                     "send_example"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response.use { sendSimulatedExampleHandler.handle(it) }
-        }
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response -> response.use { sendSimulatedExampleHandler.handle(it) } }
     }
 }

@@ -12,6 +12,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
+import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
@@ -56,12 +57,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { createHandler.handle(it) }
@@ -85,11 +83,8 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { retrieveHandler.handle(it) }
@@ -118,12 +113,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { updateHandler.handle(it) }
@@ -148,11 +140,8 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v2", "auth_rules")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { listHandler.handle(it) }
@@ -173,12 +162,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
+                .prepare(clientOptions, params)
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.use { deleteHandler.handle(it) }
         }
@@ -200,12 +186,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "apply")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { applyHandler.handle(it) }
@@ -234,12 +217,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "draft")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { draftHandler.handle(it) }
@@ -266,12 +246,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "promote")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { promoteHandler.handle(it) }
@@ -340,12 +317,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0), "report")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { reportHandler.handle(it) }

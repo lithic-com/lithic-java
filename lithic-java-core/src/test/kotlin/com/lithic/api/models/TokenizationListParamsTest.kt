@@ -24,7 +24,7 @@ class TokenizationListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             TokenizationListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -48,13 +48,13 @@ class TokenizationListParamsTest {
             "tokenization_channel",
             TokenizationListParams.TokenizationChannel.DIGITAL_WALLET.toString()
         )
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = TokenizationListParams.builder().build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

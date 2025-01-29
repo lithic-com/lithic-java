@@ -16,24 +16,24 @@ class ResponderEndpointDeleteParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ResponderEndpointDeleteParams.builder()
                 .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = QueryParams.builder()
         expected.put("type", ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             ResponderEndpointDeleteParams.builder()
                 .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = QueryParams.builder()
         expected.put("type", ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

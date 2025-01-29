@@ -24,7 +24,7 @@ class CardFinancialTransactionListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             CardFinancialTransactionListParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -44,17 +44,17 @@ class CardFinancialTransactionListParamsTest {
         expected.put("result", CardFinancialTransactionListParams.Result.APPROVED.toString())
         expected.put("starting_after", "starting_after")
         expected.put("status", CardFinancialTransactionListParams.Status.DECLINED.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             CardFinancialTransactionListParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

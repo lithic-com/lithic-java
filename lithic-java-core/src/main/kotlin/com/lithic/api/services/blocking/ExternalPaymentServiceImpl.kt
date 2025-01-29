@@ -11,6 +11,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
+import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ExternalPayment
 import com.lithic.api.models.ExternalPaymentCancelParams
@@ -41,12 +42,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "external_payments")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { createHandler.handle(it) }
@@ -70,11 +68,8 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "external_payments", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { retrieveHandler.handle(it) }
@@ -99,11 +94,8 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "external_payments")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { listHandler.handle(it) }
@@ -128,12 +120,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "external_payments", params.getPathParam(0), "cancel")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { cancelHandler.handle(it) }
@@ -157,12 +146,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "external_payments", params.getPathParam(0), "release")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { releaseHandler.handle(it) }
@@ -186,12 +172,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "external_payments", params.getPathParam(0), "reverse")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { reverseHandler.handle(it) }
@@ -215,12 +198,9 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "external_payments", params.getPathParam(0), "settle")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
+                .prepare(clientOptions, params)
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { settleHandler.handle(it) }

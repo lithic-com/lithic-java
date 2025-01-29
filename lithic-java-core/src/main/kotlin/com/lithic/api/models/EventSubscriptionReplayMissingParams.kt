@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -27,7 +28,7 @@ private constructor(
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+) : Params {
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
@@ -50,13 +51,12 @@ private constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     @JvmSynthetic
-    internal fun getBody(): Optional<Map<String, JsonValue>> =
+    internal fun _body(): Optional<Map<String, JsonValue>> =
         Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.begin?.let {
             queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))

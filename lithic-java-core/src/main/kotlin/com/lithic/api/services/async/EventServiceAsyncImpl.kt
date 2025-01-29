@@ -13,6 +13,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
+import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListAttemptsPageAsync
@@ -49,21 +50,19 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "events", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-        }
+            }
     }
 
     private val listHandler: Handler<EventListPageAsync.Response> =
@@ -79,22 +78,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "events")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-                .let { EventListPageAsync.of(this, params, it) }
-        }
+                    .let { EventListPageAsync.of(this, params, it) }
+            }
     }
 
     private val listAttemptsHandler: Handler<EventListAttemptsPageAsync.Response> =
@@ -110,22 +107,20 @@ internal constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "events", params.getPathParam(0), "attempts")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listAttemptsHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listAttemptsHandler.handle(it) }
+                    .apply {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            validate()
+                        }
                     }
-                }
-                .let { EventListAttemptsPageAsync.of(this, params, it) }
-        }
+                    .let { EventListAttemptsPageAsync.of(this, params, it) }
+            }
     }
 
     override fun resend(
