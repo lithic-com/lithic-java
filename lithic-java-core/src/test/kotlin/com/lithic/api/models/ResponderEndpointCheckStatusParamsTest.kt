@@ -16,24 +16,24 @@ class ResponderEndpointCheckStatusParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ResponderEndpointCheckStatusParams.builder()
                 .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = QueryParams.builder()
         expected.put("type", ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             ResponderEndpointCheckStatusParams.builder()
                 .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = QueryParams.builder()
         expected.put("type", ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

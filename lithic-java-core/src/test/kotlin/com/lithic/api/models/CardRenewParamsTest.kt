@@ -35,7 +35,7 @@ class CardRenewParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             CardRenewParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -60,7 +60,7 @@ class CardRenewParamsTest {
                 .productId("product_id")
                 .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(
@@ -86,7 +86,7 @@ class CardRenewParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             CardRenewParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -102,7 +102,7 @@ class CardRenewParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(

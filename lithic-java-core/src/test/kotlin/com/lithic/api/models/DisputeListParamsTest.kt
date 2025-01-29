@@ -23,7 +23,7 @@ class DisputeListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             DisputeListParams.builder()
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -42,13 +42,13 @@ class DisputeListParamsTest {
         expected.put("starting_after", "starting_after")
         expected.put("status", DisputeListParams.Status.ARBITRATION.toString())
         expected.put("transaction_tokens", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = DisputeListParams.builder().build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

@@ -20,7 +20,7 @@ class FinancialAccountStatementLineItemListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             FinancialAccountStatementLineItemListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -33,18 +33,18 @@ class FinancialAccountStatementLineItemListParamsTest {
         expected.put("ending_before", "ending_before")
         expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             FinancialAccountStatementLineItemListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .statementToken("statement_token")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

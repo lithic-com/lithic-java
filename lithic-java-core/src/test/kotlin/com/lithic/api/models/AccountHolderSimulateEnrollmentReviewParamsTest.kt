@@ -20,7 +20,7 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             AccountHolderSimulateEnrollmentReviewParams.builder()
                 .accountHolderToken("account_holder_token")
@@ -30,7 +30,7 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
                         .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.accountHolderToken()).contains("account_holder_token")
         assertThat(body.status())
@@ -45,9 +45,9 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params = AccountHolderSimulateEnrollmentReviewParams.builder().build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 }

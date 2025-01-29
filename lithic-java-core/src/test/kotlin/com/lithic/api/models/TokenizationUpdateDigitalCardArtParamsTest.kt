@@ -16,24 +16,24 @@ class TokenizationUpdateDigitalCardArtParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             TokenizationUpdateDigitalCardArtParams.builder()
                 .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.digitalCardArtToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             TokenizationUpdateDigitalCardArtParams.builder()
                 .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
     }
 

@@ -26,7 +26,7 @@ class ExternalPaymentListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ExternalPaymentListParams.builder()
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -54,13 +54,13 @@ class ExternalPaymentListParamsTest {
         expected.put("result", ExternalPaymentListParams.TransactionResult.APPROVED.toString())
         expected.put("starting_after", "starting_after")
         expected.put("status", ExternalPaymentListParams.TransactionStatus.PENDING.toString())
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = ExternalPaymentListParams.builder().build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

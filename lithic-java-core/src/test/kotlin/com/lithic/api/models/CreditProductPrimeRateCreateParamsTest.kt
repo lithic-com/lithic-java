@@ -18,28 +18,28 @@ class CreditProductPrimeRateCreateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             CreditProductPrimeRateCreateParams.builder()
                 .creditProductToken("credit_product_token")
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .rate("rate")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.rate()).isEqualTo("rate")
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             CreditProductPrimeRateCreateParams.builder()
                 .creditProductToken("credit_product_token")
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .rate("rate")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.rate()).isEqualTo("rate")

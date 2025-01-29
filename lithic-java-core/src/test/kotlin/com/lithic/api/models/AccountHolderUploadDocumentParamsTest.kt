@@ -17,14 +17,14 @@ class AccountHolderUploadDocumentParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
                 .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.documentType())
             .isEqualTo(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
@@ -32,14 +32,14 @@ class AccountHolderUploadDocumentParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
                 .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.documentType())
             .isEqualTo(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)

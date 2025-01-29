@@ -14,20 +14,20 @@ class CardEmbedParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params = CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
         val expected = QueryParams.builder()
         expected.put("embed_request", "embed_request")
         expected.put("hmac", "hmac")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
         val expected = QueryParams.builder()
         expected.put("embed_request", "embed_request")
         expected.put("hmac", "hmac")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

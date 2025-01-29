@@ -19,7 +19,7 @@ class CardBalanceListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             CardBalanceListParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -29,17 +29,17 @@ class CardBalanceListParamsTest {
         val expected = QueryParams.builder()
         expected.put("balance_date", "2019-12-27T18:11:19.117Z")
         expected.put("last_transaction_event_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             CardBalanceListParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

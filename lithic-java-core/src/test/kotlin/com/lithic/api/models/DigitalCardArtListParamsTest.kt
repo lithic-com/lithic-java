@@ -18,7 +18,7 @@ class DigitalCardArtListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             DigitalCardArtListParams.builder()
                 .endingBefore("ending_before")
@@ -29,13 +29,13 @@ class DigitalCardArtListParamsTest {
         expected.put("ending_before", "ending_before")
         expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = DigitalCardArtListParams.builder().build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

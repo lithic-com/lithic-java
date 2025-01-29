@@ -24,7 +24,7 @@ class ExternalPaymentCreateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ExternalPaymentCreateParams.builder()
                 .amount(0L)
@@ -37,7 +37,7 @@ class ExternalPaymentCreateParamsTest {
                 .progressTo(ExternalPaymentCreateParams.ExternalPaymentProgressTo.SETTLED)
                 .userDefinedId("user_defined_id")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
@@ -54,7 +54,7 @@ class ExternalPaymentCreateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ExternalPaymentCreateParams.builder()
                 .amount(0L)
@@ -63,7 +63,7 @@ class ExternalPaymentCreateParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentType(ExternalPaymentCreateParams.ExternalPaymentDirection.DEPOSIT)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())

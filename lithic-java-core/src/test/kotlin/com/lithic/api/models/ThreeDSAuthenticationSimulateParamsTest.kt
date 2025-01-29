@@ -30,7 +30,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             ThreeDSAuthenticationSimulateParams.builder()
                 .merchant(
@@ -50,7 +50,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
                 )
                 .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.merchant())
             .isEqualTo(
@@ -74,7 +74,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             ThreeDSAuthenticationSimulateParams.builder()
                 .merchant(
@@ -93,7 +93,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.merchant())
             .isEqualTo(

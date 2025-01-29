@@ -23,7 +23,7 @@ class PaymentSimulateActionParamsTest {
     }
 
     @Test
-    fun getBody() {
+    fun body() {
         val params =
             PaymentSimulateActionParams.builder()
                 .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -36,7 +36,7 @@ class PaymentSimulateActionParamsTest {
                 )
                 .returnReasonCode("return_reason_code")
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .isEqualTo(
@@ -51,7 +51,7 @@ class PaymentSimulateActionParamsTest {
     }
 
     @Test
-    fun getBodyWithoutOptionalFields() {
+    fun bodyWithoutOptionalFields() {
         val params =
             PaymentSimulateActionParams.builder()
                 .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -59,7 +59,7 @@ class PaymentSimulateActionParamsTest {
                     PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
                 )
                 .build()
-        val body = params.getBody()
+        val body = params._body()
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .isEqualTo(
