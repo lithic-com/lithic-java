@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.75.0 (2025-01-30)
+
+Full Changelog: [v0.74.0...v0.75.0](https://github.com/lithic-com/lithic-java/compare/v0.74.0...v0.75.0)
+
+### Features
+
+* **client:** add `_queryParams` and `_headers` methods ([#469](https://github.com/lithic-com/lithic-java/issues/469)) ([6c324ca](https://github.com/lithic-com/lithic-java/commit/6c324ca06eeed02bd7d8654ab8f56f505a6238e6))
+
+
+### Bug Fixes
+
+* **client:** don't leak responses when retrying ([#474](https://github.com/lithic-com/lithic-java/issues/474)) ([947e6cf](https://github.com/lithic-com/lithic-java/commit/947e6cf907b4c23cf7e9354c3310014081198648))
+
+
+### Chores
+
+* **internal:** improve `RetryingHttpClientTest` ([#473](https://github.com/lithic-com/lithic-java/issues/473)) ([86a95b5](https://github.com/lithic-com/lithic-java/commit/86a95b5029712321355d9310f24c5970e20d2b5f))
+
+
+### Documentation
+
+* fix incorrect additional properties info ([#475](https://github.com/lithic-com/lithic-java/issues/475)) ([c08ecf2](https://github.com/lithic-com/lithic-java/commit/c08ecf2fb5082ec5a1f463341bdb20c6aada2a3c))
+
+
+### Refactors
+
+* **internal:** extract request preparation logic ([6c324ca](https://github.com/lithic-com/lithic-java/commit/6c324ca06eeed02bd7d8654ab8f56f505a6238e6))
+
 ## 0.74.0 (2025-01-28)
 
 Full Changelog: [v0.73.0...v0.74.0](https://github.com/lithic-com/lithic-java/compare/v0.73.0...v0.74.0)
