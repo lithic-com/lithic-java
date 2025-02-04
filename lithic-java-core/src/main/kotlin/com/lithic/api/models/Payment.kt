@@ -756,6 +756,8 @@ private constructor(
          * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
          * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
+         *   Institution.
          */
         fun type(): PaymentEventType = type.getRequired("type")
 
@@ -797,6 +799,8 @@ private constructor(
          * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
          * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
+         *   Institution.
          */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<PaymentEventType> = type
 
@@ -907,6 +911,8 @@ private constructor(
              * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
              * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
              * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+             * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository
+             *   Financial Institution.
              */
             fun type(type: PaymentEventType) = type(JsonField.of(type))
 
@@ -927,6 +933,8 @@ private constructor(
              * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
              * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
              * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+             * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository
+             *   Financial Institution.
              */
             fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
 
@@ -1098,6 +1106,8 @@ private constructor(
          * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
          * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
+         *   Institution.
          */
         class PaymentEventType
         @JsonCreator
@@ -1137,6 +1147,8 @@ private constructor(
 
                 @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
 
+                @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
+
                 @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
             }
 
@@ -1152,6 +1164,7 @@ private constructor(
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_SETTLED,
             }
 
             /**
@@ -1175,6 +1188,7 @@ private constructor(
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_SETTLED,
                 /**
                  * An enum member indicating that [PaymentEventType] was instantiated with an
                  * unknown value.
@@ -1201,6 +1215,7 @@ private constructor(
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
                     else -> Value._UNKNOWN
                 }
 
@@ -1225,6 +1240,7 @@ private constructor(
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
                     else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
                 }
 

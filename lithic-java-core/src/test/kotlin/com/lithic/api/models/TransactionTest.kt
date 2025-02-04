@@ -179,17 +179,17 @@ class TransactionTest {
                                 .mastercard(
                                     Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
                                         .banknetReferenceNumber("U1HSCJ")
-                                        .switchSerialNumber(null)
                                         .originalBanknetReferenceNumber(
                                             "original_banknet_reference_number"
                                         )
                                         .originalSwitchSerialNumber("original_switch_serial_number")
+                                        .switchSerialNumber(null)
                                         .build()
                                 )
                                 .visa(
                                     Transaction.TransactionEvent.NetworkInfo.Visa.builder()
-                                        .transactionId("transaction_id")
                                         .originalTransactionId("original_transaction_id")
+                                        .transactionId("transaction_id")
                                         .build()
                                 )
                                 .build()
@@ -384,17 +384,17 @@ class TransactionTest {
                             .mastercard(
                                 Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
                                     .banknetReferenceNumber("U1HSCJ")
-                                    .switchSerialNumber(null)
                                     .originalBanknetReferenceNumber(
                                         "original_banknet_reference_number"
                                     )
                                     .originalSwitchSerialNumber("original_switch_serial_number")
+                                    .switchSerialNumber(null)
                                     .build()
                             )
                             .visa(
                                 Transaction.TransactionEvent.NetworkInfo.Visa.builder()
-                                    .transactionId("transaction_id")
                                     .originalTransactionId("original_transaction_id")
+                                    .transactionId("transaction_id")
                                     .build()
                             )
                             .build()

@@ -881,6 +881,8 @@ private constructor(
 
                 @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
 
+                @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
+
                 @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
                 @JvmField val AUTHORIZATION_ADVICE = of("AUTHORIZATION_ADVICE")
@@ -1000,6 +1002,7 @@ private constructor(
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
                 AUTHORIZATION_EXPIRY,
@@ -1076,6 +1079,7 @@ private constructor(
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
                 AUTHORIZATION_EXPIRY,
@@ -1154,6 +1158,7 @@ private constructor(
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Value.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Value.AUTHORIZATION_ADVICE
                     AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
@@ -1230,6 +1235,7 @@ private constructor(
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Known.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Known.AUTHORIZATION_ADVICE
                     AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
