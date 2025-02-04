@@ -122,6 +122,9 @@ class AuthenticationRetrieveResponseTest {
                         .userAgent("user_agent")
                         .build()
                 )
+                .challengeOrchestratedBy(
+                    AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
+                )
                 .threeRiRequestType(
                     AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
                 )
@@ -141,7 +144,7 @@ class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.accountType())
             .contains(AuthenticationRetrieveResponse.AccountType.CREDIT)
         assertThat(authenticationRetrieveResponse.authenticationResult())
-            .contains(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
+            .isEqualTo(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
         assertThat(authenticationRetrieveResponse.cardExpiryCheck())
             .isEqualTo(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
         assertThat(authenticationRetrieveResponse.cardToken())
@@ -254,6 +257,8 @@ class AuthenticationRetrieveResponseTest {
                     .userAgent("user_agent")
                     .build()
             )
+        assertThat(authenticationRetrieveResponse.challengeOrchestratedBy())
+            .contains(AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC)
         assertThat(authenticationRetrieveResponse.threeRiRequestType())
             .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION)
         assertThat(authenticationRetrieveResponse.transaction())
