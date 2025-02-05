@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionSendSimulatedExampleParamsTest {
 
     @Test
-    fun createEventSubscriptionSendSimulatedExampleParams() {
+    fun create() {
         EventSubscriptionSendSimulatedExampleParams.builder()
             .eventSubscriptionToken("event_subscription_token")
             .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)

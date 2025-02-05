@@ -35,5 +35,5 @@ interface AuthStreamEnrollmentServiceAsync {
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 }

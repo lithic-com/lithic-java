@@ -67,7 +67,7 @@ interface V2ServiceAsync {
     fun delete(
         params: AuthRuleV2DeleteParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * Associates a V2 authorization rule with a card program, the provided account(s) or card(s).

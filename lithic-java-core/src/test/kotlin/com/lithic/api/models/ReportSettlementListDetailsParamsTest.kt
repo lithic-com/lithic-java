@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class ReportSettlementListDetailsParamsTest {
 
     @Test
-    fun createReportSettlementListDetailsParams() {
+    fun create() {
         ReportSettlementListDetailsParams.builder()
             .reportDate(LocalDate.parse("2023-09-01"))
             .endingBefore("ending_before")

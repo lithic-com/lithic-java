@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionEventEnhancedCommercialDataRetrieveParamsTest {
 
     @Test
-    fun createTransactionEventEnhancedCommercialDataRetrieveParams() {
+    fun create() {
         TransactionEventEnhancedCommercialDataRetrieveParams.builder()
             .eventToken("00000000-0000-0000-0000-000000000000")
             .build()

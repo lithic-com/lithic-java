@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AuthRuleV2BacktestRetrieveParamsTest {
 
     @Test
-    fun createAuthRuleV2BacktestRetrieveParams() {
+    fun create() {
         AuthRuleV2BacktestRetrieveParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .authRuleBacktestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

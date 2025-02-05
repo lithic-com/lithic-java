@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class CardProgramListParamsTest {
 
     @Test
-    fun createCardProgramListParams() {
+    fun create() {
         CardProgramListParams.builder()
             .endingBefore("ending_before")
             .pageSize(1L)

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class ResponderEndpointCheckStatusParamsTest {
 
     @Test
-    fun createResponderEndpointCheckStatusParams() {
+    fun create() {
         ResponderEndpointCheckStatusParams.builder()
             .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
             .build()

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class ThreeDSDecisioningSimulateChallengeParamsTest {
 
     @Test
-    fun createThreeDSDecisioningSimulateChallengeParams() {
+    fun create() {
         ThreeDSDecisioningSimulateChallengeParams.builder()
             .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .build()

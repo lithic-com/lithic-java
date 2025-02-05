@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TokenizationSimulateParamsTest {
 
     @Test
-    fun createTokenizationSimulateParams() {
+    fun create() {
         TokenizationSimulateParams.builder()
             .cvv("776")
             .expirationDate("08/29")

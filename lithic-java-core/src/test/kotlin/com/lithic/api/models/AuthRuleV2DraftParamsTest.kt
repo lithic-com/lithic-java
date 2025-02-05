@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AuthRuleV2DraftParamsTest {
 
     @Test
-    fun createAuthRuleV2DraftParams() {
+    fun create() {
         AuthRuleV2DraftParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .parameters(

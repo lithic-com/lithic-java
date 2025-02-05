@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class AuthStreamEnrollmentRetrieveSecretParamsTest {
 
     @Test
-    fun createAuthStreamEnrollmentRetrieveSecretParams() {
+    fun create() {
         AuthStreamEnrollmentRetrieveSecretParams.builder().build()
     }
 }

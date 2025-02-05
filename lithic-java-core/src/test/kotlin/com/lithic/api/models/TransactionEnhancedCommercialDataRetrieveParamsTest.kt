@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionEnhancedCommercialDataRetrieveParamsTest {
 
     @Test
-    fun createTransactionEnhancedCommercialDataRetrieveParams() {
+    fun create() {
         TransactionEnhancedCommercialDataRetrieveParams.builder()
             .transactionToken("00000000-0000-0000-0000-000000000000")
             .build()

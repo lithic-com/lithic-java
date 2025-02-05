@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class AggregateBalanceListParamsTest {
 
     @Test
-    fun createAggregateBalanceListParams() {
+    fun create() {
         AggregateBalanceListParams.builder()
             .financialAccountType(AggregateBalanceListParams.FinancialAccountType.ISSUING)
             .build()

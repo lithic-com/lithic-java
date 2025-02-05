@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionRotateSecretParamsTest {
 
     @Test
-    fun createEventSubscriptionRotateSecretParams() {
+    fun create() {
         EventSubscriptionRotateSecretParams.builder()
             .eventSubscriptionToken("event_subscription_token")
             .build()

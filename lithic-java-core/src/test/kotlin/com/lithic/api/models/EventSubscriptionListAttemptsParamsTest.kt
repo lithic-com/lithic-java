@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionListAttemptsParamsTest {
 
     @Test
-    fun createEventSubscriptionListAttemptsParams() {
+    fun create() {
         EventSubscriptionListAttemptsParams.builder()
             .eventSubscriptionToken("event_subscription_token")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class FinancialAccountCreditConfigurationUpdateParamsTest {
 
     @Test
-    fun createFinancialAccountCreditConfigurationUpdateParams() {
+    fun create() {
         FinancialAccountCreditConfigurationUpdateParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .creditLimit(0L)

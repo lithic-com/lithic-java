@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionSimulateReturnReversalParamsTest {
 
     @Test
-    fun createTransactionSimulateReturnReversalParams() {
+    fun create() {
         TransactionSimulateReturnReversalParams.builder()
             .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .build()

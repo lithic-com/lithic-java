@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class ManagementOperationCreateParamsTest {
 
     @Test
-    fun createManagementOperationCreateParams() {
+    fun create() {
         ManagementOperationCreateParams.builder()
             .amount(0L)
             .category(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)

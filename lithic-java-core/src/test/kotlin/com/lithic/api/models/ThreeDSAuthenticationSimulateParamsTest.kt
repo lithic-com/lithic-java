@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class ThreeDSAuthenticationSimulateParamsTest {
 
     @Test
-    fun createThreeDSAuthenticationSimulateParams() {
+    fun create() {
         ThreeDSAuthenticationSimulateParams.builder()
             .merchant(
                 ThreeDSAuthenticationSimulateParams.Merchant.builder()

@@ -32,7 +32,7 @@ internal constructor(
     override fun create(
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -65,9 +65,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { retrieveHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }

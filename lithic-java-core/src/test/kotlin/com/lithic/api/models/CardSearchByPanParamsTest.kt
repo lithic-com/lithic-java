@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class CardSearchByPanParamsTest {
 
     @Test
-    fun createCardSearchByPanParams() {
+    fun create() {
         CardSearchByPanParams.builder().pan("4111111289144142").build()
     }
 

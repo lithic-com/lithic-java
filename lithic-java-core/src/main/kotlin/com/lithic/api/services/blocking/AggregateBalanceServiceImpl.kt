@@ -37,15 +37,14 @@ internal constructor(
                 .addPathSegments("v1", "aggregate_balances")
                 .build()
                 .prepare(clientOptions, params)
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+        val response = clientOptions.httpClient.execute(request, requestOptions)
+        return response
+            .use { listHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-                .let { AggregateBalanceListPage.of(this, params, it) }
-        }
+            }
+            .let { AggregateBalanceListPage.of(this, params, it) }
     }
 }

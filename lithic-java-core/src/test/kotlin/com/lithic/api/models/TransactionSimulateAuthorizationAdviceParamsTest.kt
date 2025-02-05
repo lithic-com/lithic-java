@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionSimulateAuthorizationAdviceParamsTest {
 
     @Test
-    fun createTransactionSimulateAuthorizationAdviceParams() {
+    fun create() {
         TransactionSimulateAuthorizationAdviceParams.builder()
             .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .amount(3831L)
