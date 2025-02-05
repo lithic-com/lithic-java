@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class CardAggregateBalanceListParamsTest {
 
     @Test
-    fun createCardAggregateBalanceListParams() {
+    fun create() {
         CardAggregateBalanceListParams.builder()
             .accountToken("account_token")
             .businessAccountToken("business_account_token")

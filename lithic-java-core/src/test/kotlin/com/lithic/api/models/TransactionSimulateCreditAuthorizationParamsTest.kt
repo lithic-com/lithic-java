@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionSimulateCreditAuthorizationParamsTest {
 
     @Test
-    fun createTransactionSimulateCreditAuthorizationParams() {
+    fun create() {
         TransactionSimulateCreditAuthorizationParams.builder()
             .amount(3831L)
             .descriptor("COFFEE SHOP")

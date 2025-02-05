@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class FinancialAccountLoanTapeRetrieveParamsTest {
 
     @Test
-    fun createFinancialAccountLoanTapeRetrieveParams() {
+    fun create() {
         FinancialAccountLoanTapeRetrieveParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .loanTapeToken("loan_tape_token")

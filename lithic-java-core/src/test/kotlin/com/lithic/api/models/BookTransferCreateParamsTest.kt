@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class BookTransferCreateParamsTest {
 
     @Test
-    fun createBookTransferCreateParams() {
+    fun create() {
         BookTransferCreateParams.builder()
             .amount(1L)
             .category(BookTransferCreateParams.Category.ADJUSTMENT)

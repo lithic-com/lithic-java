@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class DigitalCardArtListParamsTest {
 
     @Test
-    fun createDigitalCardArtListParams() {
+    fun create() {
         DigitalCardArtListParams.builder()
             .endingBefore("ending_before")
             .pageSize(1L)

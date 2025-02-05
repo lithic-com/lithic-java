@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
 
     @Test
-    fun createAccountHolderSimulateEnrollmentDocumentReviewParams() {
+    fun create() {
         AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
             .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
             .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class CreditProductExtendedCreditRetrieveParamsTest {
 
     @Test
-    fun createCreditProductExtendedCreditRetrieveParams() {
+    fun create() {
         CreditProductExtendedCreditRetrieveParams.builder()
             .creditProductToken("credit_product_token")
             .build()

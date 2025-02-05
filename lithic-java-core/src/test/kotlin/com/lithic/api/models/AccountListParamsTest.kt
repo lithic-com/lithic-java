@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class AccountListParamsTest {
 
     @Test
-    fun createAccountListParams() {
+    fun create() {
         AccountListParams.builder()
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

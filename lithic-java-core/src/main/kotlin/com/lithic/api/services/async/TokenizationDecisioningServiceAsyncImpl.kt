@@ -51,9 +51,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { retrieveSecretHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -83,9 +83,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { rotateSecretHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }

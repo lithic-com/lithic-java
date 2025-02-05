@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class DisputeInitiateEvidenceUploadParamsTest {
 
     @Test
-    fun createDisputeInitiateEvidenceUploadParams() {
+    fun create() {
         DisputeInitiateEvidenceUploadParams.builder()
             .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .filename("filename")

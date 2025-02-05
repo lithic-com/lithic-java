@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AuthRuleV2DeleteParamsTest {
 
     @Test
-    fun createAuthRuleV2DeleteParams() {
+    fun create() {
         AuthRuleV2DeleteParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()

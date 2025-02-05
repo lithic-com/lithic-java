@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionListParamsTest {
 
     @Test
-    fun createEventSubscriptionListParams() {
+    fun create() {
         EventSubscriptionListParams.builder()
             .endingBefore("ending_before")
             .pageSize(1L)

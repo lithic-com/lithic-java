@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class ResponderEndpointCreateParamsTest {
 
     @Test
-    fun createResponderEndpointCreateParams() {
+    fun create() {
         ResponderEndpointCreateParams.builder()
             .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
             .url("https://example.com")

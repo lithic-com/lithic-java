@@ -45,9 +45,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { listDetailsHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
                     .let { ReportSettlementListDetailsPageAsync.of(this, params, it) }
@@ -73,9 +73,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { summaryHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }

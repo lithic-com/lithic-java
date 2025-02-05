@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class CardListParamsTest {
 
     @Test
-    fun createCardListParams() {
+    fun create() {
         CardListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
