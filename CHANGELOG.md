@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.76.0 (2025-02-06)
+
+Full Changelog: [v0.75.0...v0.76.0](https://github.com/lithic-com/lithic-java/compare/v0.75.0...v0.76.0)
+
+### Features
+
+* **client:** send client-side timeout headers ([#476](https://github.com/lithic-com/lithic-java/issues/476)) ([c0b8b6d](https://github.com/lithic-com/lithic-java/commit/c0b8b6d4c4f8ac3d79010d494b1ea71ea900b201))
+
+
+### Bug Fixes
+
+* **api:** add missing `@MustBeClosed` annotations ([#479](https://github.com/lithic-com/lithic-java/issues/479)) ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+* **api:** switch `CompletableFuture&lt;Void&gt;` to `CompletableFuture<Void?>` ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+* **client:** add missing validation calls on response ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+* **client:** always provide a body for `PATCH` methods ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+
+
+### Chores
+
+* **api:** new PaymentEventType for ACH Returns and small updates to 3DS AuthenticationResult ([#478](https://github.com/lithic-com/lithic-java/issues/478)) ([bf2fce6](https://github.com/lithic-com/lithic-java/commit/bf2fce6f9d9d6aae2744bb6fe46b7f138a2b6fec))
+* **internal:** minor formatting/style changes ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+* **internal:** rename some tests ([ed2ddd0](https://github.com/lithic-com/lithic-java/commit/ed2ddd05b76a19143f05b2b3e09c2d9c4e4b55dc))
+
 ## 0.75.0 (2025-01-30)
 
 Full Changelog: [v0.74.0...v0.75.0](https://github.com/lithic-com/lithic-java/compare/v0.74.0...v0.75.0)
