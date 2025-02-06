@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class ExternalBankAccountCreateParamsTest {
 
     @Test
-    fun createExternalBankAccountCreateParams() {
+    fun create() {
         ExternalBankAccountCreateParams.builder()
             .forBankVerifiedCreateBankAccountApiRequest(
                 ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest.builder()

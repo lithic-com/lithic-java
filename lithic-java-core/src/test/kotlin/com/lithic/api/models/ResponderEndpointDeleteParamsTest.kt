@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class ResponderEndpointDeleteParamsTest {
 
     @Test
-    fun createResponderEndpointDeleteParams() {
+    fun create() {
         ResponderEndpointDeleteParams.builder()
             .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
             .build()

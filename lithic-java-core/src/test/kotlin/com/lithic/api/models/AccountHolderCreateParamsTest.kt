@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderCreateParamsTest {
 
     @Test
-    fun createAccountHolderCreateParams() {
+    fun create() {
         AccountHolderCreateParams.builder()
             .forKyb(
                 Kyb.builder()

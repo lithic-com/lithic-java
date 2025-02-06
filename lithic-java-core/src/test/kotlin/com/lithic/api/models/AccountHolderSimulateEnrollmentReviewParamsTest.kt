@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderSimulateEnrollmentReviewParamsTest {
 
     @Test
-    fun createAccountHolderSimulateEnrollmentReviewParams() {
+    fun create() {
         AccountHolderSimulateEnrollmentReviewParams.builder()
             .accountHolderToken("account_holder_token")
             .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class CardConvertPhysicalParamsTest {
 
     @Test
-    fun createCardConvertPhysicalParams() {
+    fun create() {
         CardConvertPhysicalParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .shippingAddress(

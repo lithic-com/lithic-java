@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderListDocumentsParamsTest {
 
     @Test
-    fun createAccountHolderListDocumentsParams() {
+    fun create() {
         AccountHolderListDocumentsParams.builder()
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()

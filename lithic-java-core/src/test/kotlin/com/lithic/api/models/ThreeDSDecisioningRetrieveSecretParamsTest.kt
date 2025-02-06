@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class ThreeDSDecisioningRetrieveSecretParamsTest {
 
     @Test
-    fun createThreeDSDecisioningRetrieveSecretParams() {
+    fun create() {
         ThreeDSDecisioningRetrieveSecretParams.builder().build()
     }
 }

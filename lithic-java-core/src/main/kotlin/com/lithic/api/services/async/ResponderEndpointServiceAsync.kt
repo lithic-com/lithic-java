@@ -26,7 +26,7 @@ interface ResponderEndpointServiceAsync {
     fun delete(
         params: ResponderEndpointDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /** Check the status of a responder endpoint */
     @JvmOverloads

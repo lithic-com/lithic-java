@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionDeleteParamsTest {
 
     @Test
-    fun createEventSubscriptionDeleteParams() {
+    fun create() {
         EventSubscriptionDeleteParams.builder()
             .eventSubscriptionToken("event_subscription_token")
             .build()

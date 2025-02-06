@@ -17,7 +17,7 @@ interface PrimeRateServiceAsync {
     fun create(
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /** Get Credit Product Prime Rates */
     @JvmOverloads

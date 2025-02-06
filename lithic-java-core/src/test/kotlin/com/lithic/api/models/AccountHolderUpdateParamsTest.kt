@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderUpdateParamsTest {
 
     @Test
-    fun createAccountHolderUpdateParams() {
+    fun create() {
         AccountHolderUpdateParams.builder()
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .businessAccountToken("business_account_token")

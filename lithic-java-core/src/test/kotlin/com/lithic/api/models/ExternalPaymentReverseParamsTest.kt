@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class ExternalPaymentReverseParamsTest {
 
     @Test
-    fun createExternalPaymentReverseParams() {
+    fun create() {
         ExternalPaymentReverseParams.builder()
             .externalPaymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .effectiveDate(LocalDate.parse("2019-12-27"))

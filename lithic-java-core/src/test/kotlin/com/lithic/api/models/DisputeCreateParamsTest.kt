@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class DisputeCreateParamsTest {
 
     @Test
-    fun createDisputeCreateParams() {
+    fun create() {
         DisputeCreateParams.builder()
             .amount(0L)
             .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)

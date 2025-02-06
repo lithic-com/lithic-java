@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class EventSubscriptionUpdateParamsTest {
 
     @Test
-    fun createEventSubscriptionUpdateParams() {
+    fun create() {
         EventSubscriptionUpdateParams.builder()
             .eventSubscriptionToken("event_subscription_token")
             .url("https://example.com")

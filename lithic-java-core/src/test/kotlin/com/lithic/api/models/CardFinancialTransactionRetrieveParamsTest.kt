@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class CardFinancialTransactionRetrieveParamsTest {
 
     @Test
-    fun createCardFinancialTransactionRetrieveParams() {
+    fun create() {
         CardFinancialTransactionRetrieveParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .financialTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

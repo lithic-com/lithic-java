@@ -49,7 +49,7 @@ interface TokenizationServiceAsync {
     fun activate(
         params: TokenizationActivateParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * This endpoint is used to ask the card network to deactivate a tokenization. A successful
@@ -65,7 +65,7 @@ interface TokenizationServiceAsync {
     fun deactivate(
         params: TokenizationDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * This endpoint is used to ask the card network to pause a tokenization. A successful response
@@ -80,7 +80,7 @@ interface TokenizationServiceAsync {
     fun pause(
         params: TokenizationPauseParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * This endpoint is used to ask the card network to send another activation code to a cardholder
@@ -97,7 +97,7 @@ interface TokenizationServiceAsync {
     fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
@@ -121,7 +121,7 @@ interface TokenizationServiceAsync {
     fun unpause(
         params: TokenizationUnpauseParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * This endpoint is used update the digital card art for a digital wallet tokenization. A

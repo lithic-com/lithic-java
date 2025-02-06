@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class ClientApiStatusParamsTest {
 
     @Test
-    fun createClientApiStatusParams() {
+    fun create() {
         ClientApiStatusParams.builder().build()
     }
 }

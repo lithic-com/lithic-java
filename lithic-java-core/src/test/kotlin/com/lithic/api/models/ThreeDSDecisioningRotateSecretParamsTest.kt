@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class ThreeDSDecisioningRotateSecretParamsTest {
 
     @Test
-    fun createThreeDSDecisioningRotateSecretParams() {
+    fun create() {
         ThreeDSDecisioningRotateSecretParams.builder().build()
     }
 }

@@ -260,9 +260,9 @@ class LithicClientAsyncImpl(
             .thenApply { response ->
                 response
                     .use { apiStatusHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }

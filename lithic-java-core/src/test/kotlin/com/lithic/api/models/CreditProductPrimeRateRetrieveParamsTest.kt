@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class CreditProductPrimeRateRetrieveParamsTest {
 
     @Test
-    fun createCreditProductPrimeRateRetrieveParams() {
+    fun create() {
         CreditProductPrimeRateRetrieveParams.builder()
             .creditProductToken("credit_product_token")
             .endingBefore(LocalDate.parse("2019-12-27"))

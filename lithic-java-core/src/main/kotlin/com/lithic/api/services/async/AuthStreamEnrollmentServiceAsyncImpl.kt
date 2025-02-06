@@ -51,9 +51,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { retrieveSecretHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -70,7 +70,7 @@ internal constructor(
     override fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

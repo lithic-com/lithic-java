@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionSimulateReturnParamsTest {
 
     @Test
-    fun createTransactionSimulateReturnParams() {
+    fun create() {
         TransactionSimulateReturnParams.builder()
             .amount(0L)
             .descriptor("COFFEE SHOP")
