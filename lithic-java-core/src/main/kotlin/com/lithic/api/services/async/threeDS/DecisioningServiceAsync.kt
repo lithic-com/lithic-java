@@ -21,7 +21,7 @@ interface DecisioningServiceAsync {
     fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
@@ -47,7 +47,7 @@ interface DecisioningServiceAsync {
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * Simulates a 3DS authentication challenge request from the payment network as if it came from
@@ -68,5 +68,5 @@ interface DecisioningServiceAsync {
     fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 }

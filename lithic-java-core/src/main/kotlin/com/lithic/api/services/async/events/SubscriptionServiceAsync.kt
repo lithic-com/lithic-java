@@ -57,7 +57,7 @@ interface SubscriptionServiceAsync {
     fun delete(
         params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /** List all the message attempts for a given event subscription. */
     @JvmOverloads
@@ -71,7 +71,7 @@ interface SubscriptionServiceAsync {
     fun recover(
         params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /**
      * Replays messages to the endpoint. Only messages that were created after `begin` will be sent.
@@ -83,7 +83,7 @@ interface SubscriptionServiceAsync {
     fun replayMissing(
         params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /** Get the secret for an event subscription. */
     @JvmOverloads
@@ -100,12 +100,12 @@ interface SubscriptionServiceAsync {
     fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 
     /** Send an example message for event. */
     @JvmOverloads
     fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<Void>
+    ): CompletableFuture<Void?>
 }

@@ -56,9 +56,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { retrieveHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -84,9 +84,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { listHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
                     .let { TokenizationListPageAsync.of(this, params, it) }
@@ -107,7 +107,7 @@ internal constructor(
     override fun activate(
         params: TokenizationActivateParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -135,7 +135,7 @@ internal constructor(
     override fun deactivate(
         params: TokenizationDeactivateParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -162,7 +162,7 @@ internal constructor(
     override fun pause(
         params: TokenizationPauseParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -192,7 +192,7 @@ internal constructor(
     override fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -234,9 +234,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { simulateHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -255,7 +255,7 @@ internal constructor(
     override fun unpause(
         params: TokenizationUnpauseParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -302,9 +302,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { updateDigitalCardArtHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }

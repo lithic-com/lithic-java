@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TransactionSimulateAuthorizationParamsTest {
 
     @Test
-    fun createTransactionSimulateAuthorizationParams() {
+    fun create() {
         TransactionSimulateAuthorizationParams.builder()
             .amount(0L)
             .descriptor("COFFEE SHOP")

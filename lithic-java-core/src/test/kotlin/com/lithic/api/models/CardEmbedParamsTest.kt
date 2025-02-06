@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class CardEmbedParamsTest {
 
     @Test
-    fun createCardEmbedParams() {
+    fun create() {
         CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
     }
 

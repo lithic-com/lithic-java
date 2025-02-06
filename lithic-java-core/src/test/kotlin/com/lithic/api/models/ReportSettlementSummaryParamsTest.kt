@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test
 class ReportSettlementSummaryParamsTest {
 
     @Test
-    fun createReportSettlementSummaryParams() {
-        ReportSettlementSummaryParams.builder().reportDate(LocalDate.parse("2019-12-27")).build()
+    fun create() {
+        ReportSettlementSummaryParams.builder().reportDate(LocalDate.parse("2023-09-01")).build()
     }
 
     @Test

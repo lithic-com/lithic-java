@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class FinancialAccountCreateParamsTest {
 
     @Test
-    fun createFinancialAccountCreateParams() {
+    fun create() {
         FinancialAccountCreateParams.builder()
             .nickname("nickname")
             .type(FinancialAccountCreateParams.Type.OPERATING)

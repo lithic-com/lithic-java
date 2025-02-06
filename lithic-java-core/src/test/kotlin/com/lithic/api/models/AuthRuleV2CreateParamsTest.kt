@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class AuthRuleV2CreateParamsTest {
 
     @Test
-    fun createAuthRuleV2CreateParams() {
+    fun create() {
         AuthRuleV2CreateParams.builder()
             .forCreateAuthRuleRequestAccountTokens(
                 AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.builder()

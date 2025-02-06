@@ -37,7 +37,7 @@ internal constructor(
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -77,9 +77,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { retrieveSecretHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -96,7 +96,7 @@ internal constructor(
     override fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -134,9 +134,9 @@ internal constructor(
             .thenApply { response ->
                 response
                     .use { simulateChallengeHandler.handle(it) }
-                    .apply {
+                    .also {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                            validate()
+                            it.validate()
                         }
                     }
             }
@@ -152,7 +152,7 @@ internal constructor(
     override fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

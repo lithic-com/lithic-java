@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AccountHolderUploadDocumentParamsTest {
 
     @Test
-    fun createAccountHolderUploadDocumentParams() {
+    fun create() {
         AccountHolderUploadDocumentParams.builder()
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)

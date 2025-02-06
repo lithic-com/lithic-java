@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class TokenizationDecisioningRotateSecretParamsTest {
 
     @Test
-    fun createTokenizationDecisioningRotateSecretParams() {
+    fun create() {
         TokenizationDecisioningRotateSecretParams.builder().build()
     }
 }

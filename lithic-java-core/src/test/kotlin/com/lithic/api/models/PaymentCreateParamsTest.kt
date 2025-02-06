@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class PaymentCreateParamsTest {
 
     @Test
-    fun createPaymentCreateParams() {
+    fun create() {
         PaymentCreateParams.builder()
             .amount(1L)
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

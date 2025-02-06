@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class DisputeDeleteEvidenceParamsTest {
 
     @Test
-    fun createDisputeDeleteEvidenceParams() {
+    fun create() {
         DisputeDeleteEvidenceParams.builder()
             .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .evidenceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

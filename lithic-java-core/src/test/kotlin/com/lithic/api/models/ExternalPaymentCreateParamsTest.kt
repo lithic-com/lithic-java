@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class ExternalPaymentCreateParamsTest {
 
     @Test
-    fun createExternalPaymentCreateParams() {
+    fun create() {
         ExternalPaymentCreateParams.builder()
             .amount(0L)
             .category(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)

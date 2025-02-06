@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AuthRuleV2UpdateParamsTest {
 
     @Test
-    fun createAuthRuleV2UpdateParams() {
+    fun create() {
         AuthRuleV2UpdateParams.builder()
             .forAccountLevelRule(
                 AuthRuleV2UpdateParams.AccountLevelRule.builder()
