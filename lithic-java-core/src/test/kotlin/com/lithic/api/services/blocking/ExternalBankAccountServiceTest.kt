@@ -119,6 +119,7 @@ class ExternalBankAccountServiceTest {
                     .name("name")
                     .owner("owner")
                     .ownerType(OwnerType.INDIVIDUAL)
+                    .type(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
                     .userDefinedId("x")
                     .build()
             )

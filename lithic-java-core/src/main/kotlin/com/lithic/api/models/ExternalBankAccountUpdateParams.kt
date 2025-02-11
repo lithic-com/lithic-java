@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
@@ -17,6 +18,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
@@ -56,6 +58,8 @@ private constructor(
     /** Owner Type */
     fun ownerType(): Optional<OwnerType> = body.ownerType()
 
+    fun type(): Optional<AccountTypeExternal> = body.type()
+
     /** User Defined ID */
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
@@ -82,6 +86,8 @@ private constructor(
 
     /** Owner Type */
     fun _ownerType(): JsonField<OwnerType> = body._ownerType()
+
+    fun _type(): JsonField<AccountTypeExternal> = body._type()
 
     /** User Defined ID */
     fun _userDefinedId(): JsonField<String> = body._userDefinedId()
@@ -130,6 +136,9 @@ private constructor(
         @JsonProperty("owner_type")
         @ExcludeMissing
         private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        private val type: JsonField<AccountTypeExternal> = JsonMissing.of(),
         @JsonProperty("user_defined_id")
         @ExcludeMissing
         private val userDefinedId: JsonField<String> = JsonMissing.of(),
@@ -163,6 +172,8 @@ private constructor(
         /** Owner Type */
         fun ownerType(): Optional<OwnerType> =
             Optional.ofNullable(ownerType.getNullable("owner_type"))
+
+        fun type(): Optional<AccountTypeExternal> = Optional.ofNullable(type.getNullable("type"))
 
         /** User Defined ID */
         fun userDefinedId(): Optional<String> =
@@ -198,6 +209,8 @@ private constructor(
         @ExcludeMissing
         fun _ownerType(): JsonField<OwnerType> = ownerType
 
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AccountTypeExternal> = type
+
         /** User Defined ID */
         @JsonProperty("user_defined_id")
         @ExcludeMissing
@@ -221,6 +234,7 @@ private constructor(
             name()
             owner()
             ownerType()
+            type()
             userDefinedId()
             validated = true
         }
@@ -242,6 +256,7 @@ private constructor(
             private var name: JsonField<String> = JsonMissing.of()
             private var owner: JsonField<String> = JsonMissing.of()
             private var ownerType: JsonField<OwnerType> = JsonMissing.of()
+            private var type: JsonField<AccountTypeExternal> = JsonMissing.of()
             private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -255,6 +270,7 @@ private constructor(
                     name = externalBankAccountUpdateBody.name
                     owner = externalBankAccountUpdateBody.owner
                     ownerType = externalBankAccountUpdateBody.ownerType
+                    type = externalBankAccountUpdateBody.type
                     userDefinedId = externalBankAccountUpdateBody.userDefinedId
                     additionalProperties =
                         externalBankAccountUpdateBody.additionalProperties.toMutableMap()
@@ -313,6 +329,10 @@ private constructor(
             /** Owner Type */
             fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
 
+            fun type(type: AccountTypeExternal) = type(JsonField.of(type))
+
+            fun type(type: JsonField<AccountTypeExternal>) = apply { this.type = type }
+
             /** User Defined ID */
             fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
@@ -349,6 +369,7 @@ private constructor(
                     name,
                     owner,
                     ownerType,
+                    type,
                     userDefinedId,
                     additionalProperties.toImmutable(),
                 )
@@ -359,17 +380,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountUpdateBody && address == other.address && companyId == other.companyId && dob == other.dob && doingBusinessAs == other.doingBusinessAs && name == other.name && owner == other.owner && ownerType == other.ownerType && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalBankAccountUpdateBody && address == other.address && companyId == other.companyId && dob == other.dob && doingBusinessAs == other.doingBusinessAs && name == other.name && owner == other.owner && ownerType == other.ownerType && type == other.type && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, companyId, dob, doingBusinessAs, name, owner, ownerType, type, userDefinedId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalBankAccountUpdateBody{address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "ExternalBankAccountUpdateBody{address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -456,6 +477,10 @@ private constructor(
 
         /** Owner Type */
         fun ownerType(ownerType: JsonField<OwnerType>) = apply { body.ownerType(ownerType) }
+
+        fun type(type: AccountTypeExternal) = apply { body.type(type) }
+
+        fun type(type: JsonField<AccountTypeExternal>) = apply { body.type(type) }
 
         /** User Defined ID */
         fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
@@ -589,6 +614,101 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    class AccountTypeExternal
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val CHECKING = of("CHECKING")
+
+            @JvmField val SAVINGS = of("SAVINGS")
+
+            @JvmStatic fun of(value: String) = AccountTypeExternal(JsonField.of(value))
+        }
+
+        /** An enum containing [AccountTypeExternal]'s known values. */
+        enum class Known {
+            CHECKING,
+            SAVINGS,
+        }
+
+        /**
+         * An enum containing [AccountTypeExternal]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [AccountTypeExternal] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            CHECKING,
+            SAVINGS,
+            /**
+             * An enum member indicating that [AccountTypeExternal] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                CHECKING -> Value.CHECKING
+                SAVINGS -> Value.SAVINGS
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                CHECKING -> Known.CHECKING
+                SAVINGS -> Known.SAVINGS
+                else -> throw LithicInvalidDataException("Unknown AccountTypeExternal: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is AccountTypeExternal && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
