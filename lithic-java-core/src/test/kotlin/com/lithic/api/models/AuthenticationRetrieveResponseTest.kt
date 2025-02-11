@@ -49,7 +49,6 @@ class AuthenticationRetrieveResponseTest {
                 )
                 .channel(AuthenticationRetrieveResponse.Channel.APP_BASED)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
                 .merchant(
                     AuthenticationRetrieveResponse.Merchant.builder()
                         .id("id")
@@ -122,9 +121,18 @@ class AuthenticationRetrieveResponseTest {
                         .userAgent("user_agent")
                         .build()
                 )
+                .challengeMetadata(
+                    AuthenticationRetrieveResponse.ChallengeMetadata.builder()
+                        .methodType(
+                            AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP
+                        )
+                        .phoneNumber("phone_number")
+                        .build()
+                )
                 .challengeOrchestratedBy(
                     AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
                 )
+                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
                 .threeRiRequestType(
                     AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
                 )
@@ -184,8 +192,6 @@ class AuthenticationRetrieveResponseTest {
             .isEqualTo(AuthenticationRetrieveResponse.Channel.APP_BASED)
         assertThat(authenticationRetrieveResponse.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(authenticationRetrieveResponse.decisionMadeBy())
-            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
         assertThat(authenticationRetrieveResponse.merchant())
             .isEqualTo(
                 AuthenticationRetrieveResponse.Merchant.builder()
@@ -257,8 +263,17 @@ class AuthenticationRetrieveResponseTest {
                     .userAgent("user_agent")
                     .build()
             )
+        assertThat(authenticationRetrieveResponse.challengeMetadata())
+            .contains(
+                AuthenticationRetrieveResponse.ChallengeMetadata.builder()
+                    .methodType(AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP)
+                    .phoneNumber("phone_number")
+                    .build()
+            )
         assertThat(authenticationRetrieveResponse.challengeOrchestratedBy())
             .contains(AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC)
+        assertThat(authenticationRetrieveResponse.decisionMadeBy())
+            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
         assertThat(authenticationRetrieveResponse.threeRiRequestType())
             .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION)
         assertThat(authenticationRetrieveResponse.transaction())
