@@ -181,11 +181,7 @@ private constructor(
             }
 
             fun build(): AuthRuleV2BacktestCreateBody =
-                AuthRuleV2BacktestCreateBody(
-                    end,
-                    start,
-                    additionalProperties.toImmutable(),
-                )
+                AuthRuleV2BacktestCreateBody(end, start, additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {

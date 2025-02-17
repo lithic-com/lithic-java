@@ -17,9 +17,7 @@ import com.lithic.api.models.CardAggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class AggregateBalanceServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AggregateBalanceServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : AggregateBalanceServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Get the aggregated card balance across all end-user accounts. */
     override fun list(
         params: CardAggregateBalanceListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardAggregateBalanceListPageAsync> {
         val request =
             HttpRequest.builder()

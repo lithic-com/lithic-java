@@ -421,11 +421,7 @@ private constructor(
     }
 
     /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

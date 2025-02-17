@@ -21,10 +21,8 @@ import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
 
-class BookTransferServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BookTransferServiceAsync {
+class BookTransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    BookTransferServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -36,7 +34,7 @@ internal constructor(
      */
     override fun create(
         params: BookTransferCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BookTransferResponse> {
         val request =
             HttpRequest.builder()
@@ -64,7 +62,7 @@ internal constructor(
     /** Get book transfer by token */
     override fun retrieve(
         params: BookTransferRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BookTransferResponse> {
         val request =
             HttpRequest.builder()
@@ -92,7 +90,7 @@ internal constructor(
     /** List book transfers */
     override fun list(
         params: BookTransferListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BookTransferListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -120,7 +118,7 @@ internal constructor(
     /** Reverse a book transfer */
     override fun reverse(
         params: BookTransferReverseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BookTransferResponse> {
         val request =
             HttpRequest.builder()

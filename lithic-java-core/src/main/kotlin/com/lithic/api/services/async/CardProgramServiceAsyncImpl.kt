@@ -18,10 +18,8 @@ import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 import java.util.concurrent.CompletableFuture
 
-class CardProgramServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CardProgramServiceAsync {
+class CardProgramServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    CardProgramServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -31,7 +29,7 @@ internal constructor(
     /** Get card program. */
     override fun retrieve(
         params: CardProgramRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardProgram> {
         val request =
             HttpRequest.builder()
@@ -59,7 +57,7 @@ internal constructor(
     /** List card programs. */
     override fun list(
         params: CardProgramListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardProgramListPageAsync> {
         val request =
             HttpRequest.builder()

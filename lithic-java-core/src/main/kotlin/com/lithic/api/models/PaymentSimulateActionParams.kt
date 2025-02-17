@@ -409,9 +409,7 @@ private constructor(
     /** Event Type */
     class SupportedSimulationTypes
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -543,9 +541,7 @@ private constructor(
     /** Decline reason */
     class SupportedSimulationDeclineReasons
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

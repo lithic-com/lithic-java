@@ -21,10 +21,8 @@ import com.lithic.api.models.EventRetrieveParams
 import com.lithic.api.services.blocking.events.SubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionServiceImpl
 
-class EventServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : EventService {
+class EventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    EventService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -84,7 +82,7 @@ internal constructor(
     /** List all the message attempts for a given event. */
     override fun listAttempts(
         params: EventListAttemptsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): EventListAttemptsPage {
         val request =
             HttpRequest.builder()

@@ -32,14 +32,14 @@ interface V2Service {
     @JvmOverloads
     fun create(
         params: AuthRuleV2CreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2CreateResponse
 
     /** Fetches a V2 authorization rule by its token */
     @JvmOverloads
     fun retrieve(
         params: AuthRuleV2RetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2RetrieveResponse
 
     /**
@@ -51,21 +51,21 @@ interface V2Service {
     @JvmOverloads
     fun update(
         params: AuthRuleV2UpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2UpdateResponse
 
     /** Lists V2 authorization rules */
     @JvmOverloads
     fun list(
         params: AuthRuleV2ListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthRuleV2ListPage
 
     /** Deletes a V2 authorization rule */
     @JvmOverloads
     fun delete(
         params: AuthRuleV2DeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -76,7 +76,7 @@ interface V2Service {
     @JvmOverloads
     fun apply(
         params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2ApplyResponse
 
     /**
@@ -88,7 +88,7 @@ interface V2Service {
     @JvmOverloads
     fun draft(
         params: AuthRuleV2DraftParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2DraftResponse
 
     /**
@@ -98,7 +98,7 @@ interface V2Service {
     @JvmOverloads
     fun promote(
         params: AuthRuleV2PromoteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2PromoteResponse
 
     /**
@@ -150,6 +150,6 @@ interface V2Service {
     @JvmOverloads
     fun report(
         params: AuthRuleV2ReportParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): V2ReportResponse
 }

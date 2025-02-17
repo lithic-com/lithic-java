@@ -273,11 +273,8 @@ private constructor(
     }
 
     /** Reason for the financial account being marked as Charged Off */
-    class ChargedOffReason
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ChargedOffReason @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -371,9 +368,7 @@ private constructor(
     /** State of the financial account */
     class FinancialAccountState
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

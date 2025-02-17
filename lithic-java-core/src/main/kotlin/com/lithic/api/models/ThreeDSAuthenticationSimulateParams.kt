@@ -744,11 +744,8 @@ private constructor(
      * When set will use the following values as part of the Simulated Authentication. When not set
      * defaults to MATCH
      */
-    class CardExpiryCheck
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class CardExpiryCheck @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.

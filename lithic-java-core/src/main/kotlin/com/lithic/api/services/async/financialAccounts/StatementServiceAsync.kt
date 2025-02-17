@@ -20,13 +20,13 @@ interface StatementServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: FinancialAccountStatementRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Statement>
 
     /** List the statements for a given financial account. */
     @JvmOverloads
     fun list(
         params: FinancialAccountStatementListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountStatementListPageAsync>
 }

@@ -17,13 +17,13 @@ interface SettlementServiceAsync {
     @JvmOverloads
     fun listDetails(
         params: ReportSettlementListDetailsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReportSettlementListDetailsPageAsync>
 
     /** Get the settlement report for a specified report date. Not available in sandbox. */
     @JvmOverloads
     fun summary(
         params: ReportSettlementSummaryParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SettlementReport>
 }

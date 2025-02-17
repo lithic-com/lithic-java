@@ -17,10 +17,8 @@ import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
 
-class SettlementServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : SettlementService {
+class SettlementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    SettlementService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -31,7 +29,7 @@ internal constructor(
     /** List details. */
     override fun listDetails(
         params: ReportSettlementListDetailsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ReportSettlementListDetailsPage {
         val request =
             HttpRequest.builder()
@@ -56,7 +54,7 @@ internal constructor(
     /** Get the settlement report for a specified report date. Not available in sandbox. */
     override fun summary(
         params: ReportSettlementSummaryParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): SettlementReport {
         val request =
             HttpRequest.builder()

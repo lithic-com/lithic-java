@@ -21,9 +21,7 @@ import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
 
 class ManagementOperationServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ManagementOperationService {
+internal constructor(private val clientOptions: ClientOptions) : ManagementOperationService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -34,7 +32,7 @@ internal constructor(
     /** Create management operation */
     override fun create(
         params: ManagementOperationCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ManagementOperationTransaction {
         val request =
             HttpRequest.builder()
@@ -60,7 +58,7 @@ internal constructor(
     /** Get management operation */
     override fun retrieve(
         params: ManagementOperationRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ManagementOperationTransaction {
         val request =
             HttpRequest.builder()
@@ -85,7 +83,7 @@ internal constructor(
     /** List management operations */
     override fun list(
         params: ManagementOperationListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ManagementOperationListPage {
         val request =
             HttpRequest.builder()
@@ -111,7 +109,7 @@ internal constructor(
     /** Reverse a management operation */
     override fun reverse(
         params: ManagementOperationReverseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ManagementOperationTransaction {
         val request =
             HttpRequest.builder()

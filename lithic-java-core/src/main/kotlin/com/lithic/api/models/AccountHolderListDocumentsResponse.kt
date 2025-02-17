@@ -107,7 +107,7 @@ private constructor(
         fun build(): AccountHolderListDocumentsResponse =
             AccountHolderListDocumentsResponse(
                 (data ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable()
+                additionalProperties.toImmutable(),
             )
     }
 

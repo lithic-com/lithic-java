@@ -22,10 +22,8 @@ import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
 import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 
-class DecisioningServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : DecisioningService {
+class DecisioningServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    DecisioningService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -35,7 +33,7 @@ internal constructor(
     /** Card program's response to a 3DS Challenge Request (CReq) */
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ) {
         val request =
             HttpRequest.builder()
@@ -62,7 +60,7 @@ internal constructor(
      */
     override fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DecisioningRetrieveSecretResponse {
         val request =
             HttpRequest.builder()
@@ -90,7 +88,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ) {
         val request =
             HttpRequest.builder()
@@ -114,7 +112,7 @@ internal constructor(
      */
     override fun simulateChallenge(
         params: ThreeDSDecisioningSimulateChallengeParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DecisioningSimulateChallengeResponse {
         val request =
             HttpRequest.builder()
@@ -142,7 +140,7 @@ internal constructor(
      */
     override fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ) {
         val request =
             HttpRequest.builder()

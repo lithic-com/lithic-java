@@ -213,11 +213,8 @@ private constructor(
     }
 
     /** Type of documentation to be submitted for verification of an account holder */
-    class DocumentType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class DocumentType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -774,11 +771,8 @@ private constructor(
         }
 
         /** Type of image to upload. */
-        class ImageType
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class ImageType @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -872,9 +866,7 @@ private constructor(
         /** Status of an account holder's document upload. */
         class DocumentUploadStatus
         @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -988,9 +980,7 @@ private constructor(
         /** The status reasons for an account holder document upload that is not ACCEPTED */
         class DocumentUploadStatusReasons
         @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.

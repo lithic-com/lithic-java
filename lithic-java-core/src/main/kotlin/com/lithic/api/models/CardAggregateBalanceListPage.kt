@@ -66,13 +66,8 @@ private constructor(
         fun of(
             aggregateBalancesService: AggregateBalanceService,
             params: CardAggregateBalanceListParams,
-            response: Response
-        ) =
-            CardAggregateBalanceListPage(
-                aggregateBalancesService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = CardAggregateBalanceListPage(aggregateBalancesService, params, response)
     }
 
     @NoAutoDetect
@@ -160,18 +155,12 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: CardAggregateBalanceListPage,
-    ) : Iterable<AggregateBalanceListResponse> {
+    class AutoPager(private val firstPage: CardAggregateBalanceListPage) :
+        Iterable<AggregateBalanceListResponse> {
 
         override fun iterator(): Iterator<AggregateBalanceListResponse> = iterator {
             var page = firstPage

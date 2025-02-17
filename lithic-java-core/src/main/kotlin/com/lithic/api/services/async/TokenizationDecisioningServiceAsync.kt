@@ -23,7 +23,7 @@ interface TokenizationDecisioningServiceAsync {
     @JvmOverloads
     fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationSecret>
 
     /**
@@ -33,6 +33,6 @@ interface TokenizationDecisioningServiceAsync {
     @JvmOverloads
     fun rotateSecret(
         params: TokenizationDecisioningRotateSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationDecisioningRotateSecretResponse>
 }

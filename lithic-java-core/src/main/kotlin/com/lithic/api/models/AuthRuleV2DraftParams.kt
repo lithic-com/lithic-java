@@ -495,7 +495,7 @@ private constructor(
             override fun serialize(
                 value: Parameters,
                 generator: JsonGenerator,
-                provider: SerializerProvider
+                provider: SerializerProvider,
             ) {
                 when {
                     value.conditionalBlock != null -> generator.writeObject(value.conditionalBlock)

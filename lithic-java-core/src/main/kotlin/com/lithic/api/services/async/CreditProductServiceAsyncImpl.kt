@@ -8,10 +8,8 @@ import com.lithic.api.services.async.creditProducts.ExtendedCreditServiceAsyncIm
 import com.lithic.api.services.async.creditProducts.PrimeRateServiceAsync
 import com.lithic.api.services.async.creditProducts.PrimeRateServiceAsyncImpl
 
-class CreditProductServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CreditProductServiceAsync {
+class CreditProductServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    CreditProductServiceAsync {
 
     private val extendedCredit: ExtendedCreditServiceAsync by lazy {
         ExtendedCreditServiceAsyncImpl(clientOptions)

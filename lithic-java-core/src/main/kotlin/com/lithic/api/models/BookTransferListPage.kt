@@ -84,13 +84,8 @@ private constructor(
         fun of(
             bookTransfersService: BookTransferService,
             params: BookTransferListParams,
-            response: Response
-        ) =
-            BookTransferListPage(
-                bookTransfersService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = BookTransferListPage(bookTransfersService, params, response)
     }
 
     @NoAutoDetect
@@ -175,18 +170,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: BookTransferListPage,
-    ) : Iterable<BookTransferResponse> {
+    class AutoPager(private val firstPage: BookTransferListPage) : Iterable<BookTransferResponse> {
 
         override fun iterator(): Iterator<BookTransferResponse> = iterator {
             var page = firstPage

@@ -23,10 +23,8 @@ import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
 import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 import java.util.concurrent.CompletableFuture
 
-class DecisioningServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : DecisioningServiceAsync {
+class DecisioningServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    DecisioningServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -36,7 +34,7 @@ internal constructor(
     /** Card program's response to a 3DS Challenge Request (CReq) */
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -64,7 +62,7 @@ internal constructor(
      */
     override fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DecisioningRetrieveSecretResponse> {
         val request =
             HttpRequest.builder()
@@ -95,7 +93,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -120,7 +118,7 @@ internal constructor(
      */
     override fun simulateChallenge(
         params: ThreeDSDecisioningSimulateChallengeParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DecisioningSimulateChallengeResponse> {
         val request =
             HttpRequest.builder()
@@ -151,7 +149,7 @@ internal constructor(
      */
     override fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()

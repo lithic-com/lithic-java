@@ -40,7 +40,7 @@ interface BacktestServiceAsync {
     @JvmOverloads
     fun create(
         params: AuthRuleV2BacktestCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BacktestCreateResponse>
 
     /**
@@ -64,6 +64,6 @@ interface BacktestServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BacktestResults>
 }

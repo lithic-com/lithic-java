@@ -16,13 +16,13 @@ interface CardProgramService {
     @JvmOverloads
     fun retrieve(
         params: CardProgramRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProgram
 
     /** List card programs. */
     @JvmOverloads
     fun list(
         params: CardProgramListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProgramListPage
 }
