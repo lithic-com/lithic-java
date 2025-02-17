@@ -38,7 +38,9 @@ class TransactionSimulateAuthorizationParamsTest {
                 .pin("1234")
                 .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
@@ -61,7 +63,9 @@ class TransactionSimulateAuthorizationParamsTest {
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")

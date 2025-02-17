@@ -37,7 +37,9 @@ class ExternalPaymentCreateParamsTest {
                 .progressTo(ExternalPaymentCreateParams.ExternalPaymentProgressTo.SETTLED)
                 .userDefinedId("user_defined_id")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
@@ -63,7 +65,9 @@ class ExternalPaymentCreateParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentType(ExternalPaymentCreateParams.ExternalPaymentDirection.DEPOSIT)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())

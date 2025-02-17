@@ -22,7 +22,9 @@ class TransactionSimulateAuthorizationAdviceParamsTest {
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(3831L)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).isEqualTo(3831L)
@@ -35,7 +37,9 @@ class TransactionSimulateAuthorizationAdviceParamsTest {
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(3831L)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).isEqualTo(3831L)

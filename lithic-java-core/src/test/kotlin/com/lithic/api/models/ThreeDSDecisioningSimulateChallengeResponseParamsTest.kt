@@ -10,8 +10,12 @@ class ThreeDSDecisioningSimulateChallengeResponseParamsTest {
     @Test
     fun create() {
         ThreeDSDecisioningSimulateChallengeResponseParams.builder()
-            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .challengeResponse(ChallengeResult.APPROVE)
+            .challengeResponse(
+                ChallengeResponse.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .challengeResponse(ChallengeResult.APPROVE)
+                    .build()
+            )
             .build()
     }
 
@@ -19,25 +23,47 @@ class ThreeDSDecisioningSimulateChallengeResponseParamsTest {
     fun body() {
         val params =
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .challengeResponse(ChallengeResult.APPROVE)
+                .challengeResponse(
+                    ChallengeResponse.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .challengeResponse(ChallengeResult.APPROVE)
+                        .build()
+                )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.challengeResponse()).isEqualTo(ChallengeResult.APPROVE)
+        assertThat(body)
+            .isEqualTo(
+                ChallengeResponse.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .challengeResponse(ChallengeResult.APPROVE)
+                    .build()
+            )
     }
 
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .challengeResponse(ChallengeResult.APPROVE)
+                .challengeResponse(
+                    ChallengeResponse.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .challengeResponse(ChallengeResult.APPROVE)
+                        .build()
+                )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.challengeResponse()).isEqualTo(ChallengeResult.APPROVE)
+        assertThat(body)
+            .isEqualTo(
+                ChallengeResponse.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .challengeResponse(ChallengeResult.APPROVE)
+                    .build()
+            )
     }
 }

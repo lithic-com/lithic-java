@@ -26,7 +26,7 @@ import java.util.Optional
 /** Initiate a dispute. */
 class DisputeCreateParams
 private constructor(
-    private val body: DisputeCreateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -67,16 +67,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): DisputeCreateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class DisputeCreateBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
@@ -140,7 +140,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): DisputeCreateBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -160,7 +160,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [DisputeCreateBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
@@ -171,13 +171,13 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(disputeCreateBody: DisputeCreateBody) = apply {
-                amount = disputeCreateBody.amount
-                reason = disputeCreateBody.reason
-                transactionToken = disputeCreateBody.transactionToken
-                customerFiledDate = disputeCreateBody.customerFiledDate
-                customerNote = disputeCreateBody.customerNote
-                additionalProperties = disputeCreateBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                amount = body.amount
+                reason = body.reason
+                transactionToken = body.transactionToken
+                customerFiledDate = body.customerFiledDate
+                customerNote = body.customerNote
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** Amount to dispute */
@@ -237,8 +237,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): DisputeCreateBody =
-                DisputeCreateBody(
+            fun build(): Body =
+                Body(
                     checkRequired("amount", amount),
                     checkRequired("reason", reason),
                     checkRequired("transactionToken", transactionToken),
@@ -253,7 +253,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DisputeCreateBody && amount == other.amount && reason == other.reason && transactionToken == other.transactionToken && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && amount == other.amount && reason == other.reason && transactionToken == other.transactionToken && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -263,7 +263,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "DisputeCreateBody{amount=$amount, reason=$reason, transactionToken=$transactionToken, customerFiledDate=$customerFiledDate, customerNote=$customerNote, additionalProperties=$additionalProperties}"
+            "Body{amount=$amount, reason=$reason, transactionToken=$transactionToken, customerFiledDate=$customerFiledDate, customerNote=$customerNote, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -277,7 +277,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: DisputeCreateBody.Builder = DisputeCreateBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

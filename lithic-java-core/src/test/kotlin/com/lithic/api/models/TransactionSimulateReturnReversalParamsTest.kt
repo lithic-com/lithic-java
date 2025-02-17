@@ -20,7 +20,9 @@ class TransactionSimulateReturnReversalParamsTest {
             TransactionSimulateReturnReversalParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
@@ -31,7 +33,9 @@ class TransactionSimulateReturnReversalParamsTest {
             TransactionSimulateReturnReversalParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }

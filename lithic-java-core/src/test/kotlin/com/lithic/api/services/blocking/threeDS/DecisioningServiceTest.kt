@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.models.ChallengeResponse
 import com.lithic.api.models.ChallengeResult
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
@@ -26,8 +27,12 @@ class DecisioningServiceTest {
         val decisioningService = client.threeDS().decisioning()
         decisioningService.challengeResponse(
             ThreeDSDecisioningChallengeResponseParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .challengeResponse(ChallengeResult.APPROVE)
+                .challengeResponse(
+                    ChallengeResponse.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .challengeResponse(ChallengeResult.APPROVE)
+                        .build()
+                )
                 .build()
         )
     }
@@ -87,8 +92,12 @@ class DecisioningServiceTest {
         val decisioningService = client.threeDS().decisioning()
         decisioningService.simulateChallengeResponse(
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .challengeResponse(ChallengeResult.APPROVE)
+                .challengeResponse(
+                    ChallengeResponse.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .challengeResponse(ChallengeResult.APPROVE)
+                        .build()
+                )
                 .build()
         )
     }

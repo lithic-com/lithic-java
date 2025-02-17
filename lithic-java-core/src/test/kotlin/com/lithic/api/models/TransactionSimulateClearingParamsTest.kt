@@ -22,7 +22,9 @@ class TransactionSimulateClearingParamsTest {
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(0L)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).contains(0L)
@@ -34,7 +36,9 @@ class TransactionSimulateClearingParamsTest {
             TransactionSimulateClearingParams.builder()
                 .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }

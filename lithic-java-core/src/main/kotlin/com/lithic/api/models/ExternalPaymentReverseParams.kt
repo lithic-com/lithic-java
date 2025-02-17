@@ -25,7 +25,7 @@ import java.util.Optional
 class ExternalPaymentReverseParams
 private constructor(
     private val externalPaymentToken: String,
-    private val body: ExternalPaymentReverseBody,
+    private val body: ExternalPaymentActionRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -46,7 +46,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalPaymentReverseBody = body
+    @JvmSynthetic internal fun _body(): ExternalPaymentActionRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -60,9 +60,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class ExternalPaymentReverseBody
+    class ExternalPaymentActionRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("effective_date")
         @ExcludeMissing
         private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
@@ -89,7 +89,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalPaymentReverseBody = apply {
+        fun validate(): ExternalPaymentActionRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -106,7 +106,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalPaymentReverseBody]. */
+        /** A builder for [ExternalPaymentActionRequest]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -114,11 +114,11 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(externalPaymentReverseBody: ExternalPaymentReverseBody) = apply {
-                effectiveDate = externalPaymentReverseBody.effectiveDate
-                memo = externalPaymentReverseBody.memo
+            internal fun from(externalPaymentActionRequest: ExternalPaymentActionRequest) = apply {
+                effectiveDate = externalPaymentActionRequest.effectiveDate
+                memo = externalPaymentActionRequest.memo
                 additionalProperties =
-                    externalPaymentReverseBody.additionalProperties.toMutableMap()
+                    externalPaymentActionRequest.additionalProperties.toMutableMap()
             }
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -150,8 +150,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalPaymentReverseBody =
-                ExternalPaymentReverseBody(
+            fun build(): ExternalPaymentActionRequest =
+                ExternalPaymentActionRequest(
                     checkRequired("effectiveDate", effectiveDate),
                     memo,
                     additionalProperties.toImmutable(),
@@ -163,7 +163,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentReverseBody && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentActionRequest && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -173,7 +173,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalPaymentReverseBody{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
+            "ExternalPaymentActionRequest{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -188,7 +188,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var externalPaymentToken: String? = null
-        private var body: ExternalPaymentReverseBody.Builder = ExternalPaymentReverseBody.builder()
+        private var body: ExternalPaymentActionRequest.Builder =
+            ExternalPaymentActionRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
