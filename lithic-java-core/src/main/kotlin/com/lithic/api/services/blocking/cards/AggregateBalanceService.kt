@@ -14,6 +14,6 @@ interface AggregateBalanceService {
     @JvmOverloads
     fun list(
         params: CardAggregateBalanceListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardAggregateBalanceListPage
 }

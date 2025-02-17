@@ -173,7 +173,7 @@ private constructor(
             override fun serialize(
                 value: AccountHolderCreateBody,
                 generator: JsonGenerator,
-                provider: SerializerProvider
+                provider: SerializerProvider,
             ) {
                 when {
                     value.kyb != null -> generator.writeObject(value.kyb)

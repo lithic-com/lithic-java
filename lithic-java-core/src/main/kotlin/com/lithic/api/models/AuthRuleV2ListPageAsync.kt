@@ -85,11 +85,7 @@ private constructor(
 
         @JvmStatic
         fun of(v2Service: V2ServiceAsync, params: AuthRuleV2ListParams, response: Response) =
-            AuthRuleV2ListPageAsync(
-                v2Service,
-                params,
-                response,
-            )
+            AuthRuleV2ListPageAsync(v2Service, params, response)
     }
 
     @NoAutoDetect
@@ -173,26 +169,19 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: AuthRuleV2ListPageAsync,
-    ) {
+    class AutoPager(private val firstPage: AuthRuleV2ListPageAsync) {
 
         fun forEach(
             action: Predicate<V2ListResponse>,
-            executor: Executor
+            executor: Executor,
         ): CompletableFuture<Void> {
             fun CompletableFuture<Optional<AuthRuleV2ListPageAsync>>.forEach(
                 action: (V2ListResponse) -> Boolean,
-                executor: Executor
+                executor: Executor,
             ): CompletableFuture<Void> =
                 thenComposeAsync(
                     { page ->
@@ -201,7 +190,7 @@ private constructor(
                             .map { it.getNextPage().forEach(action, executor) }
                             .orElseGet { CompletableFuture.completedFuture(null) }
                     },
-                    executor
+                    executor,
                 )
             return CompletableFuture.completedFuture(Optional.of(firstPage))
                 .forEach(action::test, executor)

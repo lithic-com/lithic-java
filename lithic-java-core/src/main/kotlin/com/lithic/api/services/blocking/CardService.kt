@@ -41,14 +41,14 @@ interface CardService {
     @JvmOverloads
     fun create(
         params: CardCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /** Get card configuration such as spend limit and state. */
     @JvmOverloads
     fun retrieve(
         params: CardRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /**
@@ -59,14 +59,14 @@ interface CardService {
     @JvmOverloads
     fun update(
         params: CardUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /** List cards. */
     @JvmOverloads
     fun list(
         params: CardListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardListPage
 
     /**
@@ -82,7 +82,7 @@ interface CardService {
     @JvmOverloads
     fun convertPhysical(
         params: CardConvertPhysicalParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /**
@@ -114,7 +114,7 @@ interface CardService {
     @JvmOverloads
     fun embed(
         params: CardEmbedParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): String
 
     /**
@@ -128,7 +128,7 @@ interface CardService {
     @JvmOverloads
     fun provision(
         params: CardProvisionParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProvisionResponse
 
     /**
@@ -140,7 +140,7 @@ interface CardService {
     @JvmOverloads
     fun reissue(
         params: CardReissueParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /**
@@ -162,7 +162,7 @@ interface CardService {
     @JvmOverloads
     fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CardSpendLimits
 
     /**
@@ -174,7 +174,7 @@ interface CardService {
     @JvmOverloads
     fun searchByPan(
         params: CardSearchByPanParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     fun getEmbedHtml(

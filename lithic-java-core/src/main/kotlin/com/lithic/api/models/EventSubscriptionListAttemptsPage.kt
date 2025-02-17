@@ -84,13 +84,8 @@ private constructor(
         fun of(
             subscriptionsService: SubscriptionService,
             params: EventSubscriptionListAttemptsParams,
-            response: Response
-        ) =
-            EventSubscriptionListAttemptsPage(
-                subscriptionsService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = EventSubscriptionListAttemptsPage(subscriptionsService, params, response)
     }
 
     @NoAutoDetect
@@ -174,18 +169,12 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: EventSubscriptionListAttemptsPage,
-    ) : Iterable<MessageAttempt> {
+    class AutoPager(private val firstPage: EventSubscriptionListAttemptsPage) :
+        Iterable<MessageAttempt> {
 
         override fun iterator(): Iterator<MessageAttempt> = iterator {
             var page = firstPage

@@ -22,7 +22,7 @@ interface AuthStreamEnrollmentServiceAsync {
     @JvmOverloads
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthStreamSecret>
 
     /**
@@ -34,6 +34,6 @@ interface AuthStreamEnrollmentServiceAsync {
     @JvmOverloads
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 }

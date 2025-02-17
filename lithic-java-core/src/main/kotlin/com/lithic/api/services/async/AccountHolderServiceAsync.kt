@@ -36,21 +36,21 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun create(
         params: AccountHolderCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderCreateResponse>
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     @JvmOverloads
     fun retrieve(
         params: AccountHolderRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolder>
 
     /** Update the information associated with a particular account holder. */
     @JvmOverloads
     fun update(
         params: AccountHolderUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderUpdateResponse>
 
     /**
@@ -59,7 +59,7 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun list(
         params: AccountHolderListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderListPageAsync>
 
     /**
@@ -80,7 +80,7 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun listDocuments(
         params: AccountHolderListDocumentsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderListDocumentsResponse>
 
     /**
@@ -101,14 +101,14 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Document>
 
     /** Simulates a review for an account holder document upload. */
     @JvmOverloads
     fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Document>
 
     /**
@@ -118,7 +118,7 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse>
 
     /**
@@ -142,6 +142,6 @@ interface AccountHolderServiceAsync {
     @JvmOverloads
     fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Document>
 }

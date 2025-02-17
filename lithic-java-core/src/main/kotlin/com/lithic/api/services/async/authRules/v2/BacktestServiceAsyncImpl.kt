@@ -19,10 +19,8 @@ import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 import java.util.concurrent.CompletableFuture
 
-class BacktestServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BacktestServiceAsync {
+class BacktestServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    BacktestServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -55,7 +53,7 @@ internal constructor(
      */
     override fun create(
         params: AuthRuleV2BacktestCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BacktestCreateResponse> {
         val request =
             HttpRequest.builder()
@@ -100,7 +98,7 @@ internal constructor(
      */
     override fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<BacktestResults> {
         val request =
             HttpRequest.builder()
@@ -110,7 +108,7 @@ internal constructor(
                     "auth_rules",
                     params.getPathParam(0),
                     "backtests",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

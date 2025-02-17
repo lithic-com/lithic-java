@@ -611,7 +611,7 @@ private constructor(
                 override fun serialize(
                     value: Parameters,
                     generator: JsonGenerator,
-                    provider: SerializerProvider
+                    provider: SerializerProvider,
                 ) {
                     when {
                         value.conditionalBlock != null ->
@@ -903,7 +903,7 @@ private constructor(
                 override fun serialize(
                     value: Parameters,
                     generator: JsonGenerator,
-                    provider: SerializerProvider
+                    provider: SerializerProvider,
                 ) {
                     when {
                         value.conditionalBlock != null ->
@@ -936,11 +936,8 @@ private constructor(
     }
 
     /** The state of the Auth Rule */
-    class AuthRuleState
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class AuthRuleState @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1032,11 +1029,8 @@ private constructor(
     }
 
     /** The type of Auth Rule */
-    class AuthRuleType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class AuthRuleType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.

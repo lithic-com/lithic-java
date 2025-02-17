@@ -105,7 +105,7 @@ private constructor(
         fun build(): TokenizationSimulateResponse =
             TokenizationSimulateResponse(
                 (data ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable()
+                additionalProperties.toImmutable(),
             )
     }
 

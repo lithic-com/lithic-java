@@ -15,10 +15,8 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccountBalanceListPage
 import com.lithic.api.models.FinancialAccountBalanceListParams
 
-class BalanceServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BalanceService {
+class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    BalanceService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get the balances for a given financial account. */
     override fun list(
         params: FinancialAccountBalanceListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): FinancialAccountBalanceListPage {
         val request =
             HttpRequest.builder()

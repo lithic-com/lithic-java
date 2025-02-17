@@ -17,9 +17,8 @@ import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParam
 import java.util.concurrent.CompletableFuture
 
 class EnhancedCommercialDataServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : EnhancedCommercialDataServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) :
+    EnhancedCommercialDataServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -32,7 +31,7 @@ internal constructor(
      */
     override fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EnhancedData> {
         val request =
             HttpRequest.builder()
@@ -42,7 +41,7 @@ internal constructor(
                     "transactions",
                     "events",
                     params.getPathParam(0),
-                    "enhanced_commercial_data"
+                    "enhanced_commercial_data",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

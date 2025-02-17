@@ -8,10 +8,8 @@ import com.lithic.api.services.blocking.threeDS.AuthenticationServiceImpl
 import com.lithic.api.services.blocking.threeDS.DecisioningService
 import com.lithic.api.services.blocking.threeDS.DecisioningServiceImpl
 
-class ThreeDSServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ThreeDSService {
+class ThreeDSServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ThreeDSService {
 
     private val authentication: AuthenticationService by lazy {
         AuthenticationServiceImpl(clientOptions)

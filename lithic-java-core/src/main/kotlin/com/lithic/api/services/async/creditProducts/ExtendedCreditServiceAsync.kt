@@ -15,6 +15,6 @@ interface ExtendedCreditServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExtendedCredit>
 }

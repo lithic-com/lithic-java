@@ -19,10 +19,8 @@ import com.lithic.api.models.Statement
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemService
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemServiceImpl
 
-class StatementServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StatementService {
+class StatementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    StatementService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -36,7 +34,7 @@ internal constructor(
     /** Get a specific statement for a given financial account. */
     override fun retrieve(
         params: FinancialAccountStatementRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): Statement {
         val request =
             HttpRequest.builder()
@@ -46,7 +44,7 @@ internal constructor(
                     "financial_accounts",
                     params.getPathParam(0),
                     "statements",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepare(clientOptions, params)
@@ -67,7 +65,7 @@ internal constructor(
     /** List the statements for a given financial account. */
     override fun list(
         params: FinancialAccountStatementListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): FinancialAccountStatementListPage {
         val request =
             HttpRequest.builder()

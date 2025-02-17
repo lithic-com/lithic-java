@@ -15,13 +15,13 @@ interface PrimeRateService {
     @JvmOverloads
     fun create(
         params: CreditProductPrimeRateCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Get Credit Product Prime Rates */
     @JvmOverloads
     fun retrieve(
         params: CreditProductPrimeRateRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): PrimeRateRetrieveResponse
 }

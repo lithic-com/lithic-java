@@ -108,7 +108,7 @@ private constructor(
         fun build(): EnhancedCommercialDataRetrieveResponse =
             EnhancedCommercialDataRetrieveResponse(
                 checkRequired("data", data).map { it.toImmutable() },
-                additionalProperties.toImmutable()
+                additionalProperties.toImmutable(),
             )
     }
 

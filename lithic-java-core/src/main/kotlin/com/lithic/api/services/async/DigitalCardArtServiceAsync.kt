@@ -17,13 +17,13 @@ interface DigitalCardArtServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArt>
 
     /** List digital card art. */
     @JvmOverloads
     fun list(
         params: DigitalCardArtListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArtListPageAsync>
 }
