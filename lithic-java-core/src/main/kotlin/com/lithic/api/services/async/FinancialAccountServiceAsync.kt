@@ -36,34 +36,34 @@ interface FinancialAccountServiceAsync {
     @JvmOverloads
     fun create(
         params: FinancialAccountCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Get a financial account */
     @JvmOverloads
     fun retrieve(
         params: FinancialAccountRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Update a financial account */
     @JvmOverloads
     fun update(
         params: FinancialAccountUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads
     fun list(
         params: FinancialAccountListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountListPageAsync>
 
     /** Update issuing account state to charged off */
     @JvmOverloads
     fun chargeOff(
         params: FinancialAccountChargeOffParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountCreditConfig>
 }

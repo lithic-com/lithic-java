@@ -539,11 +539,7 @@ private constructor(
      *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
      *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
      */
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

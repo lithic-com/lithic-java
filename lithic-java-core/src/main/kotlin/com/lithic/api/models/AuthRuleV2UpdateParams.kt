@@ -199,7 +199,7 @@ private constructor(
             override fun serialize(
                 value: AuthRuleV2UpdateBody,
                 generator: JsonGenerator,
-                provider: SerializerProvider
+                provider: SerializerProvider,
             ) {
                 when {
                     value.accountLevelRule != null -> generator.writeObject(value.accountLevelRule)
@@ -532,11 +532,7 @@ private constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        class State
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -557,7 +553,7 @@ private constructor(
 
             /** An enum containing [State]'s known values. */
             enum class Known {
-                INACTIVE,
+                INACTIVE
             }
 
             /**
@@ -812,11 +808,7 @@ private constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        class State
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -837,7 +829,7 @@ private constructor(
 
             /** An enum containing [State]'s known values. */
             enum class Known {
-                INACTIVE,
+                INACTIVE
             }
 
             /**
@@ -1117,11 +1109,7 @@ private constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        class State
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1142,7 +1130,7 @@ private constructor(
 
             /** An enum containing [State]'s known values. */
             enum class Known {
-                INACTIVE,
+                INACTIVE
             }
 
             /**

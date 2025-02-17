@@ -32,10 +32,8 @@ import com.lithic.api.models.Document
 import java.time.Duration
 import java.util.concurrent.CompletableFuture
 
-class AccountHolderServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AccountHolderServiceAsync {
+class AccountHolderServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    AccountHolderServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -53,7 +51,7 @@ internal constructor(
      */
     override fun create(
         params: AccountHolderCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolderCreateResponse> {
         val request =
             HttpRequest.builder()
@@ -68,7 +66,7 @@ internal constructor(
                     it,
                     requestOptions.applyDefaults(
                         RequestOptions.builder().timeout(Duration.ofMillis(300000)).build()
-                    )
+                    ),
                 )
             }
             .thenApply { response ->
@@ -88,7 +86,7 @@ internal constructor(
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     override fun retrieve(
         params: AccountHolderRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolder> {
         val request =
             HttpRequest.builder()
@@ -116,7 +114,7 @@ internal constructor(
     /** Update the information associated with a particular account holder. */
     override fun update(
         params: AccountHolderUpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolderUpdateResponse> {
         val request =
             HttpRequest.builder()
@@ -147,7 +145,7 @@ internal constructor(
      */
     override fun list(
         params: AccountHolderListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolderListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -190,7 +188,7 @@ internal constructor(
      */
     override fun listDocuments(
         params: AccountHolderListDocumentsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolderListDocumentsResponse> {
         val request =
             HttpRequest.builder()
@@ -231,7 +229,7 @@ internal constructor(
      */
     override fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()
@@ -241,7 +239,7 @@ internal constructor(
                     "account_holders",
                     params.getPathParam(0),
                     "documents",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepareAsync(clientOptions, params)
@@ -264,7 +262,7 @@ internal constructor(
     /** Simulates a review for an account holder document upload. */
     override fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()
@@ -297,7 +295,7 @@ internal constructor(
      */
     override fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> {
         val request =
             HttpRequest.builder()
@@ -342,7 +340,7 @@ internal constructor(
      */
     override fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()

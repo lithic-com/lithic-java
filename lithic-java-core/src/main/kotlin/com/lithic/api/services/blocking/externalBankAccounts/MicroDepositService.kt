@@ -14,6 +14,6 @@ interface MicroDepositService {
     @JvmOverloads
     fun create(
         params: ExternalBankAccountMicroDepositCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): MicroDepositCreateResponse
 }

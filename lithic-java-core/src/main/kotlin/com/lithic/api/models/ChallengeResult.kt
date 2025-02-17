@@ -8,11 +8,8 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.errors.LithicInvalidDataException
 
 /** Whether the Cardholder has Approved or Declined the issued Challenge */
-class ChallengeResult
-@JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+class ChallengeResult @JsonCreator private constructor(private val value: JsonField<String>) :
+    Enum {
 
     /**
      * Returns this class instance's raw value.

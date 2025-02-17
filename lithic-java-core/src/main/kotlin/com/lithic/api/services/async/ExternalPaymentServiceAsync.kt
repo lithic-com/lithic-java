@@ -22,48 +22,48 @@ interface ExternalPaymentServiceAsync {
     @JvmOverloads
     fun create(
         params: ExternalPaymentCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Get external payment */
     @JvmOverloads
     fun retrieve(
         params: ExternalPaymentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** List external payments */
     @JvmOverloads
     fun list(
         params: ExternalPaymentListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPaymentListPageAsync>
 
     /** Cancel external payment */
     @JvmOverloads
     fun cancel(
         params: ExternalPaymentCancelParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Release external payment */
     @JvmOverloads
     fun release(
         params: ExternalPaymentReleaseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Reverse external payment */
     @JvmOverloads
     fun reverse(
         params: ExternalPaymentReverseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Settle external payment */
     @JvmOverloads
     fun settle(
         params: ExternalPaymentSettleParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 }

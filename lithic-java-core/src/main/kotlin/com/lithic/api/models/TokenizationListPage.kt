@@ -84,13 +84,8 @@ private constructor(
         fun of(
             tokenizationsService: TokenizationService,
             params: TokenizationListParams,
-            response: Response
-        ) =
-            TokenizationListPage(
-                tokenizationsService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = TokenizationListPage(tokenizationsService, params, response)
     }
 
     @NoAutoDetect
@@ -174,18 +169,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: TokenizationListPage,
-    ) : Iterable<Tokenization> {
+    class AutoPager(private val firstPage: TokenizationListPage) : Iterable<Tokenization> {
 
         override fun iterator(): Iterator<Tokenization> = iterator {
             var page = firstPage

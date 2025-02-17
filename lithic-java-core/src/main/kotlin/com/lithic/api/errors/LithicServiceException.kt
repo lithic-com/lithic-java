@@ -10,7 +10,7 @@ constructor(
     private val body: String,
     private val error: LithicError,
     message: String = "$statusCode: $error",
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : LithicException(message, cause) {
 
     fun statusCode(): Int = statusCode

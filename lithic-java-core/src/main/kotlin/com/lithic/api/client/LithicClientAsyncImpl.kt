@@ -69,9 +69,7 @@ import com.lithic.api.services.async.WebhookServiceAsync
 import com.lithic.api.services.async.WebhookServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class LithicClientAsyncImpl(
-    private val clientOptions: ClientOptions,
-) : LithicClientAsync {
+class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicClientAsync {
 
     private val clientOptionsWithUserAgent =
         if (clientOptions.headers.names().contains("User-Agent")) clientOptions
@@ -247,7 +245,7 @@ class LithicClientAsyncImpl(
     /** Status of api */
     override fun apiStatus(
         params: ClientApiStatusParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ApiStatus> {
         val request =
             HttpRequest.builder()

@@ -16,13 +16,13 @@ interface FinancialTransactionService {
     @JvmOverloads
     fun retrieve(
         params: FinancialTransactionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialTransaction
 
     /** List the financial transactions for a given financial account. */
     @JvmOverloads
     fun list(
         params: FinancialTransactionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialTransactionListPage
 }

@@ -16,13 +16,13 @@ interface DigitalCardArtService {
     @JvmOverloads
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArt
 
     /** List digital card art. */
     @JvmOverloads
     fun list(
         params: DigitalCardArtListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArtListPage
 }

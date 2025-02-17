@@ -34,7 +34,7 @@ class BalanceListParamsTest {
         expected.put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         expected.put(
             "financial_account_type",
-            BalanceListParams.FinancialAccountType.ISSUING.toString()
+            BalanceListParams.FinancialAccountType.ISSUING.toString(),
         )
         assertThat(params._queryParams()).isEqualTo(expected.build())
     }

@@ -39,7 +39,7 @@ interface TransactionService {
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Transaction
 
     /**
@@ -49,7 +49,7 @@ interface TransactionService {
     @JvmOverloads
     fun list(
         params: TransactionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionListPage
 
     /**
@@ -63,7 +63,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateAuthorizationResponse
 
     /**
@@ -73,7 +73,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateAuthorizationAdviceResponse
 
     /**
@@ -86,7 +86,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateClearing(
         params: TransactionSimulateClearingParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateClearingResponse
 
     /**
@@ -96,7 +96,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateCreditAuthorizationResponse
 
     /**
@@ -106,7 +106,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateReturn(
         params: TransactionSimulateReturnParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateReturnResponse
 
     /**
@@ -116,7 +116,7 @@ interface TransactionService {
     @JvmOverloads
     fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateReturnReversalResponse
 
     /**
@@ -128,6 +128,6 @@ interface TransactionService {
     @JvmOverloads
     fun simulateVoid(
         params: TransactionSimulateVoidParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionSimulateVoidResponse
 }

@@ -182,7 +182,7 @@ private constructor(
             fun build(): TokenizationUpdateDigitalCardArtBody =
                 TokenizationUpdateDigitalCardArtBody(
                     digitalCardArtToken,
-                    additionalProperties.toImmutable()
+                    additionalProperties.toImmutable(),
                 )
         }
 

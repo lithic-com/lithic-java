@@ -1522,11 +1522,7 @@ private constructor(
         }
 
         fun build(): CardCreateParams =
-            CardCreateParams(
-                body.build(),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            CardCreateParams(body.build(), additionalHeaders.build(), additionalQueryParams.build())
     }
 
     /**
@@ -1543,11 +1539,7 @@ private constructor(
      * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
      */
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1669,11 +1661,8 @@ private constructor(
      * - `2_DAY` - FedEx 2-day shipping, with tracking
      * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
      */
-    class ShippingMethod
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1793,11 +1782,7 @@ private constructor(
      * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
      * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      */
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

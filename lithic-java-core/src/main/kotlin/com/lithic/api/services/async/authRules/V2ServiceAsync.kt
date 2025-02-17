@@ -33,14 +33,14 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun create(
         params: AuthRuleV2CreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2CreateResponse>
 
     /** Fetches a V2 authorization rule by its token */
     @JvmOverloads
     fun retrieve(
         params: AuthRuleV2RetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2RetrieveResponse>
 
     /**
@@ -52,21 +52,21 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun update(
         params: AuthRuleV2UpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2UpdateResponse>
 
     /** Lists V2 authorization rules */
     @JvmOverloads
     fun list(
         params: AuthRuleV2ListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthRuleV2ListPageAsync>
 
     /** Deletes a V2 authorization rule */
     @JvmOverloads
     fun delete(
         params: AuthRuleV2DeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -77,7 +77,7 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun apply(
         params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2ApplyResponse>
 
     /**
@@ -89,7 +89,7 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun draft(
         params: AuthRuleV2DraftParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2DraftResponse>
 
     /**
@@ -99,7 +99,7 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun promote(
         params: AuthRuleV2PromoteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2PromoteResponse>
 
     /**
@@ -151,6 +151,6 @@ interface V2ServiceAsync {
     @JvmOverloads
     fun report(
         params: AuthRuleV2ReportParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2ReportResponse>
 }

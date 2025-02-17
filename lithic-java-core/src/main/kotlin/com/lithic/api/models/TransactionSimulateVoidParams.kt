@@ -432,11 +432,7 @@ private constructor(
      * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
      * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
      */
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

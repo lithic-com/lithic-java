@@ -382,11 +382,8 @@ private constructor(
     }
 
     /** The type of document to upload */
-    class DocumentType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class DocumentType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.

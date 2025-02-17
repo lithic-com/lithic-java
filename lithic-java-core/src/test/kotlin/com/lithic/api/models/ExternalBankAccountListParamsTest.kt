@@ -48,7 +48,7 @@ class ExternalBankAccountListParamsTest {
         expected.put("states", ExternalBankAccountListParams.AccountState.ENABLED.toString())
         expected.put(
             "verification_states",
-            ExternalBankAccountListParams.VerificationState.PENDING.toString()
+            ExternalBankAccountListParams.VerificationState.PENDING.toString(),
         )
         assertThat(params._queryParams()).isEqualTo(expected.build())
     }

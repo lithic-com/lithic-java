@@ -19,9 +19,7 @@ import com.lithic.api.models.DigitalCardArtRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 class DigitalCardArtServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : DigitalCardArtServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -31,7 +29,7 @@ internal constructor(
     /** Get digital card art by token. */
     override fun retrieve(
         params: DigitalCardArtRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DigitalCardArt> {
         val request =
             HttpRequest.builder()
@@ -59,7 +57,7 @@ internal constructor(
     /** List digital card art. */
     override fun list(
         params: DigitalCardArtListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DigitalCardArtListPageAsync> {
         val request =
             HttpRequest.builder()

@@ -25,35 +25,35 @@ interface DisputeService {
     @JvmOverloads
     fun create(
         params: DisputeCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** Get dispute. */
     @JvmOverloads
     fun retrieve(
         params: DisputeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** Update dispute. Can only be modified if status is `NEW`. */
     @JvmOverloads
     fun update(
         params: DisputeUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** List disputes. */
     @JvmOverloads
     fun list(
         params: DisputeListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeListPage
 
     /** Withdraw dispute. */
     @JvmOverloads
     fun delete(
         params: DisputeDeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /**
@@ -63,7 +63,7 @@ interface DisputeService {
     @JvmOverloads
     fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
 
     /**
@@ -76,21 +76,21 @@ interface DisputeService {
     @JvmOverloads
     fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
 
     /** List evidence metadata for a dispute. */
     @JvmOverloads
     fun listEvidences(
         params: DisputeListEvidencesParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeListEvidencesPage
 
     /** Get a dispute's evidence metadata. */
     @JvmOverloads
     fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
 
     fun uploadEvidence(disputeToken: String, file: ByteArray)

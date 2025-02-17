@@ -84,13 +84,8 @@ private constructor(
         fun of(
             lineItemsService: LineItemService,
             params: FinancialAccountStatementLineItemListParams,
-            response: Response
-        ) =
-            FinancialAccountStatementLineItemListPage(
-                lineItemsService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = FinancialAccountStatementLineItemListPage(lineItemsService, params, response)
     }
 
     @NoAutoDetect
@@ -182,18 +177,12 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: FinancialAccountStatementLineItemListPage,
-    ) : Iterable<StatementLineItems.StatementLineItemResponse> {
+    class AutoPager(private val firstPage: FinancialAccountStatementLineItemListPage) :
+        Iterable<StatementLineItems.StatementLineItemResponse> {
 
         override fun iterator(): Iterator<StatementLineItems.StatementLineItemResponse> = iterator {
             var page = firstPage

@@ -45,7 +45,7 @@ private constructor(
         this.balanceDate?.let {
             queryParams.put(
                 "balance_date",
-                listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it))
+                listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)),
             )
         }
         this.lastTransactionEventToken?.let {

@@ -11,11 +11,7 @@ import com.lithic.api.errors.LithicInvalidDataException
  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special currencies like
  * `XXX`. Enumerants names are lowercase currency code e.g. `EUR`, `USD`.
  */
-class Currency
-@JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+class Currency @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
     /**
      * Returns this class instance's raw value.

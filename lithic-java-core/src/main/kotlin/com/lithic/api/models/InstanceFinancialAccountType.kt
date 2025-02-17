@@ -10,9 +10,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 /** Type of instance financial account */
 class InstanceFinancialAccountType
 @JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+private constructor(private val value: JsonField<String>) : Enum {
 
     /**
      * Returns this class instance's raw value.

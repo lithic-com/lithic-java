@@ -18,10 +18,8 @@ import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 
-class AuthenticationServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AuthenticationService {
+class AuthenticationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    AuthenticationService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -32,7 +30,7 @@ internal constructor(
     /** Get 3DS Authentication by token */
     override fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): AuthenticationRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -61,7 +59,7 @@ internal constructor(
      */
     override fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): AuthenticationSimulateResponse {
         val request =
             HttpRequest.builder()

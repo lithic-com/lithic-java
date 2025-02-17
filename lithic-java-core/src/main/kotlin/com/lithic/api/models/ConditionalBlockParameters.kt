@@ -107,7 +107,7 @@ private constructor(
         fun build(): ConditionalBlockParameters =
             ConditionalBlockParameters(
                 checkRequired("conditions", conditions).map { it.toImmutable() },
-                additionalProperties.toImmutable()
+                additionalProperties.toImmutable(),
             )
     }
 

@@ -36,13 +36,7 @@ constructor(
 
     @JvmSynthetic
     internal fun getBody(): CardGetEmbedHtmlBody {
-        return CardGetEmbedHtmlBody(
-            token,
-            css,
-            expiration,
-            targetOrigin,
-            additionalBodyProperties,
-        )
+        return CardGetEmbedHtmlBody(token, css, expiration, targetOrigin, additionalBodyProperties)
     }
 
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -113,14 +107,7 @@ constructor(
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        token,
-                        css,
-                        expiration,
-                        targetOrigin,
-                        additionalProperties,
-                    )
+                hashCode = Objects.hash(token, css, expiration, targetOrigin, additionalProperties)
             }
             return hashCode
         }

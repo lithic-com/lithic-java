@@ -667,11 +667,8 @@ private constructor(
      * - `2_DAY` - FedEx 2-day shipping, with tracking
      * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
      */
-    class ShippingMethod
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.

@@ -444,11 +444,8 @@ private constructor(
     }
 
     /** Receipt Type */
-    class ReceiptType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ReceiptType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.

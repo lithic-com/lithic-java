@@ -180,9 +180,7 @@ private constructor(
     /** Get the aggregate balance for a given Financial Account type. */
     class FinancialAccountType
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

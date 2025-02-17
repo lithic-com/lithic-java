@@ -22,10 +22,8 @@ import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
 
-class AccountServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AccountServiceAsync {
+class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    AccountServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -35,7 +33,7 @@ internal constructor(
     /** Get account configuration such as spend limits. */
     override fun retrieve(
         params: AccountRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Account> {
         val request =
             HttpRequest.builder()
@@ -66,7 +64,7 @@ internal constructor(
      */
     override fun update(
         params: AccountUpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Account> {
         val request =
             HttpRequest.builder()
@@ -95,7 +93,7 @@ internal constructor(
     /** List account configurations. */
     override fun list(
         params: AccountListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -128,7 +126,7 @@ internal constructor(
      */
     override fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AccountSpendLimits> {
         val request =
             HttpRequest.builder()

@@ -84,13 +84,8 @@ private constructor(
         fun of(
             digitalCardArtService: DigitalCardArtService,
             params: DigitalCardArtListParams,
-            response: Response
-        ) =
-            DigitalCardArtListPage(
-                digitalCardArtService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = DigitalCardArtListPage(digitalCardArtService, params, response)
     }
 
     @NoAutoDetect
@@ -174,18 +169,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: DigitalCardArtListPage,
-    ) : Iterable<DigitalCardArt> {
+    class AutoPager(private val firstPage: DigitalCardArtListPage) : Iterable<DigitalCardArt> {
 
         override fun iterator(): Iterator<DigitalCardArt> = iterator {
             var page = firstPage

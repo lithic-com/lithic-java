@@ -1895,11 +1895,8 @@ private constructor(
      * The type of KYC exemption for a KYC-Exempt Account Holder. "None" if the account holder is
      * not KYC-Exempt.
      */
-    class ExemptionType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ExemptionType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1998,11 +1995,7 @@ private constructor(
      * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
      * workflow.
      */
-    class Status
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -2103,11 +2096,8 @@ private constructor(
     }
 
     /** Status Reasons for KYC/KYB enrollment states */
-    class StatusReasons
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class StatusReasons @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -2388,11 +2378,7 @@ private constructor(
      *
      * "nature_of_business", and "website_url" attributes will be present.
      */
-    class UserType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class UserType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -2666,11 +2652,7 @@ private constructor(
          * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
          * workflow.
          */
-        class Status
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -2773,11 +2755,8 @@ private constructor(
         }
 
         /** Status Reasons for KYC/KYB enrollment states */
-        class StatusReasons
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class StatusReasons @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.

@@ -18,11 +18,8 @@ import com.lithic.api.errors.LithicInvalidDataException
  * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
  *   under the spend limit.
  */
-class SpendLimitDuration
-@JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+class SpendLimitDuration @JsonCreator private constructor(private val value: JsonField<String>) :
+    Enum {
 
     /**
      * Returns this class instance's raw value.

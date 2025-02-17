@@ -28,41 +28,41 @@ interface ExternalBankAccountServiceAsync {
     @JvmOverloads
     fun create(
         params: ExternalBankAccountCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse>
 
     /** Get the external bank account by token. */
     @JvmOverloads
     fun retrieve(
         params: ExternalBankAccountRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetrieveResponse>
 
     /** Update the external bank account by token. */
     @JvmOverloads
     fun update(
         params: ExternalBankAccountUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountUpdateResponse>
 
     /** List all the external bank accounts for the provided search criteria. */
     @JvmOverloads
     fun list(
         params: ExternalBankAccountListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountListPageAsync>
 
     /** Retry external bank account micro deposit verification. */
     @JvmOverloads
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse>
 
     /** Retry external bank account prenote verification. */
     @JvmOverloads
     fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse>
 }

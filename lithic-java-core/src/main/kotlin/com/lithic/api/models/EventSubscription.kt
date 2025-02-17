@@ -186,11 +186,7 @@ private constructor(
             )
     }
 
-    class EventType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -282,6 +278,8 @@ private constructor(
 
             @JvmField val THREE_DS_AUTHENTICATION_CREATED = of("three_ds_authentication.created")
 
+            @JvmField val THREE_DS_AUTHENTICATION_UPDATED = of("three_ds_authentication.updated")
+
             @JvmField val TOKENIZATION_APPROVAL_REQUEST = of("tokenization.approval_request")
 
             @JvmField val TOKENIZATION_RESULT = of("tokenization.result")
@@ -335,6 +333,7 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
+            THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -386,6 +385,7 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
+            THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -443,6 +443,7 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
+                THREE_DS_AUTHENTICATION_UPDATED -> Value.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Value.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Value.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
@@ -501,6 +502,7 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
+                THREE_DS_AUTHENTICATION_UPDATED -> Known.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Known.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Known.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->

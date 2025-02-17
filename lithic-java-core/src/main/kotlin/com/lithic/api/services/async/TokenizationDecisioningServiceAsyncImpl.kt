@@ -20,9 +20,8 @@ import com.lithic.api.models.TokenizationSecret
 import java.util.concurrent.CompletableFuture
 
 class TokenizationDecisioningServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TokenizationDecisioningServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) :
+    TokenizationDecisioningServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -38,7 +37,7 @@ internal constructor(
      */
     override fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationSecret> {
         val request =
             HttpRequest.builder()
@@ -69,7 +68,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: TokenizationDecisioningRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationDecisioningRotateSecretResponse> {
         val request =
             HttpRequest.builder()

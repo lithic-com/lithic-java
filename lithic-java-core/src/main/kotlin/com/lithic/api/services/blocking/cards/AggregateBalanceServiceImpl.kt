@@ -15,10 +15,8 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.CardAggregateBalanceListPage
 import com.lithic.api.models.CardAggregateBalanceListParams
 
-class AggregateBalanceServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AggregateBalanceService {
+class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    AggregateBalanceService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get the aggregated card balance across all end-user accounts. */
     override fun list(
         params: CardAggregateBalanceListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CardAggregateBalanceListPage {
         val request =
             HttpRequest.builder()

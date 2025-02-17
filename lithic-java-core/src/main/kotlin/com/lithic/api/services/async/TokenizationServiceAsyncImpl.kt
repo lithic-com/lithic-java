@@ -29,10 +29,8 @@ import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 import java.util.concurrent.CompletableFuture
 
-class TokenizationServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TokenizationServiceAsync {
+class TokenizationServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    TokenizationServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -43,7 +41,7 @@ internal constructor(
     /** Get tokenization */
     override fun retrieve(
         params: TokenizationRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationRetrieveResponse> {
         val request =
             HttpRequest.builder()
@@ -71,7 +69,7 @@ internal constructor(
     /** List card tokenizations */
     override fun list(
         params: TokenizationListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -106,7 +104,7 @@ internal constructor(
      */
     override fun activate(
         params: TokenizationActivateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -134,7 +132,7 @@ internal constructor(
      */
     override fun deactivate(
         params: TokenizationDeactivateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -161,7 +159,7 @@ internal constructor(
      */
     override fun pause(
         params: TokenizationPauseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -191,7 +189,7 @@ internal constructor(
      */
     override fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -200,7 +198,7 @@ internal constructor(
                     "v1",
                     "tokenizations",
                     params.getPathParam(0),
-                    "resend_activation_code"
+                    "resend_activation_code",
                 )
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
@@ -220,7 +218,7 @@ internal constructor(
      */
     override fun simulate(
         params: TokenizationSimulateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationSimulateResponse> {
         val request =
             HttpRequest.builder()
@@ -254,7 +252,7 @@ internal constructor(
      */
     override fun unpause(
         params: TokenizationUnpauseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -283,7 +281,7 @@ internal constructor(
      */
     override fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> {
         val request =
             HttpRequest.builder()
@@ -292,7 +290,7 @@ internal constructor(
                     "v1",
                     "tokenizations",
                     params.getPathParam(0),
-                    "update_digital_card_art"
+                    "update_digital_card_art",
                 )
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()

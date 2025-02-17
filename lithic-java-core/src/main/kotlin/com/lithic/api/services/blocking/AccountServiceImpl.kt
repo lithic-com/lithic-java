@@ -21,10 +21,8 @@ import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 
-class AccountServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AccountService {
+class AccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    AccountService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -109,7 +107,7 @@ internal constructor(
      */
     override fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): AccountSpendLimits {
         val request =
             HttpRequest.builder()

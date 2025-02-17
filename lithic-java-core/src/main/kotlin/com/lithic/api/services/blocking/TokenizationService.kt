@@ -25,14 +25,14 @@ interface TokenizationService {
     @JvmOverloads
     fun retrieve(
         params: TokenizationRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationRetrieveResponse
 
     /** List card tokenizations */
     @JvmOverloads
     fun list(
         params: TokenizationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationListPage
 
     /**
@@ -47,7 +47,7 @@ interface TokenizationService {
     @JvmOverloads
     fun activate(
         params: TokenizationActivateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -63,7 +63,7 @@ interface TokenizationService {
     @JvmOverloads
     fun deactivate(
         params: TokenizationDeactivateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -78,7 +78,7 @@ interface TokenizationService {
     @JvmOverloads
     fun pause(
         params: TokenizationPauseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -95,7 +95,7 @@ interface TokenizationService {
     @JvmOverloads
     fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -105,7 +105,7 @@ interface TokenizationService {
     @JvmOverloads
     fun simulate(
         params: TokenizationSimulateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationSimulateResponse
 
     /**
@@ -119,7 +119,7 @@ interface TokenizationService {
     @JvmOverloads
     fun unpause(
         params: TokenizationUnpauseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -134,6 +134,6 @@ interface TokenizationService {
     @JvmOverloads
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationUpdateDigitalCardArtResponse
 }

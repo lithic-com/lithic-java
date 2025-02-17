@@ -27,49 +27,49 @@ interface SubscriptionService {
     @JvmOverloads
     fun create(
         params: EventSubscriptionCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** Get an event subscription. */
     @JvmOverloads
     fun retrieve(
         params: EventSubscriptionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** Update an event subscription. */
     @JvmOverloads
     fun update(
         params: EventSubscriptionUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** List all the event subscriptions. */
     @JvmOverloads
     fun list(
         params: EventSubscriptionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscriptionListPage
 
     /** Delete an event subscription. */
     @JvmOverloads
     fun delete(
         params: EventSubscriptionDeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** List all the message attempts for a given event subscription. */
     @JvmOverloads
     fun listAttempts(
         params: EventSubscriptionListAttemptsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscriptionListAttemptsPage
 
     /** Resend all failed messages since a given time. */
     @JvmOverloads
     fun recover(
         params: EventSubscriptionRecoverParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /**
@@ -81,14 +81,14 @@ interface SubscriptionService {
     @JvmOverloads
     fun replayMissing(
         params: EventSubscriptionReplayMissingParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Get the secret for an event subscription. */
     @JvmOverloads
     fun retrieveSecret(
         params: EventSubscriptionRetrieveSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): SubscriptionRetrieveSecretResponse
 
     /**
@@ -98,13 +98,13 @@ interface SubscriptionService {
     @JvmOverloads
     fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Send an example message for event. */
     @JvmOverloads
     fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 }

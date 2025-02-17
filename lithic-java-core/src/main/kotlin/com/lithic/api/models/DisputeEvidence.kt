@@ -272,11 +272,8 @@ private constructor(
      * - `REJECTED` - Evidence was rejected.
      * - `UPLOADED` - Evidence was uploaded.
      */
-    class UploadStatus
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class UploadStatus @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
