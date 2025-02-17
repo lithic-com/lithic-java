@@ -36,10 +36,8 @@ import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataServi
 import com.lithic.api.services.blocking.transactions.EventService
 import com.lithic.api.services.blocking.transactions.EventServiceImpl
 
-class TransactionServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TransactionService {
+class TransactionServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    TransactionService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -62,7 +60,7 @@ internal constructor(
      */
     override fun retrieve(
         params: TransactionRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): Transaction {
         val request =
             HttpRequest.builder()
@@ -90,7 +88,7 @@ internal constructor(
      */
     override fun list(
         params: TransactionListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionListPage {
         val request =
             HttpRequest.builder()
@@ -123,7 +121,7 @@ internal constructor(
      */
     override fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateAuthorizationResponse {
         val request =
             HttpRequest.builder()
@@ -153,7 +151,7 @@ internal constructor(
      */
     override fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateAuthorizationAdviceResponse {
         val request =
             HttpRequest.builder()
@@ -185,7 +183,7 @@ internal constructor(
      */
     override fun simulateClearing(
         params: TransactionSimulateClearingParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateClearingResponse {
         val request =
             HttpRequest.builder()
@@ -215,7 +213,7 @@ internal constructor(
      */
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateCreditAuthorizationResponse {
         val request =
             HttpRequest.builder()
@@ -244,7 +242,7 @@ internal constructor(
      */
     override fun simulateReturn(
         params: TransactionSimulateReturnParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateReturnResponse {
         val request =
             HttpRequest.builder()
@@ -273,7 +271,7 @@ internal constructor(
      */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateReturnReversalResponse {
         val request =
             HttpRequest.builder()
@@ -304,7 +302,7 @@ internal constructor(
      */
     override fun simulateVoid(
         params: TransactionSimulateVoidParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TransactionSimulateVoidResponse {
         val request =
             HttpRequest.builder()

@@ -636,9 +636,7 @@ private constructor(
     /** The source of the tokenization request. */
     class TokenizationSource
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -744,9 +742,7 @@ private constructor(
     /** The decision that the Digital Wallet's recommend */
     class WalletRecommendedDecision
     @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

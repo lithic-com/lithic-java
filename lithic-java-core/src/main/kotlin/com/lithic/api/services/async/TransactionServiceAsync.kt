@@ -40,7 +40,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Transaction>
 
     /**
@@ -50,7 +50,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun list(
         params: TransactionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionListPageAsync>
 
     /**
@@ -64,7 +64,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateAuthorizationResponse>
 
     /**
@@ -74,7 +74,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse>
 
     /**
@@ -87,7 +87,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateClearing(
         params: TransactionSimulateClearingParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateClearingResponse>
 
     /**
@@ -97,7 +97,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse>
 
     /**
@@ -107,7 +107,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateReturn(
         params: TransactionSimulateReturnParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateReturnResponse>
 
     /**
@@ -117,7 +117,7 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateReturnReversalResponse>
 
     /**
@@ -129,6 +129,6 @@ interface TransactionServiceAsync {
     @JvmOverloads
     fun simulateVoid(
         params: TransactionSimulateVoidParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateVoidResponse>
 }

@@ -16,10 +16,8 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ExternalBankAccountMicroDepositCreateParams
 import com.lithic.api.models.MicroDepositCreateResponse
 
-class MicroDepositServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : MicroDepositService {
+class MicroDepositServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    MicroDepositService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Verify the external bank account by providing the micro deposit amounts. */
     override fun create(
         params: ExternalBankAccountMicroDepositCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): MicroDepositCreateResponse {
         val request =
             HttpRequest.builder()
@@ -39,7 +37,7 @@ internal constructor(
                     "v1",
                     "external_bank_accounts",
                     params.getPathParam(0),
-                    "micro_deposits"
+                    "micro_deposits",
                 )
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()

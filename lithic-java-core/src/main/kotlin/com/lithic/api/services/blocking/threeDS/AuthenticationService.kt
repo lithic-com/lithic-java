@@ -16,7 +16,7 @@ interface AuthenticationService {
     @JvmOverloads
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthenticationRetrieveResponse
 
     /**
@@ -27,6 +27,6 @@ interface AuthenticationService {
     @JvmOverloads
     fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthenticationSimulateResponse
 }

@@ -87,13 +87,8 @@ private constructor(
         fun of(
             disputesService: DisputeServiceAsync,
             params: DisputeListParams,
-            response: Response
-        ) =
-            DisputeListPageAsync(
-                disputesService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = DisputeListPageAsync(disputesService, params, response)
     }
 
     @NoAutoDetect
@@ -177,23 +172,16 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: DisputeListPageAsync,
-    ) {
+    class AutoPager(private val firstPage: DisputeListPageAsync) {
 
         fun forEach(action: Predicate<Dispute>, executor: Executor): CompletableFuture<Void> {
             fun CompletableFuture<Optional<DisputeListPageAsync>>.forEach(
                 action: (Dispute) -> Boolean,
-                executor: Executor
+                executor: Executor,
             ): CompletableFuture<Void> =
                 thenComposeAsync(
                     { page ->
@@ -202,7 +190,7 @@ private constructor(
                             .map { it.getNextPage().forEach(action, executor) }
                             .orElseGet { CompletableFuture.completedFuture(null) }
                     },
-                    executor
+                    executor,
                 )
             return CompletableFuture.completedFuture(Optional.of(firstPage))
                 .forEach(action::test, executor)

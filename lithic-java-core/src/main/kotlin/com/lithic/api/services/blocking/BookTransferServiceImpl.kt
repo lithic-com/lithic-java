@@ -20,10 +20,8 @@ import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 
-class BookTransferServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BookTransferService {
+class BookTransferServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    BookTransferService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -35,7 +33,7 @@ internal constructor(
      */
     override fun create(
         params: BookTransferCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BookTransferResponse {
         val request =
             HttpRequest.builder()
@@ -60,7 +58,7 @@ internal constructor(
     /** Get book transfer by token */
     override fun retrieve(
         params: BookTransferRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BookTransferResponse {
         val request =
             HttpRequest.builder()
@@ -85,7 +83,7 @@ internal constructor(
     /** List book transfers */
     override fun list(
         params: BookTransferListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BookTransferListPage {
         val request =
             HttpRequest.builder()
@@ -110,7 +108,7 @@ internal constructor(
     /** Reverse a book transfer */
     override fun reverse(
         params: BookTransferReverseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BookTransferResponse {
         val request =
             HttpRequest.builder()

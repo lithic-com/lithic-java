@@ -37,10 +37,8 @@ import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class CardServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CardServiceAsync {
+class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    CardServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -69,7 +67,7 @@ internal constructor(
      */
     override fun create(
         params: CardCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -97,7 +95,7 @@ internal constructor(
     /** Get card configuration such as spend limit and state. */
     override fun retrieve(
         params: CardRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -128,7 +126,7 @@ internal constructor(
      */
     override fun update(
         params: CardUpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -157,7 +155,7 @@ internal constructor(
     /** List cards. */
     override fun list(
         params: CardListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -194,7 +192,7 @@ internal constructor(
      */
     override fun convertPhysical(
         params: CardConvertPhysicalParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -246,7 +244,7 @@ internal constructor(
      */
     override fun embed(
         params: CardEmbedParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<String> {
         val request =
             HttpRequest.builder()
@@ -272,7 +270,7 @@ internal constructor(
      */
     override fun provision(
         params: CardProvisionParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardProvisionResponse> {
         val request =
             HttpRequest.builder()
@@ -305,7 +303,7 @@ internal constructor(
      */
     override fun reissue(
         params: CardReissueParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -339,7 +337,7 @@ internal constructor(
      */
     override fun renew(
         params: CardRenewParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()
@@ -372,7 +370,7 @@ internal constructor(
      */
     override fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardSpendLimits> {
         val request =
             HttpRequest.builder()
@@ -404,7 +402,7 @@ internal constructor(
      */
     override fun searchByPan(
         params: CardSearchByPanParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Card> {
         val request =
             HttpRequest.builder()

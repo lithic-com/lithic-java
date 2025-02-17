@@ -20,10 +20,8 @@ import com.lithic.api.services.async.financialAccounts.statements.LineItemServic
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class StatementServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StatementServiceAsync {
+class StatementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    StatementServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -37,7 +35,7 @@ internal constructor(
     /** Get a specific statement for a given financial account. */
     override fun retrieve(
         params: FinancialAccountStatementRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Statement> {
         val request =
             HttpRequest.builder()
@@ -47,7 +45,7 @@ internal constructor(
                     "financial_accounts",
                     params.getPathParam(0),
                     "statements",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepareAsync(clientOptions, params)
@@ -71,7 +69,7 @@ internal constructor(
     /** List the statements for a given financial account. */
     override fun list(
         params: FinancialAccountStatementListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<FinancialAccountStatementListPageAsync> {
         val request =
             HttpRequest.builder()

@@ -143,7 +143,7 @@ private constructor(
             fun build(): EventSubscriptionSendSimulatedExampleBody =
                 EventSubscriptionSendSimulatedExampleBody(
                     eventType,
-                    additionalProperties.toImmutable()
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -332,11 +332,7 @@ private constructor(
     }
 
     /** Event type to send example message for. */
-    class EventType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

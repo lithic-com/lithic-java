@@ -20,9 +20,7 @@ import com.lithic.api.models.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
 
 class AuthStreamEnrollmentServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AuthStreamEnrollmentServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrollmentServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -38,7 +36,7 @@ internal constructor(
      */
     override fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AuthStreamSecret> {
         val request =
             HttpRequest.builder()
@@ -69,7 +67,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()

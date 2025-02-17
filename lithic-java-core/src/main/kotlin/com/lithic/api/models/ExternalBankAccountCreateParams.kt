@@ -225,12 +225,12 @@ private constructor(
                 if (verificationMethod == "EXTERNALLY_VERIFIED") {
                     tryDeserialize(
                             node,
-                            jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>()
+                            jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>(),
                         )
                         ?.let {
                             return ExternalBankAccountCreateBody(
                                 externallyVerifiedCreateBankAccountApiRequest = it,
-                                _json = json
+                                _json = json,
                             )
                         }
                 }
@@ -239,13 +239,13 @@ private constructor(
                     ?.let {
                         return ExternalBankAccountCreateBody(
                             bankVerifiedCreateBankAccountApiRequest = it,
-                            _json = json
+                            _json = json,
                         )
                     }
                 tryDeserialize(node, jacksonTypeRef<PlaidCreateBankAccountApiRequest>())?.let {
                     return ExternalBankAccountCreateBody(
                         plaidCreateBankAccountApiRequest = it,
-                        _json = json
+                        _json = json,
                     )
                 }
 
@@ -259,7 +259,7 @@ private constructor(
             override fun serialize(
                 value: ExternalBankAccountCreateBody,
                 generator: JsonGenerator,
-                provider: SerializerProvider
+                provider: SerializerProvider,
             ) {
                 when {
                     value.bankVerifiedCreateBankAccountApiRequest != null ->
@@ -909,11 +909,8 @@ private constructor(
         }
 
         /** Account Type */
-        class AccountType
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class AccountType @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1759,11 +1756,7 @@ private constructor(
         }
 
         /** Account Type */
-        class Type
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1854,9 +1847,7 @@ private constructor(
         /** Verification Method */
         class ExternallyVerifiedVerificationMethod
         @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1878,7 +1869,7 @@ private constructor(
 
             /** An enum containing [ExternallyVerifiedVerificationMethod]'s known values. */
             enum class Known {
-                EXTERNALLY_VERIFIED,
+                EXTERNALLY_VERIFIED
             }
 
             /**

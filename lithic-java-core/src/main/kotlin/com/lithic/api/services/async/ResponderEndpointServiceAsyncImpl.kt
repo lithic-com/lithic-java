@@ -22,9 +22,7 @@ import com.lithic.api.models.ResponderEndpointStatus
 import java.util.concurrent.CompletableFuture
 
 class ResponderEndpointServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ResponderEndpointServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ResponderEndpointServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -35,7 +33,7 @@ internal constructor(
     /** Enroll a responder endpoint */
     override fun create(
         params: ResponderEndpointCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ResponderEndpointCreateResponse> {
         val request =
             HttpRequest.builder()
@@ -62,7 +60,7 @@ internal constructor(
     /** Disenroll a responder endpoint */
     override fun delete(
         params: ResponderEndpointDeleteParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -83,7 +81,7 @@ internal constructor(
     /** Check the status of a responder endpoint */
     override fun checkStatus(
         params: ResponderEndpointCheckStatusParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ResponderEndpointStatus> {
         val request =
             HttpRequest.builder()

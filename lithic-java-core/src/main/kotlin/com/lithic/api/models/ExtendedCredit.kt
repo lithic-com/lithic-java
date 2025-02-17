@@ -94,7 +94,7 @@ private constructor(
         fun build(): ExtendedCredit =
             ExtendedCredit(
                 checkRequired("creditExtended", creditExtended),
-                additionalProperties.toImmutable()
+                additionalProperties.toImmutable(),
             )
     }
 

@@ -66,9 +66,7 @@ import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
 
-class LithicClientImpl(
-    private val clientOptions: ClientOptions,
-) : LithicClient {
+class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient {
 
     private val clientOptionsWithUserAgent =
         if (clientOptions.headers.names().contains("User-Agent")) clientOptions
@@ -225,7 +223,7 @@ class LithicClientImpl(
     /** Status of api */
     override fun apiStatus(
         params: ClientApiStatusParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ApiStatus {
         val request =
             HttpRequest.builder()

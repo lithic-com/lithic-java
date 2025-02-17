@@ -21,27 +21,27 @@ interface BookTransferServiceAsync {
     @JvmOverloads
     fun create(
         params: BookTransferCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferResponse>
 
     /** Get book transfer by token */
     @JvmOverloads
     fun retrieve(
         params: BookTransferRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferResponse>
 
     /** List book transfers */
     @JvmOverloads
     fun list(
         params: BookTransferListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferListPageAsync>
 
     /** Reverse a book transfer */
     @JvmOverloads
     fun reverse(
         params: BookTransferReverseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferResponse>
 }

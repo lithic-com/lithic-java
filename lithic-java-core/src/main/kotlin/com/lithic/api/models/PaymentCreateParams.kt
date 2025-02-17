@@ -546,11 +546,7 @@ private constructor(
             )
     }
 
-    class Method
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Method @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -715,15 +711,12 @@ private constructor(
             fun build(): PaymentMethodRequestAttributes =
                 PaymentMethodRequestAttributes(
                     checkRequired("secCode", secCode),
-                    additionalProperties.toImmutable()
+                    additionalProperties.toImmutable(),
                 )
         }
 
-        class SecCode
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class SecCode @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -837,11 +830,7 @@ private constructor(
             "PaymentMethodRequestAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
     }
 
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

@@ -16,10 +16,8 @@ import com.lithic.api.models.CardBalanceListPageAsync
 import com.lithic.api.models.CardBalanceListParams
 import java.util.concurrent.CompletableFuture
 
-class BalanceServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BalanceServiceAsync {
+class BalanceServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    BalanceServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Get the balances for a given card. */
     override fun list(
         params: CardBalanceListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardBalanceListPageAsync> {
         val request =
             HttpRequest.builder()

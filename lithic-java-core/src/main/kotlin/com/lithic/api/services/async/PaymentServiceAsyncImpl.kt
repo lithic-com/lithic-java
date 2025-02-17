@@ -31,10 +31,8 @@ import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
 import java.util.concurrent.CompletableFuture
 
-class PaymentServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : PaymentServiceAsync {
+class PaymentServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    PaymentServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -44,7 +42,7 @@ internal constructor(
     /** Initiates a payment between a financial account and an external bank account. */
     override fun create(
         params: PaymentCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentCreateResponse> {
         val request =
             HttpRequest.builder()
@@ -72,7 +70,7 @@ internal constructor(
     /** Get the payment by token. */
     override fun retrieve(
         params: PaymentRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Payment> {
         val request =
             HttpRequest.builder()
@@ -100,7 +98,7 @@ internal constructor(
     /** List all the payments for the provided search criteria. */
     override fun list(
         params: PaymentListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -128,7 +126,7 @@ internal constructor(
     /** Retry an origination which has been returned. */
     override fun retry(
         params: PaymentRetryParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentRetryResponse> {
         val request =
             HttpRequest.builder()
@@ -157,7 +155,7 @@ internal constructor(
     /** Simulate payment lifecycle event */
     override fun simulateAction(
         params: PaymentSimulateActionParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentSimulateActionResponse> {
         val request =
             HttpRequest.builder()
@@ -186,7 +184,7 @@ internal constructor(
     /** Simulates a receipt of a Payment. */
     override fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentSimulateReceiptResponse> {
         val request =
             HttpRequest.builder()
@@ -215,7 +213,7 @@ internal constructor(
     /** Simulates a release of a Payment. */
     override fun simulateRelease(
         params: PaymentSimulateReleaseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentSimulateReleaseResponse> {
         val request =
             HttpRequest.builder()
@@ -244,7 +242,7 @@ internal constructor(
     /** Simulates a return of a Payment. */
     override fun simulateReturn(
         params: PaymentSimulateReturnParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<PaymentSimulateReturnResponse> {
         val request =
             HttpRequest.builder()

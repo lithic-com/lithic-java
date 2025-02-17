@@ -647,7 +647,7 @@ private constructor(
             override fun serialize(
                 value: Period,
                 generator: JsonGenerator,
-                provider: SerializerProvider
+                provider: SerializerProvider,
             ) {
                 when {
                     value.trailingWindow != null -> generator.writeObject(value.trailingWindow)
@@ -660,11 +660,7 @@ private constructor(
         }
     }
 
-    class Scope
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Scope @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

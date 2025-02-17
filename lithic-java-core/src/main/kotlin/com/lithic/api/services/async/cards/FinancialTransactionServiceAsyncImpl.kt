@@ -19,9 +19,7 @@ import com.lithic.api.models.FinancialTransaction
 import java.util.concurrent.CompletableFuture
 
 class FinancialTransactionServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : FinancialTransactionServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : FinancialTransactionServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -31,7 +29,7 @@ internal constructor(
     /** Get the card financial transaction for the provided token. */
     override fun retrieve(
         params: CardFinancialTransactionRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<FinancialTransaction> {
         val request =
             HttpRequest.builder()
@@ -41,7 +39,7 @@ internal constructor(
                     "cards",
                     params.getPathParam(0),
                     "financial_transactions",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepareAsync(clientOptions, params)
@@ -65,7 +63,7 @@ internal constructor(
     /** List the financial transactions for a given card. */
     override fun list(
         params: CardFinancialTransactionListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<CardFinancialTransactionListPageAsync> {
         val request =
             HttpRequest.builder()

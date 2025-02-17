@@ -837,11 +837,7 @@ private constructor(
      * - `REFUND_NOT_PROCESSED`: The refund was not processed.
      * - `RECURRING_TRANSACTION_NOT_CANCELLED`: The recurring transaction was not cancelled.
      */
-    class Reason
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Reason @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1022,11 +1018,8 @@ private constructor(
      * - `WON_FIRST_CHARGEBACK`: Won first chargeback.
      * - `WON_PREARBITRATION`: Won prearbitration.
      */
-    class ResolutionReason
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class ResolutionReason @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1220,11 +1213,7 @@ private constructor(
      * - `CASE_WON` - Case was won and credit will be issued.
      * - `CASE_CLOSED` - Case was lost or withdrawn.
      */
-    class Status
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

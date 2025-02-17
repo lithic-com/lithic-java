@@ -22,10 +22,8 @@ import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class EventServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : EventServiceAsync {
+class EventServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    EventServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -41,7 +39,7 @@ internal constructor(
     /** Get an event. */
     override fun retrieve(
         params: EventRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Event> {
         val request =
             HttpRequest.builder()
@@ -69,7 +67,7 @@ internal constructor(
     /** List all events. */
     override fun list(
         params: EventListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -98,7 +96,7 @@ internal constructor(
     /** List all the message attempts for a given event. */
     override fun listAttempts(
         params: EventListAttemptsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventListAttemptsPageAsync> {
         val request =
             HttpRequest.builder()

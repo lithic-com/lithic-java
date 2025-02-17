@@ -1172,11 +1172,7 @@ private constructor(
          *   verification.
          * - `DELETED` - The founding account has been deleted.
          */
-        class State
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1277,11 +1273,7 @@ private constructor(
          * - `DEPOSITORY_CHECKING` - Bank checking account.
          * - `DEPOSITORY_SAVINGS` - Bank savings account.
          */
-        class Type
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1390,11 +1382,7 @@ private constructor(
     /**
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
      */
-    class PinStatus
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class PinStatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1507,11 +1495,7 @@ private constructor(
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1631,11 +1615,7 @@ private constructor(
      * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
      */
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

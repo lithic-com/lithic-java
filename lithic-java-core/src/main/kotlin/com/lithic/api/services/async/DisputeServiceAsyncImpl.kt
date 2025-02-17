@@ -28,10 +28,8 @@ import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
 
-class DisputeServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : DisputeServiceAsync {
+class DisputeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    DisputeServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -41,7 +39,7 @@ internal constructor(
     /** Initiate a dispute. */
     override fun create(
         params: DisputeCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Dispute> {
         val request =
             HttpRequest.builder()
@@ -69,7 +67,7 @@ internal constructor(
     /** Get dispute. */
     override fun retrieve(
         params: DisputeRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Dispute> {
         val request =
             HttpRequest.builder()
@@ -96,7 +94,7 @@ internal constructor(
     /** Update dispute. Can only be modified if status is `NEW`. */
     override fun update(
         params: DisputeUpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Dispute> {
         val request =
             HttpRequest.builder()
@@ -125,7 +123,7 @@ internal constructor(
     /** List disputes. */
     override fun list(
         params: DisputeListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DisputeListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -153,7 +151,7 @@ internal constructor(
     /** Withdraw dispute. */
     override fun delete(
         params: DisputeDeleteParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Dispute> {
         val request =
             HttpRequest.builder()
@@ -184,7 +182,7 @@ internal constructor(
      */
     override fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DisputeEvidence> {
         val request =
             HttpRequest.builder()
@@ -194,7 +192,7 @@ internal constructor(
                     "disputes",
                     params.getPathParam(0),
                     "evidences",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
@@ -224,7 +222,7 @@ internal constructor(
      */
     override fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DisputeEvidence> {
         val request =
             HttpRequest.builder()
@@ -253,7 +251,7 @@ internal constructor(
     /** List evidence metadata for a dispute. */
     override fun listEvidences(
         params: DisputeListEvidencesParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DisputeListEvidencesPageAsync> {
         val request =
             HttpRequest.builder()
@@ -281,7 +279,7 @@ internal constructor(
     /** Get a dispute's evidence metadata. */
     override fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<DisputeEvidence> {
         val request =
             HttpRequest.builder()
@@ -291,7 +289,7 @@ internal constructor(
                     "disputes",
                     params.getPathParam(0),
                     "evidences",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

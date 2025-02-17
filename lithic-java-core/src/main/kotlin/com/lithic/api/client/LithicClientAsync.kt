@@ -112,7 +112,7 @@ interface LithicClientAsync {
     @JvmOverloads
     fun apiStatus(
         params: ClientApiStatusParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ApiStatus>
 
     /**

@@ -19,9 +19,7 @@ import com.lithic.api.models.TokenizationDecisioningRotateSecretResponse
 import com.lithic.api.models.TokenizationSecret
 
 class TokenizationDecisioningServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TokenizationDecisioningService {
+internal constructor(private val clientOptions: ClientOptions) : TokenizationDecisioningService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -37,7 +35,7 @@ internal constructor(
      */
     override fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TokenizationSecret {
         val request =
             HttpRequest.builder()
@@ -65,7 +63,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: TokenizationDecisioningRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TokenizationDecisioningRotateSecretResponse {
         val request =
             HttpRequest.builder()

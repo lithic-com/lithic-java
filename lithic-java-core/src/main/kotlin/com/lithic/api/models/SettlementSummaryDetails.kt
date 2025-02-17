@@ -291,11 +291,7 @@ private constructor(
     }
 
     /** Card network where the transaction took place */
-    class Network
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Network @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
