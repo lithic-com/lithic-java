@@ -27,7 +27,7 @@ import java.util.Optional
 class ExternalPaymentSettleParams
 private constructor(
     private val externalPaymentToken: String,
-    private val body: ExternalPaymentSettleBody,
+    private val body: ExternalPaymentActionWithProgressToRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -52,7 +52,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalPaymentSettleBody = body
+    @JvmSynthetic internal fun _body(): ExternalPaymentActionWithProgressToRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -66,9 +66,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class ExternalPaymentSettleBody
+    class ExternalPaymentActionWithProgressToRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("effective_date")
         @ExcludeMissing
         private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
@@ -105,7 +105,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalPaymentSettleBody = apply {
+        fun validate(): ExternalPaymentActionWithProgressToRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -123,7 +123,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalPaymentSettleBody]. */
+        /** A builder for [ExternalPaymentActionWithProgressToRequest]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -132,11 +132,15 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(externalPaymentSettleBody: ExternalPaymentSettleBody) = apply {
-                effectiveDate = externalPaymentSettleBody.effectiveDate
-                memo = externalPaymentSettleBody.memo
-                progressTo = externalPaymentSettleBody.progressTo
-                additionalProperties = externalPaymentSettleBody.additionalProperties.toMutableMap()
+            internal fun from(
+                externalPaymentActionWithProgressToRequest:
+                    ExternalPaymentActionWithProgressToRequest
+            ) = apply {
+                effectiveDate = externalPaymentActionWithProgressToRequest.effectiveDate
+                memo = externalPaymentActionWithProgressToRequest.memo
+                progressTo = externalPaymentActionWithProgressToRequest.progressTo
+                additionalProperties =
+                    externalPaymentActionWithProgressToRequest.additionalProperties.toMutableMap()
             }
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -175,8 +179,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalPaymentSettleBody =
-                ExternalPaymentSettleBody(
+            fun build(): ExternalPaymentActionWithProgressToRequest =
+                ExternalPaymentActionWithProgressToRequest(
                     checkRequired("effectiveDate", effectiveDate),
                     memo,
                     progressTo,
@@ -189,7 +193,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentSettleBody && effectiveDate == other.effectiveDate && memo == other.memo && progressTo == other.progressTo && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentActionWithProgressToRequest && effectiveDate == other.effectiveDate && memo == other.memo && progressTo == other.progressTo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -199,7 +203,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalPaymentSettleBody{effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalProperties=$additionalProperties}"
+            "ExternalPaymentActionWithProgressToRequest{effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -214,7 +218,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var externalPaymentToken: String? = null
-        private var body: ExternalPaymentSettleBody.Builder = ExternalPaymentSettleBody.builder()
+        private var body: ExternalPaymentActionWithProgressToRequest.Builder =
+            ExternalPaymentActionWithProgressToRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

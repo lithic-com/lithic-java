@@ -26,7 +26,7 @@ import java.util.Optional
 class FinancialAccountCreateParams
 private constructor(
     private val idempotencyKey: String?,
-    private val body: FinancialAccountCreateBody,
+    private val body: CreateFinancialAccountRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -55,7 +55,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): FinancialAccountCreateBody = body
+    @JvmSynthetic internal fun _body(): CreateFinancialAccountRequest = body
 
     override fun _headers(): Headers {
         val headers = Headers.builder()
@@ -67,9 +67,9 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class FinancialAccountCreateBody
+    class CreateFinancialAccountRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("nickname")
         @ExcludeMissing
         private val nickname: JsonField<String> = JsonMissing.of(),
@@ -112,7 +112,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): FinancialAccountCreateBody = apply {
+        fun validate(): CreateFinancialAccountRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -131,7 +131,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [FinancialAccountCreateBody]. */
+        /** A builder for [CreateFinancialAccountRequest]. */
         class Builder internal constructor() {
 
             private var nickname: JsonField<String>? = null
@@ -141,14 +141,15 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(financialAccountCreateBody: FinancialAccountCreateBody) = apply {
-                nickname = financialAccountCreateBody.nickname
-                type = financialAccountCreateBody.type
-                accountToken = financialAccountCreateBody.accountToken
-                isForBenefitOf = financialAccountCreateBody.isForBenefitOf
-                additionalProperties =
-                    financialAccountCreateBody.additionalProperties.toMutableMap()
-            }
+            internal fun from(createFinancialAccountRequest: CreateFinancialAccountRequest) =
+                apply {
+                    nickname = createFinancialAccountRequest.nickname
+                    type = createFinancialAccountRequest.type
+                    accountToken = createFinancialAccountRequest.accountToken
+                    isForBenefitOf = createFinancialAccountRequest.isForBenefitOf
+                    additionalProperties =
+                        createFinancialAccountRequest.additionalProperties.toMutableMap()
+                }
 
             fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
@@ -190,8 +191,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): FinancialAccountCreateBody =
-                FinancialAccountCreateBody(
+            fun build(): CreateFinancialAccountRequest =
+                CreateFinancialAccountRequest(
                     checkRequired("nickname", nickname),
                     checkRequired("type", type),
                     accountToken,
@@ -205,7 +206,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountCreateBody && nickname == other.nickname && type == other.type && accountToken == other.accountToken && isForBenefitOf == other.isForBenefitOf && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateFinancialAccountRequest && nickname == other.nickname && type == other.type && accountToken == other.accountToken && isForBenefitOf == other.isForBenefitOf && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -215,7 +216,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "FinancialAccountCreateBody{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalProperties=$additionalProperties}"
+            "CreateFinancialAccountRequest{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -230,7 +231,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var idempotencyKey: String? = null
-        private var body: FinancialAccountCreateBody.Builder = FinancialAccountCreateBody.builder()
+        private var body: CreateFinancialAccountRequest.Builder =
+            CreateFinancialAccountRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

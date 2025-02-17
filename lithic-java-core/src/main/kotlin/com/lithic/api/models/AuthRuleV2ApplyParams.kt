@@ -39,27 +39,20 @@ import java.util.Optional
 class AuthRuleV2ApplyParams
 private constructor(
     private val authRuleToken: String,
-    private val body: AuthRuleV2ApplyBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun authRuleToken(): String = authRuleToken
 
-    fun applyAuthRuleRequestAccountTokens(): Optional<ApplyAuthRuleRequestAccountTokens> =
-        body.applyAuthRuleRequestAccountTokens()
-
-    fun applyAuthRuleRequestCardTokens(): Optional<ApplyAuthRuleRequestCardTokens> =
-        body.applyAuthRuleRequestCardTokens()
-
-    fun applyAuthRuleRequestProgramLevel(): Optional<ApplyAuthRuleRequestProgramLevel> =
-        body.applyAuthRuleRequestProgramLevel()
+    fun body(): Body = body
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): AuthRuleV2ApplyBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -72,10 +65,10 @@ private constructor(
         }
     }
 
-    @JsonDeserialize(using = AuthRuleV2ApplyBody.Deserializer::class)
-    @JsonSerialize(using = AuthRuleV2ApplyBody.Serializer::class)
-    class AuthRuleV2ApplyBody
-    internal constructor(
+    @JsonDeserialize(using = Body.Deserializer::class)
+    @JsonSerialize(using = Body.Serializer::class)
+    class Body
+    private constructor(
         private val applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens? = null,
         private val applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens? = null,
         private val applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel? = null,
@@ -123,12 +116,43 @@ private constructor(
             }
         }
 
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accept(
+                object : Visitor<Unit> {
+                    override fun visitApplyAuthRuleRequestAccountTokens(
+                        applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
+                    ) {
+                        applyAuthRuleRequestAccountTokens.validate()
+                    }
+
+                    override fun visitApplyAuthRuleRequestCardTokens(
+                        applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens
+                    ) {
+                        applyAuthRuleRequestCardTokens.validate()
+                    }
+
+                    override fun visitApplyAuthRuleRequestProgramLevel(
+                        applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel
+                    ) {
+                        applyAuthRuleRequestProgramLevel.validate()
+                    }
+                }
+            )
+            validated = true
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is AuthRuleV2ApplyBody && applyAuthRuleRequestAccountTokens == other.applyAuthRuleRequestAccountTokens && applyAuthRuleRequestCardTokens == other.applyAuthRuleRequestCardTokens && applyAuthRuleRequestProgramLevel == other.applyAuthRuleRequestProgramLevel /* spotless:on */
+            return /* spotless:off */ other is Body && applyAuthRuleRequestAccountTokens == other.applyAuthRuleRequestAccountTokens && applyAuthRuleRequestCardTokens == other.applyAuthRuleRequestCardTokens && applyAuthRuleRequestProgramLevel == other.applyAuthRuleRequestProgramLevel /* spotless:on */
         }
 
         override fun hashCode(): Int = /* spotless:off */ Objects.hash(applyAuthRuleRequestAccountTokens, applyAuthRuleRequestCardTokens, applyAuthRuleRequestProgramLevel) /* spotless:on */
@@ -136,13 +160,13 @@ private constructor(
         override fun toString(): String =
             when {
                 applyAuthRuleRequestAccountTokens != null ->
-                    "AuthRuleV2ApplyBody{applyAuthRuleRequestAccountTokens=$applyAuthRuleRequestAccountTokens}"
+                    "Body{applyAuthRuleRequestAccountTokens=$applyAuthRuleRequestAccountTokens}"
                 applyAuthRuleRequestCardTokens != null ->
-                    "AuthRuleV2ApplyBody{applyAuthRuleRequestCardTokens=$applyAuthRuleRequestCardTokens}"
+                    "Body{applyAuthRuleRequestCardTokens=$applyAuthRuleRequestCardTokens}"
                 applyAuthRuleRequestProgramLevel != null ->
-                    "AuthRuleV2ApplyBody{applyAuthRuleRequestProgramLevel=$applyAuthRuleRequestProgramLevel}"
-                _json != null -> "AuthRuleV2ApplyBody{_unknown=$_json}"
-                else -> throw IllegalStateException("Invalid AuthRuleV2ApplyBody")
+                    "Body{applyAuthRuleRequestProgramLevel=$applyAuthRuleRequestProgramLevel}"
+                _json != null -> "Body{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid Body")
             }
 
         companion object {
@@ -150,29 +174,20 @@ private constructor(
             @JvmStatic
             fun ofApplyAuthRuleRequestAccountTokens(
                 applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
-            ) =
-                AuthRuleV2ApplyBody(
-                    applyAuthRuleRequestAccountTokens = applyAuthRuleRequestAccountTokens
-                )
+            ) = Body(applyAuthRuleRequestAccountTokens = applyAuthRuleRequestAccountTokens)
 
             @JvmStatic
             fun ofApplyAuthRuleRequestCardTokens(
                 applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens
-            ) = AuthRuleV2ApplyBody(applyAuthRuleRequestCardTokens = applyAuthRuleRequestCardTokens)
+            ) = Body(applyAuthRuleRequestCardTokens = applyAuthRuleRequestCardTokens)
 
             @JvmStatic
             fun ofApplyAuthRuleRequestProgramLevel(
                 applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel
-            ) =
-                AuthRuleV2ApplyBody(
-                    applyAuthRuleRequestProgramLevel = applyAuthRuleRequestProgramLevel
-                )
+            ) = Body(applyAuthRuleRequestProgramLevel = applyAuthRuleRequestProgramLevel)
         }
 
-        /**
-         * An interface that defines how to map each variant of [AuthRuleV2ApplyBody] to a value of
-         * type [T].
-         */
+        /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
         interface Visitor<out T> {
 
             fun visitApplyAuthRuleRequestAccountTokens(
@@ -188,45 +203,51 @@ private constructor(
             ): T
 
             /**
-             * Maps an unknown variant of [AuthRuleV2ApplyBody] to a value of type [T].
+             * Maps an unknown variant of [Body] to a value of type [T].
              *
-             * An instance of [AuthRuleV2ApplyBody] can contain an unknown variant if it was
-             * deserialized from data that doesn't match any known variant. For example, if the SDK
-             * is on an older version than the API, then the API may respond with new variants that
-             * the SDK is unaware of.
+             * An instance of [Body] can contain an unknown variant if it was deserialized from data
+             * that doesn't match any known variant. For example, if the SDK is on an older version
+             * than the API, then the API may respond with new variants that the SDK is unaware of.
              *
              * @throws LithicInvalidDataException in the default implementation.
              */
             fun unknown(json: JsonValue?): T {
-                throw LithicInvalidDataException("Unknown AuthRuleV2ApplyBody: $json")
+                throw LithicInvalidDataException("Unknown Body: $json")
             }
         }
 
-        internal class Deserializer :
-            BaseDeserializer<AuthRuleV2ApplyBody>(AuthRuleV2ApplyBody::class) {
+        internal class Deserializer : BaseDeserializer<Body>(Body::class) {
 
-            override fun ObjectCodec.deserialize(node: JsonNode): AuthRuleV2ApplyBody {
+            override fun ObjectCodec.deserialize(node: JsonNode): Body {
                 val json = JsonValue.fromJsonNode(node)
 
-                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestAccountTokens>())?.let {
-                    return AuthRuleV2ApplyBody(applyAuthRuleRequestAccountTokens = it, _json = json)
-                }
-                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestCardTokens>())?.let {
-                    return AuthRuleV2ApplyBody(applyAuthRuleRequestCardTokens = it, _json = json)
-                }
-                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestProgramLevel>())?.let {
-                    return AuthRuleV2ApplyBody(applyAuthRuleRequestProgramLevel = it, _json = json)
-                }
+                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestAccountTokens>()) {
+                        it.validate()
+                    }
+                    ?.let {
+                        return Body(applyAuthRuleRequestAccountTokens = it, _json = json)
+                    }
+                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestCardTokens>()) {
+                        it.validate()
+                    }
+                    ?.let {
+                        return Body(applyAuthRuleRequestCardTokens = it, _json = json)
+                    }
+                tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestProgramLevel>()) {
+                        it.validate()
+                    }
+                    ?.let {
+                        return Body(applyAuthRuleRequestProgramLevel = it, _json = json)
+                    }
 
-                return AuthRuleV2ApplyBody(_json = json)
+                return Body(_json = json)
             }
         }
 
-        internal class Serializer :
-            BaseSerializer<AuthRuleV2ApplyBody>(AuthRuleV2ApplyBody::class) {
+        internal class Serializer : BaseSerializer<Body>(Body::class) {
 
             override fun serialize(
-                value: AuthRuleV2ApplyBody,
+                value: Body,
                 generator: JsonGenerator,
                 provider: SerializerProvider,
             ) {
@@ -238,9 +259,414 @@ private constructor(
                     value.applyAuthRuleRequestProgramLevel != null ->
                         generator.writeObject(value.applyAuthRuleRequestProgramLevel)
                     value._json != null -> generator.writeObject(value._json)
-                    else -> throw IllegalStateException("Invalid AuthRuleV2ApplyBody")
+                    else -> throw IllegalStateException("Invalid Body")
                 }
             }
+        }
+
+        @NoAutoDetect
+        class ApplyAuthRuleRequestAccountTokens
+        @JsonCreator
+        private constructor(
+            @JsonProperty("account_tokens")
+            @ExcludeMissing
+            private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        ) {
+
+            /** Account tokens to which the Auth Rule applies. */
+            fun accountTokens(): List<String> = accountTokens.getRequired("account_tokens")
+
+            /** Account tokens to which the Auth Rule applies. */
+            @JsonProperty("account_tokens")
+            @ExcludeMissing
+            fun _accountTokens(): JsonField<List<String>> = accountTokens
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
+
+            fun validate(): ApplyAuthRuleRequestAccountTokens = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accountTokens()
+                validated = true
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [ApplyAuthRuleRequestAccountTokens]. */
+            class Builder internal constructor() {
+
+                private var accountTokens: JsonField<MutableList<String>>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(
+                    applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
+                ) = apply {
+                    accountTokens =
+                        applyAuthRuleRequestAccountTokens.accountTokens.map { it.toMutableList() }
+                    additionalProperties =
+                        applyAuthRuleRequestAccountTokens.additionalProperties.toMutableMap()
+                }
+
+                /** Account tokens to which the Auth Rule applies. */
+                fun accountTokens(accountTokens: List<String>) =
+                    accountTokens(JsonField.of(accountTokens))
+
+                /** Account tokens to which the Auth Rule applies. */
+                fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
+                    this.accountTokens = accountTokens.map { it.toMutableList() }
+                }
+
+                /** Account tokens to which the Auth Rule applies. */
+                fun addAccountToken(accountToken: String) = apply {
+                    accountTokens =
+                        (accountTokens ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(accountToken)
+                        }
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                fun build(): ApplyAuthRuleRequestAccountTokens =
+                    ApplyAuthRuleRequestAccountTokens(
+                        checkRequired("accountTokens", accountTokens).map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is ApplyAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(accountTokens, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "ApplyAuthRuleRequestAccountTokens{accountTokens=$accountTokens, additionalProperties=$additionalProperties}"
+        }
+
+        @NoAutoDetect
+        class ApplyAuthRuleRequestCardTokens
+        @JsonCreator
+        private constructor(
+            @JsonProperty("card_tokens")
+            @ExcludeMissing
+            private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        ) {
+
+            /** Card tokens to which the Auth Rule applies. */
+            fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
+
+            /** Card tokens to which the Auth Rule applies. */
+            @JsonProperty("card_tokens")
+            @ExcludeMissing
+            fun _cardTokens(): JsonField<List<String>> = cardTokens
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
+
+            fun validate(): ApplyAuthRuleRequestCardTokens = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                cardTokens()
+                validated = true
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [ApplyAuthRuleRequestCardTokens]. */
+            class Builder internal constructor() {
+
+                private var cardTokens: JsonField<MutableList<String>>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens) =
+                    apply {
+                        cardTokens =
+                            applyAuthRuleRequestCardTokens.cardTokens.map { it.toMutableList() }
+                        additionalProperties =
+                            applyAuthRuleRequestCardTokens.additionalProperties.toMutableMap()
+                    }
+
+                /** Card tokens to which the Auth Rule applies. */
+                fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
+
+                /** Card tokens to which the Auth Rule applies. */
+                fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
+                    this.cardTokens = cardTokens.map { it.toMutableList() }
+                }
+
+                /** Card tokens to which the Auth Rule applies. */
+                fun addCardToken(cardToken: String) = apply {
+                    cardTokens =
+                        (cardTokens ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(cardToken)
+                        }
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                fun build(): ApplyAuthRuleRequestCardTokens =
+                    ApplyAuthRuleRequestCardTokens(
+                        checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is ApplyAuthRuleRequestCardTokens && cardTokens == other.cardTokens && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(cardTokens, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "ApplyAuthRuleRequestCardTokens{cardTokens=$cardTokens, additionalProperties=$additionalProperties}"
+        }
+
+        @NoAutoDetect
+        class ApplyAuthRuleRequestProgramLevel
+        @JsonCreator
+        private constructor(
+            @JsonProperty("program_level")
+            @ExcludeMissing
+            private val programLevel: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("excluded_card_tokens")
+            @ExcludeMissing
+            private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        ) {
+
+            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            fun programLevel(): Boolean = programLevel.getRequired("program_level")
+
+            /** Card tokens to which the Auth Rule does not apply. */
+            fun excludedCardTokens(): Optional<List<String>> =
+                Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
+
+            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            @JsonProperty("program_level")
+            @ExcludeMissing
+            fun _programLevel(): JsonField<Boolean> = programLevel
+
+            /** Card tokens to which the Auth Rule does not apply. */
+            @JsonProperty("excluded_card_tokens")
+            @ExcludeMissing
+            fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
+
+            fun validate(): ApplyAuthRuleRequestProgramLevel = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                programLevel()
+                excludedCardTokens()
+                validated = true
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [ApplyAuthRuleRequestProgramLevel]. */
+            class Builder internal constructor() {
+
+                private var programLevel: JsonField<Boolean>? = null
+                private var excludedCardTokens: JsonField<MutableList<String>>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(
+                    applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel
+                ) = apply {
+                    programLevel = applyAuthRuleRequestProgramLevel.programLevel
+                    excludedCardTokens =
+                        applyAuthRuleRequestProgramLevel.excludedCardTokens.map {
+                            it.toMutableList()
+                        }
+                    additionalProperties =
+                        applyAuthRuleRequestProgramLevel.additionalProperties.toMutableMap()
+                }
+
+                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
+
+                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                fun programLevel(programLevel: JsonField<Boolean>) = apply {
+                    this.programLevel = programLevel
+                }
+
+                /** Card tokens to which the Auth Rule does not apply. */
+                fun excludedCardTokens(excludedCardTokens: List<String>) =
+                    excludedCardTokens(JsonField.of(excludedCardTokens))
+
+                /** Card tokens to which the Auth Rule does not apply. */
+                fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
+                    this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
+                }
+
+                /** Card tokens to which the Auth Rule does not apply. */
+                fun addExcludedCardToken(excludedCardToken: String) = apply {
+                    excludedCardTokens =
+                        (excludedCardTokens ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(excludedCardToken)
+                        }
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                fun build(): ApplyAuthRuleRequestProgramLevel =
+                    ApplyAuthRuleRequestProgramLevel(
+                        checkRequired("programLevel", programLevel),
+                        (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is ApplyAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "ApplyAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
         }
     }
 
@@ -256,7 +682,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var authRuleToken: String? = null
-        private var body: AuthRuleV2ApplyBody? = null
+        private var body: Body? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -270,30 +696,16 @@ private constructor(
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
-        fun forApplyAuthRuleRequestAccountTokens(
-            applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
-        ) = apply {
-            body =
-                AuthRuleV2ApplyBody.ofApplyAuthRuleRequestAccountTokens(
-                    applyAuthRuleRequestAccountTokens
-                )
-        }
+        fun body(body: Body) = apply { this.body = body }
 
-        fun forApplyAuthRuleRequestCardTokens(
-            applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens
-        ) = apply {
-            body =
-                AuthRuleV2ApplyBody.ofApplyAuthRuleRequestCardTokens(applyAuthRuleRequestCardTokens)
-        }
+        fun body(applyAuthRuleRequestAccountTokens: Body.ApplyAuthRuleRequestAccountTokens) =
+            body(Body.ofApplyAuthRuleRequestAccountTokens(applyAuthRuleRequestAccountTokens))
 
-        fun forApplyAuthRuleRequestProgramLevel(
-            applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel
-        ) = apply {
-            body =
-                AuthRuleV2ApplyBody.ofApplyAuthRuleRequestProgramLevel(
-                    applyAuthRuleRequestProgramLevel
-                )
-        }
+        fun body(applyAuthRuleRequestCardTokens: Body.ApplyAuthRuleRequestCardTokens) =
+            body(Body.ofApplyAuthRuleRequestCardTokens(applyAuthRuleRequestCardTokens))
+
+        fun body(applyAuthRuleRequestProgramLevel: Body.ApplyAuthRuleRequestProgramLevel) =
+            body(Body.ofApplyAuthRuleRequestProgramLevel(applyAuthRuleRequestProgramLevel))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -396,405 +808,10 @@ private constructor(
         fun build(): AuthRuleV2ApplyParams =
             AuthRuleV2ApplyParams(
                 checkRequired("authRuleToken", authRuleToken),
-                body ?: AuthRuleV2ApplyBody(),
+                checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
-    }
-
-    @NoAutoDetect
-    class ApplyAuthRuleRequestAccountTokens
-    @JsonCreator
-    private constructor(
-        @JsonProperty("account_tokens")
-        @ExcludeMissing
-        private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /** Account tokens to which the Auth Rule applies. */
-        fun accountTokens(): List<String> = accountTokens.getRequired("account_tokens")
-
-        /** Account tokens to which the Auth Rule applies. */
-        @JsonProperty("account_tokens")
-        @ExcludeMissing
-        fun _accountTokens(): JsonField<List<String>> = accountTokens
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): ApplyAuthRuleRequestAccountTokens = apply {
-            if (validated) {
-                return@apply
-            }
-
-            accountTokens()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [ApplyAuthRuleRequestAccountTokens]. */
-        class Builder internal constructor() {
-
-            private var accountTokens: JsonField<MutableList<String>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(
-                applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
-            ) = apply {
-                accountTokens =
-                    applyAuthRuleRequestAccountTokens.accountTokens.map { it.toMutableList() }
-                additionalProperties =
-                    applyAuthRuleRequestAccountTokens.additionalProperties.toMutableMap()
-            }
-
-            /** Account tokens to which the Auth Rule applies. */
-            fun accountTokens(accountTokens: List<String>) =
-                accountTokens(JsonField.of(accountTokens))
-
-            /** Account tokens to which the Auth Rule applies. */
-            fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
-                this.accountTokens = accountTokens.map { it.toMutableList() }
-            }
-
-            /** Account tokens to which the Auth Rule applies. */
-            fun addAccountToken(accountToken: String) = apply {
-                accountTokens =
-                    (accountTokens ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(accountToken)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            fun build(): ApplyAuthRuleRequestAccountTokens =
-                ApplyAuthRuleRequestAccountTokens(
-                    checkRequired("accountTokens", accountTokens).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ApplyAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(accountTokens, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "ApplyAuthRuleRequestAccountTokens{accountTokens=$accountTokens, additionalProperties=$additionalProperties}"
-    }
-
-    @NoAutoDetect
-    class ApplyAuthRuleRequestCardTokens
-    @JsonCreator
-    private constructor(
-        @JsonProperty("card_tokens")
-        @ExcludeMissing
-        private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /** Card tokens to which the Auth Rule applies. */
-        fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
-
-        /** Card tokens to which the Auth Rule applies. */
-        @JsonProperty("card_tokens")
-        @ExcludeMissing
-        fun _cardTokens(): JsonField<List<String>> = cardTokens
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): ApplyAuthRuleRequestCardTokens = apply {
-            if (validated) {
-                return@apply
-            }
-
-            cardTokens()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [ApplyAuthRuleRequestCardTokens]. */
-        class Builder internal constructor() {
-
-            private var cardTokens: JsonField<MutableList<String>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens) =
-                apply {
-                    cardTokens =
-                        applyAuthRuleRequestCardTokens.cardTokens.map { it.toMutableList() }
-                    additionalProperties =
-                        applyAuthRuleRequestCardTokens.additionalProperties.toMutableMap()
-                }
-
-            /** Card tokens to which the Auth Rule applies. */
-            fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
-
-            /** Card tokens to which the Auth Rule applies. */
-            fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
-                this.cardTokens = cardTokens.map { it.toMutableList() }
-            }
-
-            /** Card tokens to which the Auth Rule applies. */
-            fun addCardToken(cardToken: String) = apply {
-                cardTokens =
-                    (cardTokens ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(cardToken)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            fun build(): ApplyAuthRuleRequestCardTokens =
-                ApplyAuthRuleRequestCardTokens(
-                    checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ApplyAuthRuleRequestCardTokens && cardTokens == other.cardTokens && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(cardTokens, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "ApplyAuthRuleRequestCardTokens{cardTokens=$cardTokens, additionalProperties=$additionalProperties}"
-    }
-
-    @NoAutoDetect
-    class ApplyAuthRuleRequestProgramLevel
-    @JsonCreator
-    private constructor(
-        @JsonProperty("program_level")
-        @ExcludeMissing
-        private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("excluded_card_tokens")
-        @ExcludeMissing
-        private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /** Whether the Auth Rule applies to all authorizations on the card program. */
-        fun programLevel(): Boolean = programLevel.getRequired("program_level")
-
-        /** Card tokens to which the Auth Rule does not apply. */
-        fun excludedCardTokens(): Optional<List<String>> =
-            Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
-
-        /** Whether the Auth Rule applies to all authorizations on the card program. */
-        @JsonProperty("program_level")
-        @ExcludeMissing
-        fun _programLevel(): JsonField<Boolean> = programLevel
-
-        /** Card tokens to which the Auth Rule does not apply. */
-        @JsonProperty("excluded_card_tokens")
-        @ExcludeMissing
-        fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): ApplyAuthRuleRequestProgramLevel = apply {
-            if (validated) {
-                return@apply
-            }
-
-            programLevel()
-            excludedCardTokens()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [ApplyAuthRuleRequestProgramLevel]. */
-        class Builder internal constructor() {
-
-            private var programLevel: JsonField<Boolean>? = null
-            private var excludedCardTokens: JsonField<MutableList<String>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel) =
-                apply {
-                    programLevel = applyAuthRuleRequestProgramLevel.programLevel
-                    excludedCardTokens =
-                        applyAuthRuleRequestProgramLevel.excludedCardTokens.map {
-                            it.toMutableList()
-                        }
-                    additionalProperties =
-                        applyAuthRuleRequestProgramLevel.additionalProperties.toMutableMap()
-                }
-
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
-            fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
-
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
-            fun programLevel(programLevel: JsonField<Boolean>) = apply {
-                this.programLevel = programLevel
-            }
-
-            /** Card tokens to which the Auth Rule does not apply. */
-            fun excludedCardTokens(excludedCardTokens: List<String>) =
-                excludedCardTokens(JsonField.of(excludedCardTokens))
-
-            /** Card tokens to which the Auth Rule does not apply. */
-            fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
-                this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
-            }
-
-            /** Card tokens to which the Auth Rule does not apply. */
-            fun addExcludedCardToken(excludedCardToken: String) = apply {
-                excludedCardTokens =
-                    (excludedCardTokens ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(excludedCardToken)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            fun build(): ApplyAuthRuleRequestProgramLevel =
-                ApplyAuthRuleRequestProgramLevel(
-                    checkRequired("programLevel", programLevel),
-                    (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ApplyAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "ApplyAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

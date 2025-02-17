@@ -41,7 +41,9 @@ class ManagementOperationCreateParamsTest {
                 .subtype("subtype")
                 .userDefinedId("user_defined_id")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
@@ -71,7 +73,9 @@ class ManagementOperationCreateParamsTest {
                 .eventType(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())

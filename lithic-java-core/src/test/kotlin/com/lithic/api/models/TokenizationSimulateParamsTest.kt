@@ -38,7 +38,9 @@ class TokenizationSimulateParamsTest {
                     TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.cvv()).isEqualTo("776")
         assertThat(body.expirationDate()).isEqualTo("08/29")
@@ -61,7 +63,9 @@ class TokenizationSimulateParamsTest {
                 .pan("4111111289144142")
                 .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.cvv()).isEqualTo("776")
         assertThat(body.expirationDate()).isEqualTo("08/29")

@@ -30,7 +30,7 @@ import java.util.Optional
  */
 class TransactionSimulateVoidParams
 private constructor(
-    private val body: TransactionSimulateVoidBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -73,16 +73,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): TransactionSimulateVoidBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class TransactionSimulateVoidBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("token")
         @ExcludeMissing
         private val token: JsonField<String> = JsonMissing.of(),
@@ -132,7 +132,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): TransactionSimulateVoidBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -150,7 +150,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [TransactionSimulateVoidBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
@@ -159,12 +159,11 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transactionSimulateVoidBody: TransactionSimulateVoidBody) = apply {
-                token = transactionSimulateVoidBody.token
-                amount = transactionSimulateVoidBody.amount
-                type = transactionSimulateVoidBody.type
-                additionalProperties =
-                    transactionSimulateVoidBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                token = body.token
+                amount = body.amount
+                type = body.type
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -220,8 +219,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): TransactionSimulateVoidBody =
-                TransactionSimulateVoidBody(
+            fun build(): Body =
+                Body(
                     checkRequired("token", token),
                     amount,
                     type,
@@ -234,7 +233,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSimulateVoidBody && token == other.token && amount == other.amount && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && token == other.token && amount == other.amount && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -244,7 +243,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionSimulateVoidBody{token=$token, amount=$amount, type=$type, additionalProperties=$additionalProperties}"
+            "Body{token=$token, amount=$amount, type=$type, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -258,8 +257,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: TransactionSimulateVoidBody.Builder =
-            TransactionSimulateVoidBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

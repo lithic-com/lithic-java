@@ -25,7 +25,9 @@ class AuthRuleV2BacktestCreateParamsTest {
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .start(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.end()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(body.start()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -37,7 +39,9 @@ class AuthRuleV2BacktestCreateParamsTest {
             AuthRuleV2BacktestCreateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 

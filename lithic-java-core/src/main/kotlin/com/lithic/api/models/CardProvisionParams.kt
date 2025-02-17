@@ -33,7 +33,7 @@ import java.util.Optional
 class CardProvisionParams
 private constructor(
     private val cardToken: String,
-    private val body: CardProvisionBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -114,7 +114,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CardProvisionBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -128,9 +128,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class CardProvisionBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("certificate")
         @ExcludeMissing
         private val certificate: JsonField<String> = JsonMissing.of(),
@@ -244,7 +244,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): CardProvisionBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -265,7 +265,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [CardProvisionBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var certificate: JsonField<String> = JsonMissing.of()
@@ -277,14 +277,14 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardProvisionBody: CardProvisionBody) = apply {
-                certificate = cardProvisionBody.certificate
-                clientDeviceId = cardProvisionBody.clientDeviceId
-                clientWalletAccountId = cardProvisionBody.clientWalletAccountId
-                digitalWallet = cardProvisionBody.digitalWallet
-                nonce = cardProvisionBody.nonce
-                nonceSignature = cardProvisionBody.nonceSignature
-                additionalProperties = cardProvisionBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                certificate = body.certificate
+                clientDeviceId = body.clientDeviceId
+                clientWalletAccountId = body.clientWalletAccountId
+                digitalWallet = body.digitalWallet
+                nonce = body.nonce
+                nonceSignature = body.nonceSignature
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
@@ -394,8 +394,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): CardProvisionBody =
-                CardProvisionBody(
+            fun build(): Body =
+                Body(
                     certificate,
                     clientDeviceId,
                     clientWalletAccountId,
@@ -411,7 +411,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardProvisionBody && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -421,7 +421,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardProvisionBody{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
+            "Body{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -436,7 +436,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var cardToken: String? = null
-        private var body: CardProvisionBody.Builder = CardProvisionBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

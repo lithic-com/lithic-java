@@ -27,7 +27,7 @@ import java.util.Optional
  */
 class AccountHolderSimulateEnrollmentReviewParams
 private constructor(
-    private val body: AccountHolderSimulateEnrollmentReviewBody,
+    private val body: SimulateEnrollmentReviewRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -62,16 +62,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): AccountHolderSimulateEnrollmentReviewBody = body
+    @JvmSynthetic internal fun _body(): SimulateEnrollmentReviewRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class AccountHolderSimulateEnrollmentReviewBody
+    class SimulateEnrollmentReviewRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("account_holder_token")
         @ExcludeMissing
         private val accountHolderToken: JsonField<String> = JsonMissing.of(),
@@ -121,7 +121,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): AccountHolderSimulateEnrollmentReviewBody = apply {
+        fun validate(): SimulateEnrollmentReviewRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -139,7 +139,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [AccountHolderSimulateEnrollmentReviewBody]. */
+        /** A builder for [SimulateEnrollmentReviewRequest]. */
         class Builder internal constructor() {
 
             private var accountHolderToken: JsonField<String> = JsonMissing.of()
@@ -148,18 +148,15 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(
-                accountHolderSimulateEnrollmentReviewBody: AccountHolderSimulateEnrollmentReviewBody
-            ) = apply {
-                accountHolderToken = accountHolderSimulateEnrollmentReviewBody.accountHolderToken
-                status = accountHolderSimulateEnrollmentReviewBody.status
-                statusReasons =
-                    accountHolderSimulateEnrollmentReviewBody.statusReasons.map {
-                        it.toMutableList()
-                    }
-                additionalProperties =
-                    accountHolderSimulateEnrollmentReviewBody.additionalProperties.toMutableMap()
-            }
+            internal fun from(simulateEnrollmentReviewRequest: SimulateEnrollmentReviewRequest) =
+                apply {
+                    accountHolderToken = simulateEnrollmentReviewRequest.accountHolderToken
+                    status = simulateEnrollmentReviewRequest.status
+                    statusReasons =
+                        simulateEnrollmentReviewRequest.statusReasons.map { it.toMutableList() }
+                    additionalProperties =
+                        simulateEnrollmentReviewRequest.additionalProperties.toMutableMap()
+                }
 
             /** The account holder which to perform the simulation upon. */
             fun accountHolderToken(accountHolderToken: String) =
@@ -227,8 +224,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): AccountHolderSimulateEnrollmentReviewBody =
-                AccountHolderSimulateEnrollmentReviewBody(
+            fun build(): SimulateEnrollmentReviewRequest =
+                SimulateEnrollmentReviewRequest(
                     accountHolderToken,
                     status,
                     (statusReasons ?: JsonMissing.of()).map { it.toImmutable() },
@@ -241,7 +238,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderSimulateEnrollmentReviewBody && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SimulateEnrollmentReviewRequest && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -251,7 +248,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AccountHolderSimulateEnrollmentReviewBody{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
+            "SimulateEnrollmentReviewRequest{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -265,8 +262,8 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: AccountHolderSimulateEnrollmentReviewBody.Builder =
-            AccountHolderSimulateEnrollmentReviewBody.builder()
+        private var body: SimulateEnrollmentReviewRequest.Builder =
+            SimulateEnrollmentReviewRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

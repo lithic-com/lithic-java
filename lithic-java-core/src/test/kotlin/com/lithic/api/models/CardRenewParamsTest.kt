@@ -60,7 +60,9 @@ class CardRenewParamsTest {
                 .productId("100")
                 .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(
@@ -103,7 +105,9 @@ class CardRenewParamsTest {
                         .build()
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(

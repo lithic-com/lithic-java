@@ -35,7 +35,7 @@ import java.util.Optional
 class TokenizationResendActivationCodeParams
 private constructor(
     private val tokenizationToken: String,
-    private val body: TokenizationResendActivationCodeBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -62,7 +62,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): TokenizationResendActivationCodeBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -76,9 +76,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class TokenizationResendActivationCodeBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("activation_method_type")
         @ExcludeMissing
         private val activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of(),
@@ -109,7 +109,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): TokenizationResendActivationCodeBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -125,19 +125,16 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [TokenizationResendActivationCodeBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(
-                tokenizationResendActivationCodeBody: TokenizationResendActivationCodeBody
-            ) = apply {
-                activationMethodType = tokenizationResendActivationCodeBody.activationMethodType
-                additionalProperties =
-                    tokenizationResendActivationCodeBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                activationMethodType = body.activationMethodType
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
@@ -177,11 +174,7 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): TokenizationResendActivationCodeBody =
-                TokenizationResendActivationCodeBody(
-                    activationMethodType,
-                    additionalProperties.toImmutable(),
-                )
+            fun build(): Body = Body(activationMethodType, additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {
@@ -189,7 +182,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationResendActivationCodeBody && activationMethodType == other.activationMethodType && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && activationMethodType == other.activationMethodType && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -199,7 +192,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TokenizationResendActivationCodeBody{activationMethodType=$activationMethodType, additionalProperties=$additionalProperties}"
+            "Body{activationMethodType=$activationMethodType, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -214,8 +207,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var tokenizationToken: String? = null
-        private var body: TokenizationResendActivationCodeBody.Builder =
-            TokenizationResendActivationCodeBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

@@ -10,11 +10,11 @@ class FinancialAccountCreateParamsTest {
     @Test
     fun create() {
         FinancialAccountCreateParams.builder()
+            .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .nickname("nickname")
             .type(FinancialAccountCreateParams.Type.OPERATING)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .isForBenefitOf(true)
-            .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -22,13 +22,15 @@ class FinancialAccountCreateParamsTest {
     fun body() {
         val params =
             FinancialAccountCreateParams.builder()
+                .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .nickname("nickname")
                 .type(FinancialAccountCreateParams.Type.OPERATING)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isForBenefitOf(true)
-                .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
@@ -43,7 +45,9 @@ class FinancialAccountCreateParamsTest {
                 .nickname("nickname")
                 .type(FinancialAccountCreateParams.Type.OPERATING)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
