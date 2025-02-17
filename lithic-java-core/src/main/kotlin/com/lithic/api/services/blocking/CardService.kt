@@ -179,11 +179,11 @@ interface CardService {
 
     fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): String
 
     fun getEmbedUrl(
         params: CardGetEmbedUrlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): String
 }

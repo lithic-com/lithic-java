@@ -124,7 +124,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
     override fun resend(
         eventToken: String,
         eventSubscriptionToken: String,
-        body: JsonValue
+        body: JsonValue,
     ): CompletableFuture<Void> {
         val request =
             HttpRequest.builder()
@@ -134,7 +134,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     eventToken,
                     "event_subscriptions",
                     eventSubscriptionToken,
-                    "resend"
+                    "resend",
                 )
                 .body(json(clientOptions.jsonMapper, body))
                 .build()

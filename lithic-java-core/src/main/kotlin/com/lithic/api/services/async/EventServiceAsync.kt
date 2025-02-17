@@ -43,6 +43,6 @@ interface EventServiceAsync {
     fun resend(
         eventToken: String,
         eventSubscriptionToken: String,
-        body: JsonValue
+        body: JsonValue,
     ): CompletableFuture<Void>
 }

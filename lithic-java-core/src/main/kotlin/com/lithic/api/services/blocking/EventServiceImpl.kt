@@ -113,7 +113,7 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                     eventToken,
                     "event_subscriptions",
                     eventSubscriptionToken,
-                    "resend"
+                    "resend",
                 )
                 .body(json(clientOptions.jsonMapper, body))
                 .build()

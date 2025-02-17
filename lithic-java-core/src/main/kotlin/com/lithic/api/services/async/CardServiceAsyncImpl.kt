@@ -433,7 +433,7 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<String> {
         val embed_request =
             Base64.getEncoder()
@@ -462,7 +462,7 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun getEmbedUrl(
         params: CardGetEmbedUrlParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): String {
         val embed_request =
             Base64.getEncoder()
