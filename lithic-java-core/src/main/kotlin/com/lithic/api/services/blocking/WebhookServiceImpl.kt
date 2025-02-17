@@ -18,10 +18,7 @@ import java.util.Base64
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class WebhookServiceImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : WebhookService {
+class WebhookServiceImpl constructor(private val clientOptions: ClientOptions) : WebhookService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 

@@ -183,11 +183,11 @@ interface CardServiceAsync {
 
     fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<String>
 
     fun getEmbedUrl(
         params: CardGetEmbedUrlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): String
 }
