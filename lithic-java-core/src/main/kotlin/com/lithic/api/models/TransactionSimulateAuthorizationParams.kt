@@ -900,11 +900,7 @@ private constructor(
      * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
      *   funds immediately, and no subsequent clearing is required to settle the transaction.
      */
-    class Status
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

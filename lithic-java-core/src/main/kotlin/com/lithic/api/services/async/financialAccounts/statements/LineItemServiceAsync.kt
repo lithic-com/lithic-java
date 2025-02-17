@@ -15,6 +15,6 @@ interface LineItemServiceAsync {
     @JvmOverloads
     fun list(
         params: FinancialAccountStatementLineItemListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync>
 }

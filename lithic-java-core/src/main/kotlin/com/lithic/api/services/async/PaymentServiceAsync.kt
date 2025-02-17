@@ -29,55 +29,55 @@ interface PaymentServiceAsync {
     @JvmOverloads
     fun create(
         params: PaymentCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentCreateResponse>
 
     /** Get the payment by token. */
     @JvmOverloads
     fun retrieve(
         params: PaymentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Payment>
 
     /** List all the payments for the provided search criteria. */
     @JvmOverloads
     fun list(
         params: PaymentListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentListPageAsync>
 
     /** Retry an origination which has been returned. */
     @JvmOverloads
     fun retry(
         params: PaymentRetryParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentRetryResponse>
 
     /** Simulate payment lifecycle event */
     @JvmOverloads
     fun simulateAction(
         params: PaymentSimulateActionParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateActionResponse>
 
     /** Simulates a receipt of a Payment. */
     @JvmOverloads
     fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateReceiptResponse>
 
     /** Simulates a release of a Payment. */
     @JvmOverloads
     fun simulateRelease(
         params: PaymentSimulateReleaseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateReleaseResponse>
 
     /** Simulates a return of a Payment. */
     @JvmOverloads
     fun simulateReturn(
         params: PaymentSimulateReturnParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateReturnResponse>
 }

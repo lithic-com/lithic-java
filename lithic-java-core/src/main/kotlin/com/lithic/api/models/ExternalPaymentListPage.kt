@@ -84,13 +84,8 @@ private constructor(
         fun of(
             externalPaymentsService: ExternalPaymentService,
             params: ExternalPaymentListParams,
-            response: Response
-        ) =
-            ExternalPaymentListPage(
-                externalPaymentsService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = ExternalPaymentListPage(externalPaymentsService, params, response)
     }
 
     @NoAutoDetect
@@ -174,18 +169,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: ExternalPaymentListPage,
-    ) : Iterable<ExternalPayment> {
+    class AutoPager(private val firstPage: ExternalPaymentListPage) : Iterable<ExternalPayment> {
 
         override fun iterator(): Iterator<ExternalPayment> = iterator {
             var page = firstPage

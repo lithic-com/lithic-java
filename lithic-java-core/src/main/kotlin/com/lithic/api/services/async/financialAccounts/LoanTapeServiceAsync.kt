@@ -17,13 +17,13 @@ interface LoanTapeServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<LoanTape>
 
     /** List the loan tapes for a given financial account. */
     @JvmOverloads
     fun list(
         params: FinancialAccountLoanTapeListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync>
 }

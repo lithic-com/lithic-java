@@ -15,6 +15,6 @@ interface BalanceServiceAsync {
     @JvmOverloads
     fun list(
         params: BalanceListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BalanceListPageAsync>
 }

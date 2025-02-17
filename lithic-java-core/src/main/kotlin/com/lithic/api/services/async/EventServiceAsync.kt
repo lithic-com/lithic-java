@@ -23,21 +23,21 @@ interface EventServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: EventRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Event>
 
     /** List all events. */
     @JvmOverloads
     fun list(
         params: EventListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventListPageAsync>
 
     /** List all the message attempts for a given event. */
     @JvmOverloads
     fun listAttempts(
         params: EventListAttemptsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventListAttemptsPageAsync>
 
     fun resend(

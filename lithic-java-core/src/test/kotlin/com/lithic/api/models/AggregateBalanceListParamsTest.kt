@@ -24,7 +24,7 @@ class AggregateBalanceListParamsTest {
         val expected = QueryParams.builder()
         expected.put(
             "financial_account_type",
-            AggregateBalanceListParams.FinancialAccountType.ISSUING.toString()
+            AggregateBalanceListParams.FinancialAccountType.ISSUING.toString(),
         )
         assertThat(params._queryParams()).isEqualTo(expected.build())
     }

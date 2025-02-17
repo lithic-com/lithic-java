@@ -375,7 +375,7 @@ class ErrorHandlingTest {
                 assertUnprocessableEntity(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    LITHIC_ERROR
+                    LITHIC_ERROR,
                 )
             })
     }
@@ -524,7 +524,7 @@ class ErrorHandlingTest {
                     e,
                     999,
                     Headers.builder().put("Foo", "Bar").build(),
-                    toJson(LITHIC_ERROR)
+                    toJson(LITHIC_ERROR),
                 )
             })
     }
@@ -629,7 +629,7 @@ class ErrorHandlingTest {
         throwable: Throwable,
         statusCode: Int,
         headers: Headers,
-        responseBody: ByteArray
+        responseBody: ByteArray,
     ) {
         assertThat(throwable)
             .asInstanceOf(
@@ -687,7 +687,7 @@ class ErrorHandlingTest {
     private fun assertUnprocessableEntity(
         throwable: Throwable,
         headers: Headers,
-        error: LithicError
+        error: LithicError,
     ) {
         assertThat(throwable)
             .asInstanceOf(

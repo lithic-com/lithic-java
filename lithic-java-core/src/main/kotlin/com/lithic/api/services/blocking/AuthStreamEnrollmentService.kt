@@ -21,7 +21,7 @@ interface AuthStreamEnrollmentService {
     @JvmOverloads
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthStreamSecret
 
     /**
@@ -33,6 +33,6 @@ interface AuthStreamEnrollmentService {
     @JvmOverloads
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     )
 }

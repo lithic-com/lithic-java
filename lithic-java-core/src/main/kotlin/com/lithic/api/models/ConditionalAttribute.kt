@@ -36,11 +36,8 @@ import com.lithic.api.errors.LithicInvalidDataException
  * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24 hours
  *   up and until the authorization.
  */
-class ConditionalAttribute
-@JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+class ConditionalAttribute @JsonCreator private constructor(private val value: JsonField<String>) :
+    Enum {
 
     /**
      * Returns this class instance's raw value.

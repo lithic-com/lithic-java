@@ -8,10 +8,8 @@ import com.lithic.api.services.async.threeDS.AuthenticationServiceAsyncImpl
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsyncImpl
 
-class ThreeDSServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ThreeDSServiceAsync {
+class ThreeDSServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    ThreeDSServiceAsync {
 
     private val authentication: AuthenticationServiceAsync by lazy {
         AuthenticationServiceAsyncImpl(clientOptions)

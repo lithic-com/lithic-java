@@ -15,10 +15,8 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.BalanceListPage
 import com.lithic.api.models.BalanceListParams
 
-class BalanceServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BalanceService {
+class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    BalanceService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 

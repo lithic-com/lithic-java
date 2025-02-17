@@ -18,9 +18,7 @@ import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
 
 class FinancialTransactionServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : FinancialTransactionService {
+internal constructor(private val clientOptions: ClientOptions) : FinancialTransactionService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Get the financial transaction for the provided token. */
     override fun retrieve(
         params: FinancialTransactionRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): FinancialTransaction {
         val request =
             HttpRequest.builder()
@@ -40,7 +38,7 @@ internal constructor(
                     "financial_accounts",
                     params.getPathParam(0),
                     "financial_transactions",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepare(clientOptions, params)
@@ -61,7 +59,7 @@ internal constructor(
     /** List the financial transactions for a given financial account. */
     override fun list(
         params: FinancialTransactionListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): FinancialTransactionListPage {
         val request =
             HttpRequest.builder()
@@ -70,7 +68,7 @@ internal constructor(
                     "v1",
                     "financial_accounts",
                     params.getPathParam(0),
-                    "financial_transactions"
+                    "financial_transactions",
                 )
                 .build()
                 .prepare(clientOptions, params)

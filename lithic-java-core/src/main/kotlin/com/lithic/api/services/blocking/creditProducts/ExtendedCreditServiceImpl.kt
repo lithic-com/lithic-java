@@ -15,10 +15,8 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import com.lithic.api.models.ExtendedCredit
 
-class ExtendedCreditServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ExtendedCreditService {
+class ExtendedCreditServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ExtendedCreditService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Get the extended credit for a given credit product under a program */
     override fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ExtendedCredit {
         val request =
             HttpRequest.builder()

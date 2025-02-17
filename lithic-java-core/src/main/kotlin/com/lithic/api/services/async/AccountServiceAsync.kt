@@ -20,7 +20,7 @@ interface AccountServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: AccountRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
     /**
@@ -31,14 +31,14 @@ interface AccountServiceAsync {
     @JvmOverloads
     fun update(
         params: AccountUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
     /** List account configurations. */
     @JvmOverloads
     fun list(
         params: AccountListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountListPageAsync>
 
     /**
@@ -50,6 +50,6 @@ interface AccountServiceAsync {
     @JvmOverloads
     fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountSpendLimits>
 }

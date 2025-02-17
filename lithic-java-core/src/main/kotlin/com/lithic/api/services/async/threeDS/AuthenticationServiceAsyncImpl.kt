@@ -20,9 +20,7 @@ import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import java.util.concurrent.CompletableFuture
 
 class AuthenticationServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AuthenticationServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : AuthenticationServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -33,7 +31,7 @@ internal constructor(
     /** Get 3DS Authentication by token */
     override fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AuthenticationRetrieveResponse> {
         val request =
             HttpRequest.builder()
@@ -65,7 +63,7 @@ internal constructor(
      */
     override fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AuthenticationSimulateResponse> {
         val request =
             HttpRequest.builder()

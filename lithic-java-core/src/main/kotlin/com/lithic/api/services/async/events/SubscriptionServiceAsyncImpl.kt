@@ -31,10 +31,8 @@ import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import java.util.concurrent.CompletableFuture
 
-class SubscriptionServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : SubscriptionServiceAsync {
+class SubscriptionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    SubscriptionServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -44,7 +42,7 @@ internal constructor(
     /** Create a new event subscription. */
     override fun create(
         params: EventSubscriptionCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> {
         val request =
             HttpRequest.builder()
@@ -72,7 +70,7 @@ internal constructor(
     /** Get an event subscription. */
     override fun retrieve(
         params: EventSubscriptionRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> {
         val request =
             HttpRequest.builder()
@@ -99,7 +97,7 @@ internal constructor(
     /** Update an event subscription. */
     override fun update(
         params: EventSubscriptionUpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> {
         val request =
             HttpRequest.builder()
@@ -128,7 +126,7 @@ internal constructor(
     /** List all the event subscriptions. */
     override fun list(
         params: EventSubscriptionListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscriptionListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -155,7 +153,7 @@ internal constructor(
     /** Delete an event subscription. */
     override fun delete(
         params: EventSubscriptionDeleteParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -176,7 +174,7 @@ internal constructor(
     /** List all the message attempts for a given event subscription. */
     override fun listAttempts(
         params: EventSubscriptionListAttemptsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> {
         val request =
             HttpRequest.builder()
@@ -203,7 +201,7 @@ internal constructor(
     /** Resend all failed messages since a given time. */
     override fun recover(
         params: EventSubscriptionRecoverParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -227,7 +225,7 @@ internal constructor(
      */
     override fun replayMissing(
         params: EventSubscriptionReplayMissingParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -236,7 +234,7 @@ internal constructor(
                     "v1",
                     "event_subscriptions",
                     params.getPathParam(0),
-                    "replay_missing"
+                    "replay_missing",
                 )
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
@@ -253,7 +251,7 @@ internal constructor(
     /** Get the secret for an event subscription. */
     override fun retrieveSecret(
         params: EventSubscriptionRetrieveSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> {
         val request =
             HttpRequest.builder()
@@ -282,7 +280,7 @@ internal constructor(
      */
     override fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -292,7 +290,7 @@ internal constructor(
                     "event_subscriptions",
                     params.getPathParam(0),
                     "secret",
-                    "rotate"
+                    "rotate",
                 )
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
@@ -308,7 +306,7 @@ internal constructor(
     /** Send an example message for event. */
     override fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -318,7 +316,7 @@ internal constructor(
                     "simulate",
                     "event_subscriptions",
                     params.getPathParam(0),
-                    "send_example"
+                    "send_example",
                 )
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()

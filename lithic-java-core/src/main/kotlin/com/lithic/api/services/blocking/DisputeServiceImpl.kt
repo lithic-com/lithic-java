@@ -32,10 +32,8 @@ import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 
-class DisputeServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : DisputeService {
+class DisputeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    DisputeService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -158,7 +156,7 @@ internal constructor(
      */
     override fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DisputeEvidence {
         val request =
             HttpRequest.builder()
@@ -168,7 +166,7 @@ internal constructor(
                     "disputes",
                     params.getPathParam(0),
                     "evidences",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
@@ -195,7 +193,7 @@ internal constructor(
      */
     override fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DisputeEvidence {
         val request =
             HttpRequest.builder()
@@ -221,7 +219,7 @@ internal constructor(
     /** List evidence metadata for a dispute. */
     override fun listEvidences(
         params: DisputeListEvidencesParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DisputeListEvidencesPage {
         val request =
             HttpRequest.builder()
@@ -246,7 +244,7 @@ internal constructor(
     /** Get a dispute's evidence metadata. */
     override fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): DisputeEvidence {
         val request =
             HttpRequest.builder()
@@ -256,7 +254,7 @@ internal constructor(
                     "disputes",
                     params.getPathParam(0),
                     "evidences",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepare(clientOptions, params)

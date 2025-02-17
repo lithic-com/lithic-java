@@ -7,11 +7,7 @@ import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.errors.LithicInvalidDataException
 
-class OwnerType
-@JsonCreator
-private constructor(
-    private val value: JsonField<String>,
-) : Enum {
+class OwnerType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
     /**
      * Returns this class instance's raw value.

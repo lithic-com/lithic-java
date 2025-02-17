@@ -15,6 +15,6 @@ interface AggregateBalanceServiceAsync {
     @JvmOverloads
     fun list(
         params: CardAggregateBalanceListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardAggregateBalanceListPageAsync>
 }

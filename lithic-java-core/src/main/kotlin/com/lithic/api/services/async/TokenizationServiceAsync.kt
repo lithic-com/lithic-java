@@ -26,14 +26,14 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: TokenizationRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationRetrieveResponse>
 
     /** List card tokenizations */
     @JvmOverloads
     fun list(
         params: TokenizationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationListPageAsync>
 
     /**
@@ -48,7 +48,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun activate(
         params: TokenizationActivateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -64,7 +64,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun deactivate(
         params: TokenizationDeactivateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -79,7 +79,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun pause(
         params: TokenizationPauseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -96,7 +96,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -106,7 +106,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun simulate(
         params: TokenizationSimulateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationSimulateResponse>
 
     /**
@@ -120,7 +120,7 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun unpause(
         params: TokenizationUnpauseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -135,6 +135,6 @@ interface TokenizationServiceAsync {
     @JvmOverloads
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse>
 }

@@ -87,13 +87,8 @@ private constructor(
         fun of(
             loanTapesService: LoanTapeServiceAsync,
             params: FinancialAccountLoanTapeListParams,
-            response: Response
-        ) =
-            FinancialAccountLoanTapeListPageAsync(
-                loanTapesService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = FinancialAccountLoanTapeListPageAsync(loanTapesService, params, response)
     }
 
     @NoAutoDetect
@@ -177,23 +172,16 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: FinancialAccountLoanTapeListPageAsync,
-    ) {
+    class AutoPager(private val firstPage: FinancialAccountLoanTapeListPageAsync) {
 
         fun forEach(action: Predicate<LoanTape>, executor: Executor): CompletableFuture<Void> {
             fun CompletableFuture<Optional<FinancialAccountLoanTapeListPageAsync>>.forEach(
                 action: (LoanTape) -> Boolean,
-                executor: Executor
+                executor: Executor,
             ): CompletableFuture<Void> =
                 thenComposeAsync(
                     { page ->
@@ -202,7 +190,7 @@ private constructor(
                             .map { it.getNextPage().forEach(action, executor) }
                             .orElseGet { CompletableFuture.completedFuture(null) }
                     },
-                    executor
+                    executor,
                 )
             return CompletableFuture.completedFuture(Optional.of(firstPage))
                 .forEach(action::test, executor)

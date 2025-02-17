@@ -14,6 +14,6 @@ interface BalanceService {
     @JvmOverloads
     fun list(
         params: BalanceListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): BalanceListPage
 }
