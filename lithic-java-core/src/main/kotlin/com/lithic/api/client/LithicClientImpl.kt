@@ -65,6 +65,8 @@ import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
+import com.lithic.api.services.blocking.WebhookService
+import com.lithic.api.services.blocking.WebhookServiceImpl
 
 class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient {
 
@@ -131,6 +133,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         ResponderEndpointServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
+
     private val externalBankAccounts: ExternalBankAccountService by lazy {
         ExternalBankAccountServiceImpl(clientOptionsWithUserAgent)
     }
@@ -196,6 +200,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun transactions(): TransactionService = transactions
 
     override fun responderEndpoints(): ResponderEndpointService = responderEndpoints
+
+    override fun webhooks(): WebhookService = webhooks
 
     override fun externalBankAccounts(): ExternalBankAccountService = externalBankAccounts
 

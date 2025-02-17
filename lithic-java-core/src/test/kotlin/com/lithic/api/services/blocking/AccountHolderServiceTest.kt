@@ -257,7 +257,7 @@ class AccountHolderServiceTest {
         val accountHolderSimulateEnrollmentReviewResponse =
             accountHolderService.simulateEnrollmentReview(
                 AccountHolderSimulateEnrollmentReviewParams.builder()
-                    .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
+                    .accountHolderToken("account_holder_token")
                     .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
                     .addStatusReason(
                         AccountHolderSimulateEnrollmentReviewParams.StatusReason

@@ -7,6 +7,8 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
+import com.lithic.api.models.CardGetEmbedHtmlParams
+import com.lithic.api.models.CardGetEmbedUrlParams
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardReissueParams
@@ -64,7 +66,7 @@ class CardServiceTest {
                             .build()
                     )
                     .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
-                    .spendLimit(1000L)
+                    .spendLimit(0L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                     .state(CardCreateParams.State.OPEN)
                     .build()
@@ -104,10 +106,10 @@ class CardServiceTest {
                 CardUpdateParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .memo("Updated Name")
+                    .memo("New Card")
                     .pin("pin")
                     .pinStatus(CardUpdateParams.PinStatus.OK)
-                    .spendLimit(100L)
+                    .spendLimit(0L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                     .state(CardUpdateParams.State.CLOSED)
                     .build()
@@ -146,20 +148,18 @@ class CardServiceTest {
                             .address1("5 Broad Street")
                             .city("NEW YORK")
                             .country("USA")
-                            .firstName("Janet")
-                            .lastName("Yellen")
-                            .postalCode("10001")
+                            .firstName("Michael")
+                            .lastName("Bluth")
+                            .postalCode("10001-1809")
                             .state("NY")
-                            .address2("Unit 5A")
+                            .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
                             .phoneNumber("+15555555555")
                             .build()
                     )
-                    .carrier(
-                        Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build()
-                    )
-                    .productId("100")
+                    .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                    .productId("product_id")
                     .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
                     .build()
             )
@@ -219,20 +219,18 @@ class CardServiceTest {
             cardService.reissue(
                 CardReissueParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .carrier(
-                        Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build()
-                    )
-                    .productId("100")
+                    .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                    .productId("product_id")
                     .shippingAddress(
                         ShippingAddress.builder()
                             .address1("5 Broad Street")
                             .city("NEW YORK")
                             .country("USA")
-                            .firstName("Janet")
-                            .lastName("Yellen")
-                            .postalCode("10001")
+                            .firstName("Michael")
+                            .lastName("Bluth")
+                            .postalCode("10001-1809")
                             .state("NY")
-                            .address2("Unit 5A")
+                            .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
                             .phoneNumber("+15555555555")
@@ -262,22 +260,20 @@ class CardServiceTest {
                             .address1("5 Broad Street")
                             .city("NEW YORK")
                             .country("USA")
-                            .firstName("Janet")
-                            .lastName("Yellen")
-                            .postalCode("10001")
+                            .firstName("Michael")
+                            .lastName("Bluth")
+                            .postalCode("10001-1809")
                             .state("NY")
-                            .address2("Unit 5A")
+                            .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
                             .phoneNumber("+15555555555")
                             .build()
                     )
-                    .carrier(
-                        Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build()
-                    )
+                    .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
                     .expMonth("06")
                     .expYear("2027")
-                    .productId("100")
+                    .productId("product_id")
                     .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
                     .build()
             )
@@ -315,5 +311,35 @@ class CardServiceTest {
             cardService.searchByPan(CardSearchByPanParams.builder().pan("4111111289144142").build())
         println(card)
         card.validate()
+    }
+
+    @Test
+    fun callGetEmbedHtml() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val cardService = client.cards()
+        val cardEmbedResponse =
+            cardService.getEmbedHtml(CardGetEmbedHtmlParams.builder().token("foo").build())
+        println(cardEmbedResponse)
+        assertThat(cardEmbedResponse).contains("<html>")
+    }
+
+    @Test
+    fun callGetEmbedUrl() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val cardService = client.cards()
+        val cardEmbedUrl =
+            cardService.getEmbedUrl(CardGetEmbedUrlParams.builder().token("foo").build())
+        println(cardEmbedUrl)
+        assertThat(cardEmbedUrl).contains("hmac")
     }
 }

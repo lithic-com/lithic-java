@@ -10,7 +10,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     @Test
     fun create() {
         TransactionSimulateCreditAuthorizationParams.builder()
-            .amount(3831L)
+            .amount(0L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
             .mcc("5812")
@@ -22,7 +22,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     fun body() {
         val params =
             TransactionSimulateCreditAuthorizationParams.builder()
-                .amount(3831L)
+                .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .mcc("5812")
@@ -30,7 +30,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
                 .build()
         val body = params._body()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(3831L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.mcc()).contains("5812")
@@ -41,13 +41,13 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateCreditAuthorizationParams.builder()
-                .amount(3831L)
+                .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
         val body = params._body()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(3831L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }

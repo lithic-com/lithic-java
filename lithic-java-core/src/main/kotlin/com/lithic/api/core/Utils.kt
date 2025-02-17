@@ -2,6 +2,7 @@
 
 package com.lithic.api.core
 
+import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.SortedMap
@@ -24,5 +25,9 @@ internal fun <K, V> Map<K, V>.toImmutable(): Map<K, V> =
 internal fun <K : Comparable<K>, V> SortedMap<K, V>.toImmutable(): SortedMap<K, V> =
     if (isEmpty()) Collections.emptySortedMap()
     else Collections.unmodifiableSortedMap(toSortedMap(comparator()))
+
+@JvmSynthetic
+internal fun Headers.getRequiredHeader(name: String): String =
+    values(name).firstOrNull() ?: throw LithicInvalidDataException("Could not find $name header")
 
 internal interface Enum
