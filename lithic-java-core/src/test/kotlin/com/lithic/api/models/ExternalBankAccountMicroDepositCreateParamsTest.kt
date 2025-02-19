@@ -24,7 +24,9 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
                 .addMicroDeposit(0L)
                 .addMicroDeposit(0L)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
@@ -37,7 +39,9 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
                 .addMicroDeposit(0L)
                 .addMicroDeposit(0L)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }

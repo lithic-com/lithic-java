@@ -17,13 +17,13 @@ interface FinancialTransactionServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: CardFinancialTransactionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialTransaction>
 
     /** List the financial transactions for a given card. */
     @JvmOverloads
     fun list(
         params: CardFinancialTransactionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardFinancialTransactionListPageAsync>
 }

@@ -8,10 +8,8 @@ import com.lithic.api.services.blocking.creditProducts.ExtendedCreditServiceImpl
 import com.lithic.api.services.blocking.creditProducts.PrimeRateService
 import com.lithic.api.services.blocking.creditProducts.PrimeRateServiceImpl
 
-class CreditProductServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CreditProductService {
+class CreditProductServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    CreditProductService {
 
     private val extendedCredit: ExtendedCreditService by lazy {
         ExtendedCreditServiceImpl(clientOptions)

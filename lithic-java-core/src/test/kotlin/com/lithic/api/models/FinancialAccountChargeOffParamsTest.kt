@@ -22,7 +22,9 @@ class FinancialAccountChargeOffParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .reason(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.reason())
             .isEqualTo(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)
@@ -35,7 +37,9 @@ class FinancialAccountChargeOffParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .reason(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.reason())
             .isEqualTo(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)

@@ -22,7 +22,9 @@ class ResponderEndpointCreateParamsTest {
                 .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
                 .url("https://example.com")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.type()).contains(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
         assertThat(body.url()).contains("https://example.com")
@@ -31,7 +33,9 @@ class ResponderEndpointCreateParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params = ResponderEndpointCreateParams.builder().build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 }

@@ -43,7 +43,7 @@ class ManagementOperationListParamsTest {
         expected.put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         expected.put(
             "category",
-            ManagementOperationListParams.ManagementOperationCategory.MANAGEMENT_FEE.toString()
+            ManagementOperationListParams.ManagementOperationCategory.MANAGEMENT_FEE.toString(),
         )
         expected.put("end", "2019-12-27T18:11:19.117Z")
         expected.put("ending_before", "ending_before")

@@ -17,7 +17,7 @@ interface AuthenticationServiceAsync {
     @JvmOverloads
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthenticationRetrieveResponse>
 
     /**
@@ -28,6 +28,6 @@ interface AuthenticationServiceAsync {
     @JvmOverloads
     fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthenticationSimulateResponse>
 }

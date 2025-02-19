@@ -31,8 +31,8 @@ class ExternalBankAccountServiceTest {
         val externalBankAccountCreateResponse =
             externalBankAccountService.create(
                 ExternalBankAccountCreateParams.builder()
-                    .forBankVerifiedCreateBankAccountApiRequest(
-                        ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest
+                    .body(
+                        ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
                             .builder()
                             .accountNumber("12345678901234567")
                             .country("USD")
@@ -42,7 +42,7 @@ class ExternalBankAccountServiceTest {
                             .ownerType(OwnerType.INDIVIDUAL)
                             .routingNumber("123456789")
                             .type(
-                                ExternalBankAccountCreateParams
+                                ExternalBankAccountCreateParams.Body
                                     .BankVerifiedCreateBankAccountApiRequest
                                     .AccountType
                                     .CHECKING
@@ -119,6 +119,7 @@ class ExternalBankAccountServiceTest {
                     .name("name")
                     .owner("owner")
                     .ownerType(OwnerType.INDIVIDUAL)
+                    .type(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
                     .userDefinedId("x")
                     .build()
             )

@@ -32,7 +32,9 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
                         .DOCUMENT_MISSING_REQUIRED_DATA
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
         assertThat(body.status())
@@ -52,7 +54,9 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
                 .documentUploadToken("document_upload_token")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
         assertThat(body.status())

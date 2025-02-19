@@ -30,10 +30,8 @@ import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
 
-class PaymentServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : PaymentService {
+class PaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    PaymentService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -43,7 +41,7 @@ internal constructor(
     /** Initiates a payment between a financial account and an external bank account. */
     override fun create(
         params: PaymentCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentCreateResponse {
         val request =
             HttpRequest.builder()
@@ -112,7 +110,7 @@ internal constructor(
     /** Retry an origination which has been returned. */
     override fun retry(
         params: PaymentRetryParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentRetryResponse {
         val request =
             HttpRequest.builder()
@@ -138,7 +136,7 @@ internal constructor(
     /** Simulate payment lifecycle event */
     override fun simulateAction(
         params: PaymentSimulateActionParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentSimulateActionResponse {
         val request =
             HttpRequest.builder()
@@ -164,7 +162,7 @@ internal constructor(
     /** Simulates a receipt of a Payment. */
     override fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentSimulateReceiptResponse {
         val request =
             HttpRequest.builder()
@@ -190,7 +188,7 @@ internal constructor(
     /** Simulates a release of a Payment. */
     override fun simulateRelease(
         params: PaymentSimulateReleaseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentSimulateReleaseResponse {
         val request =
             HttpRequest.builder()
@@ -216,7 +214,7 @@ internal constructor(
     /** Simulates a return of a Payment. */
     override fun simulateReturn(
         params: PaymentSimulateReturnParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): PaymentSimulateReturnResponse {
         val request =
             HttpRequest.builder()

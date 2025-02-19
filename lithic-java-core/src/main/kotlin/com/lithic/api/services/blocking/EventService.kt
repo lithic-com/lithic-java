@@ -22,21 +22,21 @@ interface EventService {
     @JvmOverloads
     fun retrieve(
         params: EventRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): Event
 
     /** List all events. */
     @JvmOverloads
     fun list(
         params: EventListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventListPage
 
     /** List all the message attempts for a given event. */
     @JvmOverloads
     fun listAttempts(
         params: EventListAttemptsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EventListAttemptsPage
 
     fun resend(eventToken: String, eventSubscriptionToken: String, body: JsonValue)

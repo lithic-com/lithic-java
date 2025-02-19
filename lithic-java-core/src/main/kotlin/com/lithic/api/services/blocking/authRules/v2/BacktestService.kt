@@ -39,7 +39,7 @@ interface BacktestService {
     @JvmOverloads
     fun create(
         params: AuthRuleV2BacktestCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): BacktestCreateResponse
 
     /**
@@ -63,6 +63,6 @@ interface BacktestService {
     @JvmOverloads
     fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): BacktestResults
 }

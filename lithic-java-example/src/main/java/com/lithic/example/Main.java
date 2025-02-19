@@ -89,7 +89,7 @@ public class Main {
                 .build();
 
         AccountHolderCreateResponse accountHolder = client.accountHolders()
-                .create(AccountHolderCreateParams.builder().forKyc(kyc).build());
+                .create(AccountHolderCreateParams.builder().build());
         String accountToken = accountHolder.accountToken();
         return client.accounts()
                 .retrieve(AccountRetrieveParams.builder()

@@ -19,27 +19,27 @@ interface ManagementOperationServiceAsync {
     @JvmOverloads
     fun create(
         params: ManagementOperationCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
 
     /** Get management operation */
     @JvmOverloads
     fun retrieve(
         params: ManagementOperationRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
 
     /** List management operations */
     @JvmOverloads
     fun list(
         params: ManagementOperationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationListPageAsync>
 
     /** Reverse a management operation */
     @JvmOverloads
     fun reverse(
         params: ManagementOperationReverseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
 }

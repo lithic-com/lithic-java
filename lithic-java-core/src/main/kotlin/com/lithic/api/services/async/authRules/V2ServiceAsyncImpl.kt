@@ -35,10 +35,8 @@ import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
-class V2ServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : V2ServiceAsync {
+class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    V2ServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -52,7 +50,7 @@ internal constructor(
     /** Creates a new V2 authorization rule in draft mode */
     override fun create(
         params: AuthRuleV2CreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2CreateResponse> {
         val request =
             HttpRequest.builder()
@@ -80,7 +78,7 @@ internal constructor(
     /** Fetches a V2 authorization rule by its token */
     override fun retrieve(
         params: AuthRuleV2RetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2RetrieveResponse> {
         val request =
             HttpRequest.builder()
@@ -112,7 +110,7 @@ internal constructor(
      */
     override fun update(
         params: AuthRuleV2UpdateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2UpdateResponse> {
         val request =
             HttpRequest.builder()
@@ -141,7 +139,7 @@ internal constructor(
     /** Lists V2 authorization rules */
     override fun list(
         params: AuthRuleV2ListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<AuthRuleV2ListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -168,7 +166,7 @@ internal constructor(
     /** Deletes a V2 authorization rule */
     override fun delete(
         params: AuthRuleV2DeleteParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Void?> {
         val request =
             HttpRequest.builder()
@@ -192,7 +190,7 @@ internal constructor(
      */
     override fun apply(
         params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2ApplyResponse> {
         val request =
             HttpRequest.builder()
@@ -225,7 +223,7 @@ internal constructor(
      */
     override fun draft(
         params: AuthRuleV2DraftParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2DraftResponse> {
         val request =
             HttpRequest.builder()
@@ -256,7 +254,7 @@ internal constructor(
      */
     override fun promote(
         params: AuthRuleV2PromoteParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2PromoteResponse> {
         val request =
             HttpRequest.builder()
@@ -329,7 +327,7 @@ internal constructor(
      */
     override fun report(
         params: AuthRuleV2ReportParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<V2ReportResponse> {
         val request =
             HttpRequest.builder()

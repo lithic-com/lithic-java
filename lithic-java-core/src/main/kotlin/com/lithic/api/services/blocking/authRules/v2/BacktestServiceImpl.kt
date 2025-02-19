@@ -18,10 +18,8 @@ import com.lithic.api.models.AuthRuleV2BacktestRetrieveParams
 import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 
-class BacktestServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BacktestService {
+class BacktestServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    BacktestService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -54,7 +52,7 @@ internal constructor(
      */
     override fun create(
         params: AuthRuleV2BacktestCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BacktestCreateResponse {
         val request =
             HttpRequest.builder()
@@ -96,7 +94,7 @@ internal constructor(
      */
     override fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BacktestResults {
         val request =
             HttpRequest.builder()
@@ -106,7 +104,7 @@ internal constructor(
                     "auth_rules",
                     params.getPathParam(0),
                     "backtests",
-                    params.getPathParam(1)
+                    params.getPathParam(1),
                 )
                 .build()
                 .prepare(clientOptions, params)

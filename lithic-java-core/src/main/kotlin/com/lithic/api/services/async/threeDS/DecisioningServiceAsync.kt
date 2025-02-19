@@ -20,7 +20,7 @@ interface DecisioningServiceAsync {
     @JvmOverloads
     fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -34,7 +34,7 @@ interface DecisioningServiceAsync {
     @JvmOverloads
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DecisioningRetrieveSecretResponse>
 
     /**
@@ -46,7 +46,7 @@ interface DecisioningServiceAsync {
     @JvmOverloads
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /**
@@ -57,7 +57,7 @@ interface DecisioningServiceAsync {
     @JvmOverloads
     fun simulateChallenge(
         params: ThreeDSDecisioningSimulateChallengeParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DecisioningSimulateChallengeResponse>
 
     /**
@@ -67,6 +67,6 @@ interface DecisioningServiceAsync {
     @JvmOverloads
     fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 }

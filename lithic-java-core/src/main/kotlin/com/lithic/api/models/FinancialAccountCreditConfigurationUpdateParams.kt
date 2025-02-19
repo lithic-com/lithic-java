@@ -24,7 +24,7 @@ import java.util.Optional
 class FinancialAccountCreditConfigurationUpdateParams
 private constructor(
     private val financialAccountToken: String,
-    private val body: FinancialAccountCreditConfigurationUpdateBody,
+    private val body: FinancialAccountCreditConfigRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -57,7 +57,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): FinancialAccountCreditConfigurationUpdateBody = body
+    @JvmSynthetic internal fun _body(): FinancialAccountCreditConfigRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -71,9 +71,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class FinancialAccountCreditConfigurationUpdateBody
+    class FinancialAccountCreditConfigRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("credit_limit")
         @ExcludeMissing
         private val creditLimit: JsonField<Long> = JsonMissing.of(),
@@ -125,7 +125,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): FinancialAccountCreditConfigurationUpdateBody = apply {
+        fun validate(): FinancialAccountCreditConfigRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -144,7 +144,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [FinancialAccountCreditConfigurationUpdateBody]. */
+        /** A builder for [FinancialAccountCreditConfigRequest]. */
         class Builder internal constructor() {
 
             private var creditLimit: JsonField<Long> = JsonMissing.of()
@@ -155,18 +155,15 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(
-                financialAccountCreditConfigurationUpdateBody:
-                    FinancialAccountCreditConfigurationUpdateBody
+                financialAccountCreditConfigRequest: FinancialAccountCreditConfigRequest
             ) = apply {
-                creditLimit = financialAccountCreditConfigurationUpdateBody.creditLimit
-                creditProductToken =
-                    financialAccountCreditConfigurationUpdateBody.creditProductToken
+                creditLimit = financialAccountCreditConfigRequest.creditLimit
+                creditProductToken = financialAccountCreditConfigRequest.creditProductToken
                 externalBankAccountToken =
-                    financialAccountCreditConfigurationUpdateBody.externalBankAccountToken
-                tier = financialAccountCreditConfigurationUpdateBody.tier
+                    financialAccountCreditConfigRequest.externalBankAccountToken
+                tier = financialAccountCreditConfigRequest.tier
                 additionalProperties =
-                    financialAccountCreditConfigurationUpdateBody.additionalProperties
-                        .toMutableMap()
+                    financialAccountCreditConfigRequest.additionalProperties.toMutableMap()
             }
 
             fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
@@ -214,8 +211,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): FinancialAccountCreditConfigurationUpdateBody =
-                FinancialAccountCreditConfigurationUpdateBody(
+            fun build(): FinancialAccountCreditConfigRequest =
+                FinancialAccountCreditConfigRequest(
                     creditLimit,
                     creditProductToken,
                     externalBankAccountToken,
@@ -229,7 +226,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountCreditConfigurationUpdateBody && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && externalBankAccountToken == other.externalBankAccountToken && tier == other.tier && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is FinancialAccountCreditConfigRequest && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && externalBankAccountToken == other.externalBankAccountToken && tier == other.tier && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -239,7 +236,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "FinancialAccountCreditConfigurationUpdateBody{creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalProperties=$additionalProperties}"
+            "FinancialAccountCreditConfigRequest{creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -254,8 +251,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
-        private var body: FinancialAccountCreditConfigurationUpdateBody.Builder =
-            FinancialAccountCreditConfigurationUpdateBody.builder()
+        private var body: FinancialAccountCreditConfigRequest.Builder =
+            FinancialAccountCreditConfigRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

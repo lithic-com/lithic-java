@@ -84,13 +84,8 @@ private constructor(
         fun of(
             disputesService: DisputeService,
             params: DisputeListEvidencesParams,
-            response: Response
-        ) =
-            DisputeListEvidencesPage(
-                disputesService,
-                params,
-                response,
-            )
+            response: Response,
+        ) = DisputeListEvidencesPage(disputesService, params, response)
     }
 
     @NoAutoDetect
@@ -174,18 +169,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: DisputeListEvidencesPage,
-    ) : Iterable<DisputeEvidence> {
+    class AutoPager(private val firstPage: DisputeListEvidencesPage) : Iterable<DisputeEvidence> {
 
         override fun iterator(): Iterator<DisputeEvidence> = iterator {
             var page = firstPage

@@ -28,7 +28,9 @@ class EventSubscriptionUpdateParamsTest {
                 .disabled(true)
                 .addEventType(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
         assertThat(body.description()).contains("description")
@@ -44,7 +46,9 @@ class EventSubscriptionUpdateParamsTest {
                 .eventSubscriptionToken("event_subscription_token")
                 .url("https://example.com")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
     }

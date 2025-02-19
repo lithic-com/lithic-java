@@ -21,48 +21,48 @@ interface ExternalPaymentService {
     @JvmOverloads
     fun create(
         params: ExternalPaymentCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 
     /** Get external payment */
     @JvmOverloads
     fun retrieve(
         params: ExternalPaymentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 
     /** List external payments */
     @JvmOverloads
     fun list(
         params: ExternalPaymentListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPaymentListPage
 
     /** Cancel external payment */
     @JvmOverloads
     fun cancel(
         params: ExternalPaymentCancelParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 
     /** Release external payment */
     @JvmOverloads
     fun release(
         params: ExternalPaymentReleaseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 
     /** Reverse external payment */
     @JvmOverloads
     fun reverse(
         params: ExternalPaymentReverseParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 
     /** Settle external payment */
     @JvmOverloads
     fun settle(
         params: ExternalPaymentSettleParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
 }

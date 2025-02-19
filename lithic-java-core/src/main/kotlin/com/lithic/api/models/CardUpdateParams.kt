@@ -30,7 +30,7 @@ import java.util.Optional
 class CardUpdateParams
 private constructor(
     private val cardToken: String,
-    private val body: CardUpdateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -149,7 +149,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CardUpdateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -163,9 +163,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class CardUpdateBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("digital_card_art_token")
         @ExcludeMissing
         private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
@@ -315,7 +315,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): CardUpdateBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -337,7 +337,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [CardUpdateBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
@@ -350,15 +350,15 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardUpdateBody: CardUpdateBody) = apply {
-                digitalCardArtToken = cardUpdateBody.digitalCardArtToken
-                memo = cardUpdateBody.memo
-                pin = cardUpdateBody.pin
-                pinStatus = cardUpdateBody.pinStatus
-                spendLimit = cardUpdateBody.spendLimit
-                spendLimitDuration = cardUpdateBody.spendLimitDuration
-                state = cardUpdateBody.state
-                additionalProperties = cardUpdateBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                digitalCardArtToken = body.digitalCardArtToken
+                memo = body.memo
+                pin = body.pin
+                pinStatus = body.pinStatus
+                spendLimit = body.spendLimit
+                spendLimitDuration = body.spendLimitDuration
+                state = body.state
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
@@ -502,8 +502,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): CardUpdateBody =
-                CardUpdateBody(
+            fun build(): Body =
+                Body(
                     digitalCardArtToken,
                     memo,
                     pin,
@@ -520,7 +520,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardUpdateBody && digitalCardArtToken == other.digitalCardArtToken && memo == other.memo && pin == other.pin && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && digitalCardArtToken == other.digitalCardArtToken && memo == other.memo && pin == other.pin && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -530,7 +530,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardUpdateBody{digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
+            "Body{digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -545,7 +545,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var cardToken: String? = null
-        private var body: CardUpdateBody.Builder = CardUpdateBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -807,11 +807,7 @@ private constructor(
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
      * Can only be set to `OK` to unblock a card.
      */
-    class PinStatus
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class PinStatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -832,7 +828,7 @@ private constructor(
 
         /** An enum containing [PinStatus]'s known values. */
         enum class Known {
-            OK,
+            OK
         }
 
         /**
@@ -880,7 +876,17 @@ private constructor(
                 else -> throw LithicInvalidDataException("Unknown PinStatus: $value")
             }
 
-        fun asString(): String = _value().asStringOrThrow()
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -901,11 +907,7 @@ private constructor(
      * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
      * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      */
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -984,7 +986,17 @@ private constructor(
                 else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
-        fun asString(): String = _value().asStringOrThrow()
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

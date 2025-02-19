@@ -28,6 +28,7 @@ class ExternalBankAccountUpdateParamsTest {
             .name("name")
             .owner("owner")
             .ownerType(OwnerType.INDIVIDUAL)
+            .type(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
             .userDefinedId("x")
             .build()
     }
@@ -53,9 +54,12 @@ class ExternalBankAccountUpdateParamsTest {
                 .name("name")
                 .owner("owner")
                 .ownerType(OwnerType.INDIVIDUAL)
+                .type(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
                 .userDefinedId("x")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.address())
             .contains(
@@ -74,6 +78,8 @@ class ExternalBankAccountUpdateParamsTest {
         assertThat(body.name()).contains("name")
         assertThat(body.owner()).contains("owner")
         assertThat(body.ownerType()).contains(OwnerType.INDIVIDUAL)
+        assertThat(body.type())
+            .contains(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
         assertThat(body.userDefinedId()).contains("x")
     }
 
@@ -83,7 +89,9 @@ class ExternalBankAccountUpdateParamsTest {
             ExternalBankAccountUpdateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 

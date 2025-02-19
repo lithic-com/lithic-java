@@ -24,7 +24,7 @@ import java.util.Optional
 class FinancialAccountUpdateParams
 private constructor(
     private val financialAccountToken: String,
-    private val body: FinancialAccountUpdateBody,
+    private val body: UpdateFinancialAccountRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -41,7 +41,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): FinancialAccountUpdateBody = body
+    @JvmSynthetic internal fun _body(): UpdateFinancialAccountRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -55,9 +55,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class FinancialAccountUpdateBody
+    class UpdateFinancialAccountRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("nickname")
         @ExcludeMissing
         private val nickname: JsonField<String> = JsonMissing.of(),
@@ -75,7 +75,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): FinancialAccountUpdateBody = apply {
+        fun validate(): UpdateFinancialAccountRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -91,18 +91,19 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [FinancialAccountUpdateBody]. */
+        /** A builder for [UpdateFinancialAccountRequest]. */
         class Builder internal constructor() {
 
             private var nickname: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(financialAccountUpdateBody: FinancialAccountUpdateBody) = apply {
-                nickname = financialAccountUpdateBody.nickname
-                additionalProperties =
-                    financialAccountUpdateBody.additionalProperties.toMutableMap()
-            }
+            internal fun from(updateFinancialAccountRequest: UpdateFinancialAccountRequest) =
+                apply {
+                    nickname = updateFinancialAccountRequest.nickname
+                    additionalProperties =
+                        updateFinancialAccountRequest.additionalProperties.toMutableMap()
+                }
 
             fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
@@ -127,8 +128,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): FinancialAccountUpdateBody =
-                FinancialAccountUpdateBody(nickname, additionalProperties.toImmutable())
+            fun build(): UpdateFinancialAccountRequest =
+                UpdateFinancialAccountRequest(nickname, additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {
@@ -136,7 +137,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountUpdateBody && nickname == other.nickname && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is UpdateFinancialAccountRequest && nickname == other.nickname && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -146,7 +147,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "FinancialAccountUpdateBody{nickname=$nickname, additionalProperties=$additionalProperties}"
+            "UpdateFinancialAccountRequest{nickname=$nickname, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -161,7 +162,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
-        private var body: FinancialAccountUpdateBody.Builder = FinancialAccountUpdateBody.builder()
+        private var body: UpdateFinancialAccountRequest.Builder =
+            UpdateFinancialAccountRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

@@ -26,7 +26,7 @@ import java.util.Optional
 class EventSubscriptionSendSimulatedExampleParams
 private constructor(
     private val eventSubscriptionToken: String,
-    private val body: EventSubscriptionSendSimulatedExampleBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -45,7 +45,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): EventSubscriptionSendSimulatedExampleBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -59,9 +59,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class EventSubscriptionSendSimulatedExampleBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("event_type")
         @ExcludeMissing
         private val eventType: JsonField<EventType> = JsonMissing.of(),
@@ -84,7 +84,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): EventSubscriptionSendSimulatedExampleBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -100,19 +100,16 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [EventSubscriptionSendSimulatedExampleBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var eventType: JsonField<EventType> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(
-                eventSubscriptionSendSimulatedExampleBody: EventSubscriptionSendSimulatedExampleBody
-            ) = apply {
-                eventType = eventSubscriptionSendSimulatedExampleBody.eventType
-                additionalProperties =
-                    eventSubscriptionSendSimulatedExampleBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                eventType = body.eventType
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** Event type to send example message for. */
@@ -140,11 +137,7 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): EventSubscriptionSendSimulatedExampleBody =
-                EventSubscriptionSendSimulatedExampleBody(
-                    eventType,
-                    additionalProperties.toImmutable()
-                )
+            fun build(): Body = Body(eventType, additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {
@@ -152,7 +145,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleBody && eventType == other.eventType && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && eventType == other.eventType && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -162,7 +155,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "EventSubscriptionSendSimulatedExampleBody{eventType=$eventType, additionalProperties=$additionalProperties}"
+            "Body{eventType=$eventType, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -177,8 +170,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
-        private var body: EventSubscriptionSendSimulatedExampleBody.Builder =
-            EventSubscriptionSendSimulatedExampleBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -332,11 +324,7 @@ private constructor(
     }
 
     /** Event type to send example message for. */
-    class EventType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -428,6 +416,8 @@ private constructor(
 
             @JvmField val THREE_DS_AUTHENTICATION_CREATED = of("three_ds_authentication.created")
 
+            @JvmField val THREE_DS_AUTHENTICATION_UPDATED = of("three_ds_authentication.updated")
+
             @JvmField val TOKENIZATION_APPROVAL_REQUEST = of("tokenization.approval_request")
 
             @JvmField val TOKENIZATION_RESULT = of("tokenization.result")
@@ -481,6 +471,7 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
+            THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -532,6 +523,7 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
+            THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -589,6 +581,7 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
+                THREE_DS_AUTHENTICATION_UPDATED -> Value.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Value.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Value.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
@@ -647,6 +640,7 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
+                THREE_DS_AUTHENTICATION_UPDATED -> Known.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Known.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Known.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
@@ -657,7 +651,17 @@ private constructor(
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }
 
-        fun asString(): String = _value().asStringOrThrow()
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

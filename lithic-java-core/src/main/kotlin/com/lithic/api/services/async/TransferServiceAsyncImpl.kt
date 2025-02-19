@@ -17,10 +17,8 @@ import com.lithic.api.models.Transfer
 import com.lithic.api.models.TransferCreateParams
 import java.util.concurrent.CompletableFuture
 
-class TransferServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TransferServiceAsync {
+class TransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    TransferServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Transfer funds between two financial accounts or between a financial account and card */
     override fun create(
         params: TransferCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<Transfer> {
         val request =
             HttpRequest.builder()

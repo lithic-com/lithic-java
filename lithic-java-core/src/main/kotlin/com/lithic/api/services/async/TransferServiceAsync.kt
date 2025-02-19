@@ -15,6 +15,6 @@ interface TransferServiceAsync {
     @JvmOverloads
     fun create(
         params: TransferCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Transfer>
 }

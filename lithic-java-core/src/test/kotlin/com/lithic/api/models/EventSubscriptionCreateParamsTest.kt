@@ -26,7 +26,9 @@ class EventSubscriptionCreateParamsTest {
                 .disabled(true)
                 .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
         assertThat(body.description()).contains("description")
@@ -38,7 +40,9 @@ class EventSubscriptionCreateParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params = EventSubscriptionCreateParams.builder().url("https://example.com").build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
     }

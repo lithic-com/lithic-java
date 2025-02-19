@@ -25,9 +25,7 @@ import com.lithic.api.models.ExternalPaymentSettleParams
 import java.util.concurrent.CompletableFuture
 
 class ExternalPaymentServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ExternalPaymentServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ExternalPaymentServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -37,7 +35,7 @@ internal constructor(
     /** Create external payment */
     override fun create(
         params: ExternalPaymentCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()
@@ -65,7 +63,7 @@ internal constructor(
     /** Get external payment */
     override fun retrieve(
         params: ExternalPaymentRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()
@@ -93,7 +91,7 @@ internal constructor(
     /** List external payments */
     override fun list(
         params: ExternalPaymentListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPaymentListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -121,7 +119,7 @@ internal constructor(
     /** Cancel external payment */
     override fun cancel(
         params: ExternalPaymentCancelParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()
@@ -149,7 +147,7 @@ internal constructor(
     /** Release external payment */
     override fun release(
         params: ExternalPaymentReleaseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()
@@ -177,7 +175,7 @@ internal constructor(
     /** Reverse external payment */
     override fun reverse(
         params: ExternalPaymentReverseParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()
@@ -205,7 +203,7 @@ internal constructor(
     /** Settle external payment */
     override fun settle(
         params: ExternalPaymentSettleParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> {
         val request =
             HttpRequest.builder()

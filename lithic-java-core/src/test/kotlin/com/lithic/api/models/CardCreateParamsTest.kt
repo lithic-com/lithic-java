@@ -80,7 +80,9 @@ class CardCreateParamsTest {
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(CardCreateParams.State.OPEN)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
         assertThat(body.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -119,7 +121,9 @@ class CardCreateParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params = CardCreateParams.builder().type(CardCreateParams.Type.MERCHANT_LOCKED).build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
     }

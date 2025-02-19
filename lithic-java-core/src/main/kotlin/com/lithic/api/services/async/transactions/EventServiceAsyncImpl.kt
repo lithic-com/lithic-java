@@ -6,10 +6,8 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataServiceAsync
 import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataServiceAsyncImpl
 
-class EventServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : EventServiceAsync {
+class EventServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    EventServiceAsync {
 
     private val enhancedCommercialData: EnhancedCommercialDataServiceAsync by lazy {
         EnhancedCommercialDataServiceAsyncImpl(clientOptions)

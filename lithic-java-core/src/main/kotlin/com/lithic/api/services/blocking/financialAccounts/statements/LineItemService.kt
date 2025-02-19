@@ -14,6 +14,6 @@ interface LineItemService {
     @JvmOverloads
     fun list(
         params: FinancialAccountStatementLineItemListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountStatementLineItemListPage
 }

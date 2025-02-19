@@ -43,10 +43,7 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import org.apache.hc.core5.net.URIBuilder
 
-class CardServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CardService {
+class CardServiceImpl internal constructor(private val clientOptions: ClientOptions) : CardService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -175,7 +172,7 @@ internal constructor(
      */
     override fun convertPhysical(
         params: CardConvertPhysicalParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): Card {
         val request =
             HttpRequest.builder()
@@ -246,7 +243,7 @@ internal constructor(
      */
     override fun provision(
         params: CardProvisionParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CardProvisionResponse {
         val request =
             HttpRequest.builder()
@@ -331,7 +328,7 @@ internal constructor(
      */
     override fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CardSpendLimits {
         val request =
             HttpRequest.builder()
@@ -378,7 +375,7 @@ internal constructor(
 
     override fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): String {
         val embed_request =
             Base64.getEncoder()
@@ -406,7 +403,7 @@ internal constructor(
 
     override fun getEmbedUrl(
         params: CardGetEmbedUrlParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): String {
         val embed_request =
             Base64.getEncoder()

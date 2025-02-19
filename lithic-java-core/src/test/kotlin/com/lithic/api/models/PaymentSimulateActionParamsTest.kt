@@ -36,7 +36,9 @@ class PaymentSimulateActionParamsTest {
                 )
                 .returnReasonCode("return_reason_code")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .isEqualTo(
@@ -59,7 +61,9 @@ class PaymentSimulateActionParamsTest {
                     PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .isEqualTo(

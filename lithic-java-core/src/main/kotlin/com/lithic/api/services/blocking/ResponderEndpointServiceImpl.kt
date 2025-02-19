@@ -20,10 +20,8 @@ import com.lithic.api.models.ResponderEndpointCreateResponse
 import com.lithic.api.models.ResponderEndpointDeleteParams
 import com.lithic.api.models.ResponderEndpointStatus
 
-class ResponderEndpointServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ResponderEndpointService {
+class ResponderEndpointServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ResponderEndpointService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -34,7 +32,7 @@ internal constructor(
     /** Enroll a responder endpoint */
     override fun create(
         params: ResponderEndpointCreateParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ResponderEndpointCreateResponse {
         val request =
             HttpRequest.builder()
@@ -75,7 +73,7 @@ internal constructor(
     /** Check the status of a responder endpoint */
     override fun checkStatus(
         params: ResponderEndpointCheckStatusParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ResponderEndpointStatus {
         val request =
             HttpRequest.builder()

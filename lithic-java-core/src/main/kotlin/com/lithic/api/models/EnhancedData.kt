@@ -666,20 +666,13 @@ private constructor(
                 }
 
                 fun build(): TaxData =
-                    TaxData(
-                        amount,
-                        exempt,
-                        merchantTaxId,
-                        additionalProperties.toImmutable(),
-                    )
+                    TaxData(amount, exempt, merchantTaxId, additionalProperties.toImmutable())
             }
 
             /** A flag indicating whether the transaction is tax exempt or not. */
             class TaxExemptIndicator
             @JsonCreator
-            private constructor(
-                private val value: JsonField<String>,
-            ) : Enum {
+            private constructor(private val value: JsonField<String>) : Enum {
 
                 /**
                  * Returns this class instance's raw value.
@@ -764,7 +757,19 @@ private constructor(
                             throw LithicInvalidDataException("Unknown TaxExemptIndicator: $value")
                     }
 
-                fun asString(): String = _value().asStringOrThrow()
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -1147,12 +1152,7 @@ private constructor(
                 }
 
                 fun build(): AmountTotals =
-                    AmountTotals(
-                        discount,
-                        grossSale,
-                        netSale,
-                        additionalProperties.toImmutable(),
-                    )
+                    AmountTotals(discount, grossSale, netSale, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1326,11 +1326,8 @@ private constructor(
             }
 
             /** The type of fuel purchased. */
-            class FuelType
-            @JsonCreator
-            private constructor(
-                private val value: JsonField<String>,
-            ) : Enum {
+            class FuelType @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
 
                 /**
                  * Returns this class instance's raw value.
@@ -2275,7 +2272,19 @@ private constructor(
                         else -> throw LithicInvalidDataException("Unknown FuelType: $value")
                     }
 
-                fun asString(): String = _value().asStringOrThrow()
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -2293,9 +2302,7 @@ private constructor(
             /** Unit of measure for fuel disbursement. */
             class FuelUnitOfMeasure
             @JsonCreator
-            private constructor(
-                private val value: JsonField<String>,
-            ) : Enum {
+            private constructor(private val value: JsonField<String>) : Enum {
 
                 /**
                  * Returns this class instance's raw value.
@@ -2404,7 +2411,19 @@ private constructor(
                             throw LithicInvalidDataException("Unknown FuelUnitOfMeasure: $value")
                     }
 
-                fun asString(): String = _value().asStringOrThrow()
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -2438,11 +2457,8 @@ private constructor(
         }
 
         /** The type of fuel service. */
-        class ServiceType
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class ServiceType @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -2536,7 +2552,19 @@ private constructor(
                     else -> throw LithicInvalidDataException("Unknown ServiceType: $value")
                 }
 
-            fun asString(): String = _value().asStringOrThrow()
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {

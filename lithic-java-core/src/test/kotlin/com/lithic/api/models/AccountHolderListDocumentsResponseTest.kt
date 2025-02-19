@@ -14,15 +14,15 @@ class AccountHolderListDocumentsResponseTest {
             AccountHolderListDocumentsResponse.builder()
                 .addData(
                     Document.builder()
-                        .token("f41c975e-cad8-4e4f-a5cb-cef92ed91083")
-                        .accountHolderToken("aab6ad9a-3630-4cd0-bbec-1a0fa5c7e149")
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .documentType(Document.DocumentType.DRIVERS_LICENSE)
-                        .entityToken("b50a84c9-8e86-4016-b1c7-0b9f71d4bb84")
+                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addRequiredDocumentUpload(
                             Document.RequiredDocumentUpload.builder()
-                                .token("e254beee-67db-4d8c-b610-306ee07de886")
+                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                 .addAcceptedEntityStatusReason("string")
-                                .created(OffsetDateTime.parse("2024-09-18T12:34:56Z"))
+                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
                                 .addRejectedEntityStatusReason("string")
                                 .status(
@@ -32,8 +32,8 @@ class AccountHolderListDocumentsResponseTest {
                                     Document.RequiredDocumentUpload.DocumentUploadStatusReasons
                                         .DOCUMENT_MISSING_REQUIRED_DATA
                                 )
-                                .updated(OffsetDateTime.parse("2024-09-18T12:34:56Z"))
-                                .uploadUrl("https://lithic-document-verification-uploads.com")
+                                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                .uploadUrl("upload_url")
                                 .build()
                         )
                         .build()
@@ -43,15 +43,15 @@ class AccountHolderListDocumentsResponseTest {
         assertThat(accountHolderListDocumentsResponse.data().get())
             .containsExactly(
                 Document.builder()
-                    .token("f41c975e-cad8-4e4f-a5cb-cef92ed91083")
-                    .accountHolderToken("aab6ad9a-3630-4cd0-bbec-1a0fa5c7e149")
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentType(Document.DocumentType.DRIVERS_LICENSE)
-                    .entityToken("b50a84c9-8e86-4016-b1c7-0b9f71d4bb84")
+                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addRequiredDocumentUpload(
                         Document.RequiredDocumentUpload.builder()
-                            .token("e254beee-67db-4d8c-b610-306ee07de886")
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .addAcceptedEntityStatusReason("string")
-                            .created(OffsetDateTime.parse("2024-09-18T12:34:56Z"))
+                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
                             .addRejectedEntityStatusReason("string")
                             .status(Document.RequiredDocumentUpload.DocumentUploadStatus.ACCEPTED)
@@ -59,8 +59,8 @@ class AccountHolderListDocumentsResponseTest {
                                 Document.RequiredDocumentUpload.DocumentUploadStatusReasons
                                     .DOCUMENT_MISSING_REQUIRED_DATA
                             )
-                            .updated(OffsetDateTime.parse("2024-09-18T12:34:56Z"))
-                            .uploadUrl("https://lithic-document-verification-uploads.com")
+                            .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .uploadUrl("upload_url")
                             .build()
                     )
                     .build()

@@ -769,7 +769,7 @@ private constructor(
                     checkRequired("consecutiveMinimumPaymentsMade", consecutiveMinimumPaymentsMade),
                     checkRequired(
                         "consecutiveMinimumPaymentsMissed",
-                        consecutiveMinimumPaymentsMissed
+                        consecutiveMinimumPaymentsMissed,
                     ),
                     checkRequired("daysPastDue", daysPastDue),
                     checkRequired("hasGrace", hasGrace),
@@ -779,11 +779,8 @@ private constructor(
                 )
         }
 
-        class PeriodState
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class PeriodState @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -865,7 +862,19 @@ private constructor(
                     else -> throw LithicInvalidDataException("Unknown PeriodState: $value")
                 }
 
-            fun asString(): String = _value().asStringOrThrow()
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1825,9 +1834,7 @@ private constructor(
 
         class InterestCalculationMethod
         @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1908,7 +1915,19 @@ private constructor(
                         )
                 }
 
-            fun asString(): String = _value().asStringOrThrow()
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {

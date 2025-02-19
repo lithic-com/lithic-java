@@ -46,7 +46,7 @@ class TokenizationListParamsTest {
         expected.put("starting_after", "starting_after")
         expected.put(
             "tokenization_channel",
-            TokenizationListParams.TokenizationChannel.DIGITAL_WALLET.toString()
+            TokenizationListParams.TokenizationChannel.DIGITAL_WALLET.toString(),
         )
         assertThat(params._queryParams()).isEqualTo(expected.build())
     }

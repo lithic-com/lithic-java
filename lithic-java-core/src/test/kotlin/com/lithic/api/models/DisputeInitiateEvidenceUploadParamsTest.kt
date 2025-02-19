@@ -22,7 +22,9 @@ class DisputeInitiateEvidenceUploadParamsTest {
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .filename("filename")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.filename()).contains("filename")
     }
@@ -33,7 +35,9 @@ class DisputeInitiateEvidenceUploadParamsTest {
             DisputeInitiateEvidenceUploadParams.builder()
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 

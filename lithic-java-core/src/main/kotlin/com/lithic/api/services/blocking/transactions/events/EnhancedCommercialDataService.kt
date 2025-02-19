@@ -17,6 +17,6 @@ interface EnhancedCommercialDataService {
     @JvmOverloads
     fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): EnhancedData
 }

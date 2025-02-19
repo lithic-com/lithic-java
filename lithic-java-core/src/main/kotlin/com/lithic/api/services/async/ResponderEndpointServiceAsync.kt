@@ -18,20 +18,20 @@ interface ResponderEndpointServiceAsync {
     @JvmOverloads
     fun create(
         params: ResponderEndpointCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponderEndpointCreateResponse>
 
     /** Disenroll a responder endpoint */
     @JvmOverloads
     fun delete(
         params: ResponderEndpointDeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** Check the status of a responder endpoint */
     @JvmOverloads
     fun checkStatus(
         params: ResponderEndpointCheckStatusParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponderEndpointStatus>
 }

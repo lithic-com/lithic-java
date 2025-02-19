@@ -28,7 +28,9 @@ class PaymentSimulateReceiptParamsTest {
                 .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
                 .memo("memo")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.amount()).isEqualTo(0L)
@@ -47,7 +49,9 @@ class PaymentSimulateReceiptParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.amount()).isEqualTo(0L)

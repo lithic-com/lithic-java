@@ -17,10 +17,8 @@ import com.lithic.api.models.CardProgramListPage
 import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 
-class CardProgramServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CardProgramService {
+class CardProgramServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    CardProgramService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +28,7 @@ internal constructor(
     /** Get card program. */
     override fun retrieve(
         params: CardProgramRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CardProgram {
         val request =
             HttpRequest.builder()
@@ -55,7 +53,7 @@ internal constructor(
     /** List card programs. */
     override fun list(
         params: CardProgramListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CardProgramListPage {
         val request =
             HttpRequest.builder()

@@ -82,11 +82,7 @@ private constructor(
 
         @JvmStatic
         fun of(disputesService: DisputeService, params: DisputeListParams, response: Response) =
-            DisputeListPage(
-                disputesService,
-                params,
-                response,
-            )
+            DisputeListPage(disputesService, params, response)
     }
 
     @NoAutoDetect
@@ -170,18 +166,11 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toImmutable(),
-                )
+            fun build() = Response(data, hasMore, additionalProperties.toImmutable())
         }
     }
 
-    class AutoPager(
-        private val firstPage: DisputeListPage,
-    ) : Iterable<Dispute> {
+    class AutoPager(private val firstPage: DisputeListPage) : Iterable<Dispute> {
 
         override fun iterator(): Iterator<Dispute> = iterator {
             var page = firstPage
