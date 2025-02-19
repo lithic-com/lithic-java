@@ -24,7 +24,7 @@ import java.util.Optional
 class ExternalBankAccountRetryPrenoteParams
 private constructor(
     private val externalBankAccountToken: String,
-    private val body: ExternalBankAccountRetryPrenoteBody,
+    private val body: RetryPrenoteVerificationRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -41,7 +41,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalBankAccountRetryPrenoteBody = body
+    @JvmSynthetic internal fun _body(): RetryPrenoteVerificationRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -55,9 +55,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class ExternalBankAccountRetryPrenoteBody
+    class RetryPrenoteVerificationRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         private val financialAccountToken: JsonField<String> = JsonMissing.of(),
@@ -78,7 +78,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalBankAccountRetryPrenoteBody = apply {
+        fun validate(): RetryPrenoteVerificationRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -94,20 +94,19 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalBankAccountRetryPrenoteBody]. */
+        /** A builder for [RetryPrenoteVerificationRequest]. */
         class Builder internal constructor() {
 
             private var financialAccountToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(
-                externalBankAccountRetryPrenoteBody: ExternalBankAccountRetryPrenoteBody
-            ) = apply {
-                financialAccountToken = externalBankAccountRetryPrenoteBody.financialAccountToken
-                additionalProperties =
-                    externalBankAccountRetryPrenoteBody.additionalProperties.toMutableMap()
-            }
+            internal fun from(retryPrenoteVerificationRequest: RetryPrenoteVerificationRequest) =
+                apply {
+                    financialAccountToken = retryPrenoteVerificationRequest.financialAccountToken
+                    additionalProperties =
+                        retryPrenoteVerificationRequest.additionalProperties.toMutableMap()
+                }
 
             fun financialAccountToken(financialAccountToken: String) =
                 financialAccountToken(JsonField.of(financialAccountToken))
@@ -135,8 +134,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalBankAccountRetryPrenoteBody =
-                ExternalBankAccountRetryPrenoteBody(
+            fun build(): RetryPrenoteVerificationRequest =
+                RetryPrenoteVerificationRequest(
                     financialAccountToken,
                     additionalProperties.toImmutable(),
                 )
@@ -147,7 +146,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountRetryPrenoteBody && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is RetryPrenoteVerificationRequest && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -157,7 +156,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalBankAccountRetryPrenoteBody{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
+            "RetryPrenoteVerificationRequest{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -172,8 +171,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
-        private var body: ExternalBankAccountRetryPrenoteBody.Builder =
-            ExternalBankAccountRetryPrenoteBody.builder()
+        private var body: RetryPrenoteVerificationRequest.Builder =
+            RetryPrenoteVerificationRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

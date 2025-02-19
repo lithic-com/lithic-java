@@ -26,11 +26,11 @@ class FinancialAccountServiceTest {
         val financialAccount =
             financialAccountService.create(
                 FinancialAccountCreateParams.builder()
+                    .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .nickname("nickname")
                     .type(FinancialAccountCreateParams.Type.OPERATING)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .isForBenefitOf(true)
-                    .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(financialAccount)

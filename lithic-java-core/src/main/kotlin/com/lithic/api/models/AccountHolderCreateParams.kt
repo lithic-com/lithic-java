@@ -14,6 +14,7 @@ import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -31,31 +32,27 @@ import java.util.Optional
  */
 class AccountHolderCreateParams
 private constructor(
-    private val body: AccountHolderCreateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun kyb(): Optional<Kyb> = body.kyb()
-
-    fun kyc(): Optional<Kyc> = body.kyc()
-
-    fun kycExempt(): Optional<KycExempt> = body.kycExempt()
+    fun body(): Body = body
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): AccountHolderCreateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(using = AccountHolderCreateBody.Deserializer::class)
-    @JsonSerialize(using = AccountHolderCreateBody.Serializer::class)
-    class AccountHolderCreateBody
-    internal constructor(
+    @JsonDeserialize(using = Body.Deserializer::class)
+    @JsonSerialize(using = Body.Serializer::class)
+    class Body
+    private constructor(
         private val kyb: Kyb? = null,
         private val kyc: Kyc? = null,
         private val kycExempt: KycExempt? = null,
@@ -91,39 +88,60 @@ private constructor(
             }
         }
 
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accept(
+                object : Visitor<Unit> {
+                    override fun visitKyb(kyb: Kyb) {
+                        kyb.validate()
+                    }
+
+                    override fun visitKyc(kyc: Kyc) {
+                        kyc.validate()
+                    }
+
+                    override fun visitKycExempt(kycExempt: KycExempt) {
+                        kycExempt.validate()
+                    }
+                }
+            )
+            validated = true
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderCreateBody && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt /* spotless:on */
+            return /* spotless:off */ other is Body && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt /* spotless:on */
         }
 
         override fun hashCode(): Int = /* spotless:off */ Objects.hash(kyb, kyc, kycExempt) /* spotless:on */
 
         override fun toString(): String =
             when {
-                kyb != null -> "AccountHolderCreateBody{kyb=$kyb}"
-                kyc != null -> "AccountHolderCreateBody{kyc=$kyc}"
-                kycExempt != null -> "AccountHolderCreateBody{kycExempt=$kycExempt}"
-                _json != null -> "AccountHolderCreateBody{_unknown=$_json}"
-                else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
+                kyb != null -> "Body{kyb=$kyb}"
+                kyc != null -> "Body{kyc=$kyc}"
+                kycExempt != null -> "Body{kycExempt=$kycExempt}"
+                _json != null -> "Body{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid Body")
             }
 
         companion object {
 
-            @JvmStatic fun ofKyb(kyb: Kyb) = AccountHolderCreateBody(kyb = kyb)
+            @JvmStatic fun ofKyb(kyb: Kyb) = Body(kyb = kyb)
 
-            @JvmStatic fun ofKyc(kyc: Kyc) = AccountHolderCreateBody(kyc = kyc)
+            @JvmStatic fun ofKyc(kyc: Kyc) = Body(kyc = kyc)
 
-            @JvmStatic
-            fun ofKycExempt(kycExempt: KycExempt) = AccountHolderCreateBody(kycExempt = kycExempt)
+            @JvmStatic fun ofKycExempt(kycExempt: KycExempt) = Body(kycExempt = kycExempt)
         }
 
-        /**
-         * An interface that defines how to map each variant of [AccountHolderCreateBody] to a value
-         * of type [T].
-         */
+        /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
         interface Visitor<out T> {
 
             fun visitKyb(kyb: Kyb): T
@@ -133,45 +151,45 @@ private constructor(
             fun visitKycExempt(kycExempt: KycExempt): T
 
             /**
-             * Maps an unknown variant of [AccountHolderCreateBody] to a value of type [T].
+             * Maps an unknown variant of [Body] to a value of type [T].
              *
-             * An instance of [AccountHolderCreateBody] can contain an unknown variant if it was
-             * deserialized from data that doesn't match any known variant. For example, if the SDK
-             * is on an older version than the API, then the API may respond with new variants that
-             * the SDK is unaware of.
+             * An instance of [Body] can contain an unknown variant if it was deserialized from data
+             * that doesn't match any known variant. For example, if the SDK is on an older version
+             * than the API, then the API may respond with new variants that the SDK is unaware of.
              *
              * @throws LithicInvalidDataException in the default implementation.
              */
             fun unknown(json: JsonValue?): T {
-                throw LithicInvalidDataException("Unknown AccountHolderCreateBody: $json")
+                throw LithicInvalidDataException("Unknown Body: $json")
             }
         }
 
-        internal class Deserializer :
-            BaseDeserializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+        internal class Deserializer : BaseDeserializer<Body>(Body::class) {
 
-            override fun ObjectCodec.deserialize(node: JsonNode): AccountHolderCreateBody {
+            override fun ObjectCodec.deserialize(node: JsonNode): Body {
                 val json = JsonValue.fromJsonNode(node)
 
-                tryDeserialize(node, jacksonTypeRef<Kyb>())?.let {
-                    return AccountHolderCreateBody(kyb = it, _json = json)
-                }
-                tryDeserialize(node, jacksonTypeRef<Kyc>())?.let {
-                    return AccountHolderCreateBody(kyc = it, _json = json)
-                }
-                tryDeserialize(node, jacksonTypeRef<KycExempt>())?.let {
-                    return AccountHolderCreateBody(kycExempt = it, _json = json)
-                }
+                tryDeserialize(node, jacksonTypeRef<Kyb>()) { it.validate() }
+                    ?.let {
+                        return Body(kyb = it, _json = json)
+                    }
+                tryDeserialize(node, jacksonTypeRef<Kyc>()) { it.validate() }
+                    ?.let {
+                        return Body(kyc = it, _json = json)
+                    }
+                tryDeserialize(node, jacksonTypeRef<KycExempt>()) { it.validate() }
+                    ?.let {
+                        return Body(kycExempt = it, _json = json)
+                    }
 
-                return AccountHolderCreateBody(_json = json)
+                return Body(_json = json)
             }
         }
 
-        internal class Serializer :
-            BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+        internal class Serializer : BaseSerializer<Body>(Body::class) {
 
             override fun serialize(
-                value: AccountHolderCreateBody,
+                value: Body,
                 generator: JsonGenerator,
                 provider: SerializerProvider,
             ) {
@@ -180,7 +198,7 @@ private constructor(
                     value.kyc != null -> generator.writeObject(value.kyc)
                     value.kycExempt != null -> generator.writeObject(value.kycExempt)
                     value._json != null -> generator.writeObject(value._json)
-                    else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
+                    else -> throw IllegalStateException("Invalid Body")
                 }
             }
         }
@@ -197,7 +215,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: AccountHolderCreateBody? = null
+        private var body: Body? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -208,13 +226,13 @@ private constructor(
             additionalQueryParams = accountHolderCreateParams.additionalQueryParams.toBuilder()
         }
 
-        fun forKyb(kyb: Kyb) = apply { body = AccountHolderCreateBody.ofKyb(kyb) }
+        fun body(body: Body) = apply { this.body = body }
 
-        fun forKyc(kyc: Kyc) = apply { body = AccountHolderCreateBody.ofKyc(kyc) }
+        fun body(kyb: Kyb) = body(Body.ofKyb(kyb))
 
-        fun forKycExempt(kycExempt: KycExempt) = apply {
-            body = AccountHolderCreateBody.ofKycExempt(kycExempt)
-        }
+        fun body(kyc: Kyc) = body(Body.ofKyc(kyc))
+
+        fun body(kycExempt: KycExempt) = body(Body.ofKycExempt(kycExempt))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -316,7 +334,7 @@ private constructor(
 
         fun build(): AccountHolderCreateParams =
             AccountHolderCreateParams(
-                body ?: AccountHolderCreateBody(),
+                checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

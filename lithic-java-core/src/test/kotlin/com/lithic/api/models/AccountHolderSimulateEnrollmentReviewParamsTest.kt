@@ -30,7 +30,9 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
                         .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.accountHolderToken()).contains("account_holder_token")
         assertThat(body.status())
@@ -47,7 +49,9 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params = AccountHolderSimulateEnrollmentReviewParams.builder().build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 }

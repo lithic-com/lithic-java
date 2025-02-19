@@ -56,7 +56,9 @@ class CardReissueParamsTest {
                 )
                 .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
         assertThat(body.productId()).contains("product_id")
@@ -83,7 +85,9 @@ class CardReissueParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             CardReissueParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 

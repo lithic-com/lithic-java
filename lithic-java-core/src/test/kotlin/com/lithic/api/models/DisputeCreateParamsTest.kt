@@ -29,7 +29,9 @@ class DisputeCreateParamsTest {
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerNote("customer_note")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.reason()).isEqualTo(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
@@ -47,7 +49,9 @@ class DisputeCreateParamsTest {
                 .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.reason()).isEqualTo(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)

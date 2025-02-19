@@ -24,7 +24,7 @@ import java.util.Optional
 class ExternalBankAccountRetryMicroDepositsParams
 private constructor(
     private val externalBankAccountToken: String,
-    private val body: ExternalBankAccountRetryMicroDepositsBody,
+    private val body: RetryMicroDepositVerificationRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -41,7 +41,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalBankAccountRetryMicroDepositsBody = body
+    @JvmSynthetic internal fun _body(): RetryMicroDepositVerificationRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -55,9 +55,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class ExternalBankAccountRetryMicroDepositsBody
+    class RetryMicroDepositVerificationRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         private val financialAccountToken: JsonField<String> = JsonMissing.of(),
@@ -78,7 +78,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalBankAccountRetryMicroDepositsBody = apply {
+        fun validate(): RetryMicroDepositVerificationRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -94,7 +94,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalBankAccountRetryMicroDepositsBody]. */
+        /** A builder for [RetryMicroDepositVerificationRequest]. */
         class Builder internal constructor() {
 
             private var financialAccountToken: JsonField<String> = JsonMissing.of()
@@ -102,12 +102,11 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(
-                externalBankAccountRetryMicroDepositsBody: ExternalBankAccountRetryMicroDepositsBody
+                retryMicroDepositVerificationRequest: RetryMicroDepositVerificationRequest
             ) = apply {
-                financialAccountToken =
-                    externalBankAccountRetryMicroDepositsBody.financialAccountToken
+                financialAccountToken = retryMicroDepositVerificationRequest.financialAccountToken
                 additionalProperties =
-                    externalBankAccountRetryMicroDepositsBody.additionalProperties.toMutableMap()
+                    retryMicroDepositVerificationRequest.additionalProperties.toMutableMap()
             }
 
             fun financialAccountToken(financialAccountToken: String) =
@@ -136,8 +135,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalBankAccountRetryMicroDepositsBody =
-                ExternalBankAccountRetryMicroDepositsBody(
+            fun build(): RetryMicroDepositVerificationRequest =
+                RetryMicroDepositVerificationRequest(
                     financialAccountToken,
                     additionalProperties.toImmutable(),
                 )
@@ -148,7 +147,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsBody && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is RetryMicroDepositVerificationRequest && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -158,7 +157,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalBankAccountRetryMicroDepositsBody{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
+            "RetryMicroDepositVerificationRequest{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -173,8 +172,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
-        private var body: ExternalBankAccountRetryMicroDepositsBody.Builder =
-            ExternalBankAccountRetryMicroDepositsBody.builder()
+        private var body: RetryMicroDepositVerificationRequest.Builder =
+            RetryMicroDepositVerificationRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

@@ -25,7 +25,7 @@ import java.util.Optional
 /** Simulates a review for an account holder document upload. */
 class AccountHolderSimulateEnrollmentDocumentReviewParams
 private constructor(
-    private val body: AccountHolderSimulateEnrollmentDocumentReviewBody,
+    private val body: SimulateEnrollmentDocumentReviewRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -67,16 +67,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): AccountHolderSimulateEnrollmentDocumentReviewBody = body
+    @JvmSynthetic internal fun _body(): SimulateEnrollmentDocumentReviewRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class AccountHolderSimulateEnrollmentDocumentReviewBody
+    class SimulateEnrollmentDocumentReviewRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("document_upload_token")
         @ExcludeMissing
         private val documentUploadToken: JsonField<String> = JsonMissing.of(),
@@ -139,7 +139,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): AccountHolderSimulateEnrollmentDocumentReviewBody = apply {
+        fun validate(): SimulateEnrollmentDocumentReviewRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -158,7 +158,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [AccountHolderSimulateEnrollmentDocumentReviewBody]. */
+        /** A builder for [SimulateEnrollmentDocumentReviewRequest]. */
         class Builder internal constructor() {
 
             private var documentUploadToken: JsonField<String>? = null
@@ -169,19 +169,17 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(
-                accountHolderSimulateEnrollmentDocumentReviewBody:
-                    AccountHolderSimulateEnrollmentDocumentReviewBody
+                simulateEnrollmentDocumentReviewRequest: SimulateEnrollmentDocumentReviewRequest
             ) = apply {
-                documentUploadToken =
-                    accountHolderSimulateEnrollmentDocumentReviewBody.documentUploadToken
-                status = accountHolderSimulateEnrollmentDocumentReviewBody.status
+                documentUploadToken = simulateEnrollmentDocumentReviewRequest.documentUploadToken
+                status = simulateEnrollmentDocumentReviewRequest.status
                 acceptedEntityStatusReasons =
-                    accountHolderSimulateEnrollmentDocumentReviewBody.acceptedEntityStatusReasons
-                        .map { it.toMutableList() }
-                statusReason = accountHolderSimulateEnrollmentDocumentReviewBody.statusReason
+                    simulateEnrollmentDocumentReviewRequest.acceptedEntityStatusReasons.map {
+                        it.toMutableList()
+                    }
+                statusReason = simulateEnrollmentDocumentReviewRequest.statusReason
                 additionalProperties =
-                    accountHolderSimulateEnrollmentDocumentReviewBody.additionalProperties
-                        .toMutableMap()
+                    simulateEnrollmentDocumentReviewRequest.additionalProperties.toMutableMap()
             }
 
             /** The account holder document upload which to perform the simulation upon. */
@@ -258,8 +256,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): AccountHolderSimulateEnrollmentDocumentReviewBody =
-                AccountHolderSimulateEnrollmentDocumentReviewBody(
+            fun build(): SimulateEnrollmentDocumentReviewRequest =
+                SimulateEnrollmentDocumentReviewRequest(
                     checkRequired("documentUploadToken", documentUploadToken),
                     checkRequired("status", status),
                     (acceptedEntityStatusReasons ?: JsonMissing.of()).map { it.toImmutable() },
@@ -273,7 +271,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewBody && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SimulateEnrollmentDocumentReviewRequest && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -283,7 +281,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AccountHolderSimulateEnrollmentDocumentReviewBody{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalProperties=$additionalProperties}"
+            "SimulateEnrollmentDocumentReviewRequest{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -297,8 +295,8 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: AccountHolderSimulateEnrollmentDocumentReviewBody.Builder =
-            AccountHolderSimulateEnrollmentDocumentReviewBody.builder()
+        private var body: SimulateEnrollmentDocumentReviewRequest.Builder =
+            SimulateEnrollmentDocumentReviewRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

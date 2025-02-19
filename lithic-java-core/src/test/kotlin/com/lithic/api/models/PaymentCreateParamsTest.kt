@@ -44,7 +44,9 @@ class PaymentCreateParamsTest {
                 .memo("memo")
                 .userDefinedId("user_defined_id")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())
@@ -78,7 +80,9 @@ class PaymentCreateParamsTest {
                 )
                 .type(PaymentCreateParams.Type.COLLECTION)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())

@@ -31,7 +31,7 @@ import java.util.Optional
 class CardReissueParams
 private constructor(
     private val cardToken: String,
-    private val body: CardReissueBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -94,7 +94,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CardReissueBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -108,9 +108,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class CardReissueBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("carrier")
         @ExcludeMissing
         private val carrier: JsonField<Carrier> = JsonMissing.of(),
@@ -191,7 +191,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): CardReissueBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -210,7 +210,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [CardReissueBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var carrier: JsonField<Carrier> = JsonMissing.of()
@@ -220,12 +220,12 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardReissueBody: CardReissueBody) = apply {
-                carrier = cardReissueBody.carrier
-                productId = cardReissueBody.productId
-                shippingAddress = cardReissueBody.shippingAddress
-                shippingMethod = cardReissueBody.shippingMethod
-                additionalProperties = cardReissueBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                carrier = body.carrier
+                productId = body.productId
+                shippingAddress = body.shippingAddress
+                shippingMethod = body.shippingMethod
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** If omitted, the previous carrier will be used. */
@@ -307,8 +307,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): CardReissueBody =
-                CardReissueBody(
+            fun build(): Body =
+                Body(
                     carrier,
                     productId,
                     shippingAddress,
@@ -322,7 +322,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardReissueBody && carrier == other.carrier && productId == other.productId && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && carrier == other.carrier && productId == other.productId && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -332,7 +332,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardReissueBody{carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
+            "Body{carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -347,7 +347,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var cardToken: String? = null
-        private var body: CardReissueBody.Builder = CardReissueBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

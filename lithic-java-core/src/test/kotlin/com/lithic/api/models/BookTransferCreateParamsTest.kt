@@ -34,7 +34,9 @@ class BookTransferCreateParamsTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .memo("memo")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)
@@ -58,7 +60,9 @@ class BookTransferCreateParamsTest {
                 .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .type(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)

@@ -26,7 +26,7 @@ import java.util.Optional
 class EventSubscriptionUpdateParams
 private constructor(
     private val eventSubscriptionToken: String,
-    private val body: EventSubscriptionUpdateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -69,7 +69,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): EventSubscriptionUpdateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -83,9 +83,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class EventSubscriptionUpdateBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
         @JsonProperty("description")
         @ExcludeMissing
@@ -142,7 +142,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): EventSubscriptionUpdateBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -161,7 +161,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [EventSubscriptionUpdateBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var url: JsonField<String>? = null
@@ -171,13 +171,12 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(eventSubscriptionUpdateBody: EventSubscriptionUpdateBody) = apply {
-                url = eventSubscriptionUpdateBody.url
-                description = eventSubscriptionUpdateBody.description
-                disabled = eventSubscriptionUpdateBody.disabled
-                eventTypes = eventSubscriptionUpdateBody.eventTypes.map { it.toMutableList() }
-                additionalProperties =
-                    eventSubscriptionUpdateBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                url = body.url
+                description = body.description
+                disabled = body.disabled
+                eventTypes = body.eventTypes.map { it.toMutableList() }
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
@@ -250,8 +249,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): EventSubscriptionUpdateBody =
-                EventSubscriptionUpdateBody(
+            fun build(): Body =
+                Body(
                     checkRequired("url", url),
                     description,
                     disabled,
@@ -265,7 +264,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventSubscriptionUpdateBody && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -275,7 +274,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "EventSubscriptionUpdateBody{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
+            "Body{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -290,8 +289,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
-        private var body: EventSubscriptionUpdateBody.Builder =
-            EventSubscriptionUpdateBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
