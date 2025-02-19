@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.77.0 (2025-02-19)
+
+Full Changelog: [v0.76.0...v0.77.0](https://github.com/lithic-com/lithic-java/compare/v0.76.0...v0.77.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** rename some params builder methods ([#485](https://github.com/lithic-com/lithic-java/issues/485))
+
+### Features
+
+* **client:** support `JsonField#asX()` for known values ([#488](https://github.com/lithic-com/lithic-java/issues/488)) ([bbbebbc](https://github.com/lithic-com/lithic-java/commit/bbbebbc186cbe3ab470118517c0c723bda9b7b27))
+* **client:** update enum `asX` methods ([#487](https://github.com/lithic-com/lithic-java/issues/487)) ([4f5cb79](https://github.com/lithic-com/lithic-java/commit/4f5cb798dffdb4a7189c458f8539341234c72027))
+
+
+### Chores
+
+* **api:** new 3DS Event and new `challenge_metadata` property on Authentications ([#481](https://github.com/lithic-com/lithic-java/issues/481)) ([aba327f](https://github.com/lithic-com/lithic-java/commit/aba327f3ca9ca59b89b16f69b364e3de727bcc33))
+* **client:** rename some params builder methods ([#485](https://github.com/lithic-com/lithic-java/issues/485)) ([3099f72](https://github.com/lithic-com/lithic-java/commit/3099f722f3e05718621c683e2f3c2de185f323c2))
+* **internal:** optimize build and test perf ([e78b569](https://github.com/lithic-com/lithic-java/commit/e78b56923aca9e3371dd880ba7e2cb8fef2bc37e))
+* **internal:** optimize build and test perf ([90326d4](https://github.com/lithic-com/lithic-java/commit/90326d49e84c99255879d0404f251a0b5a8cb5fe))
+* **internal:** refactor `PhantomReachableClosingAsyncStreamResponse` impl ([#483](https://github.com/lithic-com/lithic-java/issues/483)) ([7baa3ec](https://github.com/lithic-com/lithic-java/commit/7baa3ecfca7a6f171e64e31aa7c7d689cd24da2d))
+* **internal:** update formatter ([e78b569](https://github.com/lithic-com/lithic-java/commit/e78b56923aca9e3371dd880ba7e2cb8fef2bc37e))
+* **internal:** update formatter ([#484](https://github.com/lithic-com/lithic-java/issues/484)) ([90326d4](https://github.com/lithic-com/lithic-java/commit/90326d49e84c99255879d0404f251a0b5a8cb5fe))
+* **internal:** update some formatting in `Values.kt` ([bbbebbc](https://github.com/lithic-com/lithic-java/commit/bbbebbc186cbe3ab470118517c0c723bda9b7b27))
+
+
+### Documentation
+
+* add more phantom reachability docs ([7baa3ec](https://github.com/lithic-com/lithic-java/commit/7baa3ecfca7a6f171e64e31aa7c7d689cd24da2d))
+
 ## 0.76.0 (2025-02-06)
 
 Full Changelog: [v0.75.0...v0.76.0](https://github.com/lithic-com/lithic-java/compare/v0.75.0...v0.76.0)
