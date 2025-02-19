@@ -25,7 +25,7 @@ import java.util.Optional
 /** Book transfer funds between two financial accounts or between a financial account and card */
 class BookTransferCreateParams
 private constructor(
-    private val body: BookTransferCreateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -108,16 +108,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): BookTransferCreateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class BookTransferCreateBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
@@ -228,7 +228,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): BookTransferCreateBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -251,7 +251,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [BookTransferCreateBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
@@ -265,16 +265,16 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(bookTransferCreateBody: BookTransferCreateBody) = apply {
-                amount = bookTransferCreateBody.amount
-                category = bookTransferCreateBody.category
-                fromFinancialAccountToken = bookTransferCreateBody.fromFinancialAccountToken
-                subtype = bookTransferCreateBody.subtype
-                toFinancialAccountToken = bookTransferCreateBody.toFinancialAccountToken
-                type = bookTransferCreateBody.type
-                token = bookTransferCreateBody.token
-                memo = bookTransferCreateBody.memo
-                additionalProperties = bookTransferCreateBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                amount = body.amount
+                category = body.category
+                fromFinancialAccountToken = body.fromFinancialAccountToken
+                subtype = body.subtype
+                toFinancialAccountToken = body.toFinancialAccountToken
+                type = body.type
+                token = body.token
+                memo = body.memo
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
@@ -374,8 +374,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): BookTransferCreateBody =
-                BookTransferCreateBody(
+            fun build(): Body =
+                Body(
                     checkRequired("amount", amount),
                     checkRequired("category", category),
                     checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
@@ -393,7 +393,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BookTransferCreateBody && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -403,7 +403,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "BookTransferCreateBody{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
+            "Body{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -417,7 +417,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: BookTransferCreateBody.Builder = BookTransferCreateBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

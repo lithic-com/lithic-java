@@ -26,7 +26,7 @@ import java.util.Optional
 /** Create management operation */
 class ManagementOperationCreateParams
 private constructor(
-    private val body: ManagementOperationCreateBody,
+    private val body: CreateManagementOperationRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -77,16 +77,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ManagementOperationCreateBody = body
+    @JvmSynthetic internal fun _body(): CreateManagementOperationRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class ManagementOperationCreateBody
+    class CreateManagementOperationRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
@@ -181,7 +181,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ManagementOperationCreateBody = apply {
+        fun validate(): CreateManagementOperationRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -206,7 +206,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ManagementOperationCreateBody]. */
+        /** A builder for [CreateManagementOperationRequest]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
@@ -222,20 +222,20 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(managementOperationCreateBody: ManagementOperationCreateBody) =
+            internal fun from(createManagementOperationRequest: CreateManagementOperationRequest) =
                 apply {
-                    amount = managementOperationCreateBody.amount
-                    category = managementOperationCreateBody.category
-                    direction = managementOperationCreateBody.direction
-                    effectiveDate = managementOperationCreateBody.effectiveDate
-                    eventType = managementOperationCreateBody.eventType
-                    financialAccountToken = managementOperationCreateBody.financialAccountToken
-                    token = managementOperationCreateBody.token
-                    memo = managementOperationCreateBody.memo
-                    subtype = managementOperationCreateBody.subtype
-                    userDefinedId = managementOperationCreateBody.userDefinedId
+                    amount = createManagementOperationRequest.amount
+                    category = createManagementOperationRequest.category
+                    direction = createManagementOperationRequest.direction
+                    effectiveDate = createManagementOperationRequest.effectiveDate
+                    eventType = createManagementOperationRequest.eventType
+                    financialAccountToken = createManagementOperationRequest.financialAccountToken
+                    token = createManagementOperationRequest.token
+                    memo = createManagementOperationRequest.memo
+                    subtype = createManagementOperationRequest.subtype
+                    userDefinedId = createManagementOperationRequest.userDefinedId
                     additionalProperties =
-                        managementOperationCreateBody.additionalProperties.toMutableMap()
+                        createManagementOperationRequest.additionalProperties.toMutableMap()
                 }
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -312,8 +312,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ManagementOperationCreateBody =
-                ManagementOperationCreateBody(
+            fun build(): CreateManagementOperationRequest =
+                CreateManagementOperationRequest(
                     checkRequired("amount", amount),
                     checkRequired("category", category),
                     checkRequired("direction", direction),
@@ -333,7 +333,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationCreateBody && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateManagementOperationRequest && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -343,7 +343,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ManagementOperationCreateBody{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "CreateManagementOperationRequest{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -357,8 +357,8 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: ManagementOperationCreateBody.Builder =
-            ManagementOperationCreateBody.builder()
+        private var body: CreateManagementOperationRequest.Builder =
+            CreateManagementOperationRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

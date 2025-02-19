@@ -25,7 +25,7 @@ import java.util.Optional
 /** Simulates a receipt of a Payment. */
 class PaymentSimulateReceiptParams
 private constructor(
-    private val body: PaymentSimulateReceiptBody,
+    private val body: SimulateReceiptRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -66,16 +66,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): PaymentSimulateReceiptBody = body
+    @JvmSynthetic internal fun _body(): SimulateReceiptRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class PaymentSimulateReceiptBody
+    class SimulateReceiptRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("token")
         @ExcludeMissing
         private val token: JsonField<String> = JsonMissing.of(),
@@ -136,7 +136,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): PaymentSimulateReceiptBody = apply {
+        fun validate(): SimulateReceiptRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -156,7 +156,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [PaymentSimulateReceiptBody]. */
+        /** A builder for [SimulateReceiptRequest]. */
         class Builder internal constructor() {
 
             private var token: JsonField<String>? = null
@@ -167,14 +167,13 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(paymentSimulateReceiptBody: PaymentSimulateReceiptBody) = apply {
-                token = paymentSimulateReceiptBody.token
-                amount = paymentSimulateReceiptBody.amount
-                financialAccountToken = paymentSimulateReceiptBody.financialAccountToken
-                receiptType = paymentSimulateReceiptBody.receiptType
-                memo = paymentSimulateReceiptBody.memo
-                additionalProperties =
-                    paymentSimulateReceiptBody.additionalProperties.toMutableMap()
+            internal fun from(simulateReceiptRequest: SimulateReceiptRequest) = apply {
+                token = simulateReceiptRequest.token
+                amount = simulateReceiptRequest.amount
+                financialAccountToken = simulateReceiptRequest.financialAccountToken
+                receiptType = simulateReceiptRequest.receiptType
+                memo = simulateReceiptRequest.memo
+                additionalProperties = simulateReceiptRequest.additionalProperties.toMutableMap()
             }
 
             /** Payment token */
@@ -231,8 +230,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): PaymentSimulateReceiptBody =
-                PaymentSimulateReceiptBody(
+            fun build(): SimulateReceiptRequest =
+                SimulateReceiptRequest(
                     checkRequired("token", token),
                     checkRequired("amount", amount),
                     checkRequired("financialAccountToken", financialAccountToken),
@@ -247,7 +246,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentSimulateReceiptBody && token == other.token && amount == other.amount && financialAccountToken == other.financialAccountToken && receiptType == other.receiptType && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SimulateReceiptRequest && token == other.token && amount == other.amount && financialAccountToken == other.financialAccountToken && receiptType == other.receiptType && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -257,7 +256,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentSimulateReceiptBody{token=$token, amount=$amount, financialAccountToken=$financialAccountToken, receiptType=$receiptType, memo=$memo, additionalProperties=$additionalProperties}"
+            "SimulateReceiptRequest{token=$token, amount=$amount, financialAccountToken=$financialAccountToken, receiptType=$receiptType, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -271,7 +270,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: PaymentSimulateReceiptBody.Builder = PaymentSimulateReceiptBody.builder()
+        private var body: SimulateReceiptRequest.Builder = SimulateReceiptRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

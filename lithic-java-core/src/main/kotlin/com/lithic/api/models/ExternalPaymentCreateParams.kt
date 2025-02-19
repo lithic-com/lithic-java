@@ -26,7 +26,7 @@ import java.util.Optional
 /** Create external payment */
 class ExternalPaymentCreateParams
 private constructor(
-    private val body: ExternalPaymentCreateBody,
+    private val body: CreateExternalPaymentRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -73,16 +73,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalPaymentCreateBody = body
+    @JvmSynthetic internal fun _body(): CreateExternalPaymentRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class ExternalPaymentCreateBody
+    class CreateExternalPaymentRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
@@ -171,7 +171,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalPaymentCreateBody = apply {
+        fun validate(): CreateExternalPaymentRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -195,7 +195,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalPaymentCreateBody]. */
+        /** A builder for [CreateExternalPaymentRequest]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
@@ -210,17 +210,18 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(externalPaymentCreateBody: ExternalPaymentCreateBody) = apply {
-                amount = externalPaymentCreateBody.amount
-                category = externalPaymentCreateBody.category
-                effectiveDate = externalPaymentCreateBody.effectiveDate
-                financialAccountToken = externalPaymentCreateBody.financialAccountToken
-                paymentType = externalPaymentCreateBody.paymentType
-                token = externalPaymentCreateBody.token
-                memo = externalPaymentCreateBody.memo
-                progressTo = externalPaymentCreateBody.progressTo
-                userDefinedId = externalPaymentCreateBody.userDefinedId
-                additionalProperties = externalPaymentCreateBody.additionalProperties.toMutableMap()
+            internal fun from(createExternalPaymentRequest: CreateExternalPaymentRequest) = apply {
+                amount = createExternalPaymentRequest.amount
+                category = createExternalPaymentRequest.category
+                effectiveDate = createExternalPaymentRequest.effectiveDate
+                financialAccountToken = createExternalPaymentRequest.financialAccountToken
+                paymentType = createExternalPaymentRequest.paymentType
+                token = createExternalPaymentRequest.token
+                memo = createExternalPaymentRequest.memo
+                progressTo = createExternalPaymentRequest.progressTo
+                userDefinedId = createExternalPaymentRequest.userDefinedId
+                additionalProperties =
+                    createExternalPaymentRequest.additionalProperties.toMutableMap()
             }
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -293,8 +294,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalPaymentCreateBody =
-                ExternalPaymentCreateBody(
+            fun build(): CreateExternalPaymentRequest =
+                CreateExternalPaymentRequest(
                     checkRequired("amount", amount),
                     checkRequired("category", category),
                     checkRequired("effectiveDate", effectiveDate),
@@ -313,7 +314,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentCreateBody && amount == other.amount && category == other.category && effectiveDate == other.effectiveDate && financialAccountToken == other.financialAccountToken && paymentType == other.paymentType && token == other.token && memo == other.memo && progressTo == other.progressTo && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateExternalPaymentRequest && amount == other.amount && category == other.category && effectiveDate == other.effectiveDate && financialAccountToken == other.financialAccountToken && paymentType == other.paymentType && token == other.token && memo == other.memo && progressTo == other.progressTo && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -323,7 +324,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalPaymentCreateBody{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "CreateExternalPaymentRequest{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -337,7 +338,8 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: ExternalPaymentCreateBody.Builder = ExternalPaymentCreateBody.builder()
+        private var body: CreateExternalPaymentRequest.Builder =
+            CreateExternalPaymentRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

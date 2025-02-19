@@ -24,7 +24,9 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
                     EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.eventType())
             .contains(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
@@ -36,7 +38,9 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
     }
 

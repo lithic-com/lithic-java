@@ -24,7 +24,9 @@ class TransactionSimulateVoidParamsTest {
                 .amount(0L)
                 .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.amount()).contains(0L)
@@ -37,7 +39,9 @@ class TransactionSimulateVoidParamsTest {
             TransactionSimulateVoidParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }

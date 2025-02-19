@@ -56,7 +56,9 @@ class CardConvertPhysicalParamsTest {
                 .productId("product_id")
                 .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(
@@ -96,7 +98,9 @@ class CardConvertPhysicalParamsTest {
                         .build()
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(

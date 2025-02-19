@@ -24,7 +24,7 @@ import java.util.Objects
 class CreditProductPrimeRateCreateParams
 private constructor(
     private val creditProductToken: String,
-    private val body: CreditProductPrimeRateCreateBody,
+    private val body: InterestRate,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -50,7 +50,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CreditProductPrimeRateCreateBody = body
+    @JvmSynthetic internal fun _body(): InterestRate = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -64,9 +64,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class CreditProductPrimeRateCreateBody
+    class InterestRate
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("effective_date")
         @ExcludeMissing
         private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
@@ -97,7 +97,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): CreditProductPrimeRateCreateBody = apply {
+        fun validate(): InterestRate = apply {
             if (validated) {
                 return@apply
             }
@@ -114,7 +114,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [CreditProductPrimeRateCreateBody]. */
+        /** A builder for [InterestRate]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -122,13 +122,11 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(creditProductPrimeRateCreateBody: CreditProductPrimeRateCreateBody) =
-                apply {
-                    effectiveDate = creditProductPrimeRateCreateBody.effectiveDate
-                    rate = creditProductPrimeRateCreateBody.rate
-                    additionalProperties =
-                        creditProductPrimeRateCreateBody.additionalProperties.toMutableMap()
-                }
+            internal fun from(interestRate: InterestRate) = apply {
+                effectiveDate = interestRate.effectiveDate
+                rate = interestRate.rate
+                additionalProperties = interestRate.additionalProperties.toMutableMap()
+            }
 
             /** Date the rate goes into effect */
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -163,8 +161,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): CreditProductPrimeRateCreateBody =
-                CreditProductPrimeRateCreateBody(
+            fun build(): InterestRate =
+                InterestRate(
                     checkRequired("effectiveDate", effectiveDate),
                     checkRequired("rate", rate),
                     additionalProperties.toImmutable(),
@@ -176,7 +174,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreditProductPrimeRateCreateBody && effectiveDate == other.effectiveDate && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is InterestRate && effectiveDate == other.effectiveDate && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -186,7 +184,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreditProductPrimeRateCreateBody{effectiveDate=$effectiveDate, rate=$rate, additionalProperties=$additionalProperties}"
+            "InterestRate{effectiveDate=$effectiveDate, rate=$rate, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -201,8 +199,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var creditProductToken: String? = null
-        private var body: CreditProductPrimeRateCreateBody.Builder =
-            CreditProductPrimeRateCreateBody.builder()
+        private var body: InterestRate.Builder = InterestRate.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

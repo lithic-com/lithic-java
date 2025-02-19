@@ -27,7 +27,7 @@ import java.util.Objects
  */
 class CardSearchByPanParams
 private constructor(
-    private val body: CardSearchByPanBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -44,16 +44,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CardSearchByPanBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class CardSearchByPanBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
@@ -71,7 +71,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): CardSearchByPanBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -87,16 +87,16 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [CardSearchByPanBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var pan: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardSearchByPanBody: CardSearchByPanBody) = apply {
-                pan = cardSearchByPanBody.pan
-                additionalProperties = cardSearchByPanBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                pan = body.pan
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /** The PAN for the card being retrieved. */
@@ -124,8 +124,7 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): CardSearchByPanBody =
-                CardSearchByPanBody(checkRequired("pan", pan), additionalProperties.toImmutable())
+            fun build(): Body = Body(checkRequired("pan", pan), additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {
@@ -133,7 +132,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardSearchByPanBody && pan == other.pan && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && pan == other.pan && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -142,8 +141,7 @@ private constructor(
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() =
-            "CardSearchByPanBody{pan=$pan, additionalProperties=$additionalProperties}"
+        override fun toString() = "Body{pan=$pan, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -157,7 +155,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: CardSearchByPanBody.Builder = CardSearchByPanBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

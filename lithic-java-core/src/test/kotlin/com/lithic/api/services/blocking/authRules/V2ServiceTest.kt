@@ -33,28 +33,23 @@ class V2ServiceTest {
         val v2CreateResponse =
             v2Service.create(
                 AuthRuleV2CreateParams.builder()
-                    .forCreateAuthRuleRequestAccountTokens(
-                        AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.builder()
-                            .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                    .body(
+                        AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
+                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .name("name")
                             .parameters(
-                                AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
-                                    .ofConditionalBlock(
-                                        ConditionalBlockParameters.builder()
-                                            .addCondition(
-                                                AuthRuleCondition.builder()
-                                                    .attribute(ConditionalAttribute.MCC)
-                                                    .operation(
-                                                        AuthRuleCondition.Operation.IS_ONE_OF
-                                                    )
-                                                    .value("string")
-                                                    .build()
-                                            )
+                                ConditionalBlockParameters.builder()
+                                    .addCondition(
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value("string")
                                             .build()
                                     )
+                                    .build()
                             )
                             .type(
-                                AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens
+                                AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
                                     .AuthRuleType
                                     .CONDITIONAL_BLOCK
                             )
@@ -95,14 +90,14 @@ class V2ServiceTest {
         val v2UpdateResponse =
             v2Service.update(
                 AuthRuleV2UpdateParams.builder()
-                    .forAccountLevelRule(
-                        AuthRuleV2UpdateParams.AccountLevelRule.builder()
-                            .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .body(
+                        AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
+                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .name("name")
-                            .state(AuthRuleV2UpdateParams.AccountLevelRule.State.INACTIVE)
+                            .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
                             .build()
                     )
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(v2UpdateResponse)
@@ -149,11 +144,6 @@ class V2ServiceTest {
             v2Service.apply(
                 AuthRuleV2ApplyParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .forApplyAuthRuleRequestAccountTokens(
-                        AuthRuleV2ApplyParams.ApplyAuthRuleRequestAccountTokens.builder()
-                            .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-                            .build()
-                    )
                     .build()
             )
         println(v2ApplyResponse)

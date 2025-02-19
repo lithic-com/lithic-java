@@ -29,7 +29,7 @@ import java.util.Optional
  */
 class ThreeDSAuthenticationSimulateParams
 private constructor(
-    private val body: ThreeDSAuthenticationSimulateBody,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -66,16 +66,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ThreeDSAuthenticationSimulateBody = body
+    @JvmSynthetic internal fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class ThreeDSAuthenticationSimulateBody
+    class Body
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("merchant")
         @ExcludeMissing
         private val merchant: JsonField<Merchant> = JsonMissing.of(),
@@ -127,7 +127,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ThreeDSAuthenticationSimulateBody = apply {
+        fun validate(): Body = apply {
             if (validated) {
                 return@apply
             }
@@ -146,7 +146,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ThreeDSAuthenticationSimulateBody]. */
+        /** A builder for [Body]. */
         class Builder internal constructor() {
 
             private var merchant: JsonField<Merchant>? = null
@@ -156,15 +156,12 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(
-                threeDSAuthenticationSimulateBody: ThreeDSAuthenticationSimulateBody
-            ) = apply {
-                merchant = threeDSAuthenticationSimulateBody.merchant
-                pan = threeDSAuthenticationSimulateBody.pan
-                transaction = threeDSAuthenticationSimulateBody.transaction
-                cardExpiryCheck = threeDSAuthenticationSimulateBody.cardExpiryCheck
-                additionalProperties =
-                    threeDSAuthenticationSimulateBody.additionalProperties.toMutableMap()
+            internal fun from(body: Body) = apply {
+                merchant = body.merchant
+                pan = body.pan
+                transaction = body.transaction
+                cardExpiryCheck = body.cardExpiryCheck
+                additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
@@ -217,8 +214,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ThreeDSAuthenticationSimulateBody =
-                ThreeDSAuthenticationSimulateBody(
+            fun build(): Body =
+                Body(
                     checkRequired("merchant", merchant),
                     checkRequired("pan", pan),
                     checkRequired("transaction", transaction),
@@ -232,7 +229,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ThreeDSAuthenticationSimulateBody && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -242,7 +239,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ThreeDSAuthenticationSimulateBody{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
+            "Body{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -256,8 +253,7 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: ThreeDSAuthenticationSimulateBody.Builder =
-            ThreeDSAuthenticationSimulateBody.builder()
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

@@ -50,7 +50,9 @@ class ThreeDSAuthenticationSimulateParamsTest {
                 )
                 .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.merchant())
             .isEqualTo(
@@ -93,7 +95,9 @@ class ThreeDSAuthenticationSimulateParamsTest {
                         .build()
                 )
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.merchant())
             .isEqualTo(

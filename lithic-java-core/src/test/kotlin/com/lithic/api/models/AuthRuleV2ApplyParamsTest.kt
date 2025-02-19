@@ -11,24 +11,74 @@ class AuthRuleV2ApplyParamsTest {
     fun create() {
         AuthRuleV2ApplyParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .forApplyAuthRuleRequestAccountTokens(
-                AuthRuleV2ApplyParams.ApplyAuthRuleRequestAccountTokens.builder()
-                    .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+            .body(
+                AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
             .build()
     }
 
     @Test
+    fun body() {
+        val params =
+            AuthRuleV2ApplyParams.builder()
+                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .body(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+                .build()
+
+        val body = params._body()
+
+        assertThat(body).isNotNull
+        assertThat(body)
+            .isEqualTo(
+                AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+            )
+    }
+
+    @Test
+    fun bodyWithoutOptionalFields() {
+        val params =
+            AuthRuleV2ApplyParams.builder()
+                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .body(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+                .build()
+
+        val body = params._body()
+
+        assertThat(body).isNotNull
+        assertThat(body)
+            .isEqualTo(
+                AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+            )
+    }
+
+    @Test
     fun getPathParam() {
         val params =
             AuthRuleV2ApplyParams.builder()
-                .forApplyAuthRuleRequestAccountTokens(
-                    AuthRuleV2ApplyParams.ApplyAuthRuleRequestAccountTokens.builder()
-                        .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .body(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
-                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull
         // path param "authRuleToken"

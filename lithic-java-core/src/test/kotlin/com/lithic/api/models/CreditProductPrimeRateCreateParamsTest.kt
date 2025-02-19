@@ -25,7 +25,9 @@ class CreditProductPrimeRateCreateParamsTest {
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .rate("rate")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.rate()).isEqualTo("rate")
@@ -39,7 +41,9 @@ class CreditProductPrimeRateCreateParamsTest {
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .rate("rate")
                 .build()
+
         val body = params._body()
+
         assertThat(body).isNotNull
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.rate()).isEqualTo("rate")

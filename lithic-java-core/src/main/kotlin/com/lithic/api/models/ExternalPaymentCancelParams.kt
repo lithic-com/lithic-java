@@ -25,7 +25,7 @@ import java.util.Optional
 class ExternalPaymentCancelParams
 private constructor(
     private val externalPaymentToken: String,
-    private val body: ExternalPaymentCancelBody,
+    private val body: ExternalPaymentActionRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -46,7 +46,7 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ExternalPaymentCancelBody = body
+    @JvmSynthetic internal fun _body(): ExternalPaymentActionRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -60,9 +60,9 @@ private constructor(
     }
 
     @NoAutoDetect
-    class ExternalPaymentCancelBody
+    class ExternalPaymentActionRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("effective_date")
         @ExcludeMissing
         private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
@@ -89,7 +89,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ExternalPaymentCancelBody = apply {
+        fun validate(): ExternalPaymentActionRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -106,7 +106,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [ExternalPaymentCancelBody]. */
+        /** A builder for [ExternalPaymentActionRequest]. */
         class Builder internal constructor() {
 
             private var effectiveDate: JsonField<LocalDate>? = null
@@ -114,10 +114,11 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(externalPaymentCancelBody: ExternalPaymentCancelBody) = apply {
-                effectiveDate = externalPaymentCancelBody.effectiveDate
-                memo = externalPaymentCancelBody.memo
-                additionalProperties = externalPaymentCancelBody.additionalProperties.toMutableMap()
+            internal fun from(externalPaymentActionRequest: ExternalPaymentActionRequest) = apply {
+                effectiveDate = externalPaymentActionRequest.effectiveDate
+                memo = externalPaymentActionRequest.memo
+                additionalProperties =
+                    externalPaymentActionRequest.additionalProperties.toMutableMap()
             }
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -149,8 +150,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): ExternalPaymentCancelBody =
-                ExternalPaymentCancelBody(
+            fun build(): ExternalPaymentActionRequest =
+                ExternalPaymentActionRequest(
                     checkRequired("effectiveDate", effectiveDate),
                     memo,
                     additionalProperties.toImmutable(),
@@ -162,7 +163,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentCancelBody && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentActionRequest && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -172,7 +173,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ExternalPaymentCancelBody{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
+            "ExternalPaymentActionRequest{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -187,7 +188,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var externalPaymentToken: String? = null
-        private var body: ExternalPaymentCancelBody.Builder = ExternalPaymentCancelBody.builder()
+        private var body: ExternalPaymentActionRequest.Builder =
+            ExternalPaymentActionRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 

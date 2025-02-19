@@ -22,7 +22,7 @@ import java.util.Objects
 /** Simulates a release of a Payment. */
 class PaymentSimulateReleaseParams
 private constructor(
-    private val body: PaymentSimulateReleaseBody,
+    private val body: SimulateOriginationReleaseRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -39,16 +39,16 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): PaymentSimulateReleaseBody = body
+    @JvmSynthetic internal fun _body(): SimulateOriginationReleaseRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     @NoAutoDetect
-    class PaymentSimulateReleaseBody
+    class SimulateOriginationReleaseRequest
     @JsonCreator
-    internal constructor(
+    private constructor(
         @JsonProperty("payment_token")
         @ExcludeMissing
         private val paymentToken: JsonField<String> = JsonMissing.of(),
@@ -70,7 +70,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): PaymentSimulateReleaseBody = apply {
+        fun validate(): SimulateOriginationReleaseRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -86,17 +86,19 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [PaymentSimulateReleaseBody]. */
+        /** A builder for [SimulateOriginationReleaseRequest]. */
         class Builder internal constructor() {
 
             private var paymentToken: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(paymentSimulateReleaseBody: PaymentSimulateReleaseBody) = apply {
-                paymentToken = paymentSimulateReleaseBody.paymentToken
+            internal fun from(
+                simulateOriginationReleaseRequest: SimulateOriginationReleaseRequest
+            ) = apply {
+                paymentToken = simulateOriginationReleaseRequest.paymentToken
                 additionalProperties =
-                    paymentSimulateReleaseBody.additionalProperties.toMutableMap()
+                    simulateOriginationReleaseRequest.additionalProperties.toMutableMap()
             }
 
             /** Payment Token */
@@ -126,8 +128,8 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): PaymentSimulateReleaseBody =
-                PaymentSimulateReleaseBody(
+            fun build(): SimulateOriginationReleaseRequest =
+                SimulateOriginationReleaseRequest(
                     checkRequired("paymentToken", paymentToken),
                     additionalProperties.toImmutable(),
                 )
@@ -138,7 +140,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentSimulateReleaseBody && paymentToken == other.paymentToken && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SimulateOriginationReleaseRequest && paymentToken == other.paymentToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -148,7 +150,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentSimulateReleaseBody{paymentToken=$paymentToken, additionalProperties=$additionalProperties}"
+            "SimulateOriginationReleaseRequest{paymentToken=$paymentToken, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -162,7 +164,8 @@ private constructor(
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var body: PaymentSimulateReleaseBody.Builder = PaymentSimulateReleaseBody.builder()
+        private var body: SimulateOriginationReleaseRequest.Builder =
+            SimulateOriginationReleaseRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
