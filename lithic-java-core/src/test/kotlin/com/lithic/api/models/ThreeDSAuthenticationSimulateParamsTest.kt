@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -53,7 +54,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.merchant())
             .isEqualTo(
                 ThreeDSAuthenticationSimulateParams.Merchant.builder()
@@ -98,7 +99,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.merchant())
             .isEqualTo(
                 ThreeDSAuthenticationSimulateParams.Merchant.builder()

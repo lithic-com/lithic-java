@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -25,7 +26,7 @@ class ResponderEndpointCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.type()).contains(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
         assertThat(body.url()).contains("https://example.com")
     }
@@ -36,6 +37,6 @@ class ResponderEndpointCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
     }
 }

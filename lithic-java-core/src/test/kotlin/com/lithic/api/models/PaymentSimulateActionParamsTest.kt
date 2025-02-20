@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -39,7 +40,7 @@ class PaymentSimulateActionParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.eventType())
             .isEqualTo(
                 PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
@@ -64,7 +65,7 @@ class PaymentSimulateActionParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.eventType())
             .isEqualTo(
                 PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED

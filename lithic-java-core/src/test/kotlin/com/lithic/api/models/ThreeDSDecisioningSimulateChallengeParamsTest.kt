@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -23,7 +24,7 @@ class ThreeDSDecisioningSimulateChallengeParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.token()).contains("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 
@@ -33,6 +34,6 @@ class ThreeDSDecisioningSimulateChallengeParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
     }
 }

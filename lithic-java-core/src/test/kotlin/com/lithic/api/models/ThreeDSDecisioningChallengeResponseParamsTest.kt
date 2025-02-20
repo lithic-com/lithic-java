@@ -33,7 +33,6 @@ class ThreeDSDecisioningChallengeResponseParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 ChallengeResponse.builder()
@@ -57,7 +56,6 @@ class ThreeDSDecisioningChallengeResponseParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 ChallengeResponse.builder()
