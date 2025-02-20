@@ -37,7 +37,6 @@ class AuthRuleV2UpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AuthRuleV2UpdateParams.Body.ofAccountLevelRule(
@@ -60,7 +59,6 @@ class AuthRuleV2UpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AuthRuleV2UpdateParams.Body.ofAccountLevelRule(

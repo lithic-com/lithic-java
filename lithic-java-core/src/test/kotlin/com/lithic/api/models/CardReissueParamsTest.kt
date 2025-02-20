@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -59,7 +60,7 @@ class CardReissueParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.carrier())
             .contains(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
         assertThat(body.productId()).contains("100")
@@ -89,7 +90,7 @@ class CardReissueParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
     }
 
     @Test

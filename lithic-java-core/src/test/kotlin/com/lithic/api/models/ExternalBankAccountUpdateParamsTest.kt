@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.LocalDate
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -60,7 +61,7 @@ class ExternalBankAccountUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.address())
             .contains(
                 ExternalBankAccountAddress.builder()
@@ -92,7 +93,7 @@ class ExternalBankAccountUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
     }
 
     @Test

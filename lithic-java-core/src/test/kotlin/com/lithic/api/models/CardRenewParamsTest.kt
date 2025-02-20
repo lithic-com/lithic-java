@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -63,7 +64,7 @@ class CardRenewParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()
@@ -108,7 +109,7 @@ class CardRenewParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()
