@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -32,7 +33,7 @@ class DisputeUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.amount()).contains(0L)
         assertThat(body.customerFiledDate())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -49,7 +50,7 @@ class DisputeUpdateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
     }
 
     @Test

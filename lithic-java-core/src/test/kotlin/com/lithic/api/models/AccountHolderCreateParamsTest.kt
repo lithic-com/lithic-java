@@ -201,7 +201,6 @@ class AccountHolderCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AccountHolderCreateParams.Body.ofKyb(
@@ -382,7 +381,6 @@ class AccountHolderCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AccountHolderCreateParams.Body.ofKyb(

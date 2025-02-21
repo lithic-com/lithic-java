@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -27,7 +28,7 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
 
@@ -42,7 +43,7 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
 

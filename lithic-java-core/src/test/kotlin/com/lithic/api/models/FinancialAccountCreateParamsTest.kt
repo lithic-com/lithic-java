@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -31,7 +32,7 @@ class FinancialAccountCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
         assertThat(body.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -48,7 +49,7 @@ class FinancialAccountCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
     }

@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -41,7 +42,7 @@ class TokenizationSimulateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.cvv()).isEqualTo("776")
         assertThat(body.expirationDate()).isEqualTo("xxxxx")
         assertThat(body.pan()).isEqualTo("4111111289144142")
@@ -66,7 +67,7 @@ class TokenizationSimulateParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
+        assertNotNull(body)
         assertThat(body.cvv()).isEqualTo("776")
         assertThat(body.expirationDate()).isEqualTo("xxxxx")
         assertThat(body.pan()).isEqualTo("4111111289144142")
