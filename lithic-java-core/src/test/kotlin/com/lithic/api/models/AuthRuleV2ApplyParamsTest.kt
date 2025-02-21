@@ -33,7 +33,6 @@ class AuthRuleV2ApplyParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(
@@ -58,7 +57,6 @@ class AuthRuleV2ApplyParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
         assertThat(body)
             .isEqualTo(
                 AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(

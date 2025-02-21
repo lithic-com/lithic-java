@@ -30,7 +30,6 @@ class TransactionSimulateCreditAuthorizationParamsTest {
                 .build()
 
         val body = params._body()
-
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")

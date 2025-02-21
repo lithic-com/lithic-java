@@ -37,18 +37,18 @@ import kotlin.jvm.optionals.getOrNull
 /** Creates an external bank account within a program or Lithic account. */
 class ExternalBankAccountCreateParams
 private constructor(
-    private val body: Body,
+    private val body: Body?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun body(): Body = body
+    fun body(): Optional<Body> = Optional.ofNullable(body)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
+    @JvmSynthetic internal fun _body(): Optional<Body> = Optional.ofNullable(body)
 
     override fun _headers(): Headers = additionalHeaders
 
@@ -1924,7 +1924,9 @@ private constructor(
                     externalBankAccountCreateParams.additionalQueryParams.toBuilder()
             }
 
-        fun body(body: Body) = apply { this.body = body }
+        fun body(body: Body?) = apply { this.body = body }
+
+        fun body(body: Optional<Body>) = body(body.orElse(null))
 
         fun body(
             bankVerifiedCreateBankAccountApiRequest: Body.BankVerifiedCreateBankAccountApiRequest
@@ -2048,7 +2050,7 @@ private constructor(
 
         fun build(): ExternalBankAccountCreateParams =
             ExternalBankAccountCreateParams(
-                checkRequired("body", body),
+                body,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
