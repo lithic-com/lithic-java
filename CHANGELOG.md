@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.77.0 (2025-02-21)
+
+Full Changelog: [v0.76.0...v0.77.0](https://github.com/lithic-com/lithic-java/compare/v0.76.0...v0.77.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** rename some params builder methods ([#485](https://github.com/lithic-com/lithic-java/issues/485))
+
+### Features
+
+* **client:** get rid of annoying checked exceptions ([#493](https://github.com/lithic-com/lithic-java/issues/493)) ([a10addc](https://github.com/lithic-com/lithic-java/commit/a10addcce92ce2693cc284c3ac045780cff823ab))
+* **client:** support `JsonField#asX()` for known values ([#488](https://github.com/lithic-com/lithic-java/issues/488)) ([bbbebbc](https://github.com/lithic-com/lithic-java/commit/bbbebbc186cbe3ab470118517c0c723bda9b7b27))
+* **client:** update enum `asX` methods ([#487](https://github.com/lithic-com/lithic-java/issues/487)) ([4f5cb79](https://github.com/lithic-com/lithic-java/commit/4f5cb798dffdb4a7189c458f8539341234c72027))
+
+
+### Bug Fixes
+
+* **client:** mark some request bodies as optional ([#495](https://github.com/lithic-com/lithic-java/issues/495)) ([8350303](https://github.com/lithic-com/lithic-java/commit/83503031b7e33553dec10b130029f4092df6cbba))
+
+
+### Chores
+
+* **api:** new 3DS Event and new `challenge_metadata` property on Authentications ([#481](https://github.com/lithic-com/lithic-java/issues/481)) ([aba327f](https://github.com/lithic-com/lithic-java/commit/aba327f3ca9ca59b89b16f69b364e3de727bcc33))
+* **ci:** update gradle actions to v4 ([#492](https://github.com/lithic-com/lithic-java/issues/492)) ([5fa3f68](https://github.com/lithic-com/lithic-java/commit/5fa3f68a98301e539b8a8a2f7f38f864aa4b25a7))
+* **client:** rename some params builder methods ([#485](https://github.com/lithic-com/lithic-java/issues/485)) ([3099f72](https://github.com/lithic-com/lithic-java/commit/3099f722f3e05718621c683e2f3c2de185f323c2))
+* **docs:** add faq to readme ([#494](https://github.com/lithic-com/lithic-java/issues/494)) ([ddef161](https://github.com/lithic-com/lithic-java/commit/ddef161bdfa16d9ae7779169439d6e0aaecef8c1))
+* **docs:** reorganize readme ([#489](https://github.com/lithic-com/lithic-java/issues/489)) ([2cc42ac](https://github.com/lithic-com/lithic-java/commit/2cc42ac93ff092c87c218544fdccdbd620aa2680))
+* **internal:** get rid of configuration cache ([#491](https://github.com/lithic-com/lithic-java/issues/491)) ([fb47a73](https://github.com/lithic-com/lithic-java/commit/fb47a73f4bf0f876fd948e44add61ed8533e66b0))
+* **internal:** optimize build and test perf ([e78b569](https://github.com/lithic-com/lithic-java/commit/e78b56923aca9e3371dd880ba7e2cb8fef2bc37e))
+* **internal:** optimize build and test perf ([90326d4](https://github.com/lithic-com/lithic-java/commit/90326d49e84c99255879d0404f251a0b5a8cb5fe))
+* **internal:** refactor `PhantomReachableClosingAsyncStreamResponse` impl ([#483](https://github.com/lithic-com/lithic-java/issues/483)) ([7baa3ec](https://github.com/lithic-com/lithic-java/commit/7baa3ecfca7a6f171e64e31aa7c7d689cd24da2d))
+* **internal:** remove unnecessary non-null asserts in tests ([8350303](https://github.com/lithic-com/lithic-java/commit/83503031b7e33553dec10b130029f4092df6cbba))
+* **internal:** update formatter ([e78b569](https://github.com/lithic-com/lithic-java/commit/e78b56923aca9e3371dd880ba7e2cb8fef2bc37e))
+* **internal:** update formatter ([#484](https://github.com/lithic-com/lithic-java/issues/484)) ([90326d4](https://github.com/lithic-com/lithic-java/commit/90326d49e84c99255879d0404f251a0b5a8cb5fe))
+* **internal:** update some formatting in `Values.kt` ([bbbebbc](https://github.com/lithic-com/lithic-java/commit/bbbebbc186cbe3ab470118517c0c723bda9b7b27))
+* **internal:** use `assertNotNull` in tests for type narrowing ([8350303](https://github.com/lithic-com/lithic-java/commit/83503031b7e33553dec10b130029f4092df6cbba))
+
+
+### Documentation
+
+* add immutability explanation to readme ([#497](https://github.com/lithic-com/lithic-java/issues/497)) ([780afa6](https://github.com/lithic-com/lithic-java/commit/780afa6a5845d3f6d924f54be4f4d651f7c63180))
+* add more phantom reachability docs ([7baa3ec](https://github.com/lithic-com/lithic-java/commit/7baa3ecfca7a6f171e64e31aa7c7d689cd24da2d))
+
 ## 0.76.0 (2025-02-06)
 
 Full Changelog: [v0.75.0...v0.76.0](https://github.com/lithic-com/lithic-java/compare/v0.75.0...v0.76.0)
