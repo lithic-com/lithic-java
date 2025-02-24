@@ -126,11 +126,11 @@ class TokenizationServiceTest {
             tokenizationService.simulate(
                 TokenizationSimulateParams.builder()
                     .cvv("776")
-                    .expirationDate("xxxxx")
+                    .expirationDate("08/29")
                     .pan("4111111289144142")
                     .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-                    .accountScore(0L)
-                    .deviceScore(0L)
+                    .accountScore(5L)
+                    .deviceScore(5L)
                     .entity("entity")
                     .walletRecommendedDecision(
                         TokenizationSimulateParams.WalletRecommendedDecision.APPROVED

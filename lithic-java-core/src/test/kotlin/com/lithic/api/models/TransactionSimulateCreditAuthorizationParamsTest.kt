@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     @Test
     fun create() {
         TransactionSimulateCreditAuthorizationParams.builder()
-            .amount(0L)
+            .amount(3831L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
             .mcc("5812")
@@ -22,7 +23,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     fun body() {
         val params =
             TransactionSimulateCreditAuthorizationParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .mcc("5812")
@@ -30,8 +31,9 @@ class TransactionSimulateCreditAuthorizationParamsTest {
                 .build()
 
         val body = params._body()
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.mcc()).contains("5812")
@@ -42,15 +44,15 @@ class TransactionSimulateCreditAuthorizationParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateCreditAuthorizationParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }

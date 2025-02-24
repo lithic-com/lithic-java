@@ -10,7 +10,7 @@ class TransactionEnhancedCommercialDataRetrieveParamsTest {
     @Test
     fun create() {
         TransactionEnhancedCommercialDataRetrieveParams.builder()
-            .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .transactionToken("00000000-0000-0000-0000-000000000000")
             .build()
     }
 
@@ -18,11 +18,11 @@ class TransactionEnhancedCommercialDataRetrieveParamsTest {
     fun getPathParam() {
         val params =
             TransactionEnhancedCommercialDataRetrieveParams.builder()
-                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .transactionToken("00000000-0000-0000-0000-000000000000")
                 .build()
         assertThat(params).isNotNull
         // path param "transactionToken"
-        assertThat(params.getPathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(params.getPathParam(0)).isEqualTo("00000000-0000-0000-0000-000000000000")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }

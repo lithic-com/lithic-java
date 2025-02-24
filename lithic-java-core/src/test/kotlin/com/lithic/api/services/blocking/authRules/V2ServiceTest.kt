@@ -144,6 +144,11 @@ class V2ServiceTest {
             v2Service.apply(
                 AuthRuleV2ApplyParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .body(
+                        AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
+                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .build()
             )
         println(v2ApplyResponse)
