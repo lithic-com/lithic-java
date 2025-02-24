@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ class TransactionSimulateClearingParamsTest {
     @Test
     fun create() {
         TransactionSimulateClearingParams.builder()
-            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .amount(0L)
             .build()
     }
@@ -19,14 +20,14 @@ class TransactionSimulateClearingParamsTest {
     fun body() {
         val params =
             TransactionSimulateClearingParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(0L)
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertNotNull(body)
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).contains(0L)
     }
 
@@ -34,12 +35,12 @@ class TransactionSimulateClearingParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateClearingParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertNotNull(body)
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 }
