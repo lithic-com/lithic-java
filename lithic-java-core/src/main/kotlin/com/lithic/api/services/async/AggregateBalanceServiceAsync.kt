@@ -14,7 +14,11 @@ interface AggregateBalanceServiceAsync {
     /** Get the aggregated balance across all end-user accounts by financial account type */
     @JvmOverloads
     fun list(
-        params: AggregateBalanceListParams,
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AggregateBalanceListPageAsync>
+
+    /** Get the aggregated balance across all end-user accounts by financial account type */
+    fun list(requestOptions: RequestOptions): CompletableFuture<AggregateBalanceListPageAsync> =
+        list(AggregateBalanceListParams.none(), requestOptions)
 }

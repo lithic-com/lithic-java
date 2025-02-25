@@ -57,9 +57,13 @@ interface V2Service {
     /** Lists V2 authorization rules */
     @JvmOverloads
     fun list(
-        params: AuthRuleV2ListParams,
+        params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthRuleV2ListPage
+
+    /** Lists V2 authorization rules */
+    fun list(requestOptions: RequestOptions): AuthRuleV2ListPage =
+        list(AuthRuleV2ListParams.none(), requestOptions)
 
     /** Deletes a V2 authorization rule */
     @JvmOverloads

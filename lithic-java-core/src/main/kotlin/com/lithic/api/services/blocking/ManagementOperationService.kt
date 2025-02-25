@@ -31,9 +31,13 @@ interface ManagementOperationService {
     /** List management operations */
     @JvmOverloads
     fun list(
-        params: ManagementOperationListParams,
+        params: ManagementOperationListParams = ManagementOperationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagementOperationListPage
+
+    /** List management operations */
+    fun list(requestOptions: RequestOptions): ManagementOperationListPage =
+        list(ManagementOperationListParams.none(), requestOptions)
 
     /** Reverse a management operation */
     @JvmOverloads

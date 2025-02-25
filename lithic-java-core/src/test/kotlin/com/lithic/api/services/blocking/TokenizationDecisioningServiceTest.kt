@@ -4,8 +4,6 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.TokenizationDecisioningRetrieveSecretParams
-import com.lithic.api.models.TokenizationDecisioningRotateSecretParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -20,10 +18,7 @@ class TokenizationDecisioningServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
-        val tokenizationSecret =
-            tokenizationDecisioningService.retrieveSecret(
-                TokenizationDecisioningRetrieveSecretParams.builder().build()
-            )
+        val tokenizationSecret = tokenizationDecisioningService.retrieveSecret()
         println(tokenizationSecret)
         tokenizationSecret.validate()
     }
@@ -37,9 +32,7 @@ class TokenizationDecisioningServiceTest {
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
         val tokenizationDecisioningRotateSecretResponse =
-            tokenizationDecisioningService.rotateSecret(
-                TokenizationDecisioningRotateSecretParams.builder().build()
-            )
+            tokenizationDecisioningService.rotateSecret()
         println(tokenizationDecisioningRotateSecretResponse)
         tokenizationDecisioningRotateSecretResponse.validate()
     }

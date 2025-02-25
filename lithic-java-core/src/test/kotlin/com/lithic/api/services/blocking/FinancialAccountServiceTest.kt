@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.FinancialAccountChargeOffParams
 import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import org.junit.jupiter.api.Test
@@ -82,8 +81,7 @@ class FinancialAccountServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
-        val financialAccountsResponse =
-            financialAccountService.list(FinancialAccountListParams.builder().build())
+        val financialAccountsResponse = financialAccountService.list()
         println(financialAccountsResponse)
         financialAccountsResponse.data().forEach { it.validate() }
     }

@@ -34,9 +34,13 @@ interface BookTransferServiceAsync {
     /** List book transfers */
     @JvmOverloads
     fun list(
-        params: BookTransferListParams,
+        params: BookTransferListParams = BookTransferListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferListPageAsync>
+
+    /** List book transfers */
+    fun list(requestOptions: RequestOptions): CompletableFuture<BookTransferListPageAsync> =
+        list(BookTransferListParams.none(), requestOptions)
 
     /** Reverse a book transfer */
     @JvmOverloads

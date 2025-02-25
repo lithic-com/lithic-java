@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderListDocumentsParams
-import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
@@ -175,7 +174,7 @@ class AccountHolderServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val response = accountHolderService.list(AccountHolderListParams.builder().build())
+        val response = accountHolderService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

@@ -167,6 +167,8 @@ private constructor(
 
     companion object {
 
+        fun none(): ThreeDSDecisioningSimulateChallengeParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 

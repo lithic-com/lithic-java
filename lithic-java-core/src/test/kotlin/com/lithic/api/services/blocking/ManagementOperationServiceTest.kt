@@ -5,7 +5,6 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.ManagementOperationCreateParams
-import com.lithic.api.models.ManagementOperationListParams
 import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import java.time.LocalDate
@@ -72,8 +71,7 @@ class ManagementOperationServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val managementOperationService = client.managementOperations()
-        val managementOperationTransactionsResponse =
-            managementOperationService.list(ManagementOperationListParams.builder().build())
+        val managementOperationTransactionsResponse = managementOperationService.list()
         println(managementOperationTransactionsResponse)
         managementOperationTransactionsResponse.data().forEach { it.validate() }
     }

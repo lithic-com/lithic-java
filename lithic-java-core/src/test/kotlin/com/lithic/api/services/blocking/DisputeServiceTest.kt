@@ -9,7 +9,6 @@ import com.lithic.api.models.DisputeDeleteEvidenceParams
 import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
 import com.lithic.api.models.DisputeListEvidencesParams
-import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
@@ -90,7 +89,7 @@ class DisputeServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
-        val response = disputeService.list(DisputeListParams.builder().build())
+        val response = disputeService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

@@ -14,7 +14,11 @@ interface AggregateBalanceServiceAsync {
     /** Get the aggregated card balance across all end-user accounts. */
     @JvmOverloads
     fun list(
-        params: CardAggregateBalanceListParams,
+        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardAggregateBalanceListPageAsync>
+
+    /** Get the aggregated card balance across all end-user accounts. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<CardAggregateBalanceListPageAsync> =
+        list(CardAggregateBalanceListParams.none(), requestOptions)
 }

@@ -28,9 +28,13 @@ interface EventService {
     /** List all events. */
     @JvmOverloads
     fun list(
-        params: EventListParams,
+        params: EventListParams = EventListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventListPage
+
+    /** List all events. */
+    fun list(requestOptions: RequestOptions): EventListPage =
+        list(EventListParams.none(), requestOptions)
 
     /** List all the message attempts for a given event. */
     @JvmOverloads

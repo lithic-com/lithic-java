@@ -57,9 +57,15 @@ interface AccountHolderService {
      */
     @JvmOverloads
     fun list(
-        params: AccountHolderListParams,
+        params: AccountHolderListParams = AccountHolderListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderListPage
+
+    /**
+     * Get a list of individual or business account holders and their KYC or KYB evaluation status.
+     */
+    fun list(requestOptions: RequestOptions): AccountHolderListPage =
+        list(AccountHolderListParams.none(), requestOptions)
 
     /**
      * Retrieve the status of account holder document uploads, or retrieve the upload URLs to

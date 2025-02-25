@@ -33,6 +33,8 @@ private constructor(
 
     companion object {
 
+        fun none(): AuthStreamEnrollmentRetrieveSecretParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 
