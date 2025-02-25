@@ -22,7 +22,11 @@ interface DigitalCardArtService {
     /** List digital card art. */
     @JvmOverloads
     fun list(
-        params: DigitalCardArtListParams,
+        params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArtListPage
+
+    /** List digital card art. */
+    fun list(requestOptions: RequestOptions): DigitalCardArtListPage =
+        list(DigitalCardArtListParams.none(), requestOptions)
 }

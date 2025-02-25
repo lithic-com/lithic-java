@@ -13,7 +13,11 @@ interface BalanceService {
     /** Get the balances for a program, business, or a given end-user account */
     @JvmOverloads
     fun list(
-        params: BalanceListParams,
+        params: BalanceListParams = BalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BalanceListPage
+
+    /** Get the balances for a program, business, or a given end-user account */
+    fun list(requestOptions: RequestOptions): BalanceListPage =
+        list(BalanceListParams.none(), requestOptions)
 }

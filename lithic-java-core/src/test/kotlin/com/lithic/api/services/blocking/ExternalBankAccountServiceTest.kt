@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.ExternalBankAccountAddress
 import com.lithic.api.models.ExternalBankAccountCreateParams
-import com.lithic.api.models.ExternalBankAccountListParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
@@ -135,8 +134,7 @@ class ExternalBankAccountServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val bankAccountsApiResponse =
-            externalBankAccountService.list(ExternalBankAccountListParams.builder().build())
+        val bankAccountsApiResponse = externalBankAccountService.list()
         println(bankAccountsApiResponse)
         bankAccountsApiResponse.data().forEach { it.validate() }
     }

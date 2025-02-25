@@ -42,9 +42,13 @@ interface PaymentServiceAsync {
     /** List all the payments for the provided search criteria. */
     @JvmOverloads
     fun list(
-        params: PaymentListParams,
+        params: PaymentListParams = PaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentListPageAsync>
+
+    /** List all the payments for the provided search criteria. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<PaymentListPageAsync> =
+        list(PaymentListParams.none(), requestOptions)
 
     /** Retry an origination which has been returned. */
     @JvmOverloads

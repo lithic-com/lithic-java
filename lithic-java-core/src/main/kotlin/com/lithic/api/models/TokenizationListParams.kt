@@ -89,6 +89,8 @@ private constructor(
 
     companion object {
 
+        fun none(): TokenizationListParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 

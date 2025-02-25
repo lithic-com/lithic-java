@@ -37,9 +37,13 @@ interface AccountServiceAsync {
     /** List account configurations. */
     @JvmOverloads
     fun list(
-        params: AccountListParams,
+        params: AccountListParams = AccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountListPageAsync>
+
+    /** List account configurations. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<AccountListPageAsync> =
+        list(AccountListParams.none(), requestOptions)
 
     /**
      * Get an Account's available spend limits, which is based on the spend limit configured on the

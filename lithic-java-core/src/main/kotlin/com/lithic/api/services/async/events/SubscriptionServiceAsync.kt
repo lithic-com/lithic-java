@@ -48,9 +48,13 @@ interface SubscriptionServiceAsync {
     /** List all the event subscriptions. */
     @JvmOverloads
     fun list(
-        params: EventSubscriptionListParams,
+        params: EventSubscriptionListParams = EventSubscriptionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventSubscriptionListPageAsync>
+
+    /** List all the event subscriptions. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<EventSubscriptionListPageAsync> =
+        list(EventSubscriptionListParams.none(), requestOptions)
 
     /** Delete an event subscription. */
     @JvmOverloads

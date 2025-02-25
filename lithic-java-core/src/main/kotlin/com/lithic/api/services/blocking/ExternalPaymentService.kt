@@ -34,9 +34,13 @@ interface ExternalPaymentService {
     /** List external payments */
     @JvmOverloads
     fun list(
-        params: ExternalPaymentListParams,
+        params: ExternalPaymentListParams = ExternalPaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPaymentListPage
+
+    /** List external payments */
+    fun list(requestOptions: RequestOptions): ExternalPaymentListPage =
+        list(ExternalPaymentListParams.none(), requestOptions)
 
     /** Cancel external payment */
     @JvmOverloads

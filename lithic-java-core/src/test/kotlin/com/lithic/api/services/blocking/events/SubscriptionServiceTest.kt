@@ -7,7 +7,6 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.EventSubscriptionCreateParams
 import com.lithic.api.models.EventSubscriptionDeleteParams
 import com.lithic.api.models.EventSubscriptionListAttemptsParams
-import com.lithic.api.models.EventSubscriptionListParams
 import com.lithic.api.models.EventSubscriptionRecoverParams
 import com.lithic.api.models.EventSubscriptionReplayMissingParams
 import com.lithic.api.models.EventSubscriptionRetrieveParams
@@ -92,7 +91,7 @@ class SubscriptionServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
-        val response = subscriptionService.list(EventSubscriptionListParams.builder().build())
+        val response = subscriptionService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

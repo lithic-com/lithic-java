@@ -45,9 +45,13 @@ interface DisputeService {
     /** List disputes. */
     @JvmOverloads
     fun list(
-        params: DisputeListParams,
+        params: DisputeListParams = DisputeListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeListPage
+
+    /** List disputes. */
+    fun list(requestOptions: RequestOptions): DisputeListPage =
+        list(DisputeListParams.none(), requestOptions)
 
     /** Withdraw dispute. */
     @JvmOverloads

@@ -40,6 +40,8 @@ private constructor(
 
     companion object {
 
+        fun none(): TokenizationDecisioningRotateSecretParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 
