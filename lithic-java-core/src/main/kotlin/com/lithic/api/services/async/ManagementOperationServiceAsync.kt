@@ -32,9 +32,13 @@ interface ManagementOperationServiceAsync {
     /** List management operations */
     @JvmOverloads
     fun list(
-        params: ManagementOperationListParams,
+        params: ManagementOperationListParams = ManagementOperationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationListPageAsync>
+
+    /** List management operations */
+    fun list(requestOptions: RequestOptions): CompletableFuture<ManagementOperationListPageAsync> =
+        list(ManagementOperationListParams.none(), requestOptions)
 
     /** Reverse a management operation */
     @JvmOverloads

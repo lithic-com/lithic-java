@@ -5,7 +5,6 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.BookTransferCreateParams
-import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 import org.junit.jupiter.api.Test
@@ -65,7 +64,7 @@ class BookTransferServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val bookTransferService = client.bookTransfers()
-        val response = bookTransferService.list(BookTransferListParams.builder().build())
+        val response = bookTransferService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

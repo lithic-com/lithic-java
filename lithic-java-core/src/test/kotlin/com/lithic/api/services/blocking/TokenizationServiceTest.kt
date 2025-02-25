@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
-import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
@@ -45,7 +44,7 @@ class TokenizationServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val tokenizationService = client.tokenizations()
-        val response = tokenizationService.list(TokenizationListParams.builder().build())
+        val response = tokenizationService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

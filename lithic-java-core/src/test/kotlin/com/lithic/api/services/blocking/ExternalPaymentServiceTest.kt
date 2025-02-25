@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.ExternalPaymentCancelParams
 import com.lithic.api.models.ExternalPaymentCreateParams
-import com.lithic.api.models.ExternalPaymentListParams
 import com.lithic.api.models.ExternalPaymentReleaseParams
 import com.lithic.api.models.ExternalPaymentRetrieveParams
 import com.lithic.api.models.ExternalPaymentReverseParams
@@ -70,8 +69,7 @@ class ExternalPaymentServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
-        val externalPaymentsResponse =
-            externalPaymentService.list(ExternalPaymentListParams.builder().build())
+        val externalPaymentsResponse = externalPaymentService.list()
         println(externalPaymentsResponse)
         externalPaymentsResponse.data().forEach { it.validate() }
     }

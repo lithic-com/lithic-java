@@ -53,6 +53,8 @@ private constructor(
 
     companion object {
 
+        fun none(): EventSubscriptionListParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 

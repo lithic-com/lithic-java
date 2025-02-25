@@ -9,7 +9,6 @@ import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
-import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2ReportParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
@@ -112,7 +111,7 @@ class V2ServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val response = v2Service.list(AuthRuleV2ListParams.builder().build())
+        val response = v2Service.list()
         println(response)
         response.data().forEach { it.validate() }
     }

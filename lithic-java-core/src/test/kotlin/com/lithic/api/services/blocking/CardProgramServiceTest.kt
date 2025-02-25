@@ -4,7 +4,6 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -38,7 +37,7 @@ class CardProgramServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val cardProgramService = client.cardPrograms()
-        val response = cardProgramService.list(CardProgramListParams.builder().build())
+        val response = cardProgramService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

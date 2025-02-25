@@ -64,9 +64,13 @@ interface CardServiceAsync {
     /** List cards. */
     @JvmOverloads
     fun list(
-        params: CardListParams,
+        params: CardListParams = CardListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardListPageAsync>
+
+    /** List cards. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<CardListPageAsync> =
+        list(CardListParams.none(), requestOptions)
 
     /**
      * Convert a virtual card into a physical card and manufacture it. Customer must supply relevant

@@ -32,9 +32,13 @@ interface TokenizationServiceAsync {
     /** List card tokenizations */
     @JvmOverloads
     fun list(
-        params: TokenizationListParams,
+        params: TokenizationListParams = TokenizationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationListPageAsync>
+
+    /** List card tokenizations */
+    fun list(requestOptions: RequestOptions): CompletableFuture<TokenizationListPageAsync> =
+        list(TokenizationListParams.none(), requestOptions)
 
     /**
      * This endpoint is used to ask the card network to activate a tokenization. A successful

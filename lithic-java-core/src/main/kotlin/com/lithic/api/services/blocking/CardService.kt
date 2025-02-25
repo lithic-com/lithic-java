@@ -63,9 +63,13 @@ interface CardService {
     /** List cards. */
     @JvmOverloads
     fun list(
-        params: CardListParams,
+        params: CardListParams = CardListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardListPage
+
+    /** List cards. */
+    fun list(requestOptions: RequestOptions): CardListPage =
+        list(CardListParams.none(), requestOptions)
 
     /**
      * Convert a virtual card into a physical card and manufacture it. Customer must supply relevant

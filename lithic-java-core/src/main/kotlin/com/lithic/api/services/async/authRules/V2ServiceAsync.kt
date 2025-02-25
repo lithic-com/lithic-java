@@ -58,9 +58,13 @@ interface V2ServiceAsync {
     /** Lists V2 authorization rules */
     @JvmOverloads
     fun list(
-        params: AuthRuleV2ListParams,
+        params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthRuleV2ListPageAsync>
+
+    /** Lists V2 authorization rules */
+    fun list(requestOptions: RequestOptions): CompletableFuture<AuthRuleV2ListPageAsync> =
+        list(AuthRuleV2ListParams.none(), requestOptions)
 
     /** Deletes a V2 authorization rule */
     @JvmOverloads

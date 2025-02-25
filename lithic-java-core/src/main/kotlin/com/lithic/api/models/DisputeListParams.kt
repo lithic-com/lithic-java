@@ -92,6 +92,8 @@ private constructor(
 
     companion object {
 
+        fun none(): DisputeListParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 
