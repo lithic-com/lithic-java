@@ -4,7 +4,6 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountUpdateParams
@@ -74,7 +73,7 @@ class AccountServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
-        val response = accountService.list(AccountListParams.builder().build())
+        val response = accountService.list()
         println(response)
         response.data().forEach { it.validate() }
     }

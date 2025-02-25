@@ -56,9 +56,13 @@ interface FinancialAccountServiceAsync {
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads
     fun list(
-        params: FinancialAccountListParams,
+        params: FinancialAccountListParams = FinancialAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountListPageAsync>
+
+    /** Retrieve information on your financial accounts including routing and account number. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<FinancialAccountListPageAsync> =
+        list(FinancialAccountListParams.none(), requestOptions)
 
     /** Update issuing account state to charged off */
     @JvmOverloads

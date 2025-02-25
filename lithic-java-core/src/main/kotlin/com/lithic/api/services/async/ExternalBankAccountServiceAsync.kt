@@ -27,9 +27,15 @@ interface ExternalBankAccountServiceAsync {
     /** Creates an external bank account within a program or Lithic account. */
     @JvmOverloads
     fun create(
-        params: ExternalBankAccountCreateParams,
+        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse>
+
+    /** Creates an external bank account within a program or Lithic account. */
+    fun create(
+        requestOptions: RequestOptions
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(ExternalBankAccountCreateParams.none(), requestOptions)
 
     /** Get the external bank account by token. */
     @JvmOverloads
@@ -48,9 +54,13 @@ interface ExternalBankAccountServiceAsync {
     /** List all the external bank accounts for the provided search criteria. */
     @JvmOverloads
     fun list(
-        params: ExternalBankAccountListParams,
+        params: ExternalBankAccountListParams = ExternalBankAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountListPageAsync>
+
+    /** List all the external bank accounts for the provided search criteria. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<ExternalBankAccountListPageAsync> =
+        list(ExternalBankAccountListParams.none(), requestOptions)
 
     /** Retry external bank account micro deposit verification. */
     @JvmOverloads

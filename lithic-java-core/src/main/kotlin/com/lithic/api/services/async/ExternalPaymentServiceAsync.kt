@@ -35,9 +35,13 @@ interface ExternalPaymentServiceAsync {
     /** List external payments */
     @JvmOverloads
     fun list(
-        params: ExternalPaymentListParams,
+        params: ExternalPaymentListParams = ExternalPaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPaymentListPageAsync>
+
+    /** List external payments */
+    fun list(requestOptions: RequestOptions): CompletableFuture<ExternalPaymentListPageAsync> =
+        list(ExternalPaymentListParams.none(), requestOptions)
 
     /** Cancel external payment */
     @JvmOverloads

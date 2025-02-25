@@ -113,9 +113,13 @@ interface LithicClient {
     /** Status of api */
     @JvmOverloads
     fun apiStatus(
-        params: ClientApiStatusParams,
+        params: ClientApiStatusParams = ClientApiStatusParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ApiStatus
+
+    /** Status of api */
+    fun apiStatus(requestOptions: RequestOptions): ApiStatus =
+        apiStatus(ClientApiStatusParams.none(), requestOptions)
 
     /**
      * Closes this client, relinquishing any underlying resources.

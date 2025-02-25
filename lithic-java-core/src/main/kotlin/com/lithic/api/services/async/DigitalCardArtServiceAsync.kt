@@ -23,7 +23,11 @@ interface DigitalCardArtServiceAsync {
     /** List digital card art. */
     @JvmOverloads
     fun list(
-        params: DigitalCardArtListParams,
+        params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArtListPageAsync>
+
+    /** List digital card art. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<DigitalCardArtListPageAsync> =
+        list(DigitalCardArtListParams.none(), requestOptions)
 }

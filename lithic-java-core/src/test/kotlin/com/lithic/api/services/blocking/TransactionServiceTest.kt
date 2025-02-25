@@ -4,7 +4,6 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
@@ -45,8 +44,7 @@ class TransactionServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val listTransactionsResponse =
-            transactionService.list(TransactionListParams.builder().build())
+        val listTransactionsResponse = transactionService.list()
         println(listTransactionsResponse)
         listTransactionsResponse.data().forEach { it.validate() }
     }

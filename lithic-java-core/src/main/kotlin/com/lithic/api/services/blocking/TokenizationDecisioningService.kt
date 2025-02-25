@@ -21,9 +21,20 @@ interface TokenizationDecisioningService {
      */
     @JvmOverloads
     fun retrieveSecret(
-        params: TokenizationDecisioningRetrieveSecretParams,
+        params: TokenizationDecisioningRetrieveSecretParams =
+            TokenizationDecisioningRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationSecret
+
+    /**
+     * Retrieve the Tokenization Decisioning secret key. If one does not exist your program yet,
+     * calling this endpoint will create one for you. The headers of the Tokenization Decisioning
+     * request will contain a hmac signature which you can use to verify requests originate from
+     * Lithic. See [this page](https://docs.lithic.com/docs/events-api#verifying-webhooks) for more
+     * detail about verifying Tokenization Decisioning requests.
+     */
+    fun retrieveSecret(requestOptions: RequestOptions): TokenizationSecret =
+        retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
 
     /**
      * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
@@ -31,7 +42,15 @@ interface TokenizationDecisioningService {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: TokenizationDecisioningRotateSecretParams,
+        params: TokenizationDecisioningRotateSecretParams =
+            TokenizationDecisioningRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationDecisioningRotateSecretResponse
+
+    /**
+     * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
+     * key will be deactivated 24 hours after a successful request to this endpoint.
+     */
+    fun rotateSecret(requestOptions: RequestOptions): TokenizationDecisioningRotateSecretResponse =
+        rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
 }

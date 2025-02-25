@@ -29,9 +29,13 @@ interface EventServiceAsync {
     /** List all events. */
     @JvmOverloads
     fun list(
-        params: EventListParams,
+        params: EventListParams = EventListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventListPageAsync>
+
+    /** List all events. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<EventListPageAsync> =
+        list(EventListParams.none(), requestOptions)
 
     /** List all the message attempts for a given event. */
     @JvmOverloads

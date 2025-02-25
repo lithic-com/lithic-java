@@ -63,6 +63,8 @@ private constructor(
 
     companion object {
 
+        fun none(): AuthRuleV2ListParams = builder().build()
+
         @JvmStatic fun builder() = Builder()
     }
 

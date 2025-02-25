@@ -23,7 +23,11 @@ interface CardProgramServiceAsync {
     /** List card programs. */
     @JvmOverloads
     fun list(
-        params: CardProgramListParams,
+        params: CardProgramListParams = CardProgramListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgramListPageAsync>
+
+    /** List card programs. */
+    fun list(requestOptions: RequestOptions): CompletableFuture<CardProgramListPageAsync> =
+        list(CardProgramListParams.none(), requestOptions)
 }

@@ -55,9 +55,13 @@ interface FinancialAccountService {
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads
     fun list(
-        params: FinancialAccountListParams,
+        params: FinancialAccountListParams = FinancialAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountListPage
+
+    /** Retrieve information on your financial accounts including routing and account number. */
+    fun list(requestOptions: RequestOptions): FinancialAccountListPage =
+        list(FinancialAccountListParams.none(), requestOptions)
 
     /** Update issuing account state to charged off */
     @JvmOverloads
