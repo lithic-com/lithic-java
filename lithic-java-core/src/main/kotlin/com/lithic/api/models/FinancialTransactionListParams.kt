@@ -335,6 +335,8 @@ private constructor(
 
             @JvmField val CARD = of("CARD")
 
+            @JvmField val INTERNAL = of("INTERNAL")
+
             @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
@@ -344,6 +346,7 @@ private constructor(
         enum class Known {
             ACH,
             CARD,
+            INTERNAL,
             TRANSFER,
         }
 
@@ -359,6 +362,7 @@ private constructor(
         enum class Value {
             ACH,
             CARD,
+            INTERNAL,
             TRANSFER,
             /** An enum member indicating that [Category] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -375,6 +379,7 @@ private constructor(
             when (this) {
                 ACH -> Value.ACH
                 CARD -> Value.CARD
+                INTERNAL -> Value.INTERNAL
                 TRANSFER -> Value.TRANSFER
                 else -> Value._UNKNOWN
             }
@@ -392,6 +397,7 @@ private constructor(
             when (this) {
                 ACH -> Known.ACH
                 CARD -> Known.CARD
+                INTERNAL -> Known.INTERNAL
                 TRANSFER -> Known.TRANSFER
                 else -> throw LithicInvalidDataException("Unknown Category: $value")
             }
