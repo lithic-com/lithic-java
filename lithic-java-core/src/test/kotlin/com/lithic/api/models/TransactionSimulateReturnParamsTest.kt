@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ class TransactionSimulateReturnParamsTest {
     @Test
     fun create() {
         TransactionSimulateReturnParams.builder()
-            .amount(0L)
+            .amount(3831L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
             .build()
@@ -20,15 +21,15 @@ class TransactionSimulateReturnParamsTest {
     fun body() {
         val params =
             TransactionSimulateReturnParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }
@@ -37,15 +38,15 @@ class TransactionSimulateReturnParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateReturnParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }

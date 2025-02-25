@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,8 +11,8 @@ class TransactionSimulateVoidParamsTest {
     @Test
     fun create() {
         TransactionSimulateVoidParams.builder()
-            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .amount(0L)
+            .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+            .amount(100L)
             .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
             .build()
     }
@@ -20,16 +21,16 @@ class TransactionSimulateVoidParamsTest {
     fun body() {
         val params =
             TransactionSimulateVoidParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .amount(0L)
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+                .amount(100L)
                 .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.amount()).contains(0L)
+        assertNotNull(body)
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+        assertThat(body.amount()).contains(100L)
         assertThat(body.type()).contains(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
     }
 
@@ -37,12 +38,12 @@ class TransactionSimulateVoidParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateVoidParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertNotNull(body)
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 }

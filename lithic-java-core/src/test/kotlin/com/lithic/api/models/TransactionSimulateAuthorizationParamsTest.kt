@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ class TransactionSimulateAuthorizationParamsTest {
     @Test
     fun create() {
         TransactionSimulateAuthorizationParams.builder()
-            .amount(0L)
+            .amount(3831L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
             .mcc("5812")
@@ -27,7 +28,7 @@ class TransactionSimulateAuthorizationParamsTest {
     fun body() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .mcc("5812")
@@ -41,8 +42,8 @@ class TransactionSimulateAuthorizationParamsTest {
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.mcc()).contains("5812")
@@ -59,15 +60,15 @@ class TransactionSimulateAuthorizationParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
-                .amount(0L)
+                .amount(3831L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertNotNull(body)
+        assertThat(body.amount()).isEqualTo(3831L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }

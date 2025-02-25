@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.77.1 (2025-02-25)
+
+Full Changelog: [v0.77.0...v0.77.1](https://github.com/lithic-com/lithic-java/compare/v0.77.0...v0.77.1)
+
+### Chores
+
+* **api:** adds new `Internal` Category for FinancialTransactions ([#500](https://github.com/lithic-com/lithic-java/issues/500)) ([47e6474](https://github.com/lithic-com/lithic-java/commit/47e6474c8c064d275164dc80f42d473b710695fd))
+* revert accidental test changes ([2c223cb](https://github.com/lithic-com/lithic-java/commit/2c223cb2c51fc7cd20b4ba8f7bb84f236e71ff7f))
+
+
+### Documentation
+
+* add source file links to readme ([#499](https://github.com/lithic-com/lithic-java/issues/499)) ([bfbcbe9](https://github.com/lithic-com/lithic-java/commit/bfbcbe9c791249ee6979eb52e2357996391579af))
+
 ## 0.77.0 (2025-02-21)
 
 Full Changelog: [v0.76.0...v0.77.0](https://github.com/lithic-com/lithic-java/compare/v0.76.0...v0.77.0)

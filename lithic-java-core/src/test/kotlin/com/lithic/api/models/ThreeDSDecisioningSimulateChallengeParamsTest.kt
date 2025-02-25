@@ -11,7 +11,7 @@ class ThreeDSDecisioningSimulateChallengeParamsTest {
     @Test
     fun create() {
         ThreeDSDecisioningSimulateChallengeParams.builder()
-            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .build()
     }
 
@@ -19,13 +19,13 @@ class ThreeDSDecisioningSimulateChallengeParamsTest {
     fun body() {
         val params =
             ThreeDSDecisioningSimulateChallengeParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
 
         val body = params._body()
 
-        assertThat(body).isNotNull
-        assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertNotNull(body)
+        assertThat(body.token()).contains("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 
     @Test

@@ -12,7 +12,7 @@ class AccountUpdateParamsTest {
     fun create() {
         AccountUpdateParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .dailySpendLimit(0L)
+            .dailySpendLimit(1000L)
             .lifetimeSpendLimit(0L)
             .monthlySpendLimit(0L)
             .state(AccountUpdateParams.State.ACTIVE)
@@ -34,7 +34,7 @@ class AccountUpdateParamsTest {
         val params =
             AccountUpdateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .dailySpendLimit(0L)
+                .dailySpendLimit(1000L)
                 .lifetimeSpendLimit(0L)
                 .monthlySpendLimit(0L)
                 .state(AccountUpdateParams.State.ACTIVE)
@@ -53,7 +53,7 @@ class AccountUpdateParamsTest {
         val body = params._body()
 
         assertNotNull(body)
-        assertThat(body.dailySpendLimit()).contains(0L)
+        assertThat(body.dailySpendLimit()).contains(1000L)
         assertThat(body.lifetimeSpendLimit()).contains(0L)
         assertThat(body.monthlySpendLimit()).contains(0L)
         assertThat(body.state()).contains(AccountUpdateParams.State.ACTIVE)
