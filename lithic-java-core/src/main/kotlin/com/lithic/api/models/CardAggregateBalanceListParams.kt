@@ -44,7 +44,7 @@ private constructor(
 
     companion object {
 
-        fun none(): CardAggregateBalanceListParams = builder().build()
+        @JvmStatic fun none(): CardAggregateBalanceListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

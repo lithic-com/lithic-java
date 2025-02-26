@@ -1904,7 +1904,7 @@ private constructor(
 
     companion object {
 
-        fun none(): ExternalBankAccountCreateParams = builder().build()
+        @JvmStatic fun none(): ExternalBankAccountCreateParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

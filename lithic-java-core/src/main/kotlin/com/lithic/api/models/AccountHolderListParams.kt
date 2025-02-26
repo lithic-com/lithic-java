@@ -116,7 +116,7 @@ private constructor(
 
     companion object {
 
-        fun none(): AccountHolderListParams = builder().build()
+        @JvmStatic fun none(): AccountHolderListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

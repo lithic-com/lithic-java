@@ -44,7 +44,7 @@ private constructor(
 
     companion object {
 
-        fun none(): AggregateBalanceListParams = builder().build()
+        @JvmStatic fun none(): AggregateBalanceListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }
