@@ -15,13 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class FinancialAccountServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
+
         val financialAccount =
             financialAccountService.create(
                 FinancialAccountCreateParams.builder()
@@ -32,36 +33,38 @@ class FinancialAccountServiceTest {
                     .isForBenefitOf(true)
                     .build()
             )
-        println(financialAccount)
+
         financialAccount.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
+
         val financialAccount =
             financialAccountService.retrieve(
                 FinancialAccountRetrieveParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(financialAccount)
+
         financialAccount.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
+
         val financialAccount =
             financialAccountService.update(
                 FinancialAccountUpdateParams.builder()
@@ -69,31 +72,33 @@ class FinancialAccountServiceTest {
                     .nickname("nickname")
                     .build()
             )
-        println(financialAccount)
+
         financialAccount.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
-        val financialAccountsResponse = financialAccountService.list()
-        println(financialAccountsResponse)
-        financialAccountsResponse.data().forEach { it.validate() }
+
+        val page = financialAccountService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callChargeOff() {
+    fun chargeOff() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
+
         val financialAccountCreditConfig =
             financialAccountService.chargeOff(
                 FinancialAccountChargeOffParams.builder()
@@ -101,7 +106,7 @@ class FinancialAccountServiceTest {
                     .reason(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)
                     .build()
             )
-        println(financialAccountCreditConfig)
+
         financialAccountCreditConfig.validate()
     }
 }

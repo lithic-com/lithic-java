@@ -19,45 +19,48 @@ import org.junit.jupiter.api.extension.ExtendWith
 class TransactionServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
+
         val transaction =
             transactionService.retrieve(
                 TransactionRetrieveParams.builder()
                     .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(transaction)
+
         transaction.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val listTransactionsResponse = transactionService.list()
-        println(listTransactionsResponse)
-        listTransactionsResponse.data().forEach { it.validate() }
+
+        val page = transactionService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callSimulateAuthorization() {
+    fun simulateAuthorization() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateAuthorizationResponse =
+
+        val response =
             transactionService.simulateAuthorization(
                 TransactionSimulateAuthorizationParams.builder()
                     .amount(3831L)
@@ -72,57 +75,60 @@ class TransactionServiceTest {
                     .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
                     .build()
             )
-        println(transactionSimulateAuthorizationResponse)
-        transactionSimulateAuthorizationResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateAuthorizationAdvice() {
+    fun simulateAuthorizationAdvice() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateAuthorizationAdviceResponse =
+
+        val response =
             transactionService.simulateAuthorizationAdvice(
                 TransactionSimulateAuthorizationAdviceParams.builder()
                     .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                     .amount(3831L)
                     .build()
             )
-        println(transactionSimulateAuthorizationAdviceResponse)
-        transactionSimulateAuthorizationAdviceResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateClearing() {
+    fun simulateClearing() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateClearingResponse =
+
+        val response =
             transactionService.simulateClearing(
                 TransactionSimulateClearingParams.builder()
                     .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                     .amount(0L)
                     .build()
             )
-        println(transactionSimulateClearingResponse)
-        transactionSimulateClearingResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateCreditAuthorization() {
+    fun simulateCreditAuthorization() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateCreditAuthorizationResponse =
+
+        val response =
             transactionService.simulateCreditAuthorization(
                 TransactionSimulateCreditAuthorizationParams.builder()
                     .amount(3831L)
@@ -132,19 +138,20 @@ class TransactionServiceTest {
                     .merchantAcceptorId("XRKGDPOWEWQRRWU")
                     .build()
             )
-        println(transactionSimulateCreditAuthorizationResponse)
-        transactionSimulateCreditAuthorizationResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateReturn() {
+    fun simulateReturn() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateReturnResponse =
+
+        val response =
             transactionService.simulateReturn(
                 TransactionSimulateReturnParams.builder()
                     .amount(3831L)
@@ -152,37 +159,39 @@ class TransactionServiceTest {
                     .pan("4111111289144142")
                     .build()
             )
-        println(transactionSimulateReturnResponse)
-        transactionSimulateReturnResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateReturnReversal() {
+    fun simulateReturnReversal() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateReturnReversalResponse =
+
+        val response =
             transactionService.simulateReturnReversal(
                 TransactionSimulateReturnReversalParams.builder()
                     .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                     .build()
             )
-        println(transactionSimulateReturnReversalResponse)
-        transactionSimulateReturnReversalResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateVoid() {
+    fun simulateVoid() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val transactionSimulateVoidResponse =
+
+        val response =
             transactionService.simulateVoid(
                 TransactionSimulateVoidParams.builder()
                     .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
@@ -190,7 +199,7 @@ class TransactionServiceTest {
                     .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
                     .build()
             )
-        println(transactionSimulateVoidResponse)
-        transactionSimulateVoidResponse.validate()
+
+        response.validate()
     }
 }
