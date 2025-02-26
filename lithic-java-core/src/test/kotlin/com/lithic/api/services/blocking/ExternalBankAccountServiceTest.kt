@@ -20,14 +20,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class ExternalBankAccountServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val externalBankAccountCreateResponse =
+
+        val externalBankAccount =
             externalBankAccountService.create(
                 ExternalBankAccountCreateParams.builder()
                     .body(
@@ -68,37 +69,39 @@ class ExternalBankAccountServiceTest {
                     )
                     .build()
             )
-        println(externalBankAccountCreateResponse)
-        externalBankAccountCreateResponse.validate()
+
+        externalBankAccount.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val externalBankAccountRetrieveResponse =
+
+        val externalBankAccount =
             externalBankAccountService.retrieve(
                 ExternalBankAccountRetrieveParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(externalBankAccountRetrieveResponse)
-        externalBankAccountRetrieveResponse.validate()
+
+        externalBankAccount.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val externalBankAccountUpdateResponse =
+
+        val externalBankAccount =
             externalBankAccountService.update(
                 ExternalBankAccountUpdateParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -122,58 +125,61 @@ class ExternalBankAccountServiceTest {
                     .userDefinedId("x")
                     .build()
             )
-        println(externalBankAccountUpdateResponse)
-        externalBankAccountUpdateResponse.validate()
+
+        externalBankAccount.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val bankAccountsApiResponse = externalBankAccountService.list()
-        println(bankAccountsApiResponse)
-        bankAccountsApiResponse.data().forEach { it.validate() }
+
+        val page = externalBankAccountService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callRetryMicroDeposits() {
+    fun retryMicroDeposits() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val externalBankAccountRetryMicroDepositsResponse =
+
+        val response =
             externalBankAccountService.retryMicroDeposits(
                 ExternalBankAccountRetryMicroDepositsParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(externalBankAccountRetryMicroDepositsResponse)
-        externalBankAccountRetryMicroDepositsResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callRetryPrenote() {
+    fun retryPrenote() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
-        val externalBankAccountRetryPrenoteResponse =
+
+        val response =
             externalBankAccountService.retryPrenote(
                 ExternalBankAccountRetryPrenoteParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(externalBankAccountRetryPrenoteResponse)
-        externalBankAccountRetryPrenoteResponse.validate()
+
+        response.validate()
     }
 }

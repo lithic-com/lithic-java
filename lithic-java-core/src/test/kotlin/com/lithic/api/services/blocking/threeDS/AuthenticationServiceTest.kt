@@ -13,32 +13,34 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AuthenticationServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val authenticationService = client.threeDS().authentication()
-        val authenticationRetrieveResponse =
+
+        val authentication =
             authenticationService.retrieve(
                 ThreeDSAuthenticationRetrieveParams.builder()
                     .threeDSAuthenticationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(authenticationRetrieveResponse)
-        authenticationRetrieveResponse.validate()
+
+        authentication.validate()
     }
 
     @Test
-    fun callSimulate() {
+    fun simulate() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val authenticationService = client.threeDS().authentication()
-        val authenticationSimulateResponse =
+
+        val response =
             authenticationService.simulate(
                 ThreeDSAuthenticationSimulateParams.builder()
                     .merchant(
@@ -59,7 +61,7 @@ class AuthenticationServiceTest {
                     .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
                     .build()
             )
-        println(authenticationSimulateResponse)
-        authenticationSimulateResponse.validate()
+
+        response.validate()
     }
 }

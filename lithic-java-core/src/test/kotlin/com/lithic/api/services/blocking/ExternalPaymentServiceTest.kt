@@ -18,13 +18,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class ExternalPaymentServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.create(
                 ExternalPaymentCreateParams.builder()
@@ -39,49 +40,52 @@ class ExternalPaymentServiceTest {
                     .userDefinedId("user_defined_id")
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.retrieve(
                 ExternalPaymentRetrieveParams.builder()
                     .externalPaymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
-        val externalPaymentsResponse = externalPaymentService.list()
-        println(externalPaymentsResponse)
-        externalPaymentsResponse.data().forEach { it.validate() }
+
+        val page = externalPaymentService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callCancel() {
+    fun cancel() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.cancel(
                 ExternalPaymentCancelParams.builder()
@@ -90,18 +94,19 @@ class ExternalPaymentServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 
     @Test
-    fun callRelease() {
+    fun release() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.release(
                 ExternalPaymentReleaseParams.builder()
@@ -110,18 +115,19 @@ class ExternalPaymentServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 
     @Test
-    fun callReverse() {
+    fun reverse() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.reverse(
                 ExternalPaymentReverseParams.builder()
@@ -130,18 +136,19 @@ class ExternalPaymentServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 
     @Test
-    fun callSettle() {
+    fun settle() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val externalPaymentService = client.externalPayments()
+
         val externalPayment =
             externalPaymentService.settle(
                 ExternalPaymentSettleParams.builder()
@@ -151,7 +158,7 @@ class ExternalPaymentServiceTest {
                     .progressTo(ExternalPaymentSettleParams.ExternalPaymentProgressTo.SETTLED)
                     .build()
             )
-        println(externalPayment)
+
         externalPayment.validate()
     }
 }

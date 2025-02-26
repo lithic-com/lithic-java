@@ -11,29 +11,30 @@ import org.junit.jupiter.api.extension.ExtendWith
 class TokenizationDecisioningServiceTest {
 
     @Test
-    fun callRetrieveSecret() {
+    fun retrieveSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
+
         val tokenizationSecret = tokenizationDecisioningService.retrieveSecret()
-        println(tokenizationSecret)
+
         tokenizationSecret.validate()
     }
 
     @Test
-    fun callRotateSecret() {
+    fun rotateSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
-        val tokenizationDecisioningRotateSecretResponse =
-            tokenizationDecisioningService.rotateSecret()
-        println(tokenizationDecisioningRotateSecretResponse)
-        tokenizationDecisioningRotateSecretResponse.validate()
+
+        val response = tokenizationDecisioningService.rotateSecret()
+
+        response.validate()
     }
 }
