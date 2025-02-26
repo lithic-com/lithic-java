@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.78.0 (2025-02-26)
+
+Full Changelog: [v0.77.0...v0.78.0](https://github.com/lithic-com/lithic-java/compare/v0.77.0...v0.78.0)
+
+### Features
+
+* **client:** allow omitting params object when none required ([#501](https://github.com/lithic-com/lithic-java/issues/501)) ([7327186](https://github.com/lithic-com/lithic-java/commit/73271863ffba792800e304e2bcdb69b28da2f063))
+
+
+### Bug Fixes
+
+* **client:** add missing `@JvmStatic` ([#502](https://github.com/lithic-com/lithic-java/issues/502)) ([98c3d49](https://github.com/lithic-com/lithic-java/commit/98c3d49f6f1a1509a18331ec41026ae3b009286f))
+
+
+### Chores
+
+* **api:** adds new `Internal` Category for FinancialTransactions ([#500](https://github.com/lithic-com/lithic-java/issues/500)) ([47e6474](https://github.com/lithic-com/lithic-java/commit/47e6474c8c064d275164dc80f42d473b710695fd))
+* revert accidental test changes ([2c223cb](https://github.com/lithic-com/lithic-java/commit/2c223cb2c51fc7cd20b4ba8f7bb84f236e71ff7f))
+
+
+### Documentation
+
+* add source file links to readme ([#499](https://github.com/lithic-com/lithic-java/issues/499)) ([bfbcbe9](https://github.com/lithic-com/lithic-java/commit/bfbcbe9c791249ee6979eb52e2357996391579af))
+
 ## 0.77.0 (2025-02-21)
 
 Full Changelog: [v0.76.0...v0.77.0](https://github.com/lithic-com/lithic-java/compare/v0.76.0...v0.77.0)
