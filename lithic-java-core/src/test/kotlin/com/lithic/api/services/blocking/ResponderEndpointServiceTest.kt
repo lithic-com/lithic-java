@@ -15,33 +15,35 @@ import org.junit.jupiter.api.extension.ExtendWith
 class ResponderEndpointServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
-        val responderEndpointCreateResponse =
+
+        val responderEndpoint =
             responderEndpointService.create(
                 ResponderEndpointCreateParams.builder()
                     .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
                     .url("https://example.com")
                     .build()
             )
-        println(responderEndpointCreateResponse)
-        responderEndpointCreateResponse.validate()
+
+        responderEndpoint.validate()
     }
 
     @Disabled("Prism errors when accept header set but no request body is defined")
     @Test
-    fun callDelete() {
+    fun delete() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
+
         responderEndpointService.delete(
             ResponderEndpointDeleteParams.builder()
                 .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
@@ -50,20 +52,21 @@ class ResponderEndpointServiceTest {
     }
 
     @Test
-    fun callCheckStatus() {
+    fun checkStatus() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
+
         val responderEndpointStatus =
             responderEndpointService.checkStatus(
                 ResponderEndpointCheckStatusParams.builder()
                     .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                     .build()
             )
-        println(responderEndpointStatus)
+
         responderEndpointStatus.validate()
     }
 }

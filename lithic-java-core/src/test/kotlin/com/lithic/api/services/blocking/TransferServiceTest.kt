@@ -12,13 +12,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class TransferServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val transferService = client.transfers()
+
         val transfer =
             transferService.create(
                 TransferCreateParams.builder()
@@ -29,7 +30,7 @@ class TransferServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(transfer)
+
         transfer.validate()
     }
 }
