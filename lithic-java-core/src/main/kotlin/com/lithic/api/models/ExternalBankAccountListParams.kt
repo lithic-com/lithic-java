@@ -91,7 +91,7 @@ private constructor(
 
     companion object {
 
-        fun none(): ExternalBankAccountListParams = builder().build()
+        @JvmStatic fun none(): ExternalBankAccountListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }
