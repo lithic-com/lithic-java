@@ -12,20 +12,21 @@ import org.junit.jupiter.api.extension.ExtendWith
 class ExtendedCreditServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val extendedCreditService = client.creditProducts().extendedCredit()
+
         val extendedCredit =
             extendedCreditService.retrieve(
                 CreditProductExtendedCreditRetrieveParams.builder()
                     .creditProductToken("credit_product_token")
                     .build()
             )
-        println(extendedCredit)
+
         extendedCredit.validate()
     }
 }

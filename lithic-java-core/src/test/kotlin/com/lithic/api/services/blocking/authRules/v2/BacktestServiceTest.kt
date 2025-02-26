@@ -14,14 +14,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class BacktestServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val backtestService = client.authRules().v2().backtests()
-        val backtestCreateResponse =
+
+        val backtest =
             backtestService.create(
                 AuthRuleV2BacktestCreateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -29,18 +30,19 @@ class BacktestServiceTest {
                     .start(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        println(backtestCreateResponse)
-        backtestCreateResponse.validate()
+
+        backtest.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val backtestService = client.authRules().v2().backtests()
+
         val backtestResults =
             backtestService.retrieve(
                 AuthRuleV2BacktestRetrieveParams.builder()
@@ -48,7 +50,7 @@ class BacktestServiceTest {
                     .authRuleBacktestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(backtestResults)
+
         backtestResults.validate()
     }
 }

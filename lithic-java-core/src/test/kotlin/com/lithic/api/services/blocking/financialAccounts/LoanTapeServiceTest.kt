@@ -13,13 +13,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class LoanTapeServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val loanTapeService = client.financialAccounts().loanTapes()
+
         val loanTape =
             loanTapeService.retrieve(
                 FinancialAccountLoanTapeRetrieveParams.builder()
@@ -27,25 +28,26 @@ class LoanTapeServiceTest {
                     .loanTapeToken("loan_tape_token")
                     .build()
             )
-        println(loanTape)
+
         loanTape.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val loanTapeService = client.financialAccounts().loanTapes()
-        val loanTapesResponse =
+
+        val page =
             loanTapeService.list(
                 FinancialAccountLoanTapeListParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(loanTapesResponse)
-        loanTapesResponse.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 }

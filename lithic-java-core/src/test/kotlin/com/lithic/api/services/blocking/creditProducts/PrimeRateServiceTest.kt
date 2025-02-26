@@ -14,13 +14,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class PrimeRateServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val primeRateService = client.creditProducts().primeRates()
+
         primeRateService.create(
             CreditProductPrimeRateCreateParams.builder()
                 .creditProductToken("credit_product_token")
@@ -31,14 +32,15 @@ class PrimeRateServiceTest {
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val primeRateService = client.creditProducts().primeRates()
-        val primeRateRetrieveResponse =
+
+        val primeRate =
             primeRateService.retrieve(
                 CreditProductPrimeRateRetrieveParams.builder()
                     .creditProductToken("credit_product_token")
@@ -46,7 +48,7 @@ class PrimeRateServiceTest {
                     .startingAfter(LocalDate.parse("2019-12-27"))
                     .build()
             )
-        println(primeRateRetrieveResponse)
-        primeRateRetrieveResponse.validate()
+
+        primeRate.validate()
     }
 }

@@ -11,15 +11,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 class BalanceServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val balanceService = client.balances()
-        val response = balanceService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = balanceService.list()
+
+        page.response().validate()
     }
 }

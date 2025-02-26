@@ -15,32 +15,34 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AccountServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
+
         val account =
             accountService.retrieve(
                 AccountRetrieveParams.builder()
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(account)
+
         account.validate()
     }
 
     @Disabled("Prism returns invalid data")
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
+
         val account =
             accountService.update(
                 AccountUpdateParams.builder()
@@ -61,38 +63,40 @@ class AccountServiceTest {
                     )
                     .build()
             )
-        println(account)
+
         account.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
-        val response = accountService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = accountService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callRetrieveSpendLimits() {
+    fun retrieveSpendLimits() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
+
         val accountSpendLimits =
             accountService.retrieveSpendLimits(
                 AccountRetrieveSpendLimitsParams.builder()
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountSpendLimits)
+
         accountSpendLimits.validate()
     }
 }
