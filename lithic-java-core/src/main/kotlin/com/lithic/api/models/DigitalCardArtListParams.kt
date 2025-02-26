@@ -53,7 +53,7 @@ private constructor(
 
     companion object {
 
-        fun none(): DigitalCardArtListParams = builder().build()
+        @JvmStatic fun none(): DigitalCardArtListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

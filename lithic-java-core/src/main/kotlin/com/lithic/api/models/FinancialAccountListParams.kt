@@ -53,7 +53,7 @@ private constructor(
 
     companion object {
 
-        fun none(): FinancialAccountListParams = builder().build()
+        @JvmStatic fun none(): FinancialAccountListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

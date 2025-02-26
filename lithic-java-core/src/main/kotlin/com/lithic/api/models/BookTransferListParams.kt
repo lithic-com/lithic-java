@@ -114,7 +114,7 @@ private constructor(
 
     companion object {
 
-        fun none(): BookTransferListParams = builder().build()
+        @JvmStatic fun none(): BookTransferListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }

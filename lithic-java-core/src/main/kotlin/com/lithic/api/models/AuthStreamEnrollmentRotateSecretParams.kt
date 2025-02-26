@@ -42,7 +42,7 @@ private constructor(
 
     companion object {
 
-        fun none(): AuthStreamEnrollmentRotateSecretParams = builder().build()
+        @JvmStatic fun none(): AuthStreamEnrollmentRotateSecretParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }
