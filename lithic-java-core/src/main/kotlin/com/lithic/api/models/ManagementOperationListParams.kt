@@ -105,7 +105,7 @@ private constructor(
 
     companion object {
 
-        fun none(): ManagementOperationListParams = builder().build()
+        @JvmStatic fun none(): ManagementOperationListParams = builder().build()
 
         @JvmStatic fun builder() = Builder()
     }
