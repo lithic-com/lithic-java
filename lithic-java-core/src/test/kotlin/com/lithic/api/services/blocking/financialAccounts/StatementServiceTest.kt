@@ -13,13 +13,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class StatementServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val statementService = client.financialAccounts().statements()
+
         val statement =
             statementService.retrieve(
                 FinancialAccountStatementRetrieveParams.builder()
@@ -27,25 +28,26 @@ class StatementServiceTest {
                     .statementToken("statement_token")
                     .build()
             )
-        println(statement)
+
         statement.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val statementService = client.financialAccounts().statements()
-        val statements =
+
+        val page =
             statementService.list(
                 FinancialAccountStatementListParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(statements)
-        statements.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 }

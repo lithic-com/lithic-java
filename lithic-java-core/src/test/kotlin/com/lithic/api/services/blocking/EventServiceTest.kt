@@ -13,45 +13,48 @@ import org.junit.jupiter.api.extension.ExtendWith
 class EventServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val eventService = client.events()
+
         val event =
             eventService.retrieve(EventRetrieveParams.builder().eventToken("event_token").build())
-        println(event)
+
         event.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val eventService = client.events()
-        val response = eventService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = eventService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callListAttempts() {
+    fun listAttempts() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val eventService = client.events()
-        val response =
+
+        val page =
             eventService.listAttempts(
                 EventListAttemptsParams.builder().eventToken("event_token").build()
             )
-        println(response)
-        response.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 }

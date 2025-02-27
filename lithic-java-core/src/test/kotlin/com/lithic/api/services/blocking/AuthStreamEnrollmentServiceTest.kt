@@ -11,26 +11,28 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AuthStreamEnrollmentServiceTest {
 
     @Test
-    fun callRetrieveSecret() {
+    fun retrieveSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
+
         val authStreamSecret = authStreamEnrollmentService.retrieveSecret()
-        println(authStreamSecret)
+
         authStreamSecret.validate()
     }
 
     @Test
-    fun callRotateSecret() {
+    fun rotateSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
+
         authStreamEnrollmentService.rotateSecret()
     }
 }

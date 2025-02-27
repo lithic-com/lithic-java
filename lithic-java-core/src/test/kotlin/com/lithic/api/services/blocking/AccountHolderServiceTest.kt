@@ -21,14 +21,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AccountHolderServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderCreateResponse =
+
+        val accountHolder =
             accountHolderService.create(
                 AccountHolderCreateParams.builder()
                     .body(
@@ -123,37 +124,39 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(accountHolderCreateResponse)
-        accountHolderCreateResponse.validate()
+
+        accountHolder.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val accountHolder =
             accountHolderService.retrieve(
                 AccountHolderRetrieveParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolder)
+
         accountHolder.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderUpdateResponse =
+
+        val accountHolder =
             accountHolderService.update(
                 AccountHolderUpdateParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -162,49 +165,52 @@ class AccountHolderServiceTest {
                     .phoneNumber("phone_number")
                     .build()
             )
-        println(accountHolderUpdateResponse)
-        accountHolderUpdateResponse.validate()
+
+        accountHolder.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val response = accountHolderService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = accountHolderService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callListDocuments() {
+    fun listDocuments() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderListDocumentsResponse =
+
+        val response =
             accountHolderService.listDocuments(
                 AccountHolderListDocumentsParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolderListDocumentsResponse)
-        accountHolderListDocumentsResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callRetrieveDocument() {
+    fun retrieveDocument() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.retrieveDocument(
                 AccountHolderRetrieveDocumentParams.builder()
@@ -212,18 +218,19 @@ class AccountHolderServiceTest {
                     .documentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 
     @Test
-    fun callSimulateEnrollmentDocumentReview() {
+    fun simulateEnrollmentDocumentReview() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.simulateEnrollmentDocumentReview(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
@@ -237,19 +244,20 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 
     @Test
-    fun callSimulateEnrollmentReview() {
+    fun simulateEnrollmentReview() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderSimulateEnrollmentReviewResponse =
+
+        val response =
             accountHolderService.simulateEnrollmentReview(
                 AccountHolderSimulateEnrollmentReviewParams.builder()
                     .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
@@ -260,18 +268,19 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(accountHolderSimulateEnrollmentReviewResponse)
-        accountHolderSimulateEnrollmentReviewResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callUploadDocument() {
+    fun uploadDocument() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.uploadDocument(
                 AccountHolderUploadDocumentParams.builder()
@@ -280,7 +289,7 @@ class AccountHolderServiceTest {
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 }

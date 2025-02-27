@@ -12,20 +12,21 @@ import org.junit.jupiter.api.extension.ExtendWith
 class EnhancedCommercialDataServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val enhancedCommercialDataService = client.transactions().events().enhancedCommercialData()
+
         val enhancedData =
             enhancedCommercialDataService.retrieve(
                 TransactionEventEnhancedCommercialDataRetrieveParams.builder()
                     .eventToken("00000000-0000-0000-0000-000000000000")
                     .build()
             )
-        println(enhancedData)
+
         enhancedData.validate()
     }
 }

@@ -20,13 +20,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DisputeServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val dispute =
             disputeService.create(
                 DisputeCreateParams.builder()
@@ -37,36 +38,38 @@ class DisputeServiceTest {
                     .customerNote("customer_note")
                     .build()
             )
-        println(dispute)
+
         dispute.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val dispute =
             disputeService.retrieve(
                 DisputeRetrieveParams.builder()
                     .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(dispute)
+
         dispute.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val dispute =
             disputeService.update(
                 DisputeUpdateParams.builder()
@@ -77,49 +80,52 @@ class DisputeServiceTest {
                     .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
                     .build()
             )
-        println(dispute)
+
         dispute.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
-        val response = disputeService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = disputeService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callDelete() {
+    fun delete() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val dispute =
             disputeService.delete(
                 DisputeDeleteParams.builder()
                     .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(dispute)
+
         dispute.validate()
     }
 
     @Test
-    fun callDeleteEvidence() {
+    fun deleteEvidence() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val disputeEvidence =
             disputeService.deleteEvidence(
                 DisputeDeleteEvidenceParams.builder()
@@ -127,18 +133,19 @@ class DisputeServiceTest {
                     .evidenceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(disputeEvidence)
+
         disputeEvidence.validate()
     }
 
     @Test
-    fun callInitiateEvidenceUpload() {
+    fun initiateEvidenceUpload() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val disputeEvidence =
             disputeService.initiateEvidenceUpload(
                 DisputeInitiateEvidenceUploadParams.builder()
@@ -146,36 +153,38 @@ class DisputeServiceTest {
                     .filename("filename")
                     .build()
             )
-        println(disputeEvidence)
+
         disputeEvidence.validate()
     }
 
     @Test
-    fun callListEvidences() {
+    fun listEvidences() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
-        val response =
+
+        val page =
             disputeService.listEvidences(
                 DisputeListEvidencesParams.builder()
                     .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(response)
-        response.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 
     @Test
-    fun callRetrieveEvidence() {
+    fun retrieveEvidence() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
+
         val disputeEvidence =
             disputeService.retrieveEvidence(
                 DisputeRetrieveEvidenceParams.builder()
@@ -183,7 +192,7 @@ class DisputeServiceTest {
                     .evidenceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(disputeEvidence)
+
         disputeEvidence.validate()
     }
 }

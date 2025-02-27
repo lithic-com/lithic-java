@@ -15,13 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class ManagementOperationServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val managementOperationService = client.managementOperations()
+
         val managementOperationTransaction =
             managementOperationService.create(
                 ManagementOperationCreateParams.builder()
@@ -41,49 +42,52 @@ class ManagementOperationServiceTest {
                     .userDefinedId("user_defined_id")
                     .build()
             )
-        println(managementOperationTransaction)
+
         managementOperationTransaction.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val managementOperationService = client.managementOperations()
+
         val managementOperationTransaction =
             managementOperationService.retrieve(
                 ManagementOperationRetrieveParams.builder()
                     .managementOperationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(managementOperationTransaction)
+
         managementOperationTransaction.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val managementOperationService = client.managementOperations()
-        val managementOperationTransactionsResponse = managementOperationService.list()
-        println(managementOperationTransactionsResponse)
-        managementOperationTransactionsResponse.data().forEach { it.validate() }
+
+        val page = managementOperationService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callReverse() {
+    fun reverse() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val managementOperationService = client.managementOperations()
+
         val managementOperationTransaction =
             managementOperationService.reverse(
                 ManagementOperationReverseParams.builder()
@@ -92,7 +96,7 @@ class ManagementOperationServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(managementOperationTransaction)
+
         managementOperationTransaction.validate()
     }
 }
