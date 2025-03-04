@@ -53,7 +53,16 @@ interface AccountHolderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolder>
 
-    /** Update the information associated with a particular account holder. */
+    /**
+     * Update the information associated with a particular account holder (including business owners
+     * and control persons associated to a business account). If Lithic is performing KYB or KYC and
+     * additional verification is required we will run the individual's or business's updated
+     * information again and return whether the status is accepted or pending (i.e., further action
+     * required). All calls to this endpoint will return an immediate response - though in some
+     * cases, the response may indicate the workflow is under review or further action will be
+     * needed to complete the evaluation process. This endpoint can only be used on existing
+     * accounts that are part of the program that the calling API key manages.
+     */
     @JvmOverloads
     fun update(
         params: AccountHolderUpdateParams,

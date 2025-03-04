@@ -6,10 +6,12 @@ package com.lithic.api.services.async.threeDS
 
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthenticationRetrieveResponse
 import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import java.util.concurrent.CompletableFuture
 
@@ -39,6 +41,18 @@ interface AuthenticationServiceAsync {
     ): CompletableFuture<AuthenticationSimulateResponse>
 
     /**
+     * Endpoint for simulating entering OTP into 3DS Challenge UI. A call to
+     * /v1/three_ds_authentication/simulate that resulted in triggered SMS-OTP challenge must
+     * precede. Only a single attempt is supported; upon entering OTP, the challenge is either
+     * approved or declined.
+     */
+    @JvmOverloads
+    fun simulateOtpEntry(
+        params: ThreeDSAuthenticationSimulateOtpEntryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?>
+
+    /**
      * A view of [AuthenticationServiceAsync] that provides access to raw HTTP responses for each
      * method.
      */
@@ -66,5 +80,16 @@ interface AuthenticationServiceAsync {
             params: ThreeDSAuthenticationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AuthenticationSimulateResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/enter_otp`, but
+         * is otherwise the same as [AuthenticationServiceAsync.simulateOtpEntry].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateOtpEntry(
+            params: ThreeDSAuthenticationSimulateOtpEntryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
     }
 }

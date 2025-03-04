@@ -6,10 +6,12 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthenticationRetrieveResponse
 import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 
 interface AuthenticationService {
@@ -38,6 +40,18 @@ interface AuthenticationService {
     ): AuthenticationSimulateResponse
 
     /**
+     * Endpoint for simulating entering OTP into 3DS Challenge UI. A call to
+     * /v1/three_ds_authentication/simulate that resulted in triggered SMS-OTP challenge must
+     * precede. Only a single attempt is supported; upon entering OTP, the challenge is either
+     * approved or declined.
+     */
+    @JvmOverloads
+    fun simulateOtpEntry(
+        params: ThreeDSAuthenticationSimulateOtpEntryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    )
+
+    /**
      * A view of [AuthenticationService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
@@ -64,5 +78,16 @@ interface AuthenticationService {
             params: ThreeDSAuthenticationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthenticationSimulateResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/enter_otp`, but
+         * is otherwise the same as [AuthenticationService.simulateOtpEntry].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateOtpEntry(
+            params: ThreeDSAuthenticationSimulateOtpEntryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
     }
 }

@@ -18,12 +18,9 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
-import com.lithic.api.models.DecisioningSimulateChallengeResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
-import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
-import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 
 class DecisioningServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     DecisioningService {
@@ -55,21 +52,6 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
     ) {
         // post /v1/three_ds_decisioning/secret/rotate
         withRawResponse().rotateSecret(params, requestOptions)
-    }
-
-    override fun simulateChallenge(
-        params: ThreeDSDecisioningSimulateChallengeParams,
-        requestOptions: RequestOptions,
-    ): DecisioningSimulateChallengeResponse =
-        // post /v1/three_ds_decisioning/simulate/challenge
-        withRawResponse().simulateChallenge(params, requestOptions).parse()
-
-    override fun simulateChallengeResponse(
-        params: ThreeDSDecisioningSimulateChallengeResponseParams,
-        requestOptions: RequestOptions,
-    ) {
-        // post /v1/three_ds_decisioning/simulate/challenge_response
-        withRawResponse().simulateChallengeResponse(params, requestOptions)
     }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -140,55 +122,6 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
             return response.parseable { response.use { rotateSecretHandler.handle(it) } }
-        }
-
-        private val simulateChallengeHandler: Handler<DecisioningSimulateChallengeResponse> =
-            jsonHandler<DecisioningSimulateChallengeResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
-
-        override fun simulateChallenge(
-            params: ThreeDSDecisioningSimulateChallengeParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<DecisioningSimulateChallengeResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge")
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { simulateChallengeHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-        }
-
-        private val simulateChallengeResponseHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
-
-        override fun simulateChallengeResponse(
-            params: ThreeDSDecisioningSimulateChallengeResponseParams,
-            requestOptions: RequestOptions,
-        ): HttpResponse {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge_response")
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response.use { simulateChallengeResponseHandler.handle(it) }
-            }
         }
     }
 }

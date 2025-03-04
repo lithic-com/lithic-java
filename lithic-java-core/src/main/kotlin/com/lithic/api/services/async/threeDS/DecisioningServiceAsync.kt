@@ -9,12 +9,9 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
-import com.lithic.api.models.DecisioningSimulateChallengeResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
-import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
-import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 import java.util.concurrent.CompletableFuture
 
 interface DecisioningServiceAsync {
@@ -81,38 +78,6 @@ interface DecisioningServiceAsync {
         rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
 
     /**
-     * Simulates a 3DS authentication challenge request from the payment network as if it came from
-     * an ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's
-     * Challenge solution.
-     */
-    @JvmOverloads
-    fun simulateChallenge(
-        params: ThreeDSDecisioningSimulateChallengeParams =
-            ThreeDSDecisioningSimulateChallengeParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<DecisioningSimulateChallengeResponse>
-
-    /**
-     * Simulates a 3DS authentication challenge request from the payment network as if it came from
-     * an ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's
-     * Challenge solution.
-     */
-    fun simulateChallenge(
-        requestOptions: RequestOptions
-    ): CompletableFuture<DecisioningSimulateChallengeResponse> =
-        simulateChallenge(ThreeDSDecisioningSimulateChallengeParams.none(), requestOptions)
-
-    /**
-     * Endpoint for responding to a 3DS Challenge initiated by a call to
-     * /v1/three_ds_decisioning/simulate/challenge
-     */
-    @JvmOverloads
-    fun simulateChallengeResponse(
-        params: ThreeDSDecisioningSimulateChallengeResponseParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<Void?>
-
-    /**
      * A view of [DecisioningServiceAsync] that provides access to raw HTTP responses for each
      * method.
      */
@@ -170,39 +135,5 @@ interface DecisioningServiceAsync {
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/challenge`, but
-         * is otherwise the same as [DecisioningServiceAsync.simulateChallenge].
-         */
-        @JvmOverloads
-        @MustBeClosed
-        fun simulateChallenge(
-            params: ThreeDSDecisioningSimulateChallengeParams =
-                ThreeDSDecisioningSimulateChallengeParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<DecisioningSimulateChallengeResponse>>
-
-        /**
-         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/challenge`, but
-         * is otherwise the same as [DecisioningServiceAsync.simulateChallenge].
-         */
-        @MustBeClosed
-        fun simulateChallenge(
-            requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<DecisioningSimulateChallengeResponse>> =
-            simulateChallenge(ThreeDSDecisioningSimulateChallengeParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /v1/three_ds_decisioning/simulate/challenge_response`, but is otherwise the same as
-         * [DecisioningServiceAsync.simulateChallengeResponse].
-         */
-        @JvmOverloads
-        @MustBeClosed
-        fun simulateChallengeResponse(
-            params: ThreeDSDecisioningSimulateChallengeResponseParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponse>
     }
 }

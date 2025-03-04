@@ -18,6 +18,8 @@ import com.lithic.api.models.ReportSettlementListDetailsPage
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
+import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
+import com.lithic.api.services.blocking.reports.settlement.NetworkTotalServiceImpl
 
 class SettlementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SettlementService {
@@ -26,7 +28,13 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
         WithRawResponseImpl(clientOptions)
     }
 
+    private val networkTotals: NetworkTotalService by lazy {
+        NetworkTotalServiceImpl(clientOptions)
+    }
+
     override fun withRawResponse(): SettlementService.WithRawResponse = withRawResponse
+
+    override fun networkTotals(): NetworkTotalService = networkTotals
 
     override fun listDetails(
         params: ReportSettlementListDetailsParams,
@@ -46,6 +54,12 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
         SettlementService.WithRawResponse {
 
         private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val networkTotals: NetworkTotalService.WithRawResponse by lazy {
+            NetworkTotalServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun networkTotals(): NetworkTotalService.WithRawResponse = networkTotals
 
         private val listDetailsHandler: Handler<ReportSettlementListDetailsPage.Response> =
             jsonHandler<ReportSettlementListDetailsPage.Response>(clientOptions.jsonMapper)
