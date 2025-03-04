@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -212,14 +213,8 @@ private constructor(
         /** Reason for the evaluation status. */
         fun addStatusReason(statusReason: StatusReasons) = apply {
             statusReasons =
-                (statusReasons ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(statusReason)
+                (statusReasons ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("statusReasons", it).add(statusReason)
                 }
         }
 
@@ -262,14 +257,8 @@ private constructor(
          */
         fun addRequiredDocument(requiredDocument: RequiredDocument) = apply {
             requiredDocuments =
-                (requiredDocuments ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(requiredDocument)
+                (requiredDocuments ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("requiredDocuments", it).add(requiredDocument)
                 }
         }
 

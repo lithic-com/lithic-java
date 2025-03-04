@@ -21,6 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.immutableEmptyMap
@@ -380,14 +381,8 @@ private constructor(
              */
             fun addIncludeCountry(includeCountry: String) = apply {
                 includeCountries =
-                    (includeCountries ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(includeCountry)
+                    (includeCountries ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("includeCountries", it).add(includeCountry)
                     }
             }
 
@@ -419,14 +414,8 @@ private constructor(
              */
             fun addIncludeMcc(includeMcc: String) = apply {
                 includeMccs =
-                    (includeMccs ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(includeMcc)
+                    (includeMccs ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("includeMccs", it).add(includeMcc)
                     }
             }
 
