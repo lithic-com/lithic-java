@@ -24,8 +24,10 @@ private constructor(
     @get:JvmName("timeout") val timeout: Timeout,
     @get:JvmName("maxRetries") val maxRetries: Int,
     @get:JvmName("apiKey") val apiKey: String,
-    @get:JvmName("webhookSecret") val webhookSecret: String?,
+    private val webhookSecret: String?,
 ) {
+
+    fun webhookSecret(): Optional<String> = Optional.ofNullable(webhookSecret)
 
     fun toBuilder() = Builder().from(this)
 
