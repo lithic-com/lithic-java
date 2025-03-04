@@ -10,6 +10,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.json
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
@@ -35,7 +37,9 @@ import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
 class FinancialAccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     FinancialAccountService {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: FinancialAccountService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     private val balances: BalanceService by lazy { BalanceServiceImpl(clientOptions) }
 
@@ -51,6 +55,8 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
 
     private val loanTapes: LoanTapeService by lazy { LoanTapeServiceImpl(clientOptions) }
 
+    override fun withRawResponse(): FinancialAccountService.WithRawResponse = withRawResponse
+
     override fun balances(): BalanceService = balances
 
     override fun financialTransactions(): FinancialTransactionService = financialTransactions
@@ -61,134 +67,223 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
 
     override fun loanTapes(): LoanTapeService = loanTapes
 
-    private val createHandler: Handler<FinancialAccount> =
-        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Create a new financial account */
     override fun create(
         params: FinancialAccountCreateParams,
         requestOptions: RequestOptions,
-    ): FinancialAccount {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "financial_accounts")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { createHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): FinancialAccount =
+        // post /v1/financial_accounts
+        withRawResponse().create(params, requestOptions).parse()
 
-    private val retrieveHandler: Handler<FinancialAccount> =
-        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Get a financial account */
     override fun retrieve(
         params: FinancialAccountRetrieveParams,
         requestOptions: RequestOptions,
-    ): FinancialAccount {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "financial_accounts", params.getPathParam(0))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): FinancialAccount =
+        // get /v1/financial_accounts/{financial_account_token}
+        withRawResponse().retrieve(params, requestOptions).parse()
 
-    private val updateHandler: Handler<FinancialAccount> =
-        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Update a financial account */
     override fun update(
         params: FinancialAccountUpdateParams,
         requestOptions: RequestOptions,
-    ): FinancialAccount {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.PATCH)
-                .addPathSegments("v1", "financial_accounts", params.getPathParam(0))
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { updateHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): FinancialAccount =
+        // patch /v1/financial_accounts/{financial_account_token}
+        withRawResponse().update(params, requestOptions).parse()
 
-    private val listHandler: Handler<FinancialAccountListPage.Response> =
-        jsonHandler<FinancialAccountListPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** Retrieve information on your financial accounts including routing and account number. */
     override fun list(
         params: FinancialAccountListParams,
         requestOptions: RequestOptions,
-    ): FinancialAccountListPage {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "financial_accounts")
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-            .let { FinancialAccountListPage.of(this, params, it) }
-    }
+    ): FinancialAccountListPage =
+        // get /v1/financial_accounts
+        withRawResponse().list(params, requestOptions).parse()
 
-    private val chargeOffHandler: Handler<FinancialAccountCreditConfig> =
-        jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** Update issuing account state to charged off */
     override fun chargeOff(
         params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions,
-    ): FinancialAccountCreditConfig {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "financial_accounts", params.getPathParam(0), "charge_off")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { chargeOffHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
+    ): FinancialAccountCreditConfig =
+        // post /v1/financial_accounts/{financial_account_token}/charge_off
+        withRawResponse().chargeOff(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        FinancialAccountService.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val balances: BalanceService.WithRawResponse by lazy {
+            BalanceServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val financialTransactions: FinancialTransactionService.WithRawResponse by lazy {
+            FinancialTransactionServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val creditConfiguration: CreditConfigurationService.WithRawResponse by lazy {
+            CreditConfigurationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val statements: StatementService.WithRawResponse by lazy {
+            StatementServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val loanTapes: LoanTapeService.WithRawResponse by lazy {
+            LoanTapeServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun balances(): BalanceService.WithRawResponse = balances
+
+        override fun financialTransactions(): FinancialTransactionService.WithRawResponse =
+            financialTransactions
+
+        override fun creditConfiguration(): CreditConfigurationService.WithRawResponse =
+            creditConfiguration
+
+        override fun statements(): StatementService.WithRawResponse = statements
+
+        override fun loanTapes(): LoanTapeService.WithRawResponse = loanTapes
+
+        private val createHandler: Handler<FinancialAccount> =
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun create(
+            params: FinancialAccountCreateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialAccount> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "financial_accounts")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { createHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
+
+        private val retrieveHandler: Handler<FinancialAccount> =
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: FinancialAccountRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialAccount> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "financial_accounts", params.getPathParam(0))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val updateHandler: Handler<FinancialAccount> =
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun update(
+            params: FinancialAccountUpdateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialAccount> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.PATCH)
+                    .addPathSegments("v1", "financial_accounts", params.getPathParam(0))
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { updateHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val listHandler: Handler<FinancialAccountListPage.Response> =
+            jsonHandler<FinancialAccountListPage.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: FinancialAccountListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialAccountListPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "financial_accounts")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        FinancialAccountListPage.of(
+                            FinancialAccountServiceImpl(clientOptions),
+                            params,
+                            it,
+                        )
+                    }
+            }
+        }
+
+        private val chargeOffHandler: Handler<FinancialAccountCreditConfig> =
+            jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun chargeOff(
+            params: FinancialAccountChargeOffParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialAccountCreditConfig> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "v1",
+                        "financial_accounts",
+                        params.getPathParam(0),
+                        "charge_off",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { chargeOffHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
     }
 }

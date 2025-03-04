@@ -10,6 +10,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.DigitalCardArt
@@ -20,57 +22,89 @@ import com.lithic.api.models.DigitalCardArtRetrieveParams
 class DigitalCardArtServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     DigitalCardArtService {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: DigitalCardArtService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val retrieveHandler: Handler<DigitalCardArt> =
-        jsonHandler<DigitalCardArt>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun withRawResponse(): DigitalCardArtService.WithRawResponse = withRawResponse
 
-    /** Get digital card art by token. */
     override fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions,
-    ): DigitalCardArt {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "digital_card_art", params.getPathParam(0))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): DigitalCardArt =
+        // get /v1/digital_card_art/{digital_card_art_token}
+        withRawResponse().retrieve(params, requestOptions).parse()
 
-    private val listHandler: Handler<DigitalCardArtListPage.Response> =
-        jsonHandler<DigitalCardArtListPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** List digital card art. */
     override fun list(
         params: DigitalCardArtListParams,
         requestOptions: RequestOptions,
-    ): DigitalCardArtListPage {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "digital_card_art")
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
+    ): DigitalCardArtListPage =
+        // get /v1/digital_card_art
+        withRawResponse().list(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        DigitalCardArtService.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val retrieveHandler: Handler<DigitalCardArt> =
+            jsonHandler<DigitalCardArt>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: DigitalCardArtRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DigitalCardArt> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "digital_card_art", params.getPathParam(0))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
-            .let { DigitalCardArtListPage.of(this, params, it) }
+        }
+
+        private val listHandler: Handler<DigitalCardArtListPage.Response> =
+            jsonHandler<DigitalCardArtListPage.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: DigitalCardArtListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DigitalCardArtListPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "digital_card_art")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        DigitalCardArtListPage.of(
+                            DigitalCardArtServiceImpl(clientOptions),
+                            params,
+                            it,
+                        )
+                    }
+            }
+        }
     }
 }

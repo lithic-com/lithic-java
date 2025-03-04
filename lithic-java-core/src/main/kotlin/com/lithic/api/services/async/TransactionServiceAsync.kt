@@ -4,7 +4,9 @@
 
 package com.lithic.api.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
@@ -28,6 +30,11 @@ import com.lithic.api.services.async.transactions.EventServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface TransactionServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync
 
@@ -138,4 +145,124 @@ interface TransactionServiceAsync {
         params: TransactionSimulateVoidParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateVoidResponse>
+
+    /**
+     * A view of [TransactionServiceAsync] that provides access to raw HTTP responses for each
+     * method.
+     */
+    interface WithRawResponse {
+
+        fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync.WithRawResponse
+
+        fun events(): EventServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `get /v1/transactions/{transaction_token}`, but is
+         * otherwise the same as [TransactionServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Transaction>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
+         * [TransactionServiceAsync.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: TransactionListParams = TransactionListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
+         * [TransactionServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> =
+            list(TransactionListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same
+         * as [TransactionServiceAsync.simulateAuthorization].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateAuthorization(
+            params: TransactionSimulateAuthorizationParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/authorization_advice`, but is
+         * otherwise the same as [TransactionServiceAsync.simulateAuthorizationAdvice].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateAuthorizationAdvice(
+            params: TransactionSimulateAuthorizationAdviceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationAdviceResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/clearing`, but is otherwise the same
+         * as [TransactionServiceAsync.simulateClearing].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateClearing(
+            params: TransactionSimulateClearingParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateClearingResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/credit_authorization_advice`, but is
+         * otherwise the same as [TransactionServiceAsync.simulateCreditAuthorization].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateCreditAuthorization(
+            params: TransactionSimulateCreditAuthorizationParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/return`, but is otherwise the same as
+         * [TransactionServiceAsync.simulateReturn].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturn(
+            params: TransactionSimulateReturnParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/return_reversal`, but is otherwise the
+         * same as [TransactionServiceAsync.simulateReturnReversal].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturnReversal(
+            params: TransactionSimulateReturnReversalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnReversalResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/void`, but is otherwise the same as
+         * [TransactionServiceAsync.simulateVoid].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateVoid(
+            params: TransactionSimulateVoidParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateVoidResponse>>
+    }
 }

@@ -10,6 +10,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.json
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
@@ -30,245 +32,320 @@ import com.lithic.api.models.DisputeUpdateParams
 class DisputeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     DisputeService {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
-
-    private val createHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Initiate a dispute. */
-    override fun create(params: DisputeCreateParams, requestOptions: RequestOptions): Dispute {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "disputes")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { createHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
+    private val withRawResponse: DisputeService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
     }
 
-    private val retrieveHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun withRawResponse(): DisputeService.WithRawResponse = withRawResponse
 
-    /** Get dispute. */
-    override fun retrieve(params: DisputeRetrieveParams, requestOptions: RequestOptions): Dispute {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "disputes", params.getPathParam(0))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    override fun create(params: DisputeCreateParams, requestOptions: RequestOptions): Dispute =
+        // post /v1/disputes
+        withRawResponse().create(params, requestOptions).parse()
 
-    private val updateHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun retrieve(params: DisputeRetrieveParams, requestOptions: RequestOptions): Dispute =
+        // get /v1/disputes/{dispute_token}
+        withRawResponse().retrieve(params, requestOptions).parse()
 
-    /** Update dispute. Can only be modified if status is `NEW`. */
-    override fun update(params: DisputeUpdateParams, requestOptions: RequestOptions): Dispute {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.PATCH)
-                .addPathSegments("v1", "disputes", params.getPathParam(0))
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { updateHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    override fun update(params: DisputeUpdateParams, requestOptions: RequestOptions): Dispute =
+        // patch /v1/disputes/{dispute_token}
+        withRawResponse().update(params, requestOptions).parse()
 
-    private val listHandler: Handler<DisputeListPage.Response> =
-        jsonHandler<DisputeListPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun list(params: DisputeListParams, requestOptions: RequestOptions): DisputeListPage =
+        // get /v1/disputes
+        withRawResponse().list(params, requestOptions).parse()
 
-    /** List disputes. */
-    override fun list(params: DisputeListParams, requestOptions: RequestOptions): DisputeListPage {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "disputes")
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-            .let { DisputeListPage.of(this, params, it) }
-    }
+    override fun delete(params: DisputeDeleteParams, requestOptions: RequestOptions): Dispute =
+        // delete /v1/disputes/{dispute_token}
+        withRawResponse().delete(params, requestOptions).parse()
 
-    private val deleteHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Withdraw dispute. */
-    override fun delete(params: DisputeDeleteParams, requestOptions: RequestOptions): Dispute {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.DELETE)
-                .addPathSegments("v1", "disputes", params.getPathParam(0))
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { deleteHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
-
-    private val deleteEvidenceHandler: Handler<DisputeEvidence> =
-        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /**
-     * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic
-     * after it is withdrawn.
-     */
     override fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
         requestOptions: RequestOptions,
-    ): DisputeEvidence {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.DELETE)
-                .addPathSegments(
-                    "v1",
-                    "disputes",
-                    params.getPathParam(0),
-                    "evidences",
-                    params.getPathParam(1),
-                )
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { deleteEvidenceHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): DisputeEvidence =
+        // delete /v1/disputes/{dispute_token}/evidences/{evidence_token}
+        withRawResponse().deleteEvidence(params, requestOptions).parse()
 
-    private val initiateEvidenceUploadHandler: Handler<DisputeEvidence> =
-        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /**
-     * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
-     * documents to. The URL will expire in 30 minutes.
-     *
-     * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5
-     * GiB.
-     */
     override fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
         requestOptions: RequestOptions,
-    ): DisputeEvidence {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { initiateEvidenceUploadHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-    }
+    ): DisputeEvidence =
+        // post /v1/disputes/{dispute_token}/evidences
+        withRawResponse().initiateEvidenceUpload(params, requestOptions).parse()
 
-    private val listEvidencesHandler: Handler<DisputeListEvidencesPage.Response> =
-        jsonHandler<DisputeListEvidencesPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** List evidence metadata for a dispute. */
     override fun listEvidences(
         params: DisputeListEvidencesParams,
         requestOptions: RequestOptions,
-    ): DisputeListEvidencesPage {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listEvidencesHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
-            }
-            .let { DisputeListEvidencesPage.of(this, params, it) }
-    }
+    ): DisputeListEvidencesPage =
+        // get /v1/disputes/{dispute_token}/evidences
+        withRawResponse().listEvidences(params, requestOptions).parse()
 
-    private val retrieveEvidenceHandler: Handler<DisputeEvidence> =
-        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Get a dispute's evidence metadata. */
     override fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions,
-    ): DisputeEvidence {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments(
-                    "v1",
-                    "disputes",
-                    params.getPathParam(0),
-                    "evidences",
-                    params.getPathParam(1),
-                )
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveEvidenceHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
+    ): DisputeEvidence =
+        // get /v1/disputes/{dispute_token}/evidences/{evidence_token}
+        withRawResponse().retrieveEvidence(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        DisputeService.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val createHandler: Handler<Dispute> =
+            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun create(
+            params: DisputeCreateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Dispute> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "disputes")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { createHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
+
+        private val retrieveHandler: Handler<Dispute> =
+            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: DisputeRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Dispute> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "disputes", params.getPathParam(0))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val updateHandler: Handler<Dispute> =
+            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun update(
+            params: DisputeUpdateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Dispute> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.PATCH)
+                    .addPathSegments("v1", "disputes", params.getPathParam(0))
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { updateHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val listHandler: Handler<DisputeListPage.Response> =
+            jsonHandler<DisputeListPage.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: DisputeListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeListPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "disputes")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let { DisputeListPage.of(DisputeServiceImpl(clientOptions), params, it) }
+            }
+        }
+
+        private val deleteHandler: Handler<Dispute> =
+            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun delete(
+            params: DisputeDeleteParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Dispute> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.DELETE)
+                    .addPathSegments("v1", "disputes", params.getPathParam(0))
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { deleteHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val deleteEvidenceHandler: Handler<DisputeEvidence> =
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun deleteEvidence(
+            params: DisputeDeleteEvidenceParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeEvidence> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.DELETE)
+                    .addPathSegments(
+                        "v1",
+                        "disputes",
+                        params.getPathParam(0),
+                        "evidences",
+                        params.getPathParam(1),
+                    )
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { deleteEvidenceHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val initiateEvidenceUploadHandler: Handler<DisputeEvidence> =
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun initiateEvidenceUpload(
+            params: DisputeInitiateEvidenceUploadParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeEvidence> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { initiateEvidenceUploadHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val listEvidencesHandler: Handler<DisputeListEvidencesPage.Response> =
+            jsonHandler<DisputeListEvidencesPage.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun listEvidences(
+            params: DisputeListEvidencesParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeListEvidencesPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listEvidencesHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        DisputeListEvidencesPage.of(DisputeServiceImpl(clientOptions), params, it)
+                    }
+            }
+        }
+
+        private val retrieveEvidenceHandler: Handler<DisputeEvidence> =
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieveEvidence(
+            params: DisputeRetrieveEvidenceParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeEvidence> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "v1",
+                        "disputes",
+                        params.getPathParam(0),
+                        "evidences",
+                        params.getPathParam(1),
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveEvidenceHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
     }
 }

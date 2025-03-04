@@ -10,7 +10,10 @@ import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.json
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
@@ -34,306 +37,415 @@ import java.util.concurrent.CompletableFuture
 class SubscriptionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     SubscriptionServiceAsync {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: SubscriptionServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val createHandler: Handler<EventSubscription> =
-        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun withRawResponse(): SubscriptionServiceAsync.WithRawResponse = withRawResponse
 
-    /** Create a new event subscription. */
     override fun create(
         params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscription> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "event_subscriptions")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { createHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<EventSubscription> =
+        // post /v1/event_subscriptions
+        withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
-    private val retrieveHandler: Handler<EventSubscription> =
-        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Get an event subscription. */
     override fun retrieve(
         params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscription> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<EventSubscription> =
+        // get /v1/event_subscriptions/{event_subscription_token}
+        withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
-    private val updateHandler: Handler<EventSubscription> =
-        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Update an event subscription. */
     override fun update(
         params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscription> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.PATCH)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { updateHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<EventSubscription> =
+        // patch /v1/event_subscriptions/{event_subscription_token}
+        withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
-    private val listHandler: Handler<EventSubscriptionListPageAsync.Response> =
-        jsonHandler<EventSubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** List all the event subscriptions. */
     override fun list(
         params: EventSubscriptionListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscriptionListPageAsync> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "event_subscriptions")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-                    .let { EventSubscriptionListPageAsync.of(this, params, it) }
-            }
-    }
+    ): CompletableFuture<EventSubscriptionListPageAsync> =
+        // get /v1/event_subscriptions
+        withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
-    private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
-
-    /** Delete an event subscription. */
     override fun delete(
         params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.DELETE)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { deleteHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // delete /v1/event_subscriptions/{event_subscription_token}
+        withRawResponse().delete(params, requestOptions).thenAccept {}
 
-    private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageAsync.Response> =
-        jsonHandler<EventSubscriptionListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** List all the message attempts for a given event subscription. */
     override fun listAttempts(
         params: EventSubscriptionListAttemptsParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "attempts")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { listAttemptsHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-                    .let { EventSubscriptionListAttemptsPageAsync.of(this, params, it) }
-            }
-    }
+    ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> =
+        // get /v1/event_subscriptions/{event_subscription_token}/attempts
+        withRawResponse().listAttempts(params, requestOptions).thenApply { it.parse() }
 
-    private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
-
-    /** Resend all failed messages since a given time. */
     override fun recover(
         params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "recover")
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { recoverHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // post /v1/event_subscriptions/{event_subscription_token}/recover
+        withRawResponse().recover(params, requestOptions).thenAccept {}
 
-    private val replayMissingHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
-
-    /**
-     * Replays messages to the endpoint. Only messages that were created after `begin` will be sent.
-     * Messages that were previously sent to the endpoint are not resent. Message will be retried if
-     * endpoint responds with a non-2xx status code. See
-     * [Retry Schedule](https://docs.lithic.com/docs/events-api#retry-schedule) for details.
-     */
     override fun replayMissing(
         params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments(
-                    "v1",
-                    "event_subscriptions",
-                    params.getPathParam(0),
-                    "replay_missing",
-                )
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { replayMissingHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // post /v1/event_subscriptions/{event_subscription_token}/replay_missing
+        withRawResponse().replayMissing(params, requestOptions).thenAccept {}
 
-    private val retrieveSecretHandler: Handler<SubscriptionRetrieveSecretResponse> =
-        jsonHandler<SubscriptionRetrieveSecretResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** Get the secret for an event subscription. */
     override fun retrieveSecret(
         params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<SubscriptionRetrieveSecretResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "secret")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { retrieveSecretHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
+        // get /v1/event_subscriptions/{event_subscription_token}/secret
+        withRawResponse().retrieveSecret(params, requestOptions).thenApply { it.parse() }
 
-    private val rotateSecretHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
-
-    /**
-     * Rotate the secret for an event subscription. The previous secret will be valid for the next
-     * 24 hours.
-     */
     override fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments(
-                    "v1",
-                    "event_subscriptions",
-                    params.getPathParam(0),
-                    "secret",
-                    "rotate",
-                )
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { rotateSecretHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // post /v1/event_subscriptions/{event_subscription_token}/secret/rotate
+        withRawResponse().rotateSecret(params, requestOptions).thenAccept {}
 
-    private val sendSimulatedExampleHandler: Handler<Void?> =
-        emptyHandler().withErrorHandler(errorHandler)
-
-    /** Send an example message for event. */
     override fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments(
-                    "v1",
-                    "simulate",
-                    "event_subscriptions",
-                    params.getPathParam(0),
-                    "send_example",
-                )
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { sendSimulatedExampleHandler.handle(it) } }
+    ): CompletableFuture<Void?> =
+        // post /v1/simulate/event_subscriptions/{event_subscription_token}/send_example
+        withRawResponse().sendSimulatedExample(params, requestOptions).thenAccept {}
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SubscriptionServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val createHandler: Handler<EventSubscription> =
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun create(
+            params: EventSubscriptionCreateParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EventSubscription>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "event_subscriptions")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { createHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveHandler: Handler<EventSubscription> =
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: EventSubscriptionRetrieveParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EventSubscription>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val updateHandler: Handler<EventSubscription> =
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun update(
+            params: EventSubscriptionUpdateParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EventSubscription>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.PATCH)
+                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { updateHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val listHandler: Handler<EventSubscriptionListPageAsync.Response> =
+            jsonHandler<EventSubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: EventSubscriptionListParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EventSubscriptionListPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "event_subscriptions")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { listHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                EventSubscriptionListPageAsync.of(
+                                    SubscriptionServiceAsyncImpl(clientOptions),
+                                    params,
+                                    it,
+                                )
+                            }
+                    }
+                }
+        }
+
+        private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+
+        override fun delete(
+            params: EventSubscriptionDeleteParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.DELETE)
+                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { deleteHandler.handle(it) } }
+                }
+        }
+
+        private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageAsync.Response> =
+            jsonHandler<EventSubscriptionListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun listAttempts(
+            params: EventSubscriptionListAttemptsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "v1",
+                        "event_subscriptions",
+                        params.getPathParam(0),
+                        "attempts",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { listAttemptsHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                EventSubscriptionListAttemptsPageAsync.of(
+                                    SubscriptionServiceAsyncImpl(clientOptions),
+                                    params,
+                                    it,
+                                )
+                            }
+                    }
+                }
+        }
+
+        private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+
+        override fun recover(
+            params: EventSubscriptionRecoverParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "recover")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { recoverHandler.handle(it) } }
+                }
+        }
+
+        private val replayMissingHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun replayMissing(
+            params: EventSubscriptionReplayMissingParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "v1",
+                        "event_subscriptions",
+                        params.getPathParam(0),
+                        "replay_missing",
+                    )
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { replayMissingHandler.handle(it) } }
+                }
+        }
+
+        private val retrieveSecretHandler: Handler<SubscriptionRetrieveSecretResponse> =
+            jsonHandler<SubscriptionRetrieveSecretResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveSecret(
+            params: EventSubscriptionRetrieveSecretParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SubscriptionRetrieveSecretResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "secret")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveSecretHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val rotateSecretHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun rotateSecret(
+            params: EventSubscriptionRotateSecretParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "v1",
+                        "event_subscriptions",
+                        params.getPathParam(0),
+                        "secret",
+                        "rotate",
+                    )
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { rotateSecretHandler.handle(it) } }
+                }
+        }
+
+        private val sendSimulatedExampleHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun sendSimulatedExample(
+            params: EventSubscriptionSendSimulatedExampleParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "v1",
+                        "simulate",
+                        "event_subscriptions",
+                        params.getPathParam(0),
+                        "send_example",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { sendSimulatedExampleHandler.handle(it) } }
+                }
+        }
     }
 }

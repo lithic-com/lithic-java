@@ -4,7 +4,9 @@
 
 package com.lithic.api.services.blocking
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
 import com.lithic.api.models.DisputeDeleteEvidenceParams
@@ -20,6 +22,11 @@ import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 
 interface DisputeService {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /** Initiate a dispute. */
     @JvmOverloads
@@ -96,4 +103,117 @@ interface DisputeService {
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
+
+    /** A view of [DisputeService] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `post /v1/disputes`, but is otherwise the same as
+         * [DisputeService.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: DisputeCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Dispute>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}`, but is otherwise the
+         * same as [DisputeService.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: DisputeRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Dispute>
+
+        /**
+         * Returns a raw HTTP response for `patch /v1/disputes/{dispute_token}`, but is otherwise
+         * the same as [DisputeService.update].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: DisputeUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Dispute>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
+         * [DisputeService.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: DisputeListParams = DisputeListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DisputeListPage>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
+         * [DisputeService.list].
+         */
+        @MustBeClosed
+        fun list(requestOptions: RequestOptions): HttpResponseFor<DisputeListPage> =
+            list(DisputeListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /v1/disputes/{dispute_token}`, but is otherwise
+         * the same as [DisputeService.delete].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun delete(
+            params: DisputeDeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Dispute>
+
+        /**
+         * Returns a raw HTTP response for `delete
+         * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
+         * [DisputeService.deleteEvidence].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun deleteEvidence(
+            params: DisputeDeleteEvidenceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DisputeEvidence>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/disputes/{dispute_token}/evidences`, but is
+         * otherwise the same as [DisputeService.initiateEvidenceUpload].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun initiateEvidenceUpload(
+            params: DisputeInitiateEvidenceUploadParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DisputeEvidence>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}/evidences`, but is
+         * otherwise the same as [DisputeService.listEvidences].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun listEvidences(
+            params: DisputeListEvidencesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DisputeListEvidencesPage>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
+         * [DisputeService.retrieveEvidence].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveEvidence(
+            params: DisputeRetrieveEvidenceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DisputeEvidence>
+    }
 }

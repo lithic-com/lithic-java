@@ -10,7 +10,10 @@ import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.json
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
@@ -26,145 +29,179 @@ import java.util.concurrent.CompletableFuture
 class DecisioningServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     DecisioningServiceAsync {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: DecisioningServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val challengeResponseHandler: Handler<Void?> =
-        emptyHandler().withErrorHandler(errorHandler)
+    override fun withRawResponse(): DecisioningServiceAsync.WithRawResponse = withRawResponse
 
-    /** Card program's response to a 3DS Challenge Request (CReq) */
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "three_ds_decisioning", "challenge_response")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { challengeResponseHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // post /v1/three_ds_decisioning/challenge_response
+        withRawResponse().challengeResponse(params, requestOptions).thenAccept {}
 
-    private val retrieveSecretHandler: Handler<DecisioningRetrieveSecretResponse> =
-        jsonHandler<DecisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
-     * calling this endpoint will create one for you. The headers (which you can use to verify 3DS
-     * Decisioning requests) will begin appearing shortly after calling this endpoint for the first
-     * time. See
-     * [this page](https://docs.lithic.com/docs/3ds-decisioning#3ds-decisioning-hmac-secrets) for
-     * more detail about verifying 3DS Decisioning requests.
-     */
     override fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<DecisioningRetrieveSecretResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "three_ds_decisioning", "secret")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { retrieveSecretHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<DecisioningRetrieveSecretResponse> =
+        // get /v1/three_ds_decisioning/secret
+        withRawResponse().retrieveSecret(params, requestOptions).thenApply { it.parse() }
 
-    private val rotateSecretHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
-
-    /**
-     * Generate a new 3DS Decisioning HMAC secret key. The old secret key will be deactivated 24
-     * hours after a successful request to this endpoint. Make a
-     * [`GET /three_ds_decisioning/secret`](https://docs.lithic.com/reference/getthreedsdecisioningsecret)
-     * request to retrieve the new secret key.
-     */
     override fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "three_ds_decisioning", "secret", "rotate")
-                .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { rotateSecretHandler.handle(it) } }
-    }
+    ): CompletableFuture<Void?> =
+        // post /v1/three_ds_decisioning/secret/rotate
+        withRawResponse().rotateSecret(params, requestOptions).thenAccept {}
 
-    private val simulateChallengeHandler: Handler<DecisioningSimulateChallengeResponse> =
-        jsonHandler<DecisioningSimulateChallengeResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Simulates a 3DS authentication challenge request from the payment network as if it came from
-     * an ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's
-     * Challenge solution.
-     */
     override fun simulateChallenge(
         params: ThreeDSDecisioningSimulateChallengeParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<DecisioningSimulateChallengeResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateChallengeHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<DecisioningSimulateChallengeResponse> =
+        // post /v1/three_ds_decisioning/simulate/challenge
+        withRawResponse().simulateChallenge(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateChallengeResponseHandler: Handler<Void?> =
-        emptyHandler().withErrorHandler(errorHandler)
-
-    /**
-     * Endpoint for responding to a 3DS Challenge initiated by a call to
-     * /v1/three_ds_decisioning/simulate/challenge
-     */
     override fun simulateChallengeResponse(
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge_response")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response -> response.use { simulateChallengeResponseHandler.handle(it) } }
+    ): CompletableFuture<Void?> =
+        // post /v1/three_ds_decisioning/simulate/challenge_response
+        withRawResponse().simulateChallengeResponse(params, requestOptions).thenAccept {}
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        DecisioningServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val challengeResponseHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun challengeResponse(
+            params: ThreeDSDecisioningChallengeResponseParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "three_ds_decisioning", "challenge_response")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { challengeResponseHandler.handle(it) } }
+                }
+        }
+
+        private val retrieveSecretHandler: Handler<DecisioningRetrieveSecretResponse> =
+            jsonHandler<DecisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveSecret(
+            params: ThreeDSDecisioningRetrieveSecretParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "three_ds_decisioning", "secret")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveSecretHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val rotateSecretHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun rotateSecret(
+            params: ThreeDSDecisioningRotateSecretParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "three_ds_decisioning", "secret", "rotate")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { rotateSecretHandler.handle(it) } }
+                }
+        }
+
+        private val simulateChallengeHandler: Handler<DecisioningSimulateChallengeResponse> =
+            jsonHandler<DecisioningSimulateChallengeResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateChallenge(
+            params: ThreeDSDecisioningSimulateChallengeParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DecisioningSimulateChallengeResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateChallengeHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateChallengeResponseHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun simulateChallengeResponse(
+            params: ThreeDSDecisioningSimulateChallengeResponseParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge_response")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response.use { simulateChallengeResponseHandler.handle(it) }
+                    }
+                }
+        }
     }
 }

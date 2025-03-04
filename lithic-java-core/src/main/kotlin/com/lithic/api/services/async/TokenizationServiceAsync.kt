@@ -4,7 +4,10 @@
 
 package com.lithic.api.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPageAsync
@@ -21,6 +24,11 @@ import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 import java.util.concurrent.CompletableFuture
 
 interface TokenizationServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /** Get tokenization */
     @JvmOverloads
@@ -141,4 +149,122 @@ interface TokenizationServiceAsync {
         params: TokenizationUpdateDigitalCardArtParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse>
+
+    /**
+     * A view of [TokenizationServiceAsync] that provides access to raw HTTP responses for each
+     * method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `get /v1/tokenizations/{tokenization_token}`, but is
+         * otherwise the same as [TokenizationServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: TokenizationRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/tokenizations`, but is otherwise the same as
+         * [TokenizationServiceAsync.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: TokenizationListParams = TokenizationListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/tokenizations`, but is otherwise the same as
+         * [TokenizationServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>> =
+            list(TokenizationListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/activate`,
+         * but is otherwise the same as [TokenizationServiceAsync.activate].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun activate(
+            params: TokenizationActivateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
+         * but is otherwise the same as [TokenizationServiceAsync.deactivate].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun deactivate(
+            params: TokenizationDeactivateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/pause`, but
+         * is otherwise the same as [TokenizationServiceAsync.pause].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun pause(
+            params: TokenizationPauseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/tokenizations/{tokenization_token}/resend_activation_code`, but is otherwise the same
+         * as [TokenizationServiceAsync.resendActivationCode].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun resendActivationCode(
+            params: TokenizationResendActivationCodeParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/tokenizations`, but is otherwise the
+         * same as [TokenizationServiceAsync.simulate].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulate(
+            params: TokenizationSimulateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationSimulateResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,
+         * but is otherwise the same as [TokenizationServiceAsync.unpause].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun unpause(
+            params: TokenizationUnpauseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/tokenizations/{tokenization_token}/update_digital_card_art`, but is otherwise the
+         * same as [TokenizationServiceAsync.updateDigitalCardArt].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun updateDigitalCardArt(
+            params: TokenizationUpdateDigitalCardArtParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>>
+    }
 }
