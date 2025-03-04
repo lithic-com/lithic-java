@@ -11,6 +11,7 @@ import com.lithic.api.models.ReportSettlementListDetailsPage
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
+import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
 
 interface SettlementService {
 
@@ -18,6 +19,8 @@ interface SettlementService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun networkTotals(): NetworkTotalService
 
     /** List details. */
     @JvmOverloads
@@ -35,6 +38,8 @@ interface SettlementService {
 
     /** A view of [SettlementService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        fun networkTotals(): NetworkTotalService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/reports/settlement/details/{report_date}`, but

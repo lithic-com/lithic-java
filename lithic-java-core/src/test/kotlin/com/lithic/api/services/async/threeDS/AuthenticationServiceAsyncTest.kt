@@ -5,6 +5,7 @@ package com.lithic.api.services.async.threeDS
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -65,5 +66,25 @@ class AuthenticationServiceAsyncTest {
 
         val response = responseFuture.get()
         response.validate()
+    }
+
+    @Test
+    fun simulateOtpEntry() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val authenticationServiceAsync = client.threeDS().authentication()
+
+        val future =
+            authenticationServiceAsync.simulateOtpEntry(
+                ThreeDSAuthenticationSimulateOtpEntryParams.builder()
+                    .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+                    .otp("123456")
+                    .build()
+            )
+
+        val response = future.get()
     }
 }
