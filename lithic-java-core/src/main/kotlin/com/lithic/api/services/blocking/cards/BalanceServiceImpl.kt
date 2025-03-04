@@ -35,11 +35,12 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
                 .addPathSegments("v1", "cards", params.getPathParam(0), "balances")
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { listHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }

@@ -57,11 +57,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { createHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -81,11 +82,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .addPathSegments("v2", "auth_rules", params.getPathParam(0))
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { retrieveHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -111,11 +113,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { updateHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -136,11 +139,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .addPathSegments("v2", "auth_rules")
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { listHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -158,6 +162,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         response.use { deleteHandler.handle(it) }
     }
@@ -181,11 +186,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { applyHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -211,11 +217,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .body(json(clientOptions.jsonMapper, params._body()))
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { draftHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -239,11 +246,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { promoteHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }
@@ -309,11 +317,12 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
                 .prepare(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         val response = clientOptions.httpClient.execute(request, requestOptions)
         return response
             .use { reportHandler.handle(it) }
             .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                if (requestOptions.responseValidation!!) {
                     it.validate()
                 }
             }

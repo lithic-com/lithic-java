@@ -44,13 +44,14 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
                 .addPathSegments("v1", "auth_stream", "secret")
                 .build()
                 .prepareAsync(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         return request
             .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
             .thenApply { response ->
                 response
                     .use { retrieveSecretHandler.handle(it) }
                     .also {
-                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        if (requestOptions.responseValidation!!) {
                             it.validate()
                         }
                     }
@@ -76,6 +77,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
                 .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
                 .prepareAsync(clientOptions, params)
+        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
         return request
             .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
             .thenApply { response -> response.use { rotateSecretHandler.handle(it) } }
