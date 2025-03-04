@@ -44,6 +44,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [FinancialAccountLoanTapeRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .financialAccountToken()
+         * .loanTapeToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

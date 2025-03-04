@@ -315,6 +315,27 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountRetryMicroDepositsResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .country()
+         * .created()
+         * .currency()
+         * .lastFour()
+         * .owner()
+         * .ownerType()
+         * .routingNumber()
+         * .state()
+         * .type()
+         * .verificationAttempts()
+         * .verificationMethod()
+         * .verificationState()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

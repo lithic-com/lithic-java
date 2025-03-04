@@ -172,6 +172,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRule].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .state()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -363,6 +363,37 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Transaction].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .acquirerFee()
+         * .acquirerReferenceNumber()
+         * .amount()
+         * .amounts()
+         * .authorizationAmount()
+         * .authorizationCode()
+         * .avs()
+         * .cardToken()
+         * .cardholderAuthentication()
+         * .created()
+         * .merchant()
+         * .merchantAmount()
+         * .merchantAuthorizationAmount()
+         * .merchantCurrency()
+         * .network()
+         * .networkRiskScore()
+         * .pos()
+         * .result()
+         * .settledAmount()
+         * .status()
+         * .tokenInfo()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -859,6 +890,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [TransactionAmounts].
+             *
+             * The following fields are required:
+             * ```java
+             * .cardholder()
+             * .hold()
+             * .merchant()
+             * .settlement()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1007,6 +1049,16 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Cardholder].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .amount()
+                 * .conversionRate()
+                 * .currency()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1172,6 +1224,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Hold].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .amount()
+                 * .currency()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1313,6 +1374,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Merchant].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .amount()
+                 * .currency()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1454,6 +1524,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Settlement].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .amount()
+                 * .currency()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1603,6 +1682,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Avs].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .zipcode()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1847,6 +1935,21 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [CardholderAuthentication].
+             *
+             * The following fields are required:
+             * ```java
+             * ._3dsVersion()
+             * .acquirerExemption()
+             * .authenticationResult()
+             * .decisionMadeBy()
+             * .liabilityShift()
+             * .threeDSAuthenticationToken()
+             * .verificationAttempted()
+             * .verificationResult()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -2937,6 +3040,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Merchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .acceptorId()
+             * .acquiringInstitutionId()
+             * .city()
+             * .country()
+             * .descriptor()
+             * .mcc()
+             * .state()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -3242,6 +3359,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Pos].
+             *
+             * The following fields are required:
+             * ```java
+             * .entryMode()
+             * .terminal()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -3362,6 +3488,17 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [PosEntryMode].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .card()
+                 * .cardholder()
+                 * .pan()
+                 * .pinEntered()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -4037,6 +4174,20 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [PosTerminal].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .attended()
+                 * .cardRetentionCapable()
+                 * .onPremise()
+                 * .operator()
+                 * .partialApprovalCapable()
+                 * .pinCapability()
+                 * .type()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -5063,6 +5214,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [TokenInfo].
+             *
+             * The following fields are required:
+             * ```java
+             * .walletType()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -5424,6 +5583,23 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [TransactionEvent].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .amounts()
+             * .created()
+             * .detailedResults()
+             * .effectivePolarity()
+             * .networkInfo()
+             * .result()
+             * .ruleResults()
+             * .type()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -5663,6 +5839,17 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [TransactionEventAmounts].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .cardholder()
+                 * .merchant()
+                 * .settlement()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -5808,6 +5995,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Cardholder].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .amount()
+                     * .conversionRate()
+                     * .currency()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -5967,6 +6164,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Merchant].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .amount()
+                     * .currency()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -6126,6 +6332,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Settlement].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .amount()
+                     * .conversionRate()
+                     * .currency()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -6856,6 +7072,16 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [NetworkInfo].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .acquirer()
+                 * .mastercard()
+                 * .visa()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -6996,6 +7222,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Acquirer].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .acquirerReferenceNumber()
+                     * .retrievalReferenceNumber()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -7238,6 +7473,17 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Mastercard].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .banknetReferenceNumber()
+                     * .originalBanknetReferenceNumber()
+                     * .originalSwitchSerialNumber()
+                     * .switchSerialNumber()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -7508,6 +7754,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Visa].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .originalTransactionId()
+                     * .transactionId()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -7958,6 +8213,17 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [RuleResult].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .authRuleToken()
+                 * .explanation()
+                 * .name()
+                 * .result()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 

@@ -434,6 +434,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [KybPatchRequest]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -811,6 +812,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [KybBusinessEntityPatch].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -1145,6 +1155,14 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [IndividualPatch].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -1406,6 +1424,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [KycPatchRequest]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1634,6 +1653,14 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [IndividualPatch].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -1967,6 +1994,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [PatchRequest]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -2124,6 +2152,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountHolderUpdateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .accountHolderToken()
+         * .body()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

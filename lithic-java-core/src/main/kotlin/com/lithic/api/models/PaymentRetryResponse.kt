@@ -292,6 +292,31 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [PaymentRetryResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .descriptor()
+         * .direction()
+         * .events()
+         * .externalBankAccountToken()
+         * .financialAccountToken()
+         * .method()
+         * .methodAttributes()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .source()
+         * .status()
+         * .updated()
+         * .userDefinedId()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

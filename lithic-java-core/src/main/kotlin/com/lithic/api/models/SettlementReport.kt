@@ -228,6 +228,24 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [SettlementReport].
+         *
+         * The following fields are required:
+         * ```java
+         * .created()
+         * .currency()
+         * .details()
+         * .disputesGrossAmount()
+         * .interchangeGrossAmount()
+         * .isComplete()
+         * .otherFeesGrossAmount()
+         * .reportDate()
+         * .settledNetAmount()
+         * .transactionsGrossAmount()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

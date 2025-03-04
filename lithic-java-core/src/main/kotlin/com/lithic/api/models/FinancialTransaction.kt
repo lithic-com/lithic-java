@@ -212,6 +212,24 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [FinancialTransaction].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .descriptor()
+         * .events()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .status()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -623,6 +641,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [FinancialEvent]. */
             @JvmStatic fun builder() = Builder()
         }
 

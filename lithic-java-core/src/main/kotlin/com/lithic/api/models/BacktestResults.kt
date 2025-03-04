@@ -75,6 +75,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [BacktestResults].
+         *
+         * The following fields are required:
+         * ```java
+         * .backtestToken()
+         * .results()
+         * .simulationParameters()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -189,6 +199,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Results]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -338,6 +349,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [RuleStats]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -518,6 +530,7 @@ private constructor(
 
                 companion object {
 
+                    /** Returns a mutable builder for constructing an instance of [Example]. */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -698,6 +711,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [SimulationParameters]. */
             @JvmStatic fun builder() = Builder()
         }
 

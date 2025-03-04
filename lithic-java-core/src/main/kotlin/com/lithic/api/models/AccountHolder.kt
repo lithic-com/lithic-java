@@ -389,6 +389,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountHolder].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -934,6 +943,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [AccountHolderBusinessResponse].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dbaBusinessName()
+             * .entityToken()
+             * .governmentId()
+             * .legalBusinessName()
+             * .phoneNumbers()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1198,6 +1221,21 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [AccountHolderIndividualResponse].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dob()
+             * .email()
+             * .entityToken()
+             * .firstName()
+             * .lastName()
+             * .phoneNumber()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1891,6 +1929,10 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [AccountHolderVerificationApplication].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

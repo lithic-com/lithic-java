@@ -119,6 +119,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Kyc].
+         *
+         * The following fields are required:
+         * ```java
+         * .individual()
+         * .tosTimestamp()
+         * .workflow()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -346,6 +356,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Individual].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dob()
+             * .email()
+             * .firstName()
+             * .governmentId()
+             * .lastName()
+             * .phoneNumber()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

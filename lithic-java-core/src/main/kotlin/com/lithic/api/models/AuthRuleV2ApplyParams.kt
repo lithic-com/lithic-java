@@ -303,6 +303,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [ApplyAuthRuleRequestAccountTokens].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountTokens()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -424,6 +433,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [ApplyAuthRuleRequestCardTokens].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .cardTokens()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -556,6 +574,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [ApplyAuthRuleRequestProgramLevel].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .programLevel()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -657,6 +684,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2ApplyParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * .body()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

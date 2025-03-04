@@ -103,6 +103,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [ExternalPaymentActionRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .effectiveDate()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -180,6 +189,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ExternalPaymentReleaseParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .externalPaymentToken()
+         * .effectiveDate()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

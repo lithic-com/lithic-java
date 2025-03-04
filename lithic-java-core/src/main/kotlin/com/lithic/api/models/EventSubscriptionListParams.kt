@@ -55,6 +55,9 @@ private constructor(
 
         @JvmStatic fun none(): EventSubscriptionListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of [EventSubscriptionListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -362,6 +362,25 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AuthenticationRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountType()
+         * .authenticationResult()
+         * .cardExpiryCheck()
+         * .cardToken()
+         * .cardholder()
+         * .channel()
+         * .created()
+         * .merchant()
+         * .messageCategory()
+         * .threeDSRequestorChallengeIndicator()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -1255,6 +1274,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Cardholder]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1561,6 +1581,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [ThreeDSAddress]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1925,6 +1946,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Merchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .id()
+             * .country()
+             * .mcc()
+             * .name()
+             * .riskIndicator()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -2238,6 +2271,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [RiskIndicator]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -3392,6 +3426,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [AdditionalData]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -3678,6 +3713,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [App]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -4051,6 +4087,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Browser]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -4301,6 +4338,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [ChallengeMetadata].
+             *
+             * The following fields are required:
+             * ```java
+             * .methodType()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -5019,6 +5064,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Transaction].
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .currency()
+             * .currencyExponent()
+             * .dateTime()
+             * .type()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -143,6 +143,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Event].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .eventType()
+         * .payload()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -699,6 +710,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Payload]. */
             @JvmStatic fun builder() = Builder()
         }
 
