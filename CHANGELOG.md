@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.79.0 (2025-03-04)
+
+Full Changelog: [v0.78.0...v0.79.0](https://github.com/lithic-com/lithic-java/compare/v0.78.0...v0.79.0)
+
+### Features
+
+* **client:** allow configuring timeouts granularly ([#510](https://github.com/lithic-com/lithic-java/issues/510)) ([17f97db](https://github.com/lithic-com/lithic-java/commit/17f97dbd49d489b786ba424f32043ddef5f0f57f))
+
+
+### Chores
+
+* **client:** use deep identity methods for primitive array types ([#505](https://github.com/lithic-com/lithic-java/issues/505)) ([7a0b3ad](https://github.com/lithic-com/lithic-java/commit/7a0b3adf3d93425ed3911782a6b2ebc0a1824067))
+* **internal:** add async service tests ([#503](https://github.com/lithic-com/lithic-java/issues/503)) ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* **internal:** improve sync service tests ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* **internal:** refactor `ErrorHandlingTest` ([#509](https://github.com/lithic-com/lithic-java/issues/509)) ([ecf5050](https://github.com/lithic-com/lithic-java/commit/ecf5050a51330609b6a7a7b1900d1e306db1e0c5))
+* **internal:** refactor `ServiceParamsTest` ([#507](https://github.com/lithic-com/lithic-java/issues/507)) ([bab2b10](https://github.com/lithic-com/lithic-java/commit/bab2b10e1590ee2c673e9a74ab0a4e423c0a2b62))
+
+
+### Documentation
+
+* readme parameter tweaks ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* update URLs from stainlessapi.com to stainless.com ([#508](https://github.com/lithic-com/lithic-java/issues/508)) ([0182c4b](https://github.com/lithic-com/lithic-java/commit/0182c4b707a19ccf2e4d0784975346faff0ca27e))
+
 ## 0.78.0 (2025-02-26)
 
 Full Changelog: [v0.77.0...v0.78.0](https://github.com/lithic-com/lithic-java/compare/v0.77.0...v0.78.0)
