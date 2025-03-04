@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -497,14 +498,8 @@ private constructor(
         /** Unique identifiers for the dispute from the network. */
         fun addNetworkClaimId(networkClaimId: String) = apply {
             networkClaimIds =
-                (networkClaimIds ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(networkClaimId)
+                (networkClaimIds ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("networkClaimIds", it).add(networkClaimId)
                 }
         }
 

@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -194,14 +195,8 @@ private constructor(
              */
             fun addStatusReason(statusReason: StatusReason) = apply {
                 statusReasons =
-                    (statusReasons ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(statusReason)
+                    (statusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("statusReasons", it).add(statusReason)
                     }
             }
 

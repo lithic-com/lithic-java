@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -138,14 +139,8 @@ private constructor(
 
         fun addFleet(fleet: Fleet) = apply {
             this.fleet =
-                (this.fleet ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(fleet)
+                (this.fleet ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("fleet", it).add(fleet)
                 }
         }
 
@@ -300,14 +295,8 @@ private constructor(
 
             fun addLineItem(lineItem: LineItem) = apply {
                 lineItems =
-                    (lineItems ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(lineItem)
+                    (lineItems ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("lineItems", it).add(lineItem)
                     }
             }
 

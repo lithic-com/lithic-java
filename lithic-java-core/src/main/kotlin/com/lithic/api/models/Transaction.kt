@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -743,14 +744,8 @@ private constructor(
 
         fun addEvent(event: TransactionEvent) = apply {
             events =
-                (events ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(event)
+                (events ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("events", it).add(event)
                 }
         }
 
@@ -5496,14 +5491,8 @@ private constructor(
 
             fun addDetailedResult(detailedResult: DetailedResult) = apply {
                 detailedResults =
-                    (detailedResults ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(detailedResult)
+                    (detailedResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("detailedResults", it).add(detailedResult)
                     }
             }
 
@@ -5571,14 +5560,8 @@ private constructor(
 
             fun addRuleResult(ruleResult: RuleResult) = apply {
                 ruleResults =
-                    (ruleResults ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(ruleResult)
+                    (ruleResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("ruleResults", it).add(ruleResult)
                     }
             }
 

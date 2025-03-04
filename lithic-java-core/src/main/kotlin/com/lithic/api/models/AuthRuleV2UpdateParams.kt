@@ -22,6 +22,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
@@ -328,14 +329,8 @@ private constructor(
                 /** Account tokens to which the Auth Rule applies. */
                 fun addAccountToken(accountToken: String) = apply {
                     accountTokens =
-                        (accountTokens ?: JsonField.of(mutableListOf())).apply {
-                            asKnown()
-                                .orElseThrow {
-                                    IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    )
-                                }
-                                .add(accountToken)
+                        (accountTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("accountTokens", it).add(accountToken)
                         }
                 }
 
@@ -621,14 +616,8 @@ private constructor(
                 /** Card tokens to which the Auth Rule applies. */
                 fun addCardToken(cardToken: String) = apply {
                     cardTokens =
-                        (cardTokens ?: JsonField.of(mutableListOf())).apply {
-                            asKnown()
-                                .orElseThrow {
-                                    IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    )
-                                }
-                                .add(cardToken)
+                        (cardTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("cardTokens", it).add(cardToken)
                         }
                 }
 
@@ -931,14 +920,8 @@ private constructor(
                 /** Card tokens to which the Auth Rule does not apply. */
                 fun addExcludedCardToken(excludedCardToken: String) = apply {
                     excludedCardTokens =
-                        (excludedCardTokens ?: JsonField.of(mutableListOf())).apply {
-                            asKnown()
-                                .orElseThrow {
-                                    IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    )
-                                }
-                                .add(excludedCardToken)
+                        (excludedCardTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("excludedCardTokens", it).add(excludedCardToken)
                         }
                 }
 
