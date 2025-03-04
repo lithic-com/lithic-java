@@ -11,6 +11,7 @@ import com.lithic.api.models.ReportSettlementListDetailsPageAsync
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
+import com.lithic.api.services.async.reports.settlement.NetworkTotalServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface SettlementServiceAsync {
@@ -19,6 +20,8 @@ interface SettlementServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun networkTotals(): NetworkTotalServiceAsync
 
     /** List details. */
     @JvmOverloads
@@ -39,6 +42,8 @@ interface SettlementServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        fun networkTotals(): NetworkTotalServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/reports/settlement/details/{report_date}`, but
