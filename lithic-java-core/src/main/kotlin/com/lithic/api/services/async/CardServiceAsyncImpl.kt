@@ -18,6 +18,8 @@ import com.lithic.api.models.Card
 import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
+import com.lithic.api.models.CardGetEmbedHtmlParams
+import com.lithic.api.models.CardGetEmbedUrlParams
 import com.lithic.api.models.CardListPageAsync
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
@@ -35,7 +37,12 @@ import com.lithic.api.services.async.cards.BalanceServiceAsync
 import com.lithic.api.services.async.cards.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
+import java.net.URI
+import java.util.Base64
 import java.util.concurrent.CompletableFuture
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CardServiceAsync {
@@ -433,5 +440,54 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
                         }
                     }
             }
+    }
+
+    override fun getEmbedHtml(
+        params: CardGetEmbedHtmlParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<String> {
+        val embed_request =
+            Base64.getEncoder()
+                .encodeToString(clientOptions.jsonMapper.writeValueAsBytes(params.getBody()))
+
+        val mac: Mac = Mac.getInstance("HmacSHA256")
+        mac.init(SecretKeySpec(clientOptions.apiKey.toByteArray(), "HmacSHA256"))
+        val embed_request_hmac =
+            Base64.getEncoder().encodeToString(mac.doFinal(embed_request.toByteArray()))
+
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("v1", "embed", "card")
+                .putQueryParam("embed_request", embed_request)
+                .putQueryParam("hmac", embed_request_hmac)
+                .putAllHeaders(clientOptions.headers)
+                .replaceAllHeaders(params.getHeaders())
+                .putHeader("Accept", "text/html")
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response.let { embedHandler.handle(it) }
+        }
+    }
+
+    override fun getEmbedUrl(
+        params: CardGetEmbedUrlParams,
+        requestOptions: RequestOptions,
+    ): String {
+        val embed_request =
+            Base64.getEncoder()
+                .encodeToString(clientOptions.jsonMapper.writeValueAsBytes(params.getBody()))
+
+        val mac: Mac = Mac.getInstance("HmacSHA256")
+        mac.init(SecretKeySpec(clientOptions.apiKey.toByteArray(), "HmacSHA256"))
+        val embed_request_hmac =
+            Base64.getEncoder().encodeToString(mac.doFinal(embed_request.toByteArray()))
+
+        return URIBuilder(URI.create(clientOptions.baseUrl))
+            .appendPathSegments("embed", "card")
+            .addParameter("embed_request", embed_request)
+            .addParameter("hmac", embed_request_hmac)
+            .toString()
     }
 }
