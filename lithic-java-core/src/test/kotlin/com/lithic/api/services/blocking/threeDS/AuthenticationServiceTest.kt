@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.threeDS
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -63,5 +64,22 @@ class AuthenticationServiceTest {
             )
 
         response.validate()
+    }
+
+    @Test
+    fun simulateOtpEntry() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val authenticationService = client.threeDS().authentication()
+
+        authenticationService.simulateOtpEntry(
+            ThreeDSAuthenticationSimulateOtpEntryParams.builder()
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+                .otp("123456")
+                .build()
+        )
     }
 }

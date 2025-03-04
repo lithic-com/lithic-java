@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
@@ -11,30 +10,32 @@ import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
 /**
- * Endpoint for responding to a 3DS Challenge initiated by a call to
- * /v1/three_ds_decisioning/simulate/challenge
+ * (Available March 4, 2025) Retrieve a specific network total record by token. Not available in
+ * sandbox.
  */
-class ThreeDSDecisioningSimulateChallengeResponseParams
+class ReportSettlementNetworkTotalRetrieveParams
 private constructor(
-    private val challengeResponse: ChallengeResponse,
+    private val token: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun challengeResponse(): ChallengeResponse = challengeResponse
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> =
-        challengeResponse._additionalProperties()
+    fun token(): String = token
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ChallengeResponse = challengeResponse
-
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
+
+    fun getPathParam(index: Int): String {
+        return when (index) {
+            0 -> token
+            else -> ""
+        }
+    }
 
     fun toBuilder() = Builder().from(this)
 
@@ -43,29 +44,26 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [ThreeDSDecisioningSimulateChallengeResponseParams]. */
+    /** A builder for [ReportSettlementNetworkTotalRetrieveParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
-        private var challengeResponse: ChallengeResponse? = null
+        private var token: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(
-            threeDSDecisioningSimulateChallengeResponseParams:
-                ThreeDSDecisioningSimulateChallengeResponseParams
+            reportSettlementNetworkTotalRetrieveParams: ReportSettlementNetworkTotalRetrieveParams
         ) = apply {
-            challengeResponse = threeDSDecisioningSimulateChallengeResponseParams.challengeResponse
+            token = reportSettlementNetworkTotalRetrieveParams.token
             additionalHeaders =
-                threeDSDecisioningSimulateChallengeResponseParams.additionalHeaders.toBuilder()
+                reportSettlementNetworkTotalRetrieveParams.additionalHeaders.toBuilder()
             additionalQueryParams =
-                threeDSDecisioningSimulateChallengeResponseParams.additionalQueryParams.toBuilder()
+                reportSettlementNetworkTotalRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun challengeResponse(challengeResponse: ChallengeResponse) = apply {
-            this.challengeResponse = challengeResponse
-        }
+        fun token(token: String) = apply { this.token = token }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -165,9 +163,9 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun build(): ThreeDSDecisioningSimulateChallengeResponseParams =
-            ThreeDSDecisioningSimulateChallengeResponseParams(
-                checkRequired("challengeResponse", challengeResponse),
+        fun build(): ReportSettlementNetworkTotalRetrieveParams =
+            ReportSettlementNetworkTotalRetrieveParams(
+                checkRequired("token", token),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -178,11 +176,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeResponseParams && challengeResponse == other.challengeResponse && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ReportSettlementNetworkTotalRetrieveParams && token == other.token && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(challengeResponse, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ThreeDSDecisioningSimulateChallengeResponseParams{challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ReportSettlementNetworkTotalRetrieveParams{token=$token, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

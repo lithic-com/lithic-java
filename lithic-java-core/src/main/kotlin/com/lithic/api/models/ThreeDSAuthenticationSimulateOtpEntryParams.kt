@@ -12,19 +12,20 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
-import java.util.Optional
 
 /**
- * Simulates a 3DS authentication challenge request from the payment network as if it came from an
- * ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's Challenge
- * solution.
+ * Endpoint for simulating entering OTP into 3DS Challenge UI. A call to
+ * /v1/three_ds_authentication/simulate that resulted in triggered SMS-OTP challenge must precede.
+ * Only a single attempt is supported; upon entering OTP, the challenge is either approved or
+ * declined.
  */
-class ThreeDSDecisioningSimulateChallengeParams
+class ThreeDSAuthenticationSimulateOtpEntryParams
 private constructor(
     private val body: Body,
     private val additionalHeaders: Headers,
@@ -32,16 +33,22 @@ private constructor(
 ) : Params {
 
     /**
-     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that responded
-     * with a CHALLENGE_REQUESTED status.
+     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that resulted
+     * in PENDING_CHALLENGE authentication result.
      */
-    fun token(): Optional<String> = body.token()
+    fun token(): String = body.token()
+
+    /** The OTP entered by the cardholder */
+    fun otp(): String = body.otp()
 
     /**
-     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that responded
-     * with a CHALLENGE_REQUESTED status.
+     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that resulted
+     * in PENDING_CHALLENGE authentication result.
      */
     fun _token(): JsonField<String> = body._token()
+
+    /** The OTP entered by the cardholder */
+    fun _otp(): JsonField<String> = body._otp()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -62,21 +69,28 @@ private constructor(
         @JsonProperty("token")
         @ExcludeMissing
         private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("otp") @ExcludeMissing private val otp: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * responded with a CHALLENGE_REQUESTED status.
+         * resulted in PENDING_CHALLENGE authentication result.
          */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+        fun token(): String = token.getRequired("token")
+
+        /** The OTP entered by the cardholder */
+        fun otp(): String = otp.getRequired("otp")
 
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * responded with a CHALLENGE_REQUESTED status.
+         * resulted in PENDING_CHALLENGE authentication result.
          */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /** The OTP entered by the cardholder */
+        @JsonProperty("otp") @ExcludeMissing fun _otp(): JsonField<String> = otp
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -90,6 +104,7 @@ private constructor(
             }
 
             token()
+            otp()
             validated = true
         }
 
@@ -103,26 +118,34 @@ private constructor(
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var token: JsonField<String> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var otp: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 token = body.token
+                otp = body.otp
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
              * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-             * responded with a CHALLENGE_REQUESTED status.
+             * resulted in PENDING_CHALLENGE authentication result.
              */
             fun token(token: String) = token(JsonField.of(token))
 
             /**
              * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-             * responded with a CHALLENGE_REQUESTED status.
+             * resulted in PENDING_CHALLENGE authentication result.
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
+
+            /** The OTP entered by the cardholder */
+            fun otp(otp: String) = otp(JsonField.of(otp))
+
+            /** The OTP entered by the cardholder */
+            fun otp(otp: JsonField<String>) = apply { this.otp = otp }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -143,7 +166,12 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
-            fun build(): Body = Body(token, additionalProperties.toImmutable())
+            fun build(): Body =
+                Body(
+                    checkRequired("token", token),
+                    checkRequired("otp", otp),
+                    additionalProperties.toImmutable(),
+                )
         }
 
         override fun equals(other: Any?): Boolean {
@@ -151,28 +179,27 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && token == other.token && otp == other.otp && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, otp, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() = "Body{token=$token, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Body{token=$token, otp=$otp, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun none(): ThreeDSDecisioningSimulateChallengeParams = builder().build()
-
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [ThreeDSDecisioningSimulateChallengeParams]. */
+    /** A builder for [ThreeDSAuthenticationSimulateOtpEntryParams]. */
     @NoAutoDetect
     class Builder internal constructor() {
 
@@ -182,26 +209,32 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(
-            threeDSDecisioningSimulateChallengeParams: ThreeDSDecisioningSimulateChallengeParams
+            threeDSAuthenticationSimulateOtpEntryParams: ThreeDSAuthenticationSimulateOtpEntryParams
         ) = apply {
-            body = threeDSDecisioningSimulateChallengeParams.body.toBuilder()
+            body = threeDSAuthenticationSimulateOtpEntryParams.body.toBuilder()
             additionalHeaders =
-                threeDSDecisioningSimulateChallengeParams.additionalHeaders.toBuilder()
+                threeDSAuthenticationSimulateOtpEntryParams.additionalHeaders.toBuilder()
             additionalQueryParams =
-                threeDSDecisioningSimulateChallengeParams.additionalQueryParams.toBuilder()
+                threeDSAuthenticationSimulateOtpEntryParams.additionalQueryParams.toBuilder()
         }
 
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * responded with a CHALLENGE_REQUESTED status.
+         * resulted in PENDING_CHALLENGE authentication result.
          */
         fun token(token: String) = apply { body.token(token) }
 
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * responded with a CHALLENGE_REQUESTED status.
+         * resulted in PENDING_CHALLENGE authentication result.
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
+
+        /** The OTP entered by the cardholder */
+        fun otp(otp: String) = apply { body.otp(otp) }
+
+        /** The OTP entered by the cardholder */
+        fun otp(otp: JsonField<String>) = apply { body.otp(otp) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -320,8 +353,8 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun build(): ThreeDSDecisioningSimulateChallengeParams =
-            ThreeDSDecisioningSimulateChallengeParams(
+        fun build(): ThreeDSAuthenticationSimulateOtpEntryParams =
+            ThreeDSAuthenticationSimulateOtpEntryParams(
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -333,11 +366,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ThreeDSAuthenticationSimulateOtpEntryParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ThreeDSDecisioningSimulateChallengeParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ThreeDSAuthenticationSimulateOtpEntryParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
