@@ -203,6 +203,23 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Tokenization].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .cardToken()
+         * .createdAt()
+         * .dpan()
+         * .status()
+         * .tokenRequestorName()
+         * .tokenUniqueReference()
+         * .tokenizationChannel()
+         * .updatedAt()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -860,6 +877,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [TokenizationEvent]. */
             @JvmStatic fun builder() = Builder()
         }
 

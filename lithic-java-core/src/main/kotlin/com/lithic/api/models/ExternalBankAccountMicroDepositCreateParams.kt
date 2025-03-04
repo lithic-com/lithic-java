@@ -90,6 +90,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [MicroDepositVerificationRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .microDeposits()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -170,6 +179,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountMicroDepositCreateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * .microDeposits()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -292,6 +292,33 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [SettlementDetail].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .cardProgramToken()
+         * .cardToken()
+         * .created()
+         * .currency()
+         * .disputesGrossAmount()
+         * .eventTokens()
+         * .institution()
+         * .interchangeFeeExtendedPrecision()
+         * .interchangeGrossAmount()
+         * .network()
+         * .otherFeesDetails()
+         * .otherFeesGrossAmount()
+         * .reportDate()
+         * .settlementDate()
+         * .transactionToken()
+         * .transactionsGrossAmount()
+         * .type()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -734,6 +761,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [OtherFeesDetails]. */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -171,6 +171,23 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [NetworkTotalRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .amounts()
+         * .created()
+         * .currency()
+         * .institutionId()
+         * .network()
+         * .reportDate()
+         * .settlementInstitutionId()
+         * .settlementService()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -413,6 +430,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Amounts].
+             *
+             * The following fields are required:
+             * ```java
+             * .grossSettlement()
+             * .interchangeFees()
+             * .netSettlement()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

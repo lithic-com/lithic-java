@@ -38,6 +38,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

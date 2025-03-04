@@ -126,6 +126,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [CardProgram].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .name()
+         * .panRangeEnd()
+         * .panRangeStart()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -93,6 +93,10 @@ private constructor(
 
         @JvmStatic fun none(): ExternalBankAccountListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

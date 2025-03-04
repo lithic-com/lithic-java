@@ -142,6 +142,10 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [EventSubscriptionListPage].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

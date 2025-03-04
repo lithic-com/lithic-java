@@ -246,6 +246,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Body]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -403,6 +404,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountUpdateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .accountToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -813,6 +822,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [VerificationAddress]. */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -144,6 +144,10 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [DisputeListEvidencesPageAsync].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

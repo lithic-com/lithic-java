@@ -93,6 +93,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [ChargeOffAccountRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .reason()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -162,6 +170,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [FinancialAccountChargeOffParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .financialAccountToken()
+         * .reason()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

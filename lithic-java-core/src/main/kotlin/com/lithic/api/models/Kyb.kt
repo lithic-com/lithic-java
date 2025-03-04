@@ -228,6 +228,20 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Kyb].
+         *
+         * The following fields are required:
+         * ```java
+         * .beneficialOwnerEntities()
+         * .beneficialOwnerIndividuals()
+         * .businessEntity()
+         * .controlPerson()
+         * .natureOfBusiness()
+         * .tosTimestamp()
+         * .workflow()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -602,6 +616,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [BusinessEntity].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .governmentId()
+             * .legalBusinessName()
+             * .phoneNumbers()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -872,6 +897,19 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [KybIndividual].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dob()
+             * .email()
+             * .firstName()
+             * .governmentId()
+             * .lastName()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

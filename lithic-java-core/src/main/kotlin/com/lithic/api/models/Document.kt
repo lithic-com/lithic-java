@@ -104,6 +104,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Document].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountHolderToken()
+         * .documentType()
+         * .entityToken()
+         * .requiredDocumentUploads()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -565,6 +577,22 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [RequiredDocumentUpload].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .acceptedEntityStatusReasons()
+             * .created()
+             * .imageType()
+             * .rejectedEntityStatusReasons()
+             * .status()
+             * .statusReasons()
+             * .updated()
+             * .uploadUrl()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

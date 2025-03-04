@@ -65,6 +65,7 @@ private constructor(
 
         @JvmStatic fun none(): AuthRuleV2ListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [AuthRuleV2ListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

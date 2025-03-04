@@ -191,6 +191,20 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ShippingAddress].
+         *
+         * The following fields are required:
+         * ```java
+         * .address1()
+         * .city()
+         * .country()
+         * .firstName()
+         * .lastName()
+         * .postalCode()
+         * .state()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

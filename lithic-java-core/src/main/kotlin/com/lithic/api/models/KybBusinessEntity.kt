@@ -133,6 +133,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [KybBusinessEntity].
+         *
+         * The following fields are required:
+         * ```java
+         * .address()
+         * .governmentId()
+         * .legalBusinessName()
+         * .phoneNumbers()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -373,6 +384,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Address].
+             *
+             * The following fields are required:
+             * ```java
+             * .address1()
+             * .city()
+             * .country()
+             * .postalCode()
+             * .state()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
