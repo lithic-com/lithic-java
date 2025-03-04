@@ -4,7 +4,9 @@
 
 package com.lithic.api.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Card
 import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
@@ -26,6 +28,11 @@ import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface CardServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     fun aggregateBalances(): AggregateBalanceServiceAsync
 
@@ -182,4 +189,145 @@ interface CardServiceAsync {
         params: CardSearchByPanParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
+
+    /** A view of [CardServiceAsync] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        fun aggregateBalances(): AggregateBalanceServiceAsync.WithRawResponse
+
+        fun balances(): BalanceServiceAsync.WithRawResponse
+
+        fun financialTransactions(): FinancialTransactionServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards`, but is otherwise the same as
+         * [CardServiceAsync.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: CardCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards/{card_token}`, but is otherwise the same
+         * as [CardServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CardRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
+         * as [CardServiceAsync.update].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: CardUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
+         * [CardServiceAsync.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: CardListParams = CardListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardListPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
+         * [CardServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
+            list(CardListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
+         * otherwise the same as [CardServiceAsync.convertPhysical].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun convertPhysical(
+            params: CardConvertPhysicalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
+         * [CardServiceAsync.embed].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun embed(
+            params: CardEmbedParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<String>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/provision`, but is otherwise
+         * the same as [CardServiceAsync.provision].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun provision(
+            params: CardProvisionParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
+         * the same as [CardServiceAsync.reissue].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun reissue(
+            params: CardReissueParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
+         * same as [CardServiceAsync.renew].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun renew(
+            params: CardRenewParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
+         * otherwise the same as [CardServiceAsync.retrieveSpendLimits].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
+         * as [CardServiceAsync.searchByPan].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun searchByPan(
+            params: CardSearchByPanParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>>
+    }
 }

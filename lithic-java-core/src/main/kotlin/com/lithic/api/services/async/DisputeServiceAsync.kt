@@ -4,7 +4,9 @@
 
 package com.lithic.api.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
 import com.lithic.api.models.DisputeDeleteEvidenceParams
@@ -21,6 +23,11 @@ import com.lithic.api.models.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
 
 interface DisputeServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /** Initiate a dispute. */
     @JvmOverloads
@@ -97,4 +104,121 @@ interface DisputeServiceAsync {
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeEvidence>
+
+    /**
+     * A view of [DisputeServiceAsync] that provides access to raw HTTP responses for each method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `post /v1/disputes`, but is otherwise the same as
+         * [DisputeServiceAsync.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: DisputeCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Dispute>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}`, but is otherwise the
+         * same as [DisputeServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: DisputeRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Dispute>>
+
+        /**
+         * Returns a raw HTTP response for `patch /v1/disputes/{dispute_token}`, but is otherwise
+         * the same as [DisputeServiceAsync.update].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: DisputeUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Dispute>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
+         * [DisputeServiceAsync.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: DisputeListParams = DisputeListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
+         * [DisputeServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
+            list(DisputeListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /v1/disputes/{dispute_token}`, but is otherwise
+         * the same as [DisputeServiceAsync.delete].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun delete(
+            params: DisputeDeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Dispute>>
+
+        /**
+         * Returns a raw HTTP response for `delete
+         * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
+         * [DisputeServiceAsync.deleteEvidence].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun deleteEvidence(
+            params: DisputeDeleteEvidenceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DisputeEvidence>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/disputes/{dispute_token}/evidences`, but is
+         * otherwise the same as [DisputeServiceAsync.initiateEvidenceUpload].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun initiateEvidenceUpload(
+            params: DisputeInitiateEvidenceUploadParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DisputeEvidence>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}/evidences`, but is
+         * otherwise the same as [DisputeServiceAsync.listEvidences].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun listEvidences(
+            params: DisputeListEvidencesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
+         * [DisputeServiceAsync.retrieveEvidence].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveEvidence(
+            params: DisputeRetrieveEvidenceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DisputeEvidence>>
+    }
 }

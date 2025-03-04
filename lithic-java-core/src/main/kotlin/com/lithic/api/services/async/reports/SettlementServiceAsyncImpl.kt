@@ -10,6 +10,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ReportSettlementListDetailsPageAsync
@@ -21,63 +23,107 @@ import java.util.concurrent.CompletableFuture
 class SettlementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     SettlementServiceAsync {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: SettlementServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val listDetailsHandler: Handler<ReportSettlementListDetailsPageAsync.Response> =
-        jsonHandler<ReportSettlementListDetailsPageAsync.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun withRawResponse(): SettlementServiceAsync.WithRawResponse = withRawResponse
 
-    /** List details. */
     override fun listDetails(
         params: ReportSettlementListDetailsParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<ReportSettlementListDetailsPageAsync> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "reports", "settlement", "details", params.getPathParam(0))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { listDetailsHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-                    .let { ReportSettlementListDetailsPageAsync.of(this, params, it) }
-            }
-    }
+    ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
+        // get /v1/reports/settlement/details/{report_date}
+        withRawResponse().listDetails(params, requestOptions).thenApply { it.parse() }
 
-    private val summaryHandler: Handler<SettlementReport> =
-        jsonHandler<SettlementReport>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Get the settlement report for a specified report date. Not available in sandbox. */
     override fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<SettlementReport> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "reports", "settlement", "summary", params.getPathParam(0))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { summaryHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
+    ): CompletableFuture<SettlementReport> =
+        // get /v1/reports/settlement/summary/{report_date}
+        withRawResponse().summary(params, requestOptions).thenApply { it.parse() }
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SettlementServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val listDetailsHandler: Handler<ReportSettlementListDetailsPageAsync.Response> =
+            jsonHandler<ReportSettlementListDetailsPageAsync.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun listDetails(
+            params: ReportSettlementListDetailsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "v1",
+                        "reports",
+                        "settlement",
+                        "details",
+                        params.getPathParam(0),
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { listDetailsHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                ReportSettlementListDetailsPageAsync.of(
+                                    SettlementServiceAsyncImpl(clientOptions),
+                                    params,
+                                    it,
+                                )
+                            }
                     }
-            }
+                }
+        }
+
+        private val summaryHandler: Handler<SettlementReport> =
+            jsonHandler<SettlementReport>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun summary(
+            params: ReportSettlementSummaryParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SettlementReport>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "v1",
+                        "reports",
+                        "settlement",
+                        "summary",
+                        params.getPathParam(0),
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { summaryHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
     }
 }
