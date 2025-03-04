@@ -37,6 +37,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ThreeDSDecisioningChallengeResponseParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .challengeResponse()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

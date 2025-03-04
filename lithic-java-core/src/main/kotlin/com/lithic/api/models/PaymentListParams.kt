@@ -109,6 +109,7 @@ private constructor(
 
         @JvmStatic fun none(): PaymentListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [PaymentListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

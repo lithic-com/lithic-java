@@ -51,6 +51,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2PromoteParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

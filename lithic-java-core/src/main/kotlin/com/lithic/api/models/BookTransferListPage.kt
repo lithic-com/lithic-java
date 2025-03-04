@@ -142,6 +142,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [BookTransferListPage]. */
             @JvmStatic fun builder() = Builder()
         }
 

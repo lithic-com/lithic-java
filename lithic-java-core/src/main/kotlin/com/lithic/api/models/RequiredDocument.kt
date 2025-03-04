@@ -86,6 +86,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [RequiredDocument].
+         *
+         * The following fields are required:
+         * ```java
+         * .entityToken()
+         * .statusReasons()
+         * .validDocuments()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

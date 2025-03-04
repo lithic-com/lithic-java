@@ -51,6 +51,10 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [TokenizationDecisioningRotateSecretResponse].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

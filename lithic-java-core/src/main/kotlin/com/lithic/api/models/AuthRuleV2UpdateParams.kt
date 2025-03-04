@@ -298,6 +298,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [AccountLevelRule]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -586,6 +587,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [CardLevelRule]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -886,6 +888,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [ProgramLevelRule]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1120,6 +1123,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2UpdateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * .body()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

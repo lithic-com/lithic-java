@@ -225,6 +225,7 @@ private constructor(
 
     companion object {
 
+        /** Returns a mutable builder for constructing an instance of [Transfer]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -641,6 +642,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [FinancialEvent]. */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -162,6 +162,22 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [V2ListResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountTokens()
+         * .cardTokens()
+         * .currentVersion()
+         * .draftVersion()
+         * .name()
+         * .programLevel()
+         * .state()
+         * .type()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -382,6 +398,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [CurrentVersion].
+             *
+             * The following fields are required:
+             * ```java
+             * .parameters()
+             * .version()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -674,6 +699,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [DraftVersion].
+             *
+             * The following fields are required:
+             * ```java
+             * .parameters()
+             * .version()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -165,6 +165,22 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [FinancialAccount].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .created()
+         * .creditConfiguration()
+         * .isForBenefitOf()
+         * .nickname()
+         * .status()
+         * .type()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -438,6 +454,21 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [FinancialAccountCreditConfig].
+             *
+             * The following fields are required:
+             * ```java
+             * .chargedOffReason()
+             * .creditLimit()
+             * .creditProductToken()
+             * .externalBankAccountToken()
+             * .financialAccountState()
+             * .isSpendBlocked()
+             * .tier()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -124,6 +124,9 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [FinancialAccountListPage].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

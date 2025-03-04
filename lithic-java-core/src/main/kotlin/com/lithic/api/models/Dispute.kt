@@ -376,6 +376,32 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Dispute].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .amount()
+         * .arbitrationDate()
+         * .created()
+         * .customerFiledDate()
+         * .customerNote()
+         * .networkClaimIds()
+         * .networkFiledDate()
+         * .networkReasonCode()
+         * .prearbitrationDate()
+         * .primaryClaimId()
+         * .reason()
+         * .representmentDate()
+         * .resolutionAmount()
+         * .resolutionDate()
+         * .resolutionNote()
+         * .resolutionReason()
+         * .status()
+         * .transactionToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

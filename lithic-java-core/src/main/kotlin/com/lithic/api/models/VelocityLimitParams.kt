@@ -121,6 +121,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [VelocityLimitParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .filters()
+         * .period()
+         * .scope()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -337,6 +347,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Filters]. */
             @JvmStatic fun builder() = Builder()
         }
 

@@ -40,6 +40,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [TransactionEventEnhancedCommercialDataRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .eventToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
