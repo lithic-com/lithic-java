@@ -143,6 +143,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountHolderCreateResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .status()
+         * .statusReasons()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

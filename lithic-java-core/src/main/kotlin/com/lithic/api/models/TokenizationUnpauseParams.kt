@@ -55,6 +55,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [TokenizationUnpauseParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .tokenizationToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

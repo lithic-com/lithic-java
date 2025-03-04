@@ -52,6 +52,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ConditionalBlockParameters].
+         *
+         * The following fields are required:
+         * ```java
+         * .conditions()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

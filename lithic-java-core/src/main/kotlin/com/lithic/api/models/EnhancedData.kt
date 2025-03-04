@@ -92,6 +92,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [EnhancedData].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .common()
+         * .eventToken()
+         * .fleet()
+         * .transactionToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -264,6 +276,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [CommonData].
+             *
+             * The following fields are required:
+             * ```java
+             * .lineItems()
+             * .tax()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -431,6 +452,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [LineItem]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -592,6 +614,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [TaxData]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -914,6 +937,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Fleet].
+             *
+             * The following fields are required:
+             * ```java
+             * .amountTotals()
+             * .fuel()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1081,6 +1113,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [AmountTotals]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1234,6 +1267,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [FuelData]. */
                 @JvmStatic fun builder() = Builder()
             }
 

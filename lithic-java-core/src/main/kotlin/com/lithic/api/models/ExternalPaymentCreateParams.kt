@@ -192,6 +192,19 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [CreateExternalPaymentRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .category()
+             * .effectiveDate()
+             * .financialAccountToken()
+             * .paymentType()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -331,6 +344,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ExternalPaymentCreateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .amount()
+         * .category()
+         * .effectiveDate()
+         * .financialAccountToken()
+         * .paymentType()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

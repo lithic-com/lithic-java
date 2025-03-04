@@ -66,6 +66,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [CardEmbedParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .embedRequest()
+         * .hmac()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

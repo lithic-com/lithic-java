@@ -143,6 +143,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .merchant()
+             * .pan()
+             * .transaction()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -246,6 +256,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ThreeDSAuthenticationSimulateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .merchant()
+         * .pan()
+         * .transaction()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -510,6 +531,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Merchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .id()
+             * .country()
+             * .mcc()
+             * .name()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -674,6 +706,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Transaction].
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .currency()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

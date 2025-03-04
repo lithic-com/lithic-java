@@ -18,6 +18,7 @@ class LithicOkHttpClient private constructor() {
 
     companion object {
 
+        /** Returns a mutable builder for constructing an instance of [LithicOkHttpClient]. */
         @JvmStatic fun builder() = Builder()
 
         @JvmStatic fun fromEnv(): LithicClient = builder().fromEnv().build()

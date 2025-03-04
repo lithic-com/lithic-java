@@ -120,6 +120,10 @@ private constructor(
 
         @JvmStatic fun none(): ReportSettlementNetworkTotalListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ReportSettlementNetworkTotalListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -103,6 +103,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [SimulateOriginationReturnRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .paymentToken()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -188,6 +197,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [PaymentSimulateReturnParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .paymentToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

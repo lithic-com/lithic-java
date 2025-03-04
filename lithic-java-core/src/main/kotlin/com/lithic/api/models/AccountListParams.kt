@@ -77,6 +77,7 @@ private constructor(
 
         @JvmStatic fun none(): AccountListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [AccountListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

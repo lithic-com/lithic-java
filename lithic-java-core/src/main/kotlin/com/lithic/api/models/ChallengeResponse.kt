@@ -69,6 +69,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ChallengeResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .challengeResponse()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

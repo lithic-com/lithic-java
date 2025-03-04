@@ -50,6 +50,9 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [TokenizationSimulateResponse].
+         */
         @JvmStatic fun builder() = Builder()
     }
 
