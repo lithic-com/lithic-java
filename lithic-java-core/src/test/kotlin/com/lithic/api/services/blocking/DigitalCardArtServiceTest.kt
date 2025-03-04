@@ -12,33 +12,35 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DigitalCardArtServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val digitalCardArtService = client.digitalCardArt()
+
         val digitalCardArt =
             digitalCardArtService.retrieve(
                 DigitalCardArtRetrieveParams.builder()
                     .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(digitalCardArt)
+
         digitalCardArt.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val digitalCardArtService = client.digitalCardArt()
-        val response = digitalCardArtService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = digitalCardArtService.list()
+
+        page.response().validate()
     }
 }

@@ -12,14 +12,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class MicroDepositServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val microDepositService = client.externalBankAccounts().microDeposits()
-        val microDepositCreateResponse =
+
+        val microDeposit =
             microDepositService.create(
                 ExternalBankAccountMicroDepositCreateParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -27,7 +28,7 @@ class MicroDepositServiceTest {
                     .addMicroDeposit(0L)
                     .build()
             )
-        println(microDepositCreateResponse)
-        microDepositCreateResponse.validate()
+
+        microDeposit.validate()
     }
 }

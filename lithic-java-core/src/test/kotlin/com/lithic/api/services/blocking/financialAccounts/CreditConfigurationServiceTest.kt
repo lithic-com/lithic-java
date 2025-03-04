@@ -13,31 +13,33 @@ import org.junit.jupiter.api.extension.ExtendWith
 class CreditConfigurationServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val creditConfigurationService = client.financialAccounts().creditConfiguration()
+
         val financialAccountCreditConfig =
             creditConfigurationService.retrieve(
                 FinancialAccountCreditConfigurationRetrieveParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(financialAccountCreditConfig)
+
         financialAccountCreditConfig.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val creditConfigurationService = client.financialAccounts().creditConfiguration()
+
         val financialAccountCreditConfig =
             creditConfigurationService.update(
                 FinancialAccountCreditConfigurationUpdateParams.builder()
@@ -48,7 +50,7 @@ class CreditConfigurationServiceTest {
                     .tier("x")
                     .build()
             )
-        println(financialAccountCreditConfig)
+
         financialAccountCreditConfig.validate()
     }
 }

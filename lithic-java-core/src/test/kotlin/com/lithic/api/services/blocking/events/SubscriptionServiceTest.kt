@@ -23,13 +23,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class SubscriptionServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         val eventSubscription =
             subscriptionService.create(
                 EventSubscriptionCreateParams.builder()
@@ -39,36 +40,38 @@ class SubscriptionServiceTest {
                     .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
-        println(eventSubscription)
+
         eventSubscription.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         val eventSubscription =
             subscriptionService.retrieve(
                 EventSubscriptionRetrieveParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
-        println(eventSubscription)
+
         eventSubscription.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         val eventSubscription =
             subscriptionService.update(
                 EventSubscriptionUpdateParams.builder()
@@ -79,32 +82,34 @@ class SubscriptionServiceTest {
                     .addEventType(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
-        println(eventSubscription)
+
         eventSubscription.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
-        val response = subscriptionService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = subscriptionService.list()
+
+        page.response().validate()
     }
 
     @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
-    fun callDelete() {
+    fun delete() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         subscriptionService.delete(
             EventSubscriptionDeleteParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -113,32 +118,34 @@ class SubscriptionServiceTest {
     }
 
     @Test
-    fun callListAttempts() {
+    fun listAttempts() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
-        val response =
+
+        val page =
             subscriptionService.listAttempts(
                 EventSubscriptionListAttemptsParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
-        println(response)
-        response.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 
     @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
-    fun callRecover() {
+    fun recover() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         subscriptionService.recover(
             EventSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -150,13 +157,14 @@ class SubscriptionServiceTest {
 
     @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
-    fun callReplayMissing() {
+    fun replayMissing() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         subscriptionService.replayMissing(
             EventSubscriptionReplayMissingParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -167,32 +175,34 @@ class SubscriptionServiceTest {
     }
 
     @Test
-    fun callRetrieveSecret() {
+    fun retrieveSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
-        val subscriptionRetrieveSecretResponse =
+
+        val response =
             subscriptionService.retrieveSecret(
                 EventSubscriptionRetrieveSecretParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
-        println(subscriptionRetrieveSecretResponse)
-        subscriptionRetrieveSecretResponse.validate()
+
+        response.validate()
     }
 
     @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
-    fun callRotateSecret() {
+    fun rotateSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         subscriptionService.rotateSecret(
             EventSubscriptionRotateSecretParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
@@ -201,13 +211,14 @@ class SubscriptionServiceTest {
     }
 
     @Test
-    fun callSendSimulatedExample() {
+    fun sendSimulatedExample() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
+
         subscriptionService.sendSimulatedExample(
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")

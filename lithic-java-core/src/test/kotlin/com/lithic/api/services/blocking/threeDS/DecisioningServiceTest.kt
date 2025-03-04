@@ -16,13 +16,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DecisioningServiceTest {
 
     @Test
-    fun callChallengeResponse() {
+    fun challengeResponse() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
+
         decisioningService.challengeResponse(
             ThreeDSDecisioningChallengeResponseParams.builder()
                 .challengeResponse(
@@ -36,55 +37,59 @@ class DecisioningServiceTest {
     }
 
     @Test
-    fun callRetrieveSecret() {
+    fun retrieveSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
-        val decisioningRetrieveSecretResponse = decisioningService.retrieveSecret()
-        println(decisioningRetrieveSecretResponse)
-        decisioningRetrieveSecretResponse.validate()
+
+        val response = decisioningService.retrieveSecret()
+
+        response.validate()
     }
 
     @Test
-    fun callRotateSecret() {
+    fun rotateSecret() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
+
         decisioningService.rotateSecret()
     }
 
     @Test
-    fun callSimulateChallenge() {
+    fun simulateChallenge() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
-        val decisioningSimulateChallengeResponse =
+
+        val response =
             decisioningService.simulateChallenge(
                 ThreeDSDecisioningSimulateChallengeParams.builder()
                     .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                     .build()
             )
-        println(decisioningSimulateChallengeResponse)
-        decisioningSimulateChallengeResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateChallengeResponse() {
+    fun simulateChallengeResponse() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
+
         decisioningService.simulateChallengeResponse(
             ThreeDSDecisioningSimulateChallengeResponseParams.builder()
                 .challengeResponse(

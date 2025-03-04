@@ -14,38 +14,40 @@ import org.junit.jupiter.api.extension.ExtendWith
 class SettlementServiceTest {
 
     @Test
-    fun callListDetails() {
+    fun listDetails() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val settlementService = client.reports().settlement()
-        val response =
+
+        val page =
             settlementService.listDetails(
                 ReportSettlementListDetailsParams.builder()
                     .reportDate(LocalDate.parse("2023-09-01"))
                     .build()
             )
-        println(response)
-        response.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 
     @Test
-    fun callSummary() {
+    fun summary() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val settlementService = client.reports().settlement()
+
         val settlementReport =
             settlementService.summary(
                 ReportSettlementSummaryParams.builder()
                     .reportDate(LocalDate.parse("2023-09-01"))
                     .build()
             )
-        println(settlementReport)
+
         settlementReport.validate()
     }
 }

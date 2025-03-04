@@ -18,14 +18,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class PaymentServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentCreateResponse =
+
+        val payment =
             paymentService.create(
                 PaymentCreateParams.builder()
                     .amount(1L)
@@ -43,66 +44,72 @@ class PaymentServiceTest {
                     .userDefinedId("user_defined_id")
                     .build()
             )
-        println(paymentCreateResponse)
+
+        payment.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
+
         val payment =
             paymentService.retrieve(
                 PaymentRetrieveParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(payment)
+
         payment.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val response = paymentService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = paymentService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callRetry() {
+    fun retry() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentRetryResponse =
+
+        val response =
             paymentService.retry(
                 PaymentRetryParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(paymentRetryResponse)
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateAction() {
+    fun simulateAction() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentSimulateActionResponse =
+
+        val response =
             paymentService.simulateAction(
                 PaymentSimulateActionParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -117,19 +124,20 @@ class PaymentServiceTest {
                     .returnReasonCode("return_reason_code")
                     .build()
             )
-        println(paymentSimulateActionResponse)
-        paymentSimulateActionResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateReceipt() {
+    fun simulateReceipt() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentSimulateReceiptResponse =
+
+        val response =
             paymentService.simulateReceipt(
                 PaymentSimulateReceiptParams.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -139,44 +147,46 @@ class PaymentServiceTest {
                     .memo("memo")
                     .build()
             )
-        println(paymentSimulateReceiptResponse)
-        paymentSimulateReceiptResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateRelease() {
+    fun simulateRelease() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentSimulateReleaseResponse =
+
+        val response =
             paymentService.simulateRelease(
                 PaymentSimulateReleaseParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(paymentSimulateReleaseResponse)
-        paymentSimulateReleaseResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callSimulateReturn() {
+    fun simulateReturn() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
-        val paymentSimulateReturnResponse =
+
+        val response =
             paymentService.simulateReturn(
                 PaymentSimulateReturnParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .returnReasonCode("R12")
                     .build()
             )
-        println(paymentSimulateReturnResponse)
-        paymentSimulateReturnResponse.validate()
+
+        response.validate()
     }
 }

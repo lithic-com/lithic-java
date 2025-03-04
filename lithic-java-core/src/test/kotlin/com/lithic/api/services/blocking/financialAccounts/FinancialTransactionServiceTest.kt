@@ -13,13 +13,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 class FinancialTransactionServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialTransactionService = client.financialAccounts().financialTransactions()
+
         val financialTransaction =
             financialTransactionService.retrieve(
                 FinancialTransactionRetrieveParams.builder()
@@ -27,25 +28,26 @@ class FinancialTransactionServiceTest {
                     .financialTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(financialTransaction)
+
         financialTransaction.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val financialTransactionService = client.financialAccounts().financialTransactions()
-        val response =
+
+        val page =
             financialTransactionService.list(
                 FinancialTransactionListParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(response)
-        response.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 }
