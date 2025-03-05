@@ -91,6 +91,10 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [RetryPrenoteVerificationRequest].
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -163,6 +167,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountRetryPrenoteParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

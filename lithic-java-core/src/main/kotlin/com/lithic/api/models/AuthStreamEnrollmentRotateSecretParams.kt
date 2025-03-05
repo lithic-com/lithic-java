@@ -44,6 +44,10 @@ private constructor(
 
         @JvmStatic fun none(): AuthStreamEnrollmentRotateSecretParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AuthStreamEnrollmentRotateSecretParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

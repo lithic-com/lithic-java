@@ -21,6 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.immutableEmptyMap
@@ -120,6 +121,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [VelocityLimitParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .filters()
+         * .period()
+         * .scope()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -168,6 +179,7 @@ private constructor(
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
+         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
          * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
          *   in Eastern Time.
          */
@@ -335,6 +347,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Filters]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -380,14 +393,8 @@ private constructor(
              */
             fun addIncludeCountry(includeCountry: String) = apply {
                 includeCountries =
-                    (includeCountries ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(includeCountry)
+                    (includeCountries ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("includeCountries", it).add(includeCountry)
                     }
             }
 
@@ -419,14 +426,8 @@ private constructor(
              */
             fun addIncludeMcc(includeMcc: String) = apply {
                 includeMccs =
-                    (includeMccs ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(includeMcc)
+                    (includeMccs ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("includeMccs", it).add(includeMcc)
                     }
             }
 
@@ -497,6 +498,7 @@ private constructor(
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
+         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
          * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
          *   in Eastern Time.
          */
@@ -516,6 +518,7 @@ private constructor(
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
+         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
          * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
          *   in Eastern Time.
          */
@@ -583,6 +586,8 @@ private constructor(
             /**
              * The window of time to calculate Spend Velocity over.
              * - `DAY`: Velocity over the current day since midnight Eastern Time.
+             * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern
+             *   Time.
              * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
              *   month in Eastern Time.
              */
@@ -604,6 +609,8 @@ private constructor(
             /**
              * The window of time to calculate Spend Velocity over.
              * - `DAY`: Velocity over the current day since midnight Eastern Time.
+             * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern
+             *   Time.
              * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
              *   month in Eastern Time.
              */

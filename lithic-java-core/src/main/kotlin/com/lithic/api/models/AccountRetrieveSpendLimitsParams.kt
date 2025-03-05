@@ -43,6 +43,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AccountRetrieveSpendLimitsParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .accountToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

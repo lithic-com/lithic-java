@@ -12,21 +12,22 @@ import org.junit.jupiter.api.extension.ExtendWith
 class LineItemServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val lineItemService = client.financialAccounts().statements().lineItems()
-        val statementLineItems =
+
+        val page =
             lineItemService.list(
                 FinancialAccountStatementLineItemListParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .statementToken("statement_token")
                     .build()
             )
-        println(statementLineItems)
-        statementLineItems.data().forEach { it.validate() }
+
+        page.response().validate()
     }
 }

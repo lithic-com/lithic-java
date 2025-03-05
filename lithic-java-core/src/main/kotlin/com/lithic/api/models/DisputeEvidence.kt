@@ -139,6 +139,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [DisputeEvidence].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .disputeToken()
+         * .uploadStatus()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

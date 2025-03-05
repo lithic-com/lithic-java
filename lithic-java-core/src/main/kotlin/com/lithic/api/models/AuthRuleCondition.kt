@@ -70,6 +70,8 @@ private constructor(
      *   and until the authorization.
      * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
      *   hours up and until the authorization.
+     * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values
+     *   are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
      */
     fun attribute(): Optional<ConditionalAttribute> =
         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -108,6 +110,8 @@ private constructor(
      *   and until the authorization.
      * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
      *   hours up and until the authorization.
+     * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values
+     *   are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
      */
     @JsonProperty("attribute")
     @ExcludeMissing
@@ -140,6 +144,7 @@ private constructor(
 
     companion object {
 
+        /** Returns a mutable builder for constructing an instance of [AuthRuleCondition]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -191,6 +196,8 @@ private constructor(
          *   hour up and until the authorization.
          * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
          *   hours up and until the authorization.
+         * - `CARD_STATE`: The current state of the card associated with the transaction. Valid
+         *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
          */
         fun attribute(attribute: ConditionalAttribute) = attribute(JsonField.of(attribute))
 
@@ -226,6 +233,8 @@ private constructor(
          *   hour up and until the authorization.
          * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
          *   hours up and until the authorization.
+         * - `CARD_STATE`: The current state of the card associated with the transaction. Valid
+         *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
          */
         fun attribute(attribute: JsonField<ConditionalAttribute>) = apply {
             this.attribute = attribute

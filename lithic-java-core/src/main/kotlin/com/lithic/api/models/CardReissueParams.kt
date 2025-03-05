@@ -207,6 +207,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Body]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -339,6 +340,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [CardReissueParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .cardToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

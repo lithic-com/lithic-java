@@ -15,10 +15,9 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addBeneficialOwnerEntity(
-                    AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                    KybBusinessEntity.builder()
                         .address(
-                            AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
-                                .builder()
+                            KybBusinessEntity.Address.builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -37,7 +36,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 .addBeneficialOwnerIndividual(
                     AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                         .address(
-                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address
                                 .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
@@ -56,10 +55,9 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 )
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .businessEntity(
-                    AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                    KybBusinessEntity.builder()
                         .address(
-                            AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
-                                .builder()
+                            KybBusinessEntity.Address.builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -78,7 +76,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 .controlPerson(
                     AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                         .address(
-                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address
                                 .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
@@ -104,7 +102,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 .individual(
                     AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                         .address(
-                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address
                                 .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
@@ -161,10 +159,9 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerEntities().get())
             .containsExactly(
-                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                KybBusinessEntity.builder()
                     .address(
-                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
-                            .builder()
+                        KybBusinessEntity.Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -184,7 +181,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .containsExactly(
                 AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                     .address(
-                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -204,10 +201,9 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.businessEntity())
             .contains(
-                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                KybBusinessEntity.builder()
                     .address(
-                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
-                            .builder()
+                        KybBusinessEntity.Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -227,7 +223,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains(
                 AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                     .address(
-                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -254,7 +250,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains(
                 AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                     .address(
-                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")

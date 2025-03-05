@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -425,6 +426,24 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Card].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountToken()
+         * .cardProgramToken()
+         * .created()
+         * .funding()
+         * .lastFour()
+         * .pinStatus()
+         * .spendLimit()
+         * .spendLimitDuration()
+         * .state()
+         * .type()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -686,14 +705,8 @@ private constructor(
         @Deprecated("deprecated")
         fun addAuthRuleToken(authRuleToken: String) = apply {
             authRuleTokens =
-                (authRuleTokens ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(authRuleToken)
+                (authRuleTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("authRuleTokens", it).add(authRuleToken)
                 }
         }
 
@@ -793,14 +806,8 @@ private constructor(
          */
         fun addPendingCommand(pendingCommand: String) = apply {
             pendingCommands =
-                (pendingCommands ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(pendingCommand)
+                (pendingCommands ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("pendingCommands", it).add(pendingCommand)
                 }
         }
 
@@ -1022,6 +1029,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [FundingAccount].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .created()
+             * .lastFour()
+             * .state()
+             * .type()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

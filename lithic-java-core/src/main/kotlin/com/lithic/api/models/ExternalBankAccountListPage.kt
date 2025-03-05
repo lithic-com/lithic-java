@@ -143,6 +143,10 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [ExternalBankAccountListPage].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

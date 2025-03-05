@@ -4,12 +4,19 @@
 
 package com.lithic.api.services.async.transactions
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.EnhancedCommercialDataRetrieveResponse
 import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 interface EnhancedCommercialDataServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /**
      * Get all L2/L3 enhanced commercial data associated with a transaction. Not available in
@@ -20,4 +27,23 @@ interface EnhancedCommercialDataServiceAsync {
         params: TransactionEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse>
+
+    /**
+     * A view of [EnhancedCommercialDataServiceAsync] that provides access to raw HTTP responses for
+     * each method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v1/transactions/{transaction_token}/enhanced_commercial_data`, but is otherwise the same
+         * as [EnhancedCommercialDataServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionEnhancedCommercialDataRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>>
+    }
 }

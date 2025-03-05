@@ -55,6 +55,7 @@ private constructor(
 
         @JvmStatic fun none(): DigitalCardArtListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [DigitalCardArtListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

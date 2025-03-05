@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -158,6 +159,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .url()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -219,14 +228,8 @@ private constructor(
              */
             fun addEventType(eventType: EventType) = apply {
                 eventTypes =
-                    (eventTypes ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(eventType)
+                    (eventTypes ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("eventTypes", it).add(eventType)
                     }
             }
 
@@ -281,6 +284,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [EventSubscriptionUpdateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .eventSubscriptionToken()
+         * .url()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -555,6 +568,10 @@ private constructor(
 
             @JvmField val PAYMENT_TRANSACTION_UPDATED = of("payment_transaction.updated")
 
+            @JvmField val INTERNAL_TRANSACTION_CREATED = of("internal_transaction.created")
+
+            @JvmField val INTERNAL_TRANSACTION_UPDATED = of("internal_transaction.updated")
+
             @JvmField val SETTLEMENT_REPORT_UPDATED = of("settlement_report.updated")
 
             @JvmField val STATEMENTS_CREATED = of("statements.created")
@@ -613,6 +630,8 @@ private constructor(
             MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
@@ -665,6 +684,8 @@ private constructor(
             MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
@@ -723,6 +744,8 @@ private constructor(
                 MANAGEMENT_OPERATION_UPDATED -> Value.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                INTERNAL_TRANSACTION_CREATED -> Value.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Value.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
@@ -782,6 +805,8 @@ private constructor(
                 MANAGEMENT_OPERATION_UPDATED -> Known.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                INTERNAL_TRANSACTION_CREATED -> Known.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Known.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED

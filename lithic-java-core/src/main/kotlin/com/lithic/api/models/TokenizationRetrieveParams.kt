@@ -38,6 +38,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [TokenizationRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .tokenizationToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

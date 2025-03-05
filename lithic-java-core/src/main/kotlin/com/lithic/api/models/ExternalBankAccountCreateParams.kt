@@ -534,6 +534,23 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [BankVerifiedCreateBankAccountApiRequest].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountNumber()
+                 * .country()
+                 * .currency()
+                 * .financialAccountToken()
+                 * .owner()
+                 * .ownerType()
+                 * .routingNumber()
+                 * .type()
+                 * .verificationMethod()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1053,6 +1070,18 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [PlaidCreateBankAccountApiRequest].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .owner()
+                 * .ownerType()
+                 * .processorToken()
+                 * .verificationMethod()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1446,6 +1475,22 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [ExternallyVerifiedCreateBankAccountApiRequest].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountNumber()
+                 * .country()
+                 * .currency()
+                 * .owner()
+                 * .ownerType()
+                 * .routingNumber()
+                 * .type()
+                 * .verificationMethod()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -1906,6 +1951,10 @@ private constructor(
 
         @JvmStatic fun none(): ExternalBankAccountCreateParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountCreateParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

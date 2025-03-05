@@ -10,6 +10,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 /**
  * The window of time to calculate Spend Velocity over.
  * - `DAY`: Velocity over the current day since midnight Eastern Time.
+ * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
  * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month in
  *   Eastern Time.
  */
@@ -30,6 +31,8 @@ private constructor(private val value: JsonField<String>) : Enum {
 
         @JvmField val DAY = of("DAY")
 
+        @JvmField val WEEK = of("WEEK")
+
         @JvmField val MONTH = of("MONTH")
 
         @JvmStatic fun of(value: String) = VelocityLimitParamsPeriodWindow(JsonField.of(value))
@@ -38,6 +41,7 @@ private constructor(private val value: JsonField<String>) : Enum {
     /** An enum containing [VelocityLimitParamsPeriodWindow]'s known values. */
     enum class Known {
         DAY,
+        WEEK,
         MONTH,
     }
 
@@ -54,6 +58,7 @@ private constructor(private val value: JsonField<String>) : Enum {
      */
     enum class Value {
         DAY,
+        WEEK,
         MONTH,
         /**
          * An enum member indicating that [VelocityLimitParamsPeriodWindow] was instantiated with an
@@ -72,6 +77,7 @@ private constructor(private val value: JsonField<String>) : Enum {
     fun value(): Value =
         when (this) {
             DAY -> Value.DAY
+            WEEK -> Value.WEEK
             MONTH -> Value.MONTH
             else -> Value._UNKNOWN
         }
@@ -87,6 +93,7 @@ private constructor(private val value: JsonField<String>) : Enum {
     fun known(): Known =
         when (this) {
             DAY -> Known.DAY
+            WEEK -> Known.WEEK
             MONTH -> Known.MONTH
             else ->
                 throw LithicInvalidDataException("Unknown VelocityLimitParamsPeriodWindow: $value")

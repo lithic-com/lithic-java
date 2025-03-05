@@ -65,6 +65,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ReportSettlementListDetailsParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .reportDate()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

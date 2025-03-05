@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -171,6 +172,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRule].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .state()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -234,14 +244,8 @@ private constructor(
          */
         fun addAccountToken(accountToken: String) = apply {
             accountTokens =
-                (accountTokens ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(accountToken)
+                (accountTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("accountTokens", it).add(accountToken)
                 }
         }
 
@@ -269,14 +273,8 @@ private constructor(
          */
         fun addAllowedCountry(allowedCountry: String) = apply {
             allowedCountries =
-                (allowedCountries ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(allowedCountry)
+                (allowedCountries ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("allowedCountries", it).add(allowedCountry)
                 }
         }
 
@@ -291,14 +289,8 @@ private constructor(
         /** Merchant category codes for which the Auth Rule permits transactions. */
         fun addAllowedMcc(allowedMcc: String) = apply {
             this.allowedMcc =
-                (this.allowedMcc ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(allowedMcc)
+                (this.allowedMcc ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("allowedMcc", it).add(allowedMcc)
                 }
         }
 
@@ -314,14 +306,8 @@ private constructor(
         /** Countries in which the Auth Rule automatically declines transactions. */
         fun addBlockedCountry(blockedCountry: String) = apply {
             blockedCountries =
-                (blockedCountries ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(blockedCountry)
+                (blockedCountries ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("blockedCountries", it).add(blockedCountry)
                 }
         }
 
@@ -336,14 +322,8 @@ private constructor(
         /** Merchant category codes for which the Auth Rule automatically declines transactions. */
         fun addBlockedMcc(blockedMcc: String) = apply {
             this.blockedMcc =
-                (this.blockedMcc ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(blockedMcc)
+                (this.blockedMcc ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("blockedMcc", it).add(blockedMcc)
                 }
         }
 
@@ -367,14 +347,8 @@ private constructor(
          */
         fun addCardToken(cardToken: String) = apply {
             cardTokens =
-                (cardTokens ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(cardToken)
+                (cardTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("cardTokens", it).add(cardToken)
                 }
         }
 

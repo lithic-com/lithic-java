@@ -75,6 +75,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountSpendLimits].
+         *
+         * The following fields are required:
+         * ```java
+         * .availableSpendLimit()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -213,6 +221,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [AvailableSpendLimit]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -365,6 +374,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [SpendLimit]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -517,6 +527,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [SpendVelocity]. */
             @JvmStatic fun builder() = Builder()
         }
 

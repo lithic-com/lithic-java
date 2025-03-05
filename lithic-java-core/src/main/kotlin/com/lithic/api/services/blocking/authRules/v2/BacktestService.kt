@@ -4,13 +4,20 @@
 
 package com.lithic.api.services.blocking.authRules.v2
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthRuleV2BacktestCreateParams
 import com.lithic.api.models.AuthRuleV2BacktestRetrieveParams
 import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 
 interface BacktestService {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /**
      * Initiates a request to asynchronously generate a backtest for an authorization rule. During
@@ -65,4 +72,31 @@ interface BacktestService {
         params: AuthRuleV2BacktestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BacktestResults
+
+    /** A view of [BacktestService] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/backtests`, but is
+         * otherwise the same as [BacktestService.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: AuthRuleV2BacktestCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BacktestCreateResponse>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}`, but is otherwise
+         * the same as [BacktestService.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: AuthRuleV2BacktestRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BacktestResults>
+    }
 }

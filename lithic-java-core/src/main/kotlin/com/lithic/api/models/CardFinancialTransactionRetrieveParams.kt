@@ -42,6 +42,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [CardFinancialTransactionRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .cardToken()
+         * .financialTransactionToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

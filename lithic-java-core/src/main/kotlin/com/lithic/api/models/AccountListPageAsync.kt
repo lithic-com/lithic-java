@@ -144,6 +144,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [AccountListPageAsync]. */
             @JvmStatic fun builder() = Builder()
         }
 

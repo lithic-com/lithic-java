@@ -91,6 +91,7 @@ private constructor(
 
         @JvmStatic fun none(): TokenizationListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [TokenizationListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

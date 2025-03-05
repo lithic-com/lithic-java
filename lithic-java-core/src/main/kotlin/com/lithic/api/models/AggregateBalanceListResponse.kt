@@ -156,6 +156,22 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AggregateBalanceListResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .availableAmount()
+         * .created()
+         * .currency()
+         * .lastCardToken()
+         * .lastTransactionEventToken()
+         * .lastTransactionToken()
+         * .pendingAmount()
+         * .totalAmount()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

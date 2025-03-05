@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -255,6 +256,31 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Payment].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .descriptor()
+         * .direction()
+         * .events()
+         * .externalBankAccountToken()
+         * .financialAccountToken()
+         * .method()
+         * .methodAttributes()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .source()
+         * .status()
+         * .updated()
+         * .userDefinedId()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -353,14 +379,8 @@ private constructor(
         /** A list of all payment events that have modified this payment. */
         fun addEvent(event: PaymentEvent) = apply {
             events =
-                (events ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(event)
+                (events ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("events", it).add(event)
                 }
         }
 
@@ -845,6 +865,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [PaymentEvent].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .created()
+             * .result()
+             * .type()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -962,14 +994,8 @@ private constructor(
             /** More detailed reasons for the event */
             fun addDetailedResult(detailedResult: DetailedResult) = apply {
                 detailedResults =
-                    (detailedResults ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(detailedResult)
+                    (detailedResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("detailedResults", it).add(detailedResult)
                     }
             }
 
@@ -1617,6 +1643,19 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [PaymentMethodAttributes].
+             *
+             * The following fields are required:
+             * ```java
+             * .companyId()
+             * .receiptRoutingNumber()
+             * .retries()
+             * .returnReasonCode()
+             * .secCode()
+             * .traceNumbers()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1689,14 +1728,8 @@ private constructor(
 
             fun addTraceNumber(traceNumber: String) = apply {
                 traceNumbers =
-                    (traceNumbers ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(traceNumber)
+                    (traceNumbers ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("traceNumbers", it).add(traceNumber)
                     }
             }
 

@@ -55,6 +55,9 @@ private constructor(
 
         @JvmStatic fun none(): FinancialAccountListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of [FinancialAccountListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -44,6 +44,10 @@ private constructor(
 
         @JvmStatic fun none(): ThreeDSDecisioningRotateSecretParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ThreeDSDecisioningRotateSecretParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

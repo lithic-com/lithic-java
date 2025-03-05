@@ -38,6 +38,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [EventSubscriptionRetrieveSecretParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .eventSubscriptionToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

@@ -143,6 +143,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .merchant()
+             * .pan()
+             * .transaction()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -246,6 +256,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ThreeDSAuthenticationSimulateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .merchant()
+         * .pan()
+         * .transaction()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -458,7 +479,10 @@ private constructor(
          */
         fun mcc(): String = mcc.getRequired("mcc")
 
-        /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+        /**
+         * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE keyword
+         * is included, Lithic will trigger a challenge.
+         */
         fun name(): String = name.getRequired("name")
 
         /**
@@ -479,7 +503,10 @@ private constructor(
          */
         @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
-        /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+        /**
+         * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE keyword
+         * is included, Lithic will trigger a challenge.
+         */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
         @JsonAnyGetter
@@ -504,6 +531,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Merchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .id()
+             * .country()
+             * .mcc()
+             * .name()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -563,10 +601,16 @@ private constructor(
              */
             fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
-            /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+            /**
+             * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE
+             * keyword is included, Lithic will trigger a challenge.
+             */
             fun name(name: String) = name(JsonField.of(name))
 
-            /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+            /**
+             * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE
+             * keyword is included, Lithic will trigger a challenge.
+             */
             fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -662,6 +706,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Transaction].
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .currency()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

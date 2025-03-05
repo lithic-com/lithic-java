@@ -94,6 +94,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [EventListAttemptsParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .eventToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

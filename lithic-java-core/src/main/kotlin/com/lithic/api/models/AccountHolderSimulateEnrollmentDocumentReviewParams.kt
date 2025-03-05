@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -155,6 +156,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [SimulateEnrollmentDocumentReviewRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .documentUploadToken()
+             * .status()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -211,13 +222,8 @@ private constructor(
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
             fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
                 acceptedEntityStatusReasons =
-                    (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
+                    (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("acceptedEntityStatusReasons", it)
                             .add(acceptedEntityStatusReason)
                     }
             }
@@ -288,6 +294,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AccountHolderSimulateEnrollmentDocumentReviewParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .documentUploadToken()
+         * .status()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

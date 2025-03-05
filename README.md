@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.78.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.79.0)
 
 <!-- x-release-please-end -->
 
@@ -19,7 +19,7 @@ The REST API documentation can be found on [docs.lithic.com](https://docs.lithic
 ### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.78.0")
+implementation("com.lithic.api:lithic-java:0.79.0")
 ```
 
 ### Maven
@@ -28,7 +28,7 @@ implementation("com.lithic.api:lithic-java:0.78.0")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.78.0</version>
+    <version>0.79.0</version>
 </dependency>
 ```
 
@@ -155,6 +155,35 @@ CompletableFuture<Card> card = client.cards().create(params);
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
+
+## Raw responses
+
+The SDK defines methods that deserialize responses into instances of Java classes. However, these methods don't provide access to the response headers, status code, or the raw response body.
+
+To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
+
+```java
+import com.lithic.api.core.http.Headers;
+import com.lithic.api.core.http.HttpResponseFor;
+import com.lithic.api.models.Card;
+import com.lithic.api.models.CardCreateParams;
+
+CardCreateParams params = CardCreateParams.builder()
+    .type(CardCreateParams.Type.SINGLE_USE)
+    .build();
+HttpResponseFor<Card> card = client.cards().withRawResponse().create(params);
+
+int statusCode = card.statusCode();
+Headers headers = card.headers();
+```
+
+You can still deserialize the response into an instance of a Java class if needed:
+
+```java
+import com.lithic.api.models.Card;
+
+Card parsedCard = card.parse();
+```
 
 ## Error handling
 

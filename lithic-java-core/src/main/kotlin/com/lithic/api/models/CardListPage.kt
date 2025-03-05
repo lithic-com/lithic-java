@@ -132,6 +132,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [CardListPage]. */
             @JvmStatic fun builder() = Builder()
         }
 

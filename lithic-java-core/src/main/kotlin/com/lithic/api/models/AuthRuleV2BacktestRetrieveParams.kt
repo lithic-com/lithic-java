@@ -58,6 +58,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AuthRuleV2BacktestRetrieveParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * .authRuleBacktestToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

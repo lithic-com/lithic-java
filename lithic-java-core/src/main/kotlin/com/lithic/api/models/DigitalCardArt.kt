@@ -118,6 +118,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [DigitalCardArt].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .cardProgramToken()
+         * .created()
+         * .description()
+         * .isEnabled()
+         * .network()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

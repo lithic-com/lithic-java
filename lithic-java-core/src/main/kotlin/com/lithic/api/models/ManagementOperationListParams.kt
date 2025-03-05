@@ -107,6 +107,10 @@ private constructor(
 
         @JvmStatic fun none(): ManagementOperationListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ManagementOperationListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

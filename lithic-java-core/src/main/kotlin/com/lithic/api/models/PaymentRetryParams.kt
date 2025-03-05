@@ -48,6 +48,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [PaymentRetryParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .paymentToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

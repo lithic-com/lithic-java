@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -74,6 +75,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [BacktestResults].
+         *
+         * The following fields are required:
+         * ```java
+         * .backtestToken()
+         * .results()
+         * .simulationParameters()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -188,6 +199,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Results]. */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -337,6 +349,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [RuleStats]. */
                 @JvmStatic fun builder() = Builder()
             }
 
@@ -403,14 +416,8 @@ private constructor(
                  */
                 fun addExample(example: Example) = apply {
                     examples =
-                        (examples ?: JsonField.of(mutableListOf())).apply {
-                            asKnown()
-                                .orElseThrow {
-                                    IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    )
-                                }
-                                .add(example)
+                        (examples ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("examples", it).add(example)
                         }
                 }
 
@@ -523,6 +530,7 @@ private constructor(
 
                 companion object {
 
+                    /** Returns a mutable builder for constructing an instance of [Example]. */
                     @JvmStatic fun builder() = Builder()
                 }
 
@@ -703,6 +711,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [SimulationParameters]. */
             @JvmStatic fun builder() = Builder()
         }
 

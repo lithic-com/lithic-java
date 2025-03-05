@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -89,6 +90,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [MicroDepositVerificationRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .microDeposits()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -116,14 +126,8 @@ private constructor(
 
             fun addMicroDeposit(microDeposit: Long) = apply {
                 microDeposits =
-                    (microDeposits ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(microDeposit)
+                    (microDeposits ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("microDeposits", it).add(microDeposit)
                     }
             }
 
@@ -175,6 +179,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountMicroDepositCreateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * .microDeposits()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

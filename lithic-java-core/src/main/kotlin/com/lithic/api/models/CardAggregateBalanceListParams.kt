@@ -46,6 +46,10 @@ private constructor(
 
         @JvmStatic fun none(): CardAggregateBalanceListParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [CardAggregateBalanceListParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

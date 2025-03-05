@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -227,6 +228,24 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [SettlementReport].
+         *
+         * The following fields are required:
+         * ```java
+         * .created()
+         * .currency()
+         * .details()
+         * .disputesGrossAmount()
+         * .interchangeGrossAmount()
+         * .isComplete()
+         * .otherFeesGrossAmount()
+         * .reportDate()
+         * .settledNetAmount()
+         * .transactionsGrossAmount()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -289,14 +308,8 @@ private constructor(
 
         fun addDetail(detail: SettlementSummaryDetails) = apply {
             details =
-                (details ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(detail)
+                (details ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("details", it).add(detail)
                 }
         }
 

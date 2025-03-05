@@ -141,6 +141,9 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [AuthRuleV2ListPageAsync].
+             */
             @JvmStatic fun builder() = Builder()
         }
 

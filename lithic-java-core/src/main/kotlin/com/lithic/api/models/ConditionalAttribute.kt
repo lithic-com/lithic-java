@@ -35,6 +35,8 @@ import com.lithic.api.errors.LithicInvalidDataException
  *   until the authorization.
  * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24 hours
  *   up and until the authorization.
+ * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values are
+ *   `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
  */
 class ConditionalAttribute @JsonCreator private constructor(private val value: JsonField<String>) :
     Enum {
@@ -72,6 +74,8 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
 
         @JvmField val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
 
+        @JvmField val CARD_STATE = of("CARD_STATE")
+
         @JvmStatic fun of(value: String) = ConditionalAttribute(JsonField.of(value))
     }
 
@@ -88,6 +92,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         RISK_SCORE,
         CARD_TRANSACTION_COUNT_1_H,
         CARD_TRANSACTION_COUNT_24_H,
+        CARD_STATE,
     }
 
     /**
@@ -111,6 +116,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         RISK_SCORE,
         CARD_TRANSACTION_COUNT_1_H,
         CARD_TRANSACTION_COUNT_24_H,
+        CARD_STATE,
         /**
          * An enum member indicating that [ConditionalAttribute] was instantiated with an unknown
          * value.
@@ -138,6 +144,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             RISK_SCORE -> Value.RISK_SCORE
             CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
             CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
+            CARD_STATE -> Value.CARD_STATE
             else -> Value._UNKNOWN
         }
 
@@ -162,6 +169,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             RISK_SCORE -> Known.RISK_SCORE
             CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
             CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
+            CARD_STATE -> Known.CARD_STATE
             else -> throw LithicInvalidDataException("Unknown ConditionalAttribute: $value")
         }
 

@@ -4,13 +4,21 @@
 
 package com.lithic.api.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
 import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
 import com.lithic.api.models.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
 
 interface AuthStreamEnrollmentServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /**
      * Retrieve the ASA HMAC secret key. If one does not exist for your program yet, calling this
@@ -57,4 +65,53 @@ interface AuthStreamEnrollmentServiceAsync {
      */
     fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<Void?> =
         rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
+
+    /**
+     * A view of [AuthStreamEnrollmentServiceAsync] that provides access to raw HTTP responses for
+     * each method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same
+         * as [AuthStreamEnrollmentServiceAsync.retrieveSecret].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSecret(
+            params: AuthStreamEnrollmentRetrieveSecretParams =
+                AuthStreamEnrollmentRetrieveSecretParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthStreamSecret>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same
+         * as [AuthStreamEnrollmentServiceAsync.retrieveSecret].
+         */
+        @MustBeClosed
+        fun retrieveSecret(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
+            retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
+         * the same as [AuthStreamEnrollmentServiceAsync.rotateSecret].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun rotateSecret(
+            params: AuthStreamEnrollmentRotateSecretParams =
+                AuthStreamEnrollmentRotateSecretParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
+         * the same as [AuthStreamEnrollmentServiceAsync.rotateSecret].
+         */
+        @MustBeClosed
+        fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
+            rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
+    }
 }

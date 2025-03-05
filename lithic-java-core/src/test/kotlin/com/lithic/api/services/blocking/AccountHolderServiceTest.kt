@@ -13,6 +13,7 @@ import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Address
+import com.lithic.api.models.AddressUpdate
 import com.lithic.api.models.Kyb
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,14 +22,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AccountHolderServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderCreateResponse =
+
+        val accountHolder =
             accountHolderService.create(
                 AccountHolderCreateParams.builder()
                     .body(
@@ -123,88 +125,185 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(accountHolderCreateResponse)
-        accountHolderCreateResponse.validate()
+
+        accountHolder.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val accountHolder =
             accountHolderService.retrieve(
                 AccountHolderRetrieveParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolder)
+
         accountHolder.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderUpdateResponse =
+
+        val accountHolder =
             accountHolderService.update(
                 AccountHolderUpdateParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .businessAccountToken("business_account_token")
-                    .email("email")
-                    .phoneNumber("phone_number")
+                    .body(
+                        AccountHolderUpdateParams.Body.KybPatchRequest.builder()
+                            .addBeneficialOwnerEntity(
+                                AccountHolderUpdateParams.Body.KybPatchRequest
+                                    .KybBusinessEntityPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dbaBusinessName("dba_business_name")
+                                    .governmentId("114-123-1513")
+                                    .legalBusinessName("Acme, Inc.")
+                                    .parentCompany("parent_company")
+                                    .addPhoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .addBeneficialOwnerIndividual(
+                                AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dob("1991-03-08 08:00:00")
+                                    .email("tom@middle-earth.com")
+                                    .firstName("Tom")
+                                    .lastName("Bombadil")
+                                    .phoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .businessEntity(
+                                AccountHolderUpdateParams.Body.KybPatchRequest
+                                    .KybBusinessEntityPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dbaBusinessName("dba_business_name")
+                                    .governmentId("114-123-1513")
+                                    .legalBusinessName("Acme, Inc.")
+                                    .parentCompany("parent_company")
+                                    .addPhoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .controlPerson(
+                                AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dob("1991-03-08 08:00:00")
+                                    .email("tom@middle-earth.com")
+                                    .firstName("Tom")
+                                    .lastName("Bombadil")
+                                    .phoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .externalId("external_id")
+                            .natureOfBusiness(
+                                "Software company selling solutions to the restaurant industry"
+                            )
+                            .websiteUrl("www.mybusiness.com")
+                            .build()
+                    )
                     .build()
             )
-        println(accountHolderUpdateResponse)
-        accountHolderUpdateResponse.validate()
+
+        accountHolder.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val response = accountHolderService.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = accountHolderService.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callListDocuments() {
+    fun listDocuments() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderListDocumentsResponse =
+
+        val response =
             accountHolderService.listDocuments(
                 AccountHolderListDocumentsParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolderListDocumentsResponse)
-        accountHolderListDocumentsResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callRetrieveDocument() {
+    fun retrieveDocument() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.retrieveDocument(
                 AccountHolderRetrieveDocumentParams.builder()
@@ -212,18 +311,19 @@ class AccountHolderServiceTest {
                     .documentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 
     @Test
-    fun callSimulateEnrollmentDocumentReview() {
+    fun simulateEnrollmentDocumentReview() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.simulateEnrollmentDocumentReview(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
@@ -237,19 +337,20 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 
     @Test
-    fun callSimulateEnrollmentReview() {
+    fun simulateEnrollmentReview() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderSimulateEnrollmentReviewResponse =
+
+        val response =
             accountHolderService.simulateEnrollmentReview(
                 AccountHolderSimulateEnrollmentReviewParams.builder()
                     .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
@@ -260,18 +361,19 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(accountHolderSimulateEnrollmentReviewResponse)
-        accountHolderSimulateEnrollmentReviewResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callUploadDocument() {
+    fun uploadDocument() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
+
         val document =
             accountHolderService.uploadDocument(
                 AccountHolderUploadDocumentParams.builder()
@@ -280,7 +382,7 @@ class AccountHolderServiceTest {
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(document)
+
         document.validate()
     }
 }

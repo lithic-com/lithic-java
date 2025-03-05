@@ -62,6 +62,10 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [TransactionSimulateReturnResponse].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

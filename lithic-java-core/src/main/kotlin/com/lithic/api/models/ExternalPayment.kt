@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -164,6 +165,25 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ExternalPayment].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .events()
+         * .financialAccountToken()
+         * .paymentType()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .status()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -229,14 +249,8 @@ private constructor(
 
         fun addEvent(event: ExternalPaymentEvent) = apply {
             events =
-                (events ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(event)
+                (events ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("events", it).add(event)
                 }
         }
 
@@ -536,6 +550,21 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [ExternalPaymentEvent].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .created()
+             * .detailedResults()
+             * .effectiveDate()
+             * .memo()
+             * .result()
+             * .type()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -586,14 +615,8 @@ private constructor(
 
             fun addDetailedResult(detailedResult: DetailedResults) = apply {
                 detailedResults =
-                    (detailedResults ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(detailedResult)
+                    (detailedResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("detailedResults", it).add(detailedResult)
                     }
             }
 

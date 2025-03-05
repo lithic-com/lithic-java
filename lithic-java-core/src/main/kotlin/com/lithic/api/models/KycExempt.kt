@@ -153,6 +153,20 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [KycExempt].
+         *
+         * The following fields are required:
+         * ```java
+         * .address()
+         * .email()
+         * .firstName()
+         * .kycExemptionType()
+         * .lastName()
+         * .phoneNumber()
+         * .workflow()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

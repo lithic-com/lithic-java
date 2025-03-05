@@ -79,6 +79,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [EventSubscriptionReplayMissingParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .eventSubscriptionToken()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

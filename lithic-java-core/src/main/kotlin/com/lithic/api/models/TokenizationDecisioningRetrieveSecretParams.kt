@@ -35,6 +35,10 @@ private constructor(
 
         @JvmStatic fun none(): TokenizationDecisioningRetrieveSecretParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [TokenizationDecisioningRetrieveSecretParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 

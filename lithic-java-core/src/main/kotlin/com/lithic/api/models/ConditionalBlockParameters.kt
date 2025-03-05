@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -51,6 +52,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ConditionalBlockParameters].
+         *
+         * The following fields are required:
+         * ```java
+         * .conditions()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -74,14 +83,8 @@ private constructor(
 
         fun addCondition(condition: AuthRuleCondition) = apply {
             conditions =
-                (conditions ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(condition)
+                (conditions ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("conditions", it).add(condition)
                 }
         }
 

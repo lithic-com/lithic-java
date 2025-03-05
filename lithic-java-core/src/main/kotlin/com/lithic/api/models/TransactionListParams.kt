@@ -107,6 +107,7 @@ private constructor(
 
         @JvmStatic fun none(): TransactionListParams = builder().build()
 
+        /** Returns a mutable builder for constructing an instance of [TransactionListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 

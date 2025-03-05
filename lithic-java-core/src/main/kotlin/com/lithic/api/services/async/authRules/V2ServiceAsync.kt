@@ -4,7 +4,10 @@
 
 package com.lithic.api.services.async.authRules
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
@@ -26,6 +29,11 @@ import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface V2ServiceAsync {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     fun backtests(): BacktestServiceAsync
 
@@ -157,4 +165,119 @@ interface V2ServiceAsync {
         params: AuthRuleV2ReportParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2ReportResponse>
+
+    /** A view of [V2ServiceAsync] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        fun backtests(): BacktestServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules`, but is otherwise the same as
+         * [V2ServiceAsync.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: AuthRuleV2CreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2CreateResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}`, but is otherwise
+         * the same as [V2ServiceAsync.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: AuthRuleV2RetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>>
+
+        /**
+         * Returns a raw HTTP response for `patch /v2/auth_rules/{auth_rule_token}`, but is
+         * otherwise the same as [V2ServiceAsync.update].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: AuthRuleV2UpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2UpdateResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules`, but is otherwise the same as
+         * [V2ServiceAsync.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>>
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules`, but is otherwise the same as
+         * [V2ServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>> =
+            list(AuthRuleV2ListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `delete /v2/auth_rules/{auth_rule_token}`, but is
+         * otherwise the same as [V2ServiceAsync.delete].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun delete(
+            params: AuthRuleV2DeleteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/apply`, but is
+         * otherwise the same as [V2ServiceAsync.apply].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun apply(
+            params: AuthRuleV2ApplyParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/draft`, but is
+         * otherwise the same as [V2ServiceAsync.draft].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun draft(
+            params: AuthRuleV2DraftParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2DraftResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/promote`, but is
+         * otherwise the same as [V2ServiceAsync.promote].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun promote(
+            params: AuthRuleV2PromoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2PromoteResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/report`, but is
+         * otherwise the same as [V2ServiceAsync.report].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun report(
+            params: AuthRuleV2ReportParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2ReportResponse>>
+    }
 }

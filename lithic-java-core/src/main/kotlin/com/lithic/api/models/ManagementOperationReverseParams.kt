@@ -103,6 +103,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [ManagementOperationActionRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .effectiveDate()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -181,6 +190,16 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ManagementOperationReverseParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .managementOperationToken()
+         * .effectiveDate()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

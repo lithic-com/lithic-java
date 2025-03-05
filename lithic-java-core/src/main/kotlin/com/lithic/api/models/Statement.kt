@@ -284,6 +284,31 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Statement].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountStanding()
+         * .amountDue()
+         * .availableCredit()
+         * .created()
+         * .creditLimit()
+         * .creditProductToken()
+         * .daysInBillingCycle()
+         * .endingBalance()
+         * .financialAccountToken()
+         * .paymentDueDate()
+         * .periodTotals()
+         * .startingBalance()
+         * .statementEndDate()
+         * .statementStartDate()
+         * .statementType()
+         * .updated()
+         * .ytdTotals()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -656,6 +681,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [AccountStanding].
+             *
+             * The following fields are required:
+             * ```java
+             * .consecutiveFullPaymentsMade()
+             * .consecutiveMinimumPaymentsMade()
+             * .consecutiveMinimumPaymentsMissed()
+             * .daysPastDue()
+             * .hasGrace()
+             * .periodNumber()
+             * .periodState()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -956,6 +995,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [AmountDue].
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .pastDue()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1142,6 +1190,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [StatementTotals].
+             *
+             * The following fields are required:
+             * ```java
+             * .balanceTransfers()
+             * .cashAdvances()
+             * .credits()
+             * .fees()
+             * .interest()
+             * .payments()
+             * .purchases()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1475,6 +1537,19 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [InterestDetails].
+             *
+             * The following fields are required:
+             * ```java
+             * .actualInterestCharged()
+             * .dailyBalanceAmounts()
+             * .effectiveApr()
+             * .interestCalculationMethod()
+             * .interestForPeriod()
+             * .primeRate()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -1652,6 +1727,16 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [CategoryDetails].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .balanceTransfers()
+                 * .cashAdvances()
+                 * .purchases()
+                 * ```
+                 */
                 @JvmStatic fun builder() = Builder()
             }
 

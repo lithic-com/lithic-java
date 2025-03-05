@@ -22,14 +22,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 class V2ServiceTest {
 
     @Test
-    fun callCreate() {
+    fun create() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2CreateResponse =
+
+        val v2 =
             v2Service.create(
                 AuthRuleV2CreateParams.builder()
                     .body(
@@ -56,37 +57,39 @@ class V2ServiceTest {
                     )
                     .build()
             )
-        println(v2CreateResponse)
-        v2CreateResponse.validate()
+
+        v2.validate()
     }
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2RetrieveResponse =
+
+        val v2 =
             v2Service.retrieve(
                 AuthRuleV2RetrieveParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(v2RetrieveResponse)
-        v2RetrieveResponse.validate()
+
+        v2.validate()
     }
 
     @Test
-    fun callUpdate() {
+    fun update() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2UpdateResponse =
+
+        val v2 =
             v2Service.update(
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -99,31 +102,33 @@ class V2ServiceTest {
                     )
                     .build()
             )
-        println(v2UpdateResponse)
-        v2UpdateResponse.validate()
+
+        v2.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val response = v2Service.list()
-        println(response)
-        response.data().forEach { it.validate() }
+
+        val page = v2Service.list()
+
+        page.response().validate()
     }
 
     @Test
-    fun callDelete() {
+    fun delete() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
+
         v2Service.delete(
             AuthRuleV2DeleteParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -132,14 +137,15 @@ class V2ServiceTest {
     }
 
     @Test
-    fun callApply() {
+    fun apply() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2ApplyResponse =
+
+        val response =
             v2Service.apply(
                 AuthRuleV2ApplyParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -150,19 +156,20 @@ class V2ServiceTest {
                     )
                     .build()
             )
-        println(v2ApplyResponse)
-        v2ApplyResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callDraft() {
+    fun draft() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2DraftResponse =
+
+        val response =
             v2Service.draft(
                 AuthRuleV2DraftParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -179,43 +186,45 @@ class V2ServiceTest {
                     )
                     .build()
             )
-        println(v2DraftResponse)
-        v2DraftResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callPromote() {
+    fun promote() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2PromoteResponse =
+
+        val response =
             v2Service.promote(
                 AuthRuleV2PromoteParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(v2PromoteResponse)
-        v2PromoteResponse.validate()
+
+        response.validate()
     }
 
     @Test
-    fun callReport() {
+    fun report() {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My Lithic API Key")
                 .build()
         val v2Service = client.authRules().v2()
-        val v2ReportResponse =
+
+        val response =
             v2Service.report(
                 AuthRuleV2ReportParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(v2ReportResponse)
-        v2ReportResponse.validate()
+
+        response.validate()
     }
 }

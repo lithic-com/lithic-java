@@ -178,6 +178,23 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Balance].
+         *
+         * The following fields are required:
+         * ```java
+         * .availableAmount()
+         * .created()
+         * .currency()
+         * .financialAccountToken()
+         * .financialAccountType()
+         * .lastTransactionEventToken()
+         * .lastTransactionToken()
+         * .pendingAmount()
+         * .totalAmount()
+         * .updated()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 

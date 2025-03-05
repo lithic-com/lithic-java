@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -103,6 +104,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Document].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountHolderToken()
+         * .documentType()
+         * .entityToken()
+         * .requiredDocumentUploads()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -169,14 +182,8 @@ private constructor(
         /** Represents a single image of the document to upload. */
         fun addRequiredDocumentUpload(requiredDocumentUpload: RequiredDocumentUpload) = apply {
             requiredDocumentUploads =
-                (requiredDocumentUploads ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(requiredDocumentUpload)
+                (requiredDocumentUploads ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("requiredDocumentUploads", it).add(requiredDocumentUpload)
                 }
         }
 
@@ -570,6 +577,22 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [RequiredDocumentUpload].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .acceptedEntityStatusReasons()
+             * .created()
+             * .imageType()
+             * .rejectedEntityStatusReasons()
+             * .status()
+             * .statusReasons()
+             * .updated()
+             * .uploadUrl()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -632,13 +655,8 @@ private constructor(
              */
             fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
                 acceptedEntityStatusReasons =
-                    (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
+                    (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("acceptedEntityStatusReasons", it)
                             .add(acceptedEntityStatusReason)
                     }
             }
@@ -678,13 +696,8 @@ private constructor(
              */
             fun addRejectedEntityStatusReason(rejectedEntityStatusReason: String) = apply {
                 rejectedEntityStatusReasons =
-                    (rejectedEntityStatusReasons ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
+                    (rejectedEntityStatusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("rejectedEntityStatusReasons", it)
                             .add(rejectedEntityStatusReason)
                     }
             }
@@ -707,14 +720,8 @@ private constructor(
             /** Reasons for document image upload status. */
             fun addStatusReason(statusReason: DocumentUploadStatusReasons) = apply {
                 statusReasons =
-                    (statusReasons ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(statusReason)
+                    (statusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("statusReasons", it).add(statusReason)
                     }
             }
 

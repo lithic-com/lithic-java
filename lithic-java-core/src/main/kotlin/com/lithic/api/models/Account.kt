@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -185,6 +186,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Account].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .spendLimit()
+         * .state()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -322,14 +334,8 @@ private constructor(
         @Deprecated("deprecated")
         fun addAuthRuleToken(authRuleToken: String) = apply {
             authRuleTokens =
-                (authRuleTokens ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(authRuleToken)
+                (authRuleTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("authRuleTokens", it).add(authRuleToken)
                 }
         }
 
@@ -446,6 +452,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [SpendLimit].
+             *
+             * The following fields are required:
+             * ```java
+             * .daily()
+             * .lifetime()
+             * .monthly()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -722,6 +738,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [AccountHolder].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .businessAccountToken()
+             * .email()
+             * .phoneNumber()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -928,6 +955,18 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [VerificationAddress].
+             *
+             * The following fields are required:
+             * ```java
+             * .address1()
+             * .city()
+             * .country()
+             * .postalCode()
+             * .state()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 

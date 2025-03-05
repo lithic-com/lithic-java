@@ -143,6 +143,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [Event].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .eventType()
+         * .payload()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -395,6 +406,10 @@ private constructor(
 
             @JvmField val PAYMENT_TRANSACTION_UPDATED = of("payment_transaction.updated")
 
+            @JvmField val INTERNAL_TRANSACTION_CREATED = of("internal_transaction.created")
+
+            @JvmField val INTERNAL_TRANSACTION_UPDATED = of("internal_transaction.updated")
+
             @JvmField val SETTLEMENT_REPORT_UPDATED = of("settlement_report.updated")
 
             @JvmField val STATEMENTS_CREATED = of("statements.created")
@@ -453,6 +468,8 @@ private constructor(
             MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
@@ -505,6 +522,8 @@ private constructor(
             MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
@@ -563,6 +582,8 @@ private constructor(
                 MANAGEMENT_OPERATION_UPDATED -> Value.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                INTERNAL_TRANSACTION_CREATED -> Value.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Value.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
@@ -622,6 +643,8 @@ private constructor(
                 MANAGEMENT_OPERATION_UPDATED -> Known.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                INTERNAL_TRANSACTION_CREATED -> Known.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Known.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
@@ -687,6 +710,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [Payload]. */
             @JvmStatic fun builder() = Builder()
         }
 
