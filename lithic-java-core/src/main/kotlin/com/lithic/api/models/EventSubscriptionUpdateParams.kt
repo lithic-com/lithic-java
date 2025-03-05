@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -219,14 +220,8 @@ private constructor(
              */
             fun addEventType(eventType: EventType) = apply {
                 eventTypes =
-                    (eventTypes ?: JsonField.of(mutableListOf())).apply {
-                        asKnown()
-                            .orElseThrow {
-                                IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                )
-                            }
-                            .add(eventType)
+                    (eventTypes ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("eventTypes", it).add(eventType)
                     }
             }
 

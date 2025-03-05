@@ -3,8 +3,7 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.ContentTypes
-import com.lithic.api.core.MultipartFormValue
+import com.lithic.api.core.MultipartField
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
@@ -14,9 +13,9 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.json
+import com.lithic.api.core.http.multipartFormData
 import com.lithic.api.core.http.parseable
-import com.lithic.api.core.json
-import com.lithic.api.core.multipartFormData
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicInvalidDataException
@@ -364,12 +363,12 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
                 LithicInvalidDataException("Missing 'upload_url' from response payload")
             }
 
-        val fileParams = MultipartFormValue.fromByteArray("file", file, ContentTypes.DefaultBinary)
+        val fileParams = MultipartField.of(file)
         val uploadRequest =
             HttpRequest.builder()
                 .method(HttpMethod.PUT)
                 .url(uploadUrl)
-                .body(multipartFormData(clientOptions.jsonMapper, arrayOf(fileParams)))
+                .body(multipartFormData(clientOptions.jsonMapper, mapOf("file" to fileParams)))
                 .build()
         clientOptions.httpClient.execute(uploadRequest).let { response ->
             response.let { emptyHandler().handle(it) }

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -421,14 +422,8 @@ private constructor(
         /** Globally unique identifiers denoting the Events associated with this settlement. */
         fun addEventToken(eventToken: String) = apply {
             eventTokens =
-                (eventTokens ?: JsonField.of(mutableListOf())).apply {
-                    asKnown()
-                        .orElseThrow {
-                            IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            )
-                        }
-                        .add(eventToken)
+                (eventTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("eventTokens", it).add(eventToken)
                 }
         }
 
