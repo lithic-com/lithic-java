@@ -11,8 +11,8 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
-import com.lithic.api.core.json
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Transaction
