@@ -4,7 +4,10 @@
 
 package com.lithic.api.services.blocking.threeDS
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
 import com.lithic.api.models.DecisioningSimulateChallengeResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
@@ -14,6 +17,11 @@ import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
 import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 
 interface DecisioningService {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /** Card program's response to a 3DS Challenge Request (CReq) */
     @JvmOverloads
@@ -98,4 +106,97 @@ interface DecisioningService {
         params: ThreeDSDecisioningSimulateChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
+
+    /**
+     * A view of [DecisioningService] that provides access to raw HTTP responses for each method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/challenge_response`, but
+         * is otherwise the same as [DecisioningService.challengeResponse].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun challengeResponse(
+            params: ThreeDSDecisioningChallengeResponseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
+
+        /**
+         * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
+         * the same as [DecisioningService.retrieveSecret].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSecret(
+            params: ThreeDSDecisioningRetrieveSecretParams =
+                ThreeDSDecisioningRetrieveSecretParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DecisioningRetrieveSecretResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
+         * the same as [DecisioningService.retrieveSecret].
+         */
+        @MustBeClosed
+        fun retrieveSecret(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<DecisioningRetrieveSecretResponse> =
+            retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/secret/rotate`, but is
+         * otherwise the same as [DecisioningService.rotateSecret].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun rotateSecret(
+            params: ThreeDSDecisioningRotateSecretParams =
+                ThreeDSDecisioningRotateSecretParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/secret/rotate`, but is
+         * otherwise the same as [DecisioningService.rotateSecret].
+         */
+        @MustBeClosed
+        fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
+            rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/challenge`, but
+         * is otherwise the same as [DecisioningService.simulateChallenge].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateChallenge(
+            params: ThreeDSDecisioningSimulateChallengeParams =
+                ThreeDSDecisioningSimulateChallengeParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DecisioningSimulateChallengeResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/challenge`, but
+         * is otherwise the same as [DecisioningService.simulateChallenge].
+         */
+        @MustBeClosed
+        fun simulateChallenge(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<DecisioningSimulateChallengeResponse> =
+            simulateChallenge(ThreeDSDecisioningSimulateChallengeParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/three_ds_decisioning/simulate/challenge_response`, but is otherwise the same as
+         * [DecisioningService.simulateChallengeResponse].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun simulateChallengeResponse(
+            params: ThreeDSDecisioningSimulateChallengeResponseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
+    }
 }

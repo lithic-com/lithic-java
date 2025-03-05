@@ -10,6 +10,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.json
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
@@ -40,7 +42,9 @@ import java.util.concurrent.CompletableFuture
 class TransactionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TransactionServiceAsync {
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: TransactionServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     private val enhancedCommercialData: EnhancedCommercialDataServiceAsync by lazy {
         EnhancedCommercialDataServiceAsyncImpl(clientOptions)
@@ -48,314 +52,384 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
 
     private val events: EventServiceAsync by lazy { EventServiceAsyncImpl(clientOptions) }
 
+    override fun withRawResponse(): TransactionServiceAsync.WithRawResponse = withRawResponse
+
     override fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync =
         enhancedCommercialData
 
     override fun events(): EventServiceAsync = events
 
-    private val retrieveHandler: Handler<Transaction> =
-        jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /**
-     * Get a specific card transaction. All amounts are in the smallest unit of their respective
-     * currency (e.g., cents for USD).
-     */
     override fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Transaction> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "transactions", params.getPathParam(0))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<Transaction> =
+        // get /v1/transactions/{transaction_token}
+        withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
-    private val listHandler: Handler<TransactionListPageAsync.Response> =
-        jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * List card transactions. All amounts are in the smallest unit of their respective currency
-     * (e.g., cents for USD) and inclusive of any acquirer fees.
-     */
     override fun list(
         params: TransactionListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionListPageAsync> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "transactions")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-                    .let { TransactionListPageAsync.of(this, params, it) }
-            }
-    }
+    ): CompletableFuture<TransactionListPageAsync> =
+        // get /v1/transactions
+        withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateAuthorizationHandler: Handler<TransactionSimulateAuthorizationResponse> =
-        jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Simulates an authorization request from the card network as if it came from a merchant
-     * acquirer. If you are configured for ASA, simulating authorizations requires your ASA client
-     * to be set up properly, i.e. be able to respond to the ASA request with a valid JSON. For
-     * users that are not configured for ASA, a daily transaction limit of $5000 USD is applied by
-     * default. You can update this limit via the
-     * [update account](https://docs.lithic.com/reference/patchaccountbytoken) endpoint.
-     */
     override fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateAuthorizationResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "authorize")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateAuthorizationHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateAuthorizationResponse> =
+        // post /v1/simulate/authorize
+        withRawResponse().simulateAuthorization(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateAuthorizationAdviceHandler:
-        Handler<TransactionSimulateAuthorizationAdviceResponse> =
-        jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Simulates an authorization advice from the card network as if it came from a merchant
-     * acquirer. An authorization advice changes the pending amount of the transaction.
-     */
     override fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "authorization_advice")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateAuthorizationAdviceHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse> =
+        // post /v1/simulate/authorization_advice
+        withRawResponse().simulateAuthorizationAdvice(params, requestOptions).thenApply {
+            it.parse()
+        }
 
-    private val simulateClearingHandler: Handler<TransactionSimulateClearingResponse> =
-        jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Clears an existing authorization, either debit or credit. After this event, the transaction
-     * transitions from `PENDING` to `SETTLED` status.
-     *
-     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
-     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
-     */
     override fun simulateClearing(
         params: TransactionSimulateClearingParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateClearingResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "clearing")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateClearingHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateClearingResponse> =
+        // post /v1/simulate/clearing
+        withRawResponse().simulateClearing(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateCreditAuthorizationHandler:
-        Handler<TransactionSimulateCreditAuthorizationResponse> =
-        jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Simulates a credit authorization advice from the card network. This message indicates that
-     * the network approved a credit authorization on your behalf.
-     */
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "credit_authorization_advice")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateCreditAuthorizationHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> =
+        // post /v1/simulate/credit_authorization_advice
+        withRawResponse().simulateCreditAuthorization(params, requestOptions).thenApply {
+            it.parse()
+        }
 
-    private val simulateReturnHandler: Handler<TransactionSimulateReturnResponse> =
-        jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Returns, or refunds, an amount back to a card. Returns simulated via this endpoint clear
-     * immediately, without prior authorization, and result in a `SETTLED` transaction status.
-     */
     override fun simulateReturn(
         params: TransactionSimulateReturnParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateReturnResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "return")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateReturnHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateReturnResponse> =
+        // post /v1/simulate/return
+        withRawResponse().simulateReturn(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateReturnReversalHandler: Handler<TransactionSimulateReturnReversalResponse> =
-        jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Reverses a return, i.e. a credit transaction with a `SETTLED` status. Returns can be
-     * financial credit authorizations, or credit authorizations that have cleared.
-     */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateReturnReversalResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "return_reversal")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateReturnReversalHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<TransactionSimulateReturnReversalResponse> =
+        // post /v1/simulate/return_reversal
+        withRawResponse().simulateReturnReversal(params, requestOptions).thenApply { it.parse() }
 
-    private val simulateVoidHandler: Handler<TransactionSimulateVoidResponse> =
-        jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /**
-     * Voids a pending authorization. If `amount` is not set, the full amount will be voided. Can be
-     * used on partially voided transactions but not partially cleared transactions. _Simulating an
-     * authorization expiry on credit authorizations or credit authorization advice is not currently
-     * supported but will be added soon._
-     */
     override fun simulateVoid(
         params: TransactionSimulateVoidParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TransactionSimulateVoidResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "simulate", "void")
-                .body(json(clientOptions.jsonMapper, params._body()))
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { simulateVoidHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
+    ): CompletableFuture<TransactionSimulateVoidResponse> =
+        // post /v1/simulate/void
+        withRawResponse().simulateVoid(params, requestOptions).thenApply { it.parse() }
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        TransactionServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val enhancedCommercialData:
+            EnhancedCommercialDataServiceAsync.WithRawResponse by lazy {
+            EnhancedCommercialDataServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val events: EventServiceAsync.WithRawResponse by lazy {
+            EventServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync.WithRawResponse =
+            enhancedCommercialData
+
+        override fun events(): EventServiceAsync.WithRawResponse = events
+
+        private val retrieveHandler: Handler<Transaction> =
+            jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: TransactionRetrieveParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Transaction>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "transactions", params.getPathParam(0))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
                     }
-            }
+                }
+        }
+
+        private val listHandler: Handler<TransactionListPageAsync.Response> =
+            jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: TransactionListParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "transactions")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { listHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                TransactionListPageAsync.of(
+                                    TransactionServiceAsyncImpl(clientOptions),
+                                    params,
+                                    it,
+                                )
+                            }
+                    }
+                }
+        }
+
+        private val simulateAuthorizationHandler:
+            Handler<TransactionSimulateAuthorizationResponse> =
+            jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateAuthorization(
+            params: TransactionSimulateAuthorizationParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "authorize")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateAuthorizationHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateAuthorizationAdviceHandler:
+            Handler<TransactionSimulateAuthorizationAdviceResponse> =
+            jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateAuthorizationAdvice(
+            params: TransactionSimulateAuthorizationAdviceParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationAdviceResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "authorization_advice")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateAuthorizationAdviceHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateClearingHandler: Handler<TransactionSimulateClearingResponse> =
+            jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateClearing(
+            params: TransactionSimulateClearingParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateClearingResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "clearing")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateClearingHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateCreditAuthorizationHandler:
+            Handler<TransactionSimulateCreditAuthorizationResponse> =
+            jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateCreditAuthorization(
+            params: TransactionSimulateCreditAuthorizationParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "credit_authorization_advice")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateCreditAuthorizationHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateReturnHandler: Handler<TransactionSimulateReturnResponse> =
+            jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateReturn(
+            params: TransactionSimulateReturnParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "return")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateReturnHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateReturnReversalHandler:
+            Handler<TransactionSimulateReturnReversalResponse> =
+            jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateReturnReversal(
+            params: TransactionSimulateReturnReversalParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnReversalResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "return_reversal")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateReturnReversalHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateVoidHandler: Handler<TransactionSimulateVoidResponse> =
+            jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun simulateVoid(
+            params: TransactionSimulateVoidParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateVoidResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "simulate", "void")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { simulateVoidHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
     }
 }
