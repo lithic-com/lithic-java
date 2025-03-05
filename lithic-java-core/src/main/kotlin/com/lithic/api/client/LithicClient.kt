@@ -4,7 +4,9 @@
 
 package com.lithic.api.client
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.blocking.AccountHolderService
@@ -57,6 +59,11 @@ interface LithicClient {
      * this client.
      */
     fun async(): LithicClientAsync
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     fun accounts(): AccountService
 
@@ -133,4 +140,77 @@ interface LithicClient {
      * method.
      */
     fun close()
+
+    /** A view of [LithicClient] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        fun accounts(): AccountService.WithRawResponse
+
+        fun accountHolders(): AccountHolderService.WithRawResponse
+
+        fun authRules(): AuthRuleService.WithRawResponse
+
+        fun authStreamEnrollment(): AuthStreamEnrollmentService.WithRawResponse
+
+        fun tokenizationDecisioning(): TokenizationDecisioningService.WithRawResponse
+
+        fun tokenizations(): TokenizationService.WithRawResponse
+
+        fun cards(): CardService.WithRawResponse
+
+        fun balances(): BalanceService.WithRawResponse
+
+        fun aggregateBalances(): AggregateBalanceService.WithRawResponse
+
+        fun disputes(): DisputeService.WithRawResponse
+
+        fun events(): EventService.WithRawResponse
+
+        fun transfers(): TransferService.WithRawResponse
+
+        fun financialAccounts(): FinancialAccountService.WithRawResponse
+
+        fun transactions(): TransactionService.WithRawResponse
+
+        fun responderEndpoints(): ResponderEndpointService.WithRawResponse
+
+        fun externalBankAccounts(): ExternalBankAccountService.WithRawResponse
+
+        fun payments(): PaymentService.WithRawResponse
+
+        fun threeDS(): ThreeDSService.WithRawResponse
+
+        fun reports(): ReportService.WithRawResponse
+
+        fun cardPrograms(): CardProgramService.WithRawResponse
+
+        fun digitalCardArt(): DigitalCardArtService.WithRawResponse
+
+        fun bookTransfers(): BookTransferService.WithRawResponse
+
+        fun creditProducts(): CreditProductService.WithRawResponse
+
+        fun externalPayments(): ExternalPaymentService.WithRawResponse
+
+        fun managementOperations(): ManagementOperationService.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
+         * [LithicClient.apiStatus].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun apiStatus(
+            params: ClientApiStatusParams = ClientApiStatusParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ApiStatus>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
+         * [LithicClient.apiStatus].
+         */
+        @MustBeClosed
+        fun apiStatus(requestOptions: RequestOptions): HttpResponseFor<ApiStatus> =
+            apiStatus(ClientApiStatusParams.none(), requestOptions)
+    }
 }

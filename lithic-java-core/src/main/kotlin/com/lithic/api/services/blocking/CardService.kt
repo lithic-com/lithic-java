@@ -4,7 +4,9 @@
 
 package com.lithic.api.services.blocking
 
+import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Card
 import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
@@ -27,6 +29,11 @@ import com.lithic.api.services.blocking.cards.BalanceService
 import com.lithic.api.services.blocking.cards.FinancialTransactionService
 
 interface CardService {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     fun aggregateBalances(): AggregateBalanceService
 
@@ -190,4 +197,143 @@ interface CardService {
         params: CardGetEmbedUrlParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): String
+
+    /** A view of [CardService] that provides access to raw HTTP responses for each method. */
+    interface WithRawResponse {
+
+        fun aggregateBalances(): AggregateBalanceService.WithRawResponse
+
+        fun balances(): BalanceService.WithRawResponse
+
+        fun financialTransactions(): FinancialTransactionService.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards`, but is otherwise the same as
+         * [CardService.create].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: CardCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards/{card_token}`, but is otherwise the same
+         * as [CardService.retrieve].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CardRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
+         * as [CardService.update].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: CardUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
+         * [CardService.list].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: CardListParams = CardListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardListPage>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
+         * [CardService.list].
+         */
+        @MustBeClosed
+        fun list(requestOptions: RequestOptions): HttpResponseFor<CardListPage> =
+            list(CardListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
+         * otherwise the same as [CardService.convertPhysical].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun convertPhysical(
+            params: CardConvertPhysicalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
+         * [CardService.embed].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun embed(
+            params: CardEmbedParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<String>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/provision`, but is otherwise
+         * the same as [CardService.provision].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun provision(
+            params: CardProvisionParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardProvisionResponse>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
+         * the same as [CardService.reissue].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun reissue(
+            params: CardReissueParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
+         * same as [CardService.renew].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun renew(
+            params: CardRenewParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
+         * otherwise the same as [CardService.retrieveSpendLimits].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardSpendLimits>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
+         * as [CardService.searchByPan].
+         */
+        @JvmOverloads
+        @MustBeClosed
+        fun searchByPan(
+            params: CardSearchByPanParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card>
+    }
 }

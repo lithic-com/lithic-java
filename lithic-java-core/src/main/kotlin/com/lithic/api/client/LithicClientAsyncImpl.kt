@@ -11,6 +11,8 @@ import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ApiStatus
@@ -79,10 +81,12 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
                 .putHeader("User-Agent", "${javaClass.simpleName}/Java ${getPackageVersion()}")
                 .build()
 
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
-
     // Pass the original clientOptions so that this client sets its own User-Agent.
     private val sync: LithicClient by lazy { LithicClientImpl(clientOptions) }
+
+    private val withRawResponse: LithicClientAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     private val accounts: AccountServiceAsync by lazy {
         AccountServiceAsyncImpl(clientOptionsWithUserAgent)
@@ -186,6 +190,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
     override fun sync(): LithicClient = sync
 
+    override fun withRawResponse(): LithicClientAsync.WithRawResponse = withRawResponse
+
     override fun accounts(): AccountServiceAsync = accounts
 
     override fun accountHolders(): AccountHolderServiceAsync = accountHolders
@@ -239,33 +245,206 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
     override fun managementOperations(): ManagementOperationServiceAsync = managementOperations
 
-    private val apiStatusHandler: Handler<ApiStatus> =
-        jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /** Status of api */
     override fun apiStatus(
         params: ClientApiStatusParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<ApiStatus> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("v1", "status")
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        return request
-            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-            .thenApply { response ->
-                response
-                    .use { apiStatusHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-    }
+    ): CompletableFuture<ApiStatus> =
+        // get /v1/status
+        withRawResponse().apiStatus(params, requestOptions).thenApply { it.parse() }
 
     override fun close() = clientOptions.httpClient.close()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        LithicClientAsync.WithRawResponse {
+
+        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+        private val accounts: AccountServiceAsync.WithRawResponse by lazy {
+            AccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val accountHolders: AccountHolderServiceAsync.WithRawResponse by lazy {
+            AccountHolderServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val authRules: AuthRuleServiceAsync.WithRawResponse by lazy {
+            AuthRuleServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val authStreamEnrollment: AuthStreamEnrollmentServiceAsync.WithRawResponse by lazy {
+            AuthStreamEnrollmentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tokenizationDecisioning:
+            TokenizationDecisioningServiceAsync.WithRawResponse by lazy {
+            TokenizationDecisioningServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tokenizations: TokenizationServiceAsync.WithRawResponse by lazy {
+            TokenizationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val cards: CardServiceAsync.WithRawResponse by lazy {
+            CardServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val balances: BalanceServiceAsync.WithRawResponse by lazy {
+            BalanceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val aggregateBalances: AggregateBalanceServiceAsync.WithRawResponse by lazy {
+            AggregateBalanceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val disputes: DisputeServiceAsync.WithRawResponse by lazy {
+            DisputeServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val events: EventServiceAsync.WithRawResponse by lazy {
+            EventServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val transfers: TransferServiceAsync.WithRawResponse by lazy {
+            TransferServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val financialAccounts: FinancialAccountServiceAsync.WithRawResponse by lazy {
+            FinancialAccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val transactions: TransactionServiceAsync.WithRawResponse by lazy {
+            TransactionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val responderEndpoints: ResponderEndpointServiceAsync.WithRawResponse by lazy {
+            ResponderEndpointServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val externalBankAccounts: ExternalBankAccountServiceAsync.WithRawResponse by lazy {
+            ExternalBankAccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val payments: PaymentServiceAsync.WithRawResponse by lazy {
+            PaymentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val threeDS: ThreeDSServiceAsync.WithRawResponse by lazy {
+            ThreeDSServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val reports: ReportServiceAsync.WithRawResponse by lazy {
+            ReportServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val cardPrograms: CardProgramServiceAsync.WithRawResponse by lazy {
+            CardProgramServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val digitalCardArt: DigitalCardArtServiceAsync.WithRawResponse by lazy {
+            DigitalCardArtServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val bookTransfers: BookTransferServiceAsync.WithRawResponse by lazy {
+            BookTransferServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val creditProducts: CreditProductServiceAsync.WithRawResponse by lazy {
+            CreditProductServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val externalPayments: ExternalPaymentServiceAsync.WithRawResponse by lazy {
+            ExternalPaymentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val managementOperations: ManagementOperationServiceAsync.WithRawResponse by lazy {
+            ManagementOperationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun accounts(): AccountServiceAsync.WithRawResponse = accounts
+
+        override fun accountHolders(): AccountHolderServiceAsync.WithRawResponse = accountHolders
+
+        override fun authRules(): AuthRuleServiceAsync.WithRawResponse = authRules
+
+        override fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync.WithRawResponse =
+            authStreamEnrollment
+
+        override fun tokenizationDecisioning():
+            TokenizationDecisioningServiceAsync.WithRawResponse = tokenizationDecisioning
+
+        override fun tokenizations(): TokenizationServiceAsync.WithRawResponse = tokenizations
+
+        override fun cards(): CardServiceAsync.WithRawResponse = cards
+
+        override fun balances(): BalanceServiceAsync.WithRawResponse = balances
+
+        override fun aggregateBalances(): AggregateBalanceServiceAsync.WithRawResponse =
+            aggregateBalances
+
+        override fun disputes(): DisputeServiceAsync.WithRawResponse = disputes
+
+        override fun events(): EventServiceAsync.WithRawResponse = events
+
+        override fun transfers(): TransferServiceAsync.WithRawResponse = transfers
+
+        override fun financialAccounts(): FinancialAccountServiceAsync.WithRawResponse =
+            financialAccounts
+
+        override fun transactions(): TransactionServiceAsync.WithRawResponse = transactions
+
+        override fun responderEndpoints(): ResponderEndpointServiceAsync.WithRawResponse =
+            responderEndpoints
+
+        override fun externalBankAccounts(): ExternalBankAccountServiceAsync.WithRawResponse =
+            externalBankAccounts
+
+        override fun payments(): PaymentServiceAsync.WithRawResponse = payments
+
+        override fun threeDS(): ThreeDSServiceAsync.WithRawResponse = threeDS
+
+        override fun reports(): ReportServiceAsync.WithRawResponse = reports
+
+        override fun cardPrograms(): CardProgramServiceAsync.WithRawResponse = cardPrograms
+
+        override fun digitalCardArt(): DigitalCardArtServiceAsync.WithRawResponse = digitalCardArt
+
+        override fun bookTransfers(): BookTransferServiceAsync.WithRawResponse = bookTransfers
+
+        override fun creditProducts(): CreditProductServiceAsync.WithRawResponse = creditProducts
+
+        override fun externalPayments(): ExternalPaymentServiceAsync.WithRawResponse =
+            externalPayments
+
+        override fun managementOperations(): ManagementOperationServiceAsync.WithRawResponse =
+            managementOperations
+
+        private val apiStatusHandler: Handler<ApiStatus> =
+            jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun apiStatus(
+            params: ClientApiStatusParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ApiStatus>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("v1", "status")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { apiStatusHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+    }
 }
