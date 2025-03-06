@@ -17,6 +17,7 @@ import java.time.Instant
 import java.util.Base64
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import kotlin.jvm.optionals.getOrNull
 
 class WebhookServiceImpl constructor(private val clientOptions: ClientOptions) : WebhookService {
 
@@ -34,7 +35,7 @@ class WebhookServiceImpl constructor(private val clientOptions: ClientOptions) :
     override fun verifySignature(payload: String, headers: Headers, secret: String?) {
         val webhookSecret =
             secret
-                ?: clientOptions.webhookSecret
+                ?: clientOptions.webhookSecret().getOrNull()
                 ?: throw LithicException(
                     "The webhook secret must either be set using the env var, LITHIC_WEBHOOK_SECRET, on the client class, or passed to this method"
                 )
