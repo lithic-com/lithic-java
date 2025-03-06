@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.79.0 (2025-03-06)
+
+Full Changelog: [v0.78.0...v0.79.0](https://github.com/lithic-com/lithic-java/compare/v0.78.0...v0.79.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** refactor multipart formdata impl ([#513](https://github.com/lithic-com/lithic-java/issues/513))
+
+### Features
+
+* **api:** new Settlement API endpoints and changes to update Account Holder endpoint ([#514](https://github.com/lithic-com/lithic-java/issues/514)) ([553889a](https://github.com/lithic-com/lithic-java/commit/553889a4895f2d988d24bd66b4b61888d50be50a))
+* **client:** accept `InputStream` and `Path` for file params ([#519](https://github.com/lithic-com/lithic-java/issues/519)) ([de0b778](https://github.com/lithic-com/lithic-java/commit/de0b778bf94a6a81ba38b4e00303c178a43a1a79))
+* **client:** allow configuring timeouts granularly ([#510](https://github.com/lithic-com/lithic-java/issues/510)) ([17f97db](https://github.com/lithic-com/lithic-java/commit/17f97dbd49d489b786ba424f32043ddef5f0f57f))
+* **client:** detect binary incompatible jackson versions ([#520](https://github.com/lithic-com/lithic-java/issues/520)) ([a726256](https://github.com/lithic-com/lithic-java/commit/a72625631feaa2eb7866140508d0d06210ab4e92))
+* **client:** support raw response access ([#511](https://github.com/lithic-com/lithic-java/issues/511)) ([112fd32](https://github.com/lithic-com/lithic-java/commit/112fd32159c837de4bf3ab0e4e5d5a36bc448bcc))
+
+
+### Bug Fixes
+
+* compiler error ([9242559](https://github.com/lithic-com/lithic-java/commit/92425593f9f0b00ed9fe1cefb188308ce24c77bc))
+
+
+### Chores
+
+* **client:** expose `Optional`, not nullable, from `ClientOptions` ([#517](https://github.com/lithic-com/lithic-java/issues/517)) ([fa8d950](https://github.com/lithic-com/lithic-java/commit/fa8d950701c34a3d979533c7da7e68a484fcc53e))
+* **client:** refactor multipart formdata impl ([#513](https://github.com/lithic-com/lithic-java/issues/513)) ([254306a](https://github.com/lithic-com/lithic-java/commit/254306a8ab49779549189651fafe5e360e9b1928))
+* **client:** use deep identity methods for primitive array types ([#505](https://github.com/lithic-com/lithic-java/issues/505)) ([7a0b3ad](https://github.com/lithic-com/lithic-java/commit/7a0b3adf3d93425ed3911782a6b2ebc0a1824067))
+* **internal:** add async service tests ([#503](https://github.com/lithic-com/lithic-java/issues/503)) ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* **internal:** improve sync service tests ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* **internal:** refactor `ErrorHandlingTest` ([#509](https://github.com/lithic-com/lithic-java/issues/509)) ([ecf5050](https://github.com/lithic-com/lithic-java/commit/ecf5050a51330609b6a7a7b1900d1e306db1e0c5))
+* **internal:** refactor `ServiceParamsTest` ([#507](https://github.com/lithic-com/lithic-java/issues/507)) ([bab2b10](https://github.com/lithic-com/lithic-java/commit/bab2b10e1590ee2c673e9a74ab0a4e423c0a2b62))
+
+
+### Documentation
+
+* add raw response readme documentation ([#515](https://github.com/lithic-com/lithic-java/issues/515)) ([b4f0637](https://github.com/lithic-com/lithic-java/commit/b4f0637a2653aab13268555c2a9fda75a50bc721))
+* note required fields in `builder` javadoc ([#516](https://github.com/lithic-com/lithic-java/issues/516)) ([7279322](https://github.com/lithic-com/lithic-java/commit/7279322a4264718aeea1a844e0adf4d2c40eb062))
+* readme parameter tweaks ([c29ae5a](https://github.com/lithic-com/lithic-java/commit/c29ae5a3d1bfa17b9da4050ce150c38596705937))
+* update URLs from stainlessapi.com to stainless.com ([#508](https://github.com/lithic-com/lithic-java/issues/508)) ([0182c4b](https://github.com/lithic-com/lithic-java/commit/0182c4b707a19ccf2e4d0784975346faff0ca27e))
+
 ## 0.78.0 (2025-02-26)
 
 Full Changelog: [v0.77.0...v0.78.0](https://github.com/lithic-com/lithic-java/compare/v0.77.0...v0.78.0)
