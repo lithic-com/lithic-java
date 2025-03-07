@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.events
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -32,53 +30,77 @@ interface SubscriptionService {
     fun withRawResponse(): WithRawResponse
 
     /** Create a new event subscription. */
-    @JvmOverloads
+    fun create(params: EventSubscriptionCreateParams): EventSubscription =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** Get an event subscription. */
-    @JvmOverloads
+    fun retrieve(params: EventSubscriptionRetrieveParams): EventSubscription =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** Update an event subscription. */
-    @JvmOverloads
+    fun update(params: EventSubscriptionUpdateParams): EventSubscription =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscription
 
     /** List all the event subscriptions. */
-    @JvmOverloads
+    fun list(): EventSubscriptionListPage = list(EventSubscriptionListParams.none())
+
+    /** @see [list] */
     fun list(
         params: EventSubscriptionListParams = EventSubscriptionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscriptionListPage
 
-    /** List all the event subscriptions. */
+    /** @see [list] */
+    fun list(
+        params: EventSubscriptionListParams = EventSubscriptionListParams.none()
+    ): EventSubscriptionListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): EventSubscriptionListPage =
         list(EventSubscriptionListParams.none(), requestOptions)
 
     /** Delete an event subscription. */
-    @JvmOverloads
+    fun delete(params: EventSubscriptionDeleteParams) = delete(params, RequestOptions.none())
+
+    /** @see [delete] */
     fun delete(
         params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** List all the message attempts for a given event subscription. */
-    @JvmOverloads
+    fun listAttempts(
+        params: EventSubscriptionListAttemptsParams
+    ): EventSubscriptionListAttemptsPage = listAttempts(params, RequestOptions.none())
+
+    /** @see [listAttempts] */
     fun listAttempts(
         params: EventSubscriptionListAttemptsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventSubscriptionListAttemptsPage
 
     /** Resend all failed messages since a given time. */
-    @JvmOverloads
+    fun recover(params: EventSubscriptionRecoverParams) = recover(params, RequestOptions.none())
+
+    /** @see [recover] */
     fun recover(
         params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -90,14 +112,21 @@ interface SubscriptionService {
      * endpoint responds with a non-2xx status code. See
      * [Retry Schedule](https://docs.lithic.com/docs/events-api#retry-schedule) for details.
      */
-    @JvmOverloads
+    fun replayMissing(params: EventSubscriptionReplayMissingParams) =
+        replayMissing(params, RequestOptions.none())
+
+    /** @see [replayMissing] */
     fun replayMissing(
         params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Get the secret for an event subscription. */
-    @JvmOverloads
+    fun retrieveSecret(
+        params: EventSubscriptionRetrieveSecretParams
+    ): SubscriptionRetrieveSecretResponse = retrieveSecret(params, RequestOptions.none())
+
+    /** @see [retrieveSecret] */
     fun retrieveSecret(
         params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -107,14 +136,20 @@ interface SubscriptionService {
      * Rotate the secret for an event subscription. The previous secret will be valid for the next
      * 24 hours.
      */
-    @JvmOverloads
+    fun rotateSecret(params: EventSubscriptionRotateSecretParams) =
+        rotateSecret(params, RequestOptions.none())
+
+    /** @see [rotateSecret] */
     fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Send an example message for event. */
-    @JvmOverloads
+    fun sendSimulatedExample(params: EventSubscriptionSendSimulatedExampleParams) =
+        sendSimulatedExample(params, RequestOptions.none())
+
+    /** @see [sendSimulatedExample] */
     fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -129,7 +164,11 @@ interface SubscriptionService {
          * Returns a raw HTTP response for `post /v1/event_subscriptions`, but is otherwise the same
          * as [SubscriptionService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: EventSubscriptionCreateParams): HttpResponseFor<EventSubscription> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: EventSubscriptionCreateParams,
@@ -140,7 +179,11 @@ interface SubscriptionService {
          * Returns a raw HTTP response for `get /v1/event_subscriptions/{event_subscription_token}`,
          * but is otherwise the same as [SubscriptionService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: EventSubscriptionRetrieveParams): HttpResponseFor<EventSubscription> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: EventSubscriptionRetrieveParams,
@@ -152,7 +195,11 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}`, but is otherwise the same as
          * [SubscriptionService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: EventSubscriptionUpdateParams): HttpResponseFor<EventSubscription> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: EventSubscriptionUpdateParams,
@@ -163,17 +210,24 @@ interface SubscriptionService {
          * Returns a raw HTTP response for `get /v1/event_subscriptions`, but is otherwise the same
          * as [SubscriptionService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<EventSubscriptionListPage> =
+            list(EventSubscriptionListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: EventSubscriptionListParams = EventSubscriptionListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<EventSubscriptionListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/event_subscriptions`, but is otherwise the same
-         * as [SubscriptionService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: EventSubscriptionListParams = EventSubscriptionListParams.none()
+        ): HttpResponseFor<EventSubscriptionListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<EventSubscriptionListPage> =
             list(EventSubscriptionListParams.none(), requestOptions)
@@ -183,7 +237,11 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}`, but is otherwise the same as
          * [SubscriptionService.delete].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun delete(params: EventSubscriptionDeleteParams): HttpResponse =
+            delete(params, RequestOptions.none())
+
+        /** @see [delete] */
         @MustBeClosed
         fun delete(
             params: EventSubscriptionDeleteParams,
@@ -195,7 +253,13 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}/attempts`, but is otherwise the same
          * as [SubscriptionService.listAttempts].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun listAttempts(
+            params: EventSubscriptionListAttemptsParams
+        ): HttpResponseFor<EventSubscriptionListAttemptsPage> =
+            listAttempts(params, RequestOptions.none())
+
+        /** @see [listAttempts] */
         @MustBeClosed
         fun listAttempts(
             params: EventSubscriptionListAttemptsParams,
@@ -207,7 +271,11 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}/recover`, but is otherwise the same as
          * [SubscriptionService.recover].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun recover(params: EventSubscriptionRecoverParams): HttpResponse =
+            recover(params, RequestOptions.none())
+
+        /** @see [recover] */
         @MustBeClosed
         fun recover(
             params: EventSubscriptionRecoverParams,
@@ -219,7 +287,11 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}/replay_missing`, but is otherwise the
          * same as [SubscriptionService.replayMissing].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun replayMissing(params: EventSubscriptionReplayMissingParams): HttpResponse =
+            replayMissing(params, RequestOptions.none())
+
+        /** @see [replayMissing] */
         @MustBeClosed
         fun replayMissing(
             params: EventSubscriptionReplayMissingParams,
@@ -231,7 +303,13 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}/secret`, but is otherwise the same as
          * [SubscriptionService.retrieveSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSecret(
+            params: EventSubscriptionRetrieveSecretParams
+        ): HttpResponseFor<SubscriptionRetrieveSecretResponse> =
+            retrieveSecret(params, RequestOptions.none())
+
+        /** @see [retrieveSecret] */
         @MustBeClosed
         fun retrieveSecret(
             params: EventSubscriptionRetrieveSecretParams,
@@ -243,7 +321,11 @@ interface SubscriptionService {
          * /v1/event_subscriptions/{event_subscription_token}/secret/rotate`, but is otherwise the
          * same as [SubscriptionService.rotateSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun rotateSecret(params: EventSubscriptionRotateSecretParams): HttpResponse =
+            rotateSecret(params, RequestOptions.none())
+
+        /** @see [rotateSecret] */
         @MustBeClosed
         fun rotateSecret(
             params: EventSubscriptionRotateSecretParams,
@@ -255,7 +337,12 @@ interface SubscriptionService {
          * /v1/simulate/event_subscriptions/{event_subscription_token}/send_example`, but is
          * otherwise the same as [SubscriptionService.sendSimulatedExample].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun sendSimulatedExample(
+            params: EventSubscriptionSendSimulatedExampleParams
+        ): HttpResponse = sendSimulatedExample(params, RequestOptions.none())
+
+        /** @see [sendSimulatedExample] */
         @MustBeClosed
         fun sendSimulatedExample(
             params: EventSubscriptionSendSimulatedExampleParams,

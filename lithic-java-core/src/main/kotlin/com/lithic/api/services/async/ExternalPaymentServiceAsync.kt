@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -26,53 +24,79 @@ interface ExternalPaymentServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Create external payment */
-    @JvmOverloads
+    fun create(params: ExternalPaymentCreateParams): CompletableFuture<ExternalPayment> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: ExternalPaymentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Get external payment */
-    @JvmOverloads
+    fun retrieve(params: ExternalPaymentRetrieveParams): CompletableFuture<ExternalPayment> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ExternalPaymentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** List external payments */
-    @JvmOverloads
+    fun list(): CompletableFuture<ExternalPaymentListPageAsync> =
+        list(ExternalPaymentListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ExternalPaymentListParams = ExternalPaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPaymentListPageAsync>
 
-    /** List external payments */
+    /** @see [list] */
+    fun list(
+        params: ExternalPaymentListParams = ExternalPaymentListParams.none()
+    ): CompletableFuture<ExternalPaymentListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<ExternalPaymentListPageAsync> =
         list(ExternalPaymentListParams.none(), requestOptions)
 
     /** Cancel external payment */
-    @JvmOverloads
+    fun cancel(params: ExternalPaymentCancelParams): CompletableFuture<ExternalPayment> =
+        cancel(params, RequestOptions.none())
+
+    /** @see [cancel] */
     fun cancel(
         params: ExternalPaymentCancelParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Release external payment */
-    @JvmOverloads
+    fun release(params: ExternalPaymentReleaseParams): CompletableFuture<ExternalPayment> =
+        release(params, RequestOptions.none())
+
+    /** @see [release] */
     fun release(
         params: ExternalPaymentReleaseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Reverse external payment */
-    @JvmOverloads
+    fun reverse(params: ExternalPaymentReverseParams): CompletableFuture<ExternalPayment> =
+        reverse(params, RequestOptions.none())
+
+    /** @see [reverse] */
     fun reverse(
         params: ExternalPaymentReverseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalPayment>
 
     /** Settle external payment */
-    @JvmOverloads
+    fun settle(params: ExternalPaymentSettleParams): CompletableFuture<ExternalPayment> =
+        settle(params, RequestOptions.none())
+
+    /** @see [settle] */
     fun settle(
         params: ExternalPaymentSettleParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -88,7 +112,13 @@ interface ExternalPaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/external_payments`, but is otherwise the same
          * as [ExternalPaymentServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: ExternalPaymentCreateParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ExternalPaymentCreateParams,
@@ -99,7 +129,13 @@ interface ExternalPaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/external_payments/{external_payment_token}`, but
          * is otherwise the same as [ExternalPaymentServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ExternalPaymentRetrieveParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ExternalPaymentRetrieveParams,
@@ -110,17 +146,25 @@ interface ExternalPaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/external_payments`, but is otherwise the same as
          * [ExternalPaymentServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<ExternalPaymentListPageAsync>> =
+            list(ExternalPaymentListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ExternalPaymentListParams = ExternalPaymentListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalPaymentListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/external_payments`, but is otherwise the same as
-         * [ExternalPaymentServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ExternalPaymentListParams = ExternalPaymentListParams.none()
+        ): CompletableFuture<HttpResponseFor<ExternalPaymentListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -132,7 +176,13 @@ interface ExternalPaymentServiceAsync {
          * /v1/external_payments/{external_payment_token}/cancel`, but is otherwise the same as
          * [ExternalPaymentServiceAsync.cancel].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun cancel(
+            params: ExternalPaymentCancelParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            cancel(params, RequestOptions.none())
+
+        /** @see [cancel] */
         @MustBeClosed
         fun cancel(
             params: ExternalPaymentCancelParams,
@@ -144,7 +194,13 @@ interface ExternalPaymentServiceAsync {
          * /v1/external_payments/{external_payment_token}/release`, but is otherwise the same as
          * [ExternalPaymentServiceAsync.release].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun release(
+            params: ExternalPaymentReleaseParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            release(params, RequestOptions.none())
+
+        /** @see [release] */
         @MustBeClosed
         fun release(
             params: ExternalPaymentReleaseParams,
@@ -156,7 +212,13 @@ interface ExternalPaymentServiceAsync {
          * /v1/external_payments/{external_payment_token}/reverse`, but is otherwise the same as
          * [ExternalPaymentServiceAsync.reverse].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reverse(
+            params: ExternalPaymentReverseParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            reverse(params, RequestOptions.none())
+
+        /** @see [reverse] */
         @MustBeClosed
         fun reverse(
             params: ExternalPaymentReverseParams,
@@ -168,7 +230,13 @@ interface ExternalPaymentServiceAsync {
          * /v1/external_payments/{external_payment_token}/settle`, but is otherwise the same as
          * [ExternalPaymentServiceAsync.settle].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun settle(
+            params: ExternalPaymentSettleParams
+        ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
+            settle(params, RequestOptions.none())
+
+        /** @see [settle] */
         @MustBeClosed
         fun settle(
             params: ExternalPaymentSettleParams,

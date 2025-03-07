@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.financialAccounts.statements
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,7 +16,11 @@ interface LineItemService {
     fun withRawResponse(): WithRawResponse
 
     /** List the line items for a given statement within a given financial account. */
-    @JvmOverloads
+    fun list(
+        params: FinancialAccountStatementLineItemListParams
+    ): FinancialAccountStatementLineItemListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -32,7 +34,13 @@ interface LineItemService {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}/line_items`,
          * but is otherwise the same as [LineItemService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountStatementLineItemListParams
+        ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams,

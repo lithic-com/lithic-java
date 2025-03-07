@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,13 +16,20 @@ interface AggregateBalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated balance across all end-user accounts by financial account type */
-    @JvmOverloads
+    fun list(): AggregateBalanceListPage = list(AggregateBalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AggregateBalanceListPage
 
-    /** Get the aggregated balance across all end-user accounts by financial account type */
+    /** @see [list] */
+    fun list(
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+    ): AggregateBalanceListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): AggregateBalanceListPage =
         list(AggregateBalanceListParams.none(), requestOptions)
 
@@ -38,17 +43,24 @@ interface AggregateBalanceService {
          * Returns a raw HTTP response for `get /v1/aggregate_balances`, but is otherwise the same
          * as [AggregateBalanceService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<AggregateBalanceListPage> =
+            list(AggregateBalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AggregateBalanceListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/aggregate_balances`, but is otherwise the same
-         * as [AggregateBalanceService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+        ): HttpResponseFor<AggregateBalanceListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<AggregateBalanceListPage> =
             list(AggregateBalanceListParams.none(), requestOptions)

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.creditProducts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -20,14 +18,19 @@ interface PrimeRateService {
     fun withRawResponse(): WithRawResponse
 
     /** Post Credit Product Prime Rate */
-    @JvmOverloads
+    fun create(params: CreditProductPrimeRateCreateParams) = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Get Credit Product Prime Rates */
-    @JvmOverloads
+    fun retrieve(params: CreditProductPrimeRateRetrieveParams): PrimeRateRetrieveResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CreditProductPrimeRateRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -41,7 +44,11 @@ interface PrimeRateService {
          * /v1/credit_products/{credit_product_token}/prime_rates`, but is otherwise the same as
          * [PrimeRateService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: CreditProductPrimeRateCreateParams): HttpResponse =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: CreditProductPrimeRateCreateParams,
@@ -53,7 +60,12 @@ interface PrimeRateService {
          * /v1/credit_products/{credit_product_token}/prime_rates`, but is otherwise the same as
          * [PrimeRateService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CreditProductPrimeRateRetrieveParams
+        ): HttpResponseFor<PrimeRateRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CreditProductPrimeRateRetrieveParams,

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -31,50 +29,79 @@ interface ExternalBankAccountService {
     fun microDeposits(): MicroDepositService
 
     /** Creates an external bank account within a program or Lithic account. */
-    @JvmOverloads
+    fun create(): ExternalBankAccountCreateResponse = create(ExternalBankAccountCreateParams.none())
+
+    /** @see [create] */
     fun create(
         params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountCreateResponse
 
-    /** Creates an external bank account within a program or Lithic account. */
+    /** @see [create] */
+    fun create(
+        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
+    ): ExternalBankAccountCreateResponse = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(requestOptions: RequestOptions): ExternalBankAccountCreateResponse =
         create(ExternalBankAccountCreateParams.none(), requestOptions)
 
     /** Get the external bank account by token. */
-    @JvmOverloads
+    fun retrieve(params: ExternalBankAccountRetrieveParams): ExternalBankAccountRetrieveResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ExternalBankAccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountRetrieveResponse
 
     /** Update the external bank account by token. */
-    @JvmOverloads
+    fun update(params: ExternalBankAccountUpdateParams): ExternalBankAccountUpdateResponse =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: ExternalBankAccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountUpdateResponse
 
     /** List all the external bank accounts for the provided search criteria. */
-    @JvmOverloads
+    fun list(): ExternalBankAccountListPage = list(ExternalBankAccountListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ExternalBankAccountListParams = ExternalBankAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountListPage
 
-    /** List all the external bank accounts for the provided search criteria. */
+    /** @see [list] */
+    fun list(
+        params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
+    ): ExternalBankAccountListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): ExternalBankAccountListPage =
         list(ExternalBankAccountListParams.none(), requestOptions)
 
     /** Retry external bank account micro deposit verification. */
-    @JvmOverloads
+    fun retryMicroDeposits(
+        params: ExternalBankAccountRetryMicroDepositsParams
+    ): ExternalBankAccountRetryMicroDepositsResponse =
+        retryMicroDeposits(params, RequestOptions.none())
+
+    /** @see [retryMicroDeposits] */
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountRetryMicroDepositsResponse
 
     /** Retry external bank account prenote verification. */
-    @JvmOverloads
+    fun retryPrenote(
+        params: ExternalBankAccountRetryPrenoteParams
+    ): ExternalBankAccountRetryPrenoteResponse = retryPrenote(params, RequestOptions.none())
+
+    /** @see [retryPrenote] */
     fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -92,17 +119,25 @@ interface ExternalBankAccountService {
          * Returns a raw HTTP response for `post /v1/external_bank_accounts`, but is otherwise the
          * same as [ExternalBankAccountService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(): HttpResponseFor<ExternalBankAccountCreateResponse> =
+            create(ExternalBankAccountCreateParams.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExternalBankAccountCreateResponse>
 
-        /**
-         * Returns a raw HTTP response for `post /v1/external_bank_accounts`, but is otherwise the
-         * same as [ExternalBankAccountService.create].
-         */
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
+        ): HttpResponseFor<ExternalBankAccountCreateResponse> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             requestOptions: RequestOptions
@@ -114,7 +149,13 @@ interface ExternalBankAccountService {
          * /v1/external_bank_accounts/{external_bank_account_token}`, but is otherwise the same as
          * [ExternalBankAccountService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ExternalBankAccountRetrieveParams
+        ): HttpResponseFor<ExternalBankAccountRetrieveResponse> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ExternalBankAccountRetrieveParams,
@@ -126,7 +167,13 @@ interface ExternalBankAccountService {
          * /v1/external_bank_accounts/{external_bank_account_token}`, but is otherwise the same as
          * [ExternalBankAccountService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: ExternalBankAccountUpdateParams
+        ): HttpResponseFor<ExternalBankAccountUpdateResponse> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: ExternalBankAccountUpdateParams,
@@ -137,17 +184,24 @@ interface ExternalBankAccountService {
          * Returns a raw HTTP response for `get /v1/external_bank_accounts`, but is otherwise the
          * same as [ExternalBankAccountService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<ExternalBankAccountListPage> =
+            list(ExternalBankAccountListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ExternalBankAccountListParams = ExternalBankAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExternalBankAccountListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/external_bank_accounts`, but is otherwise the
-         * same as [ExternalBankAccountService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
+        ): HttpResponseFor<ExternalBankAccountListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ExternalBankAccountListPage> =
             list(ExternalBankAccountListParams.none(), requestOptions)
@@ -157,7 +211,13 @@ interface ExternalBankAccountService {
          * /v1/external_bank_accounts/{external_bank_account_token}/retry_micro_deposits`, but is
          * otherwise the same as [ExternalBankAccountService.retryMicroDeposits].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retryMicroDeposits(
+            params: ExternalBankAccountRetryMicroDepositsParams
+        ): HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse> =
+            retryMicroDeposits(params, RequestOptions.none())
+
+        /** @see [retryMicroDeposits] */
         @MustBeClosed
         fun retryMicroDeposits(
             params: ExternalBankAccountRetryMicroDepositsParams,
@@ -169,7 +229,13 @@ interface ExternalBankAccountService {
          * /v1/external_bank_accounts/{external_bank_account_token}/retry_prenote`, but is otherwise
          * the same as [ExternalBankAccountService.retryPrenote].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retryPrenote(
+            params: ExternalBankAccountRetryPrenoteParams
+        ): HttpResponseFor<ExternalBankAccountRetryPrenoteResponse> =
+            retryPrenote(params, RequestOptions.none())
+
+        /** @see [retryPrenote] */
         @MustBeClosed
         fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams,

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.creditProducts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -21,14 +19,21 @@ interface PrimeRateServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Post Credit Product Prime Rate */
-    @JvmOverloads
+    fun create(params: CreditProductPrimeRateCreateParams): CompletableFuture<Void?> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
     /** Get Credit Product Prime Rates */
-    @JvmOverloads
+    fun retrieve(
+        params: CreditProductPrimeRateRetrieveParams
+    ): CompletableFuture<PrimeRateRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CreditProductPrimeRateRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -44,7 +49,11 @@ interface PrimeRateServiceAsync {
          * /v1/credit_products/{credit_product_token}/prime_rates`, but is otherwise the same as
          * [PrimeRateServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: CreditProductPrimeRateCreateParams): CompletableFuture<HttpResponse> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: CreditProductPrimeRateCreateParams,
@@ -56,7 +65,13 @@ interface PrimeRateServiceAsync {
          * /v1/credit_products/{credit_product_token}/prime_rates`, but is otherwise the same as
          * [PrimeRateServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CreditProductPrimeRateRetrieveParams
+        ): CompletableFuture<HttpResponseFor<PrimeRateRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CreditProductPrimeRateRetrieveParams,

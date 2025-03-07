@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -20,20 +18,30 @@ interface DigitalCardArtService {
     fun withRawResponse(): WithRawResponse
 
     /** Get digital card art by token. */
-    @JvmOverloads
+    fun retrieve(params: DigitalCardArtRetrieveParams): DigitalCardArt =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArt
 
     /** List digital card art. */
-    @JvmOverloads
+    fun list(): DigitalCardArtListPage = list(DigitalCardArtListParams.none())
+
+    /** @see [list] */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArtListPage
 
-    /** List digital card art. */
+    /** @see [list] */
+    fun list(
+        params: DigitalCardArtListParams = DigitalCardArtListParams.none()
+    ): DigitalCardArtListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): DigitalCardArtListPage =
         list(DigitalCardArtListParams.none(), requestOptions)
 
@@ -46,7 +54,11 @@ interface DigitalCardArtService {
          * Returns a raw HTTP response for `get /v1/digital_card_art/{digital_card_art_token}`, but
          * is otherwise the same as [DigitalCardArtService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: DigitalCardArtRetrieveParams): HttpResponseFor<DigitalCardArt> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: DigitalCardArtRetrieveParams,
@@ -57,17 +69,23 @@ interface DigitalCardArtService {
          * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as
          * [DigitalCardArtService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<DigitalCardArtListPage> = list(DigitalCardArtListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DigitalCardArtListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as
-         * [DigitalCardArtService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: DigitalCardArtListParams = DigitalCardArtListParams.none()
+        ): HttpResponseFor<DigitalCardArtListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<DigitalCardArtListPage> =
             list(DigitalCardArtListParams.none(), requestOptions)

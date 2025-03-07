@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.reports.settlement
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -24,7 +22,11 @@ interface NetworkTotalServiceAsync {
      * (Available March 4, 2025) Retrieve a specific network total record by token. Not available in
      * sandbox.
      */
-    @JvmOverloads
+    fun retrieve(
+        params: ReportSettlementNetworkTotalRetrieveParams
+    ): CompletableFuture<NetworkTotalRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -34,17 +36,24 @@ interface NetworkTotalServiceAsync {
      * (Available March 4, 2025) List network total records with optional filters. Not available in
      * sandbox.
      */
-    @JvmOverloads
+    fun list(): CompletableFuture<ReportSettlementNetworkTotalListPageAsync> =
+        list(ReportSettlementNetworkTotalListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ReportSettlementNetworkTotalListParams =
             ReportSettlementNetworkTotalListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReportSettlementNetworkTotalListPageAsync>
 
-    /**
-     * (Available March 4, 2025) List network total records with optional filters. Not available in
-     * sandbox.
-     */
+    /** @see [list] */
+    fun list(
+        params: ReportSettlementNetworkTotalListParams =
+            ReportSettlementNetworkTotalListParams.none()
+    ): CompletableFuture<ReportSettlementNetworkTotalListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         requestOptions: RequestOptions
     ): CompletableFuture<ReportSettlementNetworkTotalListPageAsync> =
@@ -60,7 +69,13 @@ interface NetworkTotalServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals/{token}`, but
          * is otherwise the same as [NetworkTotalServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ReportSettlementNetworkTotalRetrieveParams
+        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
@@ -71,7 +86,11 @@ interface NetworkTotalServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
          * otherwise the same as [NetworkTotalServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>> =
+            list(ReportSettlementNetworkTotalListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
@@ -79,10 +98,15 @@ interface NetworkTotalServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
-         * otherwise the same as [NetworkTotalServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ReportSettlementNetworkTotalListParams =
+                ReportSettlementNetworkTotalListParams.none()
+        ): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
