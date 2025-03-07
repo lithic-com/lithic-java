@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class AuthenticationRetrieveResponse
@@ -455,7 +456,7 @@ private constructor(
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
          * `acctType`.
          */
-        fun accountType(accountType: Optional<AccountType>) = accountType(accountType.orElse(null))
+        fun accountType(accountType: Optional<AccountType>) = accountType(accountType.getOrNull())
 
         /**
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
@@ -578,7 +579,7 @@ private constructor(
          * required across all 3DS requests).
          */
         fun additionalData(additionalData: Optional<AdditionalData>) =
-            additionalData(additionalData.orElse(null))
+            additionalData(additionalData.getOrNull())
 
         /**
          * Object containing additional data about the 3DS request that is beyond the EMV 3DS
@@ -616,7 +617,7 @@ private constructor(
          */
         fun authenticationRequestType(
             authenticationRequestType: Optional<AuthenticationRequestType>
-        ) = authenticationRequestType(authenticationRequestType.orElse(null))
+        ) = authenticationRequestType(authenticationRequestType.getOrNull())
 
         /**
          * Type of authentication request - i.e., the type of transaction or interaction is causing
@@ -645,7 +646,7 @@ private constructor(
 
         /** Metadata about the challenge method and delivery. */
         fun challengeMetadata(challengeMetadata: Optional<ChallengeMetadata>) =
-            challengeMetadata(challengeMetadata.orElse(null))
+            challengeMetadata(challengeMetadata.getOrNull())
 
         /** Metadata about the challenge method and delivery. */
         fun challengeMetadata(challengeMetadata: JsonField<ChallengeMetadata>) = apply {
@@ -658,7 +659,7 @@ private constructor(
 
         /** Entity that orchestrates the challenge. */
         fun challengeOrchestratedBy(challengeOrchestratedBy: Optional<ChallengeOrchestratedBy>) =
-            challengeOrchestratedBy(challengeOrchestratedBy.orElse(null))
+            challengeOrchestratedBy(challengeOrchestratedBy.getOrNull())
 
         /** Entity that orchestrates the challenge. */
         fun challengeOrchestratedBy(challengeOrchestratedBy: JsonField<ChallengeOrchestratedBy>) =
@@ -672,7 +673,7 @@ private constructor(
 
         /** Entity that made the authentication decision. */
         fun decisionMadeBy(decisionMadeBy: Optional<DecisionMadeBy>) =
-            decisionMadeBy(decisionMadeBy.orElse(null))
+            decisionMadeBy(decisionMadeBy.getOrNull())
 
         /** Entity that made the authentication decision. */
         fun decisionMadeBy(decisionMadeBy: JsonField<DecisionMadeBy>) = apply {
@@ -695,7 +696,7 @@ private constructor(
          * such as a pay TV subscription or a utility bill. Maps to EMV 3DS field threeRIInd.
          */
         fun threeRiRequestType(threeRiRequestType: Optional<ThreeRiRequestType>) =
-            threeRiRequestType(threeRiRequestType.orElse(null))
+            threeRiRequestType(threeRiRequestType.getOrNull())
 
         /**
          * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place
@@ -717,7 +718,7 @@ private constructor(
          * Object containing data about the e-commerce transaction for which the merchant is
          * requesting authentication.
          */
-        fun transaction(transaction: Optional<Transaction>) = transaction(transaction.orElse(null))
+        fun transaction(transaction: Optional<Transaction>) = transaction(transaction.getOrNull())
 
         /**
          * Object containing data about the e-commerce transaction for which the merchant is
@@ -1327,9 +1328,8 @@ private constructor(
              * provided directly in the 3DS request and is not determined by Lithic. Maps to EMV 3DS
              * field addrMatch.
              */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
             fun addressMatch(addressMatch: Optional<Boolean>) =
-                addressMatch(addressMatch.orElse(null) as Boolean?)
+                addressMatch(addressMatch.getOrNull())
 
             /**
              * Indicates whether the shipping address and billing address provided by the cardholder
@@ -1360,7 +1360,7 @@ private constructor(
              * Email address that is either provided by the cardholder or is on file with the
              * merchant in a 3RI request. Maps to EMV 3DS field email.
              */
-            fun email(email: Optional<String>) = email(email.orElse(null))
+            fun email(email: Optional<String>) = email(email.getOrNull())
 
             /**
              * Email address that is either provided by the cardholder or is on file with the
@@ -1372,7 +1372,7 @@ private constructor(
             fun name(name: String?) = name(JsonField.ofNullable(name))
 
             /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
-            fun name(name: Optional<String>) = name(name.orElse(null))
+            fun name(name: Optional<String>) = name(name.getOrNull())
 
             /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
             fun name(name: JsonField<String>) = apply { this.name = name }
@@ -1389,7 +1389,7 @@ private constructor(
              * homePhone.subscriber.
              */
             fun phoneNumberHome(phoneNumberHome: Optional<String>) =
-                phoneNumberHome(phoneNumberHome.orElse(null))
+                phoneNumberHome(phoneNumberHome.getOrNull())
 
             /**
              * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
@@ -1411,7 +1411,7 @@ private constructor(
              * mobilePhone.cc and mobilePhone.subscriber.
              */
             fun phoneNumberMobile(phoneNumberMobile: Optional<String>) =
-                phoneNumberMobile(phoneNumberMobile.orElse(null))
+                phoneNumberMobile(phoneNumberMobile.getOrNull())
 
             /**
              * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
@@ -1433,7 +1433,7 @@ private constructor(
              * workPhone.subscriber.
              */
             fun phoneNumberWork(phoneNumberWork: Optional<String>) =
-                phoneNumberWork(phoneNumberWork.orElse(null))
+                phoneNumberWork(phoneNumberWork.getOrNull())
 
             /**
              * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
@@ -1611,7 +1611,7 @@ private constructor(
                 fun address1(address1: String?) = address1(JsonField.ofNullable(address1))
 
                 /** First line of the street address provided by the cardholder. */
-                fun address1(address1: Optional<String>) = address1(address1.orElse(null))
+                fun address1(address1: Optional<String>) = address1(address1.getOrNull())
 
                 /** First line of the street address provided by the cardholder. */
                 fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
@@ -1620,7 +1620,7 @@ private constructor(
                 fun address2(address2: String?) = address2(JsonField.ofNullable(address2))
 
                 /** Second line of the street address provided by the cardholder. */
-                fun address2(address2: Optional<String>) = address2(address2.orElse(null))
+                fun address2(address2: Optional<String>) = address2(address2.getOrNull())
 
                 /** Second line of the street address provided by the cardholder. */
                 fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
@@ -1629,7 +1629,7 @@ private constructor(
                 fun address3(address3: String?) = address3(JsonField.ofNullable(address3))
 
                 /** Third line of the street address provided by the cardholder. */
-                fun address3(address3: Optional<String>) = address3(address3.orElse(null))
+                fun address3(address3: Optional<String>) = address3(address3.getOrNull())
 
                 /** Third line of the street address provided by the cardholder. */
                 fun address3(address3: JsonField<String>) = apply { this.address3 = address3 }
@@ -1638,7 +1638,7 @@ private constructor(
                 fun city(city: String?) = city(JsonField.ofNullable(city))
 
                 /** City of the address provided by the cardholder. */
-                fun city(city: Optional<String>) = city(city.orElse(null))
+                fun city(city: Optional<String>) = city(city.getOrNull())
 
                 /** City of the address provided by the cardholder. */
                 fun city(city: JsonField<String>) = apply { this.city = city }
@@ -1653,7 +1653,7 @@ private constructor(
                  * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format
                  * (e.g. USA)
                  */
-                fun country(country: Optional<String>) = country(country.orElse(null))
+                fun country(country: Optional<String>) = country(country.getOrNull())
 
                 /**
                  * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format
@@ -1665,7 +1665,7 @@ private constructor(
                 fun postalCode(postalCode: String?) = postalCode(JsonField.ofNullable(postalCode))
 
                 /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
-                fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.orElse(null))
+                fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.getOrNull())
 
                 /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
                 fun postalCode(postalCode: JsonField<String>) = apply {
@@ -2315,7 +2315,7 @@ private constructor(
                  * delivered. Maps to EMV 3DS field deliveryEmailAddress.
                  */
                 fun deliveryEmailAddress(deliveryEmailAddress: Optional<String>) =
-                    deliveryEmailAddress(deliveryEmailAddress.orElse(null))
+                    deliveryEmailAddress(deliveryEmailAddress.getOrNull())
 
                 /**
                  * In transactions with electronic delivery, email address to which merchandise is
@@ -2337,7 +2337,7 @@ private constructor(
                  * deliveryTimeframe.
                  */
                 fun deliveryTimeFrame(deliveryTimeFrame: Optional<DeliveryTimeFrame>) =
-                    deliveryTimeFrame(deliveryTimeFrame.orElse(null))
+                    deliveryTimeFrame(deliveryTimeFrame.getOrNull())
 
                 /**
                  * The delivery time frame for the merchandise. Maps to EMV 3DS field
@@ -2367,9 +2367,8 @@ private constructor(
                  * units (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field
                  * giftCardAmount.
                  */
-                @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
                 fun giftCardAmount(giftCardAmount: Optional<Long>) =
-                    giftCardAmount(giftCardAmount.orElse(null) as Long?)
+                    giftCardAmount(giftCardAmount.getOrNull())
 
                 /**
                  * In prepaid or gift card purchase transactions, purchase amount total in major
@@ -2397,9 +2396,8 @@ private constructor(
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
                  * gift cards/codes purchased. Maps to EMV 3DS field giftCardCount.
                  */
-                @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
                 fun giftCardCount(giftCardCount: Optional<Long>) =
-                    giftCardCount(giftCardCount.orElse(null) as Long?)
+                    giftCardCount(giftCardCount.getOrNull())
 
                 /**
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
@@ -2421,7 +2419,7 @@ private constructor(
                  * Maps to EMV 3DS field giftCardCurr.
                  */
                 fun giftCardCurrency(giftCardCurrency: Optional<String>) =
-                    giftCardCurrency(giftCardCurrency.orElse(null))
+                    giftCardCurrency(giftCardCurrency.getOrNull())
 
                 /**
                  * In prepaid or gift card purchase transactions, currency code of the gift card.
@@ -2443,7 +2441,7 @@ private constructor(
                  * future date. Maps to EMV 3DS field preOrderPurchaseInd.
                  */
                 fun orderAvailability(orderAvailability: Optional<OrderAvailability>) =
-                    orderAvailability(orderAvailability.orElse(null))
+                    orderAvailability(orderAvailability.getOrNull())
 
                 /**
                  * Indicates whether the purchase is for merchandise that is available now or at a
@@ -2465,7 +2463,7 @@ private constructor(
                  * be available. Maps to EMV 3DS field preOrderDate.
                  */
                 fun preOrderAvailableDate(preOrderAvailableDate: Optional<OffsetDateTime>) =
-                    preOrderAvailableDate(preOrderAvailableDate.orElse(null))
+                    preOrderAvailableDate(preOrderAvailableDate.getOrNull())
 
                 /**
                  * In pre-order purchase transactions, the expected date that the merchandise will
@@ -2488,7 +2486,7 @@ private constructor(
                  * Maps to EMV 3DS field reorderItemsInd.
                  */
                 fun reorderItems(reorderItems: Optional<ReorderItems>) =
-                    reorderItems(reorderItems.orElse(null))
+                    reorderItems(reorderItems.getOrNull())
 
                 /**
                  * Indicates whether the cardholder is reordering previously purchased merchandise.
@@ -2514,7 +2512,7 @@ private constructor(
                  * expensive item purchased. Maps to EMV 3DS field shipIndicator.
                  */
                 fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
-                    shippingMethod(shippingMethod.orElse(null))
+                    shippingMethod(shippingMethod.getOrNull())
 
                 /**
                  * Shipping method that the cardholder chose for the transaction. If purchase
@@ -3456,7 +3454,7 @@ private constructor(
              * authentication request to be low risk or not.
              */
             fun networkDecision(networkDecision: Optional<NetworkDecision>) =
-                networkDecision(networkDecision.orElse(null))
+                networkDecision(networkDecision.getOrNull())
 
             /**
              * Mastercard only: Indicates whether the network would have considered the
@@ -3484,9 +3482,8 @@ private constructor(
              * Mastercard only: Assessment by the network of the authentication risk level, with a
              * higher value indicating a higher amount of risk.
              */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
             fun networkRiskScore(networkRiskScore: Optional<Long>) =
-                networkRiskScore(networkRiskScore.orElse(null) as Long?)
+                networkRiskScore(networkRiskScore.getOrNull())
 
             /**
              * Mastercard only: Assessment by the network of the authentication risk level, with a
@@ -3741,7 +3738,7 @@ private constructor(
              * Device information gathered from the cardholder's device - JSON name/value pairs that
              * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
              */
-            fun deviceInfo(deviceInfo: Optional<String>) = deviceInfo(deviceInfo.orElse(null))
+            fun deviceInfo(deviceInfo: Optional<String>) = deviceInfo(deviceInfo.getOrNull())
 
             /**
              * Device information gathered from the cardholder's device - JSON name/value pairs that
@@ -4123,7 +4120,7 @@ private constructor(
              * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
              * merchant or digital wallet). Maps to EMV 3DS field browserIP.
              */
-            fun ip(ip: Optional<String>) = ip(ip.orElse(null))
+            fun ip(ip: Optional<String>) = ip(ip.getOrNull())
 
             /**
              * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
@@ -4147,9 +4144,7 @@ private constructor(
              * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
              * EMV 3DS field browserJavaEnabled.
              */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun javaEnabled(javaEnabled: Optional<Boolean>) =
-                javaEnabled(javaEnabled.orElse(null) as Boolean?)
+            fun javaEnabled(javaEnabled: Optional<Boolean>) = javaEnabled(javaEnabled.getOrNull())
 
             /**
              * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
@@ -4177,9 +4172,8 @@ private constructor(
              * Indicates whether the cardholder's browser has the ability to execute JavaScript.
              * Maps to EMV 3DS field browserJavascriptEnabled.
              */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
             fun javascriptEnabled(javascriptEnabled: Optional<Boolean>) =
-                javascriptEnabled(javascriptEnabled.orElse(null) as Boolean?)
+                javascriptEnabled(javascriptEnabled.getOrNull())
 
             /**
              * Indicates whether the cardholder's browser has the ability to execute JavaScript.
@@ -4199,7 +4193,7 @@ private constructor(
              * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
              * browserLanguage.
              */
-            fun language(language: Optional<String>) = language(language.orElse(null))
+            fun language(language: Optional<String>) = language(language.getOrNull())
 
             /**
              * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
@@ -4219,7 +4213,7 @@ private constructor(
              * cardholder browser's local time. The offset is positive if the local time is behind
              * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
              */
-            fun timeZone(timeZone: Optional<String>) = timeZone(timeZone.orElse(null))
+            fun timeZone(timeZone: Optional<String>) = timeZone(timeZone.getOrNull())
 
             /**
              * Time zone of the cardholder's browser offset in minutes between UTC and the
@@ -4232,7 +4226,7 @@ private constructor(
             fun userAgent(userAgent: String?) = userAgent(JsonField.ofNullable(userAgent))
 
             /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-            fun userAgent(userAgent: Optional<String>) = userAgent(userAgent.orElse(null))
+            fun userAgent(userAgent: Optional<String>) = userAgent(userAgent.getOrNull())
 
             /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
             fun userAgent(userAgent: JsonField<String>) = apply { this.userAgent = userAgent }
@@ -4375,7 +4369,7 @@ private constructor(
             fun phoneNumber(phoneNumber: String?) = phoneNumber(JsonField.ofNullable(phoneNumber))
 
             /** The phone number used for delivering the OTP. Relevant only for SMS_OTP method. */
-            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
+            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.getOrNull())
 
             /** The phone number used for delivering the OTP. Relevant only for SMS_OTP method. */
             fun phoneNumber(phoneNumber: JsonField<String>) = apply {
@@ -5154,7 +5148,7 @@ private constructor(
              * Type of the transaction for which a 3DS authentication request is occurring. Maps to
              * EMV 3DS field transType.
              */
-            fun type(type: Optional<Type>) = type(type.orElse(null))
+            fun type(type: Optional<Type>) = type(type.getOrNull())
 
             /**
              * Type of the transaction for which a 3DS authentication request is occurring. Maps to

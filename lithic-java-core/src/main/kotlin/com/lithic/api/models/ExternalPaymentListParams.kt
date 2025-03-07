@@ -14,6 +14,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List external payments */
 class ExternalPaymentListParams
@@ -161,20 +162,20 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
         fun businessAccountToken(businessAccountToken: Optional<String>) =
-            businessAccountToken(businessAccountToken.orElse(null))
+            businessAccountToken(businessAccountToken.getOrNull())
 
         /** External Payment category to be returned. */
         fun category(category: ExternalPaymentCategory?) = apply { this.category = category }
 
         /** External Payment category to be returned. */
-        fun category(category: Optional<ExternalPaymentCategory>) = category(category.orElse(null))
+        fun category(category: Optional<ExternalPaymentCategory>) = category(category.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -186,7 +187,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -198,7 +199,7 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
@@ -213,7 +214,7 @@ private constructor(
          * Accepted type dependent on the program's use case.
          */
         fun financialAccountToken(financialAccountToken: Optional<String>) =
-            financialAccountToken(financialAccountToken.orElse(null))
+            financialAccountToken(financialAccountToken.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -222,14 +223,13 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Page size (for pagination). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** External Payment result to be returned. */
         fun result(result: TransactionResult?) = apply { this.result = result }
 
         /** External Payment result to be returned. */
-        fun result(result: Optional<TransactionResult>) = result(result.orElse(null))
+        fun result(result: Optional<TransactionResult>) = result(result.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -242,13 +242,13 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         /** Book transfer status to be returned. */
         fun status(status: TransactionStatus?) = apply { this.status = status }
 
         /** Book transfer status to be returned. */
-        fun status(status: Optional<TransactionStatus>) = status(status.orElse(null))
+        fun status(status: Optional<TransactionStatus>) = status(status.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

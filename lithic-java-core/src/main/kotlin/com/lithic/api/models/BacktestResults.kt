@@ -18,6 +18,7 @@ import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class BacktestResults
@@ -221,7 +222,7 @@ private constructor(
                 currentVersion(JsonField.ofNullable(currentVersion))
 
             fun currentVersion(currentVersion: Optional<RuleStats>) =
-                currentVersion(currentVersion.orElse(null))
+                currentVersion(currentVersion.getOrNull())
 
             fun currentVersion(currentVersion: JsonField<RuleStats>) = apply {
                 this.currentVersion = currentVersion
@@ -231,7 +232,7 @@ private constructor(
                 draftVersion(JsonField.ofNullable(draftVersion))
 
             fun draftVersion(draftVersion: Optional<RuleStats>) =
-                draftVersion(draftVersion.orElse(null))
+                draftVersion(draftVersion.getOrNull())
 
             fun draftVersion(draftVersion: JsonField<RuleStats>) = apply {
                 this.draftVersion = draftVersion

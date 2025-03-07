@@ -8,6 +8,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the aggregated card balance across all end-user accounts. */
 class CardAggregateBalanceListParams
@@ -74,7 +75,7 @@ private constructor(
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** Cardholder to retrieve aggregate balances for. */
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** Business to retrieve aggregate balances for. */
         fun businessAccountToken(businessAccountToken: String?) = apply {
@@ -83,7 +84,7 @@ private constructor(
 
         /** Business to retrieve aggregate balances for. */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
-            businessAccountToken(businessAccountToken.orElse(null))
+            businessAccountToken(businessAccountToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

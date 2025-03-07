@@ -13,6 +13,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List card tokenizations */
 class TokenizationListParams
@@ -128,25 +129,25 @@ private constructor(
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** Filters for tokenizations associated with a specific account. */
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** Filter for tokenizations created after this date. */
         fun begin(begin: LocalDate?) = apply { this.begin = begin }
 
         /** Filter for tokenizations created after this date. */
-        fun begin(begin: Optional<LocalDate>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<LocalDate>) = begin(begin.getOrNull())
 
         /** Filters for tokenizations associated with a specific card. */
         fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
         /** Filters for tokenizations associated with a specific card. */
-        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.orElse(null))
+        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /** Filter for tokenizations created before this date. */
         fun end(end: LocalDate?) = apply { this.end = end }
 
         /** Filter for tokenizations created before this date. */
-        fun end(end: Optional<LocalDate>) = end(end.orElse(null))
+        fun end(end: Optional<LocalDate>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -158,7 +159,7 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -167,8 +168,7 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Page size (for pagination). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -181,7 +181,7 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         /**
          * Filter for tokenizations by tokenization channel. If this is not specified, only
@@ -196,7 +196,7 @@ private constructor(
          * DIGITAL_WALLET tokenizations will be returned.
          */
         fun tokenizationChannel(tokenizationChannel: Optional<TokenizationChannel>) =
-            tokenizationChannel(tokenizationChannel.orElse(null))
+            tokenizationChannel(tokenizationChannel.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

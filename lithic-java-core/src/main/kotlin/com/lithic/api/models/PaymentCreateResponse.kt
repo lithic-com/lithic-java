@@ -18,6 +18,7 @@ import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class PaymentCreateResponse
@@ -428,7 +429,7 @@ private constructor(
             externalBankAccountToken(JsonField.ofNullable(externalBankAccountToken))
 
         fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
-            externalBankAccountToken(externalBankAccountToken.orElse(null))
+            externalBankAccountToken(externalBankAccountToken.getOrNull())
 
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             this.externalBankAccountToken = externalBankAccountToken
@@ -526,7 +527,7 @@ private constructor(
             userDefinedId(JsonField.ofNullable(userDefinedId))
 
         fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+            userDefinedId(userDefinedId.getOrNull())
 
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId

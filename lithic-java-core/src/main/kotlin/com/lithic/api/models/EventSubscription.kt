@@ -19,6 +19,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** A subscription to specific event types. */
 @NoAutoDetect
@@ -149,7 +150,7 @@ private constructor(
 
         fun eventTypes(eventTypes: List<EventType>?) = eventTypes(JsonField.ofNullable(eventTypes))
 
-        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.orElse(null))
+        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.getOrNull())
 
         fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
             this.eventTypes = eventTypes.map { it.toMutableList() }

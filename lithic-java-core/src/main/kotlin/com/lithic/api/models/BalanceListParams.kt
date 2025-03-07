@@ -14,6 +14,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the balances for a program, business, or a given end-user account */
 class BalanceListParams
@@ -99,14 +100,14 @@ private constructor(
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** List balances for all financial accounts of a given account_token. */
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
         fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
 
         /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
         fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
-            balanceDate(balanceDate.orElse(null))
+            balanceDate(balanceDate.getOrNull())
 
         /** List balances for all financial accounts of a given business_account_token. */
         fun businessAccountToken(businessAccountToken: String?) = apply {
@@ -115,7 +116,7 @@ private constructor(
 
         /** List balances for all financial accounts of a given business_account_token. */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
-            businessAccountToken(businessAccountToken.orElse(null))
+            businessAccountToken(businessAccountToken.getOrNull())
 
         /** List balances for a given Financial Account type. */
         fun financialAccountType(financialAccountType: FinancialAccountType?) = apply {
@@ -124,7 +125,7 @@ private constructor(
 
         /** List balances for a given Financial Account type. */
         fun financialAccountType(financialAccountType: Optional<FinancialAccountType>) =
-            financialAccountType(financialAccountType.orElse(null))
+            financialAccountType(financialAccountType.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

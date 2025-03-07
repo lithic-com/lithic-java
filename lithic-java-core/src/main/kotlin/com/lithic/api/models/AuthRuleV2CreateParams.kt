@@ -32,6 +32,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Creates a new V2 authorization rule in draft mode */
 class AuthRuleV2CreateParams
@@ -381,7 +382,7 @@ private constructor(
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
                 /** Auth Rule Name */
-                fun name(name: Optional<String>) = name(name.orElse(null))
+                fun name(name: Optional<String>) = name(name.getOrNull())
 
                 /** Auth Rule Name */
                 fun name(name: JsonField<String>) = apply { this.name = name }
@@ -848,7 +849,7 @@ private constructor(
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
                 /** Auth Rule Name */
-                fun name(name: Optional<String>) = name(name.orElse(null))
+                fun name(name: Optional<String>) = name(name.getOrNull())
 
                 /** Auth Rule Name */
                 fun name(name: JsonField<String>) = apply { this.name = name }
@@ -1341,7 +1342,7 @@ private constructor(
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
                 /** Auth Rule Name */
-                fun name(name: Optional<String>) = name(name.orElse(null))
+                fun name(name: Optional<String>) = name(name.getOrNull())
 
                 /** Auth Rule Name */
                 fun name(name: JsonField<String>) = apply { this.name = name }

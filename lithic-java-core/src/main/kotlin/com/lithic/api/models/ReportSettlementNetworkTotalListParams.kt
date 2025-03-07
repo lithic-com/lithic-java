@@ -15,6 +15,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * (Available March 4, 2025) List network total records with optional filters. Not available in
@@ -175,7 +176,7 @@ private constructor(
          * Datetime in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
          * Datetime in RFC 3339 format. Only entries created before the specified time will be
@@ -187,7 +188,7 @@ private constructor(
          * Datetime in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -199,20 +200,20 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Institution ID to filter on. */
         fun institutionId(institutionId: String?) = apply { this.institutionId = institutionId }
 
         /** Institution ID to filter on. */
         fun institutionId(institutionId: Optional<String>) =
-            institutionId(institutionId.orElse(null))
+            institutionId(institutionId.getOrNull())
 
         /** Network to filter on. */
         fun network(network: Network?) = apply { this.network = network }
 
         /** Network to filter on. */
-        fun network(network: Optional<Network>) = network(network.orElse(null))
+        fun network(network: Optional<Network>) = network(network.getOrNull())
 
         /** Number of records per page. */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -221,8 +222,7 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Number of records per page. */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
          * Singular report date to filter on (YYYY-MM-DD). Cannot be populated in conjunction with
@@ -234,7 +234,7 @@ private constructor(
          * Singular report date to filter on (YYYY-MM-DD). Cannot be populated in conjunction with
          * report_date_begin or report_date_end.
          */
-        fun reportDate(reportDate: Optional<LocalDate>) = reportDate(reportDate.orElse(null))
+        fun reportDate(reportDate: Optional<LocalDate>) = reportDate(reportDate.getOrNull())
 
         /** Earliest report date to filter on, inclusive (YYYY-MM-DD). */
         fun reportDateBegin(reportDateBegin: LocalDate?) = apply {
@@ -243,14 +243,14 @@ private constructor(
 
         /** Earliest report date to filter on, inclusive (YYYY-MM-DD). */
         fun reportDateBegin(reportDateBegin: Optional<LocalDate>) =
-            reportDateBegin(reportDateBegin.orElse(null))
+            reportDateBegin(reportDateBegin.getOrNull())
 
         /** Latest report date to filter on, inclusive (YYYY-MM-DD). */
         fun reportDateEnd(reportDateEnd: LocalDate?) = apply { this.reportDateEnd = reportDateEnd }
 
         /** Latest report date to filter on, inclusive (YYYY-MM-DD). */
         fun reportDateEnd(reportDateEnd: Optional<LocalDate>) =
-            reportDateEnd(reportDateEnd.orElse(null))
+            reportDateEnd(reportDateEnd.getOrNull())
 
         /** Settlement institution ID to filter on. */
         fun settlementInstitutionId(settlementInstitutionId: String?) = apply {
@@ -259,7 +259,7 @@ private constructor(
 
         /** Settlement institution ID to filter on. */
         fun settlementInstitutionId(settlementInstitutionId: Optional<String>) =
-            settlementInstitutionId(settlementInstitutionId.orElse(null))
+            settlementInstitutionId(settlementInstitutionId.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -272,7 +272,7 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
