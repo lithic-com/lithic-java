@@ -10,6 +10,7 @@ import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get Credit Product Prime Rates */
 class CreditProductPrimeRateRetrieveParams
@@ -98,15 +99,14 @@ private constructor(
         fun endingBefore(endingBefore: LocalDate?) = apply { this.endingBefore = endingBefore }
 
         /** The effective date that the prime rates ends before */
-        fun endingBefore(endingBefore: Optional<LocalDate>) =
-            endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<LocalDate>) = endingBefore(endingBefore.getOrNull())
 
         /** The effective date that the prime rate starts after */
         fun startingAfter(startingAfter: LocalDate?) = apply { this.startingAfter = startingAfter }
 
         /** The effective date that the prime rate starts after */
         fun startingAfter(startingAfter: Optional<LocalDate>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

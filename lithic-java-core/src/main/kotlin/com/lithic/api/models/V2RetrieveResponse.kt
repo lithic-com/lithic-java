@@ -29,6 +29,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class V2RetrieveResponse
@@ -253,7 +254,7 @@ private constructor(
             currentVersion(JsonField.ofNullable(currentVersion))
 
         fun currentVersion(currentVersion: Optional<CurrentVersion>) =
-            currentVersion(currentVersion.orElse(null))
+            currentVersion(currentVersion.getOrNull())
 
         fun currentVersion(currentVersion: JsonField<CurrentVersion>) = apply {
             this.currentVersion = currentVersion
@@ -263,7 +264,7 @@ private constructor(
             draftVersion(JsonField.ofNullable(draftVersion))
 
         fun draftVersion(draftVersion: Optional<DraftVersion>) =
-            draftVersion(draftVersion.orElse(null))
+            draftVersion(draftVersion.getOrNull())
 
         fun draftVersion(draftVersion: JsonField<DraftVersion>) = apply {
             this.draftVersion = draftVersion
@@ -273,7 +274,7 @@ private constructor(
         fun name(name: String?) = name(JsonField.ofNullable(name))
 
         /** Auth Rule Name */
-        fun name(name: Optional<String>) = name(name.orElse(null))
+        fun name(name: Optional<String>) = name(name.getOrNull())
 
         /** Auth Rule Name */
         fun name(name: JsonField<String>) = apply { this.name = name }

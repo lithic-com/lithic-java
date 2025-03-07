@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Account
@@ -248,7 +249,7 @@ private constructor(
          * Timestamp of when the account was created. For accounts created before 2023-05-11, this
          * field will be null.
          */
-        fun created(created: Optional<OffsetDateTime>) = created(created.orElse(null))
+        fun created(created: Optional<OffsetDateTime>) = created(created.getOrNull())
 
         /**
          * Timestamp of when the account was created. For accounts created before 2023-05-11, this

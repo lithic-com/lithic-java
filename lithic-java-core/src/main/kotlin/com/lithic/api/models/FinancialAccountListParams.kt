@@ -12,6 +12,7 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve information on your financial accounts including routing and account number. */
 class FinancialAccountListParams
@@ -84,7 +85,7 @@ private constructor(
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** List financial accounts for a given account_token or business_account_token */
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** List financial accounts for a given business_account_token */
         fun businessAccountToken(businessAccountToken: String?) = apply {
@@ -93,13 +94,13 @@ private constructor(
 
         /** List financial accounts for a given business_account_token */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
-            businessAccountToken(businessAccountToken.orElse(null))
+            businessAccountToken(businessAccountToken.getOrNull())
 
         /** List financial accounts of a given type */
         fun type(type: Type?) = apply { this.type = type }
 
         /** List financial accounts of a given type */
-        fun type(type: Optional<Type>) = type(type.orElse(null))
+        fun type(type: Optional<Type>) = type(type.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

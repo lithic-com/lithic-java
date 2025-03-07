@@ -30,6 +30,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Creates a new draft version of a rule that will be ran in shadow mode.
@@ -131,7 +132,7 @@ private constructor(
             fun parameters(parameters: Parameters?) = parameters(JsonField.ofNullable(parameters))
 
             /** Parameters for the Auth Rule */
-            fun parameters(parameters: Optional<Parameters>) = parameters(parameters.orElse(null))
+            fun parameters(parameters: Optional<Parameters>) = parameters(parameters.getOrNull())
 
             /** Parameters for the Auth Rule */
             fun parameters(parameters: JsonField<Parameters>) = apply {
@@ -224,7 +225,7 @@ private constructor(
         fun parameters(parameters: Parameters?) = apply { body.parameters(parameters) }
 
         /** Parameters for the Auth Rule */
-        fun parameters(parameters: Optional<Parameters>) = parameters(parameters.orElse(null))
+        fun parameters(parameters: Optional<Parameters>) = parameters(parameters.getOrNull())
 
         /** Parameters for the Auth Rule */
         fun parameters(parameters: JsonField<Parameters>) = apply { body.parameters(parameters) }

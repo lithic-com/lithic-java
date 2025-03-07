@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Tokenization
@@ -289,7 +290,7 @@ private constructor(
         fun dpan(dpan: String?) = dpan(JsonField.ofNullable(dpan))
 
         /** The dynamic pan assigned to the token by the network. */
-        fun dpan(dpan: Optional<String>) = dpan(dpan.orElse(null))
+        fun dpan(dpan: Optional<String>) = dpan(dpan.getOrNull())
 
         /** The dynamic pan assigned to the token by the network. */
         fun dpan(dpan: JsonField<String>) = apply { this.dpan = dpan }
@@ -374,7 +375,7 @@ private constructor(
 
         /** The network's unique reference for the card that is tokenized. */
         fun paymentAccountReferenceId(paymentAccountReferenceId: Optional<String>) =
-            paymentAccountReferenceId(paymentAccountReferenceId.orElse(null))
+            paymentAccountReferenceId(paymentAccountReferenceId.getOrNull())
 
         /** The network's unique reference for the card that is tokenized. */
         fun paymentAccountReferenceId(paymentAccountReferenceId: JsonField<String>) = apply {

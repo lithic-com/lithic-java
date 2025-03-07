@@ -10,6 +10,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get a list of individual or business account holders and their KYC or KYB evaluation status. */
 class AccountHolderListParams
@@ -167,7 +168,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
          * Email address of the account holder. The query must be an exact match, case insensitive.
@@ -177,7 +178,7 @@ private constructor(
         /**
          * Email address of the account holder. The query must be an exact match, case insensitive.
          */
-        fun email(email: Optional<String>) = email(email.orElse(null))
+        fun email(email: Optional<String>) = email(email.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -189,7 +190,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -201,13 +202,13 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** If applicable, represents the external_id associated with the account_holder. */
         fun externalId(externalId: String?) = apply { this.externalId = externalId }
 
         /** If applicable, represents the external_id associated with the account_holder. */
-        fun externalId(externalId: Optional<String>) = externalId(externalId.orElse(null))
+        fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
 
         /**
          * (Individual Account Holders only) The first name of the account holder. The query is case
@@ -219,7 +220,7 @@ private constructor(
          * (Individual Account Holders only) The first name of the account holder. The query is case
          * insensitive and supports partial matches.
          */
-        fun firstName(firstName: Optional<String>) = firstName(firstName.orElse(null))
+        fun firstName(firstName: Optional<String>) = firstName(firstName.getOrNull())
 
         /**
          * (Individual Account Holders only) The last name of the account holder. The query is case
@@ -231,7 +232,7 @@ private constructor(
          * (Individual Account Holders only) The last name of the account holder. The query is case
          * insensitive and supports partial matches.
          */
-        fun lastName(lastName: Optional<String>) = lastName(lastName.orElse(null))
+        fun lastName(lastName: Optional<String>) = lastName(lastName.getOrNull())
 
         /**
          * (Business Account Holders only) The legal business name of the account holder. The query
@@ -246,7 +247,7 @@ private constructor(
          * is case insensitive and supports partial matches.
          */
         fun legalBusinessName(legalBusinessName: Optional<String>) =
-            legalBusinessName(legalBusinessName.orElse(null))
+            legalBusinessName(legalBusinessName.getOrNull())
 
         /** The number of account_holders to limit the response to. */
         fun limit(limit: Long?) = apply { this.limit = limit }
@@ -255,14 +256,13 @@ private constructor(
         fun limit(limit: Long) = limit(limit as Long?)
 
         /** The number of account_holders to limit the response to. */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun limit(limit: Optional<Long>) = limit(limit.orElse(null) as Long?)
+        fun limit(limit: Optional<Long>) = limit(limit.getOrNull())
 
         /** Phone number of the account holder. The query must be an exact match. */
         fun phoneNumber(phoneNumber: String?) = apply { this.phoneNumber = phoneNumber }
 
         /** Phone number of the account holder. The query must be an exact match. */
-        fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
+        fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -275,7 +275,7 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

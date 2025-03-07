@@ -15,6 +15,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List all events. */
 class EventListParams
@@ -135,7 +136,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -147,7 +148,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -159,7 +160,7 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Event types to filter events by. */
         fun eventTypes(eventTypes: List<EventType>?) = apply {
@@ -167,7 +168,7 @@ private constructor(
         }
 
         /** Event types to filter events by. */
-        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.orElse(null))
+        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.getOrNull())
 
         /** Event types to filter events by. */
         fun addEventType(eventType: EventType) = apply {
@@ -181,8 +182,7 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Page size (for pagination). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -195,7 +195,7 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         /** Whether to include the event payload content in the response. */
         fun withContent(withContent: Boolean?) = apply { this.withContent = withContent }
@@ -204,9 +204,7 @@ private constructor(
         fun withContent(withContent: Boolean) = withContent(withContent as Boolean?)
 
         /** Whether to include the event payload content in the response. */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun withContent(withContent: Optional<Boolean>) =
-            withContent(withContent.orElse(null) as Boolean?)
+        fun withContent(withContent: Optional<Boolean>) = withContent(withContent.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -15,6 +15,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List the financial transactions for a given financial account. */
 class FinancialTransactionListParams
@@ -155,13 +156,13 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /** Financial Transaction category to be returned. */
         fun category(category: Category?) = apply { this.category = category }
 
         /** Financial Transaction category to be returned. */
-        fun category(category: Optional<Category>) = category(category.orElse(null))
+        fun category(category: Optional<Category>) = category(category.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -173,7 +174,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -185,13 +186,13 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Financial Transaction result to be returned. */
         fun result(result: Result?) = apply { this.result = result }
 
         /** Financial Transaction result to be returned. */
-        fun result(result: Optional<Result>) = result(result.orElse(null))
+        fun result(result: Optional<Result>) = result(result.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -204,13 +205,13 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         /** Financial Transaction status to be returned. */
         fun status(status: Status?) = apply { this.status = status }
 
         /** Financial Transaction status to be returned. */
-        fun status(status: Optional<Status>) = status(status.orElse(null))
+        fun status(status: Optional<Status>) = status(status.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
