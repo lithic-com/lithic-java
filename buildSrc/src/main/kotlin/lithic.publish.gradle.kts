@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 
@@ -19,6 +21,12 @@ configure<MavenPublishBaseExtension> {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     coordinates(project.group.toString(), project.name, project.version.toString())
+    configure(
+        KotlinJvm(
+            javadocJar = JavadocJar.Dokka("dokkaJavadoc"),
+            sourcesJar = true,
+        )
+    )
 
     pom {
         name.set("Lithic Developer API")
