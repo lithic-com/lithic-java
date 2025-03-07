@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.79.1 (2025-03-07)
+
+Full Changelog: [v0.79.0...v0.79.1](https://github.com/lithic-com/lithic-java/compare/v0.79.0...v0.79.1)
+
+### Chores
+
+* **internal:** don't use `JvmOverloads` in interfaces ([8851dd1](https://github.com/lithic-com/lithic-java/commit/8851dd15c78b1faa438c4f1e926440514f6917f5))
+* **internal:** reenable warnings as errors ([8851dd1](https://github.com/lithic-com/lithic-java/commit/8851dd15c78b1faa438c4f1e926440514f6917f5))
+
 ## 0.79.0 (2025-03-06)
 
 Full Changelog: [v0.78.0...v0.79.0](https://github.com/lithic-com/lithic-java/compare/v0.78.0...v0.79.0)
