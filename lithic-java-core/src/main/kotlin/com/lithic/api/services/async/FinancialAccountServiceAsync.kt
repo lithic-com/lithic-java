@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -40,39 +38,60 @@ interface FinancialAccountServiceAsync {
     fun loanTapes(): LoanTapeServiceAsync
 
     /** Create a new financial account */
-    @JvmOverloads
+    fun create(params: FinancialAccountCreateParams): CompletableFuture<FinancialAccount> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: FinancialAccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Get a financial account */
-    @JvmOverloads
+    fun retrieve(params: FinancialAccountRetrieveParams): CompletableFuture<FinancialAccount> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Update a financial account */
-    @JvmOverloads
+    fun update(params: FinancialAccountUpdateParams): CompletableFuture<FinancialAccount> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: FinancialAccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
     /** Retrieve information on your financial accounts including routing and account number. */
-    @JvmOverloads
+    fun list(): CompletableFuture<FinancialAccountListPageAsync> =
+        list(FinancialAccountListParams.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountListParams = FinancialAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountListPageAsync>
 
-    /** Retrieve information on your financial accounts including routing and account number. */
+    /** @see [list] */
+    fun list(
+        params: FinancialAccountListParams = FinancialAccountListParams.none()
+    ): CompletableFuture<FinancialAccountListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<FinancialAccountListPageAsync> =
         list(FinancialAccountListParams.none(), requestOptions)
 
     /** Update issuing account state to charged off */
-    @JvmOverloads
+    fun chargeOff(
+        params: FinancialAccountChargeOffParams
+    ): CompletableFuture<FinancialAccountCreditConfig> = chargeOff(params, RequestOptions.none())
+
+    /** @see [chargeOff] */
     fun chargeOff(
         params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -98,7 +117,13 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `post /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: FinancialAccountCreateParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: FinancialAccountCreateParams,
@@ -109,7 +134,13 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: FinancialAccountRetrieveParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountRetrieveParams,
@@ -120,7 +151,13 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `patch /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountServiceAsync.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: FinancialAccountUpdateParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: FinancialAccountUpdateParams,
@@ -131,17 +168,25 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
+            list(FinancialAccountListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/financial_accounts`, but is otherwise the same
-         * as [FinancialAccountServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountListParams = FinancialAccountListParams.none()
+        ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -153,7 +198,13 @@ interface FinancialAccountServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/charge_off`, but is otherwise the same
          * as [FinancialAccountServiceAsync.chargeOff].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun chargeOff(
+            params: FinancialAccountChargeOffParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
+            chargeOff(params, RequestOptions.none())
+
+        /** @see [chargeOff] */
         @MustBeClosed
         fun chargeOff(
             params: FinancialAccountChargeOffParams,

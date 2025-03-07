@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,13 +16,19 @@ interface BalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a program, business, or a given end-user account */
-    @JvmOverloads
+    fun list(): BalanceListPage = list(BalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: BalanceListParams = BalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BalanceListPage
 
-    /** Get the balances for a program, business, or a given end-user account */
+    /** @see [list] */
+    fun list(params: BalanceListParams = BalanceListParams.none()): BalanceListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): BalanceListPage =
         list(BalanceListParams.none(), requestOptions)
 
@@ -35,17 +39,22 @@ interface BalanceService {
          * Returns a raw HTTP response for `get /v1/balances`, but is otherwise the same as
          * [BalanceService.list].
          */
-        @JvmOverloads
+        @MustBeClosed fun list(): HttpResponseFor<BalanceListPage> = list(BalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BalanceListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/balances`, but is otherwise the same as
-         * [BalanceService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: BalanceListParams = BalanceListParams.none()
+        ): HttpResponseFor<BalanceListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<BalanceListPage> =
             list(BalanceListParams.none(), requestOptions)

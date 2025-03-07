@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -39,39 +37,58 @@ interface FinancialAccountService {
     fun loanTapes(): LoanTapeService
 
     /** Create a new financial account */
-    @JvmOverloads
+    fun create(params: FinancialAccountCreateParams): FinancialAccount =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: FinancialAccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccount
 
     /** Get a financial account */
-    @JvmOverloads
+    fun retrieve(params: FinancialAccountRetrieveParams): FinancialAccount =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccount
 
     /** Update a financial account */
-    @JvmOverloads
+    fun update(params: FinancialAccountUpdateParams): FinancialAccount =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: FinancialAccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccount
 
     /** Retrieve information on your financial accounts including routing and account number. */
-    @JvmOverloads
+    fun list(): FinancialAccountListPage = list(FinancialAccountListParams.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountListParams = FinancialAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountListPage
 
-    /** Retrieve information on your financial accounts including routing and account number. */
+    /** @see [list] */
+    fun list(
+        params: FinancialAccountListParams = FinancialAccountListParams.none()
+    ): FinancialAccountListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): FinancialAccountListPage =
         list(FinancialAccountListParams.none(), requestOptions)
 
     /** Update issuing account state to charged off */
-    @JvmOverloads
+    fun chargeOff(params: FinancialAccountChargeOffParams): FinancialAccountCreditConfig =
+        chargeOff(params, RequestOptions.none())
+
+    /** @see [chargeOff] */
     fun chargeOff(
         params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -97,7 +114,11 @@ interface FinancialAccountService {
          * Returns a raw HTTP response for `post /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: FinancialAccountCreateParams): HttpResponseFor<FinancialAccount> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: FinancialAccountCreateParams,
@@ -108,7 +129,11 @@ interface FinancialAccountService {
          * Returns a raw HTTP response for `get /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: FinancialAccountRetrieveParams): HttpResponseFor<FinancialAccount> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountRetrieveParams,
@@ -119,7 +144,11 @@ interface FinancialAccountService {
          * Returns a raw HTTP response for `patch /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: FinancialAccountUpdateParams): HttpResponseFor<FinancialAccount> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: FinancialAccountUpdateParams,
@@ -130,17 +159,24 @@ interface FinancialAccountService {
          * Returns a raw HTTP response for `get /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<FinancialAccountListPage> =
+            list(FinancialAccountListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/financial_accounts`, but is otherwise the same
-         * as [FinancialAccountService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountListParams = FinancialAccountListParams.none()
+        ): HttpResponseFor<FinancialAccountListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<FinancialAccountListPage> =
             list(FinancialAccountListParams.none(), requestOptions)
@@ -150,7 +186,12 @@ interface FinancialAccountService {
          * /v1/financial_accounts/{financial_account_token}/charge_off`, but is otherwise the same
          * as [FinancialAccountService.chargeOff].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun chargeOff(
+            params: FinancialAccountChargeOffParams
+        ): HttpResponseFor<FinancialAccountCreditConfig> = chargeOff(params, RequestOptions.none())
+
+        /** @see [chargeOff] */
         @MustBeClosed
         fun chargeOff(
             params: FinancialAccountChargeOffParams,

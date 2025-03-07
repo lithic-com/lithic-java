@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,7 +17,11 @@ interface BalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given financial account. */
-    @JvmOverloads
+    fun list(
+        params: FinancialAccountBalanceListParams
+    ): CompletableFuture<FinancialAccountBalanceListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -35,7 +37,13 @@ interface BalanceServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/balances`, but is otherwise the same as
          * [BalanceServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountBalanceListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams,

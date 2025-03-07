@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.cards
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,13 +17,21 @@ interface AggregateBalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated card balance across all end-user accounts. */
-    @JvmOverloads
+    fun list(): CompletableFuture<CardAggregateBalanceListPageAsync> =
+        list(CardAggregateBalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardAggregateBalanceListPageAsync>
 
-    /** Get the aggregated card balance across all end-user accounts. */
+    /** @see [list] */
+    fun list(
+        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
+    ): CompletableFuture<CardAggregateBalanceListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardAggregateBalanceListPageAsync> =
         list(CardAggregateBalanceListParams.none(), requestOptions)
 
@@ -39,17 +45,25 @@ interface AggregateBalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/aggregate_balances`, but is otherwise the
          * same as [AggregateBalanceServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
+            list(CardAggregateBalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/cards/aggregate_balances`, but is otherwise the
-         * same as [AggregateBalanceServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
+        ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,13 +17,21 @@ interface AggregateBalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated balance across all end-user accounts by financial account type */
-    @JvmOverloads
+    fun list(): CompletableFuture<AggregateBalanceListPageAsync> =
+        list(AggregateBalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AggregateBalanceListPageAsync>
 
-    /** Get the aggregated balance across all end-user accounts by financial account type */
+    /** @see [list] */
+    fun list(
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+    ): CompletableFuture<AggregateBalanceListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<AggregateBalanceListPageAsync> =
         list(AggregateBalanceListParams.none(), requestOptions)
 
@@ -39,17 +45,25 @@ interface AggregateBalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/aggregate_balances`, but is otherwise the same
          * as [AggregateBalanceServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
+            list(AggregateBalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/aggregate_balances`, but is otherwise the same
-         * as [AggregateBalanceServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+        ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

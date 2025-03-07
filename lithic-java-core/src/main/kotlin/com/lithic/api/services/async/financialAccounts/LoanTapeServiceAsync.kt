@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -21,14 +19,22 @@ interface LoanTapeServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get a specific loan tape for a given financial account. */
-    @JvmOverloads
+    fun retrieve(params: FinancialAccountLoanTapeRetrieveParams): CompletableFuture<LoanTape> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<LoanTape>
 
     /** List the loan tapes for a given financial account. */
-    @JvmOverloads
+    fun list(
+        params: FinancialAccountLoanTapeListParams
+    ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountLoanTapeListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -44,7 +50,12 @@ interface LoanTapeServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes/{loan_tape_token}`, but is
          * otherwise the same as [LoanTapeServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: FinancialAccountLoanTapeRetrieveParams
+        ): CompletableFuture<HttpResponseFor<LoanTape>> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams,
@@ -56,7 +67,13 @@ interface LoanTapeServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes`, but is otherwise the same
          * as [LoanTapeServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountLoanTapeListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountLoanTapeListParams,
