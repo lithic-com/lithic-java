@@ -3,6 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.33.0)
+[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.33.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.33.0)
 
 <!-- x-release-please-end -->
 
@@ -10,7 +11,7 @@ The Lithic Java SDK provides convenient access to the Lithic REST API from appli
 
 The Lithic Java SDK is similar to the Lithic Kotlin SDK but with minor differences that make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream` instead of `Sequence`, and `CompletableFuture` instead of suspend functions.
 
-The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com).
+The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com). Javadocs are also available on [javadoc.io](https://javadoc.io/doc/com.lithic.api/lithic-java/0.33.0).
 
 ## Installation
 
