@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.financialAccounts.statements
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,7 +17,12 @@ interface LineItemServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** List the line items for a given statement within a given financial account. */
-    @JvmOverloads
+    fun list(
+        params: FinancialAccountStatementLineItemListParams
+    ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -35,7 +38,13 @@ interface LineItemServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}/line_items`,
          * but is otherwise the same as [LineItemServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountStatementLineItemListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams,

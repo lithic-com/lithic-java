@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -22,32 +20,48 @@ interface ManagementOperationService {
     fun withRawResponse(): WithRawResponse
 
     /** Create management operation */
-    @JvmOverloads
+    fun create(params: ManagementOperationCreateParams): ManagementOperationTransaction =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: ManagementOperationCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagementOperationTransaction
 
     /** Get management operation */
-    @JvmOverloads
+    fun retrieve(params: ManagementOperationRetrieveParams): ManagementOperationTransaction =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ManagementOperationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagementOperationTransaction
 
     /** List management operations */
-    @JvmOverloads
+    fun list(): ManagementOperationListPage = list(ManagementOperationListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ManagementOperationListParams = ManagementOperationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ManagementOperationListPage
 
-    /** List management operations */
+    /** @see [list] */
+    fun list(
+        params: ManagementOperationListParams = ManagementOperationListParams.none()
+    ): ManagementOperationListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): ManagementOperationListPage =
         list(ManagementOperationListParams.none(), requestOptions)
 
     /** Reverse a management operation */
-    @JvmOverloads
+    fun reverse(params: ManagementOperationReverseParams): ManagementOperationTransaction =
+        reverse(params, RequestOptions.none())
+
+    /** @see [reverse] */
     fun reverse(
         params: ManagementOperationReverseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -63,7 +77,12 @@ interface ManagementOperationService {
          * Returns a raw HTTP response for `post /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: ManagementOperationCreateParams
+        ): HttpResponseFor<ManagementOperationTransaction> = create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ManagementOperationCreateParams,
@@ -75,7 +94,12 @@ interface ManagementOperationService {
          * /v1/management_operations/{management_operation_token}`, but is otherwise the same as
          * [ManagementOperationService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ManagementOperationRetrieveParams
+        ): HttpResponseFor<ManagementOperationTransaction> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ManagementOperationRetrieveParams,
@@ -86,17 +110,24 @@ interface ManagementOperationService {
          * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<ManagementOperationListPage> =
+            list(ManagementOperationListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ManagementOperationListParams = ManagementOperationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ManagementOperationListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
-         * same as [ManagementOperationService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ManagementOperationListParams = ManagementOperationListParams.none()
+        ): HttpResponseFor<ManagementOperationListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ManagementOperationListPage> =
             list(ManagementOperationListParams.none(), requestOptions)
@@ -106,7 +137,12 @@ interface ManagementOperationService {
          * /v1/management_operations/{management_operation_token}/reverse`, but is otherwise the
          * same as [ManagementOperationService.reverse].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reverse(
+            params: ManagementOperationReverseParams
+        ): HttpResponseFor<ManagementOperationTransaction> = reverse(params, RequestOptions.none())
+
+        /** @see [reverse] */
         @MustBeClosed
         fun reverse(
             params: ManagementOperationReverseParams,

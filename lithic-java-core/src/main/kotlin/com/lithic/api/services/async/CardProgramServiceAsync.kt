@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -21,20 +19,30 @@ interface CardProgramServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get card program. */
-    @JvmOverloads
+    fun retrieve(params: CardProgramRetrieveParams): CompletableFuture<CardProgram> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CardProgramRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgram>
 
     /** List card programs. */
-    @JvmOverloads
+    fun list(): CompletableFuture<CardProgramListPageAsync> = list(CardProgramListParams.none())
+
+    /** @see [list] */
     fun list(
         params: CardProgramListParams = CardProgramListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgramListPageAsync>
 
-    /** List card programs. */
+    /** @see [list] */
+    fun list(
+        params: CardProgramListParams = CardProgramListParams.none()
+    ): CompletableFuture<CardProgramListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardProgramListPageAsync> =
         list(CardProgramListParams.none(), requestOptions)
 
@@ -48,7 +56,12 @@ interface CardProgramServiceAsync {
          * Returns a raw HTTP response for `get /v1/card_programs/{card_program_token}`, but is
          * otherwise the same as [CardProgramServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CardProgramRetrieveParams
+        ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CardProgramRetrieveParams,
@@ -59,17 +72,25 @@ interface CardProgramServiceAsync {
          * Returns a raw HTTP response for `get /v1/card_programs`, but is otherwise the same as
          * [CardProgramServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
+            list(CardProgramListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardProgramListParams = CardProgramListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/card_programs`, but is otherwise the same as
-         * [CardProgramServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardProgramListParams = CardProgramListParams.none()
+        ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

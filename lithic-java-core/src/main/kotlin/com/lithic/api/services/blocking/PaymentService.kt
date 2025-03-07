@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -32,60 +30,86 @@ interface PaymentService {
     fun withRawResponse(): WithRawResponse
 
     /** Initiates a payment between a financial account and an external bank account. */
-    @JvmOverloads
+    fun create(params: PaymentCreateParams): PaymentCreateResponse =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: PaymentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentCreateResponse
 
     /** Get the payment by token. */
-    @JvmOverloads
+    fun retrieve(params: PaymentRetrieveParams): Payment = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: PaymentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Payment
 
     /** List all the payments for the provided search criteria. */
-    @JvmOverloads
+    fun list(): PaymentListPage = list(PaymentListParams.none())
+
+    /** @see [list] */
     fun list(
         params: PaymentListParams = PaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentListPage
 
-    /** List all the payments for the provided search criteria. */
+    /** @see [list] */
+    fun list(params: PaymentListParams = PaymentListParams.none()): PaymentListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): PaymentListPage =
         list(PaymentListParams.none(), requestOptions)
 
     /** Retry an origination which has been returned. */
-    @JvmOverloads
+    fun retry(params: PaymentRetryParams): PaymentRetryResponse =
+        retry(params, RequestOptions.none())
+
+    /** @see [retry] */
     fun retry(
         params: PaymentRetryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentRetryResponse
 
     /** Simulate payment lifecycle event */
-    @JvmOverloads
+    fun simulateAction(params: PaymentSimulateActionParams): PaymentSimulateActionResponse =
+        simulateAction(params, RequestOptions.none())
+
+    /** @see [simulateAction] */
     fun simulateAction(
         params: PaymentSimulateActionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentSimulateActionResponse
 
     /** Simulates a receipt of a Payment. */
-    @JvmOverloads
+    fun simulateReceipt(params: PaymentSimulateReceiptParams): PaymentSimulateReceiptResponse =
+        simulateReceipt(params, RequestOptions.none())
+
+    /** @see [simulateReceipt] */
     fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentSimulateReceiptResponse
 
     /** Simulates a release of a Payment. */
-    @JvmOverloads
+    fun simulateRelease(params: PaymentSimulateReleaseParams): PaymentSimulateReleaseResponse =
+        simulateRelease(params, RequestOptions.none())
+
+    /** @see [simulateRelease] */
     fun simulateRelease(
         params: PaymentSimulateReleaseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentSimulateReleaseResponse
 
     /** Simulates a return of a Payment. */
-    @JvmOverloads
+    fun simulateReturn(params: PaymentSimulateReturnParams): PaymentSimulateReturnResponse =
+        simulateReturn(params, RequestOptions.none())
+
+    /** @see [simulateReturn] */
     fun simulateReturn(
         params: PaymentSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -98,7 +122,11 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/payments`, but is otherwise the same as
          * [PaymentService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: PaymentCreateParams): HttpResponseFor<PaymentCreateResponse> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: PaymentCreateParams,
@@ -109,7 +137,11 @@ interface PaymentService {
          * Returns a raw HTTP response for `get /v1/payments/{payment_token}`, but is otherwise the
          * same as [PaymentService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: PaymentRetrieveParams): HttpResponseFor<Payment> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: PaymentRetrieveParams,
@@ -120,17 +152,22 @@ interface PaymentService {
          * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
          * [PaymentService.list].
          */
-        @JvmOverloads
+        @MustBeClosed fun list(): HttpResponseFor<PaymentListPage> = list(PaymentListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PaymentListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
-         * [PaymentService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: PaymentListParams = PaymentListParams.none()
+        ): HttpResponseFor<PaymentListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<PaymentListPage> =
             list(PaymentListParams.none(), requestOptions)
@@ -139,7 +176,11 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/payments/{payment_token}/retry`, but is
          * otherwise the same as [PaymentService.retry].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retry(params: PaymentRetryParams): HttpResponseFor<PaymentRetryResponse> =
+            retry(params, RequestOptions.none())
+
+        /** @see [retry] */
         @MustBeClosed
         fun retry(
             params: PaymentRetryParams,
@@ -150,7 +191,13 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but
          * is otherwise the same as [PaymentService.simulateAction].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateAction(
+            params: PaymentSimulateActionParams
+        ): HttpResponseFor<PaymentSimulateActionResponse> =
+            simulateAction(params, RequestOptions.none())
+
+        /** @see [simulateAction] */
         @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams,
@@ -161,7 +208,13 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/simulate/payments/receipt`, but is otherwise
          * the same as [PaymentService.simulateReceipt].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReceipt(
+            params: PaymentSimulateReceiptParams
+        ): HttpResponseFor<PaymentSimulateReceiptResponse> =
+            simulateReceipt(params, RequestOptions.none())
+
+        /** @see [simulateReceipt] */
         @MustBeClosed
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams,
@@ -172,7 +225,13 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/simulate/payments/release`, but is otherwise
          * the same as [PaymentService.simulateRelease].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateRelease(
+            params: PaymentSimulateReleaseParams
+        ): HttpResponseFor<PaymentSimulateReleaseResponse> =
+            simulateRelease(params, RequestOptions.none())
+
+        /** @see [simulateRelease] */
         @MustBeClosed
         fun simulateRelease(
             params: PaymentSimulateReleaseParams,
@@ -183,7 +242,13 @@ interface PaymentService {
          * Returns a raw HTTP response for `post /v1/simulate/payments/return`, but is otherwise the
          * same as [PaymentService.simulateReturn].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturn(
+            params: PaymentSimulateReturnParams
+        ): HttpResponseFor<PaymentSimulateReturnResponse> =
+            simulateReturn(params, RequestOptions.none())
+
+        /** @see [simulateReturn] */
         @MustBeClosed
         fun simulateReturn(
             params: PaymentSimulateReturnParams,

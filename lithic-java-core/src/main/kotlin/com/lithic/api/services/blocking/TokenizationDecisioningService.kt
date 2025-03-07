@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -26,20 +24,23 @@ interface TokenizationDecisioningService {
      * Lithic. See [this page](https://docs.lithic.com/docs/events-api#verifying-webhooks) for more
      * detail about verifying Tokenization Decisioning requests.
      */
-    @JvmOverloads
+    fun retrieveSecret(): TokenizationSecret =
+        retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none())
+
+    /** @see [retrieveSecret] */
     fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams =
             TokenizationDecisioningRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationSecret
 
-    /**
-     * Retrieve the Tokenization Decisioning secret key. If one does not exist your program yet,
-     * calling this endpoint will create one for you. The headers of the Tokenization Decisioning
-     * request will contain a hmac signature which you can use to verify requests originate from
-     * Lithic. See [this page](https://docs.lithic.com/docs/events-api#verifying-webhooks) for more
-     * detail about verifying Tokenization Decisioning requests.
-     */
+    /** @see [retrieveSecret] */
+    fun retrieveSecret(
+        params: TokenizationDecisioningRetrieveSecretParams =
+            TokenizationDecisioningRetrieveSecretParams.none()
+    ): TokenizationSecret = retrieveSecret(params, RequestOptions.none())
+
+    /** @see [retrieveSecret] */
     fun retrieveSecret(requestOptions: RequestOptions): TokenizationSecret =
         retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
 
@@ -47,17 +48,23 @@ interface TokenizationDecisioningService {
      * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
      * key will be deactivated 24 hours after a successful request to this endpoint.
      */
-    @JvmOverloads
+    fun rotateSecret(): TokenizationDecisioningRotateSecretResponse =
+        rotateSecret(TokenizationDecisioningRotateSecretParams.none())
+
+    /** @see [rotateSecret] */
     fun rotateSecret(
         params: TokenizationDecisioningRotateSecretParams =
             TokenizationDecisioningRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TokenizationDecisioningRotateSecretResponse
 
-    /**
-     * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
-     * key will be deactivated 24 hours after a successful request to this endpoint.
-     */
+    /** @see [rotateSecret] */
+    fun rotateSecret(
+        params: TokenizationDecisioningRotateSecretParams =
+            TokenizationDecisioningRotateSecretParams.none()
+    ): TokenizationDecisioningRotateSecretResponse = rotateSecret(params, RequestOptions.none())
+
+    /** @see [rotateSecret] */
     fun rotateSecret(requestOptions: RequestOptions): TokenizationDecisioningRotateSecretResponse =
         rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
 
@@ -71,7 +78,11 @@ interface TokenizationDecisioningService {
          * Returns a raw HTTP response for `get /v1/tokenization_decisioning/secret`, but is
          * otherwise the same as [TokenizationDecisioningService.retrieveSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSecret(): HttpResponseFor<TokenizationSecret> =
+            retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none())
+
+        /** @see [retrieveSecret] */
         @MustBeClosed
         fun retrieveSecret(
             params: TokenizationDecisioningRetrieveSecretParams =
@@ -79,10 +90,14 @@ interface TokenizationDecisioningService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TokenizationSecret>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/tokenization_decisioning/secret`, but is
-         * otherwise the same as [TokenizationDecisioningService.retrieveSecret].
-         */
+        /** @see [retrieveSecret] */
+        @MustBeClosed
+        fun retrieveSecret(
+            params: TokenizationDecisioningRetrieveSecretParams =
+                TokenizationDecisioningRetrieveSecretParams.none()
+        ): HttpResponseFor<TokenizationSecret> = retrieveSecret(params, RequestOptions.none())
+
+        /** @see [retrieveSecret] */
         @MustBeClosed
         fun retrieveSecret(requestOptions: RequestOptions): HttpResponseFor<TokenizationSecret> =
             retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
@@ -91,7 +106,11 @@ interface TokenizationDecisioningService {
          * Returns a raw HTTP response for `post /v1/tokenization_decisioning/secret/rotate`, but is
          * otherwise the same as [TokenizationDecisioningService.rotateSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun rotateSecret(): HttpResponseFor<TokenizationDecisioningRotateSecretResponse> =
+            rotateSecret(TokenizationDecisioningRotateSecretParams.none())
+
+        /** @see [rotateSecret] */
         @MustBeClosed
         fun rotateSecret(
             params: TokenizationDecisioningRotateSecretParams =
@@ -99,10 +118,15 @@ interface TokenizationDecisioningService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TokenizationDecisioningRotateSecretResponse>
 
-        /**
-         * Returns a raw HTTP response for `post /v1/tokenization_decisioning/secret/rotate`, but is
-         * otherwise the same as [TokenizationDecisioningService.rotateSecret].
-         */
+        /** @see [rotateSecret] */
+        @MustBeClosed
+        fun rotateSecret(
+            params: TokenizationDecisioningRotateSecretParams =
+                TokenizationDecisioningRotateSecretParams.none()
+        ): HttpResponseFor<TokenizationDecisioningRotateSecretResponse> =
+            rotateSecret(params, RequestOptions.none())
+
+        /** @see [rotateSecret] */
         @MustBeClosed
         fun rotateSecret(
             requestOptions: RequestOptions

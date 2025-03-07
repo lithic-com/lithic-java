@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -40,14 +38,20 @@ interface AccountHolderServiceAsync {
      * further action will be needed to complete the account enrollment process. This endpoint can
      * only be used on accounts that are part of the program that the calling API key manages.
      */
-    @JvmOverloads
+    fun create(params: AccountHolderCreateParams): CompletableFuture<AccountHolderCreateResponse> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderCreateResponse>
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
-    @JvmOverloads
+    fun retrieve(params: AccountHolderRetrieveParams): CompletableFuture<AccountHolder> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: AccountHolderRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -63,7 +67,10 @@ interface AccountHolderServiceAsync {
      * needed to complete the evaluation process. This endpoint can only be used on existing
      * accounts that are part of the program that the calling API key manages.
      */
-    @JvmOverloads
+    fun update(params: AccountHolderUpdateParams): CompletableFuture<AccountHolderUpdateResponse> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -72,15 +79,20 @@ interface AccountHolderServiceAsync {
     /**
      * Get a list of individual or business account holders and their KYC or KYB evaluation status.
      */
-    @JvmOverloads
+    fun list(): CompletableFuture<AccountHolderListPageAsync> = list(AccountHolderListParams.none())
+
+    /** @see [list] */
     fun list(
         params: AccountHolderListParams = AccountHolderListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderListPageAsync>
 
-    /**
-     * Get a list of individual or business account holders and their KYC or KYB evaluation status.
-     */
+    /** @see [list] */
+    fun list(
+        params: AccountHolderListParams = AccountHolderListParams.none()
+    ): CompletableFuture<AccountHolderListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<AccountHolderListPageAsync> =
         list(AccountHolderListParams.none(), requestOptions)
 
@@ -99,7 +111,12 @@ interface AccountHolderServiceAsync {
      * additional entry in the `required_document_uploads` list in a `PENDING` state for the
      * corresponding `image_type`.
      */
-    @JvmOverloads
+    fun listDocuments(
+        params: AccountHolderListDocumentsParams
+    ): CompletableFuture<AccountHolderListDocumentsResponse> =
+        listDocuments(params, RequestOptions.none())
+
+    /** @see [listDocuments] */
     fun listDocuments(
         params: AccountHolderListDocumentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -120,14 +137,21 @@ interface AccountHolderServiceAsync {
      * will show an additional entry in the `required_document_uploads` array in a `PENDING` state
      * for the corresponding `image_type`.
      */
-    @JvmOverloads
+    fun retrieveDocument(params: AccountHolderRetrieveDocumentParams): CompletableFuture<Document> =
+        retrieveDocument(params, RequestOptions.none())
+
+    /** @see [retrieveDocument] */
     fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Document>
 
     /** Simulates a review for an account holder document upload. */
-    @JvmOverloads
+    fun simulateEnrollmentDocumentReview(
+        params: AccountHolderSimulateEnrollmentDocumentReviewParams
+    ): CompletableFuture<Document> = simulateEnrollmentDocumentReview(params, RequestOptions.none())
+
+    /** @see [simulateEnrollmentDocumentReview] */
     fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -137,7 +161,12 @@ interface AccountHolderServiceAsync {
      * Simulates an enrollment review for an account holder. This endpoint is only applicable for
      * workflows that may required intervention such as `KYB_BASIC`.
      */
-    @JvmOverloads
+    fun simulateEnrollmentReview(
+        params: AccountHolderSimulateEnrollmentReviewParams
+    ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
+        simulateEnrollmentReview(params, RequestOptions.none())
+
+    /** @see [simulateEnrollmentReview] */
     fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -161,7 +190,10 @@ interface AccountHolderServiceAsync {
      * is returned and the account creation process is ended. Currently only one type of account
      * holder document is supported per KYC verification.
      */
-    @JvmOverloads
+    fun uploadDocument(params: AccountHolderUploadDocumentParams): CompletableFuture<Document> =
+        uploadDocument(params, RequestOptions.none())
+
+    /** @see [uploadDocument] */
     fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -177,7 +209,13 @@ interface AccountHolderServiceAsync {
          * Returns a raw HTTP response for `post /v1/account_holders`, but is otherwise the same as
          * [AccountHolderServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: AccountHolderCreateParams
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: AccountHolderCreateParams,
@@ -188,7 +226,13 @@ interface AccountHolderServiceAsync {
          * Returns a raw HTTP response for `get /v1/account_holders/{account_holder_token}`, but is
          * otherwise the same as [AccountHolderServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: AccountHolderRetrieveParams
+        ): CompletableFuture<HttpResponseFor<AccountHolder>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: AccountHolderRetrieveParams,
@@ -199,7 +243,13 @@ interface AccountHolderServiceAsync {
          * Returns a raw HTTP response for `patch /v1/account_holders/{account_holder_token}`, but
          * is otherwise the same as [AccountHolderServiceAsync.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: AccountHolderUpdateParams
+        ): CompletableFuture<HttpResponseFor<AccountHolderUpdateResponse>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: AccountHolderUpdateParams,
@@ -210,17 +260,25 @@ interface AccountHolderServiceAsync {
          * Returns a raw HTTP response for `get /v1/account_holders`, but is otherwise the same as
          * [AccountHolderServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>> =
+            list(AccountHolderListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: AccountHolderListParams = AccountHolderListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/account_holders`, but is otherwise the same as
-         * [AccountHolderServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: AccountHolderListParams = AccountHolderListParams.none()
+        ): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -232,7 +290,13 @@ interface AccountHolderServiceAsync {
          * /v1/account_holders/{account_holder_token}/documents`, but is otherwise the same as
          * [AccountHolderServiceAsync.listDocuments].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun listDocuments(
+            params: AccountHolderListDocumentsParams
+        ): CompletableFuture<HttpResponseFor<AccountHolderListDocumentsResponse>> =
+            listDocuments(params, RequestOptions.none())
+
+        /** @see [listDocuments] */
         @MustBeClosed
         fun listDocuments(
             params: AccountHolderListDocumentsParams,
@@ -244,7 +308,13 @@ interface AccountHolderServiceAsync {
          * /v1/account_holders/{account_holder_token}/documents/{document_token}`, but is otherwise
          * the same as [AccountHolderServiceAsync.retrieveDocument].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveDocument(
+            params: AccountHolderRetrieveDocumentParams
+        ): CompletableFuture<HttpResponseFor<Document>> =
+            retrieveDocument(params, RequestOptions.none())
+
+        /** @see [retrieveDocument] */
         @MustBeClosed
         fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams,
@@ -256,7 +326,13 @@ interface AccountHolderServiceAsync {
          * /v1/simulate/account_holders/enrollment_document_review`, but is otherwise the same as
          * [AccountHolderServiceAsync.simulateEnrollmentDocumentReview].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateEnrollmentDocumentReview(
+            params: AccountHolderSimulateEnrollmentDocumentReviewParams
+        ): CompletableFuture<HttpResponseFor<Document>> =
+            simulateEnrollmentDocumentReview(params, RequestOptions.none())
+
+        /** @see [simulateEnrollmentDocumentReview] */
         @MustBeClosed
         fun simulateEnrollmentDocumentReview(
             params: AccountHolderSimulateEnrollmentDocumentReviewParams,
@@ -267,7 +343,13 @@ interface AccountHolderServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/account_holders/enrollment_review`,
          * but is otherwise the same as [AccountHolderServiceAsync.simulateEnrollmentReview].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateEnrollmentReview(
+            params: AccountHolderSimulateEnrollmentReviewParams
+        ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
+            simulateEnrollmentReview(params, RequestOptions.none())
+
+        /** @see [simulateEnrollmentReview] */
         @MustBeClosed
         fun simulateEnrollmentReview(
             params: AccountHolderSimulateEnrollmentReviewParams,
@@ -279,7 +361,13 @@ interface AccountHolderServiceAsync {
          * /v1/account_holders/{account_holder_token}/documents`, but is otherwise the same as
          * [AccountHolderServiceAsync.uploadDocument].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun uploadDocument(
+            params: AccountHolderUploadDocumentParams
+        ): CompletableFuture<HttpResponseFor<Document>> =
+            uploadDocument(params, RequestOptions.none())
+
+        /** @see [uploadDocument] */
         @MustBeClosed
         fun uploadDocument(
             params: AccountHolderUploadDocumentParams,

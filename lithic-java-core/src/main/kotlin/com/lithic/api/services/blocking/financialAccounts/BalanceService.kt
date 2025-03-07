@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,7 +16,10 @@ interface BalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given financial account. */
-    @JvmOverloads
+    fun list(params: FinancialAccountBalanceListParams): FinancialAccountBalanceListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -32,7 +33,12 @@ interface BalanceService {
          * /v1/financial_accounts/{financial_account_token}/balances`, but is otherwise the same as
          * [BalanceService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountBalanceListParams
+        ): HttpResponseFor<FinancialAccountBalanceListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams,

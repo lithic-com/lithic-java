@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -20,14 +18,20 @@ interface FinancialTransactionService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the financial transaction for the provided token. */
-    @JvmOverloads
+    fun retrieve(params: FinancialTransactionRetrieveParams): FinancialTransaction =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialTransaction
 
     /** List the financial transactions for a given financial account. */
-    @JvmOverloads
+    fun list(params: FinancialTransactionListParams): FinancialTransactionListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -44,7 +48,12 @@ interface FinancialTransactionService {
          * /v1/financial_accounts/{financial_account_token}/financial_transactions/{financial_transaction_token}`,
          * but is otherwise the same as [FinancialTransactionService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: FinancialTransactionRetrieveParams
+        ): HttpResponseFor<FinancialTransaction> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialTransactionRetrieveParams,
@@ -56,7 +65,12 @@ interface FinancialTransactionService {
          * /v1/financial_accounts/{financial_account_token}/financial_transactions`, but is
          * otherwise the same as [FinancialTransactionService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialTransactionListParams
+        ): HttpResponseFor<FinancialTransactionListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialTransactionListParams,

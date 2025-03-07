@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -43,7 +41,10 @@ interface TransactionService {
      * Get a specific card transaction. All amounts are in the smallest unit of their respective
      * currency (e.g., cents for USD).
      */
-    @JvmOverloads
+    fun retrieve(params: TransactionRetrieveParams): Transaction =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -53,16 +54,19 @@ interface TransactionService {
      * List card transactions. All amounts are in the smallest unit of their respective currency
      * (e.g., cents for USD) and inclusive of any acquirer fees.
      */
-    @JvmOverloads
+    fun list(): TransactionListPage = list(TransactionListParams.none())
+
+    /** @see [list] */
     fun list(
         params: TransactionListParams = TransactionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionListPage
 
-    /**
-     * List card transactions. All amounts are in the smallest unit of their respective currency
-     * (e.g., cents for USD) and inclusive of any acquirer fees.
-     */
+    /** @see [list] */
+    fun list(params: TransactionListParams = TransactionListParams.none()): TransactionListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): TransactionListPage =
         list(TransactionListParams.none(), requestOptions)
 
@@ -74,7 +78,12 @@ interface TransactionService {
      * default. You can update this limit via the
      * [update account](https://docs.lithic.com/reference/patchaccountbytoken) endpoint.
      */
-    @JvmOverloads
+    fun simulateAuthorization(
+        params: TransactionSimulateAuthorizationParams
+    ): TransactionSimulateAuthorizationResponse =
+        simulateAuthorization(params, RequestOptions.none())
+
+    /** @see [simulateAuthorization] */
     fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -84,7 +93,12 @@ interface TransactionService {
      * Simulates an authorization advice from the card network as if it came from a merchant
      * acquirer. An authorization advice changes the pending amount of the transaction.
      */
-    @JvmOverloads
+    fun simulateAuthorizationAdvice(
+        params: TransactionSimulateAuthorizationAdviceParams
+    ): TransactionSimulateAuthorizationAdviceResponse =
+        simulateAuthorizationAdvice(params, RequestOptions.none())
+
+    /** @see [simulateAuthorizationAdvice] */
     fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -97,7 +111,11 @@ interface TransactionService {
      * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
      * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
      */
-    @JvmOverloads
+    fun simulateClearing(
+        params: TransactionSimulateClearingParams
+    ): TransactionSimulateClearingResponse = simulateClearing(params, RequestOptions.none())
+
+    /** @see [simulateClearing] */
     fun simulateClearing(
         params: TransactionSimulateClearingParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -107,7 +125,12 @@ interface TransactionService {
      * Simulates a credit authorization advice from the card network. This message indicates that
      * the network approved a credit authorization on your behalf.
      */
-    @JvmOverloads
+    fun simulateCreditAuthorization(
+        params: TransactionSimulateCreditAuthorizationParams
+    ): TransactionSimulateCreditAuthorizationResponse =
+        simulateCreditAuthorization(params, RequestOptions.none())
+
+    /** @see [simulateCreditAuthorization] */
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -117,7 +140,10 @@ interface TransactionService {
      * Returns, or refunds, an amount back to a card. Returns simulated via this endpoint clear
      * immediately, without prior authorization, and result in a `SETTLED` transaction status.
      */
-    @JvmOverloads
+    fun simulateReturn(params: TransactionSimulateReturnParams): TransactionSimulateReturnResponse =
+        simulateReturn(params, RequestOptions.none())
+
+    /** @see [simulateReturn] */
     fun simulateReturn(
         params: TransactionSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -127,7 +153,12 @@ interface TransactionService {
      * Reverses a return, i.e. a credit transaction with a `SETTLED` status. Returns can be
      * financial credit authorizations, or credit authorizations that have cleared.
      */
-    @JvmOverloads
+    fun simulateReturnReversal(
+        params: TransactionSimulateReturnReversalParams
+    ): TransactionSimulateReturnReversalResponse =
+        simulateReturnReversal(params, RequestOptions.none())
+
+    /** @see [simulateReturnReversal] */
     fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -139,7 +170,10 @@ interface TransactionService {
      * authorization expiry on credit authorizations or credit authorization advice is not currently
      * supported but will be added soon._
      */
-    @JvmOverloads
+    fun simulateVoid(params: TransactionSimulateVoidParams): TransactionSimulateVoidResponse =
+        simulateVoid(params, RequestOptions.none())
+
+    /** @see [simulateVoid] */
     fun simulateVoid(
         params: TransactionSimulateVoidParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -158,7 +192,11 @@ interface TransactionService {
          * Returns a raw HTTP response for `get /v1/transactions/{transaction_token}`, but is
          * otherwise the same as [TransactionService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: TransactionRetrieveParams): HttpResponseFor<Transaction> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: TransactionRetrieveParams,
@@ -169,17 +207,23 @@ interface TransactionService {
          * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
          * [TransactionService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<TransactionListPage> = list(TransactionListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: TransactionListParams = TransactionListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TransactionListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
-         * [TransactionService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: TransactionListParams = TransactionListParams.none()
+        ): HttpResponseFor<TransactionListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<TransactionListPage> =
             list(TransactionListParams.none(), requestOptions)
@@ -188,7 +232,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same
          * as [TransactionService.simulateAuthorization].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateAuthorization(
+            params: TransactionSimulateAuthorizationParams
+        ): HttpResponseFor<TransactionSimulateAuthorizationResponse> =
+            simulateAuthorization(params, RequestOptions.none())
+
+        /** @see [simulateAuthorization] */
         @MustBeClosed
         fun simulateAuthorization(
             params: TransactionSimulateAuthorizationParams,
@@ -199,7 +249,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/authorization_advice`, but is
          * otherwise the same as [TransactionService.simulateAuthorizationAdvice].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateAuthorizationAdvice(
+            params: TransactionSimulateAuthorizationAdviceParams
+        ): HttpResponseFor<TransactionSimulateAuthorizationAdviceResponse> =
+            simulateAuthorizationAdvice(params, RequestOptions.none())
+
+        /** @see [simulateAuthorizationAdvice] */
         @MustBeClosed
         fun simulateAuthorizationAdvice(
             params: TransactionSimulateAuthorizationAdviceParams,
@@ -210,7 +266,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/clearing`, but is otherwise the same
          * as [TransactionService.simulateClearing].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateClearing(
+            params: TransactionSimulateClearingParams
+        ): HttpResponseFor<TransactionSimulateClearingResponse> =
+            simulateClearing(params, RequestOptions.none())
+
+        /** @see [simulateClearing] */
         @MustBeClosed
         fun simulateClearing(
             params: TransactionSimulateClearingParams,
@@ -221,7 +283,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/credit_authorization_advice`, but is
          * otherwise the same as [TransactionService.simulateCreditAuthorization].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateCreditAuthorization(
+            params: TransactionSimulateCreditAuthorizationParams
+        ): HttpResponseFor<TransactionSimulateCreditAuthorizationResponse> =
+            simulateCreditAuthorization(params, RequestOptions.none())
+
+        /** @see [simulateCreditAuthorization] */
         @MustBeClosed
         fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams,
@@ -232,7 +300,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/return`, but is otherwise the same as
          * [TransactionService.simulateReturn].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturn(
+            params: TransactionSimulateReturnParams
+        ): HttpResponseFor<TransactionSimulateReturnResponse> =
+            simulateReturn(params, RequestOptions.none())
+
+        /** @see [simulateReturn] */
         @MustBeClosed
         fun simulateReturn(
             params: TransactionSimulateReturnParams,
@@ -243,7 +317,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/return_reversal`, but is otherwise the
          * same as [TransactionService.simulateReturnReversal].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturnReversal(
+            params: TransactionSimulateReturnReversalParams
+        ): HttpResponseFor<TransactionSimulateReturnReversalResponse> =
+            simulateReturnReversal(params, RequestOptions.none())
+
+        /** @see [simulateReturnReversal] */
         @MustBeClosed
         fun simulateReturnReversal(
             params: TransactionSimulateReturnReversalParams,
@@ -254,7 +334,13 @@ interface TransactionService {
          * Returns a raw HTTP response for `post /v1/simulate/void`, but is otherwise the same as
          * [TransactionService.simulateVoid].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateVoid(
+            params: TransactionSimulateVoidParams
+        ): HttpResponseFor<TransactionSimulateVoidResponse> =
+            simulateVoid(params, RequestOptions.none())
+
+        /** @see [simulateVoid] */
         @MustBeClosed
         fun simulateVoid(
             params: TransactionSimulateVoidParams,

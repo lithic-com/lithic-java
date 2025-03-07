@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -24,32 +22,47 @@ interface BookTransferService {
     /**
      * Book transfer funds between two financial accounts or between a financial account and card
      */
-    @JvmOverloads
+    fun create(params: BookTransferCreateParams): BookTransferResponse =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: BookTransferCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferResponse
 
     /** Get book transfer by token */
-    @JvmOverloads
+    fun retrieve(params: BookTransferRetrieveParams): BookTransferResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: BookTransferRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferResponse
 
     /** List book transfers */
-    @JvmOverloads
+    fun list(): BookTransferListPage = list(BookTransferListParams.none())
+
+    /** @see [list] */
     fun list(
         params: BookTransferListParams = BookTransferListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferListPage
 
-    /** List book transfers */
+    /** @see [list] */
+    fun list(params: BookTransferListParams = BookTransferListParams.none()): BookTransferListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): BookTransferListPage =
         list(BookTransferListParams.none(), requestOptions)
 
     /** Reverse a book transfer */
-    @JvmOverloads
+    fun reverse(params: BookTransferReverseParams): BookTransferResponse =
+        reverse(params, RequestOptions.none())
+
+    /** @see [reverse] */
     fun reverse(
         params: BookTransferReverseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -64,7 +77,11 @@ interface BookTransferService {
          * Returns a raw HTTP response for `post /v1/book_transfers`, but is otherwise the same as
          * [BookTransferService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: BookTransferCreateParams): HttpResponseFor<BookTransferResponse> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: BookTransferCreateParams,
@@ -75,7 +92,11 @@ interface BookTransferService {
          * Returns a raw HTTP response for `get /v1/book_transfers/{book_transfer_token}`, but is
          * otherwise the same as [BookTransferService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: BookTransferRetrieveParams): HttpResponseFor<BookTransferResponse> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: BookTransferRetrieveParams,
@@ -86,17 +107,23 @@ interface BookTransferService {
          * Returns a raw HTTP response for `get /v1/book_transfers`, but is otherwise the same as
          * [BookTransferService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<BookTransferListPage> = list(BookTransferListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: BookTransferListParams = BookTransferListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BookTransferListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/book_transfers`, but is otherwise the same as
-         * [BookTransferService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: BookTransferListParams = BookTransferListParams.none()
+        ): HttpResponseFor<BookTransferListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<BookTransferListPage> =
             list(BookTransferListParams.none(), requestOptions)
@@ -105,7 +132,11 @@ interface BookTransferService {
          * Returns a raw HTTP response for `post /v1/book_transfers/{book_transfer_token}/reverse`,
          * but is otherwise the same as [BookTransferService.reverse].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reverse(params: BookTransferReverseParams): HttpResponseFor<BookTransferResponse> =
+            reverse(params, RequestOptions.none())
+
+        /** @see [reverse] */
         @MustBeClosed
         fun reverse(
             params: BookTransferReverseParams,

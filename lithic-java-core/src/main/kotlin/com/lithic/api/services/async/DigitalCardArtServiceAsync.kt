@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -21,20 +19,31 @@ interface DigitalCardArtServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get digital card art by token. */
-    @JvmOverloads
+    fun retrieve(params: DigitalCardArtRetrieveParams): CompletableFuture<DigitalCardArt> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArt>
 
     /** List digital card art. */
-    @JvmOverloads
+    fun list(): CompletableFuture<DigitalCardArtListPageAsync> =
+        list(DigitalCardArtListParams.none())
+
+    /** @see [list] */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArtListPageAsync>
 
-    /** List digital card art. */
+    /** @see [list] */
+    fun list(
+        params: DigitalCardArtListParams = DigitalCardArtListParams.none()
+    ): CompletableFuture<DigitalCardArtListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<DigitalCardArtListPageAsync> =
         list(DigitalCardArtListParams.none(), requestOptions)
 
@@ -48,7 +57,13 @@ interface DigitalCardArtServiceAsync {
          * Returns a raw HTTP response for `get /v1/digital_card_art/{digital_card_art_token}`, but
          * is otherwise the same as [DigitalCardArtServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: DigitalCardArtRetrieveParams
+        ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: DigitalCardArtRetrieveParams,
@@ -59,17 +74,25 @@ interface DigitalCardArtServiceAsync {
          * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as
          * [DigitalCardArtServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>> =
+            list(DigitalCardArtListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as
-         * [DigitalCardArtServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: DigitalCardArtListParams = DigitalCardArtListParams.none()
+        ): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
