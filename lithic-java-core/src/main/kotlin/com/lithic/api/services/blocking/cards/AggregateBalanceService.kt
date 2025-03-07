@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.cards
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,13 +16,20 @@ interface AggregateBalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated card balance across all end-user accounts. */
-    @JvmOverloads
+    fun list(): CardAggregateBalanceListPage = list(CardAggregateBalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardAggregateBalanceListPage
 
-    /** Get the aggregated card balance across all end-user accounts. */
+    /** @see [list] */
+    fun list(
+        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
+    ): CardAggregateBalanceListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CardAggregateBalanceListPage =
         list(CardAggregateBalanceListParams.none(), requestOptions)
 
@@ -38,17 +43,24 @@ interface AggregateBalanceService {
          * Returns a raw HTTP response for `get /v1/cards/aggregate_balances`, but is otherwise the
          * same as [AggregateBalanceService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<CardAggregateBalanceListPage> =
+            list(CardAggregateBalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardAggregateBalanceListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/cards/aggregate_balances`, but is otherwise the
-         * same as [AggregateBalanceService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
+        ): HttpResponseFor<CardAggregateBalanceListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardAggregateBalanceListPage> =
             list(CardAggregateBalanceListParams.none(), requestOptions)

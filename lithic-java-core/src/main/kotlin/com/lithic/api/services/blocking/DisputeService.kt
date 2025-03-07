@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -29,39 +27,53 @@ interface DisputeService {
     fun withRawResponse(): WithRawResponse
 
     /** Initiate a dispute. */
-    @JvmOverloads
+    fun create(params: DisputeCreateParams): Dispute = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: DisputeCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** Get dispute. */
-    @JvmOverloads
+    fun retrieve(params: DisputeRetrieveParams): Dispute = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: DisputeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** Update dispute. Can only be modified if status is `NEW`. */
-    @JvmOverloads
+    fun update(params: DisputeUpdateParams): Dispute = update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: DisputeUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Dispute
 
     /** List disputes. */
-    @JvmOverloads
+    fun list(): DisputeListPage = list(DisputeListParams.none())
+
+    /** @see [list] */
     fun list(
         params: DisputeListParams = DisputeListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeListPage
 
-    /** List disputes. */
+    /** @see [list] */
+    fun list(params: DisputeListParams = DisputeListParams.none()): DisputeListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): DisputeListPage =
         list(DisputeListParams.none(), requestOptions)
 
     /** Withdraw dispute. */
-    @JvmOverloads
+    fun delete(params: DisputeDeleteParams): Dispute = delete(params, RequestOptions.none())
+
+    /** @see [delete] */
     fun delete(
         params: DisputeDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -71,7 +83,10 @@ interface DisputeService {
      * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic
      * after it is withdrawn.
      */
-    @JvmOverloads
+    fun deleteEvidence(params: DisputeDeleteEvidenceParams): DisputeEvidence =
+        deleteEvidence(params, RequestOptions.none())
+
+    /** @see [deleteEvidence] */
     fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -84,21 +99,30 @@ interface DisputeService {
      * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5
      * GiB.
      */
-    @JvmOverloads
+    fun initiateEvidenceUpload(params: DisputeInitiateEvidenceUploadParams): DisputeEvidence =
+        initiateEvidenceUpload(params, RequestOptions.none())
+
+    /** @see [initiateEvidenceUpload] */
     fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
 
     /** List evidence metadata for a dispute. */
-    @JvmOverloads
+    fun listEvidences(params: DisputeListEvidencesParams): DisputeListEvidencesPage =
+        listEvidences(params, RequestOptions.none())
+
+    /** @see [listEvidences] */
     fun listEvidences(
         params: DisputeListEvidencesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeListEvidencesPage
 
     /** Get a dispute's evidence metadata. */
-    @JvmOverloads
+    fun retrieveEvidence(params: DisputeRetrieveEvidenceParams): DisputeEvidence =
+        retrieveEvidence(params, RequestOptions.none())
+
+    /** @see [retrieveEvidence] */
     fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -111,7 +135,11 @@ interface DisputeService {
          * Returns a raw HTTP response for `post /v1/disputes`, but is otherwise the same as
          * [DisputeService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: DisputeCreateParams): HttpResponseFor<Dispute> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: DisputeCreateParams,
@@ -122,7 +150,11 @@ interface DisputeService {
          * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}`, but is otherwise the
          * same as [DisputeService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: DisputeRetrieveParams): HttpResponseFor<Dispute> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: DisputeRetrieveParams,
@@ -133,7 +165,11 @@ interface DisputeService {
          * Returns a raw HTTP response for `patch /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: DisputeUpdateParams): HttpResponseFor<Dispute> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: DisputeUpdateParams,
@@ -144,17 +180,22 @@ interface DisputeService {
          * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
          * [DisputeService.list].
          */
-        @JvmOverloads
+        @MustBeClosed fun list(): HttpResponseFor<DisputeListPage> = list(DisputeListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: DisputeListParams = DisputeListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DisputeListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
-         * [DisputeService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: DisputeListParams = DisputeListParams.none()
+        ): HttpResponseFor<DisputeListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<DisputeListPage> =
             list(DisputeListParams.none(), requestOptions)
@@ -163,7 +204,11 @@ interface DisputeService {
          * Returns a raw HTTP response for `delete /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeService.delete].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun delete(params: DisputeDeleteParams): HttpResponseFor<Dispute> =
+            delete(params, RequestOptions.none())
+
+        /** @see [delete] */
         @MustBeClosed
         fun delete(
             params: DisputeDeleteParams,
@@ -175,7 +220,11 @@ interface DisputeService {
          * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
          * [DisputeService.deleteEvidence].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun deleteEvidence(params: DisputeDeleteEvidenceParams): HttpResponseFor<DisputeEvidence> =
+            deleteEvidence(params, RequestOptions.none())
+
+        /** @see [deleteEvidence] */
         @MustBeClosed
         fun deleteEvidence(
             params: DisputeDeleteEvidenceParams,
@@ -186,7 +235,12 @@ interface DisputeService {
          * Returns a raw HTTP response for `post /v1/disputes/{dispute_token}/evidences`, but is
          * otherwise the same as [DisputeService.initiateEvidenceUpload].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun initiateEvidenceUpload(
+            params: DisputeInitiateEvidenceUploadParams
+        ): HttpResponseFor<DisputeEvidence> = initiateEvidenceUpload(params, RequestOptions.none())
+
+        /** @see [initiateEvidenceUpload] */
         @MustBeClosed
         fun initiateEvidenceUpload(
             params: DisputeInitiateEvidenceUploadParams,
@@ -197,7 +251,12 @@ interface DisputeService {
          * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}/evidences`, but is
          * otherwise the same as [DisputeService.listEvidences].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun listEvidences(
+            params: DisputeListEvidencesParams
+        ): HttpResponseFor<DisputeListEvidencesPage> = listEvidences(params, RequestOptions.none())
+
+        /** @see [listEvidences] */
         @MustBeClosed
         fun listEvidences(
             params: DisputeListEvidencesParams,
@@ -209,7 +268,12 @@ interface DisputeService {
          * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
          * [DisputeService.retrieveEvidence].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveEvidence(
+            params: DisputeRetrieveEvidenceParams
+        ): HttpResponseFor<DisputeEvidence> = retrieveEvidence(params, RequestOptions.none())
+
+        /** @see [retrieveEvidence] */
         @MustBeClosed
         fun retrieveEvidence(
             params: DisputeRetrieveEvidenceParams,

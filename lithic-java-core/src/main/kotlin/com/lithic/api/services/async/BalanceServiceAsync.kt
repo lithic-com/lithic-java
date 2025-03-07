@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,13 +17,20 @@ interface BalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a program, business, or a given end-user account */
-    @JvmOverloads
+    fun list(): CompletableFuture<BalanceListPageAsync> = list(BalanceListParams.none())
+
+    /** @see [list] */
     fun list(
         params: BalanceListParams = BalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BalanceListPageAsync>
 
-    /** Get the balances for a program, business, or a given end-user account */
+    /** @see [list] */
+    fun list(
+        params: BalanceListParams = BalanceListParams.none()
+    ): CompletableFuture<BalanceListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<BalanceListPageAsync> =
         list(BalanceListParams.none(), requestOptions)
 
@@ -38,17 +43,25 @@ interface BalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/balances`, but is otherwise the same as
          * [BalanceServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
+            list(BalanceListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/balances`, but is otherwise the same as
-         * [BalanceServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: BalanceListParams = BalanceListParams.none()
+        ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

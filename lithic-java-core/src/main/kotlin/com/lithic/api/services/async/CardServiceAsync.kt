@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -44,14 +42,20 @@ interface CardServiceAsync {
      * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only
      * apply to physical cards.
      */
-    @JvmOverloads
+    fun create(params: CardCreateParams): CompletableFuture<Card> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: CardCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
 
     /** Get card configuration such as spend limit and state. */
-    @JvmOverloads
+    fun retrieve(params: CardRetrieveParams): CompletableFuture<Card> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CardRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -62,20 +66,29 @@ interface CardServiceAsync {
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
-    @JvmOverloads
+    fun update(params: CardUpdateParams): CompletableFuture<Card> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: CardUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
 
     /** List cards. */
-    @JvmOverloads
+    fun list(): CompletableFuture<CardListPageAsync> = list(CardListParams.none())
+
+    /** @see [list] */
     fun list(
         params: CardListParams = CardListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardListPageAsync>
 
-    /** List cards. */
+    /** @see [list] */
+    fun list(params: CardListParams = CardListParams.none()): CompletableFuture<CardListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardListPageAsync> =
         list(CardListParams.none(), requestOptions)
 
@@ -89,7 +102,10 @@ interface CardServiceAsync {
      * be in an `OPEN` state to be converted. Only applies to cards of type `VIRTUAL` (or existing
      * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
-    @JvmOverloads
+    fun convertPhysical(params: CardConvertPhysicalParams): CompletableFuture<Card> =
+        convertPhysical(params, RequestOptions.none())
+
+    /** @see [convertPhysical] */
     fun convertPhysical(
         params: CardConvertPhysicalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -121,7 +137,10 @@ interface CardServiceAsync {
      * iframe) on the server or make an ajax call from your front end code, but **do not ever embed
      * your API key into front end code, as doing so introduces a serious security vulnerability**.
      */
-    @JvmOverloads
+    fun embed(params: CardEmbedParams): CompletableFuture<String> =
+        embed(params, RequestOptions.none())
+
+    /** @see [embed] */
     fun embed(
         params: CardEmbedParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -135,7 +154,10 @@ interface CardServiceAsync {
      * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
      * information.
      */
-    @JvmOverloads
+    fun provision(params: CardProvisionParams): CompletableFuture<CardProvisionResponse> =
+        provision(params, RequestOptions.none())
+
+    /** @see [provision] */
     fun provision(
         params: CardProvisionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -147,7 +169,10 @@ interface CardServiceAsync {
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
      * replaced or renewed a total of 8 times.
      */
-    @JvmOverloads
+    fun reissue(params: CardReissueParams): CompletableFuture<Card> =
+        reissue(params, RequestOptions.none())
+
+    /** @see [reissue] */
     fun reissue(
         params: CardReissueParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -160,7 +185,10 @@ interface CardServiceAsync {
      * also keep working until the new card is activated. Applies to card types `PHYSICAL` and
      * `VIRTUAL`. A card can be replaced or renewed a total of 8 times.
      */
-    @JvmOverloads
+    fun renew(params: CardRenewParams): CompletableFuture<Card> =
+        renew(params, RequestOptions.none())
+
+    /** @see [renew] */
     fun renew(
         params: CardRenewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -172,7 +200,11 @@ interface CardServiceAsync {
      * monthly spend limit of $1000 configured, and has spent $600 in the last month, the available
      * spend limit returned would be $400.
      */
-    @JvmOverloads
+    fun retrieveSpendLimits(
+        params: CardRetrieveSpendLimitsParams
+    ): CompletableFuture<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -184,7 +216,10 @@ interface CardServiceAsync {
      * _Note: this is a `POST` endpoint because it is more secure to send sensitive data in a
      * request body than in a URL._
      */
-    @JvmOverloads
+    fun searchByPan(params: CardSearchByPanParams): CompletableFuture<Card> =
+        searchByPan(params, RequestOptions.none())
+
+    /** @see [searchByPan] */
     fun searchByPan(
         params: CardSearchByPanParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -203,7 +238,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards`, but is otherwise the same as
          * [CardServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: CardCreateParams): CompletableFuture<HttpResponseFor<Card>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: CardCreateParams,
@@ -214,7 +253,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}`, but is otherwise the same
          * as [CardServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: CardRetrieveParams): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CardRetrieveParams,
@@ -225,7 +268,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
          * as [CardServiceAsync.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: CardUpdateParams): CompletableFuture<HttpResponseFor<Card>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: CardUpdateParams,
@@ -236,17 +283,25 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
          * [CardServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
+            list(CardListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardListParams = CardListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
-         * [CardServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardListParams = CardListParams.none()
+        ): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -257,7 +312,12 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
          * otherwise the same as [CardServiceAsync.convertPhysical].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun convertPhysical(
+            params: CardConvertPhysicalParams
+        ): CompletableFuture<HttpResponseFor<Card>> = convertPhysical(params, RequestOptions.none())
+
+        /** @see [convertPhysical] */
         @MustBeClosed
         fun convertPhysical(
             params: CardConvertPhysicalParams,
@@ -268,7 +328,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
          * [CardServiceAsync.embed].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun embed(params: CardEmbedParams): CompletableFuture<HttpResponseFor<String>> =
+            embed(params, RequestOptions.none())
+
+        /** @see [embed] */
         @MustBeClosed
         fun embed(
             params: CardEmbedParams,
@@ -279,7 +343,13 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/provision`, but is otherwise
          * the same as [CardServiceAsync.provision].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun provision(
+            params: CardProvisionParams
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
+            provision(params, RequestOptions.none())
+
+        /** @see [provision] */
         @MustBeClosed
         fun provision(
             params: CardProvisionParams,
@@ -290,7 +360,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
          * the same as [CardServiceAsync.reissue].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reissue(params: CardReissueParams): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(params, RequestOptions.none())
+
+        /** @see [reissue] */
         @MustBeClosed
         fun reissue(
             params: CardReissueParams,
@@ -301,7 +375,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
          * same as [CardServiceAsync.renew].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun renew(params: CardRenewParams): CompletableFuture<HttpResponseFor<Card>> =
+            renew(params, RequestOptions.none())
+
+        /** @see [renew] */
         @MustBeClosed
         fun renew(
             params: CardRenewParams,
@@ -312,7 +390,13 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
          * otherwise the same as [CardServiceAsync.retrieveSpendLimits].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
+            retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
         @MustBeClosed
         fun retrieveSpendLimits(
             params: CardRetrieveSpendLimitsParams,
@@ -323,7 +407,11 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
          * as [CardServiceAsync.searchByPan].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun searchByPan(params: CardSearchByPanParams): CompletableFuture<HttpResponseFor<Card>> =
+            searchByPan(params, RequestOptions.none())
+
+        /** @see [searchByPan] */
         @MustBeClosed
         fun searchByPan(
             params: CardSearchByPanParams,

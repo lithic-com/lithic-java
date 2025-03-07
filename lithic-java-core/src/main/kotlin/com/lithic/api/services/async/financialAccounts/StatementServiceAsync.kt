@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -24,14 +22,22 @@ interface StatementServiceAsync {
     fun lineItems(): LineItemServiceAsync
 
     /** Get a specific statement for a given financial account. */
-    @JvmOverloads
+    fun retrieve(params: FinancialAccountStatementRetrieveParams): CompletableFuture<Statement> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountStatementRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Statement>
 
     /** List the statements for a given financial account. */
-    @JvmOverloads
+    fun list(
+        params: FinancialAccountStatementListParams
+    ): CompletableFuture<FinancialAccountStatementListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountStatementListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -49,7 +55,12 @@ interface StatementServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}`, but is
          * otherwise the same as [StatementServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: FinancialAccountStatementRetrieveParams
+        ): CompletableFuture<HttpResponseFor<Statement>> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams,
@@ -61,7 +72,13 @@ interface StatementServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements`, but is otherwise the same
          * as [StatementServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountStatementListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementListParams,

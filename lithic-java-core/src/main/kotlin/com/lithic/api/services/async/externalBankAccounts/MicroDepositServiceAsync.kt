@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.externalBankAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,7 +17,11 @@ interface MicroDepositServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Verify the external bank account by providing the micro deposit amounts. */
-    @JvmOverloads
+    fun create(
+        params: ExternalBankAccountMicroDepositCreateParams
+    ): CompletableFuture<MicroDepositCreateResponse> = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: ExternalBankAccountMicroDepositCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -36,7 +38,13 @@ interface MicroDepositServiceAsync {
          * /v1/external_bank_accounts/{external_bank_account_token}/micro_deposits`, but is
          * otherwise the same as [MicroDepositServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: ExternalBankAccountMicroDepositCreateParams
+        ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams,

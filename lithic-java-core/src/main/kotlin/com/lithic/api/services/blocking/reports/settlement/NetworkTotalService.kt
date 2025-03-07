@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.reports.settlement
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -23,7 +21,10 @@ interface NetworkTotalService {
      * (Available March 4, 2025) Retrieve a specific network total record by token. Not available in
      * sandbox.
      */
-    @JvmOverloads
+    fun retrieve(params: ReportSettlementNetworkTotalRetrieveParams): NetworkTotalRetrieveResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -33,17 +34,23 @@ interface NetworkTotalService {
      * (Available March 4, 2025) List network total records with optional filters. Not available in
      * sandbox.
      */
-    @JvmOverloads
+    fun list(): ReportSettlementNetworkTotalListPage =
+        list(ReportSettlementNetworkTotalListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ReportSettlementNetworkTotalListParams =
             ReportSettlementNetworkTotalListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ReportSettlementNetworkTotalListPage
 
-    /**
-     * (Available March 4, 2025) List network total records with optional filters. Not available in
-     * sandbox.
-     */
+    /** @see [list] */
+    fun list(
+        params: ReportSettlementNetworkTotalListParams =
+            ReportSettlementNetworkTotalListParams.none()
+    ): ReportSettlementNetworkTotalListPage = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): ReportSettlementNetworkTotalListPage =
         list(ReportSettlementNetworkTotalListParams.none(), requestOptions)
 
@@ -56,7 +63,12 @@ interface NetworkTotalService {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals/{token}`, but
          * is otherwise the same as [NetworkTotalService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ReportSettlementNetworkTotalRetrieveParams
+        ): HttpResponseFor<NetworkTotalRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
@@ -67,7 +79,11 @@ interface NetworkTotalService {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
          * otherwise the same as [NetworkTotalService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
+            list(ReportSettlementNetworkTotalListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
@@ -75,10 +91,15 @@ interface NetworkTotalService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ReportSettlementNetworkTotalListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
-         * otherwise the same as [NetworkTotalService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ReportSettlementNetworkTotalListParams =
+                ReportSettlementNetworkTotalListParams.none()
+        ): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

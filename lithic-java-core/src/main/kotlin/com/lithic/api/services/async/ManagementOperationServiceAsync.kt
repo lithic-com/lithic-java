@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -23,32 +21,52 @@ interface ManagementOperationServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Create management operation */
-    @JvmOverloads
+    fun create(
+        params: ManagementOperationCreateParams
+    ): CompletableFuture<ManagementOperationTransaction> = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: ManagementOperationCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
 
     /** Get management operation */
-    @JvmOverloads
+    fun retrieve(
+        params: ManagementOperationRetrieveParams
+    ): CompletableFuture<ManagementOperationTransaction> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ManagementOperationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
 
     /** List management operations */
-    @JvmOverloads
+    fun list(): CompletableFuture<ManagementOperationListPageAsync> =
+        list(ManagementOperationListParams.none())
+
+    /** @see [list] */
     fun list(
         params: ManagementOperationListParams = ManagementOperationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationListPageAsync>
 
-    /** List management operations */
+    /** @see [list] */
+    fun list(
+        params: ManagementOperationListParams = ManagementOperationListParams.none()
+    ): CompletableFuture<ManagementOperationListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<ManagementOperationListPageAsync> =
         list(ManagementOperationListParams.none(), requestOptions)
 
     /** Reverse a management operation */
-    @JvmOverloads
+    fun reverse(
+        params: ManagementOperationReverseParams
+    ): CompletableFuture<ManagementOperationTransaction> = reverse(params, RequestOptions.none())
+
+    /** @see [reverse] */
     fun reverse(
         params: ManagementOperationReverseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -64,7 +82,13 @@ interface ManagementOperationServiceAsync {
          * Returns a raw HTTP response for `post /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: ManagementOperationCreateParams
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ManagementOperationCreateParams,
@@ -76,7 +100,13 @@ interface ManagementOperationServiceAsync {
          * /v1/management_operations/{management_operation_token}`, but is otherwise the same as
          * [ManagementOperationServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ManagementOperationRetrieveParams
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ManagementOperationRetrieveParams,
@@ -87,17 +117,25 @@ interface ManagementOperationServiceAsync {
          * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>> =
+            list(ManagementOperationListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: ManagementOperationListParams = ManagementOperationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
-         * same as [ManagementOperationServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ManagementOperationListParams = ManagementOperationListParams.none()
+        ): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -109,7 +147,13 @@ interface ManagementOperationServiceAsync {
          * /v1/management_operations/{management_operation_token}/reverse`, but is otherwise the
          * same as [ManagementOperationServiceAsync.reverse].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reverse(
+            params: ManagementOperationReverseParams
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            reverse(params, RequestOptions.none())
+
+        /** @see [reverse] */
         @MustBeClosed
         fun reverse(
             params: ManagementOperationReverseParams,
