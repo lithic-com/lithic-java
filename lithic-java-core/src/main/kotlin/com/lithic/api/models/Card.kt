@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Card
@@ -837,7 +838,7 @@ private constructor(
          * card that was replaced.
          */
         fun replacementFor(replacementFor: Optional<String>) =
-            replacementFor(replacementFor.orElse(null))
+            replacementFor(replacementFor.getOrNull())
 
         /**
          * If the card is a replacement for another card, the globally unique identifier for the

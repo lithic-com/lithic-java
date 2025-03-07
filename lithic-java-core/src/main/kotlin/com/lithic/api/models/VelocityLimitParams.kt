@@ -29,6 +29,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class VelocityLimitParams
@@ -209,9 +210,7 @@ private constructor(
          * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
          * declined.
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun limitAmount(limitAmount: Optional<Long>) =
-            limitAmount(limitAmount.orElse(null) as Long?)
+        fun limitAmount(limitAmount: Optional<Long>) = limitAmount(limitAmount.getOrNull())
 
         /**
          * The maximum amount of spend velocity allowed in the period in minor units (the smallest
@@ -242,8 +241,7 @@ private constructor(
          * transaction is a transaction that has been authorized, and optionally settled, or a force
          * post (a transaction that settled without prior authorization).
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun limitCount(limitCount: Optional<Long>) = limitCount(limitCount.orElse(null) as Long?)
+        fun limitCount(limitCount: Optional<Long>) = limitCount(limitCount.getOrNull())
 
         /**
          * The number of spend velocity impacting transactions may not exceed this limit in the
@@ -377,7 +375,7 @@ private constructor(
              * not matching any of the provided will not be included in the calculated velocity.
              */
             fun includeCountries(includeCountries: Optional<List<String>>) =
-                includeCountries(includeCountries.orElse(null))
+                includeCountries(includeCountries.getOrNull())
 
             /**
              * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
@@ -410,7 +408,7 @@ private constructor(
              * matching this MCC will not be included in the calculated velocity.
              */
             fun includeMccs(includeMccs: Optional<List<String>>) =
-                includeMccs(includeMccs.orElse(null))
+                includeMccs(includeMccs.getOrNull())
 
             /**
              * Merchant Category Codes to include in the velocity calculation. Transactions not

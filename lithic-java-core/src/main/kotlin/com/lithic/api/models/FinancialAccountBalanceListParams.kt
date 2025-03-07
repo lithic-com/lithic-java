@@ -11,6 +11,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the balances for a given financial account. */
 class FinancialAccountBalanceListParams
@@ -109,7 +110,7 @@ private constructor(
 
         /** UTC date of the balance to retrieve. Defaults to latest available balance */
         fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
-            balanceDate(balanceDate.orElse(null))
+            balanceDate(balanceDate.getOrNull())
 
         /**
          * Balance after a given financial event occured. For example, passing the event_token of a
@@ -124,7 +125,7 @@ private constructor(
          * $5 CARD_CLEARING financial event will return a balance decreased by $5
          */
         fun lastTransactionEventToken(lastTransactionEventToken: Optional<String>) =
-            lastTransactionEventToken(lastTransactionEventToken.orElse(null))
+            lastTransactionEventToken(lastTransactionEventToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

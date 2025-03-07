@@ -10,6 +10,7 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.http.RetryingHttpClient
 import java.time.Clock
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class ClientOptions
 private constructor(
@@ -102,7 +103,7 @@ private constructor(
         fun webhookSecret(webhookSecret: String?) = apply { this.webhookSecret = webhookSecret }
 
         fun webhookSecret(webhookSecret: Optional<String>) =
-            webhookSecret(webhookSecret.orElse(null))
+            webhookSecret(webhookSecret.getOrNull())
 
         fun headers(headers: Headers) = apply {
             this.headers.clear()

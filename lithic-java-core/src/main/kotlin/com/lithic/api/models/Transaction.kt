@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Transaction
@@ -490,9 +491,7 @@ private constructor(
          * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
          * value to indicate credited fees.
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun acquirerFee(acquirerFee: Optional<Long>) =
-            acquirerFee(acquirerFee.orElse(null) as Long?)
+        fun acquirerFee(acquirerFee: Optional<Long>) = acquirerFee(acquirerFee.getOrNull())
 
         /**
          * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
@@ -515,7 +514,7 @@ private constructor(
          */
         @Deprecated("deprecated")
         fun acquirerReferenceNumber(acquirerReferenceNumber: Optional<String>) =
-            acquirerReferenceNumber(acquirerReferenceNumber.orElse(null))
+            acquirerReferenceNumber(acquirerReferenceNumber.getOrNull())
 
         /**
          * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
@@ -557,9 +556,8 @@ private constructor(
 
         /** The authorization amount of the transaction in the anticipated settlement currency. */
         @Deprecated("deprecated")
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
         fun authorizationAmount(authorizationAmount: Optional<Long>) =
-            authorizationAmount(authorizationAmount.orElse(null) as Long?)
+            authorizationAmount(authorizationAmount.getOrNull())
 
         /** The authorization amount of the transaction in the anticipated settlement currency. */
         @Deprecated("deprecated")
@@ -579,7 +577,7 @@ private constructor(
          * networks.
          */
         fun authorizationCode(authorizationCode: Optional<String>) =
-            authorizationCode(authorizationCode.orElse(null))
+            authorizationCode(authorizationCode.getOrNull())
 
         /**
          * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
@@ -591,7 +589,7 @@ private constructor(
 
         fun avs(avs: Avs?) = avs(JsonField.ofNullable(avs))
 
-        fun avs(avs: Optional<Avs>) = avs(avs.orElse(null))
+        fun avs(avs: Optional<Avs>) = avs(avs.getOrNull())
 
         fun avs(avs: JsonField<Avs>) = apply { this.avs = avs }
 
@@ -605,7 +603,7 @@ private constructor(
             cardholderAuthentication(JsonField.ofNullable(cardholderAuthentication))
 
         fun cardholderAuthentication(cardholderAuthentication: Optional<CardholderAuthentication>) =
-            cardholderAuthentication(cardholderAuthentication.orElse(null))
+            cardholderAuthentication(cardholderAuthentication.getOrNull())
 
         fun cardholderAuthentication(
             cardholderAuthentication: JsonField<CardholderAuthentication>
@@ -632,9 +630,8 @@ private constructor(
 
         /** Analogous to the 'amount', but in the merchant currency. */
         @Deprecated("deprecated")
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
         fun merchantAmount(merchantAmount: Optional<Long>) =
-            merchantAmount(merchantAmount.orElse(null) as Long?)
+            merchantAmount(merchantAmount.getOrNull())
 
         /** Analogous to the 'amount', but in the merchant currency. */
         @Deprecated("deprecated")
@@ -654,9 +651,8 @@ private constructor(
 
         /** Analogous to the 'authorization_amount', but in the merchant currency. */
         @Deprecated("deprecated")
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: Optional<Long>) =
-            merchantAuthorizationAmount(merchantAuthorizationAmount.orElse(null) as Long?)
+            merchantAuthorizationAmount(merchantAuthorizationAmount.getOrNull())
 
         /** Analogous to the 'authorization_amount', but in the merchant currency. */
         @Deprecated("deprecated")
@@ -685,7 +681,7 @@ private constructor(
          * or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the
          * upstream provider.
          */
-        fun network(network: Optional<Network>) = network(network.orElse(null))
+        fun network(network: Optional<Network>) = network(network.getOrNull())
 
         /**
          * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
@@ -717,9 +713,8 @@ private constructor(
          * highest risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will
          * normalize the score by multiplying the raw score by 10x.
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
         fun networkRiskScore(networkRiskScore: Optional<Long>) =
-            networkRiskScore(networkRiskScore.orElse(null) as Long?)
+            networkRiskScore(networkRiskScore.getOrNull())
 
         /**
          * Network-provided score assessing risk level associated with a given authorization. Scores
@@ -757,7 +752,7 @@ private constructor(
 
         fun tokenInfo(tokenInfo: TokenInfo?) = tokenInfo(JsonField.ofNullable(tokenInfo))
 
-        fun tokenInfo(tokenInfo: Optional<TokenInfo>) = tokenInfo(tokenInfo.orElse(null))
+        fun tokenInfo(tokenInfo: Optional<TokenInfo>) = tokenInfo(tokenInfo.getOrNull())
 
         fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
 
@@ -1983,7 +1978,7 @@ private constructor(
             fun _3dsVersion(_3dsVersion: String?) = _3dsVersion(JsonField.ofNullable(_3dsVersion))
 
             /** The 3DS version used for the authentication */
-            fun _3dsVersion(_3dsVersion: Optional<String>) = _3dsVersion(_3dsVersion.orElse(null))
+            fun _3dsVersion(_3dsVersion: Optional<String>) = _3dsVersion(_3dsVersion.getOrNull())
 
             /** The 3DS version used for the authentication */
             fun _3dsVersion(_3dsVersion: JsonField<String>) = apply {
@@ -2061,7 +2056,7 @@ private constructor(
              * on a best-effort basis.
              */
             fun threeDSAuthenticationToken(threeDSAuthenticationToken: Optional<String>) =
-                threeDSAuthenticationToken(threeDSAuthenticationToken.orElse(null))
+                threeDSAuthenticationToken(threeDSAuthenticationToken.getOrNull())
 
             /**
              * Unique identifier you can use to match a given 3DS authentication (available via the
@@ -5707,7 +5702,7 @@ private constructor(
              * and how to use them.
              */
             fun networkInfo(networkInfo: Optional<NetworkInfo>) =
-                networkInfo(networkInfo.orElse(null))
+                networkInfo(networkInfo.getOrNull())
 
             /**
              * Information provided by the card network in each event. This includes common
@@ -5884,7 +5879,7 @@ private constructor(
                     settlement(JsonField.ofNullable(settlement))
 
                 fun settlement(settlement: Optional<Settlement>) =
-                    settlement(settlement.orElse(null))
+                    settlement(settlement.getOrNull())
 
                 fun settlement(settlement: JsonField<Settlement>) = apply {
                     this.settlement = settlement
@@ -7103,7 +7098,7 @@ private constructor(
 
                 fun acquirer(acquirer: Acquirer?) = acquirer(JsonField.ofNullable(acquirer))
 
-                fun acquirer(acquirer: Optional<Acquirer>) = acquirer(acquirer.orElse(null))
+                fun acquirer(acquirer: Optional<Acquirer>) = acquirer(acquirer.getOrNull())
 
                 fun acquirer(acquirer: JsonField<Acquirer>) = apply { this.acquirer = acquirer }
 
@@ -7111,7 +7106,7 @@ private constructor(
                     mastercard(JsonField.ofNullable(mastercard))
 
                 fun mastercard(mastercard: Optional<Mastercard>) =
-                    mastercard(mastercard.orElse(null))
+                    mastercard(mastercard.getOrNull())
 
                 fun mastercard(mastercard: JsonField<Mastercard>) = apply {
                     this.mastercard = mastercard
@@ -7119,7 +7114,7 @@ private constructor(
 
                 fun visa(visa: Visa?) = visa(JsonField.ofNullable(visa))
 
-                fun visa(visa: Optional<Visa>) = visa(visa.orElse(null))
+                fun visa(visa: Optional<Visa>) = visa(visa.getOrNull())
 
                 fun visa(visa: JsonField<Visa>) = apply { this.visa = visa }
 
@@ -7266,7 +7261,7 @@ private constructor(
                      * contain multiple ARNs if the merchant sends multiple clearings.
                      */
                     fun acquirerReferenceNumber(acquirerReferenceNumber: Optional<String>) =
-                        acquirerReferenceNumber(acquirerReferenceNumber.orElse(null))
+                        acquirerReferenceNumber(acquirerReferenceNumber.getOrNull())
 
                     /**
                      * Identifier assigned by the acquirer, applicable to dual-message transactions
@@ -7286,7 +7281,7 @@ private constructor(
 
                     /** Identifier assigned by the acquirer. */
                     fun retrievalReferenceNumber(retrievalReferenceNumber: Optional<String>) =
-                        retrievalReferenceNumber(retrievalReferenceNumber.orElse(null))
+                        retrievalReferenceNumber(retrievalReferenceNumber.getOrNull())
 
                     /** Identifier assigned by the acquirer. */
                     fun retrievalReferenceNumber(retrievalReferenceNumber: JsonField<String>) =
@@ -7517,7 +7512,7 @@ private constructor(
                      * any transaction within a specific financial network on any processing day.
                      */
                     fun banknetReferenceNumber(banknetReferenceNumber: Optional<String>) =
-                        banknetReferenceNumber(banknetReferenceNumber.orElse(null))
+                        banknetReferenceNumber(banknetReferenceNumber.getOrNull())
 
                     /**
                      * Identifier assigned by Mastercard. Guaranteed by Mastercard to be unique for
@@ -7560,7 +7555,7 @@ private constructor(
                      */
                     fun originalBanknetReferenceNumber(
                         originalBanknetReferenceNumber: Optional<String>
-                    ) = originalBanknetReferenceNumber(originalBanknetReferenceNumber.orElse(null))
+                    ) = originalBanknetReferenceNumber(originalBanknetReferenceNumber.getOrNull())
 
                     /**
                      * Identifier assigned by Mastercard. Matches the `banknet_reference_number` of
@@ -7595,7 +7590,7 @@ private constructor(
                      * Applicable to single-message transactions only.
                      */
                     fun originalSwitchSerialNumber(originalSwitchSerialNumber: Optional<String>) =
-                        originalSwitchSerialNumber(originalSwitchSerialNumber.orElse(null))
+                        originalSwitchSerialNumber(originalSwitchSerialNumber.getOrNull())
 
                     /**
                      * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a
@@ -7619,7 +7614,7 @@ private constructor(
                      * only.
                      */
                     fun switchSerialNumber(switchSerialNumber: Optional<String>) =
-                        switchSerialNumber(switchSerialNumber.orElse(null))
+                        switchSerialNumber(switchSerialNumber.getOrNull())
 
                     /**
                      * Identifier assigned by Mastercard, applicable to single-message transactions
@@ -7796,7 +7791,7 @@ private constructor(
                      * financial authorizations, and clearings.
                      */
                     fun originalTransactionId(originalTransactionId: Optional<String>) =
-                        originalTransactionId(originalTransactionId.orElse(null))
+                        originalTransactionId(originalTransactionId.getOrNull())
 
                     /**
                      * Identifier assigned by Visa. Matches the `transaction_id` of a prior related
@@ -7822,7 +7817,7 @@ private constructor(
                      * authorization.
                      */
                     fun transactionId(transactionId: Optional<String>) =
-                        transactionId(transactionId.orElse(null))
+                        transactionId(transactionId.getOrNull())
 
                     /**
                      * Identifier assigned by Visa to link original messages to subsequent messages.
@@ -8261,7 +8256,7 @@ private constructor(
                  * declined due to a Lithic-configured security or compliance rule, for example.
                  */
                 fun authRuleToken(authRuleToken: Optional<String>) =
-                    authRuleToken(authRuleToken.orElse(null))
+                    authRuleToken(authRuleToken.getOrNull())
 
                 /**
                  * The Auth Rule Token associated with the rule from which the decline originated.
@@ -8279,7 +8274,7 @@ private constructor(
 
                 /** A human-readable explanation outlining the motivation for the rule's decline. */
                 fun explanation(explanation: Optional<String>) =
-                    explanation(explanation.orElse(null))
+                    explanation(explanation.getOrNull())
 
                 /** A human-readable explanation outlining the motivation for the rule's decline. */
                 fun explanation(explanation: JsonField<String>) = apply {
@@ -8290,7 +8285,7 @@ private constructor(
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
                 /** The name for the rule, if any was configured. */
-                fun name(name: Optional<String>) = name(name.orElse(null))
+                fun name(name: Optional<String>) = name(name.getOrNull())
 
                 /** The name for the rule, if any was configured. */
                 fun name(name: JsonField<String>) = apply { this.name = name }

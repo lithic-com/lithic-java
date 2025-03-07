@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Dispute. */
 @NoAutoDetect
@@ -471,7 +472,7 @@ private constructor(
 
         /** Date dispute entered arbitration. */
         fun arbitrationDate(arbitrationDate: Optional<OffsetDateTime>) =
-            arbitrationDate(arbitrationDate.orElse(null))
+            arbitrationDate(arbitrationDate.getOrNull())
 
         /** Date dispute entered arbitration. */
         fun arbitrationDate(arbitrationDate: JsonField<OffsetDateTime>) = apply {
@@ -490,7 +491,7 @@ private constructor(
 
         /** Date that the dispute was filed by the customer making the dispute. */
         fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
-            customerFiledDate(customerFiledDate.orElse(null))
+            customerFiledDate(customerFiledDate.getOrNull())
 
         /** Date that the dispute was filed by the customer making the dispute. */
         fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
@@ -501,7 +502,7 @@ private constructor(
         fun customerNote(customerNote: String?) = customerNote(JsonField.ofNullable(customerNote))
 
         /** End customer description of the reason for the dispute. */
-        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.orElse(null))
+        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.getOrNull())
 
         /** End customer description of the reason for the dispute. */
         fun customerNote(customerNote: JsonField<String>) = apply {
@@ -514,7 +515,7 @@ private constructor(
 
         /** Unique identifiers for the dispute from the network. */
         fun networkClaimIds(networkClaimIds: Optional<List<String>>) =
-            networkClaimIds(networkClaimIds.orElse(null))
+            networkClaimIds(networkClaimIds.getOrNull())
 
         /** Unique identifiers for the dispute from the network. */
         fun networkClaimIds(networkClaimIds: JsonField<List<String>>) = apply {
@@ -535,7 +536,7 @@ private constructor(
 
         /** Date that the dispute was submitted to the network. */
         fun networkFiledDate(networkFiledDate: Optional<OffsetDateTime>) =
-            networkFiledDate(networkFiledDate.orElse(null))
+            networkFiledDate(networkFiledDate.getOrNull())
 
         /** Date that the dispute was submitted to the network. */
         fun networkFiledDate(networkFiledDate: JsonField<OffsetDateTime>) = apply {
@@ -548,7 +549,7 @@ private constructor(
 
         /** Network reason code used to file the dispute. */
         fun networkReasonCode(networkReasonCode: Optional<String>) =
-            networkReasonCode(networkReasonCode.orElse(null))
+            networkReasonCode(networkReasonCode.getOrNull())
 
         /** Network reason code used to file the dispute. */
         fun networkReasonCode(networkReasonCode: JsonField<String>) = apply {
@@ -561,7 +562,7 @@ private constructor(
 
         /** Date dispute entered pre-arbitration. */
         fun prearbitrationDate(prearbitrationDate: Optional<OffsetDateTime>) =
-            prearbitrationDate(prearbitrationDate.orElse(null))
+            prearbitrationDate(prearbitrationDate.getOrNull())
 
         /** Date dispute entered pre-arbitration. */
         fun prearbitrationDate(prearbitrationDate: JsonField<OffsetDateTime>) = apply {
@@ -580,7 +581,7 @@ private constructor(
          * the first claim id set by the network
          */
         fun primaryClaimId(primaryClaimId: Optional<String>) =
-            primaryClaimId(primaryClaimId.orElse(null))
+            primaryClaimId(primaryClaimId.getOrNull())
 
         /**
          * Unique identifier for the dispute from the network. If there are multiple, this will be
@@ -636,7 +637,7 @@ private constructor(
 
         /** Date the representment was received. */
         fun representmentDate(representmentDate: Optional<OffsetDateTime>) =
-            representmentDate(representmentDate.orElse(null))
+            representmentDate(representmentDate.getOrNull())
 
         /** Date the representment was received. */
         fun representmentDate(representmentDate: JsonField<OffsetDateTime>) = apply {
@@ -651,9 +652,8 @@ private constructor(
         fun resolutionAmount(resolutionAmount: Long) = resolutionAmount(resolutionAmount as Long?)
 
         /** Resolution amount net of network fees. */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
         fun resolutionAmount(resolutionAmount: Optional<Long>) =
-            resolutionAmount(resolutionAmount.orElse(null) as Long?)
+            resolutionAmount(resolutionAmount.getOrNull())
 
         /** Resolution amount net of network fees. */
         fun resolutionAmount(resolutionAmount: JsonField<Long>) = apply {
@@ -666,7 +666,7 @@ private constructor(
 
         /** Date that the dispute was resolved. */
         fun resolutionDate(resolutionDate: Optional<OffsetDateTime>) =
-            resolutionDate(resolutionDate.orElse(null))
+            resolutionDate(resolutionDate.getOrNull())
 
         /** Date that the dispute was resolved. */
         fun resolutionDate(resolutionDate: JsonField<OffsetDateTime>) = apply {
@@ -679,7 +679,7 @@ private constructor(
 
         /** Note by Dispute team on the case resolution. */
         fun resolutionNote(resolutionNote: Optional<String>) =
-            resolutionNote(resolutionNote.orElse(null))
+            resolutionNote(resolutionNote.getOrNull())
 
         /** Note by Dispute team on the case resolution. */
         fun resolutionNote(resolutionNote: JsonField<String>) = apply {
@@ -730,7 +730,7 @@ private constructor(
          * - `WON_PREARBITRATION`: Won prearbitration.
          */
         fun resolutionReason(resolutionReason: Optional<ResolutionReason>) =
-            resolutionReason(resolutionReason.orElse(null))
+            resolutionReason(resolutionReason.getOrNull())
 
         /**
          * Reason for the dispute resolution:

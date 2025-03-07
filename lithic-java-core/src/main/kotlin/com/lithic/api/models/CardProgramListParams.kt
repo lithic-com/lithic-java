@@ -8,6 +8,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List card programs. */
 class CardProgramListParams
@@ -88,7 +89,7 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -97,8 +98,7 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Page size (for pagination). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -111,7 +111,7 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

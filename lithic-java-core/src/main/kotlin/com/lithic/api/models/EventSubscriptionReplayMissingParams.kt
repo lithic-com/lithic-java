@@ -13,6 +13,7 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Replays messages to the endpoint. Only messages that were created after `begin` will be sent.
@@ -130,7 +131,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -142,7 +143,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
