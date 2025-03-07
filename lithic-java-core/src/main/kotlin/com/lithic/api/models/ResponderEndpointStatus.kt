@@ -15,6 +15,7 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class ResponderEndpointStatus
@@ -87,7 +88,7 @@ private constructor(
         fun url(url: String?) = url(JsonField.ofNullable(url))
 
         /** The URL of the currently enrolled endpoint or null. */
-        fun url(url: Optional<String>) = url(url.orElse(null))
+        fun url(url: Optional<String>) = url(url.getOrNull())
 
         /** The URL of the currently enrolled endpoint or null. */
         fun url(url: JsonField<String>) = apply { this.url = url }

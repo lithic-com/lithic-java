@@ -12,6 +12,7 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the aggregated balance across all end-user accounts by financial account type */
 class AggregateBalanceListParams
@@ -74,7 +75,7 @@ private constructor(
 
         /** Get the aggregate balance for a given Financial Account type. */
         fun financialAccountType(financialAccountType: Optional<FinancialAccountType>) =
-            financialAccountType(financialAccountType.orElse(null))
+            financialAccountType(financialAccountType.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

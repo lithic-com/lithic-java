@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Statement
@@ -502,7 +503,7 @@ private constructor(
             interestDetails(JsonField.ofNullable(interestDetails))
 
         fun interestDetails(interestDetails: Optional<InterestDetails>) =
-            interestDetails(interestDetails.orElse(null))
+            interestDetails(interestDetails.getOrNull())
 
         fun interestDetails(interestDetails: JsonField<InterestDetails>) = apply {
             this.interestDetails = interestDetails
@@ -1583,9 +1584,8 @@ private constructor(
             fun actualInterestCharged(actualInterestCharged: Long) =
                 actualInterestCharged(actualInterestCharged as Long?)
 
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
             fun actualInterestCharged(actualInterestCharged: Optional<Long>) =
-                actualInterestCharged(actualInterestCharged.orElse(null) as Long?)
+                actualInterestCharged(actualInterestCharged.getOrNull())
 
             fun actualInterestCharged(actualInterestCharged: JsonField<Long>) = apply {
                 this.actualInterestCharged = actualInterestCharged
@@ -1621,7 +1621,7 @@ private constructor(
 
             fun primeRate(primeRate: String?) = primeRate(JsonField.ofNullable(primeRate))
 
-            fun primeRate(primeRate: Optional<String>) = primeRate(primeRate.orElse(null))
+            fun primeRate(primeRate: Optional<String>) = primeRate(primeRate.getOrNull())
 
             fun primeRate(primeRate: JsonField<String>) = apply { this.primeRate = primeRate }
 
@@ -1631,9 +1631,8 @@ private constructor(
             fun minimumInterestCharged(minimumInterestCharged: Long) =
                 minimumInterestCharged(minimumInterestCharged as Long?)
 
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
             fun minimumInterestCharged(minimumInterestCharged: Optional<Long>) =
-                minimumInterestCharged(minimumInterestCharged.orElse(null) as Long?)
+                minimumInterestCharged(minimumInterestCharged.getOrNull())
 
             fun minimumInterestCharged(minimumInterestCharged: JsonField<Long>) = apply {
                 this.minimumInterestCharged = minimumInterestCharged

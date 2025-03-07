@@ -18,6 +18,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class FinancialAccountCreditConfig
@@ -190,7 +191,7 @@ private constructor(
 
         /** Reason for the financial account being marked as Charged Off */
         fun chargedOffReason(chargedOffReason: Optional<ChargedOffReason>) =
-            chargedOffReason(chargedOffReason.orElse(null))
+            chargedOffReason(chargedOffReason.getOrNull())
 
         /** Reason for the financial account being marked as Charged Off */
         fun chargedOffReason(chargedOffReason: JsonField<ChargedOffReason>) = apply {
@@ -201,9 +202,7 @@ private constructor(
 
         fun creditLimit(creditLimit: Long) = creditLimit(creditLimit as Long?)
 
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun creditLimit(creditLimit: Optional<Long>) =
-            creditLimit(creditLimit.orElse(null) as Long?)
+        fun creditLimit(creditLimit: Optional<Long>) = creditLimit(creditLimit.getOrNull())
 
         fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
@@ -213,7 +212,7 @@ private constructor(
 
         /** Globally unique identifier for the credit product */
         fun creditProductToken(creditProductToken: Optional<String>) =
-            creditProductToken(creditProductToken.orElse(null))
+            creditProductToken(creditProductToken.getOrNull())
 
         /** Globally unique identifier for the credit product */
         fun creditProductToken(creditProductToken: JsonField<String>) = apply {
@@ -224,7 +223,7 @@ private constructor(
             externalBankAccountToken(JsonField.ofNullable(externalBankAccountToken))
 
         fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
-            externalBankAccountToken(externalBankAccountToken.orElse(null))
+            externalBankAccountToken(externalBankAccountToken.getOrNull())
 
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             this.externalBankAccountToken = externalBankAccountToken
@@ -249,7 +248,7 @@ private constructor(
         fun tier(tier: String?) = tier(JsonField.ofNullable(tier))
 
         /** Tier assigned to the financial account */
-        fun tier(tier: Optional<String>) = tier(tier.orElse(null))
+        fun tier(tier: Optional<String>) = tier(tier.getOrNull())
 
         /** Tier assigned to the financial account */
         fun tier(tier: JsonField<String>) = apply { this.tier = tier }

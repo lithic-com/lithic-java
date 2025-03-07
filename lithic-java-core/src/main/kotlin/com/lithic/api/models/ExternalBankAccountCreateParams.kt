@@ -1977,7 +1977,7 @@ private constructor(
 
         fun body(body: Body?) = apply { this.body = body }
 
-        fun body(body: Optional<Body>) = body(body.orElse(null))
+        fun body(body: Optional<Body>) = body(body.getOrNull())
 
         fun body(
             bankVerifiedCreateBankAccountApiRequest: Body.BankVerifiedCreateBankAccountApiRequest

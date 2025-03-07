@@ -13,6 +13,7 @@ import java.net.Proxy
 import java.time.Clock
 import java.time.Duration
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class LithicOkHttpClient private constructor() {
 
@@ -152,7 +153,7 @@ class LithicOkHttpClient private constructor() {
         }
 
         fun webhookSecret(webhookSecret: Optional<String>) =
-            webhookSecret(webhookSecret.orElse(null))
+            webhookSecret(webhookSecret.getOrNull())
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 

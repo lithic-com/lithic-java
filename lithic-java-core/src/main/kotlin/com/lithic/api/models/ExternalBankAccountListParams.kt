@@ -13,6 +13,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** List all the external bank accounts for the provided search criteria. */
 class ExternalBankAccountListParams
@@ -133,14 +134,14 @@ private constructor(
 
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         fun accountTypes(accountTypes: List<AccountType>?) = apply {
             this.accountTypes = accountTypes?.toMutableList()
         }
 
         fun accountTypes(accountTypes: Optional<List<AccountType>>) =
-            accountTypes(accountTypes.orElse(null))
+            accountTypes(accountTypes.getOrNull())
 
         fun addAccountType(accountType: AccountType) = apply {
             accountTypes = (accountTypes ?: mutableListOf()).apply { add(accountType) }
@@ -150,7 +151,7 @@ private constructor(
             this.countries = countries?.toMutableList()
         }
 
-        fun countries(countries: Optional<List<String>>) = countries(countries.orElse(null))
+        fun countries(countries: Optional<List<String>>) = countries(countries.getOrNull())
 
         fun addCountry(country: String) = apply {
             countries = (countries ?: mutableListOf()).apply { add(country) }
@@ -166,13 +167,13 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         fun ownerTypes(ownerTypes: List<OwnerType>?) = apply {
             this.ownerTypes = ownerTypes?.toMutableList()
         }
 
-        fun ownerTypes(ownerTypes: Optional<List<OwnerType>>) = ownerTypes(ownerTypes.orElse(null))
+        fun ownerTypes(ownerTypes: Optional<List<OwnerType>>) = ownerTypes(ownerTypes.getOrNull())
 
         fun addOwnerType(ownerType: OwnerType) = apply {
             ownerTypes = (ownerTypes ?: mutableListOf()).apply { add(ownerType) }
@@ -185,8 +186,7 @@ private constructor(
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
         /** Page size (for pagination). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -199,11 +199,11 @@ private constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: Optional<String>) =
-            startingAfter(startingAfter.orElse(null))
+            startingAfter(startingAfter.getOrNull())
 
         fun states(states: List<AccountState>?) = apply { this.states = states?.toMutableList() }
 
-        fun states(states: Optional<List<AccountState>>) = states(states.orElse(null))
+        fun states(states: Optional<List<AccountState>>) = states(states.getOrNull())
 
         fun addState(state: AccountState) = apply {
             states = (states ?: mutableListOf()).apply { add(state) }
@@ -214,7 +214,7 @@ private constructor(
         }
 
         fun verificationStates(verificationStates: Optional<List<VerificationState>>) =
-            verificationStates(verificationStates.orElse(null))
+            verificationStates(verificationStates.getOrNull())
 
         fun addVerificationState(verificationState: VerificationState) = apply {
             verificationStates =

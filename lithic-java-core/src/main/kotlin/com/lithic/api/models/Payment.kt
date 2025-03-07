@@ -20,6 +20,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @NoAutoDetect
 class Payment
@@ -388,7 +389,7 @@ private constructor(
             externalBankAccountToken(JsonField.ofNullable(externalBankAccountToken))
 
         fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
-            externalBankAccountToken(externalBankAccountToken.orElse(null))
+            externalBankAccountToken(externalBankAccountToken.getOrNull())
 
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             this.externalBankAccountToken = externalBankAccountToken
@@ -486,7 +487,7 @@ private constructor(
             userDefinedId(JsonField.ofNullable(userDefinedId))
 
         fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+            userDefinedId(userDefinedId.getOrNull())
 
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
@@ -1683,7 +1684,7 @@ private constructor(
 
             fun companyId(companyId: String?) = companyId(JsonField.ofNullable(companyId))
 
-            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
+            fun companyId(companyId: Optional<String>) = companyId(companyId.getOrNull())
 
             fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
@@ -1691,7 +1692,7 @@ private constructor(
                 receiptRoutingNumber(JsonField.ofNullable(receiptRoutingNumber))
 
             fun receiptRoutingNumber(receiptRoutingNumber: Optional<String>) =
-                receiptRoutingNumber(receiptRoutingNumber.orElse(null))
+                receiptRoutingNumber(receiptRoutingNumber.getOrNull())
 
             fun receiptRoutingNumber(receiptRoutingNumber: JsonField<String>) = apply {
                 this.receiptRoutingNumber = receiptRoutingNumber
@@ -1701,8 +1702,7 @@ private constructor(
 
             fun retries(retries: Long) = retries(retries as Long?)
 
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun retries(retries: Optional<Long>) = retries(retries.orElse(null) as Long?)
+            fun retries(retries: Optional<Long>) = retries(retries.getOrNull())
 
             fun retries(retries: JsonField<Long>) = apply { this.retries = retries }
 
@@ -1710,7 +1710,7 @@ private constructor(
                 returnReasonCode(JsonField.ofNullable(returnReasonCode))
 
             fun returnReasonCode(returnReasonCode: Optional<String>) =
-                returnReasonCode(returnReasonCode.orElse(null))
+                returnReasonCode(returnReasonCode.getOrNull())
 
             fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
                 this.returnReasonCode = returnReasonCode
