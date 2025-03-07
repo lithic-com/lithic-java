@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.creditProducts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -18,7 +16,10 @@ interface ExtendedCreditService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the extended credit for a given credit product under a program */
-    @JvmOverloads
+    fun retrieve(params: CreditProductExtendedCreditRetrieveParams): ExtendedCredit =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -34,7 +35,12 @@ interface ExtendedCreditService {
          * /v1/credit_products/{credit_product_token}/extended_credit`, but is otherwise the same as
          * [ExtendedCreditService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: CreditProductExtendedCreditRetrieveParams
+        ): HttpResponseFor<ExtendedCredit> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams,

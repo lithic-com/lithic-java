@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -26,25 +24,39 @@ interface EventServiceAsync {
     fun subscriptions(): SubscriptionServiceAsync
 
     /** Get an event. */
-    @JvmOverloads
+    fun retrieve(params: EventRetrieveParams): CompletableFuture<Event> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: EventRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Event>
 
     /** List all events. */
-    @JvmOverloads
+    fun list(): CompletableFuture<EventListPageAsync> = list(EventListParams.none())
+
+    /** @see [list] */
     fun list(
         params: EventListParams = EventListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventListPageAsync>
 
-    /** List all events. */
+    /** @see [list] */
+    fun list(
+        params: EventListParams = EventListParams.none()
+    ): CompletableFuture<EventListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<EventListPageAsync> =
         list(EventListParams.none(), requestOptions)
 
     /** List all the message attempts for a given event. */
-    @JvmOverloads
+    fun listAttempts(
+        params: EventListAttemptsParams
+    ): CompletableFuture<EventListAttemptsPageAsync> = listAttempts(params, RequestOptions.none())
+
+    /** @see [listAttempts] */
     fun listAttempts(
         params: EventListAttemptsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -59,7 +71,11 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events/{event_token}`, but is otherwise the same
          * as [EventServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: EventRetrieveParams): CompletableFuture<HttpResponseFor<Event>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: EventRetrieveParams,
@@ -70,17 +86,25 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events`, but is otherwise the same as
          * [EventServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
+            list(EventListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: EventListParams = EventListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/events`, but is otherwise the same as
-         * [EventServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: EventListParams = EventListParams.none()
+        ): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -91,7 +115,13 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events/{event_token}/attempts`, but is otherwise
          * the same as [EventServiceAsync.listAttempts].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun listAttempts(
+            params: EventListAttemptsParams
+        ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
+            listAttempts(params, RequestOptions.none())
+
+        /** @see [listAttempts] */
         @MustBeClosed
         fun listAttempts(
             params: EventListAttemptsParams,

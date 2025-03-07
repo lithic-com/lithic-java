@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -24,7 +22,10 @@ interface AccountServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get account configuration such as spend limits. */
-    @JvmOverloads
+    fun retrieve(params: AccountRetrieveParams): CompletableFuture<Account> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -35,20 +36,30 @@ interface AccountServiceAsync {
      * are part of the program managed by this API key. Accounts that are in the `PAUSED` state will
      * not be able to transact or create new cards.
      */
-    @JvmOverloads
+    fun update(params: AccountUpdateParams): CompletableFuture<Account> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: AccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
     /** List account configurations. */
-    @JvmOverloads
+    fun list(): CompletableFuture<AccountListPageAsync> = list(AccountListParams.none())
+
+    /** @see [list] */
     fun list(
         params: AccountListParams = AccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountListPageAsync>
 
-    /** List account configurations. */
+    /** @see [list] */
+    fun list(
+        params: AccountListParams = AccountListParams.none()
+    ): CompletableFuture<AccountListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<AccountListPageAsync> =
         list(AccountListParams.none(), requestOptions)
 
@@ -58,7 +69,11 @@ interface AccountServiceAsync {
      * Account has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours,
      * the available spend limit returned would be $400.
      */
-    @JvmOverloads
+    fun retrieveSpendLimits(
+        params: AccountRetrieveSpendLimitsParams
+    ): CompletableFuture<AccountSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -73,7 +88,11 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/accounts/{account_token}`, but is otherwise the
          * same as [AccountServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: AccountRetrieveParams,
@@ -84,7 +103,11 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `patch /v1/accounts/{account_token}`, but is otherwise
          * the same as [AccountServiceAsync.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: AccountUpdateParams): CompletableFuture<HttpResponseFor<Account>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: AccountUpdateParams,
@@ -95,17 +118,25 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/accounts`, but is otherwise the same as
          * [AccountServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<AccountListPageAsync>> =
+            list(AccountListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: AccountListParams = AccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/accounts`, but is otherwise the same as
-         * [AccountServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: AccountListParams = AccountListParams.none()
+        ): CompletableFuture<HttpResponseFor<AccountListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -116,7 +147,13 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/accounts/{account_token}/spend_limits`, but is
          * otherwise the same as [AccountServiceAsync.retrieveSpendLimits].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: AccountRetrieveSpendLimitsParams
+        ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
+            retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
         @MustBeClosed
         fun retrieveSpendLimits(
             params: AccountRetrieveSpendLimitsParams,

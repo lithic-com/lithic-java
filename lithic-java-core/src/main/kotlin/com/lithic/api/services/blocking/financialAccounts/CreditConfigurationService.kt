@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,14 +17,22 @@ interface CreditConfigurationService {
     fun withRawResponse(): WithRawResponse
 
     /** Get an Account's credit configuration */
-    @JvmOverloads
+    fun retrieve(
+        params: FinancialAccountCreditConfigurationRetrieveParams
+    ): FinancialAccountCreditConfig = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountCreditConfigurationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountCreditConfig
 
     /** Update an account's credit configuration */
-    @JvmOverloads
+    fun update(
+        params: FinancialAccountCreditConfigurationUpdateParams
+    ): FinancialAccountCreditConfig = update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: FinancialAccountCreditConfigurationUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -43,7 +49,12 @@ interface CreditConfigurationService {
          * /v1/financial_accounts/{financial_account_token}/credit_configuration`, but is otherwise
          * the same as [CreditConfigurationService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: FinancialAccountCreditConfigurationRetrieveParams
+        ): HttpResponseFor<FinancialAccountCreditConfig> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams,
@@ -55,7 +66,12 @@ interface CreditConfigurationService {
          * /v1/financial_accounts/{financial_account_token}/credit_configuration`, but is otherwise
          * the same as [CreditConfigurationService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(
+            params: FinancialAccountCreditConfigurationUpdateParams
+        ): HttpResponseFor<FinancialAccountCreditConfig> = update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams,

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -43,14 +41,18 @@ interface CardService {
      * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only
      * apply to physical cards.
      */
-    @JvmOverloads
+    fun create(params: CardCreateParams): Card = create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: CardCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /** Get card configuration such as spend limit and state. */
-    @JvmOverloads
+    fun retrieve(params: CardRetrieveParams): Card = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: CardRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -61,20 +63,28 @@ interface CardService {
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
-    @JvmOverloads
+    fun update(params: CardUpdateParams): Card = update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: CardUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
     /** List cards. */
-    @JvmOverloads
+    fun list(): CardListPage = list(CardListParams.none())
+
+    /** @see [list] */
     fun list(
         params: CardListParams = CardListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardListPage
 
-    /** List cards. */
+    /** @see [list] */
+    fun list(params: CardListParams = CardListParams.none()): CardListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CardListPage =
         list(CardListParams.none(), requestOptions)
 
@@ -88,7 +98,10 @@ interface CardService {
      * be in an `OPEN` state to be converted. Only applies to cards of type `VIRTUAL` (or existing
      * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
-    @JvmOverloads
+    fun convertPhysical(params: CardConvertPhysicalParams): Card =
+        convertPhysical(params, RequestOptions.none())
+
+    /** @see [convertPhysical] */
     fun convertPhysical(
         params: CardConvertPhysicalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -120,7 +133,9 @@ interface CardService {
      * iframe) on the server or make an ajax call from your front end code, but **do not ever embed
      * your API key into front end code, as doing so introduces a serious security vulnerability**.
      */
-    @JvmOverloads
+    fun embed(params: CardEmbedParams): String = embed(params, RequestOptions.none())
+
+    /** @see [embed] */
     fun embed(
         params: CardEmbedParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -134,7 +149,10 @@ interface CardService {
      * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
      * information.
      */
-    @JvmOverloads
+    fun provision(params: CardProvisionParams): CardProvisionResponse =
+        provision(params, RequestOptions.none())
+
+    /** @see [provision] */
     fun provision(
         params: CardProvisionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -146,7 +164,9 @@ interface CardService {
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
      * replaced or renewed a total of 8 times.
      */
-    @JvmOverloads
+    fun reissue(params: CardReissueParams): Card = reissue(params, RequestOptions.none())
+
+    /** @see [reissue] */
     fun reissue(
         params: CardReissueParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -159,7 +179,9 @@ interface CardService {
      * also keep working until the new card is activated. Applies to card types `PHYSICAL` and
      * `VIRTUAL`. A card can be replaced or renewed a total of 8 times.
      */
-    @JvmOverloads
+    fun renew(params: CardRenewParams): Card = renew(params, RequestOptions.none())
+
+    /** @see [renew] */
     fun renew(params: CardRenewParams, requestOptions: RequestOptions = RequestOptions.none()): Card
 
     /**
@@ -168,7 +190,10 @@ interface CardService {
      * monthly spend limit of $1000 configured, and has spent $600 in the last month, the available
      * spend limit returned would be $400.
      */
-    @JvmOverloads
+    fun retrieveSpendLimits(params: CardRetrieveSpendLimitsParams): CardSpendLimits =
+        retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -180,7 +205,10 @@ interface CardService {
      * _Note: this is a `POST` endpoint because it is more secure to send sensitive data in a
      * request body than in a URL._
      */
-    @JvmOverloads
+    fun searchByPan(params: CardSearchByPanParams): Card =
+        searchByPan(params, RequestOptions.none())
+
+    /** @see [searchByPan] */
     fun searchByPan(
         params: CardSearchByPanParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -199,7 +227,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards`, but is otherwise the same as
          * [CardService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: CardCreateParams): HttpResponseFor<Card> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: CardCreateParams,
@@ -210,7 +242,11 @@ interface CardService {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}`, but is otherwise the same
          * as [CardService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: CardRetrieveParams): HttpResponseFor<Card> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CardRetrieveParams,
@@ -221,7 +257,11 @@ interface CardService {
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
          * as [CardService.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: CardUpdateParams): HttpResponseFor<Card> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: CardUpdateParams,
@@ -232,17 +272,21 @@ interface CardService {
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
          * [CardService.list].
          */
-        @JvmOverloads
+        @MustBeClosed fun list(): HttpResponseFor<CardListPage> = list(CardListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardListParams = CardListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
-         * [CardService.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(params: CardListParams = CardListParams.none()): HttpResponseFor<CardListPage> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardListPage> =
             list(CardListParams.none(), requestOptions)
@@ -251,7 +295,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
          * otherwise the same as [CardService.convertPhysical].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun convertPhysical(params: CardConvertPhysicalParams): HttpResponseFor<Card> =
+            convertPhysical(params, RequestOptions.none())
+
+        /** @see [convertPhysical] */
         @MustBeClosed
         fun convertPhysical(
             params: CardConvertPhysicalParams,
@@ -262,7 +310,11 @@ interface CardService {
          * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
          * [CardService.embed].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun embed(params: CardEmbedParams): HttpResponseFor<String> =
+            embed(params, RequestOptions.none())
+
+        /** @see [embed] */
         @MustBeClosed
         fun embed(
             params: CardEmbedParams,
@@ -273,7 +325,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/provision`, but is otherwise
          * the same as [CardService.provision].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun provision(params: CardProvisionParams): HttpResponseFor<CardProvisionResponse> =
+            provision(params, RequestOptions.none())
+
+        /** @see [provision] */
         @MustBeClosed
         fun provision(
             params: CardProvisionParams,
@@ -284,7 +340,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
          * the same as [CardService.reissue].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun reissue(params: CardReissueParams): HttpResponseFor<Card> =
+            reissue(params, RequestOptions.none())
+
+        /** @see [reissue] */
         @MustBeClosed
         fun reissue(
             params: CardReissueParams,
@@ -295,7 +355,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
          * same as [CardService.renew].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun renew(params: CardRenewParams): HttpResponseFor<Card> =
+            renew(params, RequestOptions.none())
+
+        /** @see [renew] */
         @MustBeClosed
         fun renew(
             params: CardRenewParams,
@@ -306,7 +370,12 @@ interface CardService {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
          * otherwise the same as [CardService.retrieveSpendLimits].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams
+        ): HttpResponseFor<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
         @MustBeClosed
         fun retrieveSpendLimits(
             params: CardRetrieveSpendLimitsParams,
@@ -317,7 +386,11 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
          * as [CardService.searchByPan].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun searchByPan(params: CardSearchByPanParams): HttpResponseFor<Card> =
+            searchByPan(params, RequestOptions.none())
+
+        /** @see [searchByPan] */
         @MustBeClosed
         fun searchByPan(
             params: CardSearchByPanParams,
