@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.client
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -34,6 +32,7 @@ import com.lithic.api.services.blocking.TokenizationDecisioningService
 import com.lithic.api.services.blocking.TokenizationService
 import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransferService
+import com.lithic.api.services.blocking.WebhookService
 
 /**
  * A client for interacting with the Lithic REST API synchronously. You can also switch to
@@ -94,6 +93,8 @@ interface LithicClient {
 
     fun responderEndpoints(): ResponderEndpointService
 
+    fun webhooks(): WebhookService
+
     fun externalBankAccounts(): ExternalBankAccountService
 
     fun payments(): PaymentService
@@ -115,13 +116,19 @@ interface LithicClient {
     fun managementOperations(): ManagementOperationService
 
     /** Status of api */
-    @JvmOverloads
+    fun apiStatus(): ApiStatus = apiStatus(ClientApiStatusParams.none())
+
+    /** @see [apiStatus] */
     fun apiStatus(
         params: ClientApiStatusParams = ClientApiStatusParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ApiStatus
 
-    /** Status of api */
+    /** @see [apiStatus] */
+    fun apiStatus(params: ClientApiStatusParams = ClientApiStatusParams.none()): ApiStatus =
+        apiStatus(params, RequestOptions.none())
+
+    /** @see [apiStatus] */
     fun apiStatus(requestOptions: RequestOptions): ApiStatus =
         apiStatus(ClientApiStatusParams.none(), requestOptions)
 
@@ -195,17 +202,23 @@ interface LithicClient {
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
          * [LithicClient.apiStatus].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun apiStatus(): HttpResponseFor<ApiStatus> = apiStatus(ClientApiStatusParams.none())
+
+        /** @see [apiStatus] */
         @MustBeClosed
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ApiStatus>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
-         * [LithicClient.apiStatus].
-         */
+        /** @see [apiStatus] */
+        @MustBeClosed
+        fun apiStatus(
+            params: ClientApiStatusParams = ClientApiStatusParams.none()
+        ): HttpResponseFor<ApiStatus> = apiStatus(params, RequestOptions.none())
+
+        /** @see [apiStatus] */
         @MustBeClosed
         fun apiStatus(requestOptions: RequestOptions): HttpResponseFor<ApiStatus> =
             apiStatus(ClientApiStatusParams.none(), requestOptions)

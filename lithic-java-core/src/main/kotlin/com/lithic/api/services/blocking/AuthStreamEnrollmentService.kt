@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -26,20 +24,23 @@ interface AuthStreamEnrollmentService {
      * [this page](https://docs.lithic.com/docs/auth-stream-access-asa#asa-webhook-verification) for
      * more detail about verifying ASA webhooks.
      */
-    @JvmOverloads
+    fun retrieveSecret(): AuthStreamSecret =
+        retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
+
+    /** @see [retrieveSecret] */
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthStreamSecret
 
-    /**
-     * Retrieve the ASA HMAC secret key. If one does not exist for your program yet, calling this
-     * endpoint will create one for you. The headers (which you can use to verify webhooks) will
-     * begin appearing shortly after calling this endpoint for the first time. See
-     * [this page](https://docs.lithic.com/docs/auth-stream-access-asa#asa-webhook-verification) for
-     * more detail about verifying ASA webhooks.
-     */
+    /** @see [retrieveSecret] */
+    fun retrieveSecret(
+        params: AuthStreamEnrollmentRetrieveSecretParams =
+            AuthStreamEnrollmentRetrieveSecretParams.none()
+    ): AuthStreamSecret = retrieveSecret(params, RequestOptions.none())
+
+    /** @see [retrieveSecret] */
     fun retrieveSecret(requestOptions: RequestOptions): AuthStreamSecret =
         retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
 
@@ -49,19 +50,22 @@ interface AuthStreamEnrollmentService {
      * [`GET /auth_stream/secret`](https://docs.lithic.com/reference/getauthstreamsecret) request to
      * retrieve the new secret key.
      */
-    @JvmOverloads
+    fun rotateSecret() = rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
+
+    /** @see [rotateSecret] */
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
-    /**
-     * Generate a new ASA HMAC secret key. The old ASA HMAC secret key will be deactivated 24 hours
-     * after a successful request to this endpoint. Make a
-     * [`GET /auth_stream/secret`](https://docs.lithic.com/reference/getauthstreamsecret) request to
-     * retrieve the new secret key.
-     */
+    /** @see [rotateSecret] */
+    fun rotateSecret(
+        params: AuthStreamEnrollmentRotateSecretParams =
+            AuthStreamEnrollmentRotateSecretParams.none()
+    ) = rotateSecret(params, RequestOptions.none())
+
+    /** @see [rotateSecret] */
     fun rotateSecret(requestOptions: RequestOptions) =
         rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
 
@@ -75,7 +79,11 @@ interface AuthStreamEnrollmentService {
          * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same
          * as [AuthStreamEnrollmentService.retrieveSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieveSecret(): HttpResponseFor<AuthStreamSecret> =
+            retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
+
+        /** @see [retrieveSecret] */
         @MustBeClosed
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
@@ -83,10 +91,14 @@ interface AuthStreamEnrollmentService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthStreamSecret>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same
-         * as [AuthStreamEnrollmentService.retrieveSecret].
-         */
+        /** @see [retrieveSecret] */
+        @MustBeClosed
+        fun retrieveSecret(
+            params: AuthStreamEnrollmentRetrieveSecretParams =
+                AuthStreamEnrollmentRetrieveSecretParams.none()
+        ): HttpResponseFor<AuthStreamSecret> = retrieveSecret(params, RequestOptions.none())
+
+        /** @see [retrieveSecret] */
         @MustBeClosed
         fun retrieveSecret(requestOptions: RequestOptions): HttpResponseFor<AuthStreamSecret> =
             retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
@@ -95,7 +107,11 @@ interface AuthStreamEnrollmentService {
          * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
          * the same as [AuthStreamEnrollmentService.rotateSecret].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun rotateSecret(): HttpResponse =
+            rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
+
+        /** @see [rotateSecret] */
         @MustBeClosed
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
@@ -103,10 +119,14 @@ interface AuthStreamEnrollmentService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
 
-        /**
-         * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
-         * the same as [AuthStreamEnrollmentService.rotateSecret].
-         */
+        /** @see [rotateSecret] */
+        @MustBeClosed
+        fun rotateSecret(
+            params: AuthStreamEnrollmentRotateSecretParams =
+                AuthStreamEnrollmentRotateSecretParams.none()
+        ): HttpResponse = rotateSecret(params, RequestOptions.none())
+
+        /** @see [rotateSecret] */
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.reports
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -24,14 +22,22 @@ interface SettlementServiceAsync {
     fun networkTotals(): NetworkTotalServiceAsync
 
     /** List details. */
-    @JvmOverloads
+    fun listDetails(
+        params: ReportSettlementListDetailsParams
+    ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
+        listDetails(params, RequestOptions.none())
+
+    /** @see [listDetails] */
     fun listDetails(
         params: ReportSettlementListDetailsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReportSettlementListDetailsPageAsync>
 
     /** Get the settlement report for a specified report date. Not available in sandbox. */
-    @JvmOverloads
+    fun summary(params: ReportSettlementSummaryParams): CompletableFuture<SettlementReport> =
+        summary(params, RequestOptions.none())
+
+    /** @see [summary] */
     fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -49,7 +55,13 @@ interface SettlementServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/details/{report_date}`, but
          * is otherwise the same as [SettlementServiceAsync.listDetails].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun listDetails(
+            params: ReportSettlementListDetailsParams
+        ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
+            listDetails(params, RequestOptions.none())
+
+        /** @see [listDetails] */
         @MustBeClosed
         fun listDetails(
             params: ReportSettlementListDetailsParams,
@@ -60,7 +72,13 @@ interface SettlementServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/summary/{report_date}`, but
          * is otherwise the same as [SettlementServiceAsync.summary].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun summary(
+            params: ReportSettlementSummaryParams
+        ): CompletableFuture<HttpResponseFor<SettlementReport>> =
+            summary(params, RequestOptions.none())
+
+        /** @see [summary] */
         @MustBeClosed
         fun summary(
             params: ReportSettlementSummaryParams,

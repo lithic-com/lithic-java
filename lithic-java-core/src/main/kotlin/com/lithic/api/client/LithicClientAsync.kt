@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.client
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -34,6 +32,7 @@ import com.lithic.api.services.async.TokenizationDecisioningServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransferServiceAsync
+import com.lithic.api.services.async.WebhookServiceAsync
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -95,6 +94,8 @@ interface LithicClientAsync {
 
     fun responderEndpoints(): ResponderEndpointServiceAsync
 
+    fun webhooks(): WebhookServiceAsync
+
     fun externalBankAccounts(): ExternalBankAccountServiceAsync
 
     fun payments(): PaymentServiceAsync
@@ -116,13 +117,20 @@ interface LithicClientAsync {
     fun managementOperations(): ManagementOperationServiceAsync
 
     /** Status of api */
-    @JvmOverloads
+    fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
+
+    /** @see [apiStatus] */
     fun apiStatus(
         params: ClientApiStatusParams = ClientApiStatusParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ApiStatus>
 
-    /** Status of api */
+    /** @see [apiStatus] */
+    fun apiStatus(
+        params: ClientApiStatusParams = ClientApiStatusParams.none()
+    ): CompletableFuture<ApiStatus> = apiStatus(params, RequestOptions.none())
+
+    /** @see [apiStatus] */
     fun apiStatus(requestOptions: RequestOptions): CompletableFuture<ApiStatus> =
         apiStatus(ClientApiStatusParams.none(), requestOptions)
 
@@ -196,17 +204,24 @@ interface LithicClientAsync {
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
          * [LithicClientAsync.apiStatus].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun apiStatus(): CompletableFuture<HttpResponseFor<ApiStatus>> =
+            apiStatus(ClientApiStatusParams.none())
+
+        /** @see [apiStatus] */
         @MustBeClosed
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ApiStatus>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
-         * [LithicClientAsync.apiStatus].
-         */
+        /** @see [apiStatus] */
+        @MustBeClosed
+        fun apiStatus(
+            params: ClientApiStatusParams = ClientApiStatusParams.none()
+        ): CompletableFuture<HttpResponseFor<ApiStatus>> = apiStatus(params, RequestOptions.none())
+
+        /** @see [apiStatus] */
         @MustBeClosed
         fun apiStatus(
             requestOptions: RequestOptions

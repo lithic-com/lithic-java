@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -22,21 +20,29 @@ interface ResponderEndpointService {
     fun withRawResponse(): WithRawResponse
 
     /** Enroll a responder endpoint */
-    @JvmOverloads
+    fun create(params: ResponderEndpointCreateParams): ResponderEndpointCreateResponse =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: ResponderEndpointCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponderEndpointCreateResponse
 
     /** Disenroll a responder endpoint */
-    @JvmOverloads
+    fun delete(params: ResponderEndpointDeleteParams) = delete(params, RequestOptions.none())
+
+    /** @see [delete] */
     fun delete(
         params: ResponderEndpointDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
     /** Check the status of a responder endpoint */
-    @JvmOverloads
+    fun checkStatus(params: ResponderEndpointCheckStatusParams): ResponderEndpointStatus =
+        checkStatus(params, RequestOptions.none())
+
+    /** @see [checkStatus] */
     fun checkStatus(
         params: ResponderEndpointCheckStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -52,7 +58,12 @@ interface ResponderEndpointService {
          * Returns a raw HTTP response for `post /v1/responder_endpoints`, but is otherwise the same
          * as [ResponderEndpointService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: ResponderEndpointCreateParams
+        ): HttpResponseFor<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ResponderEndpointCreateParams,
@@ -63,7 +74,11 @@ interface ResponderEndpointService {
          * Returns a raw HTTP response for `delete /v1/responder_endpoints`, but is otherwise the
          * same as [ResponderEndpointService.delete].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun delete(params: ResponderEndpointDeleteParams): HttpResponse =
+            delete(params, RequestOptions.none())
+
+        /** @see [delete] */
         @MustBeClosed
         fun delete(
             params: ResponderEndpointDeleteParams,
@@ -74,7 +89,12 @@ interface ResponderEndpointService {
          * Returns a raw HTTP response for `get /v1/responder_endpoints`, but is otherwise the same
          * as [ResponderEndpointService.checkStatus].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun checkStatus(
+            params: ResponderEndpointCheckStatusParams
+        ): HttpResponseFor<ResponderEndpointStatus> = checkStatus(params, RequestOptions.none())
+
+        /** @see [checkStatus] */
         @MustBeClosed
         fun checkStatus(
             params: ResponderEndpointCheckStatusParams,

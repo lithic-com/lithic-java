@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.transactions.events
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -22,7 +20,11 @@ interface EnhancedCommercialDataServiceAsync {
      * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
      * sandbox.
      */
-    @JvmOverloads
+    fun retrieve(
+        params: TransactionEventEnhancedCommercialDataRetrieveParams
+    ): CompletableFuture<EnhancedData> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -39,7 +41,13 @@ interface EnhancedCommercialDataServiceAsync {
          * /v1/transactions/events/{event_token}/enhanced_commercial_data`, but is otherwise the
          * same as [EnhancedCommercialDataServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionEventEnhancedCommercialDataRetrieveParams
+        ): CompletableFuture<HttpResponseFor<EnhancedData>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: TransactionEventEnhancedCommercialDataRetrieveParams,

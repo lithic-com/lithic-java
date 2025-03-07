@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.cards
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -19,7 +17,10 @@ interface BalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given card. */
-    @JvmOverloads
+    fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: CardBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -34,7 +35,13 @@ interface BalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/balances`, but is otherwise
          * the same as [BalanceServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: CardBalanceListParams
+        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: CardBalanceListParams,

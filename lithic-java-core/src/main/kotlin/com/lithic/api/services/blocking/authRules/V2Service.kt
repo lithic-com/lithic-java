@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.authRules
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -37,14 +35,20 @@ interface V2Service {
     fun backtests(): BacktestService
 
     /** Creates a new V2 authorization rule in draft mode */
-    @JvmOverloads
+    fun create(params: AuthRuleV2CreateParams): V2CreateResponse =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: AuthRuleV2CreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): V2CreateResponse
 
     /** Fetches a V2 authorization rule by its token */
-    @JvmOverloads
+    fun retrieve(params: AuthRuleV2RetrieveParams): V2RetrieveResponse =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: AuthRuleV2RetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -56,25 +60,36 @@ interface V2Service {
      * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided,
      * this will replace existing associations with the provided list of entities.
      */
-    @JvmOverloads
+    fun update(params: AuthRuleV2UpdateParams): V2UpdateResponse =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
     fun update(
         params: AuthRuleV2UpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): V2UpdateResponse
 
     /** Lists V2 authorization rules */
-    @JvmOverloads
+    fun list(): AuthRuleV2ListPage = list(AuthRuleV2ListParams.none())
+
+    /** @see [list] */
     fun list(
         params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthRuleV2ListPage
 
-    /** Lists V2 authorization rules */
+    /** @see [list] */
+    fun list(params: AuthRuleV2ListParams = AuthRuleV2ListParams.none()): AuthRuleV2ListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): AuthRuleV2ListPage =
         list(AuthRuleV2ListParams.none(), requestOptions)
 
     /** Deletes a V2 authorization rule */
-    @JvmOverloads
+    fun delete(params: AuthRuleV2DeleteParams) = delete(params, RequestOptions.none())
+
+    /** @see [delete] */
     fun delete(
         params: AuthRuleV2DeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -85,7 +100,9 @@ interface V2Service {
      *
      * Prefer using the `PATCH` method for this operation.
      */
-    @JvmOverloads
+    fun apply(params: AuthRuleV2ApplyParams): V2ApplyResponse = apply(params, RequestOptions.none())
+
+    /** @see [apply] */
     fun apply(
         params: AuthRuleV2ApplyParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -97,7 +114,9 @@ interface V2Service {
      * This can also be utilized to reset the draft parameters, causing a draft version to no longer
      * be ran in shadow mode.
      */
-    @JvmOverloads
+    fun draft(params: AuthRuleV2DraftParams): V2DraftResponse = draft(params, RequestOptions.none())
+
+    /** @see [draft] */
     fun draft(
         params: AuthRuleV2DraftParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -107,7 +126,10 @@ interface V2Service {
      * Promotes the draft version of an authorization rule to the currently active version such that
      * it is enforced in the authorization stream.
      */
-    @JvmOverloads
+    fun promote(params: AuthRuleV2PromoteParams): V2PromoteResponse =
+        promote(params, RequestOptions.none())
+
+    /** @see [promote] */
     fun promote(
         params: AuthRuleV2PromoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -159,7 +181,10 @@ interface V2Service {
      * processing systems have processed the transaction, and when a transaction will be included in
      * the report.
      */
-    @JvmOverloads
+    fun report(params: AuthRuleV2ReportParams): V2ReportResponse =
+        report(params, RequestOptions.none())
+
+    /** @see [report] */
     fun report(
         params: AuthRuleV2ReportParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -174,7 +199,11 @@ interface V2Service {
          * Returns a raw HTTP response for `post /v2/auth_rules`, but is otherwise the same as
          * [V2Service.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(params: AuthRuleV2CreateParams): HttpResponseFor<V2CreateResponse> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: AuthRuleV2CreateParams,
@@ -185,7 +214,11 @@ interface V2Service {
          * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}`, but is otherwise
          * the same as [V2Service.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: AuthRuleV2RetrieveParams): HttpResponseFor<V2RetrieveResponse> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: AuthRuleV2RetrieveParams,
@@ -196,7 +229,11 @@ interface V2Service {
          * Returns a raw HTTP response for `patch /v2/auth_rules/{auth_rule_token}`, but is
          * otherwise the same as [V2Service.update].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun update(params: AuthRuleV2UpdateParams): HttpResponseFor<V2UpdateResponse> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
         @MustBeClosed
         fun update(
             params: AuthRuleV2UpdateParams,
@@ -207,17 +244,23 @@ interface V2Service {
          * Returns a raw HTTP response for `get /v2/auth_rules`, but is otherwise the same as
          * [V2Service.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): HttpResponseFor<AuthRuleV2ListPage> = list(AuthRuleV2ListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthRuleV2ListPage>
 
-        /**
-         * Returns a raw HTTP response for `get /v2/auth_rules`, but is otherwise the same as
-         * [V2Service.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: AuthRuleV2ListParams = AuthRuleV2ListParams.none()
+        ): HttpResponseFor<AuthRuleV2ListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<AuthRuleV2ListPage> =
             list(AuthRuleV2ListParams.none(), requestOptions)
@@ -226,7 +269,11 @@ interface V2Service {
          * Returns a raw HTTP response for `delete /v2/auth_rules/{auth_rule_token}`, but is
          * otherwise the same as [V2Service.delete].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun delete(params: AuthRuleV2DeleteParams): HttpResponse =
+            delete(params, RequestOptions.none())
+
+        /** @see [delete] */
         @MustBeClosed
         fun delete(
             params: AuthRuleV2DeleteParams,
@@ -237,7 +284,11 @@ interface V2Service {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/apply`, but is
          * otherwise the same as [V2Service.apply].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun apply(params: AuthRuleV2ApplyParams): HttpResponseFor<V2ApplyResponse> =
+            apply(params, RequestOptions.none())
+
+        /** @see [apply] */
         @MustBeClosed
         fun apply(
             params: AuthRuleV2ApplyParams,
@@ -248,7 +299,11 @@ interface V2Service {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/draft`, but is
          * otherwise the same as [V2Service.draft].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun draft(params: AuthRuleV2DraftParams): HttpResponseFor<V2DraftResponse> =
+            draft(params, RequestOptions.none())
+
+        /** @see [draft] */
         @MustBeClosed
         fun draft(
             params: AuthRuleV2DraftParams,
@@ -259,7 +314,11 @@ interface V2Service {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/promote`, but is
          * otherwise the same as [V2Service.promote].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun promote(params: AuthRuleV2PromoteParams): HttpResponseFor<V2PromoteResponse> =
+            promote(params, RequestOptions.none())
+
+        /** @see [promote] */
         @MustBeClosed
         fun promote(
             params: AuthRuleV2PromoteParams,
@@ -270,7 +329,11 @@ interface V2Service {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/report`, but is
          * otherwise the same as [V2Service.report].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun report(params: AuthRuleV2ReportParams): HttpResponseFor<V2ReportResponse> =
+            report(params, RequestOptions.none())
+
+        /** @see [report] */
         @MustBeClosed
         fun report(
             params: AuthRuleV2ReportParams,

@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.financialAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -20,14 +18,20 @@ interface LoanTapeService {
     fun withRawResponse(): WithRawResponse
 
     /** Get a specific loan tape for a given financial account. */
-    @JvmOverloads
+    fun retrieve(params: FinancialAccountLoanTapeRetrieveParams): LoanTape =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): LoanTape
 
     /** List the loan tapes for a given financial account. */
-    @JvmOverloads
+    fun list(params: FinancialAccountLoanTapeListParams): FinancialAccountLoanTapeListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: FinancialAccountLoanTapeListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -41,7 +45,11 @@ interface LoanTapeService {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes/{loan_tape_token}`, but is
          * otherwise the same as [LoanTapeService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: FinancialAccountLoanTapeRetrieveParams): HttpResponseFor<LoanTape> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams,
@@ -53,7 +61,12 @@ interface LoanTapeService {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes`, but is otherwise the same
          * as [LoanTapeService.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountLoanTapeListParams
+        ): HttpResponseFor<FinancialAccountLoanTapeListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountLoanTapeListParams,

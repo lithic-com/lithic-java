@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.blocking.authRules.v2
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -43,7 +41,10 @@ interface BacktestService {
      * the required inputs to evaluate the rule, then it will not be included in the final backtest
      * report.
      */
-    @JvmOverloads
+    fun create(params: AuthRuleV2BacktestCreateParams): BacktestCreateResponse =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: AuthRuleV2BacktestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -67,7 +68,10 @@ interface BacktestService {
      * version of the rule is currently activated in the Auth Stream, regardless of which version of
      * the rule was active in the Auth Stream at the time a backtest is requested.
      */
-    @JvmOverloads
+    fun retrieve(params: AuthRuleV2BacktestRetrieveParams): BacktestResults =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -80,7 +84,12 @@ interface BacktestService {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/backtests`, but is
          * otherwise the same as [BacktestService.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: AuthRuleV2BacktestCreateParams
+        ): HttpResponseFor<BacktestCreateResponse> = create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: AuthRuleV2BacktestCreateParams,
@@ -92,7 +101,11 @@ interface BacktestService {
          * /v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}`, but is otherwise
          * the same as [BacktestService.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: AuthRuleV2BacktestRetrieveParams): HttpResponseFor<BacktestResults> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams,

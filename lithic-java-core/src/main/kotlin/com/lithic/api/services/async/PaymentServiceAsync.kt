@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -33,60 +31,96 @@ interface PaymentServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Initiates a payment between a financial account and an external bank account. */
-    @JvmOverloads
+    fun create(params: PaymentCreateParams): CompletableFuture<PaymentCreateResponse> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
     fun create(
         params: PaymentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentCreateResponse>
 
     /** Get the payment by token. */
-    @JvmOverloads
+    fun retrieve(params: PaymentRetrieveParams): CompletableFuture<Payment> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: PaymentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Payment>
 
     /** List all the payments for the provided search criteria. */
-    @JvmOverloads
+    fun list(): CompletableFuture<PaymentListPageAsync> = list(PaymentListParams.none())
+
+    /** @see [list] */
     fun list(
         params: PaymentListParams = PaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentListPageAsync>
 
-    /** List all the payments for the provided search criteria. */
+    /** @see [list] */
+    fun list(
+        params: PaymentListParams = PaymentListParams.none()
+    ): CompletableFuture<PaymentListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<PaymentListPageAsync> =
         list(PaymentListParams.none(), requestOptions)
 
     /** Retry an origination which has been returned. */
-    @JvmOverloads
+    fun retry(params: PaymentRetryParams): CompletableFuture<PaymentRetryResponse> =
+        retry(params, RequestOptions.none())
+
+    /** @see [retry] */
     fun retry(
         params: PaymentRetryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentRetryResponse>
 
     /** Simulate payment lifecycle event */
-    @JvmOverloads
+    fun simulateAction(
+        params: PaymentSimulateActionParams
+    ): CompletableFuture<PaymentSimulateActionResponse> =
+        simulateAction(params, RequestOptions.none())
+
+    /** @see [simulateAction] */
     fun simulateAction(
         params: PaymentSimulateActionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateActionResponse>
 
     /** Simulates a receipt of a Payment. */
-    @JvmOverloads
+    fun simulateReceipt(
+        params: PaymentSimulateReceiptParams
+    ): CompletableFuture<PaymentSimulateReceiptResponse> =
+        simulateReceipt(params, RequestOptions.none())
+
+    /** @see [simulateReceipt] */
     fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateReceiptResponse>
 
     /** Simulates a release of a Payment. */
-    @JvmOverloads
+    fun simulateRelease(
+        params: PaymentSimulateReleaseParams
+    ): CompletableFuture<PaymentSimulateReleaseResponse> =
+        simulateRelease(params, RequestOptions.none())
+
+    /** @see [simulateRelease] */
     fun simulateRelease(
         params: PaymentSimulateReleaseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PaymentSimulateReleaseResponse>
 
     /** Simulates a return of a Payment. */
-    @JvmOverloads
+    fun simulateReturn(
+        params: PaymentSimulateReturnParams
+    ): CompletableFuture<PaymentSimulateReturnResponse> =
+        simulateReturn(params, RequestOptions.none())
+
+    /** @see [simulateReturn] */
     fun simulateReturn(
         params: PaymentSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -101,7 +135,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/payments`, but is otherwise the same as
          * [PaymentServiceAsync.create].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun create(
+            params: PaymentCreateParams
+        ): CompletableFuture<HttpResponseFor<PaymentCreateResponse>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: PaymentCreateParams,
@@ -112,7 +152,11 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/payments/{payment_token}`, but is otherwise the
          * same as [PaymentServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(params: PaymentRetrieveParams): CompletableFuture<HttpResponseFor<Payment>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: PaymentRetrieveParams,
@@ -123,17 +167,25 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
          * [PaymentServiceAsync.list].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun list(): CompletableFuture<HttpResponseFor<PaymentListPageAsync>> =
+            list(PaymentListParams.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<PaymentListPageAsync>>
 
-        /**
-         * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
-         * [PaymentServiceAsync.list].
-         */
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: PaymentListParams = PaymentListParams.none()
+        ): CompletableFuture<HttpResponseFor<PaymentListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
@@ -144,7 +196,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/payments/{payment_token}/retry`, but is
          * otherwise the same as [PaymentServiceAsync.retry].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retry(
+            params: PaymentRetryParams
+        ): CompletableFuture<HttpResponseFor<PaymentRetryResponse>> =
+            retry(params, RequestOptions.none())
+
+        /** @see [retry] */
         @MustBeClosed
         fun retry(
             params: PaymentRetryParams,
@@ -155,7 +213,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but
          * is otherwise the same as [PaymentServiceAsync.simulateAction].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateAction(
+            params: PaymentSimulateActionParams
+        ): CompletableFuture<HttpResponseFor<PaymentSimulateActionResponse>> =
+            simulateAction(params, RequestOptions.none())
+
+        /** @see [simulateAction] */
         @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams,
@@ -166,7 +230,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/receipt`, but is otherwise
          * the same as [PaymentServiceAsync.simulateReceipt].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReceipt(
+            params: PaymentSimulateReceiptParams
+        ): CompletableFuture<HttpResponseFor<PaymentSimulateReceiptResponse>> =
+            simulateReceipt(params, RequestOptions.none())
+
+        /** @see [simulateReceipt] */
         @MustBeClosed
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams,
@@ -177,7 +247,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/release`, but is otherwise
          * the same as [PaymentServiceAsync.simulateRelease].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateRelease(
+            params: PaymentSimulateReleaseParams
+        ): CompletableFuture<HttpResponseFor<PaymentSimulateReleaseResponse>> =
+            simulateRelease(params, RequestOptions.none())
+
+        /** @see [simulateRelease] */
         @MustBeClosed
         fun simulateRelease(
             params: PaymentSimulateReleaseParams,
@@ -188,7 +264,13 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/return`, but is otherwise the
          * same as [PaymentServiceAsync.simulateReturn].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateReturn(
+            params: PaymentSimulateReturnParams
+        ): CompletableFuture<HttpResponseFor<PaymentSimulateReturnResponse>> =
+            simulateReturn(params, RequestOptions.none())
+
+        /** @see [simulateReturn] */
         @MustBeClosed
         fun simulateReturn(
             params: PaymentSimulateReturnParams,

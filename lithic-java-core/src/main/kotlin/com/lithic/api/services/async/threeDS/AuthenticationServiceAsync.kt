@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package com.lithic.api.services.async.threeDS
 
 import com.google.errorprone.annotations.MustBeClosed
@@ -23,7 +21,11 @@ interface AuthenticationServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get 3DS Authentication by token */
-    @JvmOverloads
+    fun retrieve(
+        params: ThreeDSAuthenticationRetrieveParams
+    ): CompletableFuture<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -34,7 +36,11 @@ interface AuthenticationServiceAsync {
      * you're configured for 3DS Customer Decisioning, simulating authentications requires your
      * customer decisioning endpoint to be set up properly (respond with a valid JSON).
      */
-    @JvmOverloads
+    fun simulate(
+        params: ThreeDSAuthenticationSimulateParams
+    ): CompletableFuture<AuthenticationSimulateResponse> = simulate(params, RequestOptions.none())
+
+    /** @see [simulate] */
     fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -46,7 +52,11 @@ interface AuthenticationServiceAsync {
      * precede. Only a single attempt is supported; upon entering OTP, the challenge is either
      * approved or declined.
      */
-    @JvmOverloads
+    fun simulateOtpEntry(
+        params: ThreeDSAuthenticationSimulateOtpEntryParams
+    ): CompletableFuture<Void?> = simulateOtpEntry(params, RequestOptions.none())
+
+    /** @see [simulateOtpEntry] */
     fun simulateOtpEntry(
         params: ThreeDSAuthenticationSimulateOtpEntryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -63,7 +73,13 @@ interface AuthenticationServiceAsync {
          * /v1/three_ds_authentication/{three_ds_authentication_token}`, but is otherwise the same
          * as [AuthenticationServiceAsync.retrieve].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun retrieve(
+            params: ThreeDSAuthenticationRetrieveParams
+        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams,
@@ -74,7 +90,13 @@ interface AuthenticationServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_authentication/simulate`, but is
          * otherwise the same as [AuthenticationServiceAsync.simulate].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulate(
+            params: ThreeDSAuthenticationSimulateParams
+        ): CompletableFuture<HttpResponseFor<AuthenticationSimulateResponse>> =
+            simulate(params, RequestOptions.none())
+
+        /** @see [simulate] */
         @MustBeClosed
         fun simulate(
             params: ThreeDSAuthenticationSimulateParams,
@@ -85,7 +107,12 @@ interface AuthenticationServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/enter_otp`, but
          * is otherwise the same as [AuthenticationServiceAsync.simulateOtpEntry].
          */
-        @JvmOverloads
+        @MustBeClosed
+        fun simulateOtpEntry(
+            params: ThreeDSAuthenticationSimulateOtpEntryParams
+        ): CompletableFuture<HttpResponse> = simulateOtpEntry(params, RequestOptions.none())
+
+        /** @see [simulateOtpEntry] */
         @MustBeClosed
         fun simulateOtpEntry(
             params: ThreeDSAuthenticationSimulateOtpEntryParams,
