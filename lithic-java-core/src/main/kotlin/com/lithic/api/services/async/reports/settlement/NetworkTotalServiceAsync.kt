@@ -18,10 +18,7 @@ interface NetworkTotalServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /**
-     * (Available March 4, 2025) Retrieve a specific network total record by token. Not available in
-     * sandbox.
-     */
+    /** Retrieve a specific network total record by token. Not available in sandbox. */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams
     ): CompletableFuture<NetworkTotalRetrieveResponse> = retrieve(params, RequestOptions.none())
@@ -32,10 +29,7 @@ interface NetworkTotalServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<NetworkTotalRetrieveResponse>
 
-    /**
-     * (Available March 4, 2025) List network total records with optional filters. Not available in
-     * sandbox.
-     */
+    /** List network total records with optional filters. Not available in sandbox. */
     fun list(): CompletableFuture<ReportSettlementNetworkTotalListPageAsync> =
         list(ReportSettlementNetworkTotalListParams.none())
 

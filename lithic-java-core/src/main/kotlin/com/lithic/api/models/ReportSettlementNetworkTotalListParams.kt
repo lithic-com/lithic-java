@@ -17,10 +17,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * (Available March 4, 2025) List network total records with optional filters. Not available in
- * sandbox.
- */
+/** List network total records with optional filters. Not available in sandbox. */
 class ReportSettlementNetworkTotalListParams
 private constructor(
     private val begin: OffsetDateTime?,
