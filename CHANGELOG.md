@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.80.0 (2025-03-11)
+
+Full Changelog: [v0.79.0...v0.80.0](https://github.com/lithic-com/lithic-java/compare/v0.79.0...v0.80.0)
+
+### Features
+
+* **client:** update currency data type ([#530](https://github.com/lithic-com/lithic-java/issues/530)) ([a37fb4a](https://github.com/lithic-com/lithic-java/commit/a37fb4af21471ac608dcf1bff357afb96a0fe2fb))
+* generate and publish docs ([#521](https://github.com/lithic-com/lithic-java/issues/521)) ([76cf4d3](https://github.com/lithic-com/lithic-java/commit/76cf4d31918ccd99d11abb69858ca0ffbbff5d92))
+
+
+### Chores
+
+* **api:** release of Network Totals reporting and new filters for Velocity Limit Rules ([#529](https://github.com/lithic-com/lithic-java/issues/529)) ([18f2f49](https://github.com/lithic-com/lithic-java/commit/18f2f49e97bfce2781489c88a764b8977a5dea70))
+* **client:** deprecate some fields ([a37fb4a](https://github.com/lithic-com/lithic-java/commit/a37fb4af21471ac608dcf1bff357afb96a0fe2fb))
+* **internal:** add `.kotlin` to `.gitignore` ([#523](https://github.com/lithic-com/lithic-java/issues/523)) ([c4e8c64](https://github.com/lithic-com/lithic-java/commit/c4e8c6495ff31624826326dc79d990f09de6a693))
+* **internal:** don't use `JvmOverloads` in interfaces ([8851dd1](https://github.com/lithic-com/lithic-java/commit/8851dd15c78b1faa438c4f1e926440514f6917f5))
+* **internal:** reenable warnings as errors ([8851dd1](https://github.com/lithic-com/lithic-java/commit/8851dd15c78b1faa438c4f1e926440514f6917f5))
+* **internal:** use `getOrNull` instead of `orElse(null)` ([#524](https://github.com/lithic-com/lithic-java/issues/524)) ([46f1df5](https://github.com/lithic-com/lithic-java/commit/46f1df5af71330bf324853e3264acabd33aa3849))
+
+
+### Documentation
+
+* document `JsonValue` construction in readme ([#528](https://github.com/lithic-com/lithic-java/issues/528)) ([017efa9](https://github.com/lithic-com/lithic-java/commit/017efa938d17c2d68de87afc36f8332c3e30ae28))
+* revise readme docs about nested params ([#527](https://github.com/lithic-com/lithic-java/issues/527)) ([1b232a8](https://github.com/lithic-com/lithic-java/commit/1b232a8d0ca5baae3f71d6c38ffe8f9a72f33b6c))
+* update some descriptions ([a37fb4a](https://github.com/lithic-com/lithic-java/commit/a37fb4af21471ac608dcf1bff357afb96a0fe2fb))
+
 ## 0.79.0 (2025-03-06)
 
 Full Changelog: [v0.78.0...v0.79.0](https://github.com/lithic-com/lithic-java/compare/v0.78.0...v0.79.0)
