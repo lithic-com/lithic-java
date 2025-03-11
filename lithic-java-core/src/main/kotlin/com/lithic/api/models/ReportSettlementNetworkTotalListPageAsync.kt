@@ -20,10 +20,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
-/**
- * (Available March 4, 2025) List network total records with optional filters. Not available in
- * sandbox.
- */
+/** List network total records with optional filters. Not available in sandbox. */
 class ReportSettlementNetworkTotalListPageAsync
 private constructor(
     private val networkTotalsService: NetworkTotalServiceAsync,
