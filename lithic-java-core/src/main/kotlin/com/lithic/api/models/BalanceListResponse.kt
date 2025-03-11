@@ -62,7 +62,7 @@ private constructor(
     /** Date and time for when the balance was first created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+    /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
     fun currency(): String = currency.getRequired("currency")
 
     /**
@@ -104,7 +104,7 @@ private constructor(
     /** Date and time for when the balance was first created. */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+    /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /**
@@ -238,10 +238,10 @@ private constructor(
         /** Date and time for when the balance was first created. */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+        /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+        /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**

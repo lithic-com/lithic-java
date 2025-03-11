@@ -68,7 +68,7 @@ private constructor(
     fun merchantAmount(): Optional<Long> = body.merchantAmount()
 
     /**
-     * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
+     * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
      * defaults to GBP if another ISO 4217 code is provided
      */
     fun merchantCurrency(): Optional<String> = body.merchantCurrency()
@@ -129,7 +129,7 @@ private constructor(
     fun _merchantAmount(): JsonField<Long> = body._merchantAmount()
 
     /**
-     * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
+     * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
      * defaults to GBP if another ISO 4217 code is provided
      */
     fun _merchantCurrency(): JsonField<String> = body._merchantCurrency()
@@ -236,8 +236,8 @@ private constructor(
             Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
 
         /**
-         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-         * defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
+         * and defaults to GBP if another ISO 4217 code is provided
          */
         fun merchantCurrency(): Optional<String> =
             Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
@@ -306,8 +306,8 @@ private constructor(
         fun _merchantAmount(): JsonField<Long> = merchantAmount
 
         /**
-         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-         * defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
+         * and defaults to GBP if another ISO 4217 code is provided
          */
         @JsonProperty("merchant_currency")
         @ExcludeMissing
@@ -478,15 +478,15 @@ private constructor(
             }
 
             /**
-             * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-             * and defaults to GBP if another ISO 4217 code is provided
+             * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP,
+             * EUR and defaults to GBP if another ISO 4217 code is provided
              */
             fun merchantCurrency(merchantCurrency: String) =
                 merchantCurrency(JsonField.of(merchantCurrency))
 
             /**
-             * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-             * and defaults to GBP if another ISO 4217 code is provided
+             * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP,
+             * EUR and defaults to GBP if another ISO 4217 code is provided
              */
             fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
                 this.merchantCurrency = merchantCurrency
@@ -707,16 +707,16 @@ private constructor(
         }
 
         /**
-         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-         * defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
+         * and defaults to GBP if another ISO 4217 code is provided
          */
         fun merchantCurrency(merchantCurrency: String) = apply {
             body.merchantCurrency(merchantCurrency)
         }
 
         /**
-         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-         * defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
+         * and defaults to GBP if another ISO 4217 code is provided
          */
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             body.merchantCurrency(merchantCurrency)

@@ -90,7 +90,7 @@ private constructor(
     /** Date and time when the payment first occurred. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
+    /** 3-character alphabetic ISO 4217 code for the settling currency of the payment. */
     fun currency(): String = currency.getRequired("currency")
 
     /** A string that provides a description of the payment; may be useful to display to users. */
@@ -156,7 +156,7 @@ private constructor(
     /** Date and time when the payment first occurred. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
+    /** 3-character alphabetic ISO 4217 code for the settling currency of the payment. */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** A string that provides a description of the payment; may be useful to display to users. */
@@ -349,10 +349,10 @@ private constructor(
         /** Date and time when the payment first occurred. UTC time zone. */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
+        /** 3-character alphabetic ISO 4217 code for the settling currency of the payment. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
+        /** 3-character alphabetic ISO 4217 code for the settling currency of the payment. */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
