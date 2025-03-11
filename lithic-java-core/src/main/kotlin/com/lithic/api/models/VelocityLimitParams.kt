@@ -285,6 +285,12 @@ private constructor(
     class Filters
     @JsonCreator
     private constructor(
+        @JsonProperty("exclude_countries")
+        @ExcludeMissing
+        private val excludeCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("exclude_mccs")
+        @ExcludeMissing
+        private val excludeMccs: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("include_countries")
         @ExcludeMissing
         private val includeCountries: JsonField<List<String>> = JsonMissing.of(),
@@ -294,6 +300,20 @@ private constructor(
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /**
+         * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
+         * matching any of the provided will be excluded from the calculated velocity.
+         */
+        fun excludeCountries(): Optional<List<String>> =
+            Optional.ofNullable(excludeCountries.getNullable("exclude_countries"))
+
+        /**
+         * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
+         * this MCC will be excluded from the calculated velocity.
+         */
+        fun excludeMccs(): Optional<List<String>> =
+            Optional.ofNullable(excludeMccs.getNullable("exclude_mccs"))
 
         /**
          * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
@@ -308,6 +328,22 @@ private constructor(
          */
         fun includeMccs(): Optional<List<String>> =
             Optional.ofNullable(includeMccs.getNullable("include_mccs"))
+
+        /**
+         * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
+         * matching any of the provided will be excluded from the calculated velocity.
+         */
+        @JsonProperty("exclude_countries")
+        @ExcludeMissing
+        fun _excludeCountries(): JsonField<List<String>> = excludeCountries
+
+        /**
+         * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
+         * this MCC will be excluded from the calculated velocity.
+         */
+        @JsonProperty("exclude_mccs")
+        @ExcludeMissing
+        fun _excludeMccs(): JsonField<List<String>> = excludeMccs
 
         /**
          * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
@@ -336,6 +372,8 @@ private constructor(
                 return@apply
             }
 
+            excludeCountries()
+            excludeMccs()
             includeCountries()
             includeMccs()
             validated = true
@@ -352,15 +390,89 @@ private constructor(
         /** A builder for [Filters]. */
         class Builder internal constructor() {
 
+            private var excludeCountries: JsonField<MutableList<String>>? = null
+            private var excludeMccs: JsonField<MutableList<String>>? = null
             private var includeCountries: JsonField<MutableList<String>>? = null
             private var includeMccs: JsonField<MutableList<String>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(filters: Filters) = apply {
+                excludeCountries = filters.excludeCountries.map { it.toMutableList() }
+                excludeMccs = filters.excludeMccs.map { it.toMutableList() }
                 includeCountries = filters.includeCountries.map { it.toMutableList() }
                 includeMccs = filters.includeMccs.map { it.toMutableList() }
                 additionalProperties = filters.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
+             * Transactions matching any of the provided will be excluded from the calculated
+             * velocity.
+             */
+            fun excludeCountries(excludeCountries: List<String>?) =
+                excludeCountries(JsonField.ofNullable(excludeCountries))
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
+             * Transactions matching any of the provided will be excluded from the calculated
+             * velocity.
+             */
+            fun excludeCountries(excludeCountries: Optional<List<String>>) =
+                excludeCountries(excludeCountries.getOrNull())
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
+             * Transactions matching any of the provided will be excluded from the calculated
+             * velocity.
+             */
+            fun excludeCountries(excludeCountries: JsonField<List<String>>) = apply {
+                this.excludeCountries = excludeCountries.map { it.toMutableList() }
+            }
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
+             * Transactions matching any of the provided will be excluded from the calculated
+             * velocity.
+             */
+            fun addExcludeCountry(excludeCountry: String) = apply {
+                excludeCountries =
+                    (excludeCountries ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("excludeCountries", it).add(excludeCountry)
+                    }
+            }
+
+            /**
+             * Merchant Category Codes to exclude from the velocity calculation. Transactions
+             * matching this MCC will be excluded from the calculated velocity.
+             */
+            fun excludeMccs(excludeMccs: List<String>?) =
+                excludeMccs(JsonField.ofNullable(excludeMccs))
+
+            /**
+             * Merchant Category Codes to exclude from the velocity calculation. Transactions
+             * matching this MCC will be excluded from the calculated velocity.
+             */
+            fun excludeMccs(excludeMccs: Optional<List<String>>) =
+                excludeMccs(excludeMccs.getOrNull())
+
+            /**
+             * Merchant Category Codes to exclude from the velocity calculation. Transactions
+             * matching this MCC will be excluded from the calculated velocity.
+             */
+            fun excludeMccs(excludeMccs: JsonField<List<String>>) = apply {
+                this.excludeMccs = excludeMccs.map { it.toMutableList() }
+            }
+
+            /**
+             * Merchant Category Codes to exclude from the velocity calculation. Transactions
+             * matching this MCC will be excluded from the calculated velocity.
+             */
+            fun addExcludeMcc(excludeMcc: String) = apply {
+                excludeMccs =
+                    (excludeMccs ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("excludeMccs", it).add(excludeMcc)
+                    }
             }
 
             /**
@@ -450,6 +562,8 @@ private constructor(
 
             fun build(): Filters =
                 Filters(
+                    (excludeCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                    (excludeMccs ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeCountries ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeMccs ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
@@ -461,17 +575,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Filters && includeCountries == other.includeCountries && includeMccs == other.includeMccs && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Filters && excludeCountries == other.excludeCountries && excludeMccs == other.excludeMccs && includeCountries == other.includeCountries && includeMccs == other.includeMccs && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(includeCountries, includeMccs, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(excludeCountries, excludeMccs, includeCountries, includeMccs, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Filters{includeCountries=$includeCountries, includeMccs=$includeMccs, additionalProperties=$additionalProperties}"
+            "Filters{excludeCountries=$excludeCountries, excludeMccs=$excludeMccs, includeCountries=$includeCountries, includeMccs=$includeMccs, additionalProperties=$additionalProperties}"
     }
 
     /**

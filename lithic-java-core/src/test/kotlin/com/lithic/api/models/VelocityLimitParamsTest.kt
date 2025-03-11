@@ -13,6 +13,8 @@ class VelocityLimitParamsTest {
             VelocityLimitParams.builder()
                 .filters(
                     VelocityLimitParams.Filters.builder()
+                        .addExcludeCountry("USD")
+                        .addExcludeMcc("5542")
                         .addIncludeCountry("USD")
                         .addIncludeMcc("5542")
                         .build()
@@ -26,6 +28,8 @@ class VelocityLimitParamsTest {
         assertThat(velocityLimitParams.filters())
             .isEqualTo(
                 VelocityLimitParams.Filters.builder()
+                    .addExcludeCountry("USD")
+                    .addExcludeMcc("5542")
                     .addIncludeCountry("USD")
                     .addIncludeMcc("5542")
                     .build()

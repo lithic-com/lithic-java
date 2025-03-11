@@ -9,10 +9,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
-/**
- * (Available March 4, 2025) Retrieve a specific network total record by token. Not available in
- * sandbox.
- */
+/** Retrieve a specific network total record by token. Not available in sandbox. */
 class ReportSettlementNetworkTotalRetrieveParams
 private constructor(
     private val token: String,

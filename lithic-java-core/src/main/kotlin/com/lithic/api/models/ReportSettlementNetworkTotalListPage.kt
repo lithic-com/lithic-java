@@ -20,10 +20,7 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * (Available March 4, 2025) List network total records with optional filters. Not available in
- * sandbox.
- */
+/** List network total records with optional filters. Not available in sandbox. */
 class ReportSettlementNetworkTotalListPage
 private constructor(
     private val networkTotalsService: NetworkTotalService,
