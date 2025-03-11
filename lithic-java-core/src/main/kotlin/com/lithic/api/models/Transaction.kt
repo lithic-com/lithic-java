@@ -163,7 +163,8 @@ private constructor(
             merchantAuthorizationAmount.getNullable("merchant_authorization_amount")
         )
 
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
+    /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+    @Deprecated("deprecated")
     fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
 
     /**
@@ -277,7 +278,8 @@ private constructor(
     @ExcludeMissing
     fun _merchantAuthorizationAmount(): JsonField<Long> = merchantAuthorizationAmount
 
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
+    /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+    @Deprecated("deprecated")
     @JsonProperty("merchant_currency")
     @ExcludeMissing
     fun _merchantCurrency(): JsonField<String> = merchantCurrency
@@ -660,11 +662,13 @@ private constructor(
             this.merchantAuthorizationAmount = merchantAuthorizationAmount
         }
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
+        /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+        @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: String) =
             merchantCurrency(JsonField.of(merchantCurrency))
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
+        /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+        @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
         }
@@ -978,7 +982,7 @@ private constructor(
             private val conversionRate: JsonField<String> = JsonMissing.of(),
             @JsonProperty("currency")
             @ExcludeMissing
-            private val currency: JsonField<Currency> = JsonMissing.of(),
+            private val currency: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -994,12 +998,8 @@ private constructor(
              */
             fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            fun currency(): Currency = currency.getRequired("currency")
+            /** 3-character alphabetic ISO 4217 currency */
+            fun currency(): String = currency.getRequired("currency")
 
             /**
              * The estimated settled amount of the transaction in the cardholder billing currency.
@@ -1014,14 +1014,8 @@ private constructor(
             @ExcludeMissing
             fun _conversionRate(): JsonField<String> = conversionRate
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            @JsonProperty("currency")
-            @ExcludeMissing
-            fun _currency(): JsonField<Currency> = currency
+            /** 3-character alphabetic ISO 4217 currency */
+            @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1062,7 +1056,7 @@ private constructor(
 
                 private var amount: JsonField<Long>? = null
                 private var conversionRate: JsonField<String>? = null
-                private var currency: JsonField<Currency>? = null
+                private var currency: JsonField<String>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -1100,19 +1094,11 @@ private constructor(
                     this.conversionRate = conversionRate
                 }
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: Currency) = currency(JsonField.of(currency))
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1172,7 +1158,7 @@ private constructor(
             private val amount: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("currency")
             @ExcludeMissing
-            private val currency: JsonField<Currency> = JsonMissing.of(),
+            private val currency: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -1180,24 +1166,14 @@ private constructor(
             /** The pending amount of the transaction in the anticipated settlement currency. */
             fun amount(): Long = amount.getRequired("amount")
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            fun currency(): Currency = currency.getRequired("currency")
+            /** 3-character alphabetic ISO 4217 currency */
+            fun currency(): String = currency.getRequired("currency")
 
             /** The pending amount of the transaction in the anticipated settlement currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            @JsonProperty("currency")
-            @ExcludeMissing
-            fun _currency(): JsonField<Currency> = currency
+            /** 3-character alphabetic ISO 4217 currency */
+            @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1235,7 +1211,7 @@ private constructor(
             class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
-                private var currency: JsonField<Currency>? = null
+                private var currency: JsonField<String>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -1251,19 +1227,11 @@ private constructor(
                 /** The pending amount of the transaction in the anticipated settlement currency. */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: Currency) = currency(JsonField.of(currency))
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1322,7 +1290,7 @@ private constructor(
             private val amount: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("currency")
             @ExcludeMissing
-            private val currency: JsonField<Currency> = JsonMissing.of(),
+            private val currency: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -1330,24 +1298,14 @@ private constructor(
             /** The settled amount of the transaction in the merchant currency. */
             fun amount(): Long = amount.getRequired("amount")
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            fun currency(): Currency = currency.getRequired("currency")
+            /** 3-character alphabetic ISO 4217 currency */
+            fun currency(): String = currency.getRequired("currency")
 
             /** The settled amount of the transaction in the merchant currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            @JsonProperty("currency")
-            @ExcludeMissing
-            fun _currency(): JsonField<Currency> = currency
+            /** 3-character alphabetic ISO 4217 currency */
+            @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1385,7 +1343,7 @@ private constructor(
             class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
-                private var currency: JsonField<Currency>? = null
+                private var currency: JsonField<String>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -1401,19 +1359,11 @@ private constructor(
                 /** The settled amount of the transaction in the merchant currency. */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: Currency) = currency(JsonField.of(currency))
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1472,7 +1422,7 @@ private constructor(
             private val amount: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("currency")
             @ExcludeMissing
-            private val currency: JsonField<Currency> = JsonMissing.of(),
+            private val currency: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -1480,24 +1430,14 @@ private constructor(
             /** The settled amount of the transaction in the settlement currency. */
             fun amount(): Long = amount.getRequired("amount")
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            fun currency(): Currency = currency.getRequired("currency")
+            /** 3-character alphabetic ISO 4217 currency */
+            fun currency(): String = currency.getRequired("currency")
 
             /** The settled amount of the transaction in the settlement currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /**
-             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-             * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-             * `USD`.
-             */
-            @JsonProperty("currency")
-            @ExcludeMissing
-            fun _currency(): JsonField<Currency> = currency
+            /** 3-character alphabetic ISO 4217 currency */
+            @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1535,7 +1475,7 @@ private constructor(
             class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
-                private var currency: JsonField<Currency>? = null
+                private var currency: JsonField<String>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -1551,19 +1491,11 @@ private constructor(
                 /** The settled amount of the transaction in the settlement currency. */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: Currency) = currency(JsonField.of(currency))
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -5928,7 +5860,7 @@ private constructor(
                 private val conversionRate: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("currency")
                 @ExcludeMissing
-                private val currency: JsonField<Currency> = JsonMissing.of(),
+                private val currency: JsonField<String> = JsonMissing.of(),
                 @JsonAnySetter
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
@@ -5942,12 +5874,8 @@ private constructor(
                  */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(): Currency = currency.getRequired("currency")
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(): String = currency.getRequired("currency")
 
                 /** Amount of the event in the cardholder billing currency. */
                 @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
@@ -5960,14 +5888,10 @@ private constructor(
                 @ExcludeMissing
                 fun _conversionRate(): JsonField<String> = conversionRate
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
+                /** 3-character alphabetic ISO 4217 currency */
                 @JsonProperty("currency")
                 @ExcludeMissing
-                fun _currency(): JsonField<Currency> = currency
+                fun _currency(): JsonField<String> = currency
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -6008,7 +5932,7 @@ private constructor(
 
                     private var amount: JsonField<Long>? = null
                     private var conversionRate: JsonField<String>? = null
-                    private var currency: JsonField<Currency>? = null
+                    private var currency: JsonField<String>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -6040,19 +5964,11 @@ private constructor(
                         this.conversionRate = conversionRate
                     }
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -6112,7 +6028,7 @@ private constructor(
                 private val amount: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("currency")
                 @ExcludeMissing
-                private val currency: JsonField<Currency> = JsonMissing.of(),
+                private val currency: JsonField<String> = JsonMissing.of(),
                 @JsonAnySetter
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
@@ -6120,24 +6036,16 @@ private constructor(
                 /** Amount of the event in the merchant currency. */
                 fun amount(): Long = amount.getRequired("amount")
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(): Currency = currency.getRequired("currency")
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(): String = currency.getRequired("currency")
 
                 /** Amount of the event in the merchant currency. */
                 @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
+                /** 3-character alphabetic ISO 4217 currency */
                 @JsonProperty("currency")
                 @ExcludeMissing
-                fun _currency(): JsonField<Currency> = currency
+                fun _currency(): JsonField<String> = currency
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -6175,7 +6083,7 @@ private constructor(
                 class Builder internal constructor() {
 
                     private var amount: JsonField<Long>? = null
-                    private var currency: JsonField<Currency>? = null
+                    private var currency: JsonField<String>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -6191,19 +6099,11 @@ private constructor(
                     /** Amount of the event in the merchant currency. */
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -6265,7 +6165,7 @@ private constructor(
                 private val conversionRate: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("currency")
                 @ExcludeMissing
-                private val currency: JsonField<Currency> = JsonMissing.of(),
+                private val currency: JsonField<String> = JsonMissing.of(),
                 @JsonAnySetter
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
@@ -6279,12 +6179,8 @@ private constructor(
                 /** Exchange rate used to convert the merchant amount to the settlement amount. */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
-                fun currency(): Currency = currency.getRequired("currency")
+                /** 3-character alphabetic ISO 4217 currency */
+                fun currency(): String = currency.getRequired("currency")
 
                 /**
                  * Amount of the event, if it is financial, in the settlement currency.
@@ -6297,14 +6193,10 @@ private constructor(
                 @ExcludeMissing
                 fun _conversionRate(): JsonField<String> = conversionRate
 
-                /**
-                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
-                 * currencies like `XXX`. Enumerants names are lowercase currency code e.g. `EUR`,
-                 * `USD`.
-                 */
+                /** 3-character alphabetic ISO 4217 currency */
                 @JsonProperty("currency")
                 @ExcludeMissing
-                fun _currency(): JsonField<Currency> = currency
+                fun _currency(): JsonField<String> = currency
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -6345,7 +6237,7 @@ private constructor(
 
                     private var amount: JsonField<Long>? = null
                     private var conversionRate: JsonField<String>? = null
-                    private var currency: JsonField<Currency>? = null
+                    private var currency: JsonField<String>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -6383,19 +6275,11 @@ private constructor(
                         this.conversionRate = conversionRate
                     }
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /**
-                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
-                     * special currencies like `XXX`. Enumerants names are lowercase currency code
-                     * e.g. `EUR`, `USD`.
-                     */
-                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+                    /** 3-character alphabetic ISO 4217 currency */
+                    fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()

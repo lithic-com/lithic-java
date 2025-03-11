@@ -49,7 +49,7 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** ISO 4217 alpha 3 code. */
+    /** 3-character alphabetic ISO 4217 code. */
     fun currency(): Optional<String> = Optional.ofNullable(currency.getNullable("currency"))
 
     /** The total gross amount of disputes settlements. */
@@ -84,7 +84,7 @@ private constructor(
     fun transactionsGrossAmount(): Optional<Long> =
         Optional.ofNullable(transactionsGrossAmount.getNullable("transactions_gross_amount"))
 
-    /** ISO 4217 alpha 3 code. */
+    /** 3-character alphabetic ISO 4217 code. */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** The total gross amount of disputes settlements. */
@@ -179,10 +179,10 @@ private constructor(
             additionalProperties = settlementSummaryDetails.additionalProperties.toMutableMap()
         }
 
-        /** ISO 4217 alpha 3 code. */
+        /** 3-character alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** ISO 4217 alpha 3 code. */
+        /** 3-character alphabetic ISO 4217 code. */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */

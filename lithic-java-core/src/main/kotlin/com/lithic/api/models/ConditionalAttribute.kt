@@ -15,7 +15,7 @@ import com.lithic.api.errors.LithicInvalidDataException
  *   types of goods or services it provides.
  * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
  *   country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
- * - `CURRENCY`: 3-digit alphabetic ISO 4217 code for the merchant currency of the transaction.
+ * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the transaction.
  * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
  * - `DESCRIPTOR`: Short description of card acceptor.
  * - `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the issuer applies to the
