@@ -174,7 +174,7 @@ private constructor(
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
@@ -325,7 +325,7 @@ private constructor(
     @ExcludeMissing
     fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
@@ -711,11 +711,11 @@ private constructor(
                 }
         }
 
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
         fun cardholderCurrency(cardholderCurrency: String) =
             cardholderCurrency(JsonField.of(cardholderCurrency))
 
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
         fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
             this.cardholderCurrency = cardholderCurrency
         }

@@ -65,7 +65,7 @@ private constructor(
     /** RFC 3339 timestamp for when the record was created. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Three-digit alphabetic ISO 4217 code. */
+    /** 3-character alphabetic ISO 4217 code. */
     fun currency(): String = currency.getRequired("currency")
 
     /**
@@ -104,7 +104,7 @@ private constructor(
     /** RFC 3339 timestamp for when the record was created. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Three-digit alphabetic ISO 4217 code. */
+    /** 3-character alphabetic ISO 4217 code. */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /**
@@ -239,10 +239,10 @@ private constructor(
         /** RFC 3339 timestamp for when the record was created. UTC time zone. */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** Three-digit alphabetic ISO 4217 code. */
+        /** 3-character alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** Three-digit alphabetic ISO 4217 code. */
+        /** 3-character alphabetic ISO 4217 code. */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**

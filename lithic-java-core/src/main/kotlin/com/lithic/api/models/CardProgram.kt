@@ -58,13 +58,13 @@ private constructor(
     /** The first digits of the card number that this card program starts with. */
     fun panRangeStart(): String = panRangeStart.getRequired("pan_range_start")
 
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
     /**
-     * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program supports
-     * for settlement.
+     * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
+     * supports for settlement.
      */
     fun settlementCurrencies(): Optional<List<String>> =
         Optional.ofNullable(settlementCurrencies.getNullable("settlement_currencies"))
@@ -88,14 +88,14 @@ private constructor(
     @ExcludeMissing
     fun _panRangeStart(): JsonField<String> = panRangeStart
 
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /**
-     * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program supports
-     * for settlement.
+     * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
+     * supports for settlement.
      */
     @JsonProperty("settlement_currencies")
     @ExcludeMissing
@@ -197,24 +197,24 @@ private constructor(
             this.panRangeStart = panRangeStart
         }
 
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
         fun cardholderCurrency(cardholderCurrency: String) =
             cardholderCurrency(JsonField.of(cardholderCurrency))
 
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
         fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
             this.cardholderCurrency = cardholderCurrency
         }
 
         /**
-         * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program
+         * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
          * supports for settlement.
          */
         fun settlementCurrencies(settlementCurrencies: List<String>) =
             settlementCurrencies(JsonField.of(settlementCurrencies))
 
         /**
-         * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program
+         * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
          * supports for settlement.
          */
         fun settlementCurrencies(settlementCurrencies: JsonField<List<String>>) = apply {
@@ -222,7 +222,7 @@ private constructor(
         }
 
         /**
-         * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program
+         * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
          * supports for settlement.
          */
         fun addSettlementCurrency(settlementCurrency: String) = apply {

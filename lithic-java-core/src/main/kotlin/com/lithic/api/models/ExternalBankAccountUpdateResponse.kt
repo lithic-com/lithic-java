@@ -98,7 +98,7 @@ private constructor(
     /** An ISO 8601 string representing when this funding source was added to the Lithic account. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** currency of the external account 3-digit alphabetic ISO 4217 code */
+    /** currency of the external account 3-character alphabetic ISO 4217 code */
     fun currency(): String = currency.getRequired("currency")
 
     /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
@@ -188,7 +188,7 @@ private constructor(
     /** An ISO 8601 string representing when this funding source was added to the Lithic account. */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** currency of the external account 3-digit alphabetic ISO 4217 code */
+    /** currency of the external account 3-character alphabetic ISO 4217 code */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
@@ -432,10 +432,10 @@ private constructor(
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** currency of the external account 3-digit alphabetic ISO 4217 code */
+        /** currency of the external account 3-character alphabetic ISO 4217 code */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** currency of the external account 3-digit alphabetic ISO 4217 code */
+        /** currency of the external account 3-character alphabetic ISO 4217 code */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**

@@ -62,7 +62,7 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
-     * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+     * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
      */
     @Deprecated("deprecated") fun currency(): String = currency.getRequired("currency")
@@ -126,7 +126,7 @@ private constructor(
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+     * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
      */
     @Deprecated("deprecated")
@@ -288,13 +288,13 @@ private constructor(
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
-         * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+         * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
          * future version of the API.)
          */
         @Deprecated("deprecated") fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
-         * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+         * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
          * future version of the API.)
          */
         @Deprecated("deprecated")

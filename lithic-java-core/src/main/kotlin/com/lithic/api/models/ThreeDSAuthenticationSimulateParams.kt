@@ -677,13 +677,13 @@ private constructor(
         /** Amount (in cents) to authenticate. */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** 3-digit alphabetic ISO 4217 currency code. */
+        /** 3-character alphabetic ISO 4217 currency code. */
         fun currency(): String = currency.getRequired("currency")
 
         /** Amount (in cents) to authenticate. */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** 3-digit alphabetic ISO 4217 currency code. */
+        /** 3-character alphabetic ISO 4217 currency code. */
         @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
         @JsonAnyGetter
@@ -738,10 +738,10 @@ private constructor(
             /** Amount (in cents) to authenticate. */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            /** 3-digit alphabetic ISO 4217 currency code. */
+            /** 3-character alphabetic ISO 4217 currency code. */
             fun currency(currency: String) = currency(JsonField.of(currency))
 
-            /** 3-digit alphabetic ISO 4217 currency code. */
+            /** 3-character alphabetic ISO 4217 currency code. */
             fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
