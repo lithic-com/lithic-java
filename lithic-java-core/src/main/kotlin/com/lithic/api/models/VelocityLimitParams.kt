@@ -51,19 +51,33 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun filters(): Filters = filters.getRequired("filters")
 
     /**
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
      * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun period(): Period = period.getRequired("period")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun scope(): Scope = scope.getRequired("scope")
 
     /**
      * The maximum amount of spend velocity allowed in the period in minor units (the smallest unit
      * of a currency, e.g. cents for USD). Transactions exceeding this limit will be declined.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun limitAmount(): Optional<Long> = Optional.ofNullable(limitAmount.getNullable("limit_amount"))
 
@@ -72,30 +86,44 @@ private constructor(
      * Transactions exceeding this limit will be declined. A spend velocity impacting transaction is
      * a transaction that has been authorized, and optionally settled, or a force post (a
      * transaction that settled without prior authorization).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun limitCount(): Optional<Long> = Optional.ofNullable(limitCount.getNullable("limit_count"))
 
+    /**
+     * Returns the raw JSON value of [filters].
+     *
+     * Unlike [filters], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("filters") @ExcludeMissing fun _filters(): JsonField<Filters> = filters
 
     /**
-     * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-     * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
+     * Returns the raw JSON value of [period].
+     *
+     * Unlike [period], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("period") @ExcludeMissing fun _period(): JsonField<Period> = period
 
+    /**
+     * Returns the raw JSON value of [scope].
+     *
+     * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
 
     /**
-     * The maximum amount of spend velocity allowed in the period in minor units (the smallest unit
-     * of a currency, e.g. cents for USD). Transactions exceeding this limit will be declined.
+     * Returns the raw JSON value of [limitAmount].
+     *
+     * Unlike [limitAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("limit_amount") @ExcludeMissing fun _limitAmount(): JsonField<Long> = limitAmount
 
     /**
-     * The number of spend velocity impacting transactions may not exceed this limit in the period.
-     * Transactions exceeding this limit will be declined. A spend velocity impacting transaction is
-     * a transaction that has been authorized, and optionally settled, or a force post (a
-     * transaction that settled without prior authorization).
+     * Returns the raw JSON value of [limitCount].
+     *
+     * Unlike [limitCount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("limit_count") @ExcludeMissing fun _limitCount(): JsonField<Long> = limitCount
 
@@ -157,6 +185,12 @@ private constructor(
 
         fun filters(filters: Filters) = filters(JsonField.of(filters))
 
+        /**
+         * Sets [Builder.filters] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.filters] with a well-typed [Filters] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun filters(filters: JsonField<Filters>) = apply { this.filters = filters }
 
         /**
@@ -166,29 +200,31 @@ private constructor(
         fun period(period: Period) = period(JsonField.of(period))
 
         /**
-         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
+         * Sets [Builder.period] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.period] with a well-typed [Period] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun period(period: JsonField<Period>) = apply { this.period = period }
 
-        /**
-         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-         */
+        /** Alias for calling [period] with `Period.ofTrailingWindow(trailingWindow)`. */
         fun period(trailingWindow: Long) = period(Period.ofTrailingWindow(trailingWindow))
 
         /**
-         * The window of time to calculate Spend Velocity over.
-         * - `DAY`: Velocity over the current day since midnight Eastern Time.
-         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
-         * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
-         *   in Eastern Time.
+         * Alias for calling [period] with
+         * `Period.ofVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)`.
          */
         fun period(velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow) =
             period(Period.ofVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow))
 
         fun scope(scope: Scope) = scope(JsonField.of(scope))
 
+        /**
+         * Sets [Builder.scope] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.scope] with a well-typed [Scope] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
 
         /**
@@ -199,23 +235,21 @@ private constructor(
         fun limitAmount(limitAmount: Long?) = limitAmount(JsonField.ofNullable(limitAmount))
 
         /**
-         * The maximum amount of spend velocity allowed in the period in minor units (the smallest
-         * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
-         * declined.
+         * Alias for [Builder.limitAmount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun limitAmount(limitAmount: Long) = limitAmount(limitAmount as Long?)
 
-        /**
-         * The maximum amount of spend velocity allowed in the period in minor units (the smallest
-         * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
-         * declined.
-         */
+        /** Alias for calling [Builder.limitAmount] with `limitAmount.orElse(null)`. */
         fun limitAmount(limitAmount: Optional<Long>) = limitAmount(limitAmount.getOrNull())
 
         /**
-         * The maximum amount of spend velocity allowed in the period in minor units (the smallest
-         * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
-         * declined.
+         * Sets [Builder.limitAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.limitAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun limitAmount(limitAmount: JsonField<Long>) = apply { this.limitAmount = limitAmount }
 
@@ -228,26 +262,20 @@ private constructor(
         fun limitCount(limitCount: Long?) = limitCount(JsonField.ofNullable(limitCount))
 
         /**
-         * The number of spend velocity impacting transactions may not exceed this limit in the
-         * period. Transactions exceeding this limit will be declined. A spend velocity impacting
-         * transaction is a transaction that has been authorized, and optionally settled, or a force
-         * post (a transaction that settled without prior authorization).
+         * Alias for [Builder.limitCount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun limitCount(limitCount: Long) = limitCount(limitCount as Long?)
 
-        /**
-         * The number of spend velocity impacting transactions may not exceed this limit in the
-         * period. Transactions exceeding this limit will be declined. A spend velocity impacting
-         * transaction is a transaction that has been authorized, and optionally settled, or a force
-         * post (a transaction that settled without prior authorization).
-         */
+        /** Alias for calling [Builder.limitCount] with `limitCount.orElse(null)`. */
         fun limitCount(limitCount: Optional<Long>) = limitCount(limitCount.getOrNull())
 
         /**
-         * The number of spend velocity impacting transactions may not exceed this limit in the
-         * period. Transactions exceeding this limit will be declined. A spend velocity impacting
-         * transaction is a transaction that has been authorized, and optionally settled, or a force
-         * post (a transaction that settled without prior authorization).
+         * Sets [Builder.limitCount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.limitCount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun limitCount(limitCount: JsonField<Long>) = apply { this.limitCount = limitCount }
 
@@ -304,6 +332,9 @@ private constructor(
         /**
          * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
          * matching any of the provided will be excluded from the calculated velocity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun excludeCountries(): Optional<List<String>> =
             Optional.ofNullable(excludeCountries.getNullable("exclude_countries"))
@@ -311,6 +342,9 @@ private constructor(
         /**
          * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
          * this MCC will be excluded from the calculated velocity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun excludeMccs(): Optional<List<String>> =
             Optional.ofNullable(excludeMccs.getNullable("exclude_mccs"))
@@ -318,6 +352,9 @@ private constructor(
         /**
          * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
          * matching any of the provided will not be included in the calculated velocity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun includeCountries(): Optional<List<String>> =
             Optional.ofNullable(includeCountries.getNullable("include_countries"))
@@ -325,37 +362,46 @@ private constructor(
         /**
          * Merchant Category Codes to include in the velocity calculation. Transactions not matching
          * this MCC will not be included in the calculated velocity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun includeMccs(): Optional<List<String>> =
             Optional.ofNullable(includeMccs.getNullable("include_mccs"))
 
         /**
-         * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
-         * matching any of the provided will be excluded from the calculated velocity.
+         * Returns the raw JSON value of [excludeCountries].
+         *
+         * Unlike [excludeCountries], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("exclude_countries")
         @ExcludeMissing
         fun _excludeCountries(): JsonField<List<String>> = excludeCountries
 
         /**
-         * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
-         * this MCC will be excluded from the calculated velocity.
+         * Returns the raw JSON value of [excludeMccs].
+         *
+         * Unlike [excludeMccs], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("exclude_mccs")
         @ExcludeMissing
         fun _excludeMccs(): JsonField<List<String>> = excludeMccs
 
         /**
-         * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
-         * matching any of the provided will not be included in the calculated velocity.
+         * Returns the raw JSON value of [includeCountries].
+         *
+         * Unlike [includeCountries], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("include_countries")
         @ExcludeMissing
         fun _includeCountries(): JsonField<List<String>> = includeCountries
 
         /**
-         * Merchant Category Codes to include in the velocity calculation. Transactions not matching
-         * this MCC will not be included in the calculated velocity.
+         * Returns the raw JSON value of [includeMccs].
+         *
+         * Unlike [includeMccs], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("include_mccs")
         @ExcludeMissing
@@ -414,26 +460,26 @@ private constructor(
                 excludeCountries(JsonField.ofNullable(excludeCountries))
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
-             * Transactions matching any of the provided will be excluded from the calculated
-             * velocity.
+             * Alias for calling [Builder.excludeCountries] with `excludeCountries.orElse(null)`.
              */
             fun excludeCountries(excludeCountries: Optional<List<String>>) =
                 excludeCountries(excludeCountries.getOrNull())
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
-             * Transactions matching any of the provided will be excluded from the calculated
-             * velocity.
+             * Sets [Builder.excludeCountries] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.excludeCountries] with a well-typed `List<String>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun excludeCountries(excludeCountries: JsonField<List<String>>) = apply {
                 this.excludeCountries = excludeCountries.map { it.toMutableList() }
             }
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation.
-             * Transactions matching any of the provided will be excluded from the calculated
-             * velocity.
+             * Adds a single [String] to [excludeCountries].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addExcludeCountry(excludeCountry: String) = apply {
                 excludeCountries =
@@ -449,24 +495,25 @@ private constructor(
             fun excludeMccs(excludeMccs: List<String>?) =
                 excludeMccs(JsonField.ofNullable(excludeMccs))
 
-            /**
-             * Merchant Category Codes to exclude from the velocity calculation. Transactions
-             * matching this MCC will be excluded from the calculated velocity.
-             */
+            /** Alias for calling [Builder.excludeMccs] with `excludeMccs.orElse(null)`. */
             fun excludeMccs(excludeMccs: Optional<List<String>>) =
                 excludeMccs(excludeMccs.getOrNull())
 
             /**
-             * Merchant Category Codes to exclude from the velocity calculation. Transactions
-             * matching this MCC will be excluded from the calculated velocity.
+             * Sets [Builder.excludeMccs] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.excludeMccs] with a well-typed `List<String>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun excludeMccs(excludeMccs: JsonField<List<String>>) = apply {
                 this.excludeMccs = excludeMccs.map { it.toMutableList() }
             }
 
             /**
-             * Merchant Category Codes to exclude from the velocity calculation. Transactions
-             * matching this MCC will be excluded from the calculated velocity.
+             * Adds a single [String] to [excludeMccs].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addExcludeMcc(excludeMcc: String) = apply {
                 excludeMccs =
@@ -483,23 +530,26 @@ private constructor(
                 includeCountries(JsonField.ofNullable(includeCountries))
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
-             * not matching any of the provided will not be included in the calculated velocity.
+             * Alias for calling [Builder.includeCountries] with `includeCountries.orElse(null)`.
              */
             fun includeCountries(includeCountries: Optional<List<String>>) =
                 includeCountries(includeCountries.getOrNull())
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
-             * not matching any of the provided will not be included in the calculated velocity.
+             * Sets [Builder.includeCountries] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.includeCountries] with a well-typed `List<String>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun includeCountries(includeCountries: JsonField<List<String>>) = apply {
                 this.includeCountries = includeCountries.map { it.toMutableList() }
             }
 
             /**
-             * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
-             * not matching any of the provided will not be included in the calculated velocity.
+             * Adds a single [String] to [includeCountries].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addIncludeCountry(includeCountry: String) = apply {
                 includeCountries =
@@ -515,24 +565,25 @@ private constructor(
             fun includeMccs(includeMccs: List<String>?) =
                 includeMccs(JsonField.ofNullable(includeMccs))
 
-            /**
-             * Merchant Category Codes to include in the velocity calculation. Transactions not
-             * matching this MCC will not be included in the calculated velocity.
-             */
+            /** Alias for calling [Builder.includeMccs] with `includeMccs.orElse(null)`. */
             fun includeMccs(includeMccs: Optional<List<String>>) =
                 includeMccs(includeMccs.getOrNull())
 
             /**
-             * Merchant Category Codes to include in the velocity calculation. Transactions not
-             * matching this MCC will not be included in the calculated velocity.
+             * Sets [Builder.includeMccs] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.includeMccs] with a well-typed `List<String>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun includeMccs(includeMccs: JsonField<List<String>>) = apply {
                 this.includeMccs = includeMccs.map { it.toMutableList() }
             }
 
             /**
-             * Merchant Category Codes to include in the velocity calculation. Transactions not
-             * matching this MCC will not be included in the calculated velocity.
+             * Adds a single [String] to [includeMccs].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addIncludeMcc(includeMcc: String) = apply {
                 includeMccs =

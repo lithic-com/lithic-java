@@ -46,13 +46,17 @@ private constructor(
      * The communication method that the user has selected to use to receive the authentication
      * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
      * "EMAIL_TO_CARDHOLDER_ADDRESS"
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun activationMethodType(): Optional<ActivationMethodType> = body.activationMethodType()
 
     /**
-     * The communication method that the user has selected to use to receive the authentication
-     * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-     * "EMAIL_TO_CARDHOLDER_ADDRESS"
+     * Returns the raw JSON value of [activationMethodType].
+     *
+     * Unlike [activationMethodType], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     fun _activationMethodType(): JsonField<ActivationMethodType> = body._activationMethodType()
 
@@ -90,14 +94,18 @@ private constructor(
          * The communication method that the user has selected to use to receive the authentication
          * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
          * "EMAIL_TO_CARDHOLDER_ADDRESS"
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun activationMethodType(): Optional<ActivationMethodType> =
             Optional.ofNullable(activationMethodType.getNullable("activation_method_type"))
 
         /**
-         * The communication method that the user has selected to use to receive the authentication
-         * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-         * "EMAIL_TO_CARDHOLDER_ADDRESS"
+         * Returns the raw JSON value of [activationMethodType].
+         *
+         * Unlike [activationMethodType], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("activation_method_type")
         @ExcludeMissing
@@ -147,9 +155,11 @@ private constructor(
                 activationMethodType(JsonField.of(activationMethodType))
 
             /**
-             * The communication method that the user has selected to use to receive the
-             * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-             * "EMAIL_TO_CARDHOLDER_ADDRESS"
+             * Sets [Builder.activationMethodType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activationMethodType] with a well-typed
+             * [ActivationMethodType] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
              */
             fun activationMethodType(activationMethodType: JsonField<ActivationMethodType>) =
                 apply {
@@ -246,9 +256,11 @@ private constructor(
         }
 
         /**
-         * The communication method that the user has selected to use to receive the authentication
-         * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-         * "EMAIL_TO_CARDHOLDER_ADDRESS"
+         * Sets [Builder.activationMethodType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.activationMethodType] with a well-typed
+         * [ActivationMethodType] value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
          */
         fun activationMethodType(activationMethodType: JsonField<ActivationMethodType>) = apply {
             body.activationMethodType(activationMethodType)

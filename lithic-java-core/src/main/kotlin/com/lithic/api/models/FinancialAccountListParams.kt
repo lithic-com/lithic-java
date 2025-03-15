@@ -84,7 +84,7 @@ private constructor(
         /** List financial accounts for a given account_token or business_account_token */
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-        /** List financial accounts for a given account_token or business_account_token */
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** List financial accounts for a given business_account_token */
@@ -92,14 +92,17 @@ private constructor(
             this.businessAccountToken = businessAccountToken
         }
 
-        /** List financial accounts for a given business_account_token */
+        /**
+         * Alias for calling [Builder.businessAccountToken] with
+         * `businessAccountToken.orElse(null)`.
+         */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 
         /** List financial accounts of a given type */
         fun type(type: Type?) = apply { this.type = type }
 
-        /** List financial accounts of a given type */
+        /** Alias for calling [Builder.type] with `type.orElse(null)`. */
         fun type(type: Optional<Type>) = type(type.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

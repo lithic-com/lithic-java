@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -31,55 +32,80 @@ private constructor(
     /**
      * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
      * always be a positive value.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun amount(): Long = body.amount()
 
     /**
      * Globally unique identifier for the financial account or card that will send the funds.
      * Accepted type dependent on the program's use case.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun from(): String = body.from()
 
     /**
      * Globally unique identifier for the financial account or card that will receive the funds.
      * Accepted type dependent on the program's use case.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun to(): String = body.to()
 
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
      * transaction token.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun token(): Optional<String> = body.token()
 
-    /** Optional descriptor for the transfer. */
+    /**
+     * Optional descriptor for the transfer.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
     /**
-     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
-     * always be a positive value.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
     /**
-     * Globally unique identifier for the financial account or card that will send the funds.
-     * Accepted type dependent on the program's use case.
+     * Returns the raw JSON value of [from].
+     *
+     * Unlike [from], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _from(): JsonField<String> = body._from()
 
     /**
-     * Globally unique identifier for the financial account or card that will receive the funds.
-     * Accepted type dependent on the program's use case.
+     * Returns the raw JSON value of [to].
+     *
+     * Unlike [to], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _to(): JsonField<String> = body._to()
 
     /**
-     * Customer-provided token that will serve as an idempotency token. This token will become the
-     * transaction token.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _token(): JsonField<String> = body._token()
 
-    /** Optional descriptor for the transfer. */
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -118,55 +144,80 @@ private constructor(
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun amount(): Long = amount.getRequired("amount")
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun from(): String = from.getRequired("from")
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun to(): String = to.getRequired("to")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Optional descriptor for the transfer.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-         * should always be a positive value.
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Returns the raw JSON value of [from].
+         *
+         * Unlike [from], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("from") @ExcludeMissing fun _from(): JsonField<String> = from
 
         /**
-         * Globally unique identifier for the financial account or card that will receive the funds.
-         * Accepted type dependent on the program's use case.
+         * Returns the raw JSON value of [to].
+         *
+         * Unlike [to], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("to") @ExcludeMissing fun _to(): JsonField<String> = to
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonAnyGetter
@@ -232,8 +283,11 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-             * should always be a positive value.
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -244,8 +298,11 @@ private constructor(
             fun from(from: String) = from(JsonField.of(from))
 
             /**
-             * Globally unique identifier for the financial account or card that will send the
-             * funds. Accepted type dependent on the program's use case.
+             * Sets [Builder.from] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.from] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun from(from: JsonField<String>) = apply { this.from = from }
 
@@ -256,8 +313,11 @@ private constructor(
             fun to(to: String) = to(JsonField.of(to))
 
             /**
-             * Globally unique identifier for the financial account or card that will receive the
-             * funds. Accepted type dependent on the program's use case.
+             * Sets [Builder.to] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.to] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun to(to: JsonField<String>) = apply { this.to = to }
 
@@ -268,15 +328,24 @@ private constructor(
             fun token(token: String) = token(JsonField.of(token))
 
             /**
-             * Customer-provided token that will serve as an idempotency token. This token will
-             * become the transaction token.
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Optional descriptor for the transfer. */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
-            /** Optional descriptor for the transfer. */
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -366,8 +435,10 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-         * should always be a positive value.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
@@ -378,8 +449,10 @@ private constructor(
         fun from(from: String) = apply { body.from(from) }
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Sets [Builder.from] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.from] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun from(from: JsonField<String>) = apply { body.from(from) }
 
@@ -390,8 +463,10 @@ private constructor(
         fun to(to: String) = apply { body.to(to) }
 
         /**
-         * Globally unique identifier for the financial account or card that will receive the funds.
-         * Accepted type dependent on the program's use case.
+         * Sets [Builder.to] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.to] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun to(to: JsonField<String>) = apply { body.to(to) }
 
@@ -402,15 +477,22 @@ private constructor(
         fun token(token: String) = apply { body.token(token) }
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
         fun memo(memo: String) = apply { body.memo(memo) }
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

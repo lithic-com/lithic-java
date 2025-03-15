@@ -49,16 +49,34 @@ private constructor(
 
     fun accountHolderToken(): String = accountHolderToken
 
-    /** The type of document to upload */
+    /**
+     * The type of document to upload
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun documentType(): DocumentType = body.documentType()
 
-    /** Globally unique identifier for the entity. */
+    /**
+     * Globally unique identifier for the entity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun entityToken(): String = body.entityToken()
 
-    /** The type of document to upload */
+    /**
+     * Returns the raw JSON value of [documentType].
+     *
+     * Unlike [documentType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _documentType(): JsonField<DocumentType> = body._documentType()
 
-    /** Globally unique identifier for the entity. */
+    /**
+     * Returns the raw JSON value of [entityToken].
+     *
+     * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _entityToken(): JsonField<String> = body._entityToken()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -94,18 +112,37 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The type of document to upload */
+        /**
+         * The type of document to upload
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun documentType(): DocumentType = documentType.getRequired("document_type")
 
-        /** Globally unique identifier for the entity. */
+        /**
+         * Globally unique identifier for the entity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun entityToken(): String = entityToken.getRequired("entity_token")
 
-        /** The type of document to upload */
+        /**
+         * Returns the raw JSON value of [documentType].
+         *
+         * Unlike [documentType], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("document_type")
         @ExcludeMissing
         fun _documentType(): JsonField<DocumentType> = documentType
 
-        /** Globally unique identifier for the entity. */
+        /**
+         * Returns the raw JSON value of [entityToken].
+         *
+         * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("entity_token")
         @ExcludeMissing
         fun _entityToken(): JsonField<String> = entityToken
@@ -159,7 +196,13 @@ private constructor(
             /** The type of document to upload */
             fun documentType(documentType: DocumentType) = documentType(JsonField.of(documentType))
 
-            /** The type of document to upload */
+            /**
+             * Sets [Builder.documentType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.documentType] with a well-typed [DocumentType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun documentType(documentType: JsonField<DocumentType>) = apply {
                 this.documentType = documentType
             }
@@ -167,7 +210,13 @@ private constructor(
             /** Globally unique identifier for the entity. */
             fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-            /** Globally unique identifier for the entity. */
+            /**
+             * Sets [Builder.entityToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.entityToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun entityToken(entityToken: JsonField<String>) = apply {
                 this.entityToken = entityToken
             }
@@ -261,7 +310,13 @@ private constructor(
         /** The type of document to upload */
         fun documentType(documentType: DocumentType) = apply { body.documentType(documentType) }
 
-        /** The type of document to upload */
+        /**
+         * Sets [Builder.documentType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.documentType] with a well-typed [DocumentType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun documentType(documentType: JsonField<DocumentType>) = apply {
             body.documentType(documentType)
         }
@@ -269,7 +324,13 @@ private constructor(
         /** Globally unique identifier for the entity. */
         fun entityToken(entityToken: String) = apply { body.entityToken(entityToken) }
 
-        /** Globally unique identifier for the entity. */
+        /**
+         * Sets [Builder.entityToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.entityToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun entityToken(entityToken: JsonField<String>) = apply { body.entityToken(entityToken) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

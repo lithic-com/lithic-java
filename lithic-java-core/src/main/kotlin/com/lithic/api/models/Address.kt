@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -38,15 +39,28 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Valid deliverable address (no PO boxes). */
+    /**
+     * Valid deliverable address (no PO boxes).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun address1(): String = address1.getRequired("address1")
 
-    /** Name of city. */
+    /**
+     * Name of city.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun city(): String = city.getRequired("city")
 
     /**
      * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Only USA
      * is currently supported for all workflows. KYC_EXEMPT supports CAN additionally.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun country(): String = country.getRequired("country")
 
@@ -54,44 +68,69 @@ private constructor(
      * Valid postal code. USA postal codes (ZIP codes) are supported, entered as a five-digit postal
      * code or nine-digit postal code (ZIP+4) using the format 12345-1234. KYC_EXEMPT supports
      * Canadian postal codes.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
     /**
      * Valid state code. USA state codes are supported, entered in uppercase ISO 3166-2
      * two-character format. KYC_EXEMPT supports Canadian province codes.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun state(): String = state.getRequired("state")
 
-    /** Unit or apartment number (if applicable). */
+    /**
+     * Unit or apartment number (if applicable).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
-    /** Valid deliverable address (no PO boxes). */
+    /**
+     * Returns the raw JSON value of [address1].
+     *
+     * Unlike [address1], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
-    /** Name of city. */
+    /**
+     * Returns the raw JSON value of [city].
+     *
+     * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
     /**
-     * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Only USA
-     * is currently supported for all workflows. KYC_EXEMPT supports CAN additionally.
+     * Returns the raw JSON value of [country].
+     *
+     * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
     /**
-     * Valid postal code. USA postal codes (ZIP codes) are supported, entered as a five-digit postal
-     * code or nine-digit postal code (ZIP+4) using the format 12345-1234. KYC_EXEMPT supports
-     * Canadian postal codes.
+     * Returns the raw JSON value of [postalCode].
+     *
+     * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("postal_code") @ExcludeMissing fun _postalCode(): JsonField<String> = postalCode
 
     /**
-     * Valid state code. USA state codes are supported, entered in uppercase ISO 3166-2
-     * two-character format. KYC_EXEMPT supports Canadian province codes.
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
-    /** Unit or apartment number (if applicable). */
+    /**
+     * Returns the raw JSON value of [address2].
+     *
+     * Unlike [address2], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
     @JsonAnyGetter
@@ -158,13 +197,23 @@ private constructor(
         /** Valid deliverable address (no PO boxes). */
         fun address1(address1: String) = address1(JsonField.of(address1))
 
-        /** Valid deliverable address (no PO boxes). */
+        /**
+         * Sets [Builder.address1] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address1] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
         /** Name of city. */
         fun city(city: String) = city(JsonField.of(city))
 
-        /** Name of city. */
+        /**
+         * Sets [Builder.city] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.city] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /**
@@ -174,8 +223,10 @@ private constructor(
         fun country(country: String) = country(JsonField.of(country))
 
         /**
-         * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Only
-         * USA is currently supported for all workflows. KYC_EXEMPT supports CAN additionally.
+         * Sets [Builder.country] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.country] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun country(country: JsonField<String>) = apply { this.country = country }
 
@@ -187,9 +238,11 @@ private constructor(
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
         /**
-         * Valid postal code. USA postal codes (ZIP codes) are supported, entered as a five-digit
-         * postal code or nine-digit postal code (ZIP+4) using the format 12345-1234. KYC_EXEMPT
-         * supports Canadian postal codes.
+         * Sets [Builder.postalCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.postalCode] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
@@ -200,15 +253,22 @@ private constructor(
         fun state(state: String) = state(JsonField.of(state))
 
         /**
-         * Valid state code. USA state codes are supported, entered in uppercase ISO 3166-2
-         * two-character format. KYC_EXEMPT supports Canadian province codes.
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<String>) = apply { this.state = state }
 
         /** Unit or apartment number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
 
-        /** Unit or apartment number (if applicable). */
+        /**
+         * Sets [Builder.address2] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address2] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

@@ -41,41 +41,88 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for the document. */
+    /**
+     * Globally unique identifier for the document.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Globally unique identifier for the account holder. */
+    /**
+     * Globally unique identifier for the account holder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountHolderToken(): String = accountHolderToken.getRequired("account_holder_token")
 
-    /** Type of documentation to be submitted for verification of an account holder */
+    /**
+     * Type of documentation to be submitted for verification of an account holder
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun documentType(): DocumentType = documentType.getRequired("document_type")
 
-    /** Globally unique identifier for an entity. */
+    /**
+     * Globally unique identifier for an entity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun entityToken(): String = entityToken.getRequired("entity_token")
 
-    /** Represents a single image of the document to upload. */
+    /**
+     * Represents a single image of the document to upload.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun requiredDocumentUploads(): List<RequiredDocumentUpload> =
         requiredDocumentUploads.getRequired("required_document_uploads")
 
-    /** Globally unique identifier for the document. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Globally unique identifier for the account holder. */
+    /**
+     * Returns the raw JSON value of [accountHolderToken].
+     *
+     * Unlike [accountHolderToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("account_holder_token")
     @ExcludeMissing
     fun _accountHolderToken(): JsonField<String> = accountHolderToken
 
-    /** Type of documentation to be submitted for verification of an account holder */
+    /**
+     * Returns the raw JSON value of [documentType].
+     *
+     * Unlike [documentType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("document_type")
     @ExcludeMissing
     fun _documentType(): JsonField<DocumentType> = documentType
 
-    /** Globally unique identifier for an entity. */
+    /**
+     * Returns the raw JSON value of [entityToken].
+     *
+     * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("entity_token")
     @ExcludeMissing
     fun _entityToken(): JsonField<String> = entityToken
 
-    /** Represents a single image of the document to upload. */
+    /**
+     * Returns the raw JSON value of [requiredDocumentUploads].
+     *
+     * Unlike [requiredDocumentUploads], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("required_document_uploads")
     @ExcludeMissing
     fun _requiredDocumentUploads(): JsonField<List<RequiredDocumentUpload>> =
@@ -142,14 +189,25 @@ private constructor(
         /** Globally unique identifier for the document. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier for the document. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account holder. */
         fun accountHolderToken(accountHolderToken: String) =
             accountHolderToken(JsonField.of(accountHolderToken))
 
-        /** Globally unique identifier for the account holder. */
+        /**
+         * Sets [Builder.accountHolderToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountHolderToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
             this.accountHolderToken = accountHolderToken
         }
@@ -157,7 +215,13 @@ private constructor(
         /** Type of documentation to be submitted for verification of an account holder */
         fun documentType(documentType: DocumentType) = documentType(JsonField.of(documentType))
 
-        /** Type of documentation to be submitted for verification of an account holder */
+        /**
+         * Sets [Builder.documentType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.documentType] with a well-typed [DocumentType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun documentType(documentType: JsonField<DocumentType>) = apply {
             this.documentType = documentType
         }
@@ -165,21 +229,37 @@ private constructor(
         /** Globally unique identifier for an entity. */
         fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-        /** Globally unique identifier for an entity. */
+        /**
+         * Sets [Builder.entityToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.entityToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
 
         /** Represents a single image of the document to upload. */
         fun requiredDocumentUploads(requiredDocumentUploads: List<RequiredDocumentUpload>) =
             requiredDocumentUploads(JsonField.of(requiredDocumentUploads))
 
-        /** Represents a single image of the document to upload. */
+        /**
+         * Sets [Builder.requiredDocumentUploads] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.requiredDocumentUploads] with a well-typed
+         * `List<RequiredDocumentUpload>` value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun requiredDocumentUploads(
             requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>
         ) = apply {
             this.requiredDocumentUploads = requiredDocumentUploads.map { it.toMutableList() }
         }
 
-        /** Represents a single image of the document to upload. */
+        /**
+         * Adds a single [RequiredDocumentUpload] to [requiredDocumentUploads].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addRequiredDocumentUpload(requiredDocumentUpload: RequiredDocumentUpload) = apply {
             requiredDocumentUploads =
                 (requiredDocumentUploads ?: JsonField.of(mutableListOf())).also {
@@ -459,37 +539,73 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Globally unique identifier for the document upload. */
+        /**
+         * Globally unique identifier for the document upload.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
          * A list of status reasons associated with a KYB account holder that have been satisfied by
          * the document upload
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun acceptedEntityStatusReasons(): List<String> =
             acceptedEntityStatusReasons.getRequired("accepted_entity_status_reasons")
 
-        /** When the document upload was created */
+        /**
+         * When the document upload was created
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun created(): OffsetDateTime = created.getRequired("created")
 
-        /** Type of image to upload. */
+        /**
+         * Type of image to upload.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun imageType(): ImageType = imageType.getRequired("image_type")
 
         /**
          * A list of status reasons associated with a KYB account holder that have not been
          * satisfied by the document upload
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun rejectedEntityStatusReasons(): List<String> =
             rejectedEntityStatusReasons.getRequired("rejected_entity_status_reasons")
 
-        /** Status of an account holder's document upload. */
+        /**
+         * Status of an account holder's document upload.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun status(): DocumentUploadStatus = status.getRequired("status")
 
-        /** Reasons for document image upload status. */
+        /**
+         * Reasons for document image upload status.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun statusReasons(): List<DocumentUploadStatusReasons> =
             statusReasons.getRequired("status_reasons")
 
-        /** When the document upload was last updated */
+        /**
+         * When the document upload was last updated
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun updated(): OffsetDateTime = updated.getRequired("updated")
 
         /**
@@ -498,55 +614,85 @@ private constructor(
          * Note that the upload URLs expire after 7 days. If an upload URL expires, you can refresh
          * the URLs by retrieving the document upload from `GET
          * /account_holders/{account_holder_token}/documents`.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun uploadUrl(): String = uploadUrl.getRequired("upload_url")
 
-        /** Globally unique identifier for the document upload. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * A list of status reasons associated with a KYB account holder that have been satisfied by
-         * the document upload
+         * Returns the raw JSON value of [acceptedEntityStatusReasons].
+         *
+         * Unlike [acceptedEntityStatusReasons], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("accepted_entity_status_reasons")
         @ExcludeMissing
         fun _acceptedEntityStatusReasons(): JsonField<List<String>> = acceptedEntityStatusReasons
 
-        /** When the document upload was created */
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-        /** Type of image to upload. */
+        /**
+         * Returns the raw JSON value of [imageType].
+         *
+         * Unlike [imageType], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("image_type")
         @ExcludeMissing
         fun _imageType(): JsonField<ImageType> = imageType
 
         /**
-         * A list of status reasons associated with a KYB account holder that have not been
-         * satisfied by the document upload
+         * Returns the raw JSON value of [rejectedEntityStatusReasons].
+         *
+         * Unlike [rejectedEntityStatusReasons], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("rejected_entity_status_reasons")
         @ExcludeMissing
         fun _rejectedEntityStatusReasons(): JsonField<List<String>> = rejectedEntityStatusReasons
 
-        /** Status of an account holder's document upload. */
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("status")
         @ExcludeMissing
         fun _status(): JsonField<DocumentUploadStatus> = status
 
-        /** Reasons for document image upload status. */
+        /**
+         * Returns the raw JSON value of [statusReasons].
+         *
+         * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("status_reasons")
         @ExcludeMissing
         fun _statusReasons(): JsonField<List<DocumentUploadStatusReasons>> = statusReasons
 
-        /** When the document upload was last updated */
+        /**
+         * Returns the raw JSON value of [updated].
+         *
+         * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
         /**
-         * URL to upload document image to.
+         * Returns the raw JSON value of [uploadUrl].
          *
-         * Note that the upload URLs expire after 7 days. If an upload URL expires, you can refresh
-         * the URLs by retrieving the document upload from `GET
-         * /account_holders/{account_holder_token}/documents`.
+         * Unlike [uploadUrl], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
@@ -629,7 +775,13 @@ private constructor(
             /** Globally unique identifier for the document upload. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Globally unique identifier for the document upload. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -640,8 +792,11 @@ private constructor(
                 acceptedEntityStatusReasons(JsonField.of(acceptedEntityStatusReasons))
 
             /**
-             * A list of status reasons associated with a KYB account holder that have been
-             * satisfied by the document upload
+             * Sets [Builder.acceptedEntityStatusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acceptedEntityStatusReasons] with a well-typed
+             * `List<String>` value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
              */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
@@ -650,8 +805,9 @@ private constructor(
                 }
 
             /**
-             * A list of status reasons associated with a KYB account holder that have been
-             * satisfied by the document upload
+             * Adds a single [String] to [acceptedEntityStatusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
                 acceptedEntityStatusReasons =
@@ -664,13 +820,25 @@ private constructor(
             /** When the document upload was created */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            /** When the document upload was created */
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /** Type of image to upload. */
             fun imageType(imageType: ImageType) = imageType(JsonField.of(imageType))
 
-            /** Type of image to upload. */
+            /**
+             * Sets [Builder.imageType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.imageType] with a well-typed [ImageType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun imageType(imageType: JsonField<ImageType>) = apply { this.imageType = imageType }
 
             /**
@@ -681,8 +849,11 @@ private constructor(
                 rejectedEntityStatusReasons(JsonField.of(rejectedEntityStatusReasons))
 
             /**
-             * A list of status reasons associated with a KYB account holder that have not been
-             * satisfied by the document upload
+             * Sets [Builder.rejectedEntityStatusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.rejectedEntityStatusReasons] with a well-typed
+             * `List<String>` value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
              */
             fun rejectedEntityStatusReasons(rejectedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
@@ -691,8 +862,9 @@ private constructor(
                 }
 
             /**
-             * A list of status reasons associated with a KYB account holder that have not been
-             * satisfied by the document upload
+             * Adds a single [String] to [rejectedEntityStatusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addRejectedEntityStatusReason(rejectedEntityStatusReason: String) = apply {
                 rejectedEntityStatusReasons =
@@ -705,19 +877,35 @@ private constructor(
             /** Status of an account holder's document upload. */
             fun status(status: DocumentUploadStatus) = status(JsonField.of(status))
 
-            /** Status of an account holder's document upload. */
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [DocumentUploadStatus]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun status(status: JsonField<DocumentUploadStatus>) = apply { this.status = status }
 
             /** Reasons for document image upload status. */
             fun statusReasons(statusReasons: List<DocumentUploadStatusReasons>) =
                 statusReasons(JsonField.of(statusReasons))
 
-            /** Reasons for document image upload status. */
+            /**
+             * Sets [Builder.statusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.statusReasons] with a well-typed
+             * `List<DocumentUploadStatusReasons>` value instead. This method is primarily for
+             * setting the field to an undocumented or not yet supported value.
+             */
             fun statusReasons(statusReasons: JsonField<List<DocumentUploadStatusReasons>>) = apply {
                 this.statusReasons = statusReasons.map { it.toMutableList() }
             }
 
-            /** Reasons for document image upload status. */
+            /**
+             * Adds a single [DocumentUploadStatusReasons] to [statusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addStatusReason(statusReason: DocumentUploadStatusReasons) = apply {
                 statusReasons =
                     (statusReasons ?: JsonField.of(mutableListOf())).also {
@@ -728,7 +916,13 @@ private constructor(
             /** When the document upload was last updated */
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-            /** When the document upload was last updated */
+            /**
+             * Sets [Builder.updated] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             /**
@@ -741,11 +935,11 @@ private constructor(
             fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
 
             /**
-             * URL to upload document image to.
+             * Sets [Builder.uploadUrl] to an arbitrary JSON value.
              *
-             * Note that the upload URLs expire after 7 days. If an upload URL expires, you can
-             * refresh the URLs by retrieving the document upload from `GET
-             * /account_holders/{account_holder_token}/documents`.
+             * You should usually call [Builder.uploadUrl] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 

@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -33,23 +34,51 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun availableSpendLimit(): AvailableSpendLimit =
         availableSpendLimit.getRequired("available_spend_limit")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun spendLimit(): Optional<SpendLimit> =
         Optional.ofNullable(spendLimit.getNullable("spend_limit"))
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun spendVelocity(): Optional<SpendVelocity> =
         Optional.ofNullable(spendVelocity.getNullable("spend_velocity"))
 
+    /**
+     * Returns the raw JSON value of [availableSpendLimit].
+     *
+     * Unlike [availableSpendLimit], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("available_spend_limit")
     @ExcludeMissing
     fun _availableSpendLimit(): JsonField<AvailableSpendLimit> = availableSpendLimit
 
+    /**
+     * Returns the raw JSON value of [spendLimit].
+     *
+     * Unlike [spendLimit], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("spend_limit")
     @ExcludeMissing
     fun _spendLimit(): JsonField<SpendLimit> = spendLimit
 
+    /**
+     * Returns the raw JSON value of [spendVelocity].
+     *
+     * Unlike [spendVelocity], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("spend_velocity")
     @ExcludeMissing
     fun _spendVelocity(): JsonField<SpendVelocity> = spendVelocity
@@ -105,16 +134,37 @@ private constructor(
         fun availableSpendLimit(availableSpendLimit: AvailableSpendLimit) =
             availableSpendLimit(JsonField.of(availableSpendLimit))
 
+        /**
+         * Sets [Builder.availableSpendLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.availableSpendLimit] with a well-typed
+         * [AvailableSpendLimit] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun availableSpendLimit(availableSpendLimit: JsonField<AvailableSpendLimit>) = apply {
             this.availableSpendLimit = availableSpendLimit
         }
 
         fun spendLimit(spendLimit: SpendLimit) = spendLimit(JsonField.of(spendLimit))
 
+        /**
+         * Sets [Builder.spendLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimit] with a well-typed [SpendLimit] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun spendLimit(spendLimit: JsonField<SpendLimit>) = apply { this.spendLimit = spendLimit }
 
         fun spendVelocity(spendVelocity: SpendVelocity) = spendVelocity(JsonField.of(spendVelocity))
 
+        /**
+         * Sets [Builder.spendVelocity] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendVelocity] with a well-typed [SpendVelocity] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun spendVelocity(spendVelocity: JsonField<SpendVelocity>) = apply {
             this.spendVelocity = spendVelocity
         }
@@ -167,36 +217,48 @@ private constructor(
         /**
          * The available spend limit (in cents) relative to the daily limit configured on the
          * Account (e.g. 100000 would be a $1,000 limit).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
 
         /**
          * The available spend limit (in cents) relative to the lifetime limit configured on the
          * Account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
 
         /**
          * The available spend limit (in cents) relative to the monthly limit configured on the
          * Account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
 
         /**
-         * The available spend limit (in cents) relative to the daily limit configured on the
-         * Account (e.g. 100000 would be a $1,000 limit).
+         * Returns the raw JSON value of [daily].
+         *
+         * Unlike [daily], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /**
-         * The available spend limit (in cents) relative to the lifetime limit configured on the
-         * Account.
+         * Returns the raw JSON value of [lifetime].
+         *
+         * Unlike [lifetime], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /**
-         * The available spend limit (in cents) relative to the monthly limit configured on the
-         * Account.
+         * Returns the raw JSON value of [monthly].
+         *
+         * Unlike [monthly], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
@@ -248,8 +310,11 @@ private constructor(
             fun daily(daily: Long) = daily(JsonField.of(daily))
 
             /**
-             * The available spend limit (in cents) relative to the daily limit configured on the
-             * Account (e.g. 100000 would be a $1,000 limit).
+             * Sets [Builder.daily] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.daily] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun daily(daily: JsonField<Long>) = apply { this.daily = daily }
 
@@ -260,8 +325,11 @@ private constructor(
             fun lifetime(lifetime: Long) = lifetime(JsonField.of(lifetime))
 
             /**
-             * The available spend limit (in cents) relative to the lifetime limit configured on the
-             * Account.
+             * Sets [Builder.lifetime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lifetime] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun lifetime(lifetime: JsonField<Long>) = apply { this.lifetime = lifetime }
 
@@ -272,8 +340,11 @@ private constructor(
             fun monthly(monthly: Long) = monthly(JsonField.of(monthly))
 
             /**
-             * The available spend limit (in cents) relative to the monthly limit configured on the
-             * Account.
+             * Sets [Builder.monthly] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.monthly] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
@@ -335,22 +406,49 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The configured daily spend limit (in cents) on the Account. */
+        /**
+         * The configured daily spend limit (in cents) on the Account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
 
-        /** The configured lifetime spend limit (in cents) on the Account. */
+        /**
+         * The configured lifetime spend limit (in cents) on the Account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
 
-        /** The configured monthly spend limit (in cents) on the Account. */
+        /**
+         * The configured monthly spend limit (in cents) on the Account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
 
-        /** The configured daily spend limit (in cents) on the Account. */
+        /**
+         * Returns the raw JSON value of [daily].
+         *
+         * Unlike [daily], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
-        /** The configured lifetime spend limit (in cents) on the Account. */
+        /**
+         * Returns the raw JSON value of [lifetime].
+         *
+         * Unlike [lifetime], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
-        /** The configured monthly spend limit (in cents) on the Account. */
+        /**
+         * Returns the raw JSON value of [monthly].
+         *
+         * Unlike [monthly], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
@@ -397,19 +495,37 @@ private constructor(
             /** The configured daily spend limit (in cents) on the Account. */
             fun daily(daily: Long) = daily(JsonField.of(daily))
 
-            /** The configured daily spend limit (in cents) on the Account. */
+            /**
+             * Sets [Builder.daily] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.daily] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun daily(daily: JsonField<Long>) = apply { this.daily = daily }
 
             /** The configured lifetime spend limit (in cents) on the Account. */
             fun lifetime(lifetime: Long) = lifetime(JsonField.of(lifetime))
 
-            /** The configured lifetime spend limit (in cents) on the Account. */
+            /**
+             * Sets [Builder.lifetime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lifetime] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun lifetime(lifetime: JsonField<Long>) = apply { this.lifetime = lifetime }
 
             /** The configured monthly spend limit (in cents) on the Account. */
             fun monthly(monthly: Long) = monthly(JsonField.of(monthly))
 
-            /** The configured monthly spend limit (in cents) on the Account. */
+            /**
+             * Sets [Builder.monthly] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.monthly] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -473,36 +589,48 @@ private constructor(
         /**
          * Current daily spend velocity (in cents) on the Account. Present if daily spend limit is
          * set.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
 
         /**
          * Current lifetime spend velocity (in cents) on the Account. Present if lifetime spend
          * limit is set.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
 
         /**
          * Current monthly spend velocity (in cents) on the Account. Present if monthly spend limit
          * is set.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
 
         /**
-         * Current daily spend velocity (in cents) on the Account. Present if daily spend limit is
-         * set.
+         * Returns the raw JSON value of [daily].
+         *
+         * Unlike [daily], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /**
-         * Current lifetime spend velocity (in cents) on the Account. Present if lifetime spend
-         * limit is set.
+         * Returns the raw JSON value of [lifetime].
+         *
+         * Unlike [lifetime], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /**
-         * Current monthly spend velocity (in cents) on the Account. Present if monthly spend limit
-         * is set.
+         * Returns the raw JSON value of [monthly].
+         *
+         * Unlike [monthly], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
@@ -554,8 +682,11 @@ private constructor(
             fun daily(daily: Long) = daily(JsonField.of(daily))
 
             /**
-             * Current daily spend velocity (in cents) on the Account. Present if daily spend limit
-             * is set.
+             * Sets [Builder.daily] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.daily] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun daily(daily: JsonField<Long>) = apply { this.daily = daily }
 
@@ -566,8 +697,11 @@ private constructor(
             fun lifetime(lifetime: Long) = lifetime(JsonField.of(lifetime))
 
             /**
-             * Current lifetime spend velocity (in cents) on the Account. Present if lifetime spend
-             * limit is set.
+             * Sets [Builder.lifetime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lifetime] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun lifetime(lifetime: JsonField<Long>) = apply { this.lifetime = lifetime }
 
@@ -578,8 +712,11 @@ private constructor(
             fun monthly(monthly: Long) = monthly(JsonField.of(monthly))
 
             /**
-             * Current monthly spend velocity (in cents) on the Account. Present if monthly spend
-             * limit is set.
+             * Sets [Builder.monthly] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.monthly] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 

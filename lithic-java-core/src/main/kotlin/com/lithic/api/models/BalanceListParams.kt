@@ -99,13 +99,13 @@ private constructor(
         /** List balances for all financial accounts of a given account_token. */
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-        /** List balances for all financial accounts of a given account_token. */
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
         fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
 
-        /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
+        /** Alias for calling [Builder.balanceDate] with `balanceDate.orElse(null)`. */
         fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
             balanceDate(balanceDate.getOrNull())
 
@@ -114,7 +114,10 @@ private constructor(
             this.businessAccountToken = businessAccountToken
         }
 
-        /** List balances for all financial accounts of a given business_account_token. */
+        /**
+         * Alias for calling [Builder.businessAccountToken] with
+         * `businessAccountToken.orElse(null)`.
+         */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 
@@ -123,7 +126,10 @@ private constructor(
             this.financialAccountType = financialAccountType
         }
 
-        /** List balances for a given Financial Account type. */
+        /**
+         * Alias for calling [Builder.financialAccountType] with
+         * `financialAccountType.orElse(null)`.
+         */
         fun financialAccountType(financialAccountType: Optional<FinancialAccountType>) =
             financialAccountType(financialAccountType.getOrNull())
 

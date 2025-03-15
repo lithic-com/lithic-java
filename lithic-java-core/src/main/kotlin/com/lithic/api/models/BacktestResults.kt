@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
@@ -36,21 +37,49 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Auth Rule Backtest Token */
+    /**
+     * Auth Rule Backtest Token
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun backtestToken(): String = backtestToken.getRequired("backtest_token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun results(): Results = results.getRequired("results")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun simulationParameters(): SimulationParameters =
         simulationParameters.getRequired("simulation_parameters")
 
-    /** Auth Rule Backtest Token */
+    /**
+     * Returns the raw JSON value of [backtestToken].
+     *
+     * Unlike [backtestToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("backtest_token")
     @ExcludeMissing
     fun _backtestToken(): JsonField<String> = backtestToken
 
+    /**
+     * Returns the raw JSON value of [results].
+     *
+     * Unlike [results], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("results") @ExcludeMissing fun _results(): JsonField<Results> = results
 
+    /**
+     * Returns the raw JSON value of [simulationParameters].
+     *
+     * Unlike [simulationParameters], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("simulation_parameters")
     @ExcludeMissing
     fun _simulationParameters(): JsonField<SimulationParameters> = simulationParameters
@@ -108,18 +137,37 @@ private constructor(
         /** Auth Rule Backtest Token */
         fun backtestToken(backtestToken: String) = backtestToken(JsonField.of(backtestToken))
 
-        /** Auth Rule Backtest Token */
+        /**
+         * Sets [Builder.backtestToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.backtestToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun backtestToken(backtestToken: JsonField<String>) = apply {
             this.backtestToken = backtestToken
         }
 
         fun results(results: Results) = results(JsonField.of(results))
 
+        /**
+         * Sets [Builder.results] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.results] with a well-typed [Results] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun results(results: JsonField<Results>) = apply { this.results = results }
 
         fun simulationParameters(simulationParameters: SimulationParameters) =
             simulationParameters(JsonField.of(simulationParameters))
 
+        /**
+         * Sets [Builder.simulationParameters] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.simulationParameters] with a well-typed
+         * [SimulationParameters] value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
+         */
         fun simulationParameters(simulationParameters: JsonField<SimulationParameters>) = apply {
             this.simulationParameters = simulationParameters
         }
@@ -166,16 +214,36 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun currentVersion(): Optional<RuleStats> =
             Optional.ofNullable(currentVersion.getNullable("current_version"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun draftVersion(): Optional<RuleStats> =
             Optional.ofNullable(draftVersion.getNullable("draft_version"))
 
+        /**
+         * Returns the raw JSON value of [currentVersion].
+         *
+         * Unlike [currentVersion], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("current_version")
         @ExcludeMissing
         fun _currentVersion(): JsonField<RuleStats> = currentVersion
 
+        /**
+         * Returns the raw JSON value of [draftVersion].
+         *
+         * Unlike [draftVersion], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("draft_version")
         @ExcludeMissing
         fun _draftVersion(): JsonField<RuleStats> = draftVersion
@@ -221,9 +289,17 @@ private constructor(
             fun currentVersion(currentVersion: RuleStats?) =
                 currentVersion(JsonField.ofNullable(currentVersion))
 
+            /** Alias for calling [Builder.currentVersion] with `currentVersion.orElse(null)`. */
             fun currentVersion(currentVersion: Optional<RuleStats>) =
                 currentVersion(currentVersion.getOrNull())
 
+            /**
+             * Sets [Builder.currentVersion] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.currentVersion] with a well-typed [RuleStats] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun currentVersion(currentVersion: JsonField<RuleStats>) = apply {
                 this.currentVersion = currentVersion
             }
@@ -231,9 +307,17 @@ private constructor(
             fun draftVersion(draftVersion: RuleStats?) =
                 draftVersion(JsonField.ofNullable(draftVersion))
 
+            /** Alias for calling [Builder.draftVersion] with `draftVersion.orElse(null)`. */
             fun draftVersion(draftVersion: Optional<RuleStats>) =
                 draftVersion(draftVersion.getOrNull())
 
+            /**
+             * Sets [Builder.draftVersion] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.draftVersion] with a well-typed [RuleStats] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun draftVersion(draftVersion: JsonField<RuleStats>) = apply {
                 this.draftVersion = draftVersion
             }
@@ -285,6 +369,9 @@ private constructor(
              * The total number of historical transactions approved by this rule during the backtest
              * period, or the number of transactions that would have been approved if the rule was
              * evaluated in shadow mode.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun approved(): Optional<Long> = Optional.ofNullable(approved.getNullable("approved"))
 
@@ -292,39 +379,59 @@ private constructor(
              * The total number of historical transactions declined by this rule during the backtest
              * period, or the number of transactions that would have been declined if the rule was
              * evaluated in shadow mode.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun declined(): Optional<Long> = Optional.ofNullable(declined.getNullable("declined"))
 
-            /** Example authorization request events that would have been approved or declined. */
+            /**
+             * Example authorization request events that would have been approved or declined.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun examples(): Optional<List<Example>> =
                 Optional.ofNullable(examples.getNullable("examples"))
 
             /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun version(): Optional<Long> = Optional.ofNullable(version.getNullable("version"))
 
             /**
-             * The total number of historical transactions approved by this rule during the backtest
-             * period, or the number of transactions that would have been approved if the rule was
-             * evaluated in shadow mode.
+             * Returns the raw JSON value of [approved].
+             *
+             * Unlike [approved], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("approved") @ExcludeMissing fun _approved(): JsonField<Long> = approved
 
             /**
-             * The total number of historical transactions declined by this rule during the backtest
-             * period, or the number of transactions that would have been declined if the rule was
-             * evaluated in shadow mode.
+             * Returns the raw JSON value of [declined].
+             *
+             * Unlike [declined], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("declined") @ExcludeMissing fun _declined(): JsonField<Long> = declined
 
-            /** Example authorization request events that would have been approved or declined. */
+            /**
+             * Returns the raw JSON value of [examples].
+             *
+             * Unlike [examples], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("examples")
             @ExcludeMissing
             fun _examples(): JsonField<List<Example>> = examples
 
             /**
-             * The version of the rule, this is incremented whenever the rule's parameters change.
+             * Returns the raw JSON value of [version].
+             *
+             * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
@@ -380,9 +487,11 @@ private constructor(
                 fun approved(approved: Long) = approved(JsonField.of(approved))
 
                 /**
-                 * The total number of historical transactions approved by this rule during the
-                 * backtest period, or the number of transactions that would have been approved if
-                 * the rule was evaluated in shadow mode.
+                 * Sets [Builder.approved] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.approved] with a well-typed [Long] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun approved(approved: JsonField<Long>) = apply { this.approved = approved }
 
@@ -394,9 +503,11 @@ private constructor(
                 fun declined(declined: Long) = declined(JsonField.of(declined))
 
                 /**
-                 * The total number of historical transactions declined by this rule during the
-                 * backtest period, or the number of transactions that would have been declined if
-                 * the rule was evaluated in shadow mode.
+                 * Sets [Builder.declined] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.declined] with a well-typed [Long] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun declined(declined: JsonField<Long>) = apply { this.declined = declined }
 
@@ -406,14 +517,20 @@ private constructor(
                 fun examples(examples: List<Example>) = examples(JsonField.of(examples))
 
                 /**
-                 * Example authorization request events that would have been approved or declined.
+                 * Sets [Builder.examples] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.examples] with a well-typed `List<Example>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
                 fun examples(examples: JsonField<List<Example>>) = apply {
                     this.examples = examples.map { it.toMutableList() }
                 }
 
                 /**
-                 * Example authorization request events that would have been approved or declined.
+                 * Adds a single [Example] to [examples].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
                  */
                 fun addExample(example: Example) = apply {
                     examples =
@@ -429,8 +546,11 @@ private constructor(
                 fun version(version: Long) = version(JsonField.of(version))
 
                 /**
-                 * The version of the rule, this is incremented whenever the rule's parameters
-                 * change.
+                 * Sets [Builder.version] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.version] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
                  */
                 fun version(version: JsonField<Long>) = apply { this.version = version }
 
@@ -483,29 +603,59 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Whether the rule would have approved the authorization request. */
+                /**
+                 * Whether the rule would have approved the authorization request.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun approved(): Optional<Boolean> =
                     Optional.ofNullable(approved.getNullable("approved"))
 
-                /** The authorization request event token. */
+                /**
+                 * The authorization request event token.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun eventToken(): Optional<String> =
                     Optional.ofNullable(eventToken.getNullable("event_token"))
 
-                /** The timestamp of the authorization request event. */
+                /**
+                 * The timestamp of the authorization request event.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun timestamp(): Optional<OffsetDateTime> =
                     Optional.ofNullable(timestamp.getNullable("timestamp"))
 
-                /** Whether the rule would have approved the authorization request. */
+                /**
+                 * Returns the raw JSON value of [approved].
+                 *
+                 * Unlike [approved], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("approved")
                 @ExcludeMissing
                 fun _approved(): JsonField<Boolean> = approved
 
-                /** The authorization request event token. */
+                /**
+                 * Returns the raw JSON value of [eventToken].
+                 *
+                 * Unlike [eventToken], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("event_token")
                 @ExcludeMissing
                 fun _eventToken(): JsonField<String> = eventToken
 
-                /** The timestamp of the authorization request event. */
+                /**
+                 * Returns the raw JSON value of [timestamp].
+                 *
+                 * Unlike [timestamp], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("timestamp")
                 @ExcludeMissing
                 fun _timestamp(): JsonField<OffsetDateTime> = timestamp
@@ -554,13 +704,25 @@ private constructor(
                     /** Whether the rule would have approved the authorization request. */
                     fun approved(approved: Boolean) = approved(JsonField.of(approved))
 
-                    /** Whether the rule would have approved the authorization request. */
+                    /**
+                     * Sets [Builder.approved] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.approved] with a well-typed [Boolean] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun approved(approved: JsonField<Boolean>) = apply { this.approved = approved }
 
                     /** The authorization request event token. */
                     fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
 
-                    /** The authorization request event token. */
+                    /**
+                     * Sets [Builder.eventToken] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.eventToken] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun eventToken(eventToken: JsonField<String>) = apply {
                         this.eventToken = eventToken
                     }
@@ -568,7 +730,13 @@ private constructor(
                     /** The timestamp of the authorization request event. */
                     fun timestamp(timestamp: OffsetDateTime) = timestamp(JsonField.of(timestamp))
 
-                    /** The timestamp of the authorization request event. */
+                    /**
+                     * Sets [Builder.timestamp] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.timestamp] with a well-typed
+                     * [OffsetDateTime] value instead. This method is primarily for setting the
+                     * field to an undocumented or not yet supported value.
+                     */
                     fun timestamp(timestamp: JsonField<OffsetDateTime>) = apply {
                         this.timestamp = timestamp
                     }
@@ -670,25 +838,53 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Auth Rule Token */
+        /**
+         * Auth Rule Token
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun authRuleToken(): Optional<String> =
             Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
 
-        /** The end time of the simulation. */
+        /**
+         * The end time of the simulation.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end.getNullable("end"))
 
-        /** The start time of the simulation. */
+        /**
+         * The start time of the simulation.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
 
-        /** Auth Rule Token */
+        /**
+         * Returns the raw JSON value of [authRuleToken].
+         *
+         * Unlike [authRuleToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("auth_rule_token")
         @ExcludeMissing
         fun _authRuleToken(): JsonField<String> = authRuleToken
 
-        /** The end time of the simulation. */
+        /**
+         * Returns the raw JSON value of [end].
+         *
+         * Unlike [end], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("end") @ExcludeMissing fun _end(): JsonField<OffsetDateTime> = end
 
-        /** The start time of the simulation. */
+        /**
+         * Returns the raw JSON value of [start].
+         *
+         * Unlike [start], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("start") @ExcludeMissing fun _start(): JsonField<OffsetDateTime> = start
 
         @JsonAnyGetter
@@ -735,7 +931,13 @@ private constructor(
             /** Auth Rule Token */
             fun authRuleToken(authRuleToken: String) = authRuleToken(JsonField.of(authRuleToken))
 
-            /** Auth Rule Token */
+            /**
+             * Sets [Builder.authRuleToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.authRuleToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun authRuleToken(authRuleToken: JsonField<String>) = apply {
                 this.authRuleToken = authRuleToken
             }
@@ -743,13 +945,25 @@ private constructor(
             /** The end time of the simulation. */
             fun end(end: OffsetDateTime) = end(JsonField.of(end))
 
-            /** The end time of the simulation. */
+            /**
+             * Sets [Builder.end] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.end] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun end(end: JsonField<OffsetDateTime>) = apply { this.end = end }
 
             /** The start time of the simulation. */
             fun start(start: OffsetDateTime) = start(JsonField.of(start))
 
-            /** The start time of the simulation. */
+            /**
+             * Sets [Builder.start] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.start] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun start(start: JsonField<OffsetDateTime>) = apply { this.start = start }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

@@ -33,73 +33,127 @@ private constructor(
     /**
      * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
      * always be a positive value.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun amount(): Long = body.amount()
 
-    /** Category of the book transfer */
+    /**
+     * Category of the book transfer
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun category(): Category = body.category()
 
     /**
      * Globally unique identifier for the financial account or card that will send the funds.
      * Accepted type dependent on the program's use case.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun fromFinancialAccountToken(): String = body.fromFinancialAccountToken()
 
-    /** The program specific subtype code for the specified category/type. */
+    /**
+     * The program specific subtype code for the specified category/type.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun subtype(): String = body.subtype()
 
     /**
      * Globally unique identifier for the financial account or card that will receive the funds.
      * Accepted type dependent on the program's use case.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun toFinancialAccountToken(): String = body.toFinancialAccountToken()
 
-    /** Type of book_transfer */
+    /**
+     * Type of book_transfer
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun type(): Type = body.type()
 
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
      * transaction token.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun token(): Optional<String> = body.token()
 
-    /** Optional descriptor for the transfer. */
+    /**
+     * Optional descriptor for the transfer.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
     /**
-     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
-     * always be a positive value.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
-    /** Category of the book transfer */
+    /**
+     * Returns the raw JSON value of [category].
+     *
+     * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _category(): JsonField<Category> = body._category()
 
     /**
-     * Globally unique identifier for the financial account or card that will send the funds.
-     * Accepted type dependent on the program's use case.
+     * Returns the raw JSON value of [fromFinancialAccountToken].
+     *
+     * Unlike [fromFinancialAccountToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     fun _fromFinancialAccountToken(): JsonField<String> = body._fromFinancialAccountToken()
 
-    /** The program specific subtype code for the specified category/type. */
+    /**
+     * Returns the raw JSON value of [subtype].
+     *
+     * Unlike [subtype], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _subtype(): JsonField<String> = body._subtype()
 
     /**
-     * Globally unique identifier for the financial account or card that will receive the funds.
-     * Accepted type dependent on the program's use case.
+     * Returns the raw JSON value of [toFinancialAccountToken].
+     *
+     * Unlike [toFinancialAccountToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     fun _toFinancialAccountToken(): JsonField<String> = body._toFinancialAccountToken()
 
-    /** Type of book_transfer */
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _type(): JsonField<Type> = body._type()
 
     /**
-     * Customer-provided token that will serve as an idempotency token. This token will become the
-     * transaction token.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _token(): JsonField<String> = body._token()
 
-    /** Optional descriptor for the transfer. */
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -147,79 +201,133 @@ private constructor(
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Category of the book transfer */
+        /**
+         * Category of the book transfer
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun category(): Category = category.getRequired("category")
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun fromFinancialAccountToken(): String =
             fromFinancialAccountToken.getRequired("from_financial_account_token")
 
-        /** The program specific subtype code for the specified category/type. */
+        /**
+         * The program specific subtype code for the specified category/type.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun subtype(): String = subtype.getRequired("subtype")
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun toFinancialAccountToken(): String =
             toFinancialAccountToken.getRequired("to_financial_account_token")
 
-        /** Type of book_transfer */
+        /**
+         * Type of book_transfer
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): Type = type.getRequired("type")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Optional descriptor for the transfer.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-         * should always be a positive value.
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Category of the book transfer */
+        /**
+         * Returns the raw JSON value of [category].
+         *
+         * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Returns the raw JSON value of [fromFinancialAccountToken].
+         *
+         * Unlike [fromFinancialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("from_financial_account_token")
         @ExcludeMissing
         fun _fromFinancialAccountToken(): JsonField<String> = fromFinancialAccountToken
 
-        /** The program specific subtype code for the specified category/type. */
+        /**
+         * Returns the raw JSON value of [subtype].
+         *
+         * Unlike [subtype], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("subtype") @ExcludeMissing fun _subtype(): JsonField<String> = subtype
 
         /**
-         * Globally unique identifier for the financial account or card that will receive the funds.
-         * Accepted type dependent on the program's use case.
+         * Returns the raw JSON value of [toFinancialAccountToken].
+         *
+         * Unlike [toFinancialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("to_financial_account_token")
         @ExcludeMissing
         fun _toFinancialAccountToken(): JsonField<String> = toFinancialAccountToken
 
-        /** Type of book_transfer */
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonAnyGetter
@@ -297,15 +405,24 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-             * should always be a positive value.
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Category of the book transfer */
             fun category(category: Category) = category(JsonField.of(category))
 
-            /** Category of the book transfer */
+            /**
+             * Sets [Builder.category] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.category] with a well-typed [Category] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun category(category: JsonField<Category>) = apply { this.category = category }
 
             /**
@@ -316,8 +433,11 @@ private constructor(
                 fromFinancialAccountToken(JsonField.of(fromFinancialAccountToken))
 
             /**
-             * Globally unique identifier for the financial account or card that will send the
-             * funds. Accepted type dependent on the program's use case.
+             * Sets [Builder.fromFinancialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fromFinancialAccountToken] with a well-typed
+             * [String] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
              */
             fun fromFinancialAccountToken(fromFinancialAccountToken: JsonField<String>) = apply {
                 this.fromFinancialAccountToken = fromFinancialAccountToken
@@ -326,7 +446,13 @@ private constructor(
             /** The program specific subtype code for the specified category/type. */
             fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
-            /** The program specific subtype code for the specified category/type. */
+            /**
+             * Sets [Builder.subtype] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.subtype] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
             /**
@@ -337,8 +463,11 @@ private constructor(
                 toFinancialAccountToken(JsonField.of(toFinancialAccountToken))
 
             /**
-             * Globally unique identifier for the financial account or card that will receive the
-             * funds. Accepted type dependent on the program's use case.
+             * Sets [Builder.toFinancialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.toFinancialAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun toFinancialAccountToken(toFinancialAccountToken: JsonField<String>) = apply {
                 this.toFinancialAccountToken = toFinancialAccountToken
@@ -347,7 +476,13 @@ private constructor(
             /** Type of book_transfer */
             fun type(type: Type) = type(JsonField.of(type))
 
-            /** Type of book_transfer */
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /**
@@ -357,15 +492,24 @@ private constructor(
             fun token(token: String) = token(JsonField.of(token))
 
             /**
-             * Customer-provided token that will serve as an idempotency token. This token will
-             * become the transaction token.
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Optional descriptor for the transfer. */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
-            /** Optional descriptor for the transfer. */
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -461,15 +605,23 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
-         * should always be a positive value.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Category of the book transfer */
         fun category(category: Category) = apply { body.category(category) }
 
-        /** Category of the book transfer */
+        /**
+         * Sets [Builder.category] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.category] with a well-typed [Category] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun category(category: JsonField<Category>) = apply { body.category(category) }
 
         /**
@@ -481,8 +633,11 @@ private constructor(
         }
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Sets [Builder.fromFinancialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fromFinancialAccountToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun fromFinancialAccountToken(fromFinancialAccountToken: JsonField<String>) = apply {
             body.fromFinancialAccountToken(fromFinancialAccountToken)
@@ -491,7 +646,12 @@ private constructor(
         /** The program specific subtype code for the specified category/type. */
         fun subtype(subtype: String) = apply { body.subtype(subtype) }
 
-        /** The program specific subtype code for the specified category/type. */
+        /**
+         * Sets [Builder.subtype] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.subtype] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun subtype(subtype: JsonField<String>) = apply { body.subtype(subtype) }
 
         /**
@@ -503,8 +663,11 @@ private constructor(
         }
 
         /**
-         * Globally unique identifier for the financial account or card that will receive the funds.
-         * Accepted type dependent on the program's use case.
+         * Sets [Builder.toFinancialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.toFinancialAccountToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun toFinancialAccountToken(toFinancialAccountToken: JsonField<String>) = apply {
             body.toFinancialAccountToken(toFinancialAccountToken)
@@ -513,7 +676,12 @@ private constructor(
         /** Type of book_transfer */
         fun type(type: Type) = apply { body.type(type) }
 
-        /** Type of book_transfer */
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /**
@@ -523,15 +691,22 @@ private constructor(
         fun token(token: String) = apply { body.token(token) }
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
         fun memo(memo: String) = apply { body.memo(memo) }
 
-        /** Optional descriptor for the transfer. */
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
