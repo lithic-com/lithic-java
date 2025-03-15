@@ -158,23 +158,24 @@ private constructor(
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
+        /**
+         * Alias for calling [Builder.businessAccountToken] with
+         * `businessAccountToken.orElse(null)`.
+         */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 
         /** External Payment category to be returned. */
         fun category(category: ExternalPaymentCategory?) = apply { this.category = category }
 
-        /** External Payment category to be returned. */
+        /** Alias for calling [Builder.category] with `category.orElse(null)`. */
         fun category(category: Optional<ExternalPaymentCategory>) = category(category.getOrNull())
 
         /**
@@ -183,10 +184,7 @@ private constructor(
          */
         fun end(end: OffsetDateTime?) = apply { this.end = end }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created before the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
@@ -195,10 +193,7 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /**
@@ -210,8 +205,8 @@ private constructor(
         }
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
          */
         fun financialAccountToken(financialAccountToken: Optional<String>) =
             financialAccountToken(financialAccountToken.getOrNull())
@@ -219,16 +214,20 @@ private constructor(
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Page size (for pagination). */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Page size (for pagination). */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** External Payment result to be returned. */
         fun result(result: TransactionResult?) = apply { this.result = result }
 
-        /** External Payment result to be returned. */
+        /** Alias for calling [Builder.result] with `result.orElse(null)`. */
         fun result(result: Optional<TransactionResult>) = result(result.getOrNull())
 
         /**
@@ -237,17 +236,14 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
         /** Book transfer status to be returned. */
         fun status(status: TransactionStatus?) = apply { this.status = status }
 
-        /** Book transfer status to be returned. */
+        /** Alias for calling [Builder.status] with `status.orElse(null)`. */
         fun status(status: Optional<TransactionStatus>) = status(status.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

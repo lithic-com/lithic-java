@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -31,8 +32,18 @@ private constructor(
 
     fun externalBankAccountToken(): String = externalBankAccountToken
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun financialAccountToken(): Optional<String> = body.financialAccountToken()
 
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -65,9 +76,19 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun financialAccountToken(): Optional<String> =
             Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
 
+        /**
+         * Returns the raw JSON value of [financialAccountToken].
+         *
+         * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         fun _financialAccountToken(): JsonField<String> = financialAccountToken
@@ -116,6 +137,13 @@ private constructor(
             fun financialAccountToken(financialAccountToken: String) =
                 financialAccountToken(JsonField.of(financialAccountToken))
 
+            /**
+             * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
@@ -211,6 +239,13 @@ private constructor(
             body.financialAccountToken(financialAccountToken)
         }
 
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             body.financialAccountToken(financialAccountToken)
         }

@@ -64,111 +64,227 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for a Tokenization */
+    /**
+     * Globally unique identifier for a Tokenization
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** The account token associated with the card being tokenized. */
+    /**
+     * The account token associated with the card being tokenized.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
-    /** The card token associated with the card being tokenized. */
+    /**
+     * The card token associated with the card being tokenized.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cardToken(): String = cardToken.getRequired("card_token")
 
-    /** Date and time when the tokenization first occurred. UTC time zone. */
+    /**
+     * Date and time when the tokenization first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
 
-    /** The dynamic pan assigned to the token by the network. */
+    /**
+     * The dynamic pan assigned to the token by the network.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun dpan(): Optional<String> = Optional.ofNullable(dpan.getNullable("dpan"))
 
-    /** The status of the tokenization request */
+    /**
+     * The status of the tokenization request
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun status(): Status = status.getRequired("status")
 
-    /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
+    /**
+     * The entity that requested the tokenization. Represents a Digital Wallet or merchant.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun tokenRequestorName(): TokenRequestorName =
         tokenRequestorName.getRequired("token_requestor_name")
 
-    /** The network's unique reference for the tokenization. */
+    /**
+     * The network's unique reference for the tokenization.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun tokenUniqueReference(): String = tokenUniqueReference.getRequired("token_unique_reference")
 
-    /** The channel through which the tokenization was made. */
+    /**
+     * The channel through which the tokenization was made.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun tokenizationChannel(): TokenizationChannel =
         tokenizationChannel.getRequired("tokenization_channel")
 
-    /** Latest date and time when the tokenization was updated. UTC time zone. */
+    /**
+     * Latest date and time when the tokenization was updated. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updatedAt(): OffsetDateTime = updatedAt.getRequired("updated_at")
 
     /**
      * Specifies the digital card art displayed in the user’s digital wallet after tokenization.
      * This will be null if the tokenization was created without an associated digital card art. See
      * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun digitalCardArtToken(): Optional<String> =
         Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
-    /** A list of events related to the tokenization. */
+    /**
+     * A list of events related to the tokenization.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun events(): Optional<List<TokenizationEvent>> =
         Optional.ofNullable(events.getNullable("events"))
 
-    /** The network's unique reference for the card that is tokenized. */
+    /**
+     * The network's unique reference for the card that is tokenized.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun paymentAccountReferenceId(): Optional<String> =
         Optional.ofNullable(paymentAccountReferenceId.getNullable("payment_account_reference_id"))
 
-    /** Globally unique identifier for a Tokenization */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** The account token associated with the card being tokenized. */
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
-    /** The card token associated with the card being tokenized. */
+    /**
+     * Returns the raw JSON value of [cardToken].
+     *
+     * Unlike [cardToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
-    /** Date and time when the tokenization first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [createdAt].
+     *
+     * Unlike [createdAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created_at")
     @ExcludeMissing
     fun _createdAt(): JsonField<OffsetDateTime> = createdAt
 
-    /** The dynamic pan assigned to the token by the network. */
+    /**
+     * Returns the raw JSON value of [dpan].
+     *
+     * Unlike [dpan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("dpan") @ExcludeMissing fun _dpan(): JsonField<String> = dpan
 
-    /** The status of the tokenization request */
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-    /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
+    /**
+     * Returns the raw JSON value of [tokenRequestorName].
+     *
+     * Unlike [tokenRequestorName], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("token_requestor_name")
     @ExcludeMissing
     fun _tokenRequestorName(): JsonField<TokenRequestorName> = tokenRequestorName
 
-    /** The network's unique reference for the tokenization. */
+    /**
+     * Returns the raw JSON value of [tokenUniqueReference].
+     *
+     * Unlike [tokenUniqueReference], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("token_unique_reference")
     @ExcludeMissing
     fun _tokenUniqueReference(): JsonField<String> = tokenUniqueReference
 
-    /** The channel through which the tokenization was made. */
+    /**
+     * Returns the raw JSON value of [tokenizationChannel].
+     *
+     * Unlike [tokenizationChannel], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("tokenization_channel")
     @ExcludeMissing
     fun _tokenizationChannel(): JsonField<TokenizationChannel> = tokenizationChannel
 
-    /** Latest date and time when the tokenization was updated. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [updatedAt].
+     *
+     * Unlike [updatedAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated_at")
     @ExcludeMissing
     fun _updatedAt(): JsonField<OffsetDateTime> = updatedAt
 
     /**
-     * Specifies the digital card art displayed in the user’s digital wallet after tokenization.
-     * This will be null if the tokenization was created without an associated digital card art. See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     * Returns the raw JSON value of [digitalCardArtToken].
+     *
+     * Unlike [digitalCardArtToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
     fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
-    /** A list of events related to the tokenization. */
+    /**
+     * Returns the raw JSON value of [events].
+     *
+     * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("events")
     @ExcludeMissing
     fun _events(): JsonField<List<TokenizationEvent>> = events
 
-    /** The network's unique reference for the card that is tokenized. */
+    /**
+     * Returns the raw JSON value of [paymentAccountReferenceId].
+     *
+     * Unlike [paymentAccountReferenceId], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("payment_account_reference_id")
     @ExcludeMissing
     fun _paymentAccountReferenceId(): JsonField<String> = paymentAccountReferenceId
@@ -263,13 +379,24 @@ private constructor(
         /** Globally unique identifier for a Tokenization */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier for a Tokenization */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** The account token associated with the card being tokenized. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
-        /** The account token associated with the card being tokenized. */
+        /**
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -277,35 +404,63 @@ private constructor(
         /** The card token associated with the card being tokenized. */
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
-        /** The card token associated with the card being tokenized. */
+        /**
+         * Sets [Builder.cardToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the tokenization first occurred. UTC time zone. */
         fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
 
-        /** Date and time when the tokenization first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.createdAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.createdAt] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         /** The dynamic pan assigned to the token by the network. */
         fun dpan(dpan: String?) = dpan(JsonField.ofNullable(dpan))
 
-        /** The dynamic pan assigned to the token by the network. */
+        /** Alias for calling [Builder.dpan] with `dpan.orElse(null)`. */
         fun dpan(dpan: Optional<String>) = dpan(dpan.getOrNull())
 
-        /** The dynamic pan assigned to the token by the network. */
+        /**
+         * Sets [Builder.dpan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.dpan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun dpan(dpan: JsonField<String>) = apply { this.dpan = dpan }
 
         /** The status of the tokenization request */
         fun status(status: Status) = status(JsonField.of(status))
 
-        /** The status of the tokenization request */
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
         fun tokenRequestorName(tokenRequestorName: TokenRequestorName) =
             tokenRequestorName(JsonField.of(tokenRequestorName))
 
-        /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
+        /**
+         * Sets [Builder.tokenRequestorName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenRequestorName] with a well-typed
+         * [TokenRequestorName] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun tokenRequestorName(tokenRequestorName: JsonField<TokenRequestorName>) = apply {
             this.tokenRequestorName = tokenRequestorName
         }
@@ -314,7 +469,13 @@ private constructor(
         fun tokenUniqueReference(tokenUniqueReference: String) =
             tokenUniqueReference(JsonField.of(tokenUniqueReference))
 
-        /** The network's unique reference for the tokenization. */
+        /**
+         * Sets [Builder.tokenUniqueReference] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenUniqueReference] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun tokenUniqueReference(tokenUniqueReference: JsonField<String>) = apply {
             this.tokenUniqueReference = tokenUniqueReference
         }
@@ -323,7 +484,13 @@ private constructor(
         fun tokenizationChannel(tokenizationChannel: TokenizationChannel) =
             tokenizationChannel(JsonField.of(tokenizationChannel))
 
-        /** The channel through which the tokenization was made. */
+        /**
+         * Sets [Builder.tokenizationChannel] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenizationChannel] with a well-typed
+         * [TokenizationChannel] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun tokenizationChannel(tokenizationChannel: JsonField<TokenizationChannel>) = apply {
             this.tokenizationChannel = tokenizationChannel
         }
@@ -331,7 +498,13 @@ private constructor(
         /** Latest date and time when the tokenization was updated. UTC time zone. */
         fun updatedAt(updatedAt: OffsetDateTime) = updatedAt(JsonField.of(updatedAt))
 
-        /** Latest date and time when the tokenization was updated. UTC time zone. */
+        /**
+         * Sets [Builder.updatedAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updatedAt] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
         /**
@@ -344,10 +517,11 @@ private constructor(
             digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
         /**
-         * Specifies the digital card art displayed in the user’s digital wallet after tokenization.
-         * This will be null if the tokenization was created without an associated digital card art.
-         * See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Sets [Builder.digitalCardArtToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.digitalCardArtToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
             this.digitalCardArtToken = digitalCardArtToken
@@ -356,12 +530,22 @@ private constructor(
         /** A list of events related to the tokenization. */
         fun events(events: List<TokenizationEvent>) = events(JsonField.of(events))
 
-        /** A list of events related to the tokenization. */
+        /**
+         * Sets [Builder.events] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.events] with a well-typed `List<TokenizationEvent>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun events(events: JsonField<List<TokenizationEvent>>) = apply {
             this.events = events.map { it.toMutableList() }
         }
 
-        /** A list of events related to the tokenization. */
+        /**
+         * Adds a single [TokenizationEvent] to [events].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEvent(event: TokenizationEvent) = apply {
             events =
                 (events ?: JsonField.of(mutableListOf())).also {
@@ -373,11 +557,20 @@ private constructor(
         fun paymentAccountReferenceId(paymentAccountReferenceId: String?) =
             paymentAccountReferenceId(JsonField.ofNullable(paymentAccountReferenceId))
 
-        /** The network's unique reference for the card that is tokenized. */
+        /**
+         * Alias for calling [Builder.paymentAccountReferenceId] with
+         * `paymentAccountReferenceId.orElse(null)`.
+         */
         fun paymentAccountReferenceId(paymentAccountReferenceId: Optional<String>) =
             paymentAccountReferenceId(paymentAccountReferenceId.getOrNull())
 
-        /** The network's unique reference for the card that is tokenized. */
+        /**
+         * Sets [Builder.paymentAccountReferenceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentAccountReferenceId] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun paymentAccountReferenceId(paymentAccountReferenceId: JsonField<String>) = apply {
             this.paymentAccountReferenceId = paymentAccountReferenceId
         }
@@ -829,31 +1022,67 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Globally unique identifier for a Tokenization Event */
+        /**
+         * Globally unique identifier for a Tokenization Event
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
-        /** Date and time when the tokenization event first occurred. UTC time zone. */
+        /**
+         * Date and time when the tokenization event first occurred. UTC time zone.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun createdAt(): Optional<OffsetDateTime> =
             Optional.ofNullable(createdAt.getNullable("created_at"))
 
-        /** Enum representing the result of the tokenization event */
+        /**
+         * Enum representing the result of the tokenization event
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
 
-        /** Enum representing the type of tokenization event that occurred */
+        /**
+         * Enum representing the type of tokenization event that occurred
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
 
-        /** Globally unique identifier for a Tokenization Event */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** Date and time when the tokenization event first occurred. UTC time zone. */
+        /**
+         * Returns the raw JSON value of [createdAt].
+         *
+         * Unlike [createdAt], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("created_at")
         @ExcludeMissing
         fun _createdAt(): JsonField<OffsetDateTime> = createdAt
 
-        /** Enum representing the result of the tokenization event */
+        /**
+         * Returns the raw JSON value of [result].
+         *
+         * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
-        /** Enum representing the type of tokenization event that occurred */
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonAnyGetter
@@ -903,13 +1132,25 @@ private constructor(
             /** Globally unique identifier for a Tokenization Event */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Globally unique identifier for a Tokenization Event */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Date and time when the tokenization event first occurred. UTC time zone. */
             fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
 
-            /** Date and time when the tokenization event first occurred. UTC time zone. */
+            /**
+             * Sets [Builder.createdAt] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.createdAt] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply {
                 this.createdAt = createdAt
             }
@@ -917,13 +1158,25 @@ private constructor(
             /** Enum representing the result of the tokenization event */
             fun result(result: Result) = result(JsonField.of(result))
 
-            /** Enum representing the result of the tokenization event */
+            /**
+             * Sets [Builder.result] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.result] with a well-typed [Result] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
             /** Enum representing the type of tokenization event that occurred */
             fun type(type: Type) = type(JsonField.of(type))
 
-            /** Enum representing the type of tokenization event that occurred */
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

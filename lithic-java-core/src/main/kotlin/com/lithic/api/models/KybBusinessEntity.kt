@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -46,65 +47,105 @@ private constructor(
     /**
      * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun address(): Address = address.getRequired("address")
 
     /**
      * Government-issued identification number. US Federal Employer Identification Numbers (EIN) are
      * currently supported, entered as full nine-digits, with or without hyphens.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun governmentId(): String = governmentId.getRequired("government_id")
 
-    /** Legal (formal) business name. */
+    /**
+     * Legal (formal) business name.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun legalBusinessName(): String = legalBusinessName.getRequired("legal_business_name")
 
-    /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+    /**
+     * One or more of the business's phone number(s), entered as a list in E.164 format.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
 
     /**
      * Any name that the business operates under that is not its legal business name (if
      * applicable).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun dbaBusinessName(): Optional<String> =
         Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
 
-    /** Parent company name (if applicable). */
+    /**
+     * Parent company name (if applicable).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun parentCompany(): Optional<String> =
         Optional.ofNullable(parentCompany.getNullable("parent_company"))
 
     /**
-     * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-     * APO/FPO are acceptable.
+     * Returns the raw JSON value of [address].
+     *
+     * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
     /**
-     * Government-issued identification number. US Federal Employer Identification Numbers (EIN) are
-     * currently supported, entered as full nine-digits, with or without hyphens.
+     * Returns the raw JSON value of [governmentId].
+     *
+     * Unlike [governmentId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("government_id")
     @ExcludeMissing
     fun _governmentId(): JsonField<String> = governmentId
 
-    /** Legal (formal) business name. */
+    /**
+     * Returns the raw JSON value of [legalBusinessName].
+     *
+     * Unlike [legalBusinessName], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("legal_business_name")
     @ExcludeMissing
     fun _legalBusinessName(): JsonField<String> = legalBusinessName
 
-    /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+    /**
+     * Returns the raw JSON value of [phoneNumbers].
+     *
+     * Unlike [phoneNumbers], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("phone_numbers")
     @ExcludeMissing
     fun _phoneNumbers(): JsonField<List<String>> = phoneNumbers
 
     /**
-     * Any name that the business operates under that is not its legal business name (if
-     * applicable).
+     * Returns the raw JSON value of [dbaBusinessName].
+     *
+     * Unlike [dbaBusinessName], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("dba_business_name")
     @ExcludeMissing
     fun _dbaBusinessName(): JsonField<String> = dbaBusinessName
 
-    /** Parent company name (if applicable). */
+    /**
+     * Returns the raw JSON value of [parentCompany].
+     *
+     * Unlike [parentCompany], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("parent_company")
     @ExcludeMissing
     fun _parentCompany(): JsonField<String> = parentCompany
@@ -176,8 +217,10 @@ private constructor(
         fun address(address: Address) = address(JsonField.of(address))
 
         /**
-         * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-         * APO/FPO are acceptable.
+         * Sets [Builder.address] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address] with a well-typed [Address] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun address(address: JsonField<Address>) = apply { this.address = address }
 
@@ -188,8 +231,11 @@ private constructor(
         fun governmentId(governmentId: String) = governmentId(JsonField.of(governmentId))
 
         /**
-         * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
-         * are currently supported, entered as full nine-digits, with or without hyphens.
+         * Sets [Builder.governmentId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.governmentId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun governmentId(governmentId: JsonField<String>) = apply {
             this.governmentId = governmentId
@@ -199,7 +245,13 @@ private constructor(
         fun legalBusinessName(legalBusinessName: String) =
             legalBusinessName(JsonField.of(legalBusinessName))
 
-        /** Legal (formal) business name. */
+        /**
+         * Sets [Builder.legalBusinessName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.legalBusinessName] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
             this.legalBusinessName = legalBusinessName
         }
@@ -207,12 +259,22 @@ private constructor(
         /** One or more of the business's phone number(s), entered as a list in E.164 format. */
         fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
 
-        /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+        /**
+         * Sets [Builder.phoneNumbers] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.phoneNumbers] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
             this.phoneNumbers = phoneNumbers.map { it.toMutableList() }
         }
 
-        /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+        /**
+         * Adds a single [String] to [phoneNumbers].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addPhoneNumber(phoneNumber: String) = apply {
             phoneNumbers =
                 (phoneNumbers ?: JsonField.of(mutableListOf())).also {
@@ -228,8 +290,11 @@ private constructor(
             dbaBusinessName(JsonField.of(dbaBusinessName))
 
         /**
-         * Any name that the business operates under that is not its legal business name (if
-         * applicable).
+         * Sets [Builder.dbaBusinessName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.dbaBusinessName] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
             this.dbaBusinessName = dbaBusinessName
@@ -238,7 +303,13 @@ private constructor(
         /** Parent company name (if applicable). */
         fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
 
-        /** Parent company name (if applicable). */
+        /**
+         * Sets [Builder.parentCompany] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.parentCompany] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun parentCompany(parentCompany: JsonField<String>) = apply {
             this.parentCompany = parentCompany
         }
@@ -304,60 +375,99 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Valid deliverable address (no PO boxes). */
+        /**
+         * Valid deliverable address (no PO boxes).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun address1(): String = address1.getRequired("address1")
 
-        /** Name of city. */
+        /**
+         * Name of city.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun city(): String = city.getRequired("city")
 
         /**
          * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
          * alpha-3 three-character format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun country(): String = country.getRequired("country")
 
         /**
          * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit
          * ZIP or nine-digit ZIP+4.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun postalCode(): String = postalCode.getRequired("postal_code")
 
         /**
          * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
          * 3166-2 two-character format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun state(): String = state.getRequired("state")
 
-        /** Unit or apartment number (if applicable). */
+        /**
+         * Unit or apartment number (if applicable).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
-        /** Valid deliverable address (no PO boxes). */
+        /**
+         * Returns the raw JSON value of [address1].
+         *
+         * Unlike [address1], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
-        /** Name of city. */
+        /**
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
         /**
-         * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-         * alpha-3 three-character format.
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
         /**
-         * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit
-         * ZIP or nine-digit ZIP+4.
+         * Returns the raw JSON value of [postalCode].
+         *
+         * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("postal_code")
         @ExcludeMissing
         fun _postalCode(): JsonField<String> = postalCode
 
         /**
-         * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-         * 3166-2 two-character format.
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
-        /** Unit or apartment number (if applicable). */
+        /**
+         * Returns the raw JSON value of [address2].
+         *
+         * Unlike [address2], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
         @JsonAnyGetter
@@ -424,13 +534,25 @@ private constructor(
             /** Valid deliverable address (no PO boxes). */
             fun address1(address1: String) = address1(JsonField.of(address1))
 
-            /** Valid deliverable address (no PO boxes). */
+            /**
+             * Sets [Builder.address1] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address1] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
             /** Name of city. */
             fun city(city: String) = city(JsonField.of(city))
 
-            /** Name of city. */
+            /**
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun city(city: JsonField<String>) = apply { this.city = city }
 
             /**
@@ -440,8 +562,11 @@ private constructor(
             fun country(country: String) = country(JsonField.of(country))
 
             /**
-             * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-             * alpha-3 three-character format.
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun country(country: JsonField<String>) = apply { this.country = country }
 
@@ -452,8 +577,11 @@ private constructor(
             fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
             /**
-             * Valid postal code. Only USA ZIP codes are currently supported, entered as a
-             * five-digit ZIP or nine-digit ZIP+4.
+             * Sets [Builder.postalCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.postalCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
@@ -464,15 +592,24 @@ private constructor(
             fun state(state: String) = state(JsonField.of(state))
 
             /**
-             * Valid state code. Only USA state codes are currently supported, entered in uppercase
-             * ISO 3166-2 two-character format.
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun state(state: JsonField<String>) = apply { this.state = state }
 
             /** Unit or apartment number (if applicable). */
             fun address2(address2: String) = address2(JsonField.of(address2))
 
-            /** Unit or apartment number (if applicable). */
+            /**
+             * Sets [Builder.address2] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address2] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

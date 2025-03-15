@@ -33,27 +33,50 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The account holder which to perform the simulation upon. */
+    /**
+     * The account holder which to perform the simulation upon.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun accountHolderToken(): Optional<String> = body.accountHolderToken()
 
-    /** An account holder's status for use within the simulation. */
+    /**
+     * An account holder's status for use within the simulation.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun status(): Optional<Status> = body.status()
 
     /**
      * Status reason that will be associated with the simulated account holder status. Only required
      * for a `REJECTED` status.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun statusReasons(): Optional<List<StatusReason>> = body.statusReasons()
 
-    /** The account holder which to perform the simulation upon. */
+    /**
+     * Returns the raw JSON value of [accountHolderToken].
+     *
+     * Unlike [accountHolderToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _accountHolderToken(): JsonField<String> = body._accountHolderToken()
 
-    /** An account holder's status for use within the simulation. */
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _status(): JsonField<Status> = body._status()
 
     /**
-     * Status reason that will be associated with the simulated account holder status. Only required
-     * for a `REJECTED` status.
+     * Returns the raw JSON value of [statusReasons].
+     *
+     * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _statusReasons(): JsonField<List<StatusReason>> = body._statusReasons()
 
@@ -86,31 +109,55 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The account holder which to perform the simulation upon. */
+        /**
+         * The account holder which to perform the simulation upon.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun accountHolderToken(): Optional<String> =
             Optional.ofNullable(accountHolderToken.getNullable("account_holder_token"))
 
-        /** An account holder's status for use within the simulation. */
+        /**
+         * An account holder's status for use within the simulation.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun statusReasons(): Optional<List<StatusReason>> =
             Optional.ofNullable(statusReasons.getNullable("status_reasons"))
 
-        /** The account holder which to perform the simulation upon. */
+        /**
+         * Returns the raw JSON value of [accountHolderToken].
+         *
+         * Unlike [accountHolderToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("account_holder_token")
         @ExcludeMissing
         fun _accountHolderToken(): JsonField<String> = accountHolderToken
 
-        /** An account holder's status for use within the simulation. */
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
         /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status.
+         * Returns the raw JSON value of [statusReasons].
+         *
+         * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("status_reasons")
         @ExcludeMissing
@@ -167,7 +214,13 @@ private constructor(
             fun accountHolderToken(accountHolderToken: String) =
                 accountHolderToken(JsonField.of(accountHolderToken))
 
-            /** The account holder which to perform the simulation upon. */
+            /**
+             * Sets [Builder.accountHolderToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountHolderToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
                 this.accountHolderToken = accountHolderToken
             }
@@ -175,7 +228,13 @@ private constructor(
             /** An account holder's status for use within the simulation. */
             fun status(status: Status) = status(JsonField.of(status))
 
-            /** An account holder's status for use within the simulation. */
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /**
@@ -186,16 +245,20 @@ private constructor(
                 statusReasons(JsonField.of(statusReasons))
 
             /**
-             * Status reason that will be associated with the simulated account holder status. Only
-             * required for a `REJECTED` status.
+             * Sets [Builder.statusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.statusReasons] with a well-typed
+             * `List<StatusReason>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
              */
             fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
                 this.statusReasons = statusReasons.map { it.toMutableList() }
             }
 
             /**
-             * Status reason that will be associated with the simulated account holder status. Only
-             * required for a `REJECTED` status.
+             * Adds a single [StatusReason] to [statusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
              */
             fun addStatusReason(statusReason: StatusReason) = apply {
                 statusReasons =
@@ -286,7 +349,13 @@ private constructor(
             body.accountHolderToken(accountHolderToken)
         }
 
-        /** The account holder which to perform the simulation upon. */
+        /**
+         * Sets [Builder.accountHolderToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountHolderToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
             body.accountHolderToken(accountHolderToken)
         }
@@ -294,7 +363,12 @@ private constructor(
         /** An account holder's status for use within the simulation. */
         fun status(status: Status) = apply { body.status(status) }
 
-        /** An account holder's status for use within the simulation. */
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun status(status: JsonField<Status>) = apply { body.status(status) }
 
         /**
@@ -306,16 +380,20 @@ private constructor(
         }
 
         /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status.
+         * Sets [Builder.statusReasons] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statusReasons] with a well-typed `List<StatusReason>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
             body.statusReasons(statusReasons)
         }
 
         /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status.
+         * Adds a single [StatusReason] to [statusReasons].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addStatusReason(statusReason: StatusReason) = apply {
             body.addStatusReason(statusReason)

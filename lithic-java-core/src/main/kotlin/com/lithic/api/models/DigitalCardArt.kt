@@ -46,49 +46,114 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for the card art. */
+    /**
+     * Globally unique identifier for the card art.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Globally unique identifier for the card program. */
+    /**
+     * Globally unique identifier for the card program.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
 
-    /** Timestamp of when card art was created. */
+    /**
+     * Timestamp of when card art was created.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Description of the card art. */
+    /**
+     * Description of the card art.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun description(): String = description.getRequired("description")
 
-    /** Whether the card art is enabled. */
+    /**
+     * Whether the card art is enabled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun isEnabled(): Boolean = isEnabled.getRequired("is_enabled")
 
-    /** Card network. */
+    /**
+     * Card network.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun network(): Network = network.getRequired("network")
 
-    /** Whether the card art is the default card art to be added upon tokenization. */
+    /**
+     * Whether the card art is the default card art to be added upon tokenization.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun isCardProgramDefault(): Optional<Boolean> =
         Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
 
-    /** Globally unique identifier for the card art. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Globally unique identifier for the card program. */
+    /**
+     * Returns the raw JSON value of [cardProgramToken].
+     *
+     * Unlike [cardProgramToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("card_program_token")
     @ExcludeMissing
     fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
-    /** Timestamp of when card art was created. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Description of the card art. */
+    /**
+     * Returns the raw JSON value of [description].
+     *
+     * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
-    /** Whether the card art is enabled. */
+    /**
+     * Returns the raw JSON value of [isEnabled].
+     *
+     * Unlike [isEnabled], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("is_enabled") @ExcludeMissing fun _isEnabled(): JsonField<Boolean> = isEnabled
 
-    /** Card network. */
+    /**
+     * Returns the raw JSON value of [network].
+     *
+     * Unlike [network], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
-    /** Whether the card art is the default card art to be added upon tokenization. */
+    /**
+     * Returns the raw JSON value of [isCardProgramDefault].
+     *
+     * Unlike [isCardProgramDefault], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("is_card_program_default")
     @ExcludeMissing
     fun _isCardProgramDefault(): JsonField<Boolean> = isCardProgramDefault
@@ -161,14 +226,25 @@ private constructor(
         /** Globally unique identifier for the card art. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier for the card art. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the card program. */
         fun cardProgramToken(cardProgramToken: String) =
             cardProgramToken(JsonField.of(cardProgramToken))
 
-        /** Globally unique identifier for the card program. */
+        /**
+         * Sets [Builder.cardProgramToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardProgramToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
             this.cardProgramToken = cardProgramToken
         }
@@ -176,32 +252,61 @@ private constructor(
         /** Timestamp of when card art was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when card art was created. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Description of the card art. */
         fun description(description: String) = description(JsonField.of(description))
 
-        /** Description of the card art. */
+        /**
+         * Sets [Builder.description] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.description] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun description(description: JsonField<String>) = apply { this.description = description }
 
         /** Whether the card art is enabled. */
         fun isEnabled(isEnabled: Boolean) = isEnabled(JsonField.of(isEnabled))
 
-        /** Whether the card art is enabled. */
+        /**
+         * Sets [Builder.isEnabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isEnabled] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun isEnabled(isEnabled: JsonField<Boolean>) = apply { this.isEnabled = isEnabled }
 
         /** Card network. */
         fun network(network: Network) = network(JsonField.of(network))
 
-        /** Card network. */
+        /**
+         * Sets [Builder.network] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.network] with a well-typed [Network] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** Whether the card art is the default card art to be added upon tokenization. */
         fun isCardProgramDefault(isCardProgramDefault: Boolean) =
             isCardProgramDefault(JsonField.of(isCardProgramDefault))
 
-        /** Whether the card art is the default card art to be added upon tokenization. */
+        /**
+         * Sets [Builder.isCardProgramDefault] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isCardProgramDefault] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun isCardProgramDefault(isCardProgramDefault: JsonField<Boolean>) = apply {
             this.isCardProgramDefault = isCardProgramDefault
         }

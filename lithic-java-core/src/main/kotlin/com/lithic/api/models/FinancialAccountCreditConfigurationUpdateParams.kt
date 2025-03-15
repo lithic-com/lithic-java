@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -31,24 +32,62 @@ private constructor(
 
     fun financialAccountToken(): String = financialAccountToken
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun creditLimit(): Optional<Long> = body.creditLimit()
 
-    /** Globally unique identifier for the credit product */
+    /**
+     * Globally unique identifier for the credit product
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun creditProductToken(): Optional<String> = body.creditProductToken()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun externalBankAccountToken(): Optional<String> = body.externalBankAccountToken()
 
-    /** Tier to assign to a financial account */
+    /**
+     * Tier to assign to a financial account
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun tier(): Optional<String> = body.tier()
 
+    /**
+     * Returns the raw JSON value of [creditLimit].
+     *
+     * Unlike [creditLimit], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _creditLimit(): JsonField<Long> = body._creditLimit()
 
-    /** Globally unique identifier for the credit product */
+    /**
+     * Returns the raw JSON value of [creditProductToken].
+     *
+     * Unlike [creditProductToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _creditProductToken(): JsonField<String> = body._creditProductToken()
 
+    /**
+     * Returns the raw JSON value of [externalBankAccountToken].
+     *
+     * Unlike [externalBankAccountToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     fun _externalBankAccountToken(): JsonField<String> = body._externalBankAccountToken()
 
-    /** Tier to assign to a financial account */
+    /**
+     * Returns the raw JSON value of [tier].
+     *
+     * Unlike [tier], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _tier(): JsonField<String> = body._tier()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -90,33 +129,71 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun creditLimit(): Optional<Long> =
             Optional.ofNullable(creditLimit.getNullable("credit_limit"))
 
-        /** Globally unique identifier for the credit product */
+        /**
+         * Globally unique identifier for the credit product
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun creditProductToken(): Optional<String> =
             Optional.ofNullable(creditProductToken.getNullable("credit_product_token"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun externalBankAccountToken(): Optional<String> =
             Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
 
-        /** Tier to assign to a financial account */
+        /**
+         * Tier to assign to a financial account
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
 
+        /**
+         * Returns the raw JSON value of [creditLimit].
+         *
+         * Unlike [creditLimit], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("credit_limit")
         @ExcludeMissing
         fun _creditLimit(): JsonField<Long> = creditLimit
 
-        /** Globally unique identifier for the credit product */
+        /**
+         * Returns the raw JSON value of [creditProductToken].
+         *
+         * Unlike [creditProductToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("credit_product_token")
         @ExcludeMissing
         fun _creditProductToken(): JsonField<String> = creditProductToken
 
+        /**
+         * Returns the raw JSON value of [externalBankAccountToken].
+         *
+         * Unlike [externalBankAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("external_bank_account_token")
         @ExcludeMissing
         fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
-        /** Tier to assign to a financial account */
+        /**
+         * Returns the raw JSON value of [tier].
+         *
+         * Unlike [tier], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("tier") @ExcludeMissing fun _tier(): JsonField<String> = tier
 
         @JsonAnyGetter
@@ -172,13 +249,26 @@ private constructor(
 
             fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
 
+            /**
+             * Sets [Builder.creditLimit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.creditLimit] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
             /** Globally unique identifier for the credit product */
             fun creditProductToken(creditProductToken: String) =
                 creditProductToken(JsonField.of(creditProductToken))
 
-            /** Globally unique identifier for the credit product */
+            /**
+             * Sets [Builder.creditProductToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.creditProductToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun creditProductToken(creditProductToken: JsonField<String>) = apply {
                 this.creditProductToken = creditProductToken
             }
@@ -186,6 +276,13 @@ private constructor(
             fun externalBankAccountToken(externalBankAccountToken: String) =
                 externalBankAccountToken(JsonField.of(externalBankAccountToken))
 
+            /**
+             * Sets [Builder.externalBankAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.externalBankAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
@@ -193,7 +290,13 @@ private constructor(
             /** Tier to assign to a financial account */
             fun tier(tier: String) = tier(JsonField.of(tier))
 
-            /** Tier to assign to a financial account */
+            /**
+             * Sets [Builder.tier] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tier] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun tier(tier: JsonField<String>) = apply { this.tier = tier }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -289,6 +392,13 @@ private constructor(
 
         fun creditLimit(creditLimit: Long) = apply { body.creditLimit(creditLimit) }
 
+        /**
+         * Sets [Builder.creditLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditLimit] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun creditLimit(creditLimit: JsonField<Long>) = apply { body.creditLimit(creditLimit) }
 
         /** Globally unique identifier for the credit product */
@@ -296,7 +406,13 @@ private constructor(
             body.creditProductToken(creditProductToken)
         }
 
-        /** Globally unique identifier for the credit product */
+        /**
+         * Sets [Builder.creditProductToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditProductToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun creditProductToken(creditProductToken: JsonField<String>) = apply {
             body.creditProductToken(creditProductToken)
         }
@@ -305,6 +421,13 @@ private constructor(
             body.externalBankAccountToken(externalBankAccountToken)
         }
 
+        /**
+         * Sets [Builder.externalBankAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalBankAccountToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
@@ -312,7 +435,12 @@ private constructor(
         /** Tier to assign to a financial account */
         fun tier(tier: String) = apply { body.tier(tier) }
 
-        /** Tier to assign to a financial account */
+        /**
+         * Sets [Builder.tier] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tier] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun tier(tier: JsonField<String>) = apply { body.tier(tier) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

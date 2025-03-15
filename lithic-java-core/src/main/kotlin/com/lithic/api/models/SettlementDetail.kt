@@ -87,168 +87,355 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier denoting the Settlement Detail. */
+    /**
+     * Globally unique identifier denoting the Settlement Detail.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
+    /**
+     * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
      * Globally unique identifier denoting the card program that the associated Transaction occurred
      * on.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
 
-    /** Globally unique identifier denoting the card that the associated Transaction occurred on. */
+    /**
+     * Globally unique identifier denoting the card that the associated Transaction occurred on.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cardToken(): String = cardToken.getRequired("card_token")
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Three-character alphabetic ISO 4217 code. */
+    /**
+     * Three-character alphabetic ISO 4217 code.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currency(): String = currency.getRequired("currency")
 
-    /** The total gross amount of disputes settlements. */
+    /**
+     * The total gross amount of disputes settlements.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
 
-    /** Globally unique identifiers denoting the Events associated with this settlement. */
+    /**
+     * Globally unique identifiers denoting the Events associated with this settlement.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun eventTokens(): List<String> = eventTokens.getRequired("event_tokens")
 
-    /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
+    /**
+     * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun institution(): String = institution.getRequired("institution")
 
-    /** The total amount of interchange in six-digit extended precision. */
+    /**
+     * The total amount of interchange in six-digit extended precision.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun interchangeFeeExtendedPrecision(): Long =
         interchangeFeeExtendedPrecision.getRequired("interchange_fee_extended_precision")
 
-    /** The total amount of interchange. */
+    /**
+     * The total amount of interchange.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun interchangeGrossAmount(): Long =
         interchangeGrossAmount.getRequired("interchange_gross_amount")
 
-    /** Card network where the transaction took place. */
+    /**
+     * Card network where the transaction took place.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun network(): Network = network.getRequired("network")
 
-    /** The total gross amount of other fees by type. */
+    /**
+     * The total gross amount of other fees by type.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun otherFeesDetails(): OtherFeesDetails = otherFeesDetails.getRequired("other_fees_details")
 
-    /** Total amount of gross other fees outside of interchange. */
+    /**
+     * Total amount of gross other fees outside of interchange.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
 
-    /** Date of when the report was first generated. */
+    /**
+     * Date of when the report was first generated.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun reportDate(): String = reportDate.getRequired("report_date")
 
-    /** Date of when money movement is triggered for the transaction. */
+    /**
+     * Date of when money movement is triggered for the transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun settlementDate(): String = settlementDate.getRequired("settlement_date")
 
-    /** Globally unique identifier denoting the associated Transaction object. */
+    /**
+     * Globally unique identifier denoting the associated Transaction object.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun transactionToken(): String = transactionToken.getRequired("transaction_token")
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
      * disputes).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun transactionsGrossAmount(): Long =
         transactionsGrossAmount.getRequired("transactions_gross_amount")
 
-    /** The type of settlement record. */
+    /**
+     * The type of settlement record.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun type(): Type = type.getRequired("type")
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Network's description of a fee, only present on records with type `FEE`. */
+    /**
+     * Network's description of a fee, only present on records with type `FEE`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun feeDescription(): Optional<String> =
         Optional.ofNullable(feeDescription.getNullable("fee_description"))
 
-    /** Globally unique identifier denoting the Settlement Detail. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * Globally unique identifier denoting the card program that the associated Transaction occurred
-     * on.
+     * Returns the raw JSON value of [cardProgramToken].
+     *
+     * Unlike [cardProgramToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("card_program_token")
     @ExcludeMissing
     fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
-    /** Globally unique identifier denoting the card that the associated Transaction occurred on. */
+    /**
+     * Returns the raw JSON value of [cardToken].
+     *
+     * Unlike [cardToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Three-character alphabetic ISO 4217 code. */
+    /**
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
-    /** The total gross amount of disputes settlements. */
+    /**
+     * Returns the raw JSON value of [disputesGrossAmount].
+     *
+     * Unlike [disputesGrossAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
     fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
 
-    /** Globally unique identifiers denoting the Events associated with this settlement. */
+    /**
+     * Returns the raw JSON value of [eventTokens].
+     *
+     * Unlike [eventTokens], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("event_tokens")
     @ExcludeMissing
     fun _eventTokens(): JsonField<List<String>> = eventTokens
 
-    /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
+    /**
+     * Returns the raw JSON value of [institution].
+     *
+     * Unlike [institution], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("institution") @ExcludeMissing fun _institution(): JsonField<String> = institution
 
-    /** The total amount of interchange in six-digit extended precision. */
+    /**
+     * Returns the raw JSON value of [interchangeFeeExtendedPrecision].
+     *
+     * Unlike [interchangeFeeExtendedPrecision], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("interchange_fee_extended_precision")
     @ExcludeMissing
     fun _interchangeFeeExtendedPrecision(): JsonField<Long> = interchangeFeeExtendedPrecision
 
-    /** The total amount of interchange. */
+    /**
+     * Returns the raw JSON value of [interchangeGrossAmount].
+     *
+     * Unlike [interchangeGrossAmount], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
     fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
 
-    /** Card network where the transaction took place. */
+    /**
+     * Returns the raw JSON value of [network].
+     *
+     * Unlike [network], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
-    /** The total gross amount of other fees by type. */
+    /**
+     * Returns the raw JSON value of [otherFeesDetails].
+     *
+     * Unlike [otherFeesDetails], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("other_fees_details")
     @ExcludeMissing
     fun _otherFeesDetails(): JsonField<OtherFeesDetails> = otherFeesDetails
 
-    /** Total amount of gross other fees outside of interchange. */
+    /**
+     * Returns the raw JSON value of [otherFeesGrossAmount].
+     *
+     * Unlike [otherFeesGrossAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
     fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
 
-    /** Date of when the report was first generated. */
+    /**
+     * Returns the raw JSON value of [reportDate].
+     *
+     * Unlike [reportDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("report_date") @ExcludeMissing fun _reportDate(): JsonField<String> = reportDate
 
-    /** Date of when money movement is triggered for the transaction. */
+    /**
+     * Returns the raw JSON value of [settlementDate].
+     *
+     * Unlike [settlementDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("settlement_date")
     @ExcludeMissing
     fun _settlementDate(): JsonField<String> = settlementDate
 
-    /** Globally unique identifier denoting the associated Transaction object. */
+    /**
+     * Returns the raw JSON value of [transactionToken].
+     *
+     * Unlike [transactionToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("transaction_token")
     @ExcludeMissing
     fun _transactionToken(): JsonField<String> = transactionToken
 
     /**
-     * The total amount of settlement impacting transactions (excluding interchange, fees, and
-     * disputes).
+     * Returns the raw JSON value of [transactionsGrossAmount].
+     *
+     * Unlike [transactionsGrossAmount], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
     fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
-    /** The type of settlement record. */
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
-    /** Network's description of a fee, only present on records with type `FEE`. */
+    /**
+     * Returns the raw JSON value of [feeDescription].
+     *
+     * Unlike [feeDescription], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("fee_description")
     @ExcludeMissing
     fun _feeDescription(): JsonField<String> = feeDescription
@@ -377,7 +564,12 @@ private constructor(
         /** Globally unique identifier denoting the Settlement Detail. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier denoting the Settlement Detail. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -386,7 +578,11 @@ private constructor(
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /**
-         * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
@@ -400,8 +596,11 @@ private constructor(
             cardProgramToken(JsonField.of(cardProgramToken))
 
         /**
-         * Globally unique identifier denoting the card program that the associated Transaction
-         * occurred on.
+         * Sets [Builder.cardProgramToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardProgramToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
             this.cardProgramToken = cardProgramToken
@@ -413,27 +612,48 @@ private constructor(
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
         /**
-         * Globally unique identifier denoting the card that the associated Transaction occurred on.
+         * Sets [Builder.cardToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time when the transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Three-character alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** Three-character alphabetic ISO 4217 code. */
+        /**
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */
         fun disputesGrossAmount(disputesGrossAmount: Long) =
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
-        /** The total gross amount of disputes settlements. */
+        /**
+         * Sets [Builder.disputesGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disputesGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
             this.disputesGrossAmount = disputesGrossAmount
         }
@@ -441,12 +661,22 @@ private constructor(
         /** Globally unique identifiers denoting the Events associated with this settlement. */
         fun eventTokens(eventTokens: List<String>) = eventTokens(JsonField.of(eventTokens))
 
-        /** Globally unique identifiers denoting the Events associated with this settlement. */
+        /**
+         * Sets [Builder.eventTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventTokens] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun eventTokens(eventTokens: JsonField<List<String>>) = apply {
             this.eventTokens = eventTokens.map { it.toMutableList() }
         }
 
-        /** Globally unique identifiers denoting the Events associated with this settlement. */
+        /**
+         * Adds a single [String] to [eventTokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEventToken(eventToken: String) = apply {
             eventTokens =
                 (eventTokens ?: JsonField.of(mutableListOf())).also {
@@ -460,7 +690,11 @@ private constructor(
         fun institution(institution: String) = institution(JsonField.of(institution))
 
         /**
-         * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
+         * Sets [Builder.institution] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.institution] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun institution(institution: JsonField<String>) = apply { this.institution = institution }
 
@@ -468,7 +702,13 @@ private constructor(
         fun interchangeFeeExtendedPrecision(interchangeFeeExtendedPrecision: Long) =
             interchangeFeeExtendedPrecision(JsonField.of(interchangeFeeExtendedPrecision))
 
-        /** The total amount of interchange in six-digit extended precision. */
+        /**
+         * Sets [Builder.interchangeFeeExtendedPrecision] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.interchangeFeeExtendedPrecision] with a well-typed
+         * [Long] value instead. This method is primarily for setting the field to an undocumented
+         * or not yet supported value.
+         */
         fun interchangeFeeExtendedPrecision(interchangeFeeExtendedPrecision: JsonField<Long>) =
             apply {
                 this.interchangeFeeExtendedPrecision = interchangeFeeExtendedPrecision
@@ -478,7 +718,13 @@ private constructor(
         fun interchangeGrossAmount(interchangeGrossAmount: Long) =
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
-        /** The total amount of interchange. */
+        /**
+         * Sets [Builder.interchangeGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.interchangeGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
             this.interchangeGrossAmount = interchangeGrossAmount
         }
@@ -486,14 +732,25 @@ private constructor(
         /** Card network where the transaction took place. */
         fun network(network: Network) = network(JsonField.of(network))
 
-        /** Card network where the transaction took place. */
+        /**
+         * Sets [Builder.network] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.network] with a well-typed [Network] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** The total gross amount of other fees by type. */
         fun otherFeesDetails(otherFeesDetails: OtherFeesDetails) =
             otherFeesDetails(JsonField.of(otherFeesDetails))
 
-        /** The total gross amount of other fees by type. */
+        /**
+         * Sets [Builder.otherFeesDetails] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.otherFeesDetails] with a well-typed [OtherFeesDetails]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun otherFeesDetails(otherFeesDetails: JsonField<OtherFeesDetails>) = apply {
             this.otherFeesDetails = otherFeesDetails
         }
@@ -502,7 +759,13 @@ private constructor(
         fun otherFeesGrossAmount(otherFeesGrossAmount: Long) =
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
-        /** Total amount of gross other fees outside of interchange. */
+        /**
+         * Sets [Builder.otherFeesGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.otherFeesGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
             this.otherFeesGrossAmount = otherFeesGrossAmount
         }
@@ -510,13 +773,25 @@ private constructor(
         /** Date of when the report was first generated. */
         fun reportDate(reportDate: String) = reportDate(JsonField.of(reportDate))
 
-        /** Date of when the report was first generated. */
+        /**
+         * Sets [Builder.reportDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.reportDate] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /** Date of when money movement is triggered for the transaction. */
         fun settlementDate(settlementDate: String) = settlementDate(JsonField.of(settlementDate))
 
-        /** Date of when money movement is triggered for the transaction. */
+        /**
+         * Sets [Builder.settlementDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settlementDate] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun settlementDate(settlementDate: JsonField<String>) = apply {
             this.settlementDate = settlementDate
         }
@@ -525,7 +800,13 @@ private constructor(
         fun transactionToken(transactionToken: String) =
             transactionToken(JsonField.of(transactionToken))
 
-        /** Globally unique identifier denoting the associated Transaction object. */
+        /**
+         * Sets [Builder.transactionToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun transactionToken(transactionToken: JsonField<String>) = apply {
             this.transactionToken = transactionToken
         }
@@ -538,8 +819,11 @@ private constructor(
             transactionsGrossAmount(JsonField.of(transactionsGrossAmount))
 
         /**
-         * The total amount of settlement impacting transactions (excluding interchange, fees, and
-         * disputes).
+         * Sets [Builder.transactionsGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionsGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun transactionsGrossAmount(transactionsGrossAmount: JsonField<Long>) = apply {
             this.transactionsGrossAmount = transactionsGrossAmount
@@ -548,19 +832,36 @@ private constructor(
         /** The type of settlement record. */
         fun type(type: Type) = type(JsonField.of(type))
 
-        /** The type of settlement record. */
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Date and time when the transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         /** Network's description of a fee, only present on records with type `FEE`. */
         fun feeDescription(feeDescription: String) = feeDescription(JsonField.of(feeDescription))
 
-        /** Network's description of a fee, only present on records with type `FEE`. */
+        /**
+         * Sets [Builder.feeDescription] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.feeDescription] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun feeDescription(feeDescription: JsonField<String>) = apply {
             this.feeDescription = feeDescription
         }
@@ -738,8 +1039,17 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun isa(): Optional<Long> = Optional.ofNullable(isa.getNullable("ISA"))
 
+        /**
+         * Returns the raw JSON value of [isa].
+         *
+         * Unlike [isa], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("ISA") @ExcludeMissing fun _isa(): JsonField<Long> = isa
 
         @JsonAnyGetter
@@ -779,6 +1089,13 @@ private constructor(
 
             fun isa(isa: Long) = isa(JsonField.of(isa))
 
+            /**
+             * Sets [Builder.isa] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isa] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun isa(isa: JsonField<Long>) = apply { this.isa = isa }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

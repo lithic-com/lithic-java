@@ -98,13 +98,13 @@ private constructor(
         /** The effective date that the prime rates ends before */
         fun endingBefore(endingBefore: LocalDate?) = apply { this.endingBefore = endingBefore }
 
-        /** The effective date that the prime rates ends before */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<LocalDate>) = endingBefore(endingBefore.getOrNull())
 
         /** The effective date that the prime rate starts after */
         fun startingAfter(startingAfter: LocalDate?) = apply { this.startingAfter = startingAfter }
 
-        /** The effective date that the prime rate starts after */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<LocalDate>) =
             startingAfter(startingAfter.getOrNull())
 

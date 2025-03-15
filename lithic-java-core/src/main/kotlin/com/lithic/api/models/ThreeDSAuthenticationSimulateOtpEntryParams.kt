@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /**
@@ -35,19 +36,32 @@ private constructor(
     /**
      * A unique token returned as part of a /v1/three_ds_authentication/simulate call that resulted
      * in PENDING_CHALLENGE authentication result.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun token(): String = body.token()
 
-    /** The OTP entered by the cardholder */
+    /**
+     * The OTP entered by the cardholder
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun otp(): String = body.otp()
 
     /**
-     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that resulted
-     * in PENDING_CHALLENGE authentication result.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _token(): JsonField<String> = body._token()
 
-    /** The OTP entered by the cardholder */
+    /**
+     * Returns the raw JSON value of [otp].
+     *
+     * Unlike [otp], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _otp(): JsonField<String> = body._otp()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -77,19 +91,32 @@ private constructor(
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
          * resulted in PENDING_CHALLENGE authentication result.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun token(): String = token.getRequired("token")
 
-        /** The OTP entered by the cardholder */
+        /**
+         * The OTP entered by the cardholder
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun otp(): String = otp.getRequired("otp")
 
         /**
-         * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * resulted in PENDING_CHALLENGE authentication result.
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** The OTP entered by the cardholder */
+        /**
+         * Returns the raw JSON value of [otp].
+         *
+         * Unlike [otp], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("otp") @ExcludeMissing fun _otp(): JsonField<String> = otp
 
         @JsonAnyGetter
@@ -145,15 +172,24 @@ private constructor(
             fun token(token: String) = token(JsonField.of(token))
 
             /**
-             * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-             * resulted in PENDING_CHALLENGE authentication result.
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** The OTP entered by the cardholder */
             fun otp(otp: String) = otp(JsonField.of(otp))
 
-            /** The OTP entered by the cardholder */
+            /**
+             * Sets [Builder.otp] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.otp] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun otp(otp: JsonField<String>) = apply { this.otp = otp }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -244,15 +280,22 @@ private constructor(
         fun token(token: String) = apply { body.token(token) }
 
         /**
-         * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
-         * resulted in PENDING_CHALLENGE authentication result.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** The OTP entered by the cardholder */
         fun otp(otp: String) = apply { body.otp(otp) }
 
-        /** The OTP entered by the cardholder */
+        /**
+         * Sets [Builder.otp] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.otp] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun otp(otp: JsonField<String>) = apply { body.otp(otp) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

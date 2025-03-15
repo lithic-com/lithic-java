@@ -42,44 +42,79 @@ private constructor(
      * authorizations, any value entered will be converted into a negative amount in the simulated
      * transaction. For example, entering 100 in this field will result in a -100 amount in the
      * transaction. For balance inquiries, this field must be set to 0.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun amount(): Long = body.amount()
 
-    /** Merchant descriptor. */
+    /**
+     * Merchant descriptor.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun descriptor(): String = body.descriptor()
 
-    /** Sixteen digit card number. */
+    /**
+     * Sixteen digit card number.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pan(): String = body.pan()
 
     /**
      * Merchant category code for the transaction to be simulated. A four-digit number listed in
      * ISO 18245. Supported merchant category codes can be found
      * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun mcc(): Optional<String> = body.mcc()
 
-    /** Unique identifier to identify the payment card acceptor. */
+    /**
+     * Unique identifier to identify the payment card acceptor.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun merchantAcceptorId(): Optional<String> = body.merchantAcceptorId()
 
     /**
      * Amount of the transaction to be simulated in currency specified in merchant_currency,
      * including any acquirer fees.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun merchantAmount(): Optional<Long> = body.merchantAmount()
 
     /**
      * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
      * defaults to GBP if another ISO 4217 code is provided
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun merchantCurrency(): Optional<String> = body.merchantCurrency()
 
     /**
      * Set to true if the terminal is capable of partial approval otherwise false. Partial approval
      * is when part of a transaction is approved and another payment must be used for the remainder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun partialApprovalCapable(): Optional<Boolean> = body.partialApprovalCapable()
 
-    /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+    /**
+     * Simulate entering a PIN. If omitted, PIN check will not be performed.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun pin(): Optional<String> = body.pin()
 
     /**
@@ -95,67 +130,82 @@ private constructor(
      *   the transaction.
      * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
      *   funds immediately, and no subsequent clearing is required to settle the transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun status(): Optional<Status> = body.status()
 
     /**
-     * Amount (in cents) to authorize. For credit authorizations and financial credit
-     * authorizations, any value entered will be converted into a negative amount in the simulated
-     * transaction. For example, entering 100 in this field will result in a -100 amount in the
-     * transaction. For balance inquiries, this field must be set to 0.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
-    /** Merchant descriptor. */
+    /**
+     * Returns the raw JSON value of [descriptor].
+     *
+     * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _descriptor(): JsonField<String> = body._descriptor()
 
-    /** Sixteen digit card number. */
+    /**
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pan(): JsonField<String> = body._pan()
 
     /**
-     * Merchant category code for the transaction to be simulated. A four-digit number listed in
-     * ISO 18245. Supported merchant category codes can be found
-     * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+     * Returns the raw JSON value of [mcc].
+     *
+     * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _mcc(): JsonField<String> = body._mcc()
 
-    /** Unique identifier to identify the payment card acceptor. */
+    /**
+     * Returns the raw JSON value of [merchantAcceptorId].
+     *
+     * Unlike [merchantAcceptorId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _merchantAcceptorId(): JsonField<String> = body._merchantAcceptorId()
 
     /**
-     * Amount of the transaction to be simulated in currency specified in merchant_currency,
-     * including any acquirer fees.
+     * Returns the raw JSON value of [merchantAmount].
+     *
+     * Unlike [merchantAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _merchantAmount(): JsonField<Long> = body._merchantAmount()
 
     /**
-     * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-     * defaults to GBP if another ISO 4217 code is provided
+     * Returns the raw JSON value of [merchantCurrency].
+     *
+     * Unlike [merchantCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     fun _merchantCurrency(): JsonField<String> = body._merchantCurrency()
 
     /**
-     * Set to true if the terminal is capable of partial approval otherwise false. Partial approval
-     * is when part of a transaction is approved and another payment must be used for the remainder.
+     * Returns the raw JSON value of [partialApprovalCapable].
+     *
+     * Unlike [partialApprovalCapable], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     fun _partialApprovalCapable(): JsonField<Boolean> = body._partialApprovalCapable()
 
-    /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+    /**
+     * Returns the raw JSON value of [pin].
+     *
+     * Unlike [pin], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pin(): JsonField<String> = body._pin()
 
     /**
-     * Type of event to simulate.
-     * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
-     *   step is required to settle the transaction.
-     * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
-     *   most often observed when a cardholder requests to view a card's balance at an ATM.
-     * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
-     *   meaning a subsequent clearing step is required to settle the transaction.
-     * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
-     *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
-     *   the transaction.
-     * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
-     *   funds immediately, and no subsequent clearing is required to settle the transaction.
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _status(): JsonField<Status> = body._status()
 
@@ -208,29 +258,53 @@ private constructor(
          * authorizations, any value entered will be converted into a negative amount in the
          * simulated transaction. For example, entering 100 in this field will result in a -100
          * amount in the transaction. For balance inquiries, this field must be set to 0.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Merchant descriptor. */
+        /**
+         * Merchant descriptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun descriptor(): String = descriptor.getRequired("descriptor")
 
-        /** Sixteen digit card number. */
+        /**
+         * Sixteen digit card number.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pan(): String = pan.getRequired("pan")
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun mcc(): Optional<String> = Optional.ofNullable(mcc.getNullable("mcc"))
 
-        /** Unique identifier to identify the payment card acceptor. */
+        /**
+         * Unique identifier to identify the payment card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun merchantAcceptorId(): Optional<String> =
             Optional.ofNullable(merchantAcceptorId.getNullable("merchant_acceptor_id"))
 
         /**
          * Amount of the transaction to be simulated in currency specified in merchant_currency,
          * including any acquirer fees.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun merchantAmount(): Optional<Long> =
             Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
@@ -238,6 +312,9 @@ private constructor(
         /**
          * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
          * and defaults to GBP if another ISO 4217 code is provided
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun merchantCurrency(): Optional<String> =
             Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
@@ -246,11 +323,19 @@ private constructor(
          * Set to true if the terminal is capable of partial approval otherwise false. Partial
          * approval is when part of a transaction is approved and another payment must be used for
          * the remainder.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun partialApprovalCapable(): Optional<Boolean> =
             Optional.ofNullable(partialApprovalCapable.getNullable("partial_approval_capable"))
 
-        /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+        /**
+         * Simulate entering a PIN. If omitted, PIN check will not be performed.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
 
         /**
@@ -266,78 +351,93 @@ private constructor(
          *   settle the transaction.
          * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
          *   funds immediately, and no subsequent clearing is required to settle the transaction.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
 
         /**
-         * Amount (in cents) to authorize. For credit authorizations and financial credit
-         * authorizations, any value entered will be converted into a negative amount in the
-         * simulated transaction. For example, entering 100 in this field will result in a -100
-         * amount in the transaction. For balance inquiries, this field must be set to 0.
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Merchant descriptor. */
+        /**
+         * Returns the raw JSON value of [descriptor].
+         *
+         * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("descriptor")
         @ExcludeMissing
         fun _descriptor(): JsonField<String> = descriptor
 
-        /** Sixteen digit card number. */
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
         /**
-         * Merchant category code for the transaction to be simulated. A four-digit number listed in
-         * ISO 18245. Supported merchant category codes can be found
-         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         * Returns the raw JSON value of [mcc].
+         *
+         * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
-        /** Unique identifier to identify the payment card acceptor. */
+        /**
+         * Returns the raw JSON value of [merchantAcceptorId].
+         *
+         * Unlike [merchantAcceptorId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("merchant_acceptor_id")
         @ExcludeMissing
         fun _merchantAcceptorId(): JsonField<String> = merchantAcceptorId
 
         /**
-         * Amount of the transaction to be simulated in currency specified in merchant_currency,
-         * including any acquirer fees.
+         * Returns the raw JSON value of [merchantAmount].
+         *
+         * Unlike [merchantAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("merchant_amount")
         @ExcludeMissing
         fun _merchantAmount(): JsonField<Long> = merchantAmount
 
         /**
-         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-         * and defaults to GBP if another ISO 4217 code is provided
+         * Returns the raw JSON value of [merchantCurrency].
+         *
+         * Unlike [merchantCurrency], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("merchant_currency")
         @ExcludeMissing
         fun _merchantCurrency(): JsonField<String> = merchantCurrency
 
         /**
-         * Set to true if the terminal is capable of partial approval otherwise false. Partial
-         * approval is when part of a transaction is approved and another payment must be used for
-         * the remainder.
+         * Returns the raw JSON value of [partialApprovalCapable].
+         *
+         * Unlike [partialApprovalCapable], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("partial_approval_capable")
         @ExcludeMissing
         fun _partialApprovalCapable(): JsonField<Boolean> = partialApprovalCapable
 
-        /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+        /**
+         * Returns the raw JSON value of [pin].
+         *
+         * Unlike [pin], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pin") @ExcludeMissing fun _pin(): JsonField<String> = pin
 
         /**
-         * Type of event to simulate.
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
-         *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
-         *   most often observed when a cardholder requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
-         *   meaning a subsequent clearing step is required to settle the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
-         *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
-         *   settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
-         *   funds immediately, and no subsequent clearing is required to settle the transaction.
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
@@ -421,23 +521,36 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount (in cents) to authorize. For credit authorizations and financial credit
-             * authorizations, any value entered will be converted into a negative amount in the
-             * simulated transaction. For example, entering 100 in this field will result in a -100
-             * amount in the transaction. For balance inquiries, this field must be set to 0.
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
-            /** Merchant descriptor. */
+            /**
+             * Sets [Builder.descriptor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.descriptor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
             fun pan(pan: String) = pan(JsonField.of(pan))
 
-            /** Sixteen digit card number. */
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             /**
@@ -448,9 +561,11 @@ private constructor(
             fun mcc(mcc: String) = mcc(JsonField.of(mcc))
 
             /**
-             * Merchant category code for the transaction to be simulated. A four-digit number
-             * listed in ISO 18245. Supported merchant category codes can be found
-             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
@@ -458,7 +573,13 @@ private constructor(
             fun merchantAcceptorId(merchantAcceptorId: String) =
                 merchantAcceptorId(JsonField.of(merchantAcceptorId))
 
-            /** Unique identifier to identify the payment card acceptor. */
+            /**
+             * Sets [Builder.merchantAcceptorId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantAcceptorId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
             }
@@ -470,8 +591,11 @@ private constructor(
             fun merchantAmount(merchantAmount: Long) = merchantAmount(JsonField.of(merchantAmount))
 
             /**
-             * Amount of the transaction to be simulated in currency specified in merchant_currency,
-             * including any acquirer fees.
+             * Sets [Builder.merchantAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun merchantAmount(merchantAmount: JsonField<Long>) = apply {
                 this.merchantAmount = merchantAmount
@@ -485,8 +609,11 @@ private constructor(
                 merchantCurrency(JsonField.of(merchantCurrency))
 
             /**
-             * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP,
-             * EUR and defaults to GBP if another ISO 4217 code is provided
+             * Sets [Builder.merchantCurrency] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantCurrency] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
                 this.merchantCurrency = merchantCurrency
@@ -501,9 +628,11 @@ private constructor(
                 partialApprovalCapable(JsonField.of(partialApprovalCapable))
 
             /**
-             * Set to true if the terminal is capable of partial approval otherwise false. Partial
-             * approval is when part of a transaction is approved and another payment must be used
-             * for the remainder.
+             * Sets [Builder.partialApprovalCapable] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.partialApprovalCapable] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun partialApprovalCapable(partialApprovalCapable: JsonField<Boolean>) = apply {
                 this.partialApprovalCapable = partialApprovalCapable
@@ -512,7 +641,13 @@ private constructor(
             /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
             fun pin(pin: String) = pin(JsonField.of(pin))
 
-            /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+            /**
+             * Sets [Builder.pin] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pin] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pin(pin: JsonField<String>) = apply { this.pin = pin }
 
             /**
@@ -534,20 +669,11 @@ private constructor(
             fun status(status: Status) = status(JsonField.of(status))
 
             /**
-             * Type of event to simulate.
-             * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
-             *   clearing step is required to settle the transaction.
-             * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card,
-             *   and is most often observed when a cardholder requests to view a card's balance at
-             *   an ATM.
-             * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a
-             *   refund, meaning a subsequent clearing step is required to settle the transaction.
-             * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
-             *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
-             *   required to settle the transaction.
-             * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to
-             *   credit funds immediately, and no subsequent clearing is required to settle the
-             *   transaction.
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun status(status: JsonField<Status>) = apply { this.status = status }
 
@@ -649,23 +775,34 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount (in cents) to authorize. For credit authorizations and financial credit
-         * authorizations, any value entered will be converted into a negative amount in the
-         * simulated transaction. For example, entering 100 in this field will result in a -100
-         * amount in the transaction. For balance inquiries, this field must be set to 0.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Merchant descriptor. */
         fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
 
-        /** Merchant descriptor. */
+        /**
+         * Sets [Builder.descriptor] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.descriptor] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun descriptor(descriptor: JsonField<String>) = apply { body.descriptor(descriptor) }
 
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /** Sixteen digit card number. */
+        /**
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         /**
@@ -676,9 +813,10 @@ private constructor(
         fun mcc(mcc: String) = apply { body.mcc(mcc) }
 
         /**
-         * Merchant category code for the transaction to be simulated. A four-digit number listed in
-         * ISO 18245. Supported merchant category codes can be found
-         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         * Sets [Builder.mcc] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun mcc(mcc: JsonField<String>) = apply { body.mcc(mcc) }
 
@@ -687,7 +825,13 @@ private constructor(
             body.merchantAcceptorId(merchantAcceptorId)
         }
 
-        /** Unique identifier to identify the payment card acceptor. */
+        /**
+         * Sets [Builder.merchantAcceptorId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAcceptorId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
             body.merchantAcceptorId(merchantAcceptorId)
         }
@@ -699,8 +843,11 @@ private constructor(
         fun merchantAmount(merchantAmount: Long) = apply { body.merchantAmount(merchantAmount) }
 
         /**
-         * Amount of the transaction to be simulated in currency specified in merchant_currency,
-         * including any acquirer fees.
+         * Sets [Builder.merchantAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun merchantAmount(merchantAmount: JsonField<Long>) = apply {
             body.merchantAmount(merchantAmount)
@@ -715,8 +862,11 @@ private constructor(
         }
 
         /**
-         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-         * and defaults to GBP if another ISO 4217 code is provided
+         * Sets [Builder.merchantCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             body.merchantCurrency(merchantCurrency)
@@ -732,9 +882,11 @@ private constructor(
         }
 
         /**
-         * Set to true if the terminal is capable of partial approval otherwise false. Partial
-         * approval is when part of a transaction is approved and another payment must be used for
-         * the remainder.
+         * Sets [Builder.partialApprovalCapable] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.partialApprovalCapable] with a well-typed [Boolean]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun partialApprovalCapable(partialApprovalCapable: JsonField<Boolean>) = apply {
             body.partialApprovalCapable(partialApprovalCapable)
@@ -743,7 +895,12 @@ private constructor(
         /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
         fun pin(pin: String) = apply { body.pin(pin) }
 
-        /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+        /**
+         * Sets [Builder.pin] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pin] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
 
         /**
@@ -763,18 +920,10 @@ private constructor(
         fun status(status: Status) = apply { body.status(status) }
 
         /**
-         * Type of event to simulate.
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
-         *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
-         *   most often observed when a cardholder requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
-         *   meaning a subsequent clearing step is required to settle the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
-         *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
-         *   settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
-         *   funds immediately, and no subsequent clearing is required to settle the transaction.
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun status(status: JsonField<Status>) = apply { body.status(status) }
 

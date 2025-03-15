@@ -47,10 +47,20 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for the account holder. */
+    /**
+     * Globally unique identifier for the account holder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Globally unique identifier for the account. */
+    /**
+     * Globally unique identifier for the account.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
@@ -58,61 +68,98 @@ private constructor(
      *
      * Note:
      * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): Status = status.getRequired("status")
 
-    /** Reason for the evaluation status. */
+    /**
+     * Reason for the evaluation status.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun statusReasons(): List<StatusReasons> = statusReasons.getRequired("status_reasons")
 
-    /** Timestamp of when the account holder was created. */
+    /**
+     * Timestamp of when the account holder was created.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
     /**
      * Customer-provided token that indicates a relationship with an object outside of the Lithic
      * ecosystem.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
      * Only present for "KYB_BASIC" workflow. A list of documents required for the account holder to
      * be approved.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun requiredDocuments(): Optional<List<RequiredDocument>> =
         Optional.ofNullable(requiredDocuments.getNullable("required_documents"))
 
-    /** Globally unique identifier for the account holder. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Globally unique identifier for the account. */
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * KYC and KYB evaluation states.
+     * Returns the raw JSON value of [status].
      *
-     * Note:
-     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-    /** Reason for the evaluation status. */
+    /**
+     * Returns the raw JSON value of [statusReasons].
+     *
+     * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("status_reasons")
     @ExcludeMissing
     fun _statusReasons(): JsonField<List<StatusReasons>> = statusReasons
 
-    /** Timestamp of when the account holder was created. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * Customer-provided token that indicates a relationship with an object outside of the Lithic
-     * ecosystem.
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
-     * Only present for "KYB_BASIC" workflow. A list of documents required for the account holder to
-     * be approved.
+     * Returns the raw JSON value of [requiredDocuments].
+     *
+     * Unlike [requiredDocuments], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("required_documents")
     @ExcludeMissing
@@ -185,13 +232,24 @@ private constructor(
         /** Globally unique identifier for the account holder. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier for the account holder. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
-        /** Globally unique identifier for the account. */
+        /**
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -205,10 +263,10 @@ private constructor(
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
-         * KYC and KYB evaluation states.
+         * Sets [Builder.status] to an arbitrary JSON value.
          *
-         * Note:
-         * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
@@ -216,12 +274,22 @@ private constructor(
         fun statusReasons(statusReasons: List<StatusReasons>) =
             statusReasons(JsonField.of(statusReasons))
 
-        /** Reason for the evaluation status. */
+        /**
+         * Sets [Builder.statusReasons] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statusReasons] with a well-typed `List<StatusReasons>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun statusReasons(statusReasons: JsonField<List<StatusReasons>>) = apply {
             this.statusReasons = statusReasons.map { it.toMutableList() }
         }
 
-        /** Reason for the evaluation status. */
+        /**
+         * Adds a single [StatusReasons] to [statusReasons].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addStatusReason(statusReason: StatusReasons) = apply {
             statusReasons =
                 (statusReasons ?: JsonField.of(mutableListOf())).also {
@@ -232,7 +300,13 @@ private constructor(
         /** Timestamp of when the account holder was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when the account holder was created. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
@@ -242,8 +316,11 @@ private constructor(
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
         /**
-         * Customer-provided token that indicates a relationship with an object outside of the
-         * Lithic ecosystem.
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
@@ -255,16 +332,20 @@ private constructor(
             requiredDocuments(JsonField.of(requiredDocuments))
 
         /**
-         * Only present for "KYB_BASIC" workflow. A list of documents required for the account
-         * holder to be approved.
+         * Sets [Builder.requiredDocuments] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.requiredDocuments] with a well-typed
+         * `List<RequiredDocument>` value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
          */
         fun requiredDocuments(requiredDocuments: JsonField<List<RequiredDocument>>) = apply {
             this.requiredDocuments = requiredDocuments.map { it.toMutableList() }
         }
 
         /**
-         * Only present for "KYB_BASIC" workflow. A list of documents required for the account
-         * holder to be approved.
+         * Adds a single [RequiredDocument] to [requiredDocuments].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addRequiredDocument(requiredDocument: RequiredDocument) = apply {
             requiredDocuments =
