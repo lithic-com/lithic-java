@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.80.1 (2025-03-15)
+
+Full Changelog: [v0.80.0...v0.80.1](https://github.com/lithic-com/lithic-java/compare/v0.80.0...v0.80.1)
+
+### Chores
+
+* **internal:** remove extra empty newlines ([#531](https://github.com/lithic-com/lithic-java/issues/531)) ([1ec3d9c](https://github.com/lithic-com/lithic-java/commit/1ec3d9cf1327e3db3f5a1e6d2781ad4d9f29452c))
+
+
+### Documentation
+
+* deduplicate and refine comments ([#533](https://github.com/lithic-com/lithic-java/issues/533)) ([eaafce6](https://github.com/lithic-com/lithic-java/commit/eaafce67920b967704241ef05297016f103022be))
+
 ## 0.80.0 (2025-03-11)
 
 Full Changelog: [v0.79.0...v0.80.0](https://github.com/lithic-com/lithic-java/compare/v0.79.0...v0.80.0)
