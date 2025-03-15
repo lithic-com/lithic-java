@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -51,112 +52,176 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Valid USPS routable address. */
+    /**
+     * Valid USPS routable address.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun address1(): String = address1.getRequired("address1")
 
-    /** City */
+    /**
+     * City
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun city(): String = city.getRequired("city")
 
-    /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
+    /**
+     * Uppercase ISO 3166-1 alpha-3 three character abbreviation.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun country(): String = country.getRequired("country")
 
     /**
      * Customer's first name. This will be the first name printed on the physical card. The combined
      * length of `first_name` and `last_name` may not exceed 25 characters.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun firstName(): String = firstName.getRequired("first_name")
 
     /**
      * Customer's surname (family name). This will be the last name printed on the physical card.
      * The combined length of `first_name` and `last_name` may not exceed 25 characters.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun lastName(): String = lastName.getRequired("last_name")
 
     /**
      * Postal code (formerly zipcode). For US addresses, either five-digit postal code or nine-digit
      * postal code (ZIP+4) using the format 12345-1234.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
     /**
      * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of 24
      * characters for other countries.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun state(): String = state.getRequired("state")
 
-    /** Unit number (if applicable). */
+    /**
+     * Unit number (if applicable).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
     /**
      * Email address to be contacted for expedited shipping process purposes. Required if
      * `shipping_method` is `EXPEDITED`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
     /**
      * Text to be printed on line two of the physical card. Use of this field requires additional
      * permissions.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun line2Text(): Optional<String> = Optional.ofNullable(line2Text.getNullable("line2_text"))
 
     /**
      * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
      * purposes. Required if `shipping_method` is `EXPEDITED`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun phoneNumber(): Optional<String> =
         Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
-    /** Valid USPS routable address. */
+    /**
+     * Returns the raw JSON value of [address1].
+     *
+     * Unlike [address1], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
-    /** City */
+    /**
+     * Returns the raw JSON value of [city].
+     *
+     * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
-    /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
+    /**
+     * Returns the raw JSON value of [country].
+     *
+     * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
     /**
-     * Customer's first name. This will be the first name printed on the physical card. The combined
-     * length of `first_name` and `last_name` may not exceed 25 characters.
+     * Returns the raw JSON value of [firstName].
+     *
+     * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
     /**
-     * Customer's surname (family name). This will be the last name printed on the physical card.
-     * The combined length of `first_name` and `last_name` may not exceed 25 characters.
+     * Returns the raw JSON value of [lastName].
+     *
+     * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
     /**
-     * Postal code (formerly zipcode). For US addresses, either five-digit postal code or nine-digit
-     * postal code (ZIP+4) using the format 12345-1234.
+     * Returns the raw JSON value of [postalCode].
+     *
+     * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("postal_code") @ExcludeMissing fun _postalCode(): JsonField<String> = postalCode
 
     /**
-     * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of 24
-     * characters for other countries.
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
-    /** Unit number (if applicable). */
+    /**
+     * Returns the raw JSON value of [address2].
+     *
+     * Unlike [address2], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
     /**
-     * Email address to be contacted for expedited shipping process purposes. Required if
-     * `shipping_method` is `EXPEDITED`.
+     * Returns the raw JSON value of [email].
+     *
+     * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
     /**
-     * Text to be printed on line two of the physical card. Use of this field requires additional
-     * permissions.
+     * Returns the raw JSON value of [line2Text].
+     *
+     * Unlike [line2Text], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("line2_text") @ExcludeMissing fun _line2Text(): JsonField<String> = line2Text
 
     /**
-     * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-     * purposes. Required if `shipping_method` is `EXPEDITED`.
+     * Returns the raw JSON value of [phoneNumber].
+     *
+     * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("phone_number")
     @ExcludeMissing
@@ -243,19 +308,34 @@ private constructor(
         /** Valid USPS routable address. */
         fun address1(address1: String) = address1(JsonField.of(address1))
 
-        /** Valid USPS routable address. */
+        /**
+         * Sets [Builder.address1] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address1] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
         /** City */
         fun city(city: String) = city(JsonField.of(city))
 
-        /** City */
+        /**
+         * Sets [Builder.city] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.city] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
         fun country(country: String) = country(JsonField.of(country))
 
-        /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
+        /**
+         * Sets [Builder.country] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.country] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
@@ -265,8 +345,11 @@ private constructor(
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
         /**
-         * Customer's first name. This will be the first name printed on the physical card. The
-         * combined length of `first_name` and `last_name` may not exceed 25 characters.
+         * Sets [Builder.firstName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.firstName] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
@@ -277,8 +360,10 @@ private constructor(
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
         /**
-         * Customer's surname (family name). This will be the last name printed on the physical
-         * card. The combined length of `first_name` and `last_name` may not exceed 25 characters.
+         * Sets [Builder.lastName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastName] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
@@ -289,8 +374,11 @@ private constructor(
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
         /**
-         * Postal code (formerly zipcode). For US addresses, either five-digit postal code or
-         * nine-digit postal code (ZIP+4) using the format 12345-1234.
+         * Sets [Builder.postalCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.postalCode] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
@@ -301,15 +389,22 @@ private constructor(
         fun state(state: String) = state(JsonField.of(state))
 
         /**
-         * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of
-         * 24 characters for other countries.
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<String>) = apply { this.state = state }
 
         /** Unit number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
 
-        /** Unit number (if applicable). */
+        /**
+         * Sets [Builder.address2] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address2] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
         /**
@@ -319,8 +414,10 @@ private constructor(
         fun email(email: String) = email(JsonField.of(email))
 
         /**
-         * Email address to be contacted for expedited shipping process purposes. Required if
-         * `shipping_method` is `EXPEDITED`.
+         * Sets [Builder.email] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.email] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun email(email: JsonField<String>) = apply { this.email = email }
 
@@ -331,8 +428,11 @@ private constructor(
         fun line2Text(line2Text: String) = line2Text(JsonField.of(line2Text))
 
         /**
-         * Text to be printed on line two of the physical card. Use of this field requires
-         * additional permissions.
+         * Sets [Builder.line2Text] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.line2Text] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun line2Text(line2Text: JsonField<String>) = apply { this.line2Text = line2Text }
 
@@ -343,8 +443,11 @@ private constructor(
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
         /**
-         * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-         * purposes. Required if `shipping_method` is `EXPEDITED`.
+         * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.phoneNumber] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 

@@ -42,16 +42,29 @@ private constructor(
 
     fun cardToken(): String = cardToken
 
-    /** The shipping address this card will be sent to. */
+    /**
+     * The shipping address this card will be sent to.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun shippingAddress(): ShippingAddress = body.shippingAddress()
 
-    /** If omitted, the previous carrier will be used. */
+    /**
+     * If omitted, the previous carrier will be used.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun carrier(): Optional<Carrier> = body.carrier()
 
     /**
      * Specifies the configuration (e.g. physical card art) that the card should be manufactured
      * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
      * before use.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun productId(): Optional<String> = body.productId()
 
@@ -64,31 +77,37 @@ private constructor(
      * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
      * - `2_DAY` - FedEx 2-day shipping, with tracking
      * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun shippingMethod(): Optional<ShippingMethod> = body.shippingMethod()
 
-    /** The shipping address this card will be sent to. */
+    /**
+     * Returns the raw JSON value of [shippingAddress].
+     *
+     * Unlike [shippingAddress], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _shippingAddress(): JsonField<ShippingAddress> = body._shippingAddress()
 
-    /** If omitted, the previous carrier will be used. */
+    /**
+     * Returns the raw JSON value of [carrier].
+     *
+     * Unlike [carrier], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _carrier(): JsonField<Carrier> = body._carrier()
 
     /**
-     * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-     * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-     * before use.
+     * Returns the raw JSON value of [productId].
+     *
+     * Unlike [productId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _productId(): JsonField<String> = body._productId()
 
     /**
-     * Shipping method for the card. Use of options besides `STANDARD` require additional
-     * permissions.
-     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
-     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-     * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-     * - `2_DAY` - FedEx 2-day shipping, with tracking
-     * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     * Returns the raw JSON value of [shippingMethod].
+     *
+     * Unlike [shippingMethod], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _shippingMethod(): JsonField<ShippingMethod> = body._shippingMethod()
 
@@ -131,16 +150,29 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The shipping address this card will be sent to. */
+        /**
+         * The shipping address this card will be sent to.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun shippingAddress(): ShippingAddress = shippingAddress.getRequired("shipping_address")
 
-        /** If omitted, the previous carrier will be used. */
+        /**
+         * If omitted, the previous carrier will be used.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
          * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
          * before use.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
 
@@ -154,35 +186,42 @@ private constructor(
          * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
          * - `2_DAY` - FedEx 2-day shipping, with tracking
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun shippingMethod(): Optional<ShippingMethod> =
             Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
 
-        /** The shipping address this card will be sent to. */
+        /**
+         * Returns the raw JSON value of [shippingAddress].
+         *
+         * Unlike [shippingAddress], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("shipping_address")
         @ExcludeMissing
         fun _shippingAddress(): JsonField<ShippingAddress> = shippingAddress
 
-        /** If omitted, the previous carrier will be used. */
+        /**
+         * Returns the raw JSON value of [carrier].
+         *
+         * Unlike [carrier], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("carrier") @ExcludeMissing fun _carrier(): JsonField<Carrier> = carrier
 
         /**
-         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use.
+         * Returns the raw JSON value of [productId].
+         *
+         * Unlike [productId], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require additional
-         * permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-         *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-         * - `2_DAY` - FedEx 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         * Returns the raw JSON value of [shippingMethod].
+         *
+         * Unlike [shippingMethod], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("shipping_method")
         @ExcludeMissing
@@ -243,7 +282,13 @@ private constructor(
             fun shippingAddress(shippingAddress: ShippingAddress) =
                 shippingAddress(JsonField.of(shippingAddress))
 
-            /** The shipping address this card will be sent to. */
+            /**
+             * Sets [Builder.shippingAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shippingAddress] with a well-typed [ShippingAddress]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
                 this.shippingAddress = shippingAddress
             }
@@ -251,7 +296,13 @@ private constructor(
             /** If omitted, the previous carrier will be used. */
             fun carrier(carrier: Carrier) = carrier(JsonField.of(carrier))
 
-            /** If omitted, the previous carrier will be used. */
+            /**
+             * Sets [Builder.carrier] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.carrier] with a well-typed [Carrier] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun carrier(carrier: JsonField<Carrier>) = apply { this.carrier = carrier }
 
             /**
@@ -262,9 +313,11 @@ private constructor(
             fun productId(productId: String) = productId(JsonField.of(productId))
 
             /**
-             * Specifies the configuration (e.g. physical card art) that the card should be
-             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
-             * configured with Lithic before use.
+             * Sets [Builder.productId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.productId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
@@ -284,16 +337,11 @@ private constructor(
                 shippingMethod(JsonField.of(shippingMethod))
 
             /**
-             * Shipping method for the card. Use of options besides `STANDARD` require additional
-             * permissions.
-             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-             *   tracking
-             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-             * - `2_DAY` - FedEx 2-day shipping, with tracking
-             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             *   tracking
+             * Sets [Builder.shippingMethod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shippingMethod] with a well-typed [ShippingMethod]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
                 this.shippingMethod = shippingMethod
@@ -386,7 +434,13 @@ private constructor(
             body.shippingAddress(shippingAddress)
         }
 
-        /** The shipping address this card will be sent to. */
+        /**
+         * Sets [Builder.shippingAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.shippingAddress] with a well-typed [ShippingAddress]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
             body.shippingAddress(shippingAddress)
         }
@@ -394,7 +448,12 @@ private constructor(
         /** If omitted, the previous carrier will be used. */
         fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
-        /** If omitted, the previous carrier will be used. */
+        /**
+         * Sets [Builder.carrier] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.carrier] with a well-typed [Carrier] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun carrier(carrier: JsonField<Carrier>) = apply { body.carrier(carrier) }
 
         /**
@@ -405,9 +464,11 @@ private constructor(
         fun productId(productId: String) = apply { body.productId(productId) }
 
         /**
-         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use.
+         * Sets [Builder.productId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.productId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun productId(productId: JsonField<String>) = apply { body.productId(productId) }
 
@@ -427,15 +488,11 @@ private constructor(
         }
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require additional
-         * permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-         *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-         * - `2_DAY` - FedEx 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         * Sets [Builder.shippingMethod] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.shippingMethod] with a well-typed [ShippingMethod] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
             body.shippingMethod(shippingMethod)

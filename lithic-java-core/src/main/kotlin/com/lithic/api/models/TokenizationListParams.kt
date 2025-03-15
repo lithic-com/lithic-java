@@ -128,25 +128,25 @@ private constructor(
         /** Filters for tokenizations associated with a specific account. */
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-        /** Filters for tokenizations associated with a specific account. */
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** Filter for tokenizations created after this date. */
         fun begin(begin: LocalDate?) = apply { this.begin = begin }
 
-        /** Filter for tokenizations created after this date. */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<LocalDate>) = begin(begin.getOrNull())
 
         /** Filters for tokenizations associated with a specific card. */
         fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
-        /** Filters for tokenizations associated with a specific card. */
+        /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /** Filter for tokenizations created before this date. */
         fun end(end: LocalDate?) = apply { this.end = end }
 
-        /** Filter for tokenizations created before this date. */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<LocalDate>) = end(end.getOrNull())
 
         /**
@@ -155,19 +155,20 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Page size (for pagination). */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Page size (for pagination). */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
@@ -176,10 +177,7 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
@@ -192,8 +190,7 @@ private constructor(
         }
 
         /**
-         * Filter for tokenizations by tokenization channel. If this is not specified, only
-         * DIGITAL_WALLET tokenizations will be returned.
+         * Alias for calling [Builder.tokenizationChannel] with `tokenizationChannel.orElse(null)`.
          */
         fun tokenizationChannel(tokenizationChannel: Optional<TokenizationChannel>) =
             tokenizationChannel(tokenizationChannel.getOrNull())

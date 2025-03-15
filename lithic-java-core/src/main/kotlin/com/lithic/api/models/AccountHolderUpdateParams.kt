@@ -284,6 +284,9 @@ private constructor(
              * I) for more background. If no business owner is an entity, pass in an empty list.
              * However, either this parameter or `beneficial_owner_individuals` must be populated.
              * on entities that should be included.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun beneficialOwnerEntities(): Optional<List<KybBusinessEntityPatch>> =
                 Optional.ofNullable(
@@ -298,6 +301,9 @@ private constructor(
              * I) for more background on individuals that should be included. If no individual is an
              * entity, pass in an empty list. However, either this parameter or
              * `beneficial_owner_entities` must be populated.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun beneficialOwnerIndividuals(): Optional<List<IndividualPatch>> =
                 Optional.ofNullable(
@@ -306,6 +312,9 @@ private constructor(
 
             /**
              * Information for business for which the account is being opened and KYB is being run.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun businessEntity(): Optional<KybBusinessEntityPatch> =
                 Optional.ofNullable(businessEntity.getNullable("business_entity"))
@@ -319,12 +328,18 @@ private constructor(
              * above. See
              * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
              * (Section II) for more background.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun controlPerson(): Optional<IndividualPatch> =
                 Optional.ofNullable(controlPerson.getNullable("control_person"))
 
             /**
              * A user provided id that can be used to link an account holder with an external system
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun externalId(): Optional<String> =
                 Optional.ofNullable(externalId.getNullable("external_id"))
@@ -332,22 +347,27 @@ private constructor(
             /**
              * Short description of the company's line of business (i.e., what does the company
              * do?).
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun natureOfBusiness(): Optional<String> =
                 Optional.ofNullable(natureOfBusiness.getNullable("nature_of_business"))
 
-            /** Company website URL. */
+            /**
+             * Company website URL.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun websiteUrl(): Optional<String> =
                 Optional.ofNullable(websiteUrl.getNullable("website_url"))
 
             /**
-             * List of all entities with >25% ownership in the company. If no entity or individual
-             * owns >25% of the company, and the largest shareholder is an entity, please identify
-             * them in this field. See
-             * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-             * I) for more background. If no business owner is an entity, pass in an empty list.
-             * However, either this parameter or `beneficial_owner_individuals` must be populated.
-             * on entities that should be included.
+             * Returns the raw JSON value of [beneficialOwnerEntities].
+             *
+             * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("beneficial_owner_entities")
             @ExcludeMissing
@@ -355,13 +375,10 @@ private constructor(
                 beneficialOwnerEntities
 
             /**
-             * List of all individuals with >25% ownership in the company. If no entity or
-             * individual owns >25% of the company, and the largest shareholder is an individual,
-             * please identify them in this field. See
-             * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-             * I) for more background on individuals that should be included. If no individual is an
-             * entity, pass in an empty list. However, either this parameter or
-             * `beneficial_owner_entities` must be populated.
+             * Returns the raw JSON value of [beneficialOwnerIndividuals].
+             *
+             * Unlike [beneficialOwnerIndividuals], this method doesn't throw if the JSON field has
+             * an unexpected type.
              */
             @JsonProperty("beneficial_owner_individuals")
             @ExcludeMissing
@@ -369,42 +386,51 @@ private constructor(
                 beneficialOwnerIndividuals
 
             /**
-             * Information for business for which the account is being opened and KYB is being run.
+             * Returns the raw JSON value of [businessEntity].
+             *
+             * Unlike [businessEntity], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("business_entity")
             @ExcludeMissing
             fun _businessEntity(): JsonField<KybBusinessEntityPatch> = businessEntity
 
             /**
-             * An individual with significant responsibility for managing the legal entity (e.g., a
-             * Chief Executive Officer, Chief Financial Officer, Chief Operating Officer, Managing
-             * Member, General Partner, President, Vice President, or Treasurer). This can be an
-             * executive, or someone who will have program-wide access to the cards that Lithic will
-             * provide. In some cases, this individual could also be a beneficial owner listed
-             * above. See
-             * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-             * (Section II) for more background.
+             * Returns the raw JSON value of [controlPerson].
+             *
+             * Unlike [controlPerson], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("control_person")
             @ExcludeMissing
             fun _controlPerson(): JsonField<IndividualPatch> = controlPerson
 
             /**
-             * A user provided id that can be used to link an account holder with an external system
+             * Returns the raw JSON value of [externalId].
+             *
+             * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("external_id")
             @ExcludeMissing
             fun _externalId(): JsonField<String> = externalId
 
             /**
-             * Short description of the company's line of business (i.e., what does the company
-             * do?).
+             * Returns the raw JSON value of [natureOfBusiness].
+             *
+             * Unlike [natureOfBusiness], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("nature_of_business")
             @ExcludeMissing
             fun _natureOfBusiness(): JsonField<String> = natureOfBusiness
 
-            /** Company website URL. */
+            /**
+             * Returns the raw JSON value of [websiteUrl].
+             *
+             * Unlike [websiteUrl], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("website_url")
             @ExcludeMissing
             fun _websiteUrl(): JsonField<String> = websiteUrl
@@ -480,13 +506,11 @@ private constructor(
                     beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 
                 /**
-                 * List of all entities with >25% ownership in the company. If no entity or
-                 * individual owns >25% of the company, and the largest shareholder is an entity,
-                 * please identify them in this field. See
-                 * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-                 * I) for more background. If no business owner is an entity, pass in an empty list.
-                 * However, either this parameter or `beneficial_owner_individuals` must be
-                 * populated. on entities that should be included.
+                 * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
+                 * `List<KybBusinessEntityPatch>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun beneficialOwnerEntities(
                     beneficialOwnerEntities: JsonField<List<KybBusinessEntityPatch>>
@@ -496,13 +520,9 @@ private constructor(
                 }
 
                 /**
-                 * List of all entities with >25% ownership in the company. If no entity or
-                 * individual owns >25% of the company, and the largest shareholder is an entity,
-                 * please identify them in this field. See
-                 * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-                 * I) for more background. If no business owner is an entity, pass in an empty list.
-                 * However, either this parameter or `beneficial_owner_individuals` must be
-                 * populated. on entities that should be included.
+                 * Adds a single [KybBusinessEntityPatch] to [beneficialOwnerEntities].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
                  */
                 fun addBeneficialOwnerEntity(beneficialOwnerEntity: KybBusinessEntityPatch) =
                     apply {
@@ -525,13 +545,11 @@ private constructor(
                     beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
 
                 /**
-                 * List of all individuals with >25% ownership in the company. If no entity or
-                 * individual owns >25% of the company, and the largest shareholder is an
-                 * individual, please identify them in this field. See
-                 * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-                 * I) for more background on individuals that should be included. If no individual
-                 * is an entity, pass in an empty list. However, either this parameter or
-                 * `beneficial_owner_entities` must be populated.
+                 * Sets [Builder.beneficialOwnerIndividuals] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.beneficialOwnerIndividuals] with a well-typed
+                 * `List<IndividualPatch>` value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
                  */
                 fun beneficialOwnerIndividuals(
                     beneficialOwnerIndividuals: JsonField<List<IndividualPatch>>
@@ -541,13 +559,9 @@ private constructor(
                 }
 
                 /**
-                 * List of all individuals with >25% ownership in the company. If no entity or
-                 * individual owns >25% of the company, and the largest shareholder is an
-                 * individual, please identify them in this field. See
-                 * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)(Section
-                 * I) for more background on individuals that should be included. If no individual
-                 * is an entity, pass in an empty list. However, either this parameter or
-                 * `beneficial_owner_entities` must be populated.
+                 * Adds a single [IndividualPatch] to [beneficialOwnerIndividuals].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
                  */
                 fun addBeneficialOwnerIndividual(beneficialOwnerIndividual: IndividualPatch) =
                     apply {
@@ -566,8 +580,11 @@ private constructor(
                     businessEntity(JsonField.of(businessEntity))
 
                 /**
-                 * Information for business for which the account is being opened and KYB is being
-                 * run.
+                 * Sets [Builder.businessEntity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.businessEntity] with a well-typed
+                 * [KybBusinessEntityPatch] value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
                  */
                 fun businessEntity(businessEntity: JsonField<KybBusinessEntityPatch>) = apply {
                     this.businessEntity = businessEntity
@@ -587,14 +604,11 @@ private constructor(
                     controlPerson(JsonField.of(controlPerson))
 
                 /**
-                 * An individual with significant responsibility for managing the legal entity
-                 * (e.g., a Chief Executive Officer, Chief Financial Officer, Chief Operating
-                 * Officer, Managing Member, General Partner, President, Vice President, or
-                 * Treasurer). This can be an executive, or someone who will have program-wide
-                 * access to the cards that Lithic will provide. In some cases, this individual
-                 * could also be a beneficial owner listed above. See
-                 * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-                 * (Section II) for more background.
+                 * Sets [Builder.controlPerson] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.controlPerson] with a well-typed
+                 * [IndividualPatch] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
                  */
                 fun controlPerson(controlPerson: JsonField<IndividualPatch>) = apply {
                     this.controlPerson = controlPerson
@@ -607,8 +621,11 @@ private constructor(
                 fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
                 /**
-                 * A user provided id that can be used to link an account holder with an external
-                 * system
+                 * Sets [Builder.externalId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.externalId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun externalId(externalId: JsonField<String>) = apply {
                     this.externalId = externalId
@@ -622,8 +639,11 @@ private constructor(
                     natureOfBusiness(JsonField.of(natureOfBusiness))
 
                 /**
-                 * Short description of the company's line of business (i.e., what does the company
-                 * do?).
+                 * Sets [Builder.natureOfBusiness] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.natureOfBusiness] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
                 fun natureOfBusiness(natureOfBusiness: JsonField<String>) = apply {
                     this.natureOfBusiness = natureOfBusiness
@@ -632,7 +652,13 @@ private constructor(
                 /** Company website URL. */
                 fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
 
-                /** Company website URL. */
+                /**
+                 * Sets [Builder.websiteUrl] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.websiteUrl] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun websiteUrl(websiteUrl: JsonField<String>) = apply {
                     this.websiteUrl = websiteUrl
                 }
@@ -701,12 +727,21 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Globally unique identifier for an entity.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun entityToken(): String = entityToken.getRequired("entity_token")
 
                 /**
                  * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not
                  * acceptable; APO/FPO are acceptable.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun address(): Optional<AddressUpdate> =
                     Optional.ofNullable(address.getNullable("address"))
@@ -714,6 +749,9 @@ private constructor(
                 /**
                  * Any name that the business operates under that is not its legal business name (if
                  * applicable).
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun dbaBusinessName(): Optional<String> =
                     Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
@@ -722,66 +760,105 @@ private constructor(
                  * Government-issued identification number. US Federal Employer Identification
                  * Numbers (EIN) are currently supported, entered as full nine-digits, with or
                  * without hyphens.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun governmentId(): Optional<String> =
                     Optional.ofNullable(governmentId.getNullable("government_id"))
 
-                /** Legal (formal) business name. */
+                /**
+                 * Legal (formal) business name.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun legalBusinessName(): Optional<String> =
                     Optional.ofNullable(legalBusinessName.getNullable("legal_business_name"))
 
-                /** Parent company name (if applicable). */
+                /**
+                 * Parent company name (if applicable).
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun parentCompany(): Optional<String> =
                     Optional.ofNullable(parentCompany.getNullable("parent_company"))
 
                 /**
                  * One or more of the business's phone number(s), entered as a list in E.164 format.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun phoneNumbers(): Optional<List<String>> =
                     Optional.ofNullable(phoneNumbers.getNullable("phone_numbers"))
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Returns the raw JSON value of [entityToken].
+                 *
+                 * Unlike [entityToken], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("entity_token")
                 @ExcludeMissing
                 fun _entityToken(): JsonField<String> = entityToken
 
                 /**
-                 * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not
-                 * acceptable; APO/FPO are acceptable.
+                 * Returns the raw JSON value of [address].
+                 *
+                 * Unlike [address], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("address")
                 @ExcludeMissing
                 fun _address(): JsonField<AddressUpdate> = address
 
                 /**
-                 * Any name that the business operates under that is not its legal business name (if
-                 * applicable).
+                 * Returns the raw JSON value of [dbaBusinessName].
+                 *
+                 * Unlike [dbaBusinessName], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("dba_business_name")
                 @ExcludeMissing
                 fun _dbaBusinessName(): JsonField<String> = dbaBusinessName
 
                 /**
-                 * Government-issued identification number. US Federal Employer Identification
-                 * Numbers (EIN) are currently supported, entered as full nine-digits, with or
-                 * without hyphens.
+                 * Returns the raw JSON value of [governmentId].
+                 *
+                 * Unlike [governmentId], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("government_id")
                 @ExcludeMissing
                 fun _governmentId(): JsonField<String> = governmentId
 
-                /** Legal (formal) business name. */
+                /**
+                 * Returns the raw JSON value of [legalBusinessName].
+                 *
+                 * Unlike [legalBusinessName], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("legal_business_name")
                 @ExcludeMissing
                 fun _legalBusinessName(): JsonField<String> = legalBusinessName
 
-                /** Parent company name (if applicable). */
+                /**
+                 * Returns the raw JSON value of [parentCompany].
+                 *
+                 * Unlike [parentCompany], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("parent_company")
                 @ExcludeMissing
                 fun _parentCompany(): JsonField<String> = parentCompany
 
                 /**
-                 * One or more of the business's phone number(s), entered as a list in E.164 format.
+                 * Returns the raw JSON value of [phoneNumbers].
+                 *
+                 * Unlike [phoneNumbers], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("phone_numbers")
                 @ExcludeMissing
@@ -853,7 +930,13 @@ private constructor(
                     /** Globally unique identifier for an entity. */
                     fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-                    /** Globally unique identifier for an entity. */
+                    /**
+                     * Sets [Builder.entityToken] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.entityToken] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun entityToken(entityToken: JsonField<String>) = apply {
                         this.entityToken = entityToken
                     }
@@ -865,8 +948,11 @@ private constructor(
                     fun address(address: AddressUpdate) = address(JsonField.of(address))
 
                     /**
-                     * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not
-                     * acceptable; APO/FPO are acceptable.
+                     * Sets [Builder.address] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.address] with a well-typed [AddressUpdate]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun address(address: JsonField<AddressUpdate>) = apply {
                         this.address = address
@@ -880,8 +966,11 @@ private constructor(
                         dbaBusinessName(JsonField.of(dbaBusinessName))
 
                     /**
-                     * Any name that the business operates under that is not its legal business name
-                     * (if applicable).
+                     * Sets [Builder.dbaBusinessName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.dbaBusinessName] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
                         this.dbaBusinessName = dbaBusinessName
@@ -896,9 +985,11 @@ private constructor(
                         governmentId(JsonField.of(governmentId))
 
                     /**
-                     * Government-issued identification number. US Federal Employer Identification
-                     * Numbers (EIN) are currently supported, entered as full nine-digits, with or
-                     * without hyphens.
+                     * Sets [Builder.governmentId] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.governmentId] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun governmentId(governmentId: JsonField<String>) = apply {
                         this.governmentId = governmentId
@@ -908,7 +999,13 @@ private constructor(
                     fun legalBusinessName(legalBusinessName: String) =
                         legalBusinessName(JsonField.of(legalBusinessName))
 
-                    /** Legal (formal) business name. */
+                    /**
+                     * Sets [Builder.legalBusinessName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.legalBusinessName] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
                         this.legalBusinessName = legalBusinessName
                     }
@@ -917,7 +1014,13 @@ private constructor(
                     fun parentCompany(parentCompany: String) =
                         parentCompany(JsonField.of(parentCompany))
 
-                    /** Parent company name (if applicable). */
+                    /**
+                     * Sets [Builder.parentCompany] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.parentCompany] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun parentCompany(parentCompany: JsonField<String>) = apply {
                         this.parentCompany = parentCompany
                     }
@@ -930,16 +1033,20 @@ private constructor(
                         phoneNumbers(JsonField.of(phoneNumbers))
 
                     /**
-                     * One or more of the business's phone number(s), entered as a list in E.164
-                     * format.
+                     * Sets [Builder.phoneNumbers] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.phoneNumbers] with a well-typed
+                     * `List<String>` value instead. This method is primarily for setting the field
+                     * to an undocumented or not yet supported value.
                      */
                     fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
                         this.phoneNumbers = phoneNumbers.map { it.toMutableList() }
                     }
 
                     /**
-                     * One or more of the business's phone number(s), entered as a list in E.164
-                     * format.
+                     * Adds a single [String] to [phoneNumbers].
+                     *
+                     * @throws IllegalStateException if the field was previously set to a non-list.
                      */
                     fun addPhoneNumber(phoneNumber: String) = apply {
                         phoneNumbers =
@@ -1034,27 +1141,47 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Globally unique identifier for an entity.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun entityToken(): String = entityToken.getRequired("entity_token")
 
                 /**
                  * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
                  * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun address(): Optional<AddressUpdate> =
                     Optional.ofNullable(address.getNullable("address"))
 
-                /** Individual's date of birth, as an RFC 3339 date. */
+                /**
+                 * Individual's date of birth, as an RFC 3339 date.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun dob(): Optional<String> = Optional.ofNullable(dob.getNullable("dob"))
 
                 /**
                  * Individual's email address. If utilizing Lithic for chargeback processing, this
                  * customer email address may be used to communicate dispute status and resolution.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun firstName(): Optional<String> =
                     Optional.ofNullable(firstName.getNullable("first_name"))
@@ -1064,67 +1191,102 @@ private constructor(
                  * compliance with banking regulations). Social Security Numbers (SSN) and
                  * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
                  * entered as full nine-digits, with or without hyphens
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun governmentId(): Optional<String> =
                     Optional.ofNullable(governmentId.getNullable("government_id"))
 
                 /**
                  * Individual's last name, as it appears on government-issued identity documents.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun lastName(): Optional<String> =
                     Optional.ofNullable(lastName.getNullable("last_name"))
 
-                /** Individual's phone number, entered in E.164 format. */
+                /**
+                 * Individual's phone number, entered in E.164 format.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun phoneNumber(): Optional<String> =
                     Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Returns the raw JSON value of [entityToken].
+                 *
+                 * Unlike [entityToken], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("entity_token")
                 @ExcludeMissing
                 fun _entityToken(): JsonField<String> = entityToken
 
                 /**
-                 * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                 * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 * Returns the raw JSON value of [address].
+                 *
+                 * Unlike [address], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("address")
                 @ExcludeMissing
                 fun _address(): JsonField<AddressUpdate> = address
 
-                /** Individual's date of birth, as an RFC 3339 date. */
+                /**
+                 * Returns the raw JSON value of [dob].
+                 *
+                 * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
+                 */
                 @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
 
                 /**
-                 * Individual's email address. If utilizing Lithic for chargeback processing, this
-                 * customer email address may be used to communicate dispute status and resolution.
+                 * Returns the raw JSON value of [email].
+                 *
+                 * Unlike [email], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
                 /**
-                 * Individual's first name, as it appears on government-issued identity documents.
+                 * Returns the raw JSON value of [firstName].
+                 *
+                 * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("first_name")
                 @ExcludeMissing
                 fun _firstName(): JsonField<String> = firstName
 
                 /**
-                 * Government-issued identification number (required for identity verification and
-                 * compliance with banking regulations). Social Security Numbers (SSN) and
-                 * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
-                 * entered as full nine-digits, with or without hyphens
+                 * Returns the raw JSON value of [governmentId].
+                 *
+                 * Unlike [governmentId], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("government_id")
                 @ExcludeMissing
                 fun _governmentId(): JsonField<String> = governmentId
 
                 /**
-                 * Individual's last name, as it appears on government-issued identity documents.
+                 * Returns the raw JSON value of [lastName].
+                 *
+                 * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("last_name")
                 @ExcludeMissing
                 fun _lastName(): JsonField<String> = lastName
 
-                /** Individual's phone number, entered in E.164 format. */
+                /**
+                 * Returns the raw JSON value of [phoneNumber].
+                 *
+                 * Unlike [phoneNumber], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("phone_number")
                 @ExcludeMissing
                 fun _phoneNumber(): JsonField<String> = phoneNumber
@@ -1195,7 +1357,13 @@ private constructor(
                     /** Globally unique identifier for an entity. */
                     fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-                    /** Globally unique identifier for an entity. */
+                    /**
+                     * Sets [Builder.entityToken] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.entityToken] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun entityToken(entityToken: JsonField<String>) = apply {
                         this.entityToken = entityToken
                     }
@@ -1208,9 +1376,11 @@ private constructor(
                     fun address(address: AddressUpdate) = address(JsonField.of(address))
 
                     /**
-                     * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                     * acceptable; APO/FPO are acceptable. Only USA addresses are currently
-                     * supported.
+                     * Sets [Builder.address] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.address] with a well-typed [AddressUpdate]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun address(address: JsonField<AddressUpdate>) = apply {
                         this.address = address
@@ -1219,7 +1389,13 @@ private constructor(
                     /** Individual's date of birth, as an RFC 3339 date. */
                     fun dob(dob: String) = dob(JsonField.of(dob))
 
-                    /** Individual's date of birth, as an RFC 3339 date. */
+                    /**
+                     * Sets [Builder.dob] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.dob] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
                     /**
@@ -1230,9 +1406,11 @@ private constructor(
                     fun email(email: String) = email(JsonField.of(email))
 
                     /**
-                     * Individual's email address. If utilizing Lithic for chargeback processing,
-                     * this customer email address may be used to communicate dispute status and
-                     * resolution.
+                     * Sets [Builder.email] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.email] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun email(email: JsonField<String>) = apply { this.email = email }
 
@@ -1243,8 +1421,11 @@ private constructor(
                     fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
                     /**
-                     * Individual's first name, as it appears on government-issued identity
-                     * documents.
+                     * Sets [Builder.firstName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.firstName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun firstName(firstName: JsonField<String>) = apply {
                         this.firstName = firstName
@@ -1260,10 +1441,11 @@ private constructor(
                         governmentId(JsonField.of(governmentId))
 
                     /**
-                     * Government-issued identification number (required for identity verification
-                     * and compliance with banking regulations). Social Security Numbers (SSN) and
-                     * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
-                     * entered as full nine-digits, with or without hyphens
+                     * Sets [Builder.governmentId] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.governmentId] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun governmentId(governmentId: JsonField<String>) = apply {
                         this.governmentId = governmentId
@@ -1276,15 +1458,24 @@ private constructor(
                     fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
                     /**
-                     * Individual's last name, as it appears on government-issued identity
-                     * documents.
+                     * Sets [Builder.lastName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.lastName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /** Individual's phone number, entered in E.164 format. */
                     fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-                    /** Individual's phone number, entered in E.164 format. */
+                    /**
+                     * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.phoneNumber] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                         this.phoneNumber = phoneNumber
                     }
@@ -1378,6 +1569,9 @@ private constructor(
 
             /**
              * A user provided id that can be used to link an account holder with an external system
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun externalId(): Optional<String> =
                 Optional.ofNullable(externalId.getNullable("external_id"))
@@ -1385,20 +1579,28 @@ private constructor(
             /**
              * Information on the individual for whom the account is being opened and KYC is being
              * run.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun individual(): Optional<IndividualPatch> =
                 Optional.ofNullable(individual.getNullable("individual"))
 
             /**
-             * A user provided id that can be used to link an account holder with an external system
+             * Returns the raw JSON value of [externalId].
+             *
+             * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("external_id")
             @ExcludeMissing
             fun _externalId(): JsonField<String> = externalId
 
             /**
-             * Information on the individual for whom the account is being opened and KYC is being
-             * run.
+             * Returns the raw JSON value of [individual].
+             *
+             * Unlike [individual], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("individual")
             @ExcludeMissing
@@ -1449,8 +1651,11 @@ private constructor(
                 fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
                 /**
-                 * A user provided id that can be used to link an account holder with an external
-                 * system
+                 * Sets [Builder.externalId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.externalId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun externalId(externalId: JsonField<String>) = apply {
                     this.externalId = externalId
@@ -1463,8 +1668,11 @@ private constructor(
                 fun individual(individual: IndividualPatch) = individual(JsonField.of(individual))
 
                 /**
-                 * Information on the individual for whom the account is being opened and KYC is
-                 * being run.
+                 * Sets [Builder.individual] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.individual] with a well-typed [IndividualPatch]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
                 fun individual(individual: JsonField<IndividualPatch>) = apply {
                     this.individual = individual
@@ -1532,27 +1740,47 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Globally unique identifier for an entity.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun entityToken(): String = entityToken.getRequired("entity_token")
 
                 /**
                  * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
                  * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun address(): Optional<AddressUpdate> =
                     Optional.ofNullable(address.getNullable("address"))
 
-                /** Individual's date of birth, as an RFC 3339 date. */
+                /**
+                 * Individual's date of birth, as an RFC 3339 date.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun dob(): Optional<String> = Optional.ofNullable(dob.getNullable("dob"))
 
                 /**
                  * Individual's email address. If utilizing Lithic for chargeback processing, this
                  * customer email address may be used to communicate dispute status and resolution.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun firstName(): Optional<String> =
                     Optional.ofNullable(firstName.getNullable("first_name"))
@@ -1562,67 +1790,102 @@ private constructor(
                  * compliance with banking regulations). Social Security Numbers (SSN) and
                  * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
                  * entered as full nine-digits, with or without hyphens
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun governmentId(): Optional<String> =
                     Optional.ofNullable(governmentId.getNullable("government_id"))
 
                 /**
                  * Individual's last name, as it appears on government-issued identity documents.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun lastName(): Optional<String> =
                     Optional.ofNullable(lastName.getNullable("last_name"))
 
-                /** Individual's phone number, entered in E.164 format. */
+                /**
+                 * Individual's phone number, entered in E.164 format.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun phoneNumber(): Optional<String> =
                     Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
-                /** Globally unique identifier for an entity. */
+                /**
+                 * Returns the raw JSON value of [entityToken].
+                 *
+                 * Unlike [entityToken], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("entity_token")
                 @ExcludeMissing
                 fun _entityToken(): JsonField<String> = entityToken
 
                 /**
-                 * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                 * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 * Returns the raw JSON value of [address].
+                 *
+                 * Unlike [address], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("address")
                 @ExcludeMissing
                 fun _address(): JsonField<AddressUpdate> = address
 
-                /** Individual's date of birth, as an RFC 3339 date. */
+                /**
+                 * Returns the raw JSON value of [dob].
+                 *
+                 * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
+                 */
                 @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
 
                 /**
-                 * Individual's email address. If utilizing Lithic for chargeback processing, this
-                 * customer email address may be used to communicate dispute status and resolution.
+                 * Returns the raw JSON value of [email].
+                 *
+                 * Unlike [email], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
                 /**
-                 * Individual's first name, as it appears on government-issued identity documents.
+                 * Returns the raw JSON value of [firstName].
+                 *
+                 * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("first_name")
                 @ExcludeMissing
                 fun _firstName(): JsonField<String> = firstName
 
                 /**
-                 * Government-issued identification number (required for identity verification and
-                 * compliance with banking regulations). Social Security Numbers (SSN) and
-                 * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
-                 * entered as full nine-digits, with or without hyphens
+                 * Returns the raw JSON value of [governmentId].
+                 *
+                 * Unlike [governmentId], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("government_id")
                 @ExcludeMissing
                 fun _governmentId(): JsonField<String> = governmentId
 
                 /**
-                 * Individual's last name, as it appears on government-issued identity documents.
+                 * Returns the raw JSON value of [lastName].
+                 *
+                 * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("last_name")
                 @ExcludeMissing
                 fun _lastName(): JsonField<String> = lastName
 
-                /** Individual's phone number, entered in E.164 format. */
+                /**
+                 * Returns the raw JSON value of [phoneNumber].
+                 *
+                 * Unlike [phoneNumber], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("phone_number")
                 @ExcludeMissing
                 fun _phoneNumber(): JsonField<String> = phoneNumber
@@ -1693,7 +1956,13 @@ private constructor(
                     /** Globally unique identifier for an entity. */
                     fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-                    /** Globally unique identifier for an entity. */
+                    /**
+                     * Sets [Builder.entityToken] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.entityToken] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun entityToken(entityToken: JsonField<String>) = apply {
                         this.entityToken = entityToken
                     }
@@ -1706,9 +1975,11 @@ private constructor(
                     fun address(address: AddressUpdate) = address(JsonField.of(address))
 
                     /**
-                     * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                     * acceptable; APO/FPO are acceptable. Only USA addresses are currently
-                     * supported.
+                     * Sets [Builder.address] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.address] with a well-typed [AddressUpdate]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun address(address: JsonField<AddressUpdate>) = apply {
                         this.address = address
@@ -1717,7 +1988,13 @@ private constructor(
                     /** Individual's date of birth, as an RFC 3339 date. */
                     fun dob(dob: String) = dob(JsonField.of(dob))
 
-                    /** Individual's date of birth, as an RFC 3339 date. */
+                    /**
+                     * Sets [Builder.dob] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.dob] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
                     /**
@@ -1728,9 +2005,11 @@ private constructor(
                     fun email(email: String) = email(JsonField.of(email))
 
                     /**
-                     * Individual's email address. If utilizing Lithic for chargeback processing,
-                     * this customer email address may be used to communicate dispute status and
-                     * resolution.
+                     * Sets [Builder.email] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.email] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun email(email: JsonField<String>) = apply { this.email = email }
 
@@ -1741,8 +2020,11 @@ private constructor(
                     fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
                     /**
-                     * Individual's first name, as it appears on government-issued identity
-                     * documents.
+                     * Sets [Builder.firstName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.firstName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun firstName(firstName: JsonField<String>) = apply {
                         this.firstName = firstName
@@ -1758,10 +2040,11 @@ private constructor(
                         governmentId(JsonField.of(governmentId))
 
                     /**
-                     * Government-issued identification number (required for identity verification
-                     * and compliance with banking regulations). Social Security Numbers (SSN) and
-                     * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
-                     * entered as full nine-digits, with or without hyphens
+                     * Sets [Builder.governmentId] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.governmentId] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun governmentId(governmentId: JsonField<String>) = apply {
                         this.governmentId = governmentId
@@ -1774,15 +2057,24 @@ private constructor(
                     fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
                     /**
-                     * Individual's last name, as it appears on government-issued identity
-                     * documents.
+                     * Sets [Builder.lastName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.lastName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /** Individual's phone number, entered in E.164 format. */
                     fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-                    /** Individual's phone number, entered in E.164 format. */
+                    /**
+                     * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.phoneNumber] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                         this.phoneNumber = phoneNumber
                     }
@@ -1889,13 +2181,21 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB. */
+            /**
+             * Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun address(): Optional<AddressUpdate> =
                 Optional.ofNullable(address.getNullable("address"))
 
             /**
              * Allowed for: KYC-Exempt, BYO-KYC. The token of the business account to which the
              * account holder is associated.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun businessAccountToken(): Optional<String> =
                 Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
@@ -1904,18 +2204,36 @@ private constructor(
              * Allowed for all Account Holders. Account holder's email address. The primary purpose
              * of this field is for cardholder identification and verification during the digital
              * wallet tokenization process.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
-            /** Allowed for KYC-Exempt, BYO-KYC. Account holder's first name. */
+            /**
+             * Allowed for KYC-Exempt, BYO-KYC. Account holder's first name.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun firstName(): Optional<String> =
                 Optional.ofNullable(firstName.getNullable("first_name"))
 
-            /** Allowed for KYC-Exempt, BYO-KYC. Account holder's last name. */
+            /**
+             * Allowed for KYC-Exempt, BYO-KYC. Account holder's last name.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun lastName(): Optional<String> =
                 Optional.ofNullable(lastName.getNullable("last_name"))
 
-            /** Allowed for BYO-KYB. Legal business name of the account holder. */
+            /**
+             * Allowed for BYO-KYB. Legal business name of the account holder.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun legalBusinessName(): Optional<String> =
                 Optional.ofNullable(legalBusinessName.getNullable("legal_business_name"))
 
@@ -1923,47 +2241,72 @@ private constructor(
              * Allowed for all Account Holders. Account holder's phone number, entered in E.164
              * format. The primary purpose of this field is for cardholder identification and
              * verification during the digital wallet tokenization process.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun phoneNumber(): Optional<String> =
                 Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
-            /** Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB. */
+            /**
+             * Returns the raw JSON value of [address].
+             *
+             * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("address")
             @ExcludeMissing
             fun _address(): JsonField<AddressUpdate> = address
 
             /**
-             * Allowed for: KYC-Exempt, BYO-KYC. The token of the business account to which the
-             * account holder is associated.
+             * Returns the raw JSON value of [businessAccountToken].
+             *
+             * Unlike [businessAccountToken], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("business_account_token")
             @ExcludeMissing
             fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
             /**
-             * Allowed for all Account Holders. Account holder's email address. The primary purpose
-             * of this field is for cardholder identification and verification during the digital
-             * wallet tokenization process.
+             * Returns the raw JSON value of [email].
+             *
+             * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
-            /** Allowed for KYC-Exempt, BYO-KYC. Account holder's first name. */
+            /**
+             * Returns the raw JSON value of [firstName].
+             *
+             * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("first_name")
             @ExcludeMissing
             fun _firstName(): JsonField<String> = firstName
 
-            /** Allowed for KYC-Exempt, BYO-KYC. Account holder's last name. */
+            /**
+             * Returns the raw JSON value of [lastName].
+             *
+             * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
-            /** Allowed for BYO-KYB. Legal business name of the account holder. */
+            /**
+             * Returns the raw JSON value of [legalBusinessName].
+             *
+             * Unlike [legalBusinessName], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("legal_business_name")
             @ExcludeMissing
             fun _legalBusinessName(): JsonField<String> = legalBusinessName
 
             /**
-             * Allowed for all Account Holders. Account holder's phone number, entered in E.164
-             * format. The primary purpose of this field is for cardholder identification and
-             * verification during the digital wallet tokenization process.
+             * Returns the raw JSON value of [phoneNumber].
+             *
+             * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("phone_number")
             @ExcludeMissing
@@ -2025,7 +2368,13 @@ private constructor(
                 /** Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB. */
                 fun address(address: AddressUpdate) = address(JsonField.of(address))
 
-                /** Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB. */
+                /**
+                 * Sets [Builder.address] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.address] with a well-typed [AddressUpdate] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun address(address: JsonField<AddressUpdate>) = apply { this.address = address }
 
                 /**
@@ -2036,8 +2385,11 @@ private constructor(
                     businessAccountToken(JsonField.of(businessAccountToken))
 
                 /**
-                 * Allowed for: KYC-Exempt, BYO-KYC. The token of the business account to which the
-                 * account holder is associated.
+                 * Sets [Builder.businessAccountToken] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.businessAccountToken] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
                 fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
                     this.businessAccountToken = businessAccountToken
@@ -2051,29 +2403,49 @@ private constructor(
                 fun email(email: String) = email(JsonField.of(email))
 
                 /**
-                 * Allowed for all Account Holders. Account holder's email address. The primary
-                 * purpose of this field is for cardholder identification and verification during
-                 * the digital wallet tokenization process.
+                 * Sets [Builder.email] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.email] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
                  */
                 fun email(email: JsonField<String>) = apply { this.email = email }
 
                 /** Allowed for KYC-Exempt, BYO-KYC. Account holder's first name. */
                 fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
-                /** Allowed for KYC-Exempt, BYO-KYC. Account holder's first name. */
+                /**
+                 * Sets [Builder.firstName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.firstName] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
                 /** Allowed for KYC-Exempt, BYO-KYC. Account holder's last name. */
                 fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
-                /** Allowed for KYC-Exempt, BYO-KYC. Account holder's last name. */
+                /**
+                 * Sets [Builder.lastName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.lastName] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                 /** Allowed for BYO-KYB. Legal business name of the account holder. */
                 fun legalBusinessName(legalBusinessName: String) =
                     legalBusinessName(JsonField.of(legalBusinessName))
 
-                /** Allowed for BYO-KYB. Legal business name of the account holder. */
+                /**
+                 * Sets [Builder.legalBusinessName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.legalBusinessName] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
                     this.legalBusinessName = legalBusinessName
                 }
@@ -2086,9 +2458,11 @@ private constructor(
                 fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
                 /**
-                 * Allowed for all Account Holders. Account holder's phone number, entered in E.164
-                 * format. The primary purpose of this field is for cardholder identification and
-                 * verification during the digital wallet tokenization process.
+                 * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.phoneNumber] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                     this.phoneNumber = phoneNumber
@@ -2188,15 +2562,15 @@ private constructor(
         /** The KYB request payload for updating a business. */
         fun body(body: Body) = apply { this.body = body }
 
-        /** The KYB request payload for updating a business. */
+        /** Alias for calling [body] with `Body.ofKybPatchRequest(kybPatchRequest)`. */
         fun body(kybPatchRequest: Body.KybPatchRequest) =
             body(Body.ofKybPatchRequest(kybPatchRequest))
 
-        /** The KYC request payload for updating an account holder. */
+        /** Alias for calling [body] with `Body.ofKycPatchRequest(kycPatchRequest)`. */
         fun body(kycPatchRequest: Body.KycPatchRequest) =
             body(Body.ofKycPatchRequest(kycPatchRequest))
 
-        /** The legacy request for updating an account holder. */
+        /** Alias for calling [body] with `Body.ofPatchRequest(patchRequest)`. */
         fun body(patchRequest: Body.PatchRequest) = body(Body.ofPatchRequest(patchRequest))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

@@ -151,6 +151,7 @@ private constructor(
 
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /**
@@ -159,21 +160,23 @@ private constructor(
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
+        /**
+         * Alias for calling [Builder.businessAccountToken] with
+         * `businessAccountToken.orElse(null)`.
+         */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 
         fun category(category: Category?) = apply { this.category = category }
 
+        /** Alias for calling [Builder.category] with `category.orElse(null)`. */
         fun category(category: Optional<Category>) = category(category.getOrNull())
 
         /**
@@ -182,10 +185,7 @@ private constructor(
          */
         fun end(end: OffsetDateTime?) = apply { this.end = end }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created before the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
@@ -194,30 +194,36 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
         fun financialAccountToken(financialAccountToken: Optional<String>) =
             financialAccountToken(financialAccountToken.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Page size (for pagination). */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Page size (for pagination). */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         fun result(result: Result?) = apply { this.result = result }
 
+        /** Alias for calling [Builder.result] with `result.orElse(null)`. */
         fun result(result: Optional<Result>) = result(result.getOrNull())
 
         /**
@@ -226,15 +232,13 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
         fun status(status: Status?) = apply { this.status = status }
 
+        /** Alias for calling [Builder.status] with `status.orElse(null)`. */
         fun status(status: Optional<Status>) = status(status.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
