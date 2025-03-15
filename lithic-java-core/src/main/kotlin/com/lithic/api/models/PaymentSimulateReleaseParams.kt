@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /** Simulates a release of a Payment. */
@@ -27,10 +28,19 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** Payment Token */
+    /**
+     * Payment Token
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun paymentToken(): String = body.paymentToken()
 
-    /** Payment Token */
+    /**
+     * Returns the raw JSON value of [paymentToken].
+     *
+     * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _paymentToken(): JsonField<String> = body._paymentToken()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -56,10 +66,20 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Payment Token */
+        /**
+         * Payment Token
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun paymentToken(): String = paymentToken.getRequired("payment_token")
 
-        /** Payment Token */
+        /**
+         * Returns the raw JSON value of [paymentToken].
+         *
+         * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("payment_token")
         @ExcludeMissing
         fun _paymentToken(): JsonField<String> = paymentToken
@@ -113,7 +133,13 @@ private constructor(
             /** Payment Token */
             fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
 
-            /** Payment Token */
+            /**
+             * Sets [Builder.paymentToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.paymentToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun paymentToken(paymentToken: JsonField<String>) = apply {
                 this.paymentToken = paymentToken
             }
@@ -196,7 +222,13 @@ private constructor(
         /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
-        /** Payment Token */
+        /**
+         * Sets [Builder.paymentToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun paymentToken(paymentToken: JsonField<String>) = apply {
             body.paymentToken(paymentToken)
         }

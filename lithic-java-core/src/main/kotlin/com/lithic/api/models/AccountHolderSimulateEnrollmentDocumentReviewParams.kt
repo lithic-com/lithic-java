@@ -31,34 +31,67 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The account holder document upload which to perform the simulation upon. */
+    /**
+     * The account holder document upload which to perform the simulation upon.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun documentUploadToken(): String = body.documentUploadToken()
 
-    /** An account holder document's upload status for use within the simulation. */
+    /**
+     * An account holder document's upload status for use within the simulation.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun status(): Status = body.status()
 
-    /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+    /**
+     * A list of status reasons associated with a KYB account holder in PENDING_REVIEW
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun acceptedEntityStatusReasons(): Optional<List<String>> = body.acceptedEntityStatusReasons()
 
     /**
      * Status reason that will be associated with the simulated account holder status. Only required
      * for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun statusReason(): Optional<DocumentUploadStatusReasons> = body.statusReason()
 
-    /** The account holder document upload which to perform the simulation upon. */
+    /**
+     * Returns the raw JSON value of [documentUploadToken].
+     *
+     * Unlike [documentUploadToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _documentUploadToken(): JsonField<String> = body._documentUploadToken()
 
-    /** An account holder document's upload status for use within the simulation. */
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _status(): JsonField<Status> = body._status()
 
-    /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+    /**
+     * Returns the raw JSON value of [acceptedEntityStatusReasons].
+     *
+     * Unlike [acceptedEntityStatusReasons], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     fun _acceptedEntityStatusReasons(): JsonField<List<String>> =
         body._acceptedEntityStatusReasons()
 
     /**
-     * Status reason that will be associated with the simulated account holder status. Only required
-     * for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+     * Returns the raw JSON value of [statusReason].
+     *
+     * Unlike [statusReason], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _statusReason(): JsonField<DocumentUploadStatusReasons> = body._statusReason()
 
@@ -94,13 +127,28 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The account holder document upload which to perform the simulation upon. */
+        /**
+         * The account holder document upload which to perform the simulation upon.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun documentUploadToken(): String = documentUploadToken.getRequired("document_upload_token")
 
-        /** An account holder document's upload status for use within the simulation. */
+        /**
+         * An account holder document's upload status for use within the simulation.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun status(): Status = status.getRequired("status")
 
-        /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+        /**
+         * A list of status reasons associated with a KYB account holder in PENDING_REVIEW
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun acceptedEntityStatusReasons(): Optional<List<String>> =
             Optional.ofNullable(
                 acceptedEntityStatusReasons.getNullable("accepted_entity_status_reasons")
@@ -109,26 +157,45 @@ private constructor(
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun statusReason(): Optional<DocumentUploadStatusReasons> =
             Optional.ofNullable(statusReason.getNullable("status_reason"))
 
-        /** The account holder document upload which to perform the simulation upon. */
+        /**
+         * Returns the raw JSON value of [documentUploadToken].
+         *
+         * Unlike [documentUploadToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("document_upload_token")
         @ExcludeMissing
         fun _documentUploadToken(): JsonField<String> = documentUploadToken
 
-        /** An account holder document's upload status for use within the simulation. */
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-        /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+        /**
+         * Returns the raw JSON value of [acceptedEntityStatusReasons].
+         *
+         * Unlike [acceptedEntityStatusReasons], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("accepted_entity_status_reasons")
         @ExcludeMissing
         fun _acceptedEntityStatusReasons(): JsonField<List<String>> = acceptedEntityStatusReasons
 
         /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+         * Returns the raw JSON value of [statusReason].
+         *
+         * Unlike [statusReason], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("status_reason")
         @ExcludeMissing
@@ -197,7 +264,13 @@ private constructor(
             fun documentUploadToken(documentUploadToken: String) =
                 documentUploadToken(JsonField.of(documentUploadToken))
 
-            /** The account holder document upload which to perform the simulation upon. */
+            /**
+             * Sets [Builder.documentUploadToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.documentUploadToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun documentUploadToken(documentUploadToken: JsonField<String>) = apply {
                 this.documentUploadToken = documentUploadToken
             }
@@ -205,21 +278,37 @@ private constructor(
             /** An account holder document's upload status for use within the simulation. */
             fun status(status: Status) = status(JsonField.of(status))
 
-            /** An account holder document's upload status for use within the simulation. */
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) =
                 acceptedEntityStatusReasons(JsonField.of(acceptedEntityStatusReasons))
 
-            /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+            /**
+             * Sets [Builder.acceptedEntityStatusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acceptedEntityStatusReasons] with a well-typed
+             * `List<String>` value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
                     this.acceptedEntityStatusReasons =
                         acceptedEntityStatusReasons.map { it.toMutableList() }
                 }
 
-            /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+            /**
+             * Adds a single [String] to [acceptedEntityStatusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
                 acceptedEntityStatusReasons =
                     (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).also {
@@ -236,8 +325,11 @@ private constructor(
                 statusReason(JsonField.of(statusReason))
 
             /**
-             * Status reason that will be associated with the simulated account holder status. Only
-             * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+             * Sets [Builder.statusReason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.statusReason] with a well-typed
+             * [DocumentUploadStatusReasons] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
             fun statusReason(statusReason: JsonField<DocumentUploadStatusReasons>) = apply {
                 this.statusReason = statusReason
@@ -334,7 +426,13 @@ private constructor(
             body.documentUploadToken(documentUploadToken)
         }
 
-        /** The account holder document upload which to perform the simulation upon. */
+        /**
+         * Sets [Builder.documentUploadToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.documentUploadToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun documentUploadToken(documentUploadToken: JsonField<String>) = apply {
             body.documentUploadToken(documentUploadToken)
         }
@@ -342,7 +440,12 @@ private constructor(
         /** An account holder document's upload status for use within the simulation. */
         fun status(status: Status) = apply { body.status(status) }
 
-        /** An account holder document's upload status for use within the simulation. */
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun status(status: JsonField<Status>) = apply { body.status(status) }
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
@@ -350,13 +453,23 @@ private constructor(
             body.acceptedEntityStatusReasons(acceptedEntityStatusReasons)
         }
 
-        /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+        /**
+         * Sets [Builder.acceptedEntityStatusReasons] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.acceptedEntityStatusReasons] with a well-typed
+         * `List<String>` value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
             apply {
                 body.acceptedEntityStatusReasons(acceptedEntityStatusReasons)
             }
 
-        /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+        /**
+         * Adds a single [String] to [acceptedEntityStatusReasons].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
             body.addAcceptedEntityStatusReason(acceptedEntityStatusReason)
         }
@@ -370,8 +483,11 @@ private constructor(
         }
 
         /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+         * Sets [Builder.statusReason] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statusReason] with a well-typed
+         * [DocumentUploadStatusReasons] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
          */
         fun statusReason(statusReason: JsonField<DocumentUploadStatusReasons>) = apply {
             body.statusReason(statusReason)

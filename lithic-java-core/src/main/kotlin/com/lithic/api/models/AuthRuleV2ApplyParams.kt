@@ -276,10 +276,21 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Account tokens to which the Auth Rule applies. */
+            /**
+             * Account tokens to which the Auth Rule applies.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun accountTokens(): List<String> = accountTokens.getRequired("account_tokens")
 
-            /** Account tokens to which the Auth Rule applies. */
+            /**
+             * Returns the raw JSON value of [accountTokens].
+             *
+             * Unlike [accountTokens], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("account_tokens")
             @ExcludeMissing
             fun _accountTokens(): JsonField<List<String>> = accountTokens
@@ -335,12 +346,22 @@ private constructor(
                 fun accountTokens(accountTokens: List<String>) =
                     accountTokens(JsonField.of(accountTokens))
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Sets [Builder.accountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.accountTokens] with a well-typed `List<String>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
                     this.accountTokens = accountTokens.map { it.toMutableList() }
                 }
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Adds a single [String] to [accountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addAccountToken(accountToken: String) = apply {
                     accountTokens =
                         (accountTokens ?: JsonField.of(mutableListOf())).also {
@@ -406,10 +427,21 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Card tokens to which the Auth Rule applies. */
+            /**
+             * Card tokens to which the Auth Rule applies.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
 
-            /** Card tokens to which the Auth Rule applies. */
+            /**
+             * Returns the raw JSON value of [cardTokens].
+             *
+             * Unlike [cardTokens], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("card_tokens")
             @ExcludeMissing
             fun _cardTokens(): JsonField<List<String>> = cardTokens
@@ -463,12 +495,22 @@ private constructor(
                 /** Card tokens to which the Auth Rule applies. */
                 fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Sets [Builder.cardTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cardTokens] with a well-typed `List<String>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
                     this.cardTokens = cardTokens.map { it.toMutableList() }
                 }
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Adds a single [String] to [cardTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addCardToken(cardToken: String) = apply {
                     cardTokens =
                         (cardTokens ?: JsonField.of(mutableListOf())).also {
@@ -537,19 +579,40 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            /**
+             * Whether the Auth Rule applies to all authorizations on the card program.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun programLevel(): Boolean = programLevel.getRequired("program_level")
 
-            /** Card tokens to which the Auth Rule does not apply. */
+            /**
+             * Card tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun excludedCardTokens(): Optional<List<String>> =
                 Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
 
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            /**
+             * Returns the raw JSON value of [programLevel].
+             *
+             * Unlike [programLevel], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("program_level")
             @ExcludeMissing
             fun _programLevel(): JsonField<Boolean> = programLevel
 
-            /** Card tokens to which the Auth Rule does not apply. */
+            /**
+             * Returns the raw JSON value of [excludedCardTokens].
+             *
+             * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("excluded_card_tokens")
             @ExcludeMissing
             fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
@@ -609,7 +672,13 @@ private constructor(
                 /** Whether the Auth Rule applies to all authorizations on the card program. */
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
-                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                /**
+                 * Sets [Builder.programLevel] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.programLevel] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun programLevel(programLevel: JsonField<Boolean>) = apply {
                     this.programLevel = programLevel
                 }
@@ -618,12 +687,22 @@ private constructor(
                 fun excludedCardTokens(excludedCardTokens: List<String>) =
                     excludedCardTokens(JsonField.of(excludedCardTokens))
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Sets [Builder.excludedCardTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedCardTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
                 fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
                     this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
                 }
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Adds a single [String] to [excludedCardTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addExcludedCardToken(excludedCardToken: String) = apply {
                     excludedCardTokens =
                         (excludedCardTokens ?: JsonField.of(mutableListOf())).also {
@@ -717,12 +796,24 @@ private constructor(
 
         fun body(body: Body) = apply { this.body = body }
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofApplyAuthRuleRequestAccountTokens(applyAuthRuleRequestAccountTokens)`.
+         */
         fun body(applyAuthRuleRequestAccountTokens: Body.ApplyAuthRuleRequestAccountTokens) =
             body(Body.ofApplyAuthRuleRequestAccountTokens(applyAuthRuleRequestAccountTokens))
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofApplyAuthRuleRequestCardTokens(applyAuthRuleRequestCardTokens)`.
+         */
         fun body(applyAuthRuleRequestCardTokens: Body.ApplyAuthRuleRequestCardTokens) =
             body(Body.ofApplyAuthRuleRequestCardTokens(applyAuthRuleRequestCardTokens))
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofApplyAuthRuleRequestProgramLevel(applyAuthRuleRequestProgramLevel)`.
+         */
         fun body(applyAuthRuleRequestProgramLevel: Body.ApplyAuthRuleRequestProgramLevel) =
             body(Body.ofApplyAuthRuleRequestProgramLevel(applyAuthRuleRequestProgramLevel))
 

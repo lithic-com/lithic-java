@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 @NoAutoDetect
@@ -31,20 +32,33 @@ private constructor(
      * Globally unique identifier for the 3DS authentication. This token is sent as part of the
      * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
      * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun token(): String = token.getRequired("token")
 
-    /** Whether the Cardholder has Approved or Declined the issued Challenge */
+    /**
+     * Whether the Cardholder has Approved or Declined the issued Challenge
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun challengeResponse(): ChallengeResult = challengeResponse.getRequired("challenge_response")
 
     /**
-     * Globally unique identifier for the 3DS authentication. This token is sent as part of the
-     * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
-     * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Whether the Cardholder has Approved or Declined the issued Challenge */
+    /**
+     * Returns the raw JSON value of [challengeResponse].
+     *
+     * Unlike [challengeResponse], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("challenge_response")
     @ExcludeMissing
     fun _challengeResponse(): JsonField<ChallengeResult> = challengeResponse
@@ -103,9 +117,10 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /**
-         * Globally unique identifier for the 3DS authentication. This token is sent as part of the
-         * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
-         * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
@@ -113,7 +128,13 @@ private constructor(
         fun challengeResponse(challengeResponse: ChallengeResult) =
             challengeResponse(JsonField.of(challengeResponse))
 
-        /** Whether the Cardholder has Approved or Declined the issued Challenge */
+        /**
+         * Sets [Builder.challengeResponse] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.challengeResponse] with a well-typed [ChallengeResult]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun challengeResponse(challengeResponse: JsonField<ChallengeResult>) = apply {
             this.challengeResponse = challengeResponse
         }

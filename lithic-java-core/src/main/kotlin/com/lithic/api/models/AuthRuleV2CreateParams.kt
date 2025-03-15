@@ -276,33 +276,72 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Account tokens to which the Auth Rule applies. */
+            /**
+             * Account tokens to which the Auth Rule applies.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun accountTokens(): List<String> = accountTokens.getRequired("account_tokens")
 
-            /** Auth Rule Name */
+            /**
+             * Auth Rule Name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun parameters(): Optional<Parameters> =
                 Optional.ofNullable(parameters.getNullable("parameters"))
 
-            /** The type of Auth Rule */
+            /**
+             * The type of Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun type(): Optional<AuthRuleType> = Optional.ofNullable(type.getNullable("type"))
 
-            /** Account tokens to which the Auth Rule applies. */
+            /**
+             * Returns the raw JSON value of [accountTokens].
+             *
+             * Unlike [accountTokens], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("account_tokens")
             @ExcludeMissing
             fun _accountTokens(): JsonField<List<String>> = accountTokens
 
-            /** Auth Rule Name */
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Returns the raw JSON value of [parameters].
+             *
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("parameters")
             @ExcludeMissing
             fun _parameters(): JsonField<Parameters> = parameters
 
-            /** The type of Auth Rule */
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
             @JsonAnyGetter
@@ -365,12 +404,22 @@ private constructor(
                 fun accountTokens(accountTokens: List<String>) =
                     accountTokens(JsonField.of(accountTokens))
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Sets [Builder.accountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.accountTokens] with a well-typed `List<String>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
                     this.accountTokens = accountTokens.map { it.toMutableList() }
                 }
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Adds a single [String] to [accountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addAccountToken(accountToken: String) = apply {
                     accountTokens =
                         (accountTokens ?: JsonField.of(mutableListOf())).also {
@@ -381,32 +430,56 @@ private constructor(
                 /** Auth Rule Name */
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
-                /** Auth Rule Name */
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
                 fun name(name: Optional<String>) = name(name.getOrNull())
 
-                /** Auth Rule Name */
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** Parameters for the Auth Rule */
                 fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun parameters(parameters: JsonField<Parameters>) = apply {
                     this.parameters = parameters
                 }
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
                 fun parameters(conditionalBlock: ConditionalBlockParameters) =
                     parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
                 fun parameters(velocityLimitParams: VelocityLimitParams) =
                     parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
                 /** The type of Auth Rule */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
 
-                /** The type of Auth Rule */
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -744,33 +817,72 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Card tokens to which the Auth Rule applies. */
+            /**
+             * Card tokens to which the Auth Rule applies.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
 
-            /** Auth Rule Name */
+            /**
+             * Auth Rule Name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun parameters(): Optional<Parameters> =
                 Optional.ofNullable(parameters.getNullable("parameters"))
 
-            /** The type of Auth Rule */
+            /**
+             * The type of Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun type(): Optional<AuthRuleType> = Optional.ofNullable(type.getNullable("type"))
 
-            /** Card tokens to which the Auth Rule applies. */
+            /**
+             * Returns the raw JSON value of [cardTokens].
+             *
+             * Unlike [cardTokens], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("card_tokens")
             @ExcludeMissing
             fun _cardTokens(): JsonField<List<String>> = cardTokens
 
-            /** Auth Rule Name */
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Returns the raw JSON value of [parameters].
+             *
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("parameters")
             @ExcludeMissing
             fun _parameters(): JsonField<Parameters> = parameters
 
-            /** The type of Auth Rule */
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
             @JsonAnyGetter
@@ -832,12 +944,22 @@ private constructor(
                 /** Card tokens to which the Auth Rule applies. */
                 fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Sets [Builder.cardTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cardTokens] with a well-typed `List<String>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
                     this.cardTokens = cardTokens.map { it.toMutableList() }
                 }
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Adds a single [String] to [cardTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addCardToken(cardToken: String) = apply {
                     cardTokens =
                         (cardTokens ?: JsonField.of(mutableListOf())).also {
@@ -848,32 +970,56 @@ private constructor(
                 /** Auth Rule Name */
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
-                /** Auth Rule Name */
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
                 fun name(name: Optional<String>) = name(name.getOrNull())
 
-                /** Auth Rule Name */
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** Parameters for the Auth Rule */
                 fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun parameters(parameters: JsonField<Parameters>) = apply {
                     this.parameters = parameters
                 }
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
                 fun parameters(conditionalBlock: ConditionalBlockParameters) =
                     parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
                 fun parameters(velocityLimitParams: VelocityLimitParams) =
                     parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
                 /** The type of Auth Rule */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
 
-                /** The type of Auth Rule */
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1214,42 +1360,91 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            /**
+             * Whether the Auth Rule applies to all authorizations on the card program.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun programLevel(): Boolean = programLevel.getRequired("program_level")
 
-            /** Card tokens to which the Auth Rule does not apply. */
+            /**
+             * Card tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun excludedCardTokens(): Optional<List<String>> =
                 Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
 
-            /** Auth Rule Name */
+            /**
+             * Auth Rule Name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun parameters(): Optional<Parameters> =
                 Optional.ofNullable(parameters.getNullable("parameters"))
 
-            /** The type of Auth Rule */
+            /**
+             * The type of Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun type(): Optional<AuthRuleType> = Optional.ofNullable(type.getNullable("type"))
 
-            /** Whether the Auth Rule applies to all authorizations on the card program. */
+            /**
+             * Returns the raw JSON value of [programLevel].
+             *
+             * Unlike [programLevel], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("program_level")
             @ExcludeMissing
             fun _programLevel(): JsonField<Boolean> = programLevel
 
-            /** Card tokens to which the Auth Rule does not apply. */
+            /**
+             * Returns the raw JSON value of [excludedCardTokens].
+             *
+             * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("excluded_card_tokens")
             @ExcludeMissing
             fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
 
-            /** Auth Rule Name */
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /** Parameters for the Auth Rule */
+            /**
+             * Returns the raw JSON value of [parameters].
+             *
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("parameters")
             @ExcludeMissing
             fun _parameters(): JsonField<Parameters> = parameters
 
-            /** The type of Auth Rule */
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
             @JsonAnyGetter
@@ -1316,7 +1511,13 @@ private constructor(
                 /** Whether the Auth Rule applies to all authorizations on the card program. */
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
-                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                /**
+                 * Sets [Builder.programLevel] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.programLevel] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun programLevel(programLevel: JsonField<Boolean>) = apply {
                     this.programLevel = programLevel
                 }
@@ -1325,12 +1526,22 @@ private constructor(
                 fun excludedCardTokens(excludedCardTokens: List<String>) =
                     excludedCardTokens(JsonField.of(excludedCardTokens))
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Sets [Builder.excludedCardTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedCardTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
                 fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
                     this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
                 }
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Adds a single [String] to [excludedCardTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
                 fun addExcludedCardToken(excludedCardToken: String) = apply {
                     excludedCardTokens =
                         (excludedCardTokens ?: JsonField.of(mutableListOf())).also {
@@ -1341,32 +1552,56 @@ private constructor(
                 /** Auth Rule Name */
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
-                /** Auth Rule Name */
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
                 fun name(name: Optional<String>) = name(name.getOrNull())
 
-                /** Auth Rule Name */
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** Parameters for the Auth Rule */
                 fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun parameters(parameters: JsonField<Parameters>) = apply {
                     this.parameters = parameters
                 }
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
                 fun parameters(conditionalBlock: ConditionalBlockParameters) =
                     parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
-                /** Parameters for the Auth Rule */
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
                 fun parameters(velocityLimitParams: VelocityLimitParams) =
                     parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
                 /** The type of Auth Rule */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
 
-                /** The type of Auth Rule */
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1718,12 +1953,24 @@ private constructor(
 
         fun body(body: Body) = apply { this.body = body }
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens)`.
+         */
         fun body(createAuthRuleRequestAccountTokens: Body.CreateAuthRuleRequestAccountTokens) =
             body(Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens))
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens)`.
+         */
         fun body(createAuthRuleRequestCardTokens: Body.CreateAuthRuleRequestCardTokens) =
             body(Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens))
 
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel)`.
+         */
         fun body(createAuthRuleRequestProgramLevel: Body.CreateAuthRuleRequestProgramLevel) =
             body(Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel))
 

@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
 
@@ -31,16 +32,34 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** List of prime rates */
+    /**
+     * List of prime rates
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun data(): List<InterestRate> = data.getRequired("data")
 
-    /** Whether there are more prime rates */
+    /**
+     * Whether there are more prime rates
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
-    /** List of prime rates */
+    /**
+     * Returns the raw JSON value of [data].
+     *
+     * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<InterestRate>> = data
 
-    /** Whether there are more prime rates */
+    /**
+     * Returns the raw JSON value of [hasMore].
+     *
+     * Unlike [hasMore], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("has_more") @ExcludeMissing fun _hasMore(): JsonField<Boolean> = hasMore
 
     @JsonAnyGetter
@@ -92,12 +111,22 @@ private constructor(
         /** List of prime rates */
         fun data(data: List<InterestRate>) = data(JsonField.of(data))
 
-        /** List of prime rates */
+        /**
+         * Sets [Builder.data] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.data] with a well-typed `List<InterestRate>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun data(data: JsonField<List<InterestRate>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
-        /** List of prime rates */
+        /**
+         * Adds a single [InterestRate] to [Builder.data].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addData(data: InterestRate) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
@@ -108,7 +137,12 @@ private constructor(
         /** Whether there are more prime rates */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
-        /** Whether there are more prime rates */
+        /**
+         * Sets [Builder.hasMore] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.hasMore] with a well-typed [Boolean] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -152,18 +186,37 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Date the rate goes into effect */
+        /**
+         * Date the rate goes into effect
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
-        /** The rate in decimal format */
+        /**
+         * The rate in decimal format
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun rate(): String = rate.getRequired("rate")
 
-        /** Date the rate goes into effect */
+        /**
+         * Returns the raw JSON value of [effectiveDate].
+         *
+         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_date")
         @ExcludeMissing
         fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
-        /** The rate in decimal format */
+        /**
+         * Returns the raw JSON value of [rate].
+         *
+         * Unlike [rate], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("rate") @ExcludeMissing fun _rate(): JsonField<String> = rate
 
         @JsonAnyGetter
@@ -215,7 +268,13 @@ private constructor(
             /** Date the rate goes into effect */
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
-            /** Date the rate goes into effect */
+            /**
+             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
@@ -223,7 +282,13 @@ private constructor(
             /** The rate in decimal format */
             fun rate(rate: String) = rate(JsonField.of(rate))
 
-            /** The rate in decimal format */
+            /**
+             * Sets [Builder.rate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.rate] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun rate(rate: JsonField<String>) = apply { this.rate = rate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

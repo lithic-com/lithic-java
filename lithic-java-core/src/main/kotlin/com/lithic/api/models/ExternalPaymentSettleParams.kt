@@ -34,16 +34,43 @@ private constructor(
 
     fun externalPaymentToken(): String = externalPaymentToken
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun effectiveDate(): LocalDate = body.effectiveDate()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun progressTo(): Optional<ExternalPaymentProgressTo> = body.progressTo()
 
+    /**
+     * Returns the raw JSON value of [effectiveDate].
+     *
+     * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
 
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
+    /**
+     * Returns the raw JSON value of [progressTo].
+     *
+     * Unlike [progressTo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _progressTo(): JsonField<ExternalPaymentProgressTo> = body._progressTo()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -82,19 +109,47 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun progressTo(): Optional<ExternalPaymentProgressTo> =
             Optional.ofNullable(progressTo.getNullable("progress_to"))
 
+        /**
+         * Returns the raw JSON value of [effectiveDate].
+         *
+         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_date")
         @ExcludeMissing
         fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
+        /**
+         * Returns the raw JSON value of [progressTo].
+         *
+         * Unlike [progressTo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("progress_to")
         @ExcludeMissing
         fun _progressTo(): JsonField<ExternalPaymentProgressTo> = progressTo
@@ -154,17 +209,38 @@ private constructor(
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
+            /**
+             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
             fun memo(memo: String) = memo(JsonField.of(memo))
 
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun progressTo(progressTo: ExternalPaymentProgressTo) =
                 progressTo(JsonField.of(progressTo))
 
+            /**
+             * Sets [Builder.progressTo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.progressTo] with a well-typed
+             * [ExternalPaymentProgressTo] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
             fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
                 this.progressTo = progressTo
             }
@@ -255,18 +331,38 @@ private constructor(
 
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
+        /**
+         * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
             body.effectiveDate(effectiveDate)
         }
 
         fun memo(memo: String) = apply { body.memo(memo) }
 
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
             body.progressTo(progressTo)
         }
 
+        /**
+         * Sets [Builder.progressTo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.progressTo] with a well-typed
+         * [ExternalPaymentProgressTo] value instead. This method is primarily for setting the field
+         * to an undocumented or not yet supported value.
+         */
         fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
             body.progressTo(progressTo)
         }

@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -26,10 +27,19 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** True if the endpoint was enrolled successfully. */
+    /**
+     * True if the endpoint was enrolled successfully.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun enrolled(): Optional<Boolean> = Optional.ofNullable(enrolled.getNullable("enrolled"))
 
-    /** True if the endpoint was enrolled successfully. */
+    /**
+     * Returns the raw JSON value of [enrolled].
+     *
+     * Unlike [enrolled], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("enrolled") @ExcludeMissing fun _enrolled(): JsonField<Boolean> = enrolled
 
     @JsonAnyGetter
@@ -75,7 +85,13 @@ private constructor(
         /** True if the endpoint was enrolled successfully. */
         fun enrolled(enrolled: Boolean) = enrolled(JsonField.of(enrolled))
 
-        /** True if the endpoint was enrolled successfully. */
+        /**
+         * Sets [Builder.enrolled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.enrolled] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

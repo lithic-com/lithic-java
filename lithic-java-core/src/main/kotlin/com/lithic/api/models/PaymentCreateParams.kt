@@ -30,48 +30,127 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun amount(): Long = body.amount()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun externalBankAccountToken(): String = body.externalBankAccountToken()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun financialAccountToken(): String = body.financialAccountToken()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun method(): Method = body.method()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun methodAttributes(): PaymentMethodRequestAttributes = body.methodAttributes()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun type(): Type = body.type()
 
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
      * transaction token.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun token(): Optional<String> = body.token()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
+    /**
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _amount(): JsonField<Long> = body._amount()
 
+    /**
+     * Returns the raw JSON value of [externalBankAccountToken].
+     *
+     * Unlike [externalBankAccountToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     fun _externalBankAccountToken(): JsonField<String> = body._externalBankAccountToken()
 
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
 
+    /**
+     * Returns the raw JSON value of [method].
+     *
+     * Unlike [method], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _method(): JsonField<Method> = body._method()
 
+    /**
+     * Returns the raw JSON value of [methodAttributes].
+     *
+     * Unlike [methodAttributes], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _methodAttributes(): JsonField<PaymentMethodRequestAttributes> = body._methodAttributes()
 
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _type(): JsonField<Type> = body._type()
 
     /**
-     * Customer-provided token that will serve as an idempotency token. This token will become the
-     * transaction token.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _token(): JsonField<String> = body._token()
 
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
+    /**
+     * Returns the raw JSON value of [userDefinedId].
+     *
+     * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _userDefinedId(): JsonField<String> = body._userDefinedId()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -119,58 +198,138 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amount(): Long = amount.getRequired("amount")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun externalBankAccountToken(): String =
             externalBankAccountToken.getRequired("external_bank_account_token")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun financialAccountToken(): String =
             financialAccountToken.getRequired("financial_account_token")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun method(): Method = method.getRequired("method")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun methodAttributes(): PaymentMethodRequestAttributes =
             methodAttributes.getRequired("method_attributes")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): Type = type.getRequired("type")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun userDefinedId(): Optional<String> =
             Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
+        /**
+         * Returns the raw JSON value of [externalBankAccountToken].
+         *
+         * Unlike [externalBankAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("external_bank_account_token")
         @ExcludeMissing
         fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
+        /**
+         * Returns the raw JSON value of [financialAccountToken].
+         *
+         * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
+        /**
+         * Returns the raw JSON value of [method].
+         *
+         * Unlike [method], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("method") @ExcludeMissing fun _method(): JsonField<Method> = method
 
+        /**
+         * Returns the raw JSON value of [methodAttributes].
+         *
+         * Unlike [methodAttributes], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("method_attributes")
         @ExcludeMissing
         fun _methodAttributes(): JsonField<PaymentMethodRequestAttributes> = methodAttributes
 
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
+        /**
+         * Returns the raw JSON value of [userDefinedId].
+         *
+         * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("user_defined_id")
         @ExcludeMissing
         fun _userDefinedId(): JsonField<String> = userDefinedId
@@ -248,11 +407,25 @@ private constructor(
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun externalBankAccountToken(externalBankAccountToken: String) =
                 externalBankAccountToken(JsonField.of(externalBankAccountToken))
 
+            /**
+             * Sets [Builder.externalBankAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.externalBankAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
@@ -260,17 +433,38 @@ private constructor(
             fun financialAccountToken(financialAccountToken: String) =
                 financialAccountToken(JsonField.of(financialAccountToken))
 
+            /**
+             * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
             fun method(method: Method) = method(JsonField.of(method))
 
+            /**
+             * Sets [Builder.method] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.method] with a well-typed [Method] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun method(method: JsonField<Method>) = apply { this.method = method }
 
             fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) =
                 methodAttributes(JsonField.of(methodAttributes))
 
+            /**
+             * Sets [Builder.methodAttributes] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.methodAttributes] with a well-typed
+             * [PaymentMethodRequestAttributes] value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
+             */
             fun methodAttributes(methodAttributes: JsonField<PaymentMethodRequestAttributes>) =
                 apply {
                     this.methodAttributes = methodAttributes
@@ -278,6 +472,13 @@ private constructor(
 
             fun type(type: Type) = type(JsonField.of(type))
 
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /**
@@ -287,17 +488,34 @@ private constructor(
             fun token(token: String) = token(JsonField.of(token))
 
             /**
-             * Customer-provided token that will serve as an idempotency token. This token will
-             * become the transaction token.
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun memo(memo: String) = memo(JsonField.of(memo))
 
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
+            /**
+             * Sets [Builder.userDefinedId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.userDefinedId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun userDefinedId(userDefinedId: JsonField<String>) = apply {
                 this.userDefinedId = userDefinedId
             }
@@ -391,12 +609,25 @@ private constructor(
 
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        /**
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
 
+        /**
+         * Sets [Builder.externalBankAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalBankAccountToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
@@ -405,24 +636,50 @@ private constructor(
             body.financialAccountToken(financialAccountToken)
         }
 
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             body.financialAccountToken(financialAccountToken)
         }
 
         fun method(method: Method) = apply { body.method(method) }
 
+        /**
+         * Sets [Builder.method] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.method] with a well-typed [Method] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun method(method: JsonField<Method>) = apply { body.method(method) }
 
         fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
             body.methodAttributes(methodAttributes)
         }
 
+        /**
+         * Sets [Builder.methodAttributes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.methodAttributes] with a well-typed
+         * [PaymentMethodRequestAttributes] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun methodAttributes(methodAttributes: JsonField<PaymentMethodRequestAttributes>) = apply {
             body.methodAttributes(methodAttributes)
         }
 
         fun type(type: Type) = apply { body.type(type) }
 
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /**
@@ -432,17 +689,32 @@ private constructor(
         fun token(token: String) = apply { body.token(token) }
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         fun memo(memo: String) = apply { body.memo(memo) }
 
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
 
+        /**
+         * Sets [Builder.userDefinedId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.userDefinedId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             body.userDefinedId(userDefinedId)
         }
@@ -681,8 +953,17 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun secCode(): SecCode = secCode.getRequired("sec_code")
 
+        /**
+         * Returns the raw JSON value of [secCode].
+         *
+         * Unlike [secCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("sec_code") @ExcludeMissing fun _secCode(): JsonField<SecCode> = secCode
 
         @JsonAnyGetter
@@ -732,6 +1013,13 @@ private constructor(
 
             fun secCode(secCode: SecCode) = secCode(JsonField.of(secCode))
 
+            /**
+             * Sets [Builder.secCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.secCode] with a well-typed [SecCode] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

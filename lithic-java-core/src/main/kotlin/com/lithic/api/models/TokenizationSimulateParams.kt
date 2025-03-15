@@ -33,71 +33,130 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The three digit cvv for the card. */
+    /**
+     * The three digit cvv for the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cvv(): String = body.cvv()
 
-    /** The expiration date of the card in 'MM/YY' format. */
+    /**
+     * The expiration date of the card in 'MM/YY' format.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun expirationDate(): String = body.expirationDate()
 
-    /** The sixteen digit card number. */
+    /**
+     * The sixteen digit card number.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pan(): String = body.pan()
 
-    /** The source of the tokenization request. */
+    /**
+     * The source of the tokenization request.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun tokenizationSource(): TokenizationSource = body.tokenizationSource()
 
     /**
      * The account score (1-5) that represents how the Digital Wallet's view on how reputable an end
      * user's account is.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun accountScore(): Optional<Long> = body.accountScore()
 
     /**
      * The device score (1-5) that represents how the Digital Wallet's view on how reputable an end
      * user's device is.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun deviceScore(): Optional<Long> = body.deviceScore()
 
     /**
      * Optional field to specify the token requestor name for a merchant token simulation. Ignored
      * when tokenization_source is not MERCHANT.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun entity(): Optional<String> = body.entity()
 
-    /** The decision that the Digital Wallet's recommend */
+    /**
+     * The decision that the Digital Wallet's recommend
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
         body.walletRecommendedDecision()
 
-    /** The three digit cvv for the card. */
+    /**
+     * Returns the raw JSON value of [cvv].
+     *
+     * Unlike [cvv], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _cvv(): JsonField<String> = body._cvv()
 
-    /** The expiration date of the card in 'MM/YY' format. */
+    /**
+     * Returns the raw JSON value of [expirationDate].
+     *
+     * Unlike [expirationDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _expirationDate(): JsonField<String> = body._expirationDate()
 
-    /** The sixteen digit card number. */
+    /**
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pan(): JsonField<String> = body._pan()
 
-    /** The source of the tokenization request. */
+    /**
+     * Returns the raw JSON value of [tokenizationSource].
+     *
+     * Unlike [tokenizationSource], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _tokenizationSource(): JsonField<TokenizationSource> = body._tokenizationSource()
 
     /**
-     * The account score (1-5) that represents how the Digital Wallet's view on how reputable an end
-     * user's account is.
+     * Returns the raw JSON value of [accountScore].
+     *
+     * Unlike [accountScore], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _accountScore(): JsonField<Long> = body._accountScore()
 
     /**
-     * The device score (1-5) that represents how the Digital Wallet's view on how reputable an end
-     * user's device is.
+     * Returns the raw JSON value of [deviceScore].
+     *
+     * Unlike [deviceScore], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _deviceScore(): JsonField<Long> = body._deviceScore()
 
     /**
-     * Optional field to specify the token requestor name for a merchant token simulation. Ignored
-     * when tokenization_source is not MERCHANT.
+     * Returns the raw JSON value of [entity].
+     *
+     * Unlike [entity], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _entity(): JsonField<String> = body._entity()
 
-    /** The decision that the Digital Wallet's recommend */
+    /**
+     * Returns the raw JSON value of [walletRecommendedDecision].
+     *
+     * Unlike [walletRecommendedDecision], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     fun _walletRecommendedDecision(): JsonField<WalletRecommendedDecision> =
         body._walletRecommendedDecision()
 
@@ -142,22 +201,45 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The three digit cvv for the card. */
+        /**
+         * The three digit cvv for the card.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun cvv(): String = cvv.getRequired("cvv")
 
-        /** The expiration date of the card in 'MM/YY' format. */
+        /**
+         * The expiration date of the card in 'MM/YY' format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun expirationDate(): String = expirationDate.getRequired("expiration_date")
 
-        /** The sixteen digit card number. */
+        /**
+         * The sixteen digit card number.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pan(): String = pan.getRequired("pan")
 
-        /** The source of the tokenization request. */
+        /**
+         * The source of the tokenization request.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun tokenizationSource(): TokenizationSource =
             tokenizationSource.getRequired("tokenization_source")
 
         /**
          * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's account is.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun accountScore(): Optional<Long> =
             Optional.ofNullable(accountScore.getNullable("account_score"))
@@ -165,6 +247,9 @@ private constructor(
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's device is.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun deviceScore(): Optional<Long> =
             Optional.ofNullable(deviceScore.getNullable("device_score"))
@@ -172,54 +257,89 @@ private constructor(
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
          * Ignored when tokenization_source is not MERCHANT.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun entity(): Optional<String> = Optional.ofNullable(entity.getNullable("entity"))
 
-        /** The decision that the Digital Wallet's recommend */
+        /**
+         * The decision that the Digital Wallet's recommend
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
             Optional.ofNullable(
                 walletRecommendedDecision.getNullable("wallet_recommended_decision")
             )
 
-        /** The three digit cvv for the card. */
+        /**
+         * Returns the raw JSON value of [cvv].
+         *
+         * Unlike [cvv], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("cvv") @ExcludeMissing fun _cvv(): JsonField<String> = cvv
 
-        /** The expiration date of the card in 'MM/YY' format. */
+        /**
+         * Returns the raw JSON value of [expirationDate].
+         *
+         * Unlike [expirationDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("expiration_date")
         @ExcludeMissing
         fun _expirationDate(): JsonField<String> = expirationDate
 
-        /** The sixteen digit card number. */
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
-        /** The source of the tokenization request. */
+        /**
+         * Returns the raw JSON value of [tokenizationSource].
+         *
+         * Unlike [tokenizationSource], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("tokenization_source")
         @ExcludeMissing
         fun _tokenizationSource(): JsonField<TokenizationSource> = tokenizationSource
 
         /**
-         * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
-         * end user's account is.
+         * Returns the raw JSON value of [accountScore].
+         *
+         * Unlike [accountScore], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("account_score")
         @ExcludeMissing
         fun _accountScore(): JsonField<Long> = accountScore
 
         /**
-         * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
-         * end user's device is.
+         * Returns the raw JSON value of [deviceScore].
+         *
+         * Unlike [deviceScore], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("device_score")
         @ExcludeMissing
         fun _deviceScore(): JsonField<Long> = deviceScore
 
         /**
-         * Optional field to specify the token requestor name for a merchant token simulation.
-         * Ignored when tokenization_source is not MERCHANT.
+         * Returns the raw JSON value of [entity].
+         *
+         * Unlike [entity], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("entity") @ExcludeMissing fun _entity(): JsonField<String> = entity
 
-        /** The decision that the Digital Wallet's recommend */
+        /**
+         * Returns the raw JSON value of [walletRecommendedDecision].
+         *
+         * Unlike [walletRecommendedDecision], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("wallet_recommended_decision")
         @ExcludeMissing
         fun _walletRecommendedDecision(): JsonField<WalletRecommendedDecision> =
@@ -295,14 +415,26 @@ private constructor(
             /** The three digit cvv for the card. */
             fun cvv(cvv: String) = cvv(JsonField.of(cvv))
 
-            /** The three digit cvv for the card. */
+            /**
+             * Sets [Builder.cvv] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cvv] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
 
             /** The expiration date of the card in 'MM/YY' format. */
             fun expirationDate(expirationDate: String) =
                 expirationDate(JsonField.of(expirationDate))
 
-            /** The expiration date of the card in 'MM/YY' format. */
+            /**
+             * Sets [Builder.expirationDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.expirationDate] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun expirationDate(expirationDate: JsonField<String>) = apply {
                 this.expirationDate = expirationDate
             }
@@ -310,14 +442,26 @@ private constructor(
             /** The sixteen digit card number. */
             fun pan(pan: String) = pan(JsonField.of(pan))
 
-            /** The sixteen digit card number. */
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             /** The source of the tokenization request. */
             fun tokenizationSource(tokenizationSource: TokenizationSource) =
                 tokenizationSource(JsonField.of(tokenizationSource))
 
-            /** The source of the tokenization request. */
+            /**
+             * Sets [Builder.tokenizationSource] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tokenizationSource] with a well-typed
+             * [TokenizationSource] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
             fun tokenizationSource(tokenizationSource: JsonField<TokenizationSource>) = apply {
                 this.tokenizationSource = tokenizationSource
             }
@@ -329,8 +473,11 @@ private constructor(
             fun accountScore(accountScore: Long) = accountScore(JsonField.of(accountScore))
 
             /**
-             * The account score (1-5) that represents how the Digital Wallet's view on how
-             * reputable an end user's account is.
+             * Sets [Builder.accountScore] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountScore] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun accountScore(accountScore: JsonField<Long>) = apply {
                 this.accountScore = accountScore
@@ -343,8 +490,11 @@ private constructor(
             fun deviceScore(deviceScore: Long) = deviceScore(JsonField.of(deviceScore))
 
             /**
-             * The device score (1-5) that represents how the Digital Wallet's view on how reputable
-             * an end user's device is.
+             * Sets [Builder.deviceScore] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.deviceScore] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun deviceScore(deviceScore: JsonField<Long>) = apply { this.deviceScore = deviceScore }
 
@@ -355,8 +505,11 @@ private constructor(
             fun entity(entity: String) = entity(JsonField.of(entity))
 
             /**
-             * Optional field to specify the token requestor name for a merchant token simulation.
-             * Ignored when tokenization_source is not MERCHANT.
+             * Sets [Builder.entity] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.entity] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun entity(entity: JsonField<String>) = apply { this.entity = entity }
 
@@ -364,7 +517,13 @@ private constructor(
             fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
                 walletRecommendedDecision(JsonField.of(walletRecommendedDecision))
 
-            /** The decision that the Digital Wallet's recommend */
+            /**
+             * Sets [Builder.walletRecommendedDecision] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.walletRecommendedDecision] with a well-typed
+             * [WalletRecommendedDecision] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
             fun walletRecommendedDecision(
                 walletRecommendedDecision: JsonField<WalletRecommendedDecision>
             ) = apply { this.walletRecommendedDecision = walletRecommendedDecision }
@@ -456,13 +615,24 @@ private constructor(
         /** The three digit cvv for the card. */
         fun cvv(cvv: String) = apply { body.cvv(cvv) }
 
-        /** The three digit cvv for the card. */
+        /**
+         * Sets [Builder.cvv] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cvv] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun cvv(cvv: JsonField<String>) = apply { body.cvv(cvv) }
 
         /** The expiration date of the card in 'MM/YY' format. */
         fun expirationDate(expirationDate: String) = apply { body.expirationDate(expirationDate) }
 
-        /** The expiration date of the card in 'MM/YY' format. */
+        /**
+         * Sets [Builder.expirationDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.expirationDate] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun expirationDate(expirationDate: JsonField<String>) = apply {
             body.expirationDate(expirationDate)
         }
@@ -470,7 +640,12 @@ private constructor(
         /** The sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /** The sixteen digit card number. */
+        /**
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         /** The source of the tokenization request. */
@@ -478,7 +653,13 @@ private constructor(
             body.tokenizationSource(tokenizationSource)
         }
 
-        /** The source of the tokenization request. */
+        /**
+         * Sets [Builder.tokenizationSource] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenizationSource] with a well-typed
+         * [TokenizationSource] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun tokenizationSource(tokenizationSource: JsonField<TokenizationSource>) = apply {
             body.tokenizationSource(tokenizationSource)
         }
@@ -490,8 +671,11 @@ private constructor(
         fun accountScore(accountScore: Long) = apply { body.accountScore(accountScore) }
 
         /**
-         * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
-         * end user's account is.
+         * Sets [Builder.accountScore] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountScore] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun accountScore(accountScore: JsonField<Long>) = apply { body.accountScore(accountScore) }
 
@@ -502,8 +686,11 @@ private constructor(
         fun deviceScore(deviceScore: Long) = apply { body.deviceScore(deviceScore) }
 
         /**
-         * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
-         * end user's device is.
+         * Sets [Builder.deviceScore] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.deviceScore] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun deviceScore(deviceScore: JsonField<Long>) = apply { body.deviceScore(deviceScore) }
 
@@ -514,8 +701,10 @@ private constructor(
         fun entity(entity: String) = apply { body.entity(entity) }
 
         /**
-         * Optional field to specify the token requestor name for a merchant token simulation.
-         * Ignored when tokenization_source is not MERCHANT.
+         * Sets [Builder.entity] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.entity] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun entity(entity: JsonField<String>) = apply { body.entity(entity) }
 
@@ -525,7 +714,13 @@ private constructor(
                 body.walletRecommendedDecision(walletRecommendedDecision)
             }
 
-        /** The decision that the Digital Wallet's recommend */
+        /**
+         * Sets [Builder.walletRecommendedDecision] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.walletRecommendedDecision] with a well-typed
+         * [WalletRecommendedDecision] value instead. This method is primarily for setting the field
+         * to an undocumented or not yet supported value.
+         */
         fun walletRecommendedDecision(
             walletRecommendedDecision: JsonField<WalletRecommendedDecision>
         ) = apply { body.walletRecommendedDecision(walletRecommendedDecision) }

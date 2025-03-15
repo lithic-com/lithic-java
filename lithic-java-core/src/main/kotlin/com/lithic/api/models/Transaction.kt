@@ -96,22 +96,38 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** The token for the account associated with this transaction. */
+    /**
+     * The token for the account associated with this transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
      * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
      * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative value
      * to indicate credited fees.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun acquirerFee(): Optional<Long> = Optional.ofNullable(acquirerFee.getNullable("acquirer_fee"))
 
     /**
      * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
      * chargeback filing.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun acquirerReferenceNumber(): Optional<String> =
@@ -121,12 +137,24 @@ private constructor(
      * When the transaction is pending, this represents the authorization amount of the transaction
      * in the anticipated settlement currency. Once the transaction has settled, this field
      * represents the settled amount in the settlement currency.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated") fun amount(): Long = amount.getRequired("amount")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun amounts(): TransactionAmounts = amounts.getRequired("amounts")
 
-    /** The authorization amount of the transaction in the anticipated settlement currency. */
+    /**
+     * The authorization amount of the transaction in the anticipated settlement currency.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun authorizationAmount(): Optional<Long> =
         Optional.ofNullable(authorizationAmount.getNullable("authorization_amount"))
@@ -134,36 +162,76 @@ private constructor(
     /**
      * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
      * networks.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun authorizationCode(): Optional<String> =
         Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun avs(): Optional<Avs> = Optional.ofNullable(avs.getNullable("avs"))
 
-    /** Token for the card used in this transaction. */
+    /**
+     * Token for the card used in this transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cardToken(): String = cardToken.getRequired("card_token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun cardholderAuthentication(): Optional<CardholderAuthentication> =
         Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun merchant(): Merchant = merchant.getRequired("merchant")
 
-    /** Analogous to the 'amount', but in the merchant currency. */
+    /**
+     * Analogous to the 'amount', but in the merchant currency.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun merchantAmount(): Optional<Long> =
         Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
 
-    /** Analogous to the 'authorization_amount', but in the merchant currency. */
+    /**
+     * Analogous to the 'authorization_amount', but in the merchant currency.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun merchantAuthorizationAmount(): Optional<Long> =
         Optional.ofNullable(
             merchantAuthorizationAmount.getNullable("merchant_authorization_amount")
         )
 
-    /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the local currency of the transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
 
@@ -171,6 +239,9 @@ private constructor(
      * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
      * `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the upstream
      * provider.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun network(): Optional<Network> = Optional.ofNullable(network.getNullable("network"))
 
@@ -179,47 +250,91 @@ private constructor(
      * on a range of 0-999, with 0 representing the lowest risk and 999 representing the highest
      * risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will normalize
      * the score by multiplying the raw score by 10x.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun networkRiskScore(): Optional<Long> =
         Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pos(): Pos = pos.getRequired("pos")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun result(): DeclineResult = result.getRequired("result")
 
-    /** The settled amount of the transaction in the settlement currency. */
+    /**
+     * The settled amount of the transaction in the settlement currency.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
-    /** Status of the transaction. */
+    /**
+     * Status of the transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun status(): Status = status.getRequired("status")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun tokenInfo(): Optional<TokenInfo> = Optional.ofNullable(tokenInfo.getNullable("token_info"))
 
-    /** Date and time when the transaction last updated. UTC time zone. */
+    /**
+     * Date and time when the transaction last updated. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun events(): Optional<List<TransactionEvent>> =
         Optional.ofNullable(events.getNullable("events"))
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** The token for the account associated with this transaction. */
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
-     * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative value
-     * to indicate credited fees.
+     * Returns the raw JSON value of [acquirerFee].
+     *
+     * Unlike [acquirerFee], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("acquirer_fee") @ExcludeMissing fun _acquirerFee(): JsonField<Long> = acquirerFee
 
     /**
-     * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
-     * chargeback filing.
+     * Returns the raw JSON value of [acquirerReferenceNumber].
+     *
+     * Unlike [acquirerReferenceNumber], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("acquirer_reference_number")
@@ -227,98 +342,180 @@ private constructor(
     fun _acquirerReferenceNumber(): JsonField<String> = acquirerReferenceNumber
 
     /**
-     * When the transaction is pending, this represents the authorization amount of the transaction
-     * in the anticipated settlement currency. Once the transaction has settled, this field
-     * represents the settled amount in the settlement currency.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("amount")
     @ExcludeMissing
     fun _amount(): JsonField<Long> = amount
 
+    /**
+     * Returns the raw JSON value of [amounts].
+     *
+     * Unlike [amounts], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("amounts") @ExcludeMissing fun _amounts(): JsonField<TransactionAmounts> = amounts
 
-    /** The authorization amount of the transaction in the anticipated settlement currency. */
+    /**
+     * Returns the raw JSON value of [authorizationAmount].
+     *
+     * Unlike [authorizationAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("authorization_amount")
     @ExcludeMissing
     fun _authorizationAmount(): JsonField<Long> = authorizationAmount
 
     /**
-     * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-     * networks.
+     * Returns the raw JSON value of [authorizationCode].
+     *
+     * Unlike [authorizationCode], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("authorization_code")
     @ExcludeMissing
     fun _authorizationCode(): JsonField<String> = authorizationCode
 
+    /**
+     * Returns the raw JSON value of [avs].
+     *
+     * Unlike [avs], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("avs") @ExcludeMissing fun _avs(): JsonField<Avs> = avs
 
-    /** Token for the card used in this transaction. */
+    /**
+     * Returns the raw JSON value of [cardToken].
+     *
+     * Unlike [cardToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
+    /**
+     * Returns the raw JSON value of [cardholderAuthentication].
+     *
+     * Unlike [cardholderAuthentication], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("cardholder_authentication")
     @ExcludeMissing
     fun _cardholderAuthentication(): JsonField<CardholderAuthentication> = cardholderAuthentication
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
+    /**
+     * Returns the raw JSON value of [merchant].
+     *
+     * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
 
-    /** Analogous to the 'amount', but in the merchant currency. */
+    /**
+     * Returns the raw JSON value of [merchantAmount].
+     *
+     * Unlike [merchantAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("merchant_amount")
     @ExcludeMissing
     fun _merchantAmount(): JsonField<Long> = merchantAmount
 
-    /** Analogous to the 'authorization_amount', but in the merchant currency. */
+    /**
+     * Returns the raw JSON value of [merchantAuthorizationAmount].
+     *
+     * Unlike [merchantAuthorizationAmount], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("merchant_authorization_amount")
     @ExcludeMissing
     fun _merchantAuthorizationAmount(): JsonField<Long> = merchantAuthorizationAmount
 
-    /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+    /**
+     * Returns the raw JSON value of [merchantCurrency].
+     *
+     * Unlike [merchantCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("merchant_currency")
     @ExcludeMissing
     fun _merchantCurrency(): JsonField<String> = merchantCurrency
 
     /**
-     * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
-     * `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the upstream
-     * provider.
+     * Returns the raw JSON value of [network].
+     *
+     * Unlike [network], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
     /**
-     * Network-provided score assessing risk level associated with a given authorization. Scores are
-     * on a range of 0-999, with 0 representing the lowest risk and 999 representing the highest
-     * risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will normalize
-     * the score by multiplying the raw score by 10x.
+     * Returns the raw JSON value of [networkRiskScore].
+     *
+     * Unlike [networkRiskScore], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("network_risk_score")
     @ExcludeMissing
     fun _networkRiskScore(): JsonField<Long> = networkRiskScore
 
+    /**
+     * Returns the raw JSON value of [pos].
+     *
+     * Unlike [pos], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("pos") @ExcludeMissing fun _pos(): JsonField<Pos> = pos
 
+    /**
+     * Returns the raw JSON value of [result].
+     *
+     * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<DeclineResult> = result
 
-    /** The settled amount of the transaction in the settlement currency. */
+    /**
+     * Returns the raw JSON value of [settledAmount].
+     *
+     * Unlike [settledAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("settled_amount")
     @ExcludeMissing
     fun _settledAmount(): JsonField<Long> = settledAmount
 
-    /** Status of the transaction. */
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
+    /**
+     * Returns the raw JSON value of [tokenInfo].
+     *
+     * Unlike [tokenInfo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token_info") @ExcludeMissing fun _tokenInfo(): JsonField<TokenInfo> = tokenInfo
 
-    /** Date and time when the transaction last updated. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    /**
+     * Returns the raw JSON value of [events].
+     *
+     * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("events")
     @ExcludeMissing
     fun _events(): JsonField<List<TransactionEvent>> = events
@@ -463,13 +660,24 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** The token for the account associated with this transaction. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
-        /** The token for the account associated with this transaction. */
+        /**
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -482,23 +690,21 @@ private constructor(
         fun acquirerFee(acquirerFee: Long?) = acquirerFee(JsonField.ofNullable(acquirerFee))
 
         /**
-         * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
-         * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
-         * value to indicate credited fees.
+         * Alias for [Builder.acquirerFee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun acquirerFee(acquirerFee: Long) = acquirerFee(acquirerFee as Long?)
 
-        /**
-         * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
-         * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
-         * value to indicate credited fees.
-         */
+        /** Alias for calling [Builder.acquirerFee] with `acquirerFee.orElse(null)`. */
         fun acquirerFee(acquirerFee: Optional<Long>) = acquirerFee(acquirerFee.getOrNull())
 
         /**
-         * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
-         * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
-         * value to indicate credited fees.
+         * Sets [Builder.acquirerFee] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.acquirerFee] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun acquirerFee(acquirerFee: JsonField<Long>) = apply { this.acquirerFee = acquirerFee }
 
@@ -511,16 +717,19 @@ private constructor(
             acquirerReferenceNumber(JsonField.ofNullable(acquirerReferenceNumber))
 
         /**
-         * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
-         * and chargeback filing.
+         * Alias for calling [Builder.acquirerReferenceNumber] with
+         * `acquirerReferenceNumber.orElse(null)`.
          */
         @Deprecated("deprecated")
         fun acquirerReferenceNumber(acquirerReferenceNumber: Optional<String>) =
             acquirerReferenceNumber(acquirerReferenceNumber.getOrNull())
 
         /**
-         * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
-         * and chargeback filing.
+         * Sets [Builder.acquirerReferenceNumber] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.acquirerReferenceNumber] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         @Deprecated("deprecated")
         fun acquirerReferenceNumber(acquirerReferenceNumber: JsonField<String>) = apply {
@@ -535,15 +744,23 @@ private constructor(
         @Deprecated("deprecated") fun amount(amount: Long) = amount(JsonField.of(amount))
 
         /**
-         * When the transaction is pending, this represents the authorization amount of the
-         * transaction in the anticipated settlement currency. Once the transaction has settled,
-         * this field represents the settled amount in the settlement currency.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         @Deprecated("deprecated")
         fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
         fun amounts(amounts: TransactionAmounts) = amounts(JsonField.of(amounts))
 
+        /**
+         * Sets [Builder.amounts] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amounts] with a well-typed [TransactionAmounts] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun amounts(amounts: JsonField<TransactionAmounts>) = apply { this.amounts = amounts }
 
         /** The authorization amount of the transaction in the anticipated settlement currency. */
@@ -551,17 +768,29 @@ private constructor(
         fun authorizationAmount(authorizationAmount: Long?) =
             authorizationAmount(JsonField.ofNullable(authorizationAmount))
 
-        /** The authorization amount of the transaction in the anticipated settlement currency. */
+        /**
+         * Alias for [Builder.authorizationAmount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         @Deprecated("deprecated")
         fun authorizationAmount(authorizationAmount: Long) =
             authorizationAmount(authorizationAmount as Long?)
 
-        /** The authorization amount of the transaction in the anticipated settlement currency. */
+        /**
+         * Alias for calling [Builder.authorizationAmount] with `authorizationAmount.orElse(null)`.
+         */
         @Deprecated("deprecated")
         fun authorizationAmount(authorizationAmount: Optional<Long>) =
             authorizationAmount(authorizationAmount.getOrNull())
 
-        /** The authorization amount of the transaction in the anticipated settlement currency. */
+        /**
+         * Sets [Builder.authorizationAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.authorizationAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         @Deprecated("deprecated")
         fun authorizationAmount(authorizationAmount: JsonField<Long>) = apply {
             this.authorizationAmount = authorizationAmount
@@ -574,16 +803,16 @@ private constructor(
         fun authorizationCode(authorizationCode: String?) =
             authorizationCode(JsonField.ofNullable(authorizationCode))
 
-        /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-         * networks.
-         */
+        /** Alias for calling [Builder.authorizationCode] with `authorizationCode.orElse(null)`. */
         fun authorizationCode(authorizationCode: Optional<String>) =
             authorizationCode(authorizationCode.getOrNull())
 
         /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-         * networks.
+         * Sets [Builder.authorizationCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.authorizationCode] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun authorizationCode(authorizationCode: JsonField<String>) = apply {
             this.authorizationCode = authorizationCode
@@ -591,22 +820,46 @@ private constructor(
 
         fun avs(avs: Avs?) = avs(JsonField.ofNullable(avs))
 
+        /** Alias for calling [Builder.avs] with `avs.orElse(null)`. */
         fun avs(avs: Optional<Avs>) = avs(avs.getOrNull())
 
+        /**
+         * Sets [Builder.avs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.avs] with a well-typed [Avs] value instead. This method
+         * is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun avs(avs: JsonField<Avs>) = apply { this.avs = avs }
 
         /** Token for the card used in this transaction. */
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
-        /** Token for the card used in this transaction. */
+        /**
+         * Sets [Builder.cardToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         fun cardholderAuthentication(cardholderAuthentication: CardholderAuthentication?) =
             cardholderAuthentication(JsonField.ofNullable(cardholderAuthentication))
 
+        /**
+         * Alias for calling [Builder.cardholderAuthentication] with
+         * `cardholderAuthentication.orElse(null)`.
+         */
         fun cardholderAuthentication(cardholderAuthentication: Optional<CardholderAuthentication>) =
             cardholderAuthentication(cardholderAuthentication.getOrNull())
 
+        /**
+         * Sets [Builder.cardholderAuthentication] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardholderAuthentication] with a well-typed
+         * [CardholderAuthentication] value instead. This method is primarily for setting the field
+         * to an undocumented or not yet supported value.
+         */
         fun cardholderAuthentication(
             cardholderAuthentication: JsonField<CardholderAuthentication>
         ) = apply { this.cardholderAuthentication = cardholderAuthentication }
@@ -614,11 +867,24 @@ private constructor(
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time when the transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
+        /**
+         * Sets [Builder.merchant] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchant] with a well-typed [Merchant] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /** Analogous to the 'amount', but in the merchant currency. */
@@ -626,16 +892,26 @@ private constructor(
         fun merchantAmount(merchantAmount: Long?) =
             merchantAmount(JsonField.ofNullable(merchantAmount))
 
-        /** Analogous to the 'amount', but in the merchant currency. */
+        /**
+         * Alias for [Builder.merchantAmount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         @Deprecated("deprecated")
         fun merchantAmount(merchantAmount: Long) = merchantAmount(merchantAmount as Long?)
 
-        /** Analogous to the 'amount', but in the merchant currency. */
+        /** Alias for calling [Builder.merchantAmount] with `merchantAmount.orElse(null)`. */
         @Deprecated("deprecated")
         fun merchantAmount(merchantAmount: Optional<Long>) =
             merchantAmount(merchantAmount.getOrNull())
 
-        /** Analogous to the 'amount', but in the merchant currency. */
+        /**
+         * Sets [Builder.merchantAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         @Deprecated("deprecated")
         fun merchantAmount(merchantAmount: JsonField<Long>) = apply {
             this.merchantAmount = merchantAmount
@@ -646,17 +922,30 @@ private constructor(
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: Long?) =
             merchantAuthorizationAmount(JsonField.ofNullable(merchantAuthorizationAmount))
 
-        /** Analogous to the 'authorization_amount', but in the merchant currency. */
+        /**
+         * Alias for [Builder.merchantAuthorizationAmount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         @Deprecated("deprecated")
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: Long) =
             merchantAuthorizationAmount(merchantAuthorizationAmount as Long?)
 
-        /** Analogous to the 'authorization_amount', but in the merchant currency. */
+        /**
+         * Alias for calling [Builder.merchantAuthorizationAmount] with
+         * `merchantAuthorizationAmount.orElse(null)`.
+         */
         @Deprecated("deprecated")
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: Optional<Long>) =
             merchantAuthorizationAmount(merchantAuthorizationAmount.getOrNull())
 
-        /** Analogous to the 'authorization_amount', but in the merchant currency. */
+        /**
+         * Sets [Builder.merchantAuthorizationAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAuthorizationAmount] with a well-typed [Long]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         @Deprecated("deprecated")
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: JsonField<Long>) = apply {
             this.merchantAuthorizationAmount = merchantAuthorizationAmount
@@ -667,7 +956,13 @@ private constructor(
         fun merchantCurrency(merchantCurrency: String) =
             merchantCurrency(JsonField.of(merchantCurrency))
 
-        /** 3-character alphabetic ISO 4217 code for the local currency of the transaction. */
+        /**
+         * Sets [Builder.merchantCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
@@ -680,17 +975,14 @@ private constructor(
          */
         fun network(network: Network?) = network(JsonField.ofNullable(network))
 
-        /**
-         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
-         * or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the
-         * upstream provider.
-         */
+        /** Alias for calling [Builder.network] with `network.orElse(null)`. */
         fun network(network: Optional<Network>) = network(network.getOrNull())
 
         /**
-         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
-         * or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the
-         * upstream provider.
+         * Sets [Builder.network] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.network] with a well-typed [Network] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
@@ -704,27 +996,22 @@ private constructor(
             networkRiskScore(JsonField.ofNullable(networkRiskScore))
 
         /**
-         * Network-provided score assessing risk level associated with a given authorization. Scores
-         * are on a range of 0-999, with 0 representing the lowest risk and 999 representing the
-         * highest risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will
-         * normalize the score by multiplying the raw score by 10x.
+         * Alias for [Builder.networkRiskScore].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun networkRiskScore(networkRiskScore: Long) = networkRiskScore(networkRiskScore as Long?)
 
-        /**
-         * Network-provided score assessing risk level associated with a given authorization. Scores
-         * are on a range of 0-999, with 0 representing the lowest risk and 999 representing the
-         * highest risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will
-         * normalize the score by multiplying the raw score by 10x.
-         */
+        /** Alias for calling [Builder.networkRiskScore] with `networkRiskScore.orElse(null)`. */
         fun networkRiskScore(networkRiskScore: Optional<Long>) =
             networkRiskScore(networkRiskScore.getOrNull())
 
         /**
-         * Network-provided score assessing risk level associated with a given authorization. Scores
-         * are on a range of 0-999, with 0 representing the lowest risk and 999 representing the
-         * highest risk. For Visa transactions, where the raw score has a range of 0-99, Lithic will
-         * normalize the score by multiplying the raw score by 10x.
+         * Sets [Builder.networkRiskScore] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.networkRiskScore] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun networkRiskScore(networkRiskScore: JsonField<Long>) = apply {
             this.networkRiskScore = networkRiskScore
@@ -732,17 +1019,36 @@ private constructor(
 
         fun pos(pos: Pos) = pos(JsonField.of(pos))
 
+        /**
+         * Sets [Builder.pos] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pos] with a well-typed [Pos] value instead. This method
+         * is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pos(pos: JsonField<Pos>) = apply { this.pos = pos }
 
         fun result(result: DeclineResult) = result(JsonField.of(result))
 
+        /**
+         * Sets [Builder.result] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.result] with a well-typed [DeclineResult] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
 
         /** The settled amount of the transaction in the settlement currency. */
         @Deprecated("deprecated")
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
-        /** The settled amount of the transaction in the settlement currency. */
+        /**
+         * Sets [Builder.settledAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settledAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         @Deprecated("deprecated")
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
@@ -751,27 +1057,58 @@ private constructor(
         /** Status of the transaction. */
         fun status(status: Status) = status(JsonField.of(status))
 
-        /** Status of the transaction. */
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         fun tokenInfo(tokenInfo: TokenInfo?) = tokenInfo(JsonField.ofNullable(tokenInfo))
 
+        /** Alias for calling [Builder.tokenInfo] with `tokenInfo.orElse(null)`. */
         fun tokenInfo(tokenInfo: Optional<TokenInfo>) = tokenInfo(tokenInfo.getOrNull())
 
+        /**
+         * Sets [Builder.tokenInfo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenInfo] with a well-typed [TokenInfo] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
 
         /** Date and time when the transaction last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Date and time when the transaction last updated. UTC time zone. */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
 
+        /**
+         * Sets [Builder.events] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.events] with a well-typed `List<TransactionEvent>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun events(events: JsonField<List<TransactionEvent>>) = apply {
             this.events = events.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [TransactionEvent] to [events].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEvent(event: TransactionEvent) = apply {
             events =
                 (events ?: JsonField.of(mutableListOf())).also {
@@ -847,22 +1184,58 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun cardholder(): Cardholder = cardholder.getRequired("cardholder")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun hold(): Hold = hold.getRequired("hold")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun merchant(): Merchant = merchant.getRequired("merchant")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun settlement(): Settlement = settlement.getRequired("settlement")
 
+        /**
+         * Returns the raw JSON value of [cardholder].
+         *
+         * Unlike [cardholder], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("cardholder")
         @ExcludeMissing
         fun _cardholder(): JsonField<Cardholder> = cardholder
 
+        /**
+         * Returns the raw JSON value of [hold].
+         *
+         * Unlike [hold], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("hold") @ExcludeMissing fun _hold(): JsonField<Hold> = hold
 
+        /**
+         * Returns the raw JSON value of [merchant].
+         *
+         * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
 
+        /**
+         * Returns the raw JSON value of [settlement].
+         *
+         * Unlike [settlement], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("settlement")
         @ExcludeMissing
         fun _settlement(): JsonField<Settlement> = settlement
@@ -923,20 +1296,48 @@ private constructor(
 
             fun cardholder(cardholder: Cardholder) = cardholder(JsonField.of(cardholder))
 
+            /**
+             * Sets [Builder.cardholder] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cardholder] with a well-typed [Cardholder] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun cardholder(cardholder: JsonField<Cardholder>) = apply {
                 this.cardholder = cardholder
             }
 
             fun hold(hold: Hold) = hold(JsonField.of(hold))
 
+            /**
+             * Sets [Builder.hold] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.hold] with a well-typed [Hold] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun hold(hold: JsonField<Hold>) = apply { this.hold = hold }
 
             fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
+            /**
+             * Sets [Builder.merchant] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchant] with a well-typed [Merchant] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
             fun settlement(settlement: Settlement) = settlement(JsonField.of(settlement))
 
+            /**
+             * Sets [Builder.settlement] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.settlement] with a well-typed [Settlement] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun settlement(settlement: JsonField<Settlement>) = apply {
                 this.settlement = settlement
             }
@@ -989,32 +1390,55 @@ private constructor(
 
             /**
              * The estimated settled amount of the transaction in the cardholder billing currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
              */
             fun amount(): Long = amount.getRequired("amount")
 
             /**
              * The exchange rate used to convert the merchant amount to the cardholder billing
              * amount.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
              */
             fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * 3-character alphabetic ISO 4217 currency
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun currency(): String = currency.getRequired("currency")
 
             /**
-             * The estimated settled amount of the transaction in the cardholder billing currency.
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
             /**
-             * The exchange rate used to convert the merchant amount to the cardholder billing
-             * amount.
+             * Returns the raw JSON value of [conversionRate].
+             *
+             * Unlike [conversionRate], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("conversion_rate")
             @ExcludeMissing
             fun _conversionRate(): JsonField<String> = conversionRate
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * Returns the raw JSON value of [currency].
+             *
+             * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
@@ -1074,8 +1498,11 @@ private constructor(
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
                 /**
-                 * The estimated settled amount of the transaction in the cardholder billing
-                 * currency.
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
                  */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -1087,8 +1514,11 @@ private constructor(
                     conversionRate(JsonField.of(conversionRate))
 
                 /**
-                 * The exchange rate used to convert the merchant amount to the cardholder billing
-                 * amount.
+                 * Sets [Builder.conversionRate] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.conversionRate] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun conversionRate(conversionRate: JsonField<String>) = apply {
                     this.conversionRate = conversionRate
@@ -1097,7 +1527,13 @@ private constructor(
                 /** 3-character alphabetic ISO 4217 currency */
                 fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Sets [Builder.currency] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.currency] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1163,16 +1599,37 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The pending amount of the transaction in the anticipated settlement currency. */
+            /**
+             * The pending amount of the transaction in the anticipated settlement currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun amount(): Long = amount.getRequired("amount")
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * 3-character alphabetic ISO 4217 currency
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun currency(): String = currency.getRequired("currency")
 
-            /** The pending amount of the transaction in the anticipated settlement currency. */
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * Returns the raw JSON value of [currency].
+             *
+             * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
@@ -1224,13 +1681,25 @@ private constructor(
                 /** The pending amount of the transaction in the anticipated settlement currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The pending amount of the transaction in the anticipated settlement currency. */
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** 3-character alphabetic ISO 4217 currency */
                 fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Sets [Builder.currency] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.currency] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1295,16 +1764,37 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The settled amount of the transaction in the merchant currency. */
+            /**
+             * The settled amount of the transaction in the merchant currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun amount(): Long = amount.getRequired("amount")
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * 3-character alphabetic ISO 4217 currency
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun currency(): String = currency.getRequired("currency")
 
-            /** The settled amount of the transaction in the merchant currency. */
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * Returns the raw JSON value of [currency].
+             *
+             * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
@@ -1356,13 +1846,25 @@ private constructor(
                 /** The settled amount of the transaction in the merchant currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The settled amount of the transaction in the merchant currency. */
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** 3-character alphabetic ISO 4217 currency */
                 fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Sets [Builder.currency] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.currency] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1427,16 +1929,37 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The settled amount of the transaction in the settlement currency. */
+            /**
+             * The settled amount of the transaction in the settlement currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun amount(): Long = amount.getRequired("amount")
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * 3-character alphabetic ISO 4217 currency
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun currency(): String = currency.getRequired("currency")
 
-            /** The settled amount of the transaction in the settlement currency. */
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /** 3-character alphabetic ISO 4217 currency */
+            /**
+             * Returns the raw JSON value of [currency].
+             *
+             * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
             @JsonAnyGetter
@@ -1488,13 +2011,25 @@ private constructor(
                 /** The settled amount of the transaction in the settlement currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The settled amount of the transaction in the settlement currency. */
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** 3-character alphabetic ISO 4217 currency */
                 fun currency(currency: String) = currency(JsonField.of(currency))
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Sets [Builder.currency] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.currency] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1577,16 +2112,34 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Cardholder address */
+        /**
+         * Cardholder address
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun address(): String = address.getRequired("address")
 
-        /** Cardholder ZIP code */
+        /**
+         * Cardholder ZIP code
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun zipcode(): String = zipcode.getRequired("zipcode")
 
-        /** Cardholder address */
+        /**
+         * Returns the raw JSON value of [address].
+         *
+         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<String> = address
 
-        /** Cardholder ZIP code */
+        /**
+         * Returns the raw JSON value of [zipcode].
+         *
+         * Unlike [zipcode], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("zipcode") @ExcludeMissing fun _zipcode(): JsonField<String> = zipcode
 
         @JsonAnyGetter
@@ -1638,13 +2191,25 @@ private constructor(
             /** Cardholder address */
             fun address(address: String) = address(JsonField.of(address))
 
-            /** Cardholder address */
+            /**
+             * Sets [Builder.address] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun address(address: JsonField<String>) = apply { this.address = address }
 
             /** Cardholder ZIP code */
             fun zipcode(zipcode: String) = zipcode(JsonField.of(zipcode))
 
-            /** Cardholder ZIP code */
+            /**
+             * Sets [Builder.zipcode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.zipcode] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun zipcode(zipcode: JsonField<String>) = apply { this.zipcode = zipcode }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1724,19 +2289,39 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The 3DS version used for the authentication */
+        /**
+         * The 3DS version used for the authentication
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun _3dsVersion(): Optional<String> =
             Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
 
-        /** Whether an acquirer exemption applied to the transaction. */
+        /**
+         * Whether an acquirer exemption applied to the transaction.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun acquirerExemption(): AcquirerExemption =
             acquirerExemption.getRequired("acquirer_exemption")
 
-        /** Indicates what the outcome of the 3DS authentication process is. */
+        /**
+         * Indicates what the outcome of the 3DS authentication process is.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun authenticationResult(): AuthenticationResult =
             authenticationResult.getRequired("authentication_result")
 
-        /** Indicates which party made the 3DS authentication decision. */
+        /**
+         * Indicates which party made the 3DS authentication decision.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun decisionMadeBy(): DecisionMadeBy = decisionMadeBy.getRequired("decision_made_by")
 
         /**
@@ -1748,6 +2333,9 @@ private constructor(
          *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
          *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun liabilityShift(): LiabilityShift = liabilityShift.getRequired("liability_shift")
 
@@ -1756,6 +2344,9 @@ private constructor(
          * three_ds_authentication.created event webhook) and the transaction. Note that in cases
          * where liability shift does not occur, this token is matched to the transaction on a
          * best-effort basis.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun threeDSAuthenticationToken(): Optional<String> =
             Optional.ofNullable(
@@ -1765,6 +2356,9 @@ private constructor(
         /**
          * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
          * was. (deprecated, use `authentication_result`)
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun verificationAttempted(): VerificationAttempted =
             verificationAttempted.getRequired("verification_attempted")
@@ -1772,65 +2366,87 @@ private constructor(
         /**
          * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
          * `authentication_result`)
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun verificationResult(): VerificationResult =
             verificationResult.getRequired("verification_result")
 
-        /** The 3DS version used for the authentication */
+        /**
+         * Returns the raw JSON value of [_3dsVersion].
+         *
+         * Unlike [_3dsVersion], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("3ds_version")
         @ExcludeMissing
         fun __3dsVersion(): JsonField<String> = _3dsVersion
 
-        /** Whether an acquirer exemption applied to the transaction. */
+        /**
+         * Returns the raw JSON value of [acquirerExemption].
+         *
+         * Unlike [acquirerExemption], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("acquirer_exemption")
         @ExcludeMissing
         fun _acquirerExemption(): JsonField<AcquirerExemption> = acquirerExemption
 
-        /** Indicates what the outcome of the 3DS authentication process is. */
+        /**
+         * Returns the raw JSON value of [authenticationResult].
+         *
+         * Unlike [authenticationResult], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("authentication_result")
         @ExcludeMissing
         fun _authenticationResult(): JsonField<AuthenticationResult> = authenticationResult
 
-        /** Indicates which party made the 3DS authentication decision. */
+        /**
+         * Returns the raw JSON value of [decisionMadeBy].
+         *
+         * Unlike [decisionMadeBy], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("decision_made_by")
         @ExcludeMissing
         fun _decisionMadeBy(): JsonField<DecisionMadeBy> = decisionMadeBy
 
         /**
-         * Indicates whether chargeback liability shift applies to the transaction. Possible enum
-         * values:
+         * Returns the raw JSON value of [liabilityShift].
          *
-         *     * `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow, chargeback liability shift applies.
-         *     * `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-         *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
-         * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         * Unlike [liabilityShift], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("liability_shift")
         @ExcludeMissing
         fun _liabilityShift(): JsonField<LiabilityShift> = liabilityShift
 
         /**
-         * Unique identifier you can use to match a given 3DS authentication (available via the
-         * three_ds_authentication.created event webhook) and the transaction. Note that in cases
-         * where liability shift does not occur, this token is matched to the transaction on a
-         * best-effort basis.
+         * Returns the raw JSON value of [threeDSAuthenticationToken].
+         *
+         * Unlike [threeDSAuthenticationToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("three_ds_authentication_token")
         @ExcludeMissing
         fun _threeDSAuthenticationToken(): JsonField<String> = threeDSAuthenticationToken
 
         /**
-         * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
-         * was. (deprecated, use `authentication_result`)
+         * Returns the raw JSON value of [verificationAttempted].
+         *
+         * Unlike [verificationAttempted], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("verification_attempted")
         @ExcludeMissing
         fun _verificationAttempted(): JsonField<VerificationAttempted> = verificationAttempted
 
         /**
-         * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
-         * `authentication_result`)
+         * Returns the raw JSON value of [verificationResult].
+         *
+         * Unlike [verificationResult], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("verification_result")
         @ExcludeMissing
@@ -1909,10 +2525,16 @@ private constructor(
             /** The 3DS version used for the authentication */
             fun _3dsVersion(_3dsVersion: String?) = _3dsVersion(JsonField.ofNullable(_3dsVersion))
 
-            /** The 3DS version used for the authentication */
+            /** Alias for calling [Builder._3dsVersion] with `_3dsVersion.orElse(null)`. */
             fun _3dsVersion(_3dsVersion: Optional<String>) = _3dsVersion(_3dsVersion.getOrNull())
 
-            /** The 3DS version used for the authentication */
+            /**
+             * Sets [Builder._3dsVersion] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder._3dsVersion] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun _3dsVersion(_3dsVersion: JsonField<String>) = apply {
                 this._3dsVersion = _3dsVersion
             }
@@ -1921,7 +2543,13 @@ private constructor(
             fun acquirerExemption(acquirerExemption: AcquirerExemption) =
                 acquirerExemption(JsonField.of(acquirerExemption))
 
-            /** Whether an acquirer exemption applied to the transaction. */
+            /**
+             * Sets [Builder.acquirerExemption] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acquirerExemption] with a well-typed
+             * [AcquirerExemption] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
             fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
                 this.acquirerExemption = acquirerExemption
             }
@@ -1930,7 +2558,13 @@ private constructor(
             fun authenticationResult(authenticationResult: AuthenticationResult) =
                 authenticationResult(JsonField.of(authenticationResult))
 
-            /** Indicates what the outcome of the 3DS authentication process is. */
+            /**
+             * Sets [Builder.authenticationResult] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.authenticationResult] with a well-typed
+             * [AuthenticationResult] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
             fun authenticationResult(authenticationResult: JsonField<AuthenticationResult>) =
                 apply {
                     this.authenticationResult = authenticationResult
@@ -1940,7 +2574,13 @@ private constructor(
             fun decisionMadeBy(decisionMadeBy: DecisionMadeBy) =
                 decisionMadeBy(JsonField.of(decisionMadeBy))
 
-            /** Indicates which party made the 3DS authentication decision. */
+            /**
+             * Sets [Builder.decisionMadeBy] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.decisionMadeBy] with a well-typed [DecisionMadeBy]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun decisionMadeBy(decisionMadeBy: JsonField<DecisionMadeBy>) = apply {
                 this.decisionMadeBy = decisionMadeBy
             }
@@ -1959,14 +2599,11 @@ private constructor(
                 liabilityShift(JsonField.of(liabilityShift))
 
             /**
-             * Indicates whether chargeback liability shift applies to the transaction. Possible
-             * enum values:
+             * Sets [Builder.liabilityShift] to an arbitrary JSON value.
              *
-             *     * `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow, chargeback liability shift applies.
-             *     * `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-             *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
-             * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+             * You should usually call [Builder.liabilityShift] with a well-typed [LiabilityShift]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun liabilityShift(liabilityShift: JsonField<LiabilityShift>) = apply {
                 this.liabilityShift = liabilityShift
@@ -1982,19 +2619,18 @@ private constructor(
                 threeDSAuthenticationToken(JsonField.ofNullable(threeDSAuthenticationToken))
 
             /**
-             * Unique identifier you can use to match a given 3DS authentication (available via the
-             * three_ds_authentication.created event webhook) and the transaction. Note that in
-             * cases where liability shift does not occur, this token is matched to the transaction
-             * on a best-effort basis.
+             * Alias for calling [Builder.threeDSAuthenticationToken] with
+             * `threeDSAuthenticationToken.orElse(null)`.
              */
             fun threeDSAuthenticationToken(threeDSAuthenticationToken: Optional<String>) =
                 threeDSAuthenticationToken(threeDSAuthenticationToken.getOrNull())
 
             /**
-             * Unique identifier you can use to match a given 3DS authentication (available via the
-             * three_ds_authentication.created event webhook) and the transaction. Note that in
-             * cases where liability shift does not occur, this token is matched to the transaction
-             * on a best-effort basis.
+             * Sets [Builder.threeDSAuthenticationToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.threeDSAuthenticationToken] with a well-typed
+             * [String] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
              */
             fun threeDSAuthenticationToken(threeDSAuthenticationToken: JsonField<String>) = apply {
                 this.threeDSAuthenticationToken = threeDSAuthenticationToken
@@ -2008,8 +2644,11 @@ private constructor(
                 verificationAttempted(JsonField.of(verificationAttempted))
 
             /**
-             * Indicates whether a 3DS challenge flow was used, and if so, what the verification
-             * method was. (deprecated, use `authentication_result`)
+             * Sets [Builder.verificationAttempted] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.verificationAttempted] with a well-typed
+             * [VerificationAttempted] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
              */
             fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
                 apply {
@@ -2024,8 +2663,11 @@ private constructor(
                 verificationResult(JsonField.of(verificationResult))
 
             /**
-             * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
-             * `authentication_result`)
+             * Sets [Builder.verificationResult] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.verificationResult] with a well-typed
+             * [VerificationResult] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
              */
             fun verificationResult(verificationResult: JsonField<VerificationResult>) = apply {
                 this.verificationResult = verificationResult
@@ -2875,71 +3517,120 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
+        /**
+         * Unique alphanumeric identifier for the payment card acceptor (merchant).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun acceptorId(): String = acceptorId.getRequired("acceptor_id")
 
-        /** Unique numeric identifier of the acquiring institution. */
+        /**
+         * Unique numeric identifier of the acquiring institution.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun acquiringInstitutionId(): String =
             acquiringInstitutionId.getRequired("acquiring_institution_id")
 
         /**
          * City of card acceptor. Note that in many cases, particularly in card-not-present
          * transactions, merchants may send through a phone number or URL in this field.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun city(): String = city.getRequired("city")
 
         /**
          * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
          * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun country(): String = country.getRequired("country")
 
-        /** Short description of card acceptor. */
+        /**
+         * Short description of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun descriptor(): String = descriptor.getRequired("descriptor")
 
         /**
          * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
          * classify a business by the types of goods or services it provides.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun mcc(): String = mcc.getRequired("mcc")
 
-        /** Geographic state of card acceptor. */
+        /**
+         * Geographic state of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun state(): String = state.getRequired("state")
 
-        /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
+        /**
+         * Returns the raw JSON value of [acceptorId].
+         *
+         * Unlike [acceptorId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("acceptor_id")
         @ExcludeMissing
         fun _acceptorId(): JsonField<String> = acceptorId
 
-        /** Unique numeric identifier of the acquiring institution. */
+        /**
+         * Returns the raw JSON value of [acquiringInstitutionId].
+         *
+         * Unlike [acquiringInstitutionId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("acquiring_institution_id")
         @ExcludeMissing
         fun _acquiringInstitutionId(): JsonField<String> = acquiringInstitutionId
 
         /**
-         * City of card acceptor. Note that in many cases, particularly in card-not-present
-         * transactions, merchants may send through a phone number or URL in this field.
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
         /**
-         * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
-         * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
-        /** Short description of card acceptor. */
+        /**
+         * Returns the raw JSON value of [descriptor].
+         *
+         * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("descriptor")
         @ExcludeMissing
         fun _descriptor(): JsonField<String> = descriptor
 
         /**
-         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
-         * classify a business by the types of goods or services it provides.
+         * Returns the raw JSON value of [mcc].
+         *
+         * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
-        /** Geographic state of card acceptor. */
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
         @JsonAnyGetter
@@ -3011,14 +3702,26 @@ private constructor(
             /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
             fun acceptorId(acceptorId: String) = acceptorId(JsonField.of(acceptorId))
 
-            /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
+            /**
+             * Sets [Builder.acceptorId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acceptorId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun acceptorId(acceptorId: JsonField<String>) = apply { this.acceptorId = acceptorId }
 
             /** Unique numeric identifier of the acquiring institution. */
             fun acquiringInstitutionId(acquiringInstitutionId: String) =
                 acquiringInstitutionId(JsonField.of(acquiringInstitutionId))
 
-            /** Unique numeric identifier of the acquiring institution. */
+            /**
+             * Sets [Builder.acquiringInstitutionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acquiringInstitutionId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun acquiringInstitutionId(acquiringInstitutionId: JsonField<String>) = apply {
                 this.acquiringInstitutionId = acquiringInstitutionId
             }
@@ -3030,8 +3733,11 @@ private constructor(
             fun city(city: String) = city(JsonField.of(city))
 
             /**
-             * City of card acceptor. Note that in many cases, particularly in card-not-present
-             * transactions, merchants may send through a phone number or URL in this field.
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun city(city: JsonField<String>) = apply { this.city = city }
 
@@ -3042,15 +3748,24 @@ private constructor(
             fun country(country: String) = country(JsonField.of(country))
 
             /**
-             * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
-             * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun country(country: JsonField<String>) = apply { this.country = country }
 
             /** Short description of card acceptor. */
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
-            /** Short description of card acceptor. */
+            /**
+             * Sets [Builder.descriptor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.descriptor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /**
@@ -3060,15 +3775,24 @@ private constructor(
             fun mcc(mcc: String) = mcc(JsonField.of(mcc))
 
             /**
-             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used
-             * to classify a business by the types of goods or services it provides.
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
             /** Geographic state of card acceptor. */
             fun state(state: String) = state(JsonField.of(state))
 
-            /** Geographic state of card acceptor. */
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun state(state: JsonField<String>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -3256,14 +3980,32 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun entryMode(): PosEntryMode = entryMode.getRequired("entry_mode")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun terminal(): PosTerminal = terminal.getRequired("terminal")
 
+        /**
+         * Returns the raw JSON value of [entryMode].
+         *
+         * Unlike [entryMode], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("entry_mode")
         @ExcludeMissing
         fun _entryMode(): JsonField<PosEntryMode> = entryMode
 
+        /**
+         * Returns the raw JSON value of [terminal].
+         *
+         * Unlike [terminal], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("terminal") @ExcludeMissing fun _terminal(): JsonField<PosTerminal> = terminal
 
         @JsonAnyGetter
@@ -3314,10 +4056,24 @@ private constructor(
 
             fun entryMode(entryMode: PosEntryMode) = entryMode(JsonField.of(entryMode))
 
+            /**
+             * Sets [Builder.entryMode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.entryMode] with a well-typed [PosEntryMode] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun entryMode(entryMode: JsonField<PosEntryMode>) = apply { this.entryMode = entryMode }
 
             fun terminal(terminal: PosTerminal) = terminal(JsonField.of(terminal))
 
+            /**
+             * Sets [Builder.terminal] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.terminal] with a well-typed [PosTerminal] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun terminal(terminal: JsonField<PosTerminal>) = apply { this.terminal = terminal }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -3365,30 +4121,72 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** Card presence indicator */
+            /**
+             * Card presence indicator
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun card(): Card = card.getRequired("card")
 
-            /** Cardholder presence indicator */
+            /**
+             * Cardholder presence indicator
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cardholder(): Cardholder = cardholder.getRequired("cardholder")
 
-            /** Method of entry for the PAN */
+            /**
+             * Method of entry for the PAN
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun pan(): Pan = pan.getRequired("pan")
 
-            /** Indicates whether the cardholder entered the PIN. True if the PIN was entered. */
+            /**
+             * Indicates whether the cardholder entered the PIN. True if the PIN was entered.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun pinEntered(): Boolean = pinEntered.getRequired("pin_entered")
 
-            /** Card presence indicator */
+            /**
+             * Returns the raw JSON value of [card].
+             *
+             * Unlike [card], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("card") @ExcludeMissing fun _card(): JsonField<Card> = card
 
-            /** Cardholder presence indicator */
+            /**
+             * Returns the raw JSON value of [cardholder].
+             *
+             * Unlike [cardholder], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("cardholder")
             @ExcludeMissing
             fun _cardholder(): JsonField<Cardholder> = cardholder
 
-            /** Method of entry for the PAN */
+            /**
+             * Returns the raw JSON value of [pan].
+             *
+             * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<Pan> = pan
 
-            /** Indicates whether the cardholder entered the PIN. True if the PIN was entered. */
+            /**
+             * Returns the raw JSON value of [pinEntered].
+             *
+             * Unlike [pinEntered], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("pin_entered")
             @ExcludeMissing
             fun _pinEntered(): JsonField<Boolean> = pinEntered
@@ -3450,13 +4248,25 @@ private constructor(
                 /** Card presence indicator */
                 fun card(card: Card) = card(JsonField.of(card))
 
-                /** Card presence indicator */
+                /**
+                 * Sets [Builder.card] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.card] with a well-typed [Card] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun card(card: JsonField<Card>) = apply { this.card = card }
 
                 /** Cardholder presence indicator */
                 fun cardholder(cardholder: Cardholder) = cardholder(JsonField.of(cardholder))
 
-                /** Cardholder presence indicator */
+                /**
+                 * Sets [Builder.cardholder] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cardholder] with a well-typed [Cardholder] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun cardholder(cardholder: JsonField<Cardholder>) = apply {
                     this.cardholder = cardholder
                 }
@@ -3464,7 +4274,13 @@ private constructor(
                 /** Method of entry for the PAN */
                 fun pan(pan: Pan) = pan(JsonField.of(pan))
 
-                /** Method of entry for the PAN */
+                /**
+                 * Sets [Builder.pan] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pan] with a well-typed [Pan] value instead. This
+                 * method is primarily for setting the field to an undocumented or not yet supported
+                 * value.
+                 */
                 fun pan(pan: JsonField<Pan>) = apply { this.pan = pan }
 
                 /**
@@ -3473,7 +4289,11 @@ private constructor(
                 fun pinEntered(pinEntered: Boolean) = pinEntered(JsonField.of(pinEntered))
 
                 /**
-                 * Indicates whether the cardholder entered the PIN. True if the PIN was entered.
+                 * Sets [Builder.pinEntered] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pinEntered] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun pinEntered(pinEntered: JsonField<Boolean>) = apply {
                     this.pinEntered = pinEntered
@@ -4010,17 +4830,41 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** True if a clerk is present at the sale. */
+            /**
+             * True if a clerk is present at the sale.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun attended(): Boolean = attended.getRequired("attended")
 
-            /** True if the terminal is capable of retaining the card. */
+            /**
+             * True if the terminal is capable of retaining the card.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cardRetentionCapable(): Boolean =
                 cardRetentionCapable.getRequired("card_retention_capable")
 
-            /** True if the sale was made at the place of business (vs. mobile). */
+            /**
+             * True if the sale was made at the place of business (vs. mobile).
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun onPremise(): Boolean = onPremise.getRequired("on_premise")
 
-            /** The person that is designated to swipe the card */
+            /**
+             * The person that is designated to swipe the card
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun operator(): Operator = operator.getRequired("operator")
 
             /**
@@ -4029,51 +4873,95 @@ private constructor(
              * scenario: A $40 transaction is attempted on a prepaid card with a $25 balance. If
              * partial approval is enabled, $25 can be authorized, at which point the POS will
              * prompt the user for an additional payment of $15.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
              */
             fun partialApprovalCapable(): Boolean =
                 partialApprovalCapable.getRequired("partial_approval_capable")
 
-            /** Status of whether the POS is able to accept PINs */
+            /**
+             * Status of whether the POS is able to accept PINs
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun pinCapability(): PinCapability = pinCapability.getRequired("pin_capability")
 
-            /** POS Type */
+            /**
+             * POS Type
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun type(): Type = type.getRequired("type")
 
-            /** True if a clerk is present at the sale. */
+            /**
+             * Returns the raw JSON value of [attended].
+             *
+             * Unlike [attended], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("attended") @ExcludeMissing fun _attended(): JsonField<Boolean> = attended
 
-            /** True if the terminal is capable of retaining the card. */
+            /**
+             * Returns the raw JSON value of [cardRetentionCapable].
+             *
+             * Unlike [cardRetentionCapable], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("card_retention_capable")
             @ExcludeMissing
             fun _cardRetentionCapable(): JsonField<Boolean> = cardRetentionCapable
 
-            /** True if the sale was made at the place of business (vs. mobile). */
+            /**
+             * Returns the raw JSON value of [onPremise].
+             *
+             * Unlike [onPremise], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("on_premise")
             @ExcludeMissing
             fun _onPremise(): JsonField<Boolean> = onPremise
 
-            /** The person that is designated to swipe the card */
+            /**
+             * Returns the raw JSON value of [operator].
+             *
+             * Unlike [operator], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("operator")
             @ExcludeMissing
             fun _operator(): JsonField<Operator> = operator
 
             /**
-             * True if the terminal is capable of partial approval. Partial approval is when part of
-             * a transaction is approved and another payment must be used for the remainder. Example
-             * scenario: A $40 transaction is attempted on a prepaid card with a $25 balance. If
-             * partial approval is enabled, $25 can be authorized, at which point the POS will
-             * prompt the user for an additional payment of $15.
+             * Returns the raw JSON value of [partialApprovalCapable].
+             *
+             * Unlike [partialApprovalCapable], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
             @JsonProperty("partial_approval_capable")
             @ExcludeMissing
             fun _partialApprovalCapable(): JsonField<Boolean> = partialApprovalCapable
 
-            /** Status of whether the POS is able to accept PINs */
+            /**
+             * Returns the raw JSON value of [pinCapability].
+             *
+             * Unlike [pinCapability], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("pin_capability")
             @ExcludeMissing
             fun _pinCapability(): JsonField<PinCapability> = pinCapability
 
-            /** POS Type */
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
             @JsonAnyGetter
@@ -4145,14 +5033,26 @@ private constructor(
                 /** True if a clerk is present at the sale. */
                 fun attended(attended: Boolean) = attended(JsonField.of(attended))
 
-                /** True if a clerk is present at the sale. */
+                /**
+                 * Sets [Builder.attended] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.attended] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun attended(attended: JsonField<Boolean>) = apply { this.attended = attended }
 
                 /** True if the terminal is capable of retaining the card. */
                 fun cardRetentionCapable(cardRetentionCapable: Boolean) =
                     cardRetentionCapable(JsonField.of(cardRetentionCapable))
 
-                /** True if the terminal is capable of retaining the card. */
+                /**
+                 * Sets [Builder.cardRetentionCapable] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cardRetentionCapable] with a well-typed
+                 * [Boolean] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
+                 */
                 fun cardRetentionCapable(cardRetentionCapable: JsonField<Boolean>) = apply {
                     this.cardRetentionCapable = cardRetentionCapable
                 }
@@ -4160,13 +5060,25 @@ private constructor(
                 /** True if the sale was made at the place of business (vs. mobile). */
                 fun onPremise(onPremise: Boolean) = onPremise(JsonField.of(onPremise))
 
-                /** True if the sale was made at the place of business (vs. mobile). */
+                /**
+                 * Sets [Builder.onPremise] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.onPremise] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun onPremise(onPremise: JsonField<Boolean>) = apply { this.onPremise = onPremise }
 
                 /** The person that is designated to swipe the card */
                 fun operator(operator: Operator) = operator(JsonField.of(operator))
 
-                /** The person that is designated to swipe the card */
+                /**
+                 * Sets [Builder.operator] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.operator] with a well-typed [Operator] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun operator(operator: JsonField<Operator>) = apply { this.operator = operator }
 
                 /**
@@ -4180,11 +5092,11 @@ private constructor(
                     partialApprovalCapable(JsonField.of(partialApprovalCapable))
 
                 /**
-                 * True if the terminal is capable of partial approval. Partial approval is when
-                 * part of a transaction is approved and another payment must be used for the
-                 * remainder. Example scenario: A $40 transaction is attempted on a prepaid card
-                 * with a $25 balance. If partial approval is enabled, $25 can be authorized, at
-                 * which point the POS will prompt the user for an additional payment of $15.
+                 * Sets [Builder.partialApprovalCapable] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.partialApprovalCapable] with a well-typed
+                 * [Boolean] value instead. This method is primarily for setting the field to an
+                 * undocumented or not yet supported value.
                  */
                 fun partialApprovalCapable(partialApprovalCapable: JsonField<Boolean>) = apply {
                     this.partialApprovalCapable = partialApprovalCapable
@@ -4194,7 +5106,13 @@ private constructor(
                 fun pinCapability(pinCapability: PinCapability) =
                     pinCapability(JsonField.of(pinCapability))
 
-                /** Status of whether the POS is able to accept PINs */
+                /**
+                 * Sets [Builder.pinCapability] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.pinCapability] with a well-typed [PinCapability]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun pinCapability(pinCapability: JsonField<PinCapability>) = apply {
                     this.pinCapability = pinCapability
                 }
@@ -4202,7 +5120,13 @@ private constructor(
                 /** POS Type */
                 fun type(type: Type) = type(JsonField.of(type))
 
-                /** POS Type */
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun type(type: JsonField<Type>) = apply { this.type = type }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -5109,14 +6033,16 @@ private constructor(
          * include digital wallets (Apple, Google, or Samsung Pay), merchant tokenization, and
          * “other” sources like in-flight commerce. Masterpass is not currently supported and is
          * included for future use.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun walletType(): WalletType = walletType.getRequired("wallet_type")
 
         /**
-         * The wallet_type field will indicate the source of the token. Possible token sources
-         * include digital wallets (Apple, Google, or Samsung Pay), merchant tokenization, and
-         * “other” sources like in-flight commerce. Masterpass is not currently supported and is
-         * included for future use.
+         * Returns the raw JSON value of [walletType].
+         *
+         * Unlike [walletType], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("wallet_type")
         @ExcludeMissing
@@ -5173,10 +6099,11 @@ private constructor(
             fun walletType(walletType: WalletType) = walletType(JsonField.of(walletType))
 
             /**
-             * The wallet_type field will indicate the source of the token. Possible token sources
-             * include digital wallets (Apple, Google, or Samsung Pay), merchant tokenization, and
-             * “other” sources like in-flight commerce. Masterpass is not currently supported and is
-             * included for future use.
+             * Sets [Builder.walletType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.walletType] with a well-typed [WalletType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun walletType(walletType: JsonField<WalletType>) = apply {
                 this.walletType = walletType
@@ -5396,21 +6323,49 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Transaction event identifier. */
+        /**
+         * Transaction event identifier.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
-        /** Amount of the event in the settlement currency. */
+        /**
+         * Amount of the event in the settlement currency.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         @Deprecated("deprecated") fun amount(): Long = amount.getRequired("amount")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amounts(): TransactionEventAmounts = amounts.getRequired("amounts")
 
-        /** RFC 3339 date and time this event entered the system. UTC time zone. */
+        /**
+         * RFC 3339 date and time this event entered the system. UTC time zone.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun created(): OffsetDateTime = created.getRequired("created")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun detailedResults(): List<DetailedResult> =
             detailedResults.getRequired("detailed_results")
 
-        /** Indicates whether the transaction event is a credit or debit to the account. */
+        /**
+         * Indicates whether the transaction event is a credit or debit to the account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectivePolarity(): EffectivePolarity =
             effectivePolarity.getRequired("effective_polarity")
 
@@ -5423,63 +6378,116 @@ private constructor(
          * card network and the event type. If the field is populated by the network, we will pass
          * it through as is unless otherwise specified. Please consult the official network
          * documentation for more details about these fields and how to use them.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun networkInfo(): Optional<NetworkInfo> =
             Optional.ofNullable(networkInfo.getNullable("network_info"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun result(): DeclineResult = result.getRequired("result")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun ruleResults(): List<RuleResult> = ruleResults.getRequired("rule_results")
 
-        /** Type of transaction event */
+        /**
+         * Type of transaction event
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): Type = type.getRequired("type")
 
-        /** Transaction event identifier. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** Amount of the event in the settlement currency. */
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @Deprecated("deprecated")
         @JsonProperty("amount")
         @ExcludeMissing
         fun _amount(): JsonField<Long> = amount
 
+        /**
+         * Returns the raw JSON value of [amounts].
+         *
+         * Unlike [amounts], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amounts")
         @ExcludeMissing
         fun _amounts(): JsonField<TransactionEventAmounts> = amounts
 
-        /** RFC 3339 date and time this event entered the system. UTC time zone. */
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
+        /**
+         * Returns the raw JSON value of [detailedResults].
+         *
+         * Unlike [detailedResults], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("detailed_results")
         @ExcludeMissing
         fun _detailedResults(): JsonField<List<DetailedResult>> = detailedResults
 
-        /** Indicates whether the transaction event is a credit or debit to the account. */
+        /**
+         * Returns the raw JSON value of [effectivePolarity].
+         *
+         * Unlike [effectivePolarity], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_polarity")
         @ExcludeMissing
         fun _effectivePolarity(): JsonField<EffectivePolarity> = effectivePolarity
 
         /**
-         * Information provided by the card network in each event. This includes common identifiers
-         * shared between you, Lithic, the card network and in some cases the acquirer. These
-         * identifiers often link together events within the same transaction lifecycle and can be
-         * used to locate a particular transaction, such as during processing of disputes. Not all
-         * fields are available in all events, and the presence of these fields is dependent on the
-         * card network and the event type. If the field is populated by the network, we will pass
-         * it through as is unless otherwise specified. Please consult the official network
-         * documentation for more details about these fields and how to use them.
+         * Returns the raw JSON value of [networkInfo].
+         *
+         * Unlike [networkInfo], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("network_info")
         @ExcludeMissing
         fun _networkInfo(): JsonField<NetworkInfo> = networkInfo
 
+        /**
+         * Returns the raw JSON value of [result].
+         *
+         * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<DeclineResult> = result
 
+        /**
+         * Returns the raw JSON value of [ruleResults].
+         *
+         * Unlike [ruleResults], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("rule_results")
         @ExcludeMissing
         fun _ruleResults(): JsonField<List<RuleResult>> = ruleResults
 
-        /** Type of transaction event */
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonAnyGetter
@@ -5563,18 +6571,37 @@ private constructor(
             /** Transaction event identifier. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Transaction event identifier. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Amount of the event in the settlement currency. */
             @Deprecated("deprecated") fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            /** Amount of the event in the settlement currency. */
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             @Deprecated("deprecated")
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun amounts(amounts: TransactionEventAmounts) = amounts(JsonField.of(amounts))
 
+            /**
+             * Sets [Builder.amounts] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amounts] with a well-typed [TransactionEventAmounts]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun amounts(amounts: JsonField<TransactionEventAmounts>) = apply {
                 this.amounts = amounts
             }
@@ -5582,16 +6609,34 @@ private constructor(
             /** RFC 3339 date and time this event entered the system. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            /** RFC 3339 date and time this event entered the system. UTC time zone. */
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             fun detailedResults(detailedResults: List<DetailedResult>) =
                 detailedResults(JsonField.of(detailedResults))
 
+            /**
+             * Sets [Builder.detailedResults] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.detailedResults] with a well-typed
+             * `List<DetailedResult>` value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
                 this.detailedResults = detailedResults.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [DetailedResult] to [detailedResults].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addDetailedResult(detailedResult: DetailedResult) = apply {
                 detailedResults =
                     (detailedResults ?: JsonField.of(mutableListOf())).also {
@@ -5603,7 +6648,13 @@ private constructor(
             fun effectivePolarity(effectivePolarity: EffectivePolarity) =
                 effectivePolarity(JsonField.of(effectivePolarity))
 
-            /** Indicates whether the transaction event is a credit or debit to the account. */
+            /**
+             * Sets [Builder.effectivePolarity] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectivePolarity] with a well-typed
+             * [EffectivePolarity] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
             fun effectivePolarity(effectivePolarity: JsonField<EffectivePolarity>) = apply {
                 this.effectivePolarity = effectivePolarity
             }
@@ -5622,30 +6673,16 @@ private constructor(
             fun networkInfo(networkInfo: NetworkInfo?) =
                 networkInfo(JsonField.ofNullable(networkInfo))
 
-            /**
-             * Information provided by the card network in each event. This includes common
-             * identifiers shared between you, Lithic, the card network and in some cases the
-             * acquirer. These identifiers often link together events within the same transaction
-             * lifecycle and can be used to locate a particular transaction, such as during
-             * processing of disputes. Not all fields are available in all events, and the presence
-             * of these fields is dependent on the card network and the event type. If the field is
-             * populated by the network, we will pass it through as is unless otherwise specified.
-             * Please consult the official network documentation for more details about these fields
-             * and how to use them.
-             */
+            /** Alias for calling [Builder.networkInfo] with `networkInfo.orElse(null)`. */
             fun networkInfo(networkInfo: Optional<NetworkInfo>) =
                 networkInfo(networkInfo.getOrNull())
 
             /**
-             * Information provided by the card network in each event. This includes common
-             * identifiers shared between you, Lithic, the card network and in some cases the
-             * acquirer. These identifiers often link together events within the same transaction
-             * lifecycle and can be used to locate a particular transaction, such as during
-             * processing of disputes. Not all fields are available in all events, and the presence
-             * of these fields is dependent on the card network and the event type. If the field is
-             * populated by the network, we will pass it through as is unless otherwise specified.
-             * Please consult the official network documentation for more details about these fields
-             * and how to use them.
+             * Sets [Builder.networkInfo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.networkInfo] with a well-typed [NetworkInfo] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun networkInfo(networkInfo: JsonField<NetworkInfo>) = apply {
                 this.networkInfo = networkInfo
@@ -5653,14 +6690,33 @@ private constructor(
 
             fun result(result: DeclineResult) = result(JsonField.of(result))
 
+            /**
+             * Sets [Builder.result] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.result] with a well-typed [DeclineResult] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
 
             fun ruleResults(ruleResults: List<RuleResult>) = ruleResults(JsonField.of(ruleResults))
 
+            /**
+             * Sets [Builder.ruleResults] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.ruleResults] with a well-typed `List<RuleResult>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun ruleResults(ruleResults: JsonField<List<RuleResult>>) = apply {
                 this.ruleResults = ruleResults.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [RuleResult] to [ruleResults].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addRuleResult(ruleResult: RuleResult) = apply {
                 ruleResults =
                     (ruleResults ?: JsonField.of(mutableListOf())).also {
@@ -5671,7 +6727,13 @@ private constructor(
             /** Type of transaction event */
             fun type(type: Type) = type(JsonField.of(type))
 
-            /** Type of transaction event */
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -5726,21 +6788,53 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cardholder(): Cardholder = cardholder.getRequired("cardholder")
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun merchant(): Merchant = merchant.getRequired("merchant")
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun settlement(): Optional<Settlement> =
                 Optional.ofNullable(settlement.getNullable("settlement"))
 
+            /**
+             * Returns the raw JSON value of [cardholder].
+             *
+             * Unlike [cardholder], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("cardholder")
             @ExcludeMissing
             fun _cardholder(): JsonField<Cardholder> = cardholder
 
+            /**
+             * Returns the raw JSON value of [merchant].
+             *
+             * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("merchant")
             @ExcludeMissing
             fun _merchant(): JsonField<Merchant> = merchant
 
+            /**
+             * Returns the raw JSON value of [settlement].
+             *
+             * Unlike [settlement], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("settlement")
             @ExcludeMissing
             fun _settlement(): JsonField<Settlement> = settlement
@@ -5799,20 +6893,42 @@ private constructor(
 
                 fun cardholder(cardholder: Cardholder) = cardholder(JsonField.of(cardholder))
 
+                /**
+                 * Sets [Builder.cardholder] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cardholder] with a well-typed [Cardholder] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun cardholder(cardholder: JsonField<Cardholder>) = apply {
                     this.cardholder = cardholder
                 }
 
                 fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
+                /**
+                 * Sets [Builder.merchant] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.merchant] with a well-typed [Merchant] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
                 fun settlement(settlement: Settlement?) =
                     settlement(JsonField.ofNullable(settlement))
 
+                /** Alias for calling [Builder.settlement] with `settlement.orElse(null)`. */
                 fun settlement(settlement: Optional<Settlement>) =
                     settlement(settlement.getOrNull())
 
+                /**
+                 * Sets [Builder.settlement] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.settlement] with a well-typed [Settlement] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun settlement(settlement: JsonField<Settlement>) = apply {
                     this.settlement = settlement
                 }
@@ -5865,30 +6981,58 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Amount of the event in the cardholder billing currency. */
+                /**
+                 * Amount of the event in the cardholder billing currency.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun amount(): Long = amount.getRequired("amount")
 
                 /**
                  * Exchange rate used to convert the merchant amount to the cardholder billing
                  * amount.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
                  */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * 3-character alphabetic ISO 4217 currency
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun currency(): String = currency.getRequired("currency")
 
-                /** Amount of the event in the cardholder billing currency. */
+                /**
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
                 /**
-                 * Exchange rate used to convert the merchant amount to the cardholder billing
-                 * amount.
+                 * Returns the raw JSON value of [conversionRate].
+                 *
+                 * Unlike [conversionRate], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("conversion_rate")
                 @ExcludeMissing
                 fun _conversionRate(): JsonField<String> = conversionRate
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Returns the raw JSON value of [currency].
+                 *
+                 * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("currency")
                 @ExcludeMissing
                 fun _currency(): JsonField<String> = currency
@@ -5946,7 +7090,13 @@ private constructor(
                     /** Amount of the event in the cardholder billing currency. */
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                    /** Amount of the event in the cardholder billing currency. */
+                    /**
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                     /**
@@ -5957,8 +7107,11 @@ private constructor(
                         conversionRate(JsonField.of(conversionRate))
 
                     /**
-                     * Exchange rate used to convert the merchant amount to the cardholder billing
-                     * amount.
+                     * Sets [Builder.conversionRate] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.conversionRate] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun conversionRate(conversionRate: JsonField<String>) = apply {
                         this.conversionRate = conversionRate
@@ -5967,7 +7120,13 @@ private constructor(
                     /** 3-character alphabetic ISO 4217 currency */
                     fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /** 3-character alphabetic ISO 4217 currency */
+                    /**
+                     * Sets [Builder.currency] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.currency] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -6033,16 +7192,38 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
-                /** Amount of the event in the merchant currency. */
+                /**
+                 * Amount of the event in the merchant currency.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun amount(): Long = amount.getRequired("amount")
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * 3-character alphabetic ISO 4217 currency
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun currency(): String = currency.getRequired("currency")
 
-                /** Amount of the event in the merchant currency. */
+                /**
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Returns the raw JSON value of [currency].
+                 *
+                 * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("currency")
                 @ExcludeMissing
                 fun _currency(): JsonField<String> = currency
@@ -6096,13 +7277,25 @@ private constructor(
                     /** Amount of the event in the merchant currency. */
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                    /** Amount of the event in the merchant currency. */
+                    /**
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                     /** 3-character alphabetic ISO 4217 currency */
                     fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /** 3-character alphabetic ISO 4217 currency */
+                    /**
+                     * Sets [Builder.currency] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.currency] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -6173,27 +7366,55 @@ private constructor(
                 /**
                  * Amount of the event, if it is financial, in the settlement currency.
                  * Non-financial events do not contain this amount because they do not move funds.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
                  */
                 fun amount(): Long = amount.getRequired("amount")
 
-                /** Exchange rate used to convert the merchant amount to the settlement amount. */
+                /**
+                 * Exchange rate used to convert the merchant amount to the settlement amount.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * 3-character alphabetic ISO 4217 currency
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
                 fun currency(): String = currency.getRequired("currency")
 
                 /**
-                 * Amount of the event, if it is financial, in the settlement currency.
-                 * Non-financial events do not contain this amount because they do not move funds.
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
                 @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-                /** Exchange rate used to convert the merchant amount to the settlement amount. */
+                /**
+                 * Returns the raw JSON value of [conversionRate].
+                 *
+                 * Unlike [conversionRate], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("conversion_rate")
                 @ExcludeMissing
                 fun _conversionRate(): JsonField<String> = conversionRate
 
-                /** 3-character alphabetic ISO 4217 currency */
+                /**
+                 * Returns the raw JSON value of [currency].
+                 *
+                 * Unlike [currency], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
                 @JsonProperty("currency")
                 @ExcludeMissing
                 fun _currency(): JsonField<String> = currency
@@ -6256,9 +7477,11 @@ private constructor(
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
                     /**
-                     * Amount of the event, if it is financial, in the settlement currency.
-                     * Non-financial events do not contain this amount because they do not move
-                     * funds.
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
                      */
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -6269,7 +7492,11 @@ private constructor(
                         conversionRate(JsonField.of(conversionRate))
 
                     /**
-                     * Exchange rate used to convert the merchant amount to the settlement amount.
+                     * Sets [Builder.conversionRate] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.conversionRate] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun conversionRate(conversionRate: JsonField<String>) = apply {
                         this.conversionRate = conversionRate
@@ -6278,7 +7505,13 @@ private constructor(
                     /** 3-character alphabetic ISO 4217 currency */
                     fun currency(currency: String) = currency(JsonField.of(currency))
 
-                    /** 3-character alphabetic ISO 4217 currency */
+                    /**
+                     * Sets [Builder.currency] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.currency] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
                     fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -6912,22 +8145,51 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun acquirer(): Optional<Acquirer> =
                 Optional.ofNullable(acquirer.getNullable("acquirer"))
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun mastercard(): Optional<Mastercard> =
                 Optional.ofNullable(mastercard.getNullable("mastercard"))
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun visa(): Optional<Visa> = Optional.ofNullable(visa.getNullable("visa"))
 
+            /**
+             * Returns the raw JSON value of [acquirer].
+             *
+             * Unlike [acquirer], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("acquirer")
             @ExcludeMissing
             fun _acquirer(): JsonField<Acquirer> = acquirer
 
+            /**
+             * Returns the raw JSON value of [mastercard].
+             *
+             * Unlike [mastercard], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("mastercard")
             @ExcludeMissing
             fun _mastercard(): JsonField<Mastercard> = mastercard
 
+            /**
+             * Returns the raw JSON value of [visa].
+             *
+             * Unlike [visa], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("visa") @ExcludeMissing fun _visa(): JsonField<Visa> = visa
 
             @JsonAnyGetter
@@ -6982,24 +8244,48 @@ private constructor(
 
                 fun acquirer(acquirer: Acquirer?) = acquirer(JsonField.ofNullable(acquirer))
 
+                /** Alias for calling [Builder.acquirer] with `acquirer.orElse(null)`. */
                 fun acquirer(acquirer: Optional<Acquirer>) = acquirer(acquirer.getOrNull())
 
+                /**
+                 * Sets [Builder.acquirer] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.acquirer] with a well-typed [Acquirer] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun acquirer(acquirer: JsonField<Acquirer>) = apply { this.acquirer = acquirer }
 
                 fun mastercard(mastercard: Mastercard?) =
                     mastercard(JsonField.ofNullable(mastercard))
 
+                /** Alias for calling [Builder.mastercard] with `mastercard.orElse(null)`. */
                 fun mastercard(mastercard: Optional<Mastercard>) =
                     mastercard(mastercard.getOrNull())
 
+                /**
+                 * Sets [Builder.mastercard] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.mastercard] with a well-typed [Mastercard] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun mastercard(mastercard: JsonField<Mastercard>) = apply {
                     this.mastercard = mastercard
                 }
 
                 fun visa(visa: Visa?) = visa(JsonField.ofNullable(visa))
 
+                /** Alias for calling [Builder.visa] with `visa.orElse(null)`. */
                 fun visa(visa: Optional<Visa>) = visa(visa.getOrNull())
 
+                /**
+                 * Sets [Builder.visa] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.visa] with a well-typed [Visa] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun visa(visa: JsonField<Visa>) = apply { this.visa = visa }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -7053,30 +8339,42 @@ private constructor(
                  * has been cleared, and it is not available in all transactions (such as automated
                  * fuel dispenser transactions). A single transaction can contain multiple ARNs if
                  * the merchant sends multiple clearings.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun acquirerReferenceNumber(): Optional<String> =
                     Optional.ofNullable(
                         acquirerReferenceNumber.getNullable("acquirer_reference_number")
                     )
 
-                /** Identifier assigned by the acquirer. */
+                /**
+                 * Identifier assigned by the acquirer.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
                 fun retrievalReferenceNumber(): Optional<String> =
                     Optional.ofNullable(
                         retrievalReferenceNumber.getNullable("retrieval_reference_number")
                     )
 
                 /**
-                 * Identifier assigned by the acquirer, applicable to dual-message transactions
-                 * only. The acquirer reference number (ARN) is only populated once a transaction
-                 * has been cleared, and it is not available in all transactions (such as automated
-                 * fuel dispenser transactions). A single transaction can contain multiple ARNs if
-                 * the merchant sends multiple clearings.
+                 * Returns the raw JSON value of [acquirerReferenceNumber].
+                 *
+                 * Unlike [acquirerReferenceNumber], this method doesn't throw if the JSON field has
+                 * an unexpected type.
                  */
                 @JsonProperty("acquirer_reference_number")
                 @ExcludeMissing
                 fun _acquirerReferenceNumber(): JsonField<String> = acquirerReferenceNumber
 
-                /** Identifier assigned by the acquirer. */
+                /**
+                 * Returns the raw JSON value of [retrievalReferenceNumber].
+                 *
+                 * Unlike [retrievalReferenceNumber], this method doesn't throw if the JSON field
+                 * has an unexpected type.
+                 */
                 @JsonProperty("retrieval_reference_number")
                 @ExcludeMissing
                 fun _retrievalReferenceNumber(): JsonField<String> = retrievalReferenceNumber
@@ -7138,21 +8436,18 @@ private constructor(
                         acquirerReferenceNumber(JsonField.ofNullable(acquirerReferenceNumber))
 
                     /**
-                     * Identifier assigned by the acquirer, applicable to dual-message transactions
-                     * only. The acquirer reference number (ARN) is only populated once a
-                     * transaction has been cleared, and it is not available in all transactions
-                     * (such as automated fuel dispenser transactions). A single transaction can
-                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     * Alias for calling [Builder.acquirerReferenceNumber] with
+                     * `acquirerReferenceNumber.orElse(null)`.
                      */
                     fun acquirerReferenceNumber(acquirerReferenceNumber: Optional<String>) =
                         acquirerReferenceNumber(acquirerReferenceNumber.getOrNull())
 
                     /**
-                     * Identifier assigned by the acquirer, applicable to dual-message transactions
-                     * only. The acquirer reference number (ARN) is only populated once a
-                     * transaction has been cleared, and it is not available in all transactions
-                     * (such as automated fuel dispenser transactions). A single transaction can
-                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     * Sets [Builder.acquirerReferenceNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.acquirerReferenceNumber] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun acquirerReferenceNumber(acquirerReferenceNumber: JsonField<String>) =
                         apply {
@@ -7163,11 +8458,20 @@ private constructor(
                     fun retrievalReferenceNumber(retrievalReferenceNumber: String?) =
                         retrievalReferenceNumber(JsonField.ofNullable(retrievalReferenceNumber))
 
-                    /** Identifier assigned by the acquirer. */
+                    /**
+                     * Alias for calling [Builder.retrievalReferenceNumber] with
+                     * `retrievalReferenceNumber.orElse(null)`.
+                     */
                     fun retrievalReferenceNumber(retrievalReferenceNumber: Optional<String>) =
                         retrievalReferenceNumber(retrievalReferenceNumber.getOrNull())
 
-                    /** Identifier assigned by the acquirer. */
+                    /**
+                     * Sets [Builder.retrievalReferenceNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.retrievalReferenceNumber] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
                     fun retrievalReferenceNumber(retrievalReferenceNumber: JsonField<String>) =
                         apply {
                             this.retrievalReferenceNumber = retrievalReferenceNumber
@@ -7244,6 +8548,9 @@ private constructor(
                 /**
                  * Identifier assigned by Mastercard. Guaranteed by Mastercard to be unique for any
                  * transaction within a specific financial network on any processing day.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun banknetReferenceNumber(): Optional<String> =
                     Optional.ofNullable(
@@ -7262,6 +8569,9 @@ private constructor(
                  * original banknet reference number in the resulting financial authorization with
                  * the banknet reference number of the initial authorization, which Lithic does not
                  * receive.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun originalBanknetReferenceNumber(): Optional<String> =
                     Optional.ofNullable(
@@ -7274,6 +8584,9 @@ private constructor(
                  * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a prior
                  * related event. May be populated in returns and return reversals. Applicable to
                  * single-message transactions only.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun originalSwitchSerialNumber(): Optional<String> =
                     Optional.ofNullable(
@@ -7283,30 +8596,28 @@ private constructor(
                 /**
                  * Identifier assigned by Mastercard, applicable to single-message transactions
                  * only.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun switchSerialNumber(): Optional<String> =
                     Optional.ofNullable(switchSerialNumber.getNullable("switch_serial_number"))
 
                 /**
-                 * Identifier assigned by Mastercard. Guaranteed by Mastercard to be unique for any
-                 * transaction within a specific financial network on any processing day.
+                 * Returns the raw JSON value of [banknetReferenceNumber].
+                 *
+                 * Unlike [banknetReferenceNumber], this method doesn't throw if the JSON field has
+                 * an unexpected type.
                  */
                 @JsonProperty("banknet_reference_number")
                 @ExcludeMissing
                 fun _banknetReferenceNumber(): JsonField<String> = banknetReferenceNumber
 
                 /**
-                 * Identifier assigned by Mastercard. Matches the `banknet_reference_number` of a
-                 * prior related event. May be populated in authorization reversals, incremental
-                 * authorizations (authorization requests that augment a previously authorized
-                 * amount), automated fuel dispenser authorization advices and clearings, and
-                 * financial authorizations. If the original banknet reference number contains all
-                 * zeroes, then no actual reference number could be found by the network or
-                 * acquirer. If Mastercard converts a transaction from dual-message to
-                 * single-message, such as for certain ATM transactions, it will populate the
-                 * original banknet reference number in the resulting financial authorization with
-                 * the banknet reference number of the initial authorization, which Lithic does not
-                 * receive.
+                 * Returns the raw JSON value of [originalBanknetReferenceNumber].
+                 *
+                 * Unlike [originalBanknetReferenceNumber], this method doesn't throw if the JSON
+                 * field has an unexpected type.
                  */
                 @JsonProperty("original_banknet_reference_number")
                 @ExcludeMissing
@@ -7314,17 +8625,20 @@ private constructor(
                     originalBanknetReferenceNumber
 
                 /**
-                 * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a prior
-                 * related event. May be populated in returns and return reversals. Applicable to
-                 * single-message transactions only.
+                 * Returns the raw JSON value of [originalSwitchSerialNumber].
+                 *
+                 * Unlike [originalSwitchSerialNumber], this method doesn't throw if the JSON field
+                 * has an unexpected type.
                  */
                 @JsonProperty("original_switch_serial_number")
                 @ExcludeMissing
                 fun _originalSwitchSerialNumber(): JsonField<String> = originalSwitchSerialNumber
 
                 /**
-                 * Identifier assigned by Mastercard, applicable to single-message transactions
-                 * only.
+                 * Returns the raw JSON value of [switchSerialNumber].
+                 *
+                 * Unlike [switchSerialNumber], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("switch_serial_number")
                 @ExcludeMissing
@@ -7392,15 +8706,18 @@ private constructor(
                         banknetReferenceNumber(JsonField.ofNullable(banknetReferenceNumber))
 
                     /**
-                     * Identifier assigned by Mastercard. Guaranteed by Mastercard to be unique for
-                     * any transaction within a specific financial network on any processing day.
+                     * Alias for calling [Builder.banknetReferenceNumber] with
+                     * `banknetReferenceNumber.orElse(null)`.
                      */
                     fun banknetReferenceNumber(banknetReferenceNumber: Optional<String>) =
                         banknetReferenceNumber(banknetReferenceNumber.getOrNull())
 
                     /**
-                     * Identifier assigned by Mastercard. Guaranteed by Mastercard to be unique for
-                     * any transaction within a specific financial network on any processing day.
+                     * Sets [Builder.banknetReferenceNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.banknetReferenceNumber] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun banknetReferenceNumber(banknetReferenceNumber: JsonField<String>) = apply {
                         this.banknetReferenceNumber = banknetReferenceNumber
@@ -7425,34 +8742,19 @@ private constructor(
                         )
 
                     /**
-                     * Identifier assigned by Mastercard. Matches the `banknet_reference_number` of
-                     * a prior related event. May be populated in authorization reversals,
-                     * incremental authorizations (authorization requests that augment a previously
-                     * authorized amount), automated fuel dispenser authorization advices and
-                     * clearings, and financial authorizations. If the original banknet reference
-                     * number contains all zeroes, then no actual reference number could be found by
-                     * the network or acquirer. If Mastercard converts a transaction from
-                     * dual-message to single-message, such as for certain ATM transactions, it will
-                     * populate the original banknet reference number in the resulting financial
-                     * authorization with the banknet reference number of the initial authorization,
-                     * which Lithic does not receive.
+                     * Alias for calling [Builder.originalBanknetReferenceNumber] with
+                     * `originalBanknetReferenceNumber.orElse(null)`.
                      */
                     fun originalBanknetReferenceNumber(
                         originalBanknetReferenceNumber: Optional<String>
                     ) = originalBanknetReferenceNumber(originalBanknetReferenceNumber.getOrNull())
 
                     /**
-                     * Identifier assigned by Mastercard. Matches the `banknet_reference_number` of
-                     * a prior related event. May be populated in authorization reversals,
-                     * incremental authorizations (authorization requests that augment a previously
-                     * authorized amount), automated fuel dispenser authorization advices and
-                     * clearings, and financial authorizations. If the original banknet reference
-                     * number contains all zeroes, then no actual reference number could be found by
-                     * the network or acquirer. If Mastercard converts a transaction from
-                     * dual-message to single-message, such as for certain ATM transactions, it will
-                     * populate the original banknet reference number in the resulting financial
-                     * authorization with the banknet reference number of the initial authorization,
-                     * which Lithic does not receive.
+                     * Sets [Builder.originalBanknetReferenceNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.originalBanknetReferenceNumber] with a
+                     * well-typed [String] value instead. This method is primarily for setting the
+                     * field to an undocumented or not yet supported value.
                      */
                     fun originalBanknetReferenceNumber(
                         originalBanknetReferenceNumber: JsonField<String>
@@ -7469,17 +8771,18 @@ private constructor(
                         originalSwitchSerialNumber(JsonField.ofNullable(originalSwitchSerialNumber))
 
                     /**
-                     * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a
-                     * prior related event. May be populated in returns and return reversals.
-                     * Applicable to single-message transactions only.
+                     * Alias for calling [Builder.originalSwitchSerialNumber] with
+                     * `originalSwitchSerialNumber.orElse(null)`.
                      */
                     fun originalSwitchSerialNumber(originalSwitchSerialNumber: Optional<String>) =
                         originalSwitchSerialNumber(originalSwitchSerialNumber.getOrNull())
 
                     /**
-                     * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a
-                     * prior related event. May be populated in returns and return reversals.
-                     * Applicable to single-message transactions only.
+                     * Sets [Builder.originalSwitchSerialNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.originalSwitchSerialNumber] with a
+                     * well-typed [String] value instead. This method is primarily for setting the
+                     * field to an undocumented or not yet supported value.
                      */
                     fun originalSwitchSerialNumber(originalSwitchSerialNumber: JsonField<String>) =
                         apply {
@@ -7494,15 +8797,18 @@ private constructor(
                         switchSerialNumber(JsonField.ofNullable(switchSerialNumber))
 
                     /**
-                     * Identifier assigned by Mastercard, applicable to single-message transactions
-                     * only.
+                     * Alias for calling [Builder.switchSerialNumber] with
+                     * `switchSerialNumber.orElse(null)`.
                      */
                     fun switchSerialNumber(switchSerialNumber: Optional<String>) =
                         switchSerialNumber(switchSerialNumber.getOrNull())
 
                     /**
-                     * Identifier assigned by Mastercard, applicable to single-message transactions
-                     * only.
+                     * Sets [Builder.switchSerialNumber] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.switchSerialNumber] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun switchSerialNumber(switchSerialNumber: JsonField<String>) = apply {
                         this.switchSerialNumber = switchSerialNumber
@@ -7580,6 +8886,9 @@ private constructor(
                  * event. May be populated in incremental authorizations (authorization requests
                  * that augment a previously authorized amount), authorization advices, financial
                  * authorizations, and clearings.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun originalTransactionId(): Optional<String> =
                     Optional.ofNullable(
@@ -7590,24 +8899,28 @@ private constructor(
                  * Identifier assigned by Visa to link original messages to subsequent messages.
                  * Guaranteed by Visa to be unique for each original authorization and financial
                  * authorization.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
                 fun transactionId(): Optional<String> =
                     Optional.ofNullable(transactionId.getNullable("transaction_id"))
 
                 /**
-                 * Identifier assigned by Visa. Matches the `transaction_id` of a prior related
-                 * event. May be populated in incremental authorizations (authorization requests
-                 * that augment a previously authorized amount), authorization advices, financial
-                 * authorizations, and clearings.
+                 * Returns the raw JSON value of [originalTransactionId].
+                 *
+                 * Unlike [originalTransactionId], this method doesn't throw if the JSON field has
+                 * an unexpected type.
                  */
                 @JsonProperty("original_transaction_id")
                 @ExcludeMissing
                 fun _originalTransactionId(): JsonField<String> = originalTransactionId
 
                 /**
-                 * Identifier assigned by Visa to link original messages to subsequent messages.
-                 * Guaranteed by Visa to be unique for each original authorization and financial
-                 * authorization.
+                 * Returns the raw JSON value of [transactionId].
+                 *
+                 * Unlike [transactionId], this method doesn't throw if the JSON field has an
+                 * unexpected type.
                  */
                 @JsonProperty("transaction_id")
                 @ExcludeMissing
@@ -7669,19 +8982,18 @@ private constructor(
                         originalTransactionId(JsonField.ofNullable(originalTransactionId))
 
                     /**
-                     * Identifier assigned by Visa. Matches the `transaction_id` of a prior related
-                     * event. May be populated in incremental authorizations (authorization requests
-                     * that augment a previously authorized amount), authorization advices,
-                     * financial authorizations, and clearings.
+                     * Alias for calling [Builder.originalTransactionId] with
+                     * `originalTransactionId.orElse(null)`.
                      */
                     fun originalTransactionId(originalTransactionId: Optional<String>) =
                         originalTransactionId(originalTransactionId.getOrNull())
 
                     /**
-                     * Identifier assigned by Visa. Matches the `transaction_id` of a prior related
-                     * event. May be populated in incremental authorizations (authorization requests
-                     * that augment a previously authorized amount), authorization advices,
-                     * financial authorizations, and clearings.
+                     * Sets [Builder.originalTransactionId] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.originalTransactionId] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun originalTransactionId(originalTransactionId: JsonField<String>) = apply {
                         this.originalTransactionId = originalTransactionId
@@ -7696,17 +9008,17 @@ private constructor(
                         transactionId(JsonField.ofNullable(transactionId))
 
                     /**
-                     * Identifier assigned by Visa to link original messages to subsequent messages.
-                     * Guaranteed by Visa to be unique for each original authorization and financial
-                     * authorization.
+                     * Alias for calling [Builder.transactionId] with `transactionId.orElse(null)`.
                      */
                     fun transactionId(transactionId: Optional<String>) =
                         transactionId(transactionId.getOrNull())
 
                     /**
-                     * Identifier assigned by Visa to link original messages to subsequent messages.
-                     * Guaranteed by Visa to be unique for each original authorization and financial
-                     * authorization.
+                     * Sets [Builder.transactionId] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.transactionId] with a well-typed [String]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
                      */
                     fun transactionId(transactionId: JsonField<String>) = apply {
                         this.transactionId = transactionId
@@ -8033,39 +9345,71 @@ private constructor(
              * this is set to null, then the decline was not associated with a customer-configured
              * Auth Rule. This may happen in cases where a transaction is declined due to a
              * Lithic-configured security or compliance rule, for example.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
              */
             fun authRuleToken(): Optional<String> =
                 Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
 
-            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            /**
+             * A human-readable explanation outlining the motivation for the rule's decline.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun explanation(): Optional<String> =
                 Optional.ofNullable(explanation.getNullable("explanation"))
 
-            /** The name for the rule, if any was configured. */
+            /**
+             * The name for the rule, if any was configured.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            /** The detailed_result associated with this rule's decline. */
+            /**
+             * The detailed_result associated with this rule's decline.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun result(): DetailedResult = result.getRequired("result")
 
             /**
-             * The Auth Rule Token associated with the rule from which the decline originated. If
-             * this is set to null, then the decline was not associated with a customer-configured
-             * Auth Rule. This may happen in cases where a transaction is declined due to a
-             * Lithic-configured security or compliance rule, for example.
+             * Returns the raw JSON value of [authRuleToken].
+             *
+             * Unlike [authRuleToken], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
             @JsonProperty("auth_rule_token")
             @ExcludeMissing
             fun _authRuleToken(): JsonField<String> = authRuleToken
 
-            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            /**
+             * Returns the raw JSON value of [explanation].
+             *
+             * Unlike [explanation], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("explanation")
             @ExcludeMissing
             fun _explanation(): JsonField<String> = explanation
 
-            /** The name for the rule, if any was configured. */
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /** The detailed_result associated with this rule's decline. */
+            /**
+             * Returns the raw JSON value of [result].
+             *
+             * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("result")
             @ExcludeMissing
             fun _result(): JsonField<DetailedResult> = result
@@ -8133,20 +9477,16 @@ private constructor(
                 fun authRuleToken(authRuleToken: String?) =
                     authRuleToken(JsonField.ofNullable(authRuleToken))
 
-                /**
-                 * The Auth Rule Token associated with the rule from which the decline originated.
-                 * If this is set to null, then the decline was not associated with a
-                 * customer-configured Auth Rule. This may happen in cases where a transaction is
-                 * declined due to a Lithic-configured security or compliance rule, for example.
-                 */
+                /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
                 fun authRuleToken(authRuleToken: Optional<String>) =
                     authRuleToken(authRuleToken.getOrNull())
 
                 /**
-                 * The Auth Rule Token associated with the rule from which the decline originated.
-                 * If this is set to null, then the decline was not associated with a
-                 * customer-configured Auth Rule. This may happen in cases where a transaction is
-                 * declined due to a Lithic-configured security or compliance rule, for example.
+                 * Sets [Builder.authRuleToken] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.authRuleToken] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
                  */
                 fun authRuleToken(authRuleToken: JsonField<String>) = apply {
                     this.authRuleToken = authRuleToken
@@ -8156,11 +9496,17 @@ private constructor(
                 fun explanation(explanation: String?) =
                     explanation(JsonField.ofNullable(explanation))
 
-                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                /** Alias for calling [Builder.explanation] with `explanation.orElse(null)`. */
                 fun explanation(explanation: Optional<String>) =
                     explanation(explanation.getOrNull())
 
-                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                /**
+                 * Sets [Builder.explanation] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.explanation] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun explanation(explanation: JsonField<String>) = apply {
                     this.explanation = explanation
                 }
@@ -8168,16 +9514,28 @@ private constructor(
                 /** The name for the rule, if any was configured. */
                 fun name(name: String?) = name(JsonField.ofNullable(name))
 
-                /** The name for the rule, if any was configured. */
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
                 fun name(name: Optional<String>) = name(name.getOrNull())
 
-                /** The name for the rule, if any was configured. */
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** The detailed_result associated with this rule's decline. */
                 fun result(result: DetailedResult) = result(JsonField.of(result))
 
-                /** The detailed_result associated with this rule's decline. */
+                /**
+                 * Sets [Builder.result] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.result] with a well-typed [DetailedResult] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun result(result: JsonField<DetailedResult>) = apply { this.result = result }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

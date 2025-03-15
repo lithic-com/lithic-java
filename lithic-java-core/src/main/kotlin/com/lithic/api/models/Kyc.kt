@@ -41,20 +41,38 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Information on individual for whom the account is being opened and KYC is being run. */
+    /**
+     * Information on individual for whom the account is being opened and KYC is being run.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun individual(): Individual = individual.getRequired("individual")
 
     /**
      * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
      * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
      * Lithic.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun tosTimestamp(): String = tosTimestamp.getRequired("tos_timestamp")
 
-    /** Specifies the type of KYC workflow to run. */
+    /**
+     * Specifies the type of KYC workflow to run.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
-    /** A user provided id that can be used to link an account holder with an external system */
+    /**
+     * A user provided id that can be used to link an account holder with an external system
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
@@ -62,35 +80,50 @@ private constructor(
      * pass result.
      *
      * This field is required only if workflow type is `KYC_BYO`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun kycPassedTimestamp(): Optional<String> =
         Optional.ofNullable(kycPassedTimestamp.getNullable("kyc_passed_timestamp"))
 
-    /** Information on individual for whom the account is being opened and KYC is being run. */
+    /**
+     * Returns the raw JSON value of [individual].
+     *
+     * Unlike [individual], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("individual")
     @ExcludeMissing
     fun _individual(): JsonField<Individual> = individual
 
     /**
-     * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
-     * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
-     * Lithic.
+     * Returns the raw JSON value of [tosTimestamp].
+     *
+     * Unlike [tosTimestamp], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("tos_timestamp")
     @ExcludeMissing
     fun _tosTimestamp(): JsonField<String> = tosTimestamp
 
-    /** Specifies the type of KYC workflow to run. */
+    /**
+     * Returns the raw JSON value of [workflow].
+     *
+     * Unlike [workflow], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
-    /** A user provided id that can be used to link an account holder with an external system */
+    /**
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
-     * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
-     * pass result.
+     * Returns the raw JSON value of [kycPassedTimestamp].
      *
-     * This field is required only if workflow type is `KYC_BYO`.
+     * Unlike [kycPassedTimestamp], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("kyc_passed_timestamp")
     @ExcludeMissing
@@ -155,7 +188,13 @@ private constructor(
         /** Information on individual for whom the account is being opened and KYC is being run. */
         fun individual(individual: Individual) = individual(JsonField.of(individual))
 
-        /** Information on individual for whom the account is being opened and KYC is being run. */
+        /**
+         * Sets [Builder.individual] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.individual] with a well-typed [Individual] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun individual(individual: JsonField<Individual>) = apply { this.individual = individual }
 
         /**
@@ -166,9 +205,11 @@ private constructor(
         fun tosTimestamp(tosTimestamp: String) = tosTimestamp(JsonField.of(tosTimestamp))
 
         /**
-         * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
-         * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation
-         * with Lithic.
+         * Sets [Builder.tosTimestamp] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tosTimestamp] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun tosTimestamp(tosTimestamp: JsonField<String>) = apply {
             this.tosTimestamp = tosTimestamp
@@ -177,13 +218,25 @@ private constructor(
         /** Specifies the type of KYC workflow to run. */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
 
-        /** Specifies the type of KYC workflow to run. */
+        /**
+         * Sets [Builder.workflow] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.workflow] with a well-typed [Workflow] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
-        /** A user provided id that can be used to link an account holder with an external system */
+        /**
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
@@ -196,10 +249,11 @@ private constructor(
             kycPassedTimestamp(JsonField.of(kycPassedTimestamp))
 
         /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
-         * with a pass result.
+         * Sets [Builder.kycPassedTimestamp] to an arbitrary JSON value.
          *
-         * This field is required only if workflow type is `KYC_BYO`.
+         * You should usually call [Builder.kycPassedTimestamp] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun kycPassedTimestamp(kycPassedTimestamp: JsonField<String>) = apply {
             this.kycPassedTimestamp = kycPassedTimestamp
@@ -266,19 +320,35 @@ private constructor(
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable. Only USA addresses are currently supported.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun address(): Address = address.getRequired("address")
 
-        /** Individual's date of birth, as an RFC 3339 date. */
+        /**
+         * Individual's date of birth, as an RFC 3339 date.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun dob(): String = dob.getRequired("dob")
 
         /**
          * Individual's email address. If utilizing Lithic for chargeback processing, this customer
          * email address may be used to communicate dispute status and resolution.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun email(): String = email.getRequired("email")
 
-        /** Individual's first name, as it appears on government-issued identity documents. */
+        /**
+         * Individual's first name, as it appears on government-issued identity documents.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun firstName(): String = firstName.getRequired("first_name")
 
         /**
@@ -286,47 +356,78 @@ private constructor(
          * compliance with banking regulations). Social Security Numbers (SSN) and Individual
          * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
          * nine-digits, with or without hyphens
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun governmentId(): String = governmentId.getRequired("government_id")
 
-        /** Individual's last name, as it appears on government-issued identity documents. */
+        /**
+         * Individual's last name, as it appears on government-issued identity documents.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun lastName(): String = lastName.getRequired("last_name")
 
-        /** Individual's phone number, entered in E.164 format. */
+        /**
+         * Individual's phone number, entered in E.164 format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
         /**
-         * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-         * APO/FPO are acceptable. Only USA addresses are currently supported.
+         * Returns the raw JSON value of [address].
+         *
+         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
-        /** Individual's date of birth, as an RFC 3339 date. */
+        /**
+         * Returns the raw JSON value of [dob].
+         *
+         * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
 
         /**
-         * Individual's email address. If utilizing Lithic for chargeback processing, this customer
-         * email address may be used to communicate dispute status and resolution.
+         * Returns the raw JSON value of [email].
+         *
+         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
-        /** Individual's first name, as it appears on government-issued identity documents. */
+        /**
+         * Returns the raw JSON value of [firstName].
+         *
+         * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
         /**
-         * Government-issued identification number (required for identity verification and
-         * compliance with banking regulations). Social Security Numbers (SSN) and Individual
-         * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
-         * nine-digits, with or without hyphens
+         * Returns the raw JSON value of [governmentId].
+         *
+         * Unlike [governmentId], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("government_id")
         @ExcludeMissing
         fun _governmentId(): JsonField<String> = governmentId
 
-        /** Individual's last name, as it appears on government-issued identity documents. */
+        /**
+         * Returns the raw JSON value of [lastName].
+         *
+         * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
-        /** Individual's phone number, entered in E.164 format. */
+        /**
+         * Returns the raw JSON value of [phoneNumber].
+         *
+         * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("phone_number")
         @ExcludeMissing
         fun _phoneNumber(): JsonField<String> = phoneNumber
@@ -404,15 +505,24 @@ private constructor(
             fun address(address: Address) = address(JsonField.of(address))
 
             /**
-             * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-             * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+             * Sets [Builder.address] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address] with a well-typed [Address] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /** Individual's date of birth, as an RFC 3339 date. */
             fun dob(dob: String) = dob(JsonField.of(dob))
 
-            /** Individual's date of birth, as an RFC 3339 date. */
+            /**
+             * Sets [Builder.dob] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dob] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
             /**
@@ -422,15 +532,24 @@ private constructor(
             fun email(email: String) = email(JsonField.of(email))
 
             /**
-             * Individual's email address. If utilizing Lithic for chargeback processing, this
-             * customer email address may be used to communicate dispute status and resolution.
+             * Sets [Builder.email] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.email] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Individual's first name, as it appears on government-issued identity documents. */
             fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
-            /** Individual's first name, as it appears on government-issued identity documents. */
+            /**
+             * Sets [Builder.firstName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.firstName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
             /**
@@ -442,10 +561,11 @@ private constructor(
             fun governmentId(governmentId: String) = governmentId(JsonField.of(governmentId))
 
             /**
-             * Government-issued identification number (required for identity verification and
-             * compliance with banking regulations). Social Security Numbers (SSN) and Individual
-             * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
-             * nine-digits, with or without hyphens
+             * Sets [Builder.governmentId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.governmentId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun governmentId(governmentId: JsonField<String>) = apply {
                 this.governmentId = governmentId
@@ -454,13 +574,25 @@ private constructor(
             /** Individual's last name, as it appears on government-issued identity documents. */
             fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
-            /** Individual's last name, as it appears on government-issued identity documents. */
+            /**
+             * Sets [Builder.lastName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lastName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
             /** Individual's phone number, entered in E.164 format. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-            /** Individual's phone number, entered in E.164 format. */
+            /**
+             * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phoneNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                 this.phoneNumber = phoneNumber
             }

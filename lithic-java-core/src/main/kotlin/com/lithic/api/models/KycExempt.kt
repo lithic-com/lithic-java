@@ -54,76 +54,148 @@ private constructor(
     /**
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun address(): Address = address.getRequired("address")
 
-    /** The KYC Exempt user's email */
+    /**
+     * The KYC Exempt user's email
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun email(): String = email.getRequired("email")
 
-    /** The KYC Exempt user's first name */
+    /**
+     * The KYC Exempt user's first name
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun firstName(): String = firstName.getRequired("first_name")
 
-    /** Specifies the type of KYC Exempt user */
+    /**
+     * Specifies the type of KYC Exempt user
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun kycExemptionType(): KycExemptionType = kycExemptionType.getRequired("kyc_exemption_type")
 
-    /** The KYC Exempt user's last name */
+    /**
+     * The KYC Exempt user's last name
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastName(): String = lastName.getRequired("last_name")
 
-    /** The KYC Exempt user's phone number, entered in E.164 format. */
+    /**
+     * The KYC Exempt user's phone number, entered in E.164 format.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
-    /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
+    /**
+     * Specifies the workflow type. This must be 'KYC_EXEMPT'
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
     /**
      * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
      * businesses. Pass the account_token of the enrolled business associated with the
      * AUTHORIZED_USER in this field.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun businessAccountToken(): Optional<String> =
         Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
 
-    /** A user provided id that can be used to link an account holder with an external system */
+    /**
+     * A user provided id that can be used to link an account holder with an external system
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
-     * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-     * APO/FPO are acceptable.
+     * Returns the raw JSON value of [address].
+     *
+     * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
-    /** The KYC Exempt user's email */
+    /**
+     * Returns the raw JSON value of [email].
+     *
+     * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
-    /** The KYC Exempt user's first name */
+    /**
+     * Returns the raw JSON value of [firstName].
+     *
+     * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
-    /** Specifies the type of KYC Exempt user */
+    /**
+     * Returns the raw JSON value of [kycExemptionType].
+     *
+     * Unlike [kycExemptionType], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("kyc_exemption_type")
     @ExcludeMissing
     fun _kycExemptionType(): JsonField<KycExemptionType> = kycExemptionType
 
-    /** The KYC Exempt user's last name */
+    /**
+     * Returns the raw JSON value of [lastName].
+     *
+     * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
-    /** The KYC Exempt user's phone number, entered in E.164 format. */
+    /**
+     * Returns the raw JSON value of [phoneNumber].
+     *
+     * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("phone_number")
     @ExcludeMissing
     fun _phoneNumber(): JsonField<String> = phoneNumber
 
-    /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
+    /**
+     * Returns the raw JSON value of [workflow].
+     *
+     * Unlike [workflow], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /**
-     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-     * businesses. Pass the account_token of the enrolled business associated with the
-     * AUTHORIZED_USER in this field.
+     * Returns the raw JSON value of [businessAccountToken].
+     *
+     * Unlike [businessAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("business_account_token")
     @ExcludeMissing
     fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
-    /** A user provided id that can be used to link an account holder with an external system */
+    /**
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     @JsonAnyGetter
@@ -205,28 +277,47 @@ private constructor(
         fun address(address: Address) = address(JsonField.of(address))
 
         /**
-         * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not
-         * acceptable; APO/FPO are acceptable.
+         * Sets [Builder.address] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address] with a well-typed [Address] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun address(address: JsonField<Address>) = apply { this.address = address }
 
         /** The KYC Exempt user's email */
         fun email(email: String) = email(JsonField.of(email))
 
-        /** The KYC Exempt user's email */
+        /**
+         * Sets [Builder.email] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.email] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /** The KYC Exempt user's first name */
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
-        /** The KYC Exempt user's first name */
+        /**
+         * Sets [Builder.firstName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.firstName] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /** Specifies the type of KYC Exempt user */
         fun kycExemptionType(kycExemptionType: KycExemptionType) =
             kycExemptionType(JsonField.of(kycExemptionType))
 
-        /** Specifies the type of KYC Exempt user */
+        /**
+         * Sets [Builder.kycExemptionType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.kycExemptionType] with a well-typed [KycExemptionType]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun kycExemptionType(kycExemptionType: JsonField<KycExemptionType>) = apply {
             this.kycExemptionType = kycExemptionType
         }
@@ -234,19 +325,36 @@ private constructor(
         /** The KYC Exempt user's last name */
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
-        /** The KYC Exempt user's last name */
+        /**
+         * Sets [Builder.lastName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastName] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
         /** The KYC Exempt user's phone number, entered in E.164 format. */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-        /** The KYC Exempt user's phone number, entered in E.164 format. */
+        /**
+         * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.phoneNumber] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
 
-        /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
+        /**
+         * Sets [Builder.workflow] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.workflow] with a well-typed [Workflow] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         /**
@@ -258,9 +366,11 @@ private constructor(
             businessAccountToken(JsonField.of(businessAccountToken))
 
         /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Pass the account_token of the enrolled business associated with the
-         * AUTHORIZED_USER in this field.
+         * Sets [Builder.businessAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.businessAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
             this.businessAccountToken = businessAccountToken
@@ -269,7 +379,13 @@ private constructor(
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
-        /** A user provided id that can be used to link an account holder with an external system */
+        /**
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

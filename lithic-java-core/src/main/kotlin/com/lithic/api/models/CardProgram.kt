@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
@@ -43,59 +44,119 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Timestamp of when the card program was created. */
+    /**
+     * Timestamp of when the card program was created.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** The name of the card program. */
+    /**
+     * The name of the card program.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun name(): String = name.getRequired("name")
 
-    /** The first digits of the card number that this card program ends with. */
+    /**
+     * The first digits of the card number that this card program ends with.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun panRangeEnd(): String = panRangeEnd.getRequired("pan_range_end")
 
-    /** The first digits of the card number that this card program starts with. */
+    /**
+     * The first digits of the card number that this card program starts with.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun panRangeStart(): String = panRangeStart.getRequired("pan_range_start")
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
     /**
      * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
      * supports for settlement.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun settlementCurrencies(): Optional<List<String>> =
         Optional.ofNullable(settlementCurrencies.getNullable("settlement_currencies"))
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Timestamp of when the card program was created. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** The name of the card program. */
+    /**
+     * Returns the raw JSON value of [name].
+     *
+     * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-    /** The first digits of the card number that this card program ends with. */
+    /**
+     * Returns the raw JSON value of [panRangeEnd].
+     *
+     * Unlike [panRangeEnd], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("pan_range_end")
     @ExcludeMissing
     fun _panRangeEnd(): JsonField<String> = panRangeEnd
 
-    /** The first digits of the card number that this card program starts with. */
+    /**
+     * Returns the raw JSON value of [panRangeStart].
+     *
+     * Unlike [panRangeStart], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("pan_range_start")
     @ExcludeMissing
     fun _panRangeStart(): JsonField<String> = panRangeStart
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * Returns the raw JSON value of [cardholderCurrency].
+     *
+     * Unlike [cardholderCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /**
-     * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
-     * supports for settlement.
+     * Returns the raw JSON value of [settlementCurrencies].
+     *
+     * Unlike [settlementCurrencies], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("settlement_currencies")
     @ExcludeMissing
@@ -168,31 +229,59 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Timestamp of when the card program was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when the card program was created. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** The name of the card program. */
         fun name(name: String) = name(JsonField.of(name))
 
-        /** The name of the card program. */
+        /**
+         * Sets [Builder.name] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.name] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** The first digits of the card number that this card program ends with. */
         fun panRangeEnd(panRangeEnd: String) = panRangeEnd(JsonField.of(panRangeEnd))
 
-        /** The first digits of the card number that this card program ends with. */
+        /**
+         * Sets [Builder.panRangeEnd] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.panRangeEnd] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun panRangeEnd(panRangeEnd: JsonField<String>) = apply { this.panRangeEnd = panRangeEnd }
 
         /** The first digits of the card number that this card program starts with. */
         fun panRangeStart(panRangeStart: String) = panRangeStart(JsonField.of(panRangeStart))
 
-        /** The first digits of the card number that this card program starts with. */
+        /**
+         * Sets [Builder.panRangeStart] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.panRangeStart] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun panRangeStart(panRangeStart: JsonField<String>) = apply {
             this.panRangeStart = panRangeStart
         }
@@ -201,7 +290,13 @@ private constructor(
         fun cardholderCurrency(cardholderCurrency: String) =
             cardholderCurrency(JsonField.of(cardholderCurrency))
 
-        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+        /**
+         * Sets [Builder.cardholderCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardholderCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
             this.cardholderCurrency = cardholderCurrency
         }
@@ -214,16 +309,20 @@ private constructor(
             settlementCurrencies(JsonField.of(settlementCurrencies))
 
         /**
-         * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
-         * supports for settlement.
+         * Sets [Builder.settlementCurrencies] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settlementCurrencies] with a well-typed `List<String>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun settlementCurrencies(settlementCurrencies: JsonField<List<String>>) = apply {
             this.settlementCurrencies = settlementCurrencies.map { it.toMutableList() }
         }
 
         /**
-         * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
-         * supports for settlement.
+         * Adds a single [String] to [settlementCurrencies].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addSettlementCurrency(settlementCurrency: String) = apply {
             settlementCurrencies =

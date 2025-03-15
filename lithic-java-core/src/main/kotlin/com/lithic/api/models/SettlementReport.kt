@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
@@ -58,21 +59,36 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated") fun currency(): String = currency.getRequired("currency")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
 
     /**
      * The total gross amount of disputes settlements. (This field is deprecated and will be removed
      * in a future version of the API. To compute total amounts, Lithic recommends that customers
      * sum the relevant settlement amounts found within `details`.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
@@ -81,23 +97,39 @@ private constructor(
      * The total amount of interchange. (This field is deprecated and will be removed in a future
      * version of the API. To compute total amounts, Lithic recommends that customers sum the
      * relevant settlement amounts found within `details`.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun interchangeGrossAmount(): Long =
         interchangeGrossAmount.getRequired("interchange_gross_amount")
 
-    /** Indicates that all data expected on the given report date is available. */
+    /**
+     * Indicates that all data expected on the given report date is available.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun isComplete(): Boolean = isComplete.getRequired("is_complete")
 
     /**
      * Total amount of gross other fees outside of interchange. (This field is deprecated and will
      * be removed in a future version of the API. To compute total amounts, Lithic recommends that
      * customers sum the relevant settlement amounts found within `details`.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
 
-    /** Date of when the report was first generated. */
+    /**
+     * Date of when the report was first generated.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun reportDate(): String = reportDate.getRequired("report_date")
 
     /**
@@ -105,6 +137,9 @@ private constructor(
      * (This field is deprecated and will be removed in a future version of the API. To compute
      * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
      * within `details`.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun settledNetAmount(): Long = settledNetAmount.getRequired("settled_net_amount")
@@ -114,34 +149,53 @@ private constructor(
      * disputes). (This field is deprecated and will be removed in a future version of the API. To
      * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
      * found within `details`.)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun transactionsGrossAmount(): Long =
         transactionsGrossAmount.getRequired("transactions_gross_amount")
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
-     * future version of the API.)
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("currency")
     @ExcludeMissing
     fun _currency(): JsonField<String> = currency
 
+    /**
+     * Returns the raw JSON value of [details].
+     *
+     * Unlike [details], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("details")
     @ExcludeMissing
     fun _details(): JsonField<List<SettlementSummaryDetails>> = details
 
     /**
-     * The total gross amount of disputes settlements. (This field is deprecated and will be removed
-     * in a future version of the API. To compute total amounts, Lithic recommends that customers
-     * sum the relevant settlement amounts found within `details`.)
+     * Returns the raw JSON value of [disputesGrossAmount].
+     *
+     * Unlike [disputesGrossAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @Deprecated("deprecated")
     @JsonProperty("disputes_gross_amount")
@@ -149,36 +203,46 @@ private constructor(
     fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
 
     /**
-     * The total amount of interchange. (This field is deprecated and will be removed in a future
-     * version of the API. To compute total amounts, Lithic recommends that customers sum the
-     * relevant settlement amounts found within `details`.)
+     * Returns the raw JSON value of [interchangeGrossAmount].
+     *
+     * Unlike [interchangeGrossAmount], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
     fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
 
-    /** Indicates that all data expected on the given report date is available. */
+    /**
+     * Returns the raw JSON value of [isComplete].
+     *
+     * Unlike [isComplete], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("is_complete") @ExcludeMissing fun _isComplete(): JsonField<Boolean> = isComplete
 
     /**
-     * Total amount of gross other fees outside of interchange. (This field is deprecated and will
-     * be removed in a future version of the API. To compute total amounts, Lithic recommends that
-     * customers sum the relevant settlement amounts found within `details`.)
+     * Returns the raw JSON value of [otherFeesGrossAmount].
+     *
+     * Unlike [otherFeesGrossAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @Deprecated("deprecated")
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
     fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
 
-    /** Date of when the report was first generated. */
+    /**
+     * Returns the raw JSON value of [reportDate].
+     *
+     * Unlike [reportDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("report_date") @ExcludeMissing fun _reportDate(): JsonField<String> = reportDate
 
     /**
-     * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
-     * (This field is deprecated and will be removed in a future version of the API. To compute
-     * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
-     * within `details`.)
+     * Returns the raw JSON value of [settledNetAmount].
+     *
+     * Unlike [settledNetAmount], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @Deprecated("deprecated")
     @JsonProperty("settled_net_amount")
@@ -186,17 +250,21 @@ private constructor(
     fun _settledNetAmount(): JsonField<Long> = settledNetAmount
 
     /**
-     * The total amount of settlement impacting transactions (excluding interchange, fees, and
-     * disputes). (This field is deprecated and will be removed in a future version of the API. To
-     * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
-     * found within `details`.)
+     * Returns the raw JSON value of [transactionsGrossAmount].
+     *
+     * Unlike [transactionsGrossAmount], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
     fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
-    /** Date and time when the transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
@@ -284,7 +352,13 @@ private constructor(
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time when the transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
@@ -294,18 +368,32 @@ private constructor(
         @Deprecated("deprecated") fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
-         * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
-         * future version of the API.)
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         @Deprecated("deprecated")
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
 
+        /**
+         * Sets [Builder.details] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.details] with a well-typed
+         * `List<SettlementSummaryDetails>` value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun details(details: JsonField<List<SettlementSummaryDetails>>) = apply {
             this.details = details.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [SettlementSummaryDetails] to [details].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addDetail(detail: SettlementSummaryDetails) = apply {
             details =
                 (details ?: JsonField.of(mutableListOf())).also {
@@ -323,9 +411,11 @@ private constructor(
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
         /**
-         * The total gross amount of disputes settlements. (This field is deprecated and will be
-         * removed in a future version of the API. To compute total amounts, Lithic recommends that
-         * customers sum the relevant settlement amounts found within `details`.)
+         * Sets [Builder.disputesGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disputesGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
@@ -342,9 +432,11 @@ private constructor(
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
         /**
-         * The total amount of interchange. (This field is deprecated and will be removed in a
-         * future version of the API. To compute total amounts, Lithic recommends that customers sum
-         * the relevant settlement amounts found within `details`.)
+         * Sets [Builder.interchangeGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.interchangeGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
@@ -354,7 +446,13 @@ private constructor(
         /** Indicates that all data expected on the given report date is available. */
         fun isComplete(isComplete: Boolean) = isComplete(JsonField.of(isComplete))
 
-        /** Indicates that all data expected on the given report date is available. */
+        /**
+         * Sets [Builder.isComplete] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isComplete] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
 
         /**
@@ -367,9 +465,11 @@ private constructor(
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
         /**
-         * Total amount of gross other fees outside of interchange. (This field is deprecated and
-         * will be removed in a future version of the API. To compute total amounts, Lithic
-         * recommends that customers sum the relevant settlement amounts found within `details`.)
+         * Sets [Builder.otherFeesGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.otherFeesGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
@@ -379,7 +479,13 @@ private constructor(
         /** Date of when the report was first generated. */
         fun reportDate(reportDate: String) = reportDate(JsonField.of(reportDate))
 
-        /** Date of when the report was first generated. */
+        /**
+         * Sets [Builder.reportDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.reportDate] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /**
@@ -393,10 +499,11 @@ private constructor(
             settledNetAmount(JsonField.of(settledNetAmount))
 
         /**
-         * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
-         * fees). (This field is deprecated and will be removed in a future version of the API. To
-         * compute total amounts, Lithic recommends that customers sum the relevant settlement
-         * amounts found within `details`.)
+         * Sets [Builder.settledNetAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settledNetAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun settledNetAmount(settledNetAmount: JsonField<Long>) = apply {
@@ -414,10 +521,11 @@ private constructor(
             transactionsGrossAmount(JsonField.of(transactionsGrossAmount))
 
         /**
-         * The total amount of settlement impacting transactions (excluding interchange, fees, and
-         * disputes). (This field is deprecated and will be removed in a future version of the API.
-         * To compute total amounts, Lithic recommends that customers sum the relevant settlement
-         * amounts found within `details`.)
+         * Sets [Builder.transactionsGrossAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionsGrossAmount] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun transactionsGrossAmount(transactionsGrossAmount: JsonField<Long>) = apply {
@@ -427,7 +535,13 @@ private constructor(
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Date and time when the transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

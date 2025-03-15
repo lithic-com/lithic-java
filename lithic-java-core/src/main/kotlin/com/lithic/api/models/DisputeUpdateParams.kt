@@ -34,28 +34,65 @@ private constructor(
 
     fun disputeToken(): String = disputeToken
 
-    /** Amount to dispute */
+    /**
+     * Amount to dispute
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun amount(): Optional<Long> = body.amount()
 
-    /** Date the customer filed the dispute */
+    /**
+     * Date the customer filed the dispute
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun customerFiledDate(): Optional<OffsetDateTime> = body.customerFiledDate()
 
-    /** Customer description of dispute */
+    /**
+     * Customer description of dispute
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun customerNote(): Optional<String> = body.customerNote()
 
-    /** Reason for dispute */
+    /**
+     * Reason for dispute
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun reason(): Optional<Reason> = body.reason()
 
-    /** Amount to dispute */
+    /**
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _amount(): JsonField<Long> = body._amount()
 
-    /** Date the customer filed the dispute */
+    /**
+     * Returns the raw JSON value of [customerFiledDate].
+     *
+     * Unlike [customerFiledDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _customerFiledDate(): JsonField<OffsetDateTime> = body._customerFiledDate()
 
-    /** Customer description of dispute */
+    /**
+     * Returns the raw JSON value of [customerNote].
+     *
+     * Unlike [customerNote], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _customerNote(): JsonField<String> = body._customerNote()
 
-    /** Reason for dispute */
+    /**
+     * Returns the raw JSON value of [reason].
+     *
+     * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _reason(): JsonField<Reason> = body._reason()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -97,34 +134,72 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Amount to dispute */
+        /**
+         * Amount to dispute
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
-        /** Date the customer filed the dispute */
+        /**
+         * Date the customer filed the dispute
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun customerFiledDate(): Optional<OffsetDateTime> =
             Optional.ofNullable(customerFiledDate.getNullable("customer_filed_date"))
 
-        /** Customer description of dispute */
+        /**
+         * Customer description of dispute
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun customerNote(): Optional<String> =
             Optional.ofNullable(customerNote.getNullable("customer_note"))
 
-        /** Reason for dispute */
+        /**
+         * Reason for dispute
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun reason(): Optional<Reason> = Optional.ofNullable(reason.getNullable("reason"))
 
-        /** Amount to dispute */
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Date the customer filed the dispute */
+        /**
+         * Returns the raw JSON value of [customerFiledDate].
+         *
+         * Unlike [customerFiledDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("customer_filed_date")
         @ExcludeMissing
         fun _customerFiledDate(): JsonField<OffsetDateTime> = customerFiledDate
 
-        /** Customer description of dispute */
+        /**
+         * Returns the raw JSON value of [customerNote].
+         *
+         * Unlike [customerNote], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("customer_note")
         @ExcludeMissing
         fun _customerNote(): JsonField<String> = customerNote
 
-        /** Reason for dispute */
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
 
         @JsonAnyGetter
@@ -174,14 +249,26 @@ private constructor(
             /** Amount to dispute */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            /** Amount to dispute */
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Date the customer filed the dispute */
             fun customerFiledDate(customerFiledDate: OffsetDateTime) =
                 customerFiledDate(JsonField.of(customerFiledDate))
 
-            /** Date the customer filed the dispute */
+            /**
+             * Sets [Builder.customerFiledDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.customerFiledDate] with a well-typed
+             * [OffsetDateTime] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
                 this.customerFiledDate = customerFiledDate
             }
@@ -189,7 +276,13 @@ private constructor(
             /** Customer description of dispute */
             fun customerNote(customerNote: String) = customerNote(JsonField.of(customerNote))
 
-            /** Customer description of dispute */
+            /**
+             * Sets [Builder.customerNote] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.customerNote] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun customerNote(customerNote: JsonField<String>) = apply {
                 this.customerNote = customerNote
             }
@@ -197,7 +290,13 @@ private constructor(
             /** Reason for dispute */
             fun reason(reason: Reason) = reason(JsonField.of(reason))
 
-            /** Reason for dispute */
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [Reason] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -284,7 +383,12 @@ private constructor(
         /** Amount to dispute */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
-        /** Amount to dispute */
+        /**
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Date the customer filed the dispute */
@@ -292,7 +396,13 @@ private constructor(
             body.customerFiledDate(customerFiledDate)
         }
 
-        /** Date the customer filed the dispute */
+        /**
+         * Sets [Builder.customerFiledDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerFiledDate] with a well-typed [OffsetDateTime]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
             body.customerFiledDate(customerFiledDate)
         }
@@ -300,7 +410,13 @@ private constructor(
         /** Customer description of dispute */
         fun customerNote(customerNote: String) = apply { body.customerNote(customerNote) }
 
-        /** Customer description of dispute */
+        /**
+         * Sets [Builder.customerNote] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerNote] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun customerNote(customerNote: JsonField<String>) = apply {
             body.customerNote(customerNote)
         }
@@ -308,7 +424,12 @@ private constructor(
         /** Reason for dispute */
         fun reason(reason: Reason) = apply { body.reason(reason) }
 
-        /** Reason for dispute */
+        /**
+         * Sets [Builder.reason] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.reason] with a well-typed [Reason] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun reason(reason: JsonField<Reason>) = apply { body.reason(reason) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

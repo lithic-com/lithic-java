@@ -30,34 +30,80 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** Payment token */
+    /**
+     * Payment token
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = body.token()
 
-    /** Amount */
+    /**
+     * Amount
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun amount(): Long = body.amount()
 
-    /** Financial Account Token */
+    /**
+     * Financial Account Token
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun financialAccountToken(): String = body.financialAccountToken()
 
-    /** Receipt Type */
+    /**
+     * Receipt Type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun receiptType(): ReceiptType = body.receiptType()
 
-    /** Memo */
+    /**
+     * Memo
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
-    /** Payment token */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _token(): JsonField<String> = body._token()
 
-    /** Amount */
+    /**
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _amount(): JsonField<Long> = body._amount()
 
-    /** Financial Account Token */
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
 
-    /** Receipt Type */
+    /**
+     * Returns the raw JSON value of [receiptType].
+     *
+     * Unlike [receiptType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _receiptType(): JsonField<ReceiptType> = body._receiptType()
 
-    /** Memo */
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -95,39 +141,85 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Payment token */
+        /**
+         * Payment token
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
-        /** Amount */
+        /**
+         * Amount
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Financial Account Token */
+        /**
+         * Financial Account Token
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun financialAccountToken(): String =
             financialAccountToken.getRequired("financial_account_token")
 
-        /** Receipt Type */
+        /**
+         * Receipt Type
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun receiptType(): ReceiptType = receiptType.getRequired("receipt_type")
 
-        /** Memo */
+        /**
+         * Memo
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
-        /** Payment token */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        /** Amount */
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Financial Account Token */
+        /**
+         * Returns the raw JSON value of [financialAccountToken].
+         *
+         * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-        /** Receipt Type */
+        /**
+         * Returns the raw JSON value of [receiptType].
+         *
+         * Unlike [receiptType], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("receipt_type")
         @ExcludeMissing
         fun _receiptType(): JsonField<ReceiptType> = receiptType
 
-        /** Memo */
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonAnyGetter
@@ -190,20 +282,38 @@ private constructor(
             /** Payment token */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Payment token */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Amount */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            /** Amount */
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Financial Account Token */
             fun financialAccountToken(financialAccountToken: String) =
                 financialAccountToken(JsonField.of(financialAccountToken))
 
-            /** Financial Account Token */
+            /**
+             * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
@@ -211,7 +321,13 @@ private constructor(
             /** Receipt Type */
             fun receiptType(receiptType: ReceiptType) = receiptType(JsonField.of(receiptType))
 
-            /** Receipt Type */
+            /**
+             * Sets [Builder.receiptType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.receiptType] with a well-typed [ReceiptType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun receiptType(receiptType: JsonField<ReceiptType>) = apply {
                 this.receiptType = receiptType
             }
@@ -219,7 +335,13 @@ private constructor(
             /** Memo */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
-            /** Memo */
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -306,13 +428,23 @@ private constructor(
         /** Payment token */
         fun token(token: String) = apply { body.token(token) }
 
-        /** Payment token */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Amount */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
-        /** Amount */
+        /**
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Financial Account Token */
@@ -320,7 +452,13 @@ private constructor(
             body.financialAccountToken(financialAccountToken)
         }
 
-        /** Financial Account Token */
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             body.financialAccountToken(financialAccountToken)
         }
@@ -328,7 +466,13 @@ private constructor(
         /** Receipt Type */
         fun receiptType(receiptType: ReceiptType) = apply { body.receiptType(receiptType) }
 
-        /** Receipt Type */
+        /**
+         * Sets [Builder.receiptType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.receiptType] with a well-typed [ReceiptType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun receiptType(receiptType: JsonField<ReceiptType>) = apply {
             body.receiptType(receiptType)
         }
@@ -336,7 +480,12 @@ private constructor(
         /** Memo */
         fun memo(memo: String) = apply { body.memo(memo) }
 
-        /** Memo */
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

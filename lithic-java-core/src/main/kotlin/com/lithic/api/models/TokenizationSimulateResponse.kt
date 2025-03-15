@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -27,8 +28,17 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun data(): Optional<List<Tokenization>> = Optional.ofNullable(data.getNullable("data"))
 
+    /**
+     * Returns the raw JSON value of [data].
+     *
+     * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Tokenization>> = data
 
     @JsonAnyGetter
@@ -70,10 +80,22 @@ private constructor(
 
         fun data(data: List<Tokenization>) = data(JsonField.of(data))
 
+        /**
+         * Sets [Builder.data] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.data] with a well-typed `List<Tokenization>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun data(data: JsonField<List<Tokenization>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Tokenization] to [Builder.data].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addData(data: Tokenization) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {

@@ -44,67 +44,96 @@ private constructor(
      * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
      * the response. Apple's public leaf certificate. Base64 encoded in PEM format with headers
      * `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's wallet.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun certificate(): Optional<String> = body.certificate()
 
     /**
      * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
      * Visa network. Stable device identification set by the wallet provider.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun clientDeviceId(): Optional<String> = body.clientDeviceId()
 
     /**
      * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
      * Visa network. Consumer ID that identifies the wallet account holder entity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun clientWalletAccountId(): Optional<String> = body.clientWalletAccountId()
 
-    /** Name of digital wallet provider. */
+    /**
+     * Name of digital wallet provider.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun digitalWallet(): Optional<DigitalWallet> = body.digitalWallet()
 
     /**
      * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
      * the response. Base64 cryptographic nonce provided by the device's wallet.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun nonce(): Optional<String> = body.nonce()
 
     /**
      * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
      * the response. Base64 cryptographic nonce provided by the device's wallet.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun nonceSignature(): Optional<String> = body.nonceSignature()
 
     /**
-     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
-     * the response. Apple's public leaf certificate. Base64 encoded in PEM format with headers
-     * `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's wallet.
+     * Returns the raw JSON value of [certificate].
+     *
+     * Unlike [certificate], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _certificate(): JsonField<String> = body._certificate()
 
     /**
-     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
-     * Visa network. Stable device identification set by the wallet provider.
+     * Returns the raw JSON value of [clientDeviceId].
+     *
+     * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _clientDeviceId(): JsonField<String> = body._clientDeviceId()
 
     /**
-     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
-     * Visa network. Consumer ID that identifies the wallet account holder entity.
+     * Returns the raw JSON value of [clientWalletAccountId].
+     *
+     * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     fun _clientWalletAccountId(): JsonField<String> = body._clientWalletAccountId()
 
-    /** Name of digital wallet provider. */
+    /**
+     * Returns the raw JSON value of [digitalWallet].
+     *
+     * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _digitalWallet(): JsonField<DigitalWallet> = body._digitalWallet()
 
     /**
-     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
-     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     * Returns the raw JSON value of [nonce].
+     *
+     * Unlike [nonce], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _nonce(): JsonField<String> = body._nonce()
 
     /**
-     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
-     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     * Returns the raw JSON value of [nonceSignature].
+     *
+     * Unlike [nonceSignature], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _nonceSignature(): JsonField<String> = body._nonceSignature()
 
@@ -158,6 +187,9 @@ private constructor(
          * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun certificate(): Optional<String> =
             Optional.ofNullable(certificate.getNullable("certificate"))
@@ -165,6 +197,9 @@ private constructor(
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun clientDeviceId(): Optional<String> =
             Optional.ofNullable(clientDeviceId.getNullable("client_device_id"))
@@ -172,67 +207,92 @@ private constructor(
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun clientWalletAccountId(): Optional<String> =
             Optional.ofNullable(clientWalletAccountId.getNullable("client_wallet_account_id"))
 
-        /** Name of digital wallet provider. */
+        /**
+         * Name of digital wallet provider.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun digitalWallet(): Optional<DigitalWallet> =
             Optional.ofNullable(digitalWallet.getNullable("digital_wallet"))
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun nonce(): Optional<String> = Optional.ofNullable(nonce.getNullable("nonce"))
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun nonceSignature(): Optional<String> =
             Optional.ofNullable(nonceSignature.getNullable("nonce_signature"))
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
-         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
-         * wallet.
+         * Returns the raw JSON value of [certificate].
+         *
+         * Unlike [certificate], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("certificate")
         @ExcludeMissing
         fun _certificate(): JsonField<String> = certificate
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Stable device identification set by the wallet provider.
+         * Returns the raw JSON value of [clientDeviceId].
+         *
+         * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("client_device_id")
         @ExcludeMissing
         fun _clientDeviceId(): JsonField<String> = clientDeviceId
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         * Returns the raw JSON value of [clientWalletAccountId].
+         *
+         * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("client_wallet_account_id")
         @ExcludeMissing
         fun _clientWalletAccountId(): JsonField<String> = clientWalletAccountId
 
-        /** Name of digital wallet provider. */
+        /**
+         * Returns the raw JSON value of [digitalWallet].
+         *
+         * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("digital_wallet")
         @ExcludeMissing
         fun _digitalWallet(): JsonField<DigitalWallet> = digitalWallet
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         * Returns the raw JSON value of [nonce].
+         *
+         * Unlike [nonce], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("nonce") @ExcludeMissing fun _nonce(): JsonField<String> = nonce
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         * Returns the raw JSON value of [nonceSignature].
+         *
+         * Unlike [nonceSignature], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("nonce_signature")
         @ExcludeMissing
@@ -297,10 +357,11 @@ private constructor(
             fun certificate(certificate: String) = certificate(JsonField.of(certificate))
 
             /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Apple's public leaf certificate. Base64 encoded in
-             * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
-             * Provided by the device's wallet.
+             * Sets [Builder.certificate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.certificate] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun certificate(certificate: JsonField<String>) = apply {
                 this.certificate = certificate
@@ -314,8 +375,11 @@ private constructor(
                 clientDeviceId(JsonField.of(clientDeviceId))
 
             /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Stable device identification set by the wallet provider.
+             * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
                 this.clientDeviceId = clientDeviceId
@@ -329,8 +393,11 @@ private constructor(
                 clientWalletAccountId(JsonField.of(clientWalletAccountId))
 
             /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
+             * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientWalletAccountId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
                 this.clientWalletAccountId = clientWalletAccountId
@@ -340,7 +407,13 @@ private constructor(
             fun digitalWallet(digitalWallet: DigitalWallet) =
                 digitalWallet(JsonField.of(digitalWallet))
 
-            /** Name of digital wallet provider. */
+            /**
+             * Sets [Builder.digitalWallet] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.digitalWallet] with a well-typed [DigitalWallet]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
                 this.digitalWallet = digitalWallet
             }
@@ -353,9 +426,11 @@ private constructor(
             fun nonce(nonce: String) = nonce(JsonField.of(nonce))
 
             /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
+             * Sets [Builder.nonce] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nonce] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun nonce(nonce: JsonField<String>) = apply { this.nonce = nonce }
 
@@ -368,9 +443,11 @@ private constructor(
                 nonceSignature(JsonField.of(nonceSignature))
 
             /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
+             * Sets [Builder.nonceSignature] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nonceSignature] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun nonceSignature(nonceSignature: JsonField<String>) = apply {
                 this.nonceSignature = nonceSignature
@@ -468,10 +545,11 @@ private constructor(
         fun certificate(certificate: String) = apply { body.certificate(certificate) }
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
-         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
-         * wallet.
+         * Sets [Builder.certificate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.certificate] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun certificate(certificate: JsonField<String>) = apply { body.certificate(certificate) }
 
@@ -482,8 +560,11 @@ private constructor(
         fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Stable device identification set by the wallet provider.
+         * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
             body.clientDeviceId(clientDeviceId)
@@ -498,8 +579,11 @@ private constructor(
         }
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientWalletAccountId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
             body.clientWalletAccountId(clientWalletAccountId)
@@ -510,7 +594,13 @@ private constructor(
             body.digitalWallet(digitalWallet)
         }
 
-        /** Name of digital wallet provider. */
+        /**
+         * Sets [Builder.digitalWallet] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.digitalWallet] with a well-typed [DigitalWallet] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
             body.digitalWallet(digitalWallet)
         }
@@ -522,8 +612,10 @@ private constructor(
         fun nonce(nonce: String) = apply { body.nonce(nonce) }
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         * Sets [Builder.nonce] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nonce] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun nonce(nonce: JsonField<String>) = apply { body.nonce(nonce) }
 
@@ -534,8 +626,11 @@ private constructor(
         fun nonceSignature(nonceSignature: String) = apply { body.nonceSignature(nonceSignature) }
 
         /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         * Sets [Builder.nonceSignature] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nonceSignature] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun nonceSignature(nonceSignature: JsonField<String>) = apply {
             body.nonceSignature(nonceSignature)

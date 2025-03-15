@@ -34,29 +34,60 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun merchant(): Merchant = body.merchant()
 
-    /** Sixteen digit card number. */
+    /**
+     * Sixteen digit card number.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pan(): String = body.pan()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun transaction(): Transaction = body.transaction()
 
     /**
      * When set will use the following values as part of the Simulated Authentication. When not set
      * defaults to MATCH
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun cardExpiryCheck(): Optional<CardExpiryCheck> = body.cardExpiryCheck()
 
+    /**
+     * Returns the raw JSON value of [merchant].
+     *
+     * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _merchant(): JsonField<Merchant> = body._merchant()
 
-    /** Sixteen digit card number. */
+    /**
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pan(): JsonField<String> = body._pan()
 
+    /**
+     * Returns the raw JSON value of [transaction].
+     *
+     * Unlike [transaction], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _transaction(): JsonField<Transaction> = body._transaction()
 
     /**
-     * When set will use the following values as part of the Simulated Authentication. When not set
-     * defaults to MATCH
+     * Returns the raw JSON value of [cardExpiryCheck].
+     *
+     * Unlike [cardExpiryCheck], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = body._cardExpiryCheck()
 
@@ -90,32 +121,64 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun merchant(): Merchant = merchant.getRequired("merchant")
 
-        /** Sixteen digit card number. */
+        /**
+         * Sixteen digit card number.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pan(): String = pan.getRequired("pan")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun transaction(): Transaction = transaction.getRequired("transaction")
 
         /**
          * When set will use the following values as part of the Simulated Authentication. When not
          * set defaults to MATCH
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun cardExpiryCheck(): Optional<CardExpiryCheck> =
             Optional.ofNullable(cardExpiryCheck.getNullable("card_expiry_check"))
 
+        /**
+         * Returns the raw JSON value of [merchant].
+         *
+         * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
 
-        /** Sixteen digit card number. */
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
+        /**
+         * Returns the raw JSON value of [transaction].
+         *
+         * Unlike [transaction], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("transaction")
         @ExcludeMissing
         fun _transaction(): JsonField<Transaction> = transaction
 
         /**
-         * When set will use the following values as part of the Simulated Authentication. When not
-         * set defaults to MATCH
+         * Returns the raw JSON value of [cardExpiryCheck].
+         *
+         * Unlike [cardExpiryCheck], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("card_expiry_check")
         @ExcludeMissing
@@ -176,16 +239,36 @@ private constructor(
 
             fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
+            /**
+             * Sets [Builder.merchant] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchant] with a well-typed [Merchant] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
             /** Sixteen digit card number. */
             fun pan(pan: String) = pan(JsonField.of(pan))
 
-            /** Sixteen digit card number. */
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
 
+            /**
+             * Sets [Builder.transaction] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.transaction] with a well-typed [Transaction] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun transaction(transaction: JsonField<Transaction>) = apply {
                 this.transaction = transaction
             }
@@ -198,8 +281,11 @@ private constructor(
                 cardExpiryCheck(JsonField.of(cardExpiryCheck))
 
             /**
-             * When set will use the following values as part of the Simulated Authentication. When
-             * not set defaults to MATCH
+             * Sets [Builder.cardExpiryCheck] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cardExpiryCheck] with a well-typed [CardExpiryCheck]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
                 this.cardExpiryCheck = cardExpiryCheck
@@ -290,16 +376,35 @@ private constructor(
 
         fun merchant(merchant: Merchant) = apply { body.merchant(merchant) }
 
+        /**
+         * Sets [Builder.merchant] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchant] with a well-typed [Merchant] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun merchant(merchant: JsonField<Merchant>) = apply { body.merchant(merchant) }
 
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /** Sixteen digit card number. */
+        /**
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         fun transaction(transaction: Transaction) = apply { body.transaction(transaction) }
 
+        /**
+         * Sets [Builder.transaction] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transaction] with a well-typed [Transaction] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun transaction(transaction: JsonField<Transaction>) = apply {
             body.transaction(transaction)
         }
@@ -313,8 +418,11 @@ private constructor(
         }
 
         /**
-         * When set will use the following values as part of the Simulated Authentication. When not
-         * set defaults to MATCH
+         * Sets [Builder.cardExpiryCheck] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardExpiryCheck] with a well-typed [CardExpiryCheck]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
             body.cardExpiryCheck(cardExpiryCheck)
@@ -464,11 +572,17 @@ private constructor(
         /**
          * Unique identifier to identify the payment card acceptor. Corresponds to
          * `merchant_acceptor_id` in authorization.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun id(): String = id.getRequired("id")
 
         /**
          * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun country(): String = country.getRequired("country")
 
@@ -476,36 +590,46 @@ private constructor(
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun mcc(): String = mcc.getRequired("mcc")
 
         /**
          * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE keyword
          * is included, Lithic will trigger a challenge.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun name(): String = name.getRequired("name")
 
         /**
-         * Unique identifier to identify the payment card acceptor. Corresponds to
-         * `merchant_acceptor_id` in authorization.
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
         /**
-         * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
         /**
-         * Merchant category code for the transaction to be simulated. A four-digit number listed in
-         * ISO 18245. Supported merchant category codes can be found
-         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         * Returns the raw JSON value of [mcc].
+         *
+         * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
         /**
-         * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE keyword
-         * is included, Lithic will trigger a challenge.
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
@@ -570,8 +694,11 @@ private constructor(
             fun id(id: String) = id(JsonField.of(id))
 
             /**
-             * Unique identifier to identify the payment card acceptor. Corresponds to
-             * `merchant_acceptor_id` in authorization.
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
@@ -582,8 +709,11 @@ private constructor(
             fun country(country: String) = country(JsonField.of(country))
 
             /**
-             * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
-             * USA)
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun country(country: JsonField<String>) = apply { this.country = country }
 
@@ -595,9 +725,11 @@ private constructor(
             fun mcc(mcc: String) = mcc(JsonField.of(mcc))
 
             /**
-             * Merchant category code for the transaction to be simulated. A four-digit number
-             * listed in ISO 18245. Supported merchant category codes can be found
-             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
@@ -608,8 +740,11 @@ private constructor(
             fun name(name: String) = name(JsonField.of(name))
 
             /**
-             * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE
-             * keyword is included, Lithic will trigger a challenge.
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun name(name: JsonField<String>) = apply { this.name = name }
 
@@ -674,16 +809,34 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Amount (in cents) to authenticate. */
+        /**
+         * Amount (in cents) to authenticate.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** 3-character alphabetic ISO 4217 currency code. */
+        /**
+         * 3-character alphabetic ISO 4217 currency code.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun currency(): String = currency.getRequired("currency")
 
-        /** Amount (in cents) to authenticate. */
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** 3-character alphabetic ISO 4217 currency code. */
+        /**
+         * Returns the raw JSON value of [currency].
+         *
+         * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
         @JsonAnyGetter
@@ -735,13 +888,25 @@ private constructor(
             /** Amount (in cents) to authenticate. */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            /** Amount (in cents) to authenticate. */
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** 3-character alphabetic ISO 4217 currency code. */
             fun currency(currency: String) = currency(JsonField.of(currency))
 
-            /** 3-character alphabetic ISO 4217 currency code. */
+            /**
+             * Sets [Builder.currency] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.currency] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

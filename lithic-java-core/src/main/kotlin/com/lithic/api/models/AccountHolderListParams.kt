@@ -164,10 +164,7 @@ private constructor(
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
@@ -175,9 +172,7 @@ private constructor(
          */
         fun email(email: String?) = apply { this.email = email }
 
-        /**
-         * Email address of the account holder. The query must be an exact match, case insensitive.
-         */
+        /** Alias for calling [Builder.email] with `email.orElse(null)`. */
         fun email(email: Optional<String>) = email(email.getOrNull())
 
         /**
@@ -186,10 +181,7 @@ private constructor(
          */
         fun end(end: OffsetDateTime?) = apply { this.end = end }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created before the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
@@ -198,16 +190,13 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** If applicable, represents the external_id associated with the account_holder. */
         fun externalId(externalId: String?) = apply { this.externalId = externalId }
 
-        /** If applicable, represents the external_id associated with the account_holder. */
+        /** Alias for calling [Builder.externalId] with `externalId.orElse(null)`. */
         fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
 
         /**
@@ -216,10 +205,7 @@ private constructor(
          */
         fun firstName(firstName: String?) = apply { this.firstName = firstName }
 
-        /**
-         * (Individual Account Holders only) The first name of the account holder. The query is case
-         * insensitive and supports partial matches.
-         */
+        /** Alias for calling [Builder.firstName] with `firstName.orElse(null)`. */
         fun firstName(firstName: Optional<String>) = firstName(firstName.getOrNull())
 
         /**
@@ -228,10 +214,7 @@ private constructor(
          */
         fun lastName(lastName: String?) = apply { this.lastName = lastName }
 
-        /**
-         * (Individual Account Holders only) The last name of the account holder. The query is case
-         * insensitive and supports partial matches.
-         */
+        /** Alias for calling [Builder.lastName] with `lastName.orElse(null)`. */
         fun lastName(lastName: Optional<String>) = lastName(lastName.getOrNull())
 
         /**
@@ -242,26 +225,27 @@ private constructor(
             this.legalBusinessName = legalBusinessName
         }
 
-        /**
-         * (Business Account Holders only) The legal business name of the account holder. The query
-         * is case insensitive and supports partial matches.
-         */
+        /** Alias for calling [Builder.legalBusinessName] with `legalBusinessName.orElse(null)`. */
         fun legalBusinessName(legalBusinessName: Optional<String>) =
             legalBusinessName(legalBusinessName.getOrNull())
 
         /** The number of account_holders to limit the response to. */
         fun limit(limit: Long?) = apply { this.limit = limit }
 
-        /** The number of account_holders to limit the response to. */
+        /**
+         * Alias for [Builder.limit].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun limit(limit: Long) = limit(limit as Long?)
 
-        /** The number of account_holders to limit the response to. */
+        /** Alias for calling [Builder.limit] with `limit.orElse(null)`. */
         fun limit(limit: Optional<Long>) = limit(limit.getOrNull())
 
         /** Phone number of the account holder. The query must be an exact match. */
         fun phoneNumber(phoneNumber: String?) = apply { this.phoneNumber = phoneNumber }
 
-        /** Phone number of the account holder. The query must be an exact match. */
+        /** Alias for calling [Builder.phoneNumber] with `phoneNumber.orElse(null)`. */
         fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.getOrNull())
 
         /**
@@ -270,10 +254,7 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 

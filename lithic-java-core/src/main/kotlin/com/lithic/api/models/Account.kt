@@ -52,12 +52,18 @@ private constructor(
     /**
      * Globally unique identifier for the account. This is the same as the account_token returned by
      * the enroll endpoint. If using this parameter, do not include pagination.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun token(): String = token.getRequired("token")
 
     /**
      * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
      * will be null.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
@@ -66,6 +72,9 @@ private constructor(
      * of the account. Any charges to a card owned by this account will be declined once their
      * transaction volume has surpassed the value in the applicable time limit (rolling). A lifetime
      * limit of 0 indicates that the lifetime limit feature is disabled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun spendLimit(): SpendLimit = spendLimit.getRequired("spend_limit")
 
@@ -78,9 +87,16 @@ private constructor(
      *   also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts result
      *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
      *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun state(): State = state.getRequired("state")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun accountHolder(): Optional<AccountHolder> =
         Optional.ofNullable(accountHolder.getNullable("account_holder"))
 
@@ -89,73 +105,96 @@ private constructor(
      * deprecated and will no longer be populated in the `account_holder` object. The key will be
      * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
      * Rule information instead.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     @Deprecated("deprecated")
     fun verificationAddress(): Optional<VerificationAddress> =
         Optional.ofNullable(verificationAddress.getNullable("verification_address"))
 
     /**
-     * Globally unique identifier for the account. This is the same as the account_token returned by
-     * the enroll endpoint. If using this parameter, do not include pagination.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
-     * will be null.
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
-     * of the account. Any charges to a card owned by this account will be declined once their
-     * transaction volume has surpassed the value in the applicable time limit (rolling). A lifetime
-     * limit of 0 indicates that the lifetime limit feature is disabled.
+     * Returns the raw JSON value of [spendLimit].
+     *
+     * Unlike [spendLimit], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("spend_limit")
     @ExcludeMissing
     fun _spendLimit(): JsonField<SpendLimit> = spendLimit
 
     /**
-     * Account state:
-     * - `ACTIVE` - Account is able to transact and create new cards.
-     * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back to
-     *   `ACTIVE`.
-     * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts are
-     *   also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts result
-     *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
-     *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
+    /**
+     * Returns the raw JSON value of [accountHolder].
+     *
+     * Unlike [accountHolder], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_holder")
     @ExcludeMissing
     fun _accountHolder(): JsonField<AccountHolder> = accountHolder
 
     /**
-     * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-     * deprecated and will no longer be populated in the `account_holder` object. The key will be
-     * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
-     * Rule information instead.
+     * Returns the raw JSON value of [authRuleTokens].
+     *
+     * Unlike [authRuleTokens], this method doesn't throw if the JSON field has an unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("auth_rule_tokens")
     @ExcludeMissing
     fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * Returns the raw JSON value of [cardholderCurrency].
+     *
+     * Unlike [cardholderCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
+    /**
+     * Returns the raw JSON value of [verificationAddress].
+     *
+     * Unlike [verificationAddress], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @Deprecated("deprecated")
     @JsonProperty("verification_address")
     @ExcludeMissing
@@ -234,8 +273,10 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /**
-         * Globally unique identifier for the account. This is the same as the account_token
-         * returned by the enroll endpoint. If using this parameter, do not include pagination.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
@@ -245,15 +286,15 @@ private constructor(
          */
         fun created(created: OffsetDateTime?) = created(JsonField.ofNullable(created))
 
-        /**
-         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
-         * field will be null.
-         */
+        /** Alias for calling [Builder.created] with `created.orElse(null)`. */
         fun created(created: Optional<OffsetDateTime>) = created(created.getOrNull())
 
         /**
-         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
-         * field will be null.
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
@@ -266,10 +307,11 @@ private constructor(
         fun spendLimit(spendLimit: SpendLimit) = spendLimit(JsonField.of(spendLimit))
 
         /**
-         * Spend limit information for the user containing the daily, monthly, and lifetime spend
-         * limit of the account. Any charges to a card owned by this account will be declined once
-         * their transaction volume has surpassed the value in the applicable time limit (rolling).
-         * A lifetime limit of 0 indicates that the lifetime limit feature is disabled.
+         * Sets [Builder.spendLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimit] with a well-typed [SpendLimit] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun spendLimit(spendLimit: JsonField<SpendLimit>) = apply { this.spendLimit = spendLimit }
 
@@ -287,20 +329,22 @@ private constructor(
         fun state(state: State) = state(JsonField.of(state))
 
         /**
-         * Account state:
-         * - `ACTIVE` - Account is able to transact and create new cards.
-         * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back
-         *   to `ACTIVE`.
-         * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts
-         *   are also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts
-         *   result from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons.
-         *   Please contact [support@lithic.com](mailto:support@lithic.com) if you believe this was
-         *   in error.
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [State] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<State>) = apply { this.state = state }
 
         fun accountHolder(accountHolder: AccountHolder) = accountHolder(JsonField.of(accountHolder))
 
+        /**
+         * Sets [Builder.accountHolder] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountHolder] with a well-typed [AccountHolder] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun accountHolder(accountHolder: JsonField<AccountHolder>) = apply {
             this.accountHolder = accountHolder
         }
@@ -316,10 +360,11 @@ private constructor(
             authRuleTokens(JsonField.of(authRuleTokens))
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-         * deprecated and will no longer be populated in the `account_holder` object. The key will
-         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
-         * Auth Rule information instead.
+         * Sets [Builder.authRuleTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.authRuleTokens] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
@@ -327,10 +372,9 @@ private constructor(
         }
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-         * deprecated and will no longer be populated in the `account_holder` object. The key will
-         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
-         * Auth Rule information instead.
+         * Adds a single [String] to [authRuleTokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         @Deprecated("deprecated")
         fun addAuthRuleToken(authRuleToken: String) = apply {
@@ -344,7 +388,13 @@ private constructor(
         fun cardholderCurrency(cardholderCurrency: String) =
             cardholderCurrency(JsonField.of(cardholderCurrency))
 
-        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+        /**
+         * Sets [Builder.cardholderCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardholderCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
             this.cardholderCurrency = cardholderCurrency
         }
@@ -353,6 +403,13 @@ private constructor(
         fun verificationAddress(verificationAddress: VerificationAddress) =
             verificationAddress(JsonField.of(verificationAddress))
 
+        /**
+         * Sets [Builder.verificationAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.verificationAddress] with a well-typed
+         * [VerificationAddress] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         @Deprecated("deprecated")
         fun verificationAddress(verificationAddress: JsonField<VerificationAddress>) = apply {
             this.verificationAddress = verificationAddress
@@ -414,22 +471,49 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Daily spend limit (in cents). */
+        /**
+         * Daily spend limit (in cents).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun daily(): Long = daily.getRequired("daily")
 
-        /** Total spend limit over account lifetime (in cents). */
+        /**
+         * Total spend limit over account lifetime (in cents).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun lifetime(): Long = lifetime.getRequired("lifetime")
 
-        /** Monthly spend limit (in cents). */
+        /**
+         * Monthly spend limit (in cents).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun monthly(): Long = monthly.getRequired("monthly")
 
-        /** Daily spend limit (in cents). */
+        /**
+         * Returns the raw JSON value of [daily].
+         *
+         * Unlike [daily], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
-        /** Total spend limit over account lifetime (in cents). */
+        /**
+         * Returns the raw JSON value of [lifetime].
+         *
+         * Unlike [lifetime], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
-        /** Monthly spend limit (in cents). */
+        /**
+         * Returns the raw JSON value of [monthly].
+         *
+         * Unlike [monthly], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
@@ -485,19 +569,37 @@ private constructor(
             /** Daily spend limit (in cents). */
             fun daily(daily: Long) = daily(JsonField.of(daily))
 
-            /** Daily spend limit (in cents). */
+            /**
+             * Sets [Builder.daily] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.daily] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun daily(daily: JsonField<Long>) = apply { this.daily = daily }
 
             /** Total spend limit over account lifetime (in cents). */
             fun lifetime(lifetime: Long) = lifetime(JsonField.of(lifetime))
 
-            /** Total spend limit over account lifetime (in cents). */
+            /**
+             * Sets [Builder.lifetime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lifetime] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun lifetime(lifetime: JsonField<Long>) = apply { this.lifetime = lifetime }
 
             /** Monthly spend limit (in cents). */
             fun monthly(monthly: Long) = monthly(JsonField.of(monthly))
 
-            /** Monthly spend limit (in cents). */
+            /**
+             * Sets [Builder.monthly] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.monthly] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -680,39 +782,70 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Globally unique identifier for the account holder. */
+        /**
+         * Globally unique identifier for the account holder.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
          * businesses. Account_token of the enrolled business associated with an enrolled
          * AUTHORIZED_USER individual.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun businessAccountToken(): String =
             businessAccountToken.getRequired("business_account_token")
 
-        /** Email address. */
+        /**
+         * Email address.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun email(): String = email.getRequired("email")
 
-        /** Phone number of the individual. */
+        /**
+         * Phone number of the individual.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
-        /** Globally unique identifier for the account holder. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Account_token of the enrolled business associated with an enrolled
-         * AUTHORIZED_USER individual.
+         * Returns the raw JSON value of [businessAccountToken].
+         *
+         * Unlike [businessAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("business_account_token")
         @ExcludeMissing
         fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
-        /** Email address. */
+        /**
+         * Returns the raw JSON value of [email].
+         *
+         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
-        /** Phone number of the individual. */
+        /**
+         * Returns the raw JSON value of [phoneNumber].
+         *
+         * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("phone_number")
         @ExcludeMissing
         fun _phoneNumber(): JsonField<String> = phoneNumber
@@ -774,7 +907,13 @@ private constructor(
             /** Globally unique identifier for the account holder. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Globally unique identifier for the account holder. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -786,9 +925,11 @@ private constructor(
                 businessAccountToken(JsonField.of(businessAccountToken))
 
             /**
-             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
-             * users of businesses. Account_token of the enrolled business associated with an
-             * enrolled AUTHORIZED_USER individual.
+             * Sets [Builder.businessAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.businessAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
                 this.businessAccountToken = businessAccountToken
@@ -797,13 +938,25 @@ private constructor(
             /** Email address. */
             fun email(email: String) = email(JsonField.of(email))
 
-            /** Email address. */
+            /**
+             * Sets [Builder.email] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.email] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Phone number of the individual. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-            /** Phone number of the individual. */
+            /**
+             * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phoneNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                 this.phoneNumber = phoneNumber
             }
@@ -882,54 +1035,98 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Valid deliverable address (no PO boxes). */
+        /**
+         * Valid deliverable address (no PO boxes).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun address1(): String = address1.getRequired("address1")
 
-        /** City name. */
+        /**
+         * City name.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun city(): String = city.getRequired("city")
 
-        /** Country name. Only USA is currently supported. */
+        /**
+         * Country name. Only USA is currently supported.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun country(): String = country.getRequired("country")
 
         /**
          * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
          * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun postalCode(): String = postalCode.getRequired("postal_code")
 
         /**
          * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
          * 3166-2 two-character format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun state(): String = state.getRequired("state")
 
-        /** Unit or apartment number (if applicable). */
+        /**
+         * Unit or apartment number (if applicable).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
-        /** Valid deliverable address (no PO boxes). */
+        /**
+         * Returns the raw JSON value of [address1].
+         *
+         * Unlike [address1], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
-        /** City name. */
+        /**
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
-        /** Country name. Only USA is currently supported. */
+        /**
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
         /**
-         * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
-         * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
+         * Returns the raw JSON value of [postalCode].
+         *
+         * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("postal_code")
         @ExcludeMissing
         fun _postalCode(): JsonField<String> = postalCode
 
         /**
-         * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-         * 3166-2 two-character format.
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
-        /** Unit or apartment number (if applicable). */
+        /**
+         * Returns the raw JSON value of [address2].
+         *
+         * Unlike [address2], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
         @JsonAnyGetter
@@ -996,19 +1193,37 @@ private constructor(
             /** Valid deliverable address (no PO boxes). */
             fun address1(address1: String) = address1(JsonField.of(address1))
 
-            /** Valid deliverable address (no PO boxes). */
+            /**
+             * Sets [Builder.address1] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address1] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
             /** City name. */
             fun city(city: String) = city(JsonField.of(city))
 
-            /** City name. */
+            /**
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun city(city: JsonField<String>) = apply { this.city = city }
 
             /** Country name. Only USA is currently supported. */
             fun country(country: String) = country(JsonField.of(country))
 
-            /** Country name. Only USA is currently supported. */
+            /**
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun country(country: JsonField<String>) = apply { this.country = country }
 
             /**
@@ -1019,9 +1234,11 @@ private constructor(
             fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
             /**
-             * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered
-             * as a five-digit postal code or nine-digit postal code (ZIP+4) using the format
-             * 12345-1234.
+             * Sets [Builder.postalCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.postalCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
@@ -1032,15 +1249,24 @@ private constructor(
             fun state(state: String) = state(JsonField.of(state))
 
             /**
-             * Valid state code. Only USA state codes are currently supported, entered in uppercase
-             * ISO 3166-2 two-character format.
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun state(state: JsonField<String>) = apply { this.state = state }
 
             /** Unit or apartment number (if applicable). */
             fun address2(address2: String) = address2(JsonField.of(address2))
 
-            /** Unit or apartment number (if applicable). */
+            /**
+             * Sets [Builder.address2] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address2] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

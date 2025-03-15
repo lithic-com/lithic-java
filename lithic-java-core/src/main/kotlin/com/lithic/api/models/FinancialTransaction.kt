@@ -59,7 +59,12 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
     /**
@@ -68,40 +73,70 @@ private constructor(
      * - `ACH` - Transaction over ACH.
      * - `INTERNAL` - Transaction for internal adjustment.
      * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun category(): Category = category.getRequired("category")
 
-    /** Date and time when the financial transaction first occurred. UTC time zone. */
+    /**
+     * Date and time when the financial transaction first occurred. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the settling currency of the transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currency(): String = currency.getRequired("currency")
 
     /**
      * A string that provides a description of the financial transaction; may be useful to display
      * to users.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun descriptor(): String = descriptor.getRequired("descriptor")
 
-    /** A list of all financial events that have modified this financial transaction. */
+    /**
+     * A list of all financial events that have modified this financial transaction.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun events(): List<FinancialEvent> = events.getRequired("events")
 
     /**
      * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
      * any acquirer fees. The value of this field will go to zero over time once the financial
      * transaction is settled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
     /**
      * APPROVED transactions were successful while DECLINED transactions were declined by user,
      * Lithic, or the network.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun result(): Result = result.getRequired("result")
 
     /**
      * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
      * cents), including any acquirer fees. This may change over time.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
@@ -113,74 +148,99 @@ private constructor(
      * - `RETURNED` - The transaction has been returned.
      * - `SETTLED` - The transaction is completed.
      * - `VOIDED` - The transaction was voided. Card transaction only.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): Status = status.getRequired("status")
 
-    /** Date and time when the financial transaction was last updated. UTC time zone. */
+    /**
+     * Date and time when the financial transaction was last updated. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * Status types:
-     * - `CARD` - Issuing card transaction.
-     * - `ACH` - Transaction over ACH.
-     * - `INTERNAL` - Transaction for internal adjustment.
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     * Returns the raw JSON value of [category].
+     *
+     * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
 
-    /** Date and time when the financial transaction first occurred. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction. */
+    /**
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /**
-     * A string that provides a description of the financial transaction; may be useful to display
-     * to users.
+     * Returns the raw JSON value of [descriptor].
+     *
+     * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("descriptor") @ExcludeMissing fun _descriptor(): JsonField<String> = descriptor
 
-    /** A list of all financial events that have modified this financial transaction. */
+    /**
+     * Returns the raw JSON value of [events].
+     *
+     * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("events") @ExcludeMissing fun _events(): JsonField<List<FinancialEvent>> = events
 
     /**
-     * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
-     * any acquirer fees. The value of this field will go to zero over time once the financial
-     * transaction is settled.
+     * Returns the raw JSON value of [pendingAmount].
+     *
+     * Unlike [pendingAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("pending_amount")
     @ExcludeMissing
     fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
-     * APPROVED transactions were successful while DECLINED transactions were declined by user,
-     * Lithic, or the network.
+     * Returns the raw JSON value of [result].
+     *
+     * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
     /**
-     * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-     * cents), including any acquirer fees. This may change over time.
+     * Returns the raw JSON value of [settledAmount].
+     *
+     * Unlike [settledAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("settled_amount")
     @ExcludeMissing
     fun _settledAmount(): JsonField<Long> = settledAmount
 
     /**
-     * Status types:
-     * - `DECLINED` - The transaction was declined.
-     * - `EXPIRED` - The authorization as it has passed its expiration time. Card transaction only.
-     * - `PENDING` - The transaction is expected to settle.
-     * - `RETURNED` - The transaction has been returned.
-     * - `SETTLED` - The transaction is completed.
-     * - `VOIDED` - The transaction was voided. Card transaction only.
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-    /** Date and time when the financial transaction was last updated. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
@@ -268,7 +328,12 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -281,24 +346,35 @@ private constructor(
         fun category(category: Category) = category(JsonField.of(category))
 
         /**
-         * Status types:
-         * - `CARD` - Issuing card transaction.
-         * - `ACH` - Transaction over ACH.
-         * - `INTERNAL` - Transaction for internal adjustment.
-         * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+         * Sets [Builder.category] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.category] with a well-typed [Category] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun category(category: JsonField<Category>) = apply { this.category = category }
 
         /** Date and time when the financial transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time when the financial transaction first occurred. UTC time zone. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction. */
+        /**
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
@@ -308,20 +384,33 @@ private constructor(
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
         /**
-         * A string that provides a description of the financial transaction; may be useful to
-         * display to users.
+         * Sets [Builder.descriptor] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.descriptor] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
         /** A list of all financial events that have modified this financial transaction. */
         fun events(events: List<FinancialEvent>) = events(JsonField.of(events))
 
-        /** A list of all financial events that have modified this financial transaction. */
+        /**
+         * Sets [Builder.events] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.events] with a well-typed `List<FinancialEvent>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun events(events: JsonField<List<FinancialEvent>>) = apply {
             this.events = events.map { it.toMutableList() }
         }
 
-        /** A list of all financial events that have modified this financial transaction. */
+        /**
+         * Adds a single [FinancialEvent] to [events].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEvent(event: FinancialEvent) = apply {
             events =
                 (events ?: JsonField.of(mutableListOf())).also {
@@ -337,9 +426,11 @@ private constructor(
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
         /**
-         * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
-         * including any acquirer fees. The value of this field will go to zero over time once the
-         * financial transaction is settled.
+         * Sets [Builder.pendingAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pendingAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
@@ -352,8 +443,10 @@ private constructor(
         fun result(result: Result) = result(JsonField.of(result))
 
         /**
-         * APPROVED transactions were successful while DECLINED transactions were declined by user,
-         * Lithic, or the network.
+         * Sets [Builder.result] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.result] with a well-typed [Result] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
@@ -364,8 +457,11 @@ private constructor(
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
         /**
-         * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-         * cents), including any acquirer fees. This may change over time.
+         * Sets [Builder.settledAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settledAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
@@ -384,21 +480,23 @@ private constructor(
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
-         * Status types:
-         * - `DECLINED` - The transaction was declined.
-         * - `EXPIRED` - The authorization as it has passed its expiration time. Card transaction
-         *   only.
-         * - `PENDING` - The transaction is expected to settle.
-         * - `RETURNED` - The transaction has been returned.
-         * - `SETTLED` - The transaction is completed.
-         * - `VOIDED` - The transaction was voided. Card transaction only.
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Date and time when the financial transaction was last updated. UTC time zone. */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -577,45 +675,80 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Globally unique identifier. */
+        /**
+         * Globally unique identifier.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
-        /** Date and time when the financial event occurred. UTC time zone. */
+        /**
+         * Date and time when the financial event occurred. UTC time zone.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun created(): Optional<OffsetDateTime> =
             Optional.ofNullable(created.getNullable("created"))
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
          * by user, Lithic, or the network.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun type(): Optional<FinancialEventType> = Optional.ofNullable(type.getNullable("type"))
 
-        /** Globally unique identifier. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * Amount of the financial event that has been settled in the currency's smallest unit
-         * (e.g., cents).
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Date and time when the financial event occurred. UTC time zone. */
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
-         * APPROVED financial events were successful while DECLINED financial events were declined
-         * by user, Lithic, or the network.
+         * Returns the raw JSON value of [result].
+         *
+         * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<FinancialEventType> = type
 
         @JsonAnyGetter
@@ -668,7 +801,13 @@ private constructor(
             /** Globally unique identifier. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** Globally unique identifier. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -678,15 +817,24 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount of the financial event that has been settled in the currency's smallest unit
-             * (e.g., cents).
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Date and time when the financial event occurred. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            /** Date and time when the financial event occurred. UTC time zone. */
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
@@ -696,13 +844,23 @@ private constructor(
             fun result(result: Result) = result(JsonField.of(result))
 
             /**
-             * APPROVED financial events were successful while DECLINED financial events were
-             * declined by user, Lithic, or the network.
+             * Sets [Builder.result] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.result] with a well-typed [Result] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
             fun type(type: FinancialEventType) = type(JsonField.of(type))
 
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [FinancialEventType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun type(type: JsonField<FinancialEventType>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

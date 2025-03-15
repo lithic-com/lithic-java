@@ -87,19 +87,20 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Page size (for pagination). */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Page size (for pagination). */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
@@ -108,10 +109,7 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 

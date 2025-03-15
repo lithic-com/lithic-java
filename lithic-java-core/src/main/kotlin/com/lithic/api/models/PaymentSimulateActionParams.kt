@@ -33,22 +33,50 @@ private constructor(
 
     fun paymentToken(): String = paymentToken
 
-    /** Event Type */
+    /**
+     * Event Type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun eventType(): SupportedSimulationTypes = body.eventType()
 
-    /** Decline reason */
+    /**
+     * Decline reason
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun declineReason(): Optional<SupportedSimulationDeclineReasons> = body.declineReason()
 
-    /** Return Reason Code */
+    /**
+     * Return Reason Code
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun returnReasonCode(): Optional<String> = body.returnReasonCode()
 
-    /** Event Type */
+    /**
+     * Returns the raw JSON value of [eventType].
+     *
+     * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _eventType(): JsonField<SupportedSimulationTypes> = body._eventType()
 
-    /** Decline reason */
+    /**
+     * Returns the raw JSON value of [declineReason].
+     *
+     * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = body._declineReason()
 
-    /** Return Reason Code */
+    /**
+     * Returns the raw JSON value of [returnReasonCode].
+     *
+     * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     fun _returnReasonCode(): JsonField<String> = body._returnReasonCode()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -87,28 +115,57 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Event Type */
+        /**
+         * Event Type
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun eventType(): SupportedSimulationTypes = eventType.getRequired("event_type")
 
-        /** Decline reason */
+        /**
+         * Decline reason
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
             Optional.ofNullable(declineReason.getNullable("decline_reason"))
 
-        /** Return Reason Code */
+        /**
+         * Return Reason Code
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun returnReasonCode(): Optional<String> =
             Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
 
-        /** Event Type */
+        /**
+         * Returns the raw JSON value of [eventType].
+         *
+         * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("event_type")
         @ExcludeMissing
         fun _eventType(): JsonField<SupportedSimulationTypes> = eventType
 
-        /** Decline reason */
+        /**
+         * Returns the raw JSON value of [declineReason].
+         *
+         * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("decline_reason")
         @ExcludeMissing
         fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = declineReason
 
-        /** Return Reason Code */
+        /**
+         * Returns the raw JSON value of [returnReasonCode].
+         *
+         * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("return_reason_code")
         @ExcludeMissing
         fun _returnReasonCode(): JsonField<String> = returnReasonCode
@@ -165,7 +222,13 @@ private constructor(
             /** Event Type */
             fun eventType(eventType: SupportedSimulationTypes) = eventType(JsonField.of(eventType))
 
-            /** Event Type */
+            /**
+             * Sets [Builder.eventType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.eventType] with a well-typed
+             * [SupportedSimulationTypes] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
             fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
                 this.eventType = eventType
             }
@@ -174,7 +237,13 @@ private constructor(
             fun declineReason(declineReason: SupportedSimulationDeclineReasons) =
                 declineReason(JsonField.of(declineReason))
 
-            /** Decline reason */
+            /**
+             * Sets [Builder.declineReason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.declineReason] with a well-typed
+             * [SupportedSimulationDeclineReasons] value instead. This method is primarily for
+             * setting the field to an undocumented or not yet supported value.
+             */
             fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
                 this.declineReason = declineReason
             }
@@ -183,7 +252,13 @@ private constructor(
             fun returnReasonCode(returnReasonCode: String) =
                 returnReasonCode(JsonField.of(returnReasonCode))
 
-            /** Return Reason Code */
+            /**
+             * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
                 this.returnReasonCode = returnReasonCode
             }
@@ -272,7 +347,13 @@ private constructor(
         /** Event Type */
         fun eventType(eventType: SupportedSimulationTypes) = apply { body.eventType(eventType) }
 
-        /** Event Type */
+        /**
+         * Sets [Builder.eventType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventType] with a well-typed [SupportedSimulationTypes]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
             body.eventType(eventType)
         }
@@ -282,7 +363,13 @@ private constructor(
             body.declineReason(declineReason)
         }
 
-        /** Decline reason */
+        /**
+         * Sets [Builder.declineReason] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.declineReason] with a well-typed
+         * [SupportedSimulationDeclineReasons] value instead. This method is primarily for setting
+         * the field to an undocumented or not yet supported value.
+         */
         fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
             body.declineReason(declineReason)
         }
@@ -292,7 +379,13 @@ private constructor(
             body.returnReasonCode(returnReasonCode)
         }
 
-        /** Return Reason Code */
+        /**
+         * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
             body.returnReasonCode(returnReasonCode)
         }

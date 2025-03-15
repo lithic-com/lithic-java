@@ -34,25 +34,54 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Debugging Request Id */
+    /**
+     * Debugging Request Id
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun debuggingRequestId(): String = debuggingRequestId.getRequired("debugging_request_id")
 
-    /** Request Result */
+    /**
+     * Request Result
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun result(): Result = result.getRequired("result")
 
-    /** Transaction Event Token */
+    /**
+     * Transaction Event Token
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun transactionEventToken(): String =
         transactionEventToken.getRequired("transaction_event_token")
 
-    /** Debugging Request Id */
+    /**
+     * Returns the raw JSON value of [debuggingRequestId].
+     *
+     * Unlike [debuggingRequestId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
     fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
-    /** Request Result */
+    /**
+     * Returns the raw JSON value of [result].
+     *
+     * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
-    /** Transaction Event Token */
+    /**
+     * Returns the raw JSON value of [transactionEventToken].
+     *
+     * Unlike [transactionEventToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("transaction_event_token")
     @ExcludeMissing
     fun _transactionEventToken(): JsonField<String> = transactionEventToken
@@ -112,7 +141,13 @@ private constructor(
         fun debuggingRequestId(debuggingRequestId: String) =
             debuggingRequestId(JsonField.of(debuggingRequestId))
 
-        /** Debugging Request Id */
+        /**
+         * Sets [Builder.debuggingRequestId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.debuggingRequestId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
             this.debuggingRequestId = debuggingRequestId
         }
@@ -120,14 +155,25 @@ private constructor(
         /** Request Result */
         fun result(result: Result) = result(JsonField.of(result))
 
-        /** Request Result */
+        /**
+         * Sets [Builder.result] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.result] with a well-typed [Result] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /** Transaction Event Token */
         fun transactionEventToken(transactionEventToken: String) =
             transactionEventToken(JsonField.of(transactionEventToken))
 
-        /** Transaction Event Token */
+        /**
+         * Sets [Builder.transactionEventToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionEventToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun transactionEventToken(transactionEventToken: JsonField<String>) = apply {
             this.transactionEventToken = transactionEventToken
         }

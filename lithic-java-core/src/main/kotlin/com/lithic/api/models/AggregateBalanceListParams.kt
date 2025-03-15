@@ -73,7 +73,10 @@ private constructor(
             this.financialAccountType = financialAccountType
         }
 
-        /** Get the aggregate balance for a given Financial Account type. */
+        /**
+         * Alias for calling [Builder.financialAccountType] with
+         * `financialAccountType.orElse(null)`.
+         */
         fun financialAccountType(financialAccountType: Optional<FinancialAccountType>) =
             financialAccountType(financialAccountType.getOrNull())
 

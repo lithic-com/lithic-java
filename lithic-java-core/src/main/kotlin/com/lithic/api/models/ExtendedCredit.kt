@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 @NoAutoDetect
@@ -26,8 +27,17 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun creditExtended(): Long = creditExtended.getRequired("credit_extended")
 
+    /**
+     * Returns the raw JSON value of [creditExtended].
+     *
+     * Unlike [creditExtended], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("credit_extended")
     @ExcludeMissing
     fun _creditExtended(): JsonField<Long> = creditExtended
@@ -76,6 +86,13 @@ private constructor(
 
         fun creditExtended(creditExtended: Long) = creditExtended(JsonField.of(creditExtended))
 
+        /**
+         * Sets [Builder.creditExtended] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditExtended] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun creditExtended(creditExtended: JsonField<Long>) = apply {
             this.creditExtended = creditExtended
         }

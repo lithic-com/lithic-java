@@ -47,13 +47,28 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Timestamp of when dispute evidence was created. */
+    /**
+     * Timestamp of when dispute evidence was created.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Dispute token evidence is attached to. */
+    /**
+     * Dispute token evidence is attached to.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun disputeToken(): String = disputeToken.getRequired("dispute_token")
 
     /**
@@ -63,55 +78,90 @@ private constructor(
      * - `PENDING` - Evidence is pending upload.
      * - `REJECTED` - Evidence was rejected.
      * - `UPLOADED` - Evidence was uploaded.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun uploadStatus(): UploadStatus = uploadStatus.getRequired("upload_status")
 
-    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+    /**
+     * URL to download evidence. Only shown when `upload_status` is `UPLOADED`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun downloadUrl(): Optional<String> =
         Optional.ofNullable(downloadUrl.getNullable("download_url"))
 
     /**
      * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
 
-    /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
+    /**
+     * URL to upload evidence. Only shown when `upload_status` is `PENDING`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Timestamp of when dispute evidence was created. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Dispute token evidence is attached to. */
+    /**
+     * Returns the raw JSON value of [disputeToken].
+     *
+     * Unlike [disputeToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("dispute_token")
     @ExcludeMissing
     fun _disputeToken(): JsonField<String> = disputeToken
 
     /**
-     * Upload status types:
-     * - `DELETED` - Evidence was deleted.
-     * - `ERROR` - Evidence upload failed.
-     * - `PENDING` - Evidence is pending upload.
-     * - `REJECTED` - Evidence was rejected.
-     * - `UPLOADED` - Evidence was uploaded.
+     * Returns the raw JSON value of [uploadStatus].
+     *
+     * Unlike [uploadStatus], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("upload_status")
     @ExcludeMissing
     fun _uploadStatus(): JsonField<UploadStatus> = uploadStatus
 
-    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+    /**
+     * Returns the raw JSON value of [downloadUrl].
+     *
+     * Unlike [downloadUrl], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("download_url")
     @ExcludeMissing
     fun _downloadUrl(): JsonField<String> = downloadUrl
 
     /**
-     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     * Returns the raw JSON value of [filename].
+     *
+     * Unlike [filename], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("filename") @ExcludeMissing fun _filename(): JsonField<String> = filename
 
-    /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
+    /**
+     * Returns the raw JSON value of [uploadUrl].
+     *
+     * Unlike [uploadUrl], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
     @JsonAnyGetter
@@ -180,19 +230,36 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Timestamp of when dispute evidence was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when dispute evidence was created. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Dispute token evidence is attached to. */
         fun disputeToken(disputeToken: String) = disputeToken(JsonField.of(disputeToken))
 
-        /** Dispute token evidence is attached to. */
+        /**
+         * Sets [Builder.disputeToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disputeToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun disputeToken(disputeToken: JsonField<String>) = apply {
             this.disputeToken = disputeToken
         }
@@ -208,12 +275,11 @@ private constructor(
         fun uploadStatus(uploadStatus: UploadStatus) = uploadStatus(JsonField.of(uploadStatus))
 
         /**
-         * Upload status types:
-         * - `DELETED` - Evidence was deleted.
-         * - `ERROR` - Evidence upload failed.
-         * - `PENDING` - Evidence is pending upload.
-         * - `REJECTED` - Evidence was rejected.
-         * - `UPLOADED` - Evidence was uploaded.
+         * Sets [Builder.uploadStatus] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.uploadStatus] with a well-typed [UploadStatus] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun uploadStatus(uploadStatus: JsonField<UploadStatus>) = apply {
             this.uploadStatus = uploadStatus
@@ -222,7 +288,13 @@ private constructor(
         /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
         fun downloadUrl(downloadUrl: String) = downloadUrl(JsonField.of(downloadUrl))
 
-        /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+        /**
+         * Sets [Builder.downloadUrl] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.downloadUrl] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
 
         /**
@@ -232,15 +304,23 @@ private constructor(
         fun filename(filename: String) = filename(JsonField.of(filename))
 
         /**
-         * File name of evidence. Recommended to give the dispute evidence a human-readable
-         * identifier.
+         * Sets [Builder.filename] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.filename] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
         /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
         fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
 
-        /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
+        /**
+         * Sets [Builder.uploadUrl] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.uploadUrl] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

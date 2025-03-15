@@ -37,13 +37,21 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun created(): OffsetDateTime = created.getRequired("created")
 
@@ -74,51 +82,44 @@ private constructor(
      *   factor authentication code for activating a digital wallet has been sent to the end user.
      * - `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
      *   status has changed.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun eventType(): EventType = eventType.getRequired("event_type")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun payload(): Payload = payload.getRequired("payload")
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * An RFC 3339 timestamp for when the event was created. UTC time zone.
+     * Returns the raw JSON value of [created].
      *
-     * If no timezone is specified, UTC will be used.
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * Event types:
-     * - `account_holder.created` - Notification that a new account holder has been created and was
-     *   not rejected.
-     * - `account_holder.updated` - Notification that an account holder was updated.
-     * - `account_holder.verification` - Notification than an account holder's identity verification
-     *   is complete.
-     * - `card.created` - Notification that a card has been created.
-     * - `card.renewed` - Notification that a card has been renewed.
-     * - `card.reissued` - Notification that a card has been reissued.
-     * - `card.shipped` - Physical card shipment notification. See
-     *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-     * - `card.converted` - Notification that a virtual card has been converted to a physical card.
-     * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-     *   https://docs.lithic.com/docs/transaction-webhooks.
-     * - `dispute.updated` - A dispute has been updated.
-     * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     *   activate a digital wallet token.
-     * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
-     *   whether successful or failed.
-     * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
-     *   end user to complete digital wallet authentication. See
-     *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-     * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
-     *   factor authentication code for activating a digital wallet has been sent to the end user.
-     * - `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
-     *   status has changed.
+     * Returns the raw JSON value of [eventType].
+     *
+     * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("event_type") @ExcludeMissing fun _eventType(): JsonField<EventType> = eventType
 
+    /**
+     * Returns the raw JSON value of [payload].
+     *
+     * Unlike [payload], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("payload") @ExcludeMissing fun _payload(): JsonField<Payload> = payload
 
     @JsonAnyGetter
@@ -178,7 +179,12 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -189,9 +195,11 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
-         * An RFC 3339 timestamp for when the event was created. UTC time zone.
+         * Sets [Builder.created] to an arbitrary JSON value.
          *
-         * If no timezone is specified, UTC will be used.
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
@@ -228,39 +236,22 @@ private constructor(
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
         /**
-         * Event types:
-         * - `account_holder.created` - Notification that a new account holder has been created and
-         *   was not rejected.
-         * - `account_holder.updated` - Notification that an account holder was updated.
-         * - `account_holder.verification` - Notification than an account holder's identity
-         *   verification is complete.
-         * - `card.created` - Notification that a card has been created.
-         * - `card.renewed` - Notification that a card has been renewed.
-         * - `card.reissued` - Notification that a card has been reissued.
-         * - `card.shipped` - Physical card shipment notification. See
-         *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-         * - `card.converted` - Notification that a virtual card has been converted to a physical
-         *   card.
-         * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-         *   https://docs.lithic.com/docs/transaction-webhooks.
-         * - `dispute.updated` - A dispute has been updated.
-         * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         *   activate a digital wallet token.
-         * - `digital_wallet.tokenization_result` - Notification of the end result of a
-         *   tokenization, whether successful or failed.
-         * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
-         *   an end user to complete digital wallet authentication. See
-         *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-         * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
-         *   two factor authentication code for activating a digital wallet has been sent to the end
-         *   user.
-         * - `digital_wallet.tokenization_updated` - Notification that a digital wallet
-         *   tokenization's status has changed.
+         * Sets [Builder.eventType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventType] with a well-typed [EventType] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         fun payload(payload: Payload) = payload(JsonField.of(payload))
 
+        /**
+         * Sets [Builder.payload] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.payload] with a well-typed [Payload] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

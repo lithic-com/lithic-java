@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -26,10 +27,19 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** QR code url to display on the card carrier */
+    /**
+     * QR code url to display on the card carrier
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun qrCodeUrl(): Optional<String> = Optional.ofNullable(qrCodeUrl.getNullable("qr_code_url"))
 
-    /** QR code url to display on the card carrier */
+    /**
+     * Returns the raw JSON value of [qrCodeUrl].
+     *
+     * Unlike [qrCodeUrl], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("qr_code_url") @ExcludeMissing fun _qrCodeUrl(): JsonField<String> = qrCodeUrl
 
     @JsonAnyGetter
@@ -70,7 +80,13 @@ private constructor(
         /** QR code url to display on the card carrier */
         fun qrCodeUrl(qrCodeUrl: String) = qrCodeUrl(JsonField.of(qrCodeUrl))
 
-        /** QR code url to display on the card carrier */
+        /**
+         * Sets [Builder.qrCodeUrl] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.qrCodeUrl] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun qrCodeUrl(qrCodeUrl: JsonField<String>) = apply { this.qrCodeUrl = qrCodeUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

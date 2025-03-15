@@ -14,6 +14,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
@@ -52,81 +53,154 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+    /**
+     * Funds available for spend in the currency's smallest unit (e.g., cents for USD)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun availableAmount(): Long = availableAmount.getRequired("available_amount")
 
-    /** Date and time for when the balance was first created. */
+    /**
+     * Date and time for when the balance was first created.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the local currency of the balance.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currency(): String = currency.getRequired("currency")
 
-    /** Globally unique identifier for the card that had its balance updated most recently */
+    /**
+     * Globally unique identifier for the card that had its balance updated most recently
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastCardToken(): String = lastCardToken.getRequired("last_card_token")
 
-    /** Globally unique identifier for the last transaction event that impacted this balance */
+    /**
+     * Globally unique identifier for the last transaction event that impacted this balance
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastTransactionEventToken(): String =
         lastTransactionEventToken.getRequired("last_transaction_event_token")
 
-    /** Globally unique identifier for the last transaction that impacted this balance */
+    /**
+     * Globally unique identifier for the last transaction that impacted this balance
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastTransactionToken(): String = lastTransactionToken.getRequired("last_transaction_token")
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
      * currency's smallest unit (e.g., cents for USD)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
     /**
      * The sum of available and pending balance in the currency's smallest unit (e.g., cents for
      * USD)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun totalAmount(): Long = totalAmount.getRequired("total_amount")
 
-    /** Date and time for when the balance was last updated. */
+    /**
+     * Date and time for when the balance was last updated.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+    /**
+     * Returns the raw JSON value of [availableAmount].
+     *
+     * Unlike [availableAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("available_amount")
     @ExcludeMissing
     fun _availableAmount(): JsonField<Long> = availableAmount
 
-    /** Date and time for when the balance was first created. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
+    /**
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
-    /** Globally unique identifier for the card that had its balance updated most recently */
+    /**
+     * Returns the raw JSON value of [lastCardToken].
+     *
+     * Unlike [lastCardToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("last_card_token")
     @ExcludeMissing
     fun _lastCardToken(): JsonField<String> = lastCardToken
 
-    /** Globally unique identifier for the last transaction event that impacted this balance */
+    /**
+     * Returns the raw JSON value of [lastTransactionEventToken].
+     *
+     * Unlike [lastTransactionEventToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("last_transaction_event_token")
     @ExcludeMissing
     fun _lastTransactionEventToken(): JsonField<String> = lastTransactionEventToken
 
-    /** Globally unique identifier for the last transaction that impacted this balance */
+    /**
+     * Returns the raw JSON value of [lastTransactionToken].
+     *
+     * Unlike [lastTransactionToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("last_transaction_token")
     @ExcludeMissing
     fun _lastTransactionToken(): JsonField<String> = lastTransactionToken
 
     /**
-     * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
-     * currency's smallest unit (e.g., cents for USD)
+     * Returns the raw JSON value of [pendingAmount].
+     *
+     * Unlike [pendingAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("pending_amount")
     @ExcludeMissing
     fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
-     * The sum of available and pending balance in the currency's smallest unit (e.g., cents for
-     * USD)
+     * Returns the raw JSON value of [totalAmount].
+     *
+     * Unlike [totalAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("total_amount") @ExcludeMissing fun _totalAmount(): JsonField<Long> = totalAmount
 
-    /** Date and time for when the balance was last updated. */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
@@ -206,7 +280,13 @@ private constructor(
         /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
         fun availableAmount(availableAmount: Long) = availableAmount(JsonField.of(availableAmount))
 
-        /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+        /**
+         * Sets [Builder.availableAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.availableAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun availableAmount(availableAmount: JsonField<Long>) = apply {
             this.availableAmount = availableAmount
         }
@@ -214,19 +294,36 @@ private constructor(
         /** Date and time for when the balance was first created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time for when the balance was first created. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** 3-character alphabetic ISO 4217 code for the local currency of the balance. */
+        /**
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Globally unique identifier for the card that had its balance updated most recently */
         fun lastCardToken(lastCardToken: String) = lastCardToken(JsonField.of(lastCardToken))
 
-        /** Globally unique identifier for the card that had its balance updated most recently */
+        /**
+         * Sets [Builder.lastCardToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastCardToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun lastCardToken(lastCardToken: JsonField<String>) = apply {
             this.lastCardToken = lastCardToken
         }
@@ -235,7 +332,13 @@ private constructor(
         fun lastTransactionEventToken(lastTransactionEventToken: String) =
             lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
 
-        /** Globally unique identifier for the last transaction event that impacted this balance */
+        /**
+         * Sets [Builder.lastTransactionEventToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastTransactionEventToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun lastTransactionEventToken(lastTransactionEventToken: JsonField<String>) = apply {
             this.lastTransactionEventToken = lastTransactionEventToken
         }
@@ -244,7 +347,13 @@ private constructor(
         fun lastTransactionToken(lastTransactionToken: String) =
             lastTransactionToken(JsonField.of(lastTransactionToken))
 
-        /** Globally unique identifier for the last transaction that impacted this balance */
+        /**
+         * Sets [Builder.lastTransactionToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastTransactionToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun lastTransactionToken(lastTransactionToken: JsonField<String>) = apply {
             this.lastTransactionToken = lastTransactionToken
         }
@@ -256,8 +365,11 @@ private constructor(
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
         /**
-         * Funds not available for spend due to card authorizations or pending ACH release. Shown in
-         * the currency's smallest unit (e.g., cents for USD)
+         * Sets [Builder.pendingAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pendingAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
@@ -270,15 +382,24 @@ private constructor(
         fun totalAmount(totalAmount: Long) = totalAmount(JsonField.of(totalAmount))
 
         /**
-         * The sum of available and pending balance in the currency's smallest unit (e.g., cents for
-         * USD)
+         * Sets [Builder.totalAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.totalAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun totalAmount(totalAmount: JsonField<Long>) = apply { this.totalAmount = totalAmount }
 
         /** Date and time for when the balance was last updated. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Date and time for when the balance was last updated. */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

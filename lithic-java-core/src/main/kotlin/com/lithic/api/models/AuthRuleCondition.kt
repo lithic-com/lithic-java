@@ -73,56 +73,50 @@ private constructor(
      *   hours up and until the authorization.
      * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values
      *   are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun attribute(): Optional<ConditionalAttribute> =
         Optional.ofNullable(attribute.getNullable("attribute"))
 
-    /** The operation to apply to the attribute */
+    /**
+     * The operation to apply to the attribute
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun operation(): Optional<Operation> = Optional.ofNullable(operation.getNullable("operation"))
 
-    /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+    /**
+     * A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH`
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun value(): Optional<Value> = Optional.ofNullable(value.getNullable("value"))
 
     /**
-     * The attribute to target.
+     * Returns the raw JSON value of [attribute].
      *
-     * The following attributes may be targeted:
-     * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business by
-     *   the types of goods or services it provides.
-     * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
-     *   alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
-     * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
-     *   transaction.
-     * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
-     * - `DESCRIPTOR`: Short description of card acceptor.
-     * - `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the issuer applies to
-     *   the transaction. Valid values are `NONE`, `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-     * - `PAN_ENTRY_MODE`: The method by which the cardholder's primary account number (PAN) was
-     *   entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`, `CONTACTLESS`, `ECOMMERCE`,
-     *   `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`,
-     *   `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or `ECOMMERCE`.
-     * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee field in
-     *   the settlement/cardholder billing currency. This is the amount the issuer should authorize
-     *   against unless the issuer is paying the acquirer fee on behalf of the cardholder.
-     * - `RISK_SCORE`: Network-provided score assessing risk level associated with a given
-     *   authorization. Scores are on a range of 0-999, with 0 representing the lowest risk and 999
-     *   representing the highest risk. For Visa transactions, where the raw score has a range of
-     *   0-99, Lithic will normalize the score by multiplying the raw score by 10x.
-     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the trailing hour up
-     *   and until the authorization.
-     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
-     *   hours up and until the authorization.
-     * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values
-     *   are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+     * Unlike [attribute], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("attribute")
     @ExcludeMissing
     fun _attribute(): JsonField<ConditionalAttribute> = attribute
 
-    /** The operation to apply to the attribute */
+    /**
+     * Returns the raw JSON value of [operation].
+     *
+     * Unlike [operation], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("operation") @ExcludeMissing fun _operation(): JsonField<Operation> = operation
 
-    /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+    /**
+     * Returns the raw JSON value of [value].
+     *
+     * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<Value> = value
 
     @JsonAnyGetter
@@ -204,39 +198,11 @@ private constructor(
         fun attribute(attribute: ConditionalAttribute) = attribute(JsonField.of(attribute))
 
         /**
-         * The attribute to target.
+         * Sets [Builder.attribute] to an arbitrary JSON value.
          *
-         * The following attributes may be targeted:
-         * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business
-         *   by the types of goods or services it provides.
-         * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
-         *   alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
-         * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
-         *   transaction.
-         * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
-         * - `DESCRIPTOR`: Short description of card acceptor.
-         * - `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the issuer applies
-         *   to the transaction. Valid values are `NONE`, `3DS_AUTHENTICATED`, or
-         *   `TOKEN_AUTHENTICATED`.
-         * - `PAN_ENTRY_MODE`: The method by which the cardholder's primary account number (PAN) was
-         *   entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`, `CONTACTLESS`, `ECOMMERCE`,
-         *   `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`,
-         *   `MANUAL`, `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-         *   `ECOMMERCE`.
-         * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
-         *   field in the settlement/cardholder billing currency. This is the amount the issuer
-         *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
-         *   cardholder.
-         * - `RISK_SCORE`: Network-provided score assessing risk level associated with a given
-         *   authorization. Scores are on a range of 0-999, with 0 representing the lowest risk and
-         *   999 representing the highest risk. For Visa transactions, where the raw score has a
-         *   range of 0-99, Lithic will normalize the score by multiplying the raw score by 10x.
-         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the trailing
-         *   hour up and until the authorization.
-         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
-         *   hours up and until the authorization.
-         * - `CARD_STATE`: The current state of the card associated with the transaction. Valid
-         *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+         * You should usually call [Builder.attribute] with a well-typed [ConditionalAttribute]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun attribute(attribute: JsonField<ConditionalAttribute>) = apply {
             this.attribute = attribute
@@ -245,22 +211,33 @@ private constructor(
         /** The operation to apply to the attribute */
         fun operation(operation: Operation) = operation(JsonField.of(operation))
 
-        /** The operation to apply to the attribute */
+        /**
+         * Sets [Builder.operation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.operation] with a well-typed [Operation] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun operation(operation: JsonField<Operation>) = apply { this.operation = operation }
 
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
         fun value(value: Value) = value(JsonField.of(value))
 
-        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+        /**
+         * Sets [Builder.value] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.value] with a well-typed [Value] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun value(value: JsonField<Value>) = apply { this.value = value }
 
-        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+        /** Alias for calling [value] with `Value.ofRegex(regex)`. */
         fun value(regex: String) = value(Value.ofRegex(regex))
 
-        /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
+        /** Alias for calling [value] with `Value.ofNumber(number)`. */
         fun value(number: Long) = value(Value.ofNumber(number))
 
-        /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
+        /** Alias for calling [value] with `Value.ofListOfStrings(listOfStrings)`. */
         fun valueOfListOfStrings(listOfStrings: List<String>) =
             value(Value.ofListOfStrings(listOfStrings))
 

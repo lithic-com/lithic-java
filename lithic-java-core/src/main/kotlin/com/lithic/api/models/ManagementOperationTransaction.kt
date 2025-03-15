@@ -66,70 +66,188 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun category(): ManagementOperationCategory = category.getRequired("category")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currency(): String = currency.getRequired("currency")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun direction(): ManagementOperationDirection = direction.getRequired("direction")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun events(): List<ManagementOperationEvent> = events.getRequired("events")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun financialAccountToken(): String =
         financialAccountToken.getRequired("financial_account_token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun result(): TransactionResult = result.getRequired("result")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun status(): TransactionStatus = status.getRequired("status")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
+    /**
+     * Returns the raw JSON value of [category].
+     *
+     * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("category")
     @ExcludeMissing
     fun _category(): JsonField<ManagementOperationCategory> = category
 
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
+    /**
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
+    /**
+     * Returns the raw JSON value of [direction].
+     *
+     * Unlike [direction], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("direction")
     @ExcludeMissing
     fun _direction(): JsonField<ManagementOperationDirection> = direction
 
+    /**
+     * Returns the raw JSON value of [events].
+     *
+     * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("events")
     @ExcludeMissing
     fun _events(): JsonField<List<ManagementOperationEvent>> = events
 
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
+    /**
+     * Returns the raw JSON value of [pendingAmount].
+     *
+     * Unlike [pendingAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("pending_amount")
     @ExcludeMissing
     fun _pendingAmount(): JsonField<Long> = pendingAmount
 
+    /**
+     * Returns the raw JSON value of [result].
+     *
+     * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<TransactionResult> = result
 
+    /**
+     * Returns the raw JSON value of [settledAmount].
+     *
+     * Unlike [settledAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("settled_amount")
     @ExcludeMissing
     fun _settledAmount(): JsonField<Long> = settledAmount
 
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<TransactionStatus> = status
 
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    /**
+     * Returns the raw JSON value of [userDefinedId].
+     *
+     * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("user_defined_id")
     @ExcludeMissing
     fun _userDefinedId(): JsonField<String> = userDefinedId
@@ -227,34 +345,79 @@ private constructor(
 
         fun token(token: String) = token(JsonField.of(token))
 
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun category(category: ManagementOperationCategory) = category(JsonField.of(category))
 
+        /**
+         * Sets [Builder.category] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.category] with a well-typed
+         * [ManagementOperationCategory] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun category(category: JsonField<ManagementOperationCategory>) = apply {
             this.category = category
         }
 
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun currency(currency: String) = currency(JsonField.of(currency))
 
+        /**
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         fun direction(direction: ManagementOperationDirection) = direction(JsonField.of(direction))
 
+        /**
+         * Sets [Builder.direction] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.direction] with a well-typed
+         * [ManagementOperationDirection] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
             this.direction = direction
         }
 
         fun events(events: List<ManagementOperationEvent>) = events(JsonField.of(events))
 
+        /**
+         * Sets [Builder.events] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.events] with a well-typed
+         * `List<ManagementOperationEvent>` value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
         fun events(events: JsonField<List<ManagementOperationEvent>>) = apply {
             this.events = events.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [ManagementOperationEvent] to [events].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEvent(event: ManagementOperationEvent) = apply {
             events =
                 (events ?: JsonField.of(mutableListOf())).also {
@@ -265,36 +428,85 @@ private constructor(
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
+        /**
+         * Sets [Builder.pendingAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pendingAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
         }
 
         fun result(result: TransactionResult) = result(JsonField.of(result))
 
+        /**
+         * Sets [Builder.result] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.result] with a well-typed [TransactionResult] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
+        /**
+         * Sets [Builder.settledAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settledAmount] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
         }
 
         fun status(status: TransactionStatus) = status(JsonField.of(status))
 
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [TransactionStatus] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
 
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
+        /**
+         * Sets [Builder.userDefinedId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.userDefinedId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
         }
@@ -596,47 +808,130 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amount(): Long = amount.getRequired("amount")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun created(): OffsetDateTime = created.getRequired("created")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun detailedResults(): List<DetailedResults> =
             detailedResults.getRequired("detailed_results")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun memo(): String = memo.getRequired("memo")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun result(): TransactionResult = result.getRequired("result")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): ManagementOperationEventType = type.getRequired("type")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun subtype(): Optional<String> = Optional.ofNullable(subtype.getNullable("subtype"))
 
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
+        /**
+         * Returns the raw JSON value of [detailedResults].
+         *
+         * Unlike [detailedResults], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("detailed_results")
         @ExcludeMissing
         fun _detailedResults(): JsonField<List<DetailedResults>> = detailedResults
 
+        /**
+         * Returns the raw JSON value of [effectiveDate].
+         *
+         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_date")
         @ExcludeMissing
         fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
+        /**
+         * Returns the raw JSON value of [result].
+         *
+         * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<TransactionResult> = result
 
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type")
         @ExcludeMissing
         fun _type(): JsonField<ManagementOperationEventType> = type
 
+        /**
+         * Returns the raw JSON value of [subtype].
+         *
+         * Unlike [subtype], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("subtype") @ExcludeMissing fun _subtype(): JsonField<String> = subtype
 
         @JsonAnyGetter
@@ -715,23 +1010,56 @@ private constructor(
 
             fun token(token: String) = token(JsonField.of(token))
 
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             fun detailedResults(detailedResults: List<DetailedResults>) =
                 detailedResults(JsonField.of(detailedResults))
 
+            /**
+             * Sets [Builder.detailedResults] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.detailedResults] with a well-typed
+             * `List<DetailedResults>` value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
             fun detailedResults(detailedResults: JsonField<List<DetailedResults>>) = apply {
                 this.detailedResults = detailedResults.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [DetailedResults] to [detailedResults].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addDetailedResult(detailedResult: DetailedResults) = apply {
                 detailedResults =
                     (detailedResults ?: JsonField.of(mutableListOf())).also {
@@ -741,24 +1069,59 @@ private constructor(
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
+            /**
+             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
             fun memo(memo: String) = memo(JsonField.of(memo))
 
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun result(result: TransactionResult) = result(JsonField.of(result))
 
+            /**
+             * Sets [Builder.result] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.result] with a well-typed [TransactionResult] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
             fun type(type: ManagementOperationEventType) = type(JsonField.of(type))
 
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed
+             * [ManagementOperationEventType] value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
+             */
             fun type(type: JsonField<ManagementOperationEventType>) = apply { this.type = type }
 
             fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
+            /**
+             * Sets [Builder.subtype] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.subtype] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

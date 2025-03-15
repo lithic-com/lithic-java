@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /**
@@ -32,10 +33,19 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The PAN for the card being retrieved. */
+    /**
+     * The PAN for the card being retrieved.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pan(): String = body.pan()
 
-    /** The PAN for the card being retrieved. */
+    /**
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pan(): JsonField<String> = body._pan()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -59,10 +69,19 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The PAN for the card being retrieved. */
+        /**
+         * The PAN for the card being retrieved.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pan(): String = pan.getRequired("pan")
 
-        /** The PAN for the card being retrieved. */
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
         @JsonAnyGetter
@@ -110,7 +129,13 @@ private constructor(
             /** The PAN for the card being retrieved. */
             fun pan(pan: String) = pan(JsonField.of(pan))
 
-            /** The PAN for the card being retrieved. */
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -185,7 +210,12 @@ private constructor(
         /** The PAN for the card being retrieved. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /** The PAN for the card being retrieved. */
+        /**
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

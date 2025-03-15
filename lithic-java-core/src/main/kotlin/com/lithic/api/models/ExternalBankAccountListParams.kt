@@ -134,15 +134,22 @@ private constructor(
 
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         fun accountTypes(accountTypes: List<AccountType>?) = apply {
             this.accountTypes = accountTypes?.toMutableList()
         }
 
+        /** Alias for calling [Builder.accountTypes] with `accountTypes.orElse(null)`. */
         fun accountTypes(accountTypes: Optional<List<AccountType>>) =
             accountTypes(accountTypes.getOrNull())
 
+        /**
+         * Adds a single [AccountType] to [accountTypes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addAccountType(accountType: AccountType) = apply {
             accountTypes = (accountTypes ?: mutableListOf()).apply { add(accountType) }
         }
@@ -151,8 +158,14 @@ private constructor(
             this.countries = countries?.toMutableList()
         }
 
+        /** Alias for calling [Builder.countries] with `countries.orElse(null)`. */
         fun countries(countries: Optional<List<String>>) = countries(countries.getOrNull())
 
+        /**
+         * Adds a single [String] to [countries].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addCountry(country: String) = apply {
             countries = (countries ?: mutableListOf()).apply { add(country) }
         }
@@ -163,18 +176,21 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         fun ownerTypes(ownerTypes: List<OwnerType>?) = apply {
             this.ownerTypes = ownerTypes?.toMutableList()
         }
 
+        /** Alias for calling [Builder.ownerTypes] with `ownerTypes.orElse(null)`. */
         fun ownerTypes(ownerTypes: Optional<List<OwnerType>>) = ownerTypes(ownerTypes.getOrNull())
 
+        /**
+         * Adds a single [OwnerType] to [ownerTypes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addOwnerType(ownerType: OwnerType) = apply {
             ownerTypes = (ownerTypes ?: mutableListOf()).apply { add(ownerType) }
         }
@@ -182,10 +198,14 @@ private constructor(
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Page size (for pagination). */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Page size (for pagination). */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
@@ -194,17 +214,20 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
         fun states(states: List<AccountState>?) = apply { this.states = states?.toMutableList() }
 
+        /** Alias for calling [Builder.states] with `states.orElse(null)`. */
         fun states(states: Optional<List<AccountState>>) = states(states.getOrNull())
 
+        /**
+         * Adds a single [AccountState] to [states].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addState(state: AccountState) = apply {
             states = (states ?: mutableListOf()).apply { add(state) }
         }
@@ -213,9 +236,17 @@ private constructor(
             this.verificationStates = verificationStates?.toMutableList()
         }
 
+        /**
+         * Alias for calling [Builder.verificationStates] with `verificationStates.orElse(null)`.
+         */
         fun verificationStates(verificationStates: Optional<List<VerificationState>>) =
             verificationStates(verificationStates.getOrNull())
 
+        /**
+         * Adds a single [VerificationState] to [verificationStates].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addVerificationState(verificationState: VerificationState) = apply {
             verificationStates =
                 (verificationStates ?: mutableListOf()).apply { add(verificationState) }

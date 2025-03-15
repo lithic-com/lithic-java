@@ -90,158 +90,349 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for a statement */
+    /**
+     * Globally unique identifier for a statement
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountStanding(): AccountStanding = accountStanding.getRequired("account_standing")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun amountDue(): AmountDue = amountDue.getRequired("amount_due")
 
-    /** Amount of credit available to spend in cents */
+    /**
+     * Amount of credit available to spend in cents
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun availableCredit(): Long = availableCredit.getRequired("available_credit")
 
-    /** Timestamp of when the statement was created */
+    /**
+     * Timestamp of when the statement was created
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** This is the maximum credit balance extended by the lender in cents */
+    /**
+     * This is the maximum credit balance extended by the lender in cents
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
 
-    /** Globally unique identifier for a credit product */
+    /**
+     * Globally unique identifier for a credit product
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun creditProductToken(): String = creditProductToken.getRequired("credit_product_token")
 
-    /** Number of days in the billing cycle */
+    /**
+     * Number of days in the billing cycle
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun daysInBillingCycle(): Long = daysInBillingCycle.getRequired("days_in_billing_cycle")
 
     /**
      * Balance at the end of the billing period. For charge cards, this should be the same at the
      * statement amount due in cents
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun endingBalance(): Long = endingBalance.getRequired("ending_balance")
 
-    /** Globally unique identifier for a financial account */
+    /**
+     * Globally unique identifier for a financial account
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun financialAccountToken(): String =
         financialAccountToken.getRequired("financial_account_token")
 
-    /** Date when the payment is due */
+    /**
+     * Date when the payment is due
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun paymentDueDate(): LocalDate = paymentDueDate.getRequired("payment_due_date")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun periodTotals(): StatementTotals = periodTotals.getRequired("period_totals")
 
-    /** Balance at the start of the billing period */
+    /**
+     * Balance at the start of the billing period
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun startingBalance(): Long = startingBalance.getRequired("starting_balance")
 
-    /** Date when the billing period ended */
+    /**
+     * Date when the billing period ended
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun statementEndDate(): LocalDate = statementEndDate.getRequired("statement_end_date")
 
-    /** Date when the billing period began */
+    /**
+     * Date when the billing period began
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun statementStartDate(): LocalDate = statementStartDate.getRequired("statement_start_date")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun statementType(): StatementType = statementType.getRequired("statement_type")
 
-    /** Timestamp of when the statement was updated */
+    /**
+     * Timestamp of when the statement was updated
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun ytdTotals(): StatementTotals = ytdTotals.getRequired("ytd_totals")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun interestDetails(): Optional<InterestDetails> =
         Optional.ofNullable(interestDetails.getNullable("interest_details"))
 
-    /** Date when the next payment is due */
+    /**
+     * Date when the next payment is due
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun nextPaymentDueDate(): Optional<LocalDate> =
         Optional.ofNullable(nextPaymentDueDate.getNullable("next_payment_due_date"))
 
-    /** Date when the next billing period will end */
+    /**
+     * Date when the next billing period will end
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun nextStatementEndDate(): Optional<LocalDate> =
         Optional.ofNullable(nextStatementEndDate.getNullable("next_statement_end_date"))
 
-    /** Globally unique identifier for a statement */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
+    /**
+     * Returns the raw JSON value of [accountStanding].
+     *
+     * Unlike [accountStanding], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_standing")
     @ExcludeMissing
     fun _accountStanding(): JsonField<AccountStanding> = accountStanding
 
+    /**
+     * Returns the raw JSON value of [amountDue].
+     *
+     * Unlike [amountDue], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("amount_due") @ExcludeMissing fun _amountDue(): JsonField<AmountDue> = amountDue
 
-    /** Amount of credit available to spend in cents */
+    /**
+     * Returns the raw JSON value of [availableCredit].
+     *
+     * Unlike [availableCredit], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("available_credit")
     @ExcludeMissing
     fun _availableCredit(): JsonField<Long> = availableCredit
 
-    /** Timestamp of when the statement was created */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** This is the maximum credit balance extended by the lender in cents */
+    /**
+     * Returns the raw JSON value of [creditLimit].
+     *
+     * Unlike [creditLimit], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit(): JsonField<Long> = creditLimit
 
-    /** Globally unique identifier for a credit product */
+    /**
+     * Returns the raw JSON value of [creditProductToken].
+     *
+     * Unlike [creditProductToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("credit_product_token")
     @ExcludeMissing
     fun _creditProductToken(): JsonField<String> = creditProductToken
 
-    /** Number of days in the billing cycle */
+    /**
+     * Returns the raw JSON value of [daysInBillingCycle].
+     *
+     * Unlike [daysInBillingCycle], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("days_in_billing_cycle")
     @ExcludeMissing
     fun _daysInBillingCycle(): JsonField<Long> = daysInBillingCycle
 
     /**
-     * Balance at the end of the billing period. For charge cards, this should be the same at the
-     * statement amount due in cents
+     * Returns the raw JSON value of [endingBalance].
+     *
+     * Unlike [endingBalance], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("ending_balance")
     @ExcludeMissing
     fun _endingBalance(): JsonField<Long> = endingBalance
 
-    /** Globally unique identifier for a financial account */
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-    /** Date when the payment is due */
+    /**
+     * Returns the raw JSON value of [paymentDueDate].
+     *
+     * Unlike [paymentDueDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("payment_due_date")
     @ExcludeMissing
     fun _paymentDueDate(): JsonField<LocalDate> = paymentDueDate
 
+    /**
+     * Returns the raw JSON value of [periodTotals].
+     *
+     * Unlike [periodTotals], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("period_totals")
     @ExcludeMissing
     fun _periodTotals(): JsonField<StatementTotals> = periodTotals
 
-    /** Balance at the start of the billing period */
+    /**
+     * Returns the raw JSON value of [startingBalance].
+     *
+     * Unlike [startingBalance], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("starting_balance")
     @ExcludeMissing
     fun _startingBalance(): JsonField<Long> = startingBalance
 
-    /** Date when the billing period ended */
+    /**
+     * Returns the raw JSON value of [statementEndDate].
+     *
+     * Unlike [statementEndDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("statement_end_date")
     @ExcludeMissing
     fun _statementEndDate(): JsonField<LocalDate> = statementEndDate
 
-    /** Date when the billing period began */
+    /**
+     * Returns the raw JSON value of [statementStartDate].
+     *
+     * Unlike [statementStartDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("statement_start_date")
     @ExcludeMissing
     fun _statementStartDate(): JsonField<LocalDate> = statementStartDate
 
+    /**
+     * Returns the raw JSON value of [statementType].
+     *
+     * Unlike [statementType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("statement_type")
     @ExcludeMissing
     fun _statementType(): JsonField<StatementType> = statementType
 
-    /** Timestamp of when the statement was updated */
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    /**
+     * Returns the raw JSON value of [ytdTotals].
+     *
+     * Unlike [ytdTotals], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("ytd_totals")
     @ExcludeMissing
     fun _ytdTotals(): JsonField<StatementTotals> = ytdTotals
 
+    /**
+     * Returns the raw JSON value of [interestDetails].
+     *
+     * Unlike [interestDetails], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("interest_details")
     @ExcludeMissing
     fun _interestDetails(): JsonField<InterestDetails> = interestDetails
 
-    /** Date when the next payment is due */
+    /**
+     * Returns the raw JSON value of [nextPaymentDueDate].
+     *
+     * Unlike [nextPaymentDueDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("next_payment_due_date")
     @ExcludeMissing
     fun _nextPaymentDueDate(): JsonField<LocalDate> = nextPaymentDueDate
 
-    /** Date when the next billing period will end */
+    /**
+     * Returns the raw JSON value of [nextStatementEndDate].
+     *
+     * Unlike [nextStatementEndDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("next_statement_end_date")
     @ExcludeMissing
     fun _nextStatementEndDate(): JsonField<LocalDate> = nextStatementEndDate
@@ -368,24 +559,49 @@ private constructor(
         /** Globally unique identifier for a statement */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier for a statement */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun accountStanding(accountStanding: AccountStanding) =
             accountStanding(JsonField.of(accountStanding))
 
+        /**
+         * Sets [Builder.accountStanding] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountStanding] with a well-typed [AccountStanding]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun accountStanding(accountStanding: JsonField<AccountStanding>) = apply {
             this.accountStanding = accountStanding
         }
 
         fun amountDue(amountDue: AmountDue) = amountDue(JsonField.of(amountDue))
 
+        /**
+         * Sets [Builder.amountDue] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amountDue] with a well-typed [AmountDue] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun amountDue(amountDue: JsonField<AmountDue>) = apply { this.amountDue = amountDue }
 
         /** Amount of credit available to spend in cents */
         fun availableCredit(availableCredit: Long) = availableCredit(JsonField.of(availableCredit))
 
-        /** Amount of credit available to spend in cents */
+        /**
+         * Sets [Builder.availableCredit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.availableCredit] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun availableCredit(availableCredit: JsonField<Long>) = apply {
             this.availableCredit = availableCredit
         }
@@ -393,20 +609,38 @@ private constructor(
         /** Timestamp of when the statement was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when the statement was created */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** This is the maximum credit balance extended by the lender in cents */
         fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
 
-        /** This is the maximum credit balance extended by the lender in cents */
+        /**
+         * Sets [Builder.creditLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditLimit] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
         /** Globally unique identifier for a credit product */
         fun creditProductToken(creditProductToken: String) =
             creditProductToken(JsonField.of(creditProductToken))
 
-        /** Globally unique identifier for a credit product */
+        /**
+         * Sets [Builder.creditProductToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditProductToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun creditProductToken(creditProductToken: JsonField<String>) = apply {
             this.creditProductToken = creditProductToken
         }
@@ -415,7 +649,13 @@ private constructor(
         fun daysInBillingCycle(daysInBillingCycle: Long) =
             daysInBillingCycle(JsonField.of(daysInBillingCycle))
 
-        /** Number of days in the billing cycle */
+        /**
+         * Sets [Builder.daysInBillingCycle] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.daysInBillingCycle] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun daysInBillingCycle(daysInBillingCycle: JsonField<Long>) = apply {
             this.daysInBillingCycle = daysInBillingCycle
         }
@@ -427,8 +667,11 @@ private constructor(
         fun endingBalance(endingBalance: Long) = endingBalance(JsonField.of(endingBalance))
 
         /**
-         * Balance at the end of the billing period. For charge cards, this should be the same at
-         * the statement amount due in cents
+         * Sets [Builder.endingBalance] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.endingBalance] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun endingBalance(endingBalance: JsonField<Long>) = apply {
             this.endingBalance = endingBalance
@@ -438,7 +681,13 @@ private constructor(
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
-        /** Globally unique identifier for a financial account */
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -446,13 +695,26 @@ private constructor(
         /** Date when the payment is due */
         fun paymentDueDate(paymentDueDate: LocalDate) = paymentDueDate(JsonField.of(paymentDueDate))
 
-        /** Date when the payment is due */
+        /**
+         * Sets [Builder.paymentDueDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentDueDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun paymentDueDate(paymentDueDate: JsonField<LocalDate>) = apply {
             this.paymentDueDate = paymentDueDate
         }
 
         fun periodTotals(periodTotals: StatementTotals) = periodTotals(JsonField.of(periodTotals))
 
+        /**
+         * Sets [Builder.periodTotals] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.periodTotals] with a well-typed [StatementTotals] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun periodTotals(periodTotals: JsonField<StatementTotals>) = apply {
             this.periodTotals = periodTotals
         }
@@ -460,7 +722,13 @@ private constructor(
         /** Balance at the start of the billing period */
         fun startingBalance(startingBalance: Long) = startingBalance(JsonField.of(startingBalance))
 
-        /** Balance at the start of the billing period */
+        /**
+         * Sets [Builder.startingBalance] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.startingBalance] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun startingBalance(startingBalance: JsonField<Long>) = apply {
             this.startingBalance = startingBalance
         }
@@ -469,7 +737,13 @@ private constructor(
         fun statementEndDate(statementEndDate: LocalDate) =
             statementEndDate(JsonField.of(statementEndDate))
 
-        /** Date when the billing period ended */
+        /**
+         * Sets [Builder.statementEndDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statementEndDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun statementEndDate(statementEndDate: JsonField<LocalDate>) = apply {
             this.statementEndDate = statementEndDate
         }
@@ -478,13 +752,26 @@ private constructor(
         fun statementStartDate(statementStartDate: LocalDate) =
             statementStartDate(JsonField.of(statementStartDate))
 
-        /** Date when the billing period began */
+        /**
+         * Sets [Builder.statementStartDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statementStartDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun statementStartDate(statementStartDate: JsonField<LocalDate>) = apply {
             this.statementStartDate = statementStartDate
         }
 
         fun statementType(statementType: StatementType) = statementType(JsonField.of(statementType))
 
+        /**
+         * Sets [Builder.statementType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statementType] with a well-typed [StatementType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun statementType(statementType: JsonField<StatementType>) = apply {
             this.statementType = statementType
         }
@@ -492,19 +779,40 @@ private constructor(
         /** Timestamp of when the statement was updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        /** Timestamp of when the statement was updated */
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun ytdTotals(ytdTotals: StatementTotals) = ytdTotals(JsonField.of(ytdTotals))
 
+        /**
+         * Sets [Builder.ytdTotals] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.ytdTotals] with a well-typed [StatementTotals] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply { this.ytdTotals = ytdTotals }
 
         fun interestDetails(interestDetails: InterestDetails?) =
             interestDetails(JsonField.ofNullable(interestDetails))
 
+        /** Alias for calling [Builder.interestDetails] with `interestDetails.orElse(null)`. */
         fun interestDetails(interestDetails: Optional<InterestDetails>) =
             interestDetails(interestDetails.getOrNull())
 
+        /**
+         * Sets [Builder.interestDetails] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.interestDetails] with a well-typed [InterestDetails]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun interestDetails(interestDetails: JsonField<InterestDetails>) = apply {
             this.interestDetails = interestDetails
         }
@@ -513,7 +821,13 @@ private constructor(
         fun nextPaymentDueDate(nextPaymentDueDate: LocalDate) =
             nextPaymentDueDate(JsonField.of(nextPaymentDueDate))
 
-        /** Date when the next payment is due */
+        /**
+         * Sets [Builder.nextPaymentDueDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nextPaymentDueDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun nextPaymentDueDate(nextPaymentDueDate: JsonField<LocalDate>) = apply {
             this.nextPaymentDueDate = nextPaymentDueDate
         }
@@ -522,7 +836,13 @@ private constructor(
         fun nextStatementEndDate(nextStatementEndDate: LocalDate) =
             nextStatementEndDate(JsonField.of(nextStatementEndDate))
 
-        /** Date when the next billing period will end */
+        /**
+         * Sets [Builder.nextStatementEndDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nextStatementEndDate] with a well-typed [LocalDate]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun nextStatementEndDate(nextStatementEndDate: JsonField<LocalDate>) = apply {
             this.nextStatementEndDate = nextStatementEndDate
         }
@@ -602,57 +922,124 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Number of consecutive full payments made */
+        /**
+         * Number of consecutive full payments made
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun consecutiveFullPaymentsMade(): Long =
             consecutiveFullPaymentsMade.getRequired("consecutive_full_payments_made")
 
-        /** Number of consecutive minimum payments made */
+        /**
+         * Number of consecutive minimum payments made
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun consecutiveMinimumPaymentsMade(): Long =
             consecutiveMinimumPaymentsMade.getRequired("consecutive_minimum_payments_made")
 
-        /** Number of consecutive minimum payments missed */
+        /**
+         * Number of consecutive minimum payments missed
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun consecutiveMinimumPaymentsMissed(): Long =
             consecutiveMinimumPaymentsMissed.getRequired("consecutive_minimum_payments_missed")
 
-        /** Number of days past due */
+        /**
+         * Number of days past due
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun daysPastDue(): Long = daysPastDue.getRequired("days_past_due")
 
-        /** Whether the account currently has grace or not */
+        /**
+         * Whether the account currently has grace or not
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun hasGrace(): Boolean = hasGrace.getRequired("has_grace")
 
-        /** Current overall period number */
+        /**
+         * Current overall period number
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun periodNumber(): Long = periodNumber.getRequired("period_number")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun periodState(): PeriodState = periodState.getRequired("period_state")
 
-        /** Number of consecutive full payments made */
+        /**
+         * Returns the raw JSON value of [consecutiveFullPaymentsMade].
+         *
+         * Unlike [consecutiveFullPaymentsMade], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("consecutive_full_payments_made")
         @ExcludeMissing
         fun _consecutiveFullPaymentsMade(): JsonField<Long> = consecutiveFullPaymentsMade
 
-        /** Number of consecutive minimum payments made */
+        /**
+         * Returns the raw JSON value of [consecutiveMinimumPaymentsMade].
+         *
+         * Unlike [consecutiveMinimumPaymentsMade], this method doesn't throw if the JSON field has
+         * an unexpected type.
+         */
         @JsonProperty("consecutive_minimum_payments_made")
         @ExcludeMissing
         fun _consecutiveMinimumPaymentsMade(): JsonField<Long> = consecutiveMinimumPaymentsMade
 
-        /** Number of consecutive minimum payments missed */
+        /**
+         * Returns the raw JSON value of [consecutiveMinimumPaymentsMissed].
+         *
+         * Unlike [consecutiveMinimumPaymentsMissed], this method doesn't throw if the JSON field
+         * has an unexpected type.
+         */
         @JsonProperty("consecutive_minimum_payments_missed")
         @ExcludeMissing
         fun _consecutiveMinimumPaymentsMissed(): JsonField<Long> = consecutiveMinimumPaymentsMissed
 
-        /** Number of days past due */
+        /**
+         * Returns the raw JSON value of [daysPastDue].
+         *
+         * Unlike [daysPastDue], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("days_past_due")
         @ExcludeMissing
         fun _daysPastDue(): JsonField<Long> = daysPastDue
 
-        /** Whether the account currently has grace or not */
+        /**
+         * Returns the raw JSON value of [hasGrace].
+         *
+         * Unlike [hasGrace], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("has_grace") @ExcludeMissing fun _hasGrace(): JsonField<Boolean> = hasGrace
 
-        /** Current overall period number */
+        /**
+         * Returns the raw JSON value of [periodNumber].
+         *
+         * Unlike [periodNumber], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("period_number")
         @ExcludeMissing
         fun _periodNumber(): JsonField<Long> = periodNumber
 
+        /**
+         * Returns the raw JSON value of [periodState].
+         *
+         * Unlike [periodState], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("period_state")
         @ExcludeMissing
         fun _periodState(): JsonField<PeriodState> = periodState
@@ -727,7 +1114,13 @@ private constructor(
             fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: Long) =
                 consecutiveFullPaymentsMade(JsonField.of(consecutiveFullPaymentsMade))
 
-            /** Number of consecutive full payments made */
+            /**
+             * Sets [Builder.consecutiveFullPaymentsMade] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.consecutiveFullPaymentsMade] with a well-typed
+             * [Long] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: JsonField<Long>) = apply {
                 this.consecutiveFullPaymentsMade = consecutiveFullPaymentsMade
             }
@@ -736,7 +1129,13 @@ private constructor(
             fun consecutiveMinimumPaymentsMade(consecutiveMinimumPaymentsMade: Long) =
                 consecutiveMinimumPaymentsMade(JsonField.of(consecutiveMinimumPaymentsMade))
 
-            /** Number of consecutive minimum payments made */
+            /**
+             * Sets [Builder.consecutiveMinimumPaymentsMade] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.consecutiveMinimumPaymentsMade] with a well-typed
+             * [Long] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun consecutiveMinimumPaymentsMade(consecutiveMinimumPaymentsMade: JsonField<Long>) =
                 apply {
                     this.consecutiveMinimumPaymentsMade = consecutiveMinimumPaymentsMade
@@ -746,7 +1145,13 @@ private constructor(
             fun consecutiveMinimumPaymentsMissed(consecutiveMinimumPaymentsMissed: Long) =
                 consecutiveMinimumPaymentsMissed(JsonField.of(consecutiveMinimumPaymentsMissed))
 
-            /** Number of consecutive minimum payments missed */
+            /**
+             * Sets [Builder.consecutiveMinimumPaymentsMissed] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.consecutiveMinimumPaymentsMissed] with a well-typed
+             * [Long] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun consecutiveMinimumPaymentsMissed(
                 consecutiveMinimumPaymentsMissed: JsonField<Long>
             ) = apply { this.consecutiveMinimumPaymentsMissed = consecutiveMinimumPaymentsMissed }
@@ -754,25 +1159,50 @@ private constructor(
             /** Number of days past due */
             fun daysPastDue(daysPastDue: Long) = daysPastDue(JsonField.of(daysPastDue))
 
-            /** Number of days past due */
+            /**
+             * Sets [Builder.daysPastDue] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.daysPastDue] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun daysPastDue(daysPastDue: JsonField<Long>) = apply { this.daysPastDue = daysPastDue }
 
             /** Whether the account currently has grace or not */
             fun hasGrace(hasGrace: Boolean) = hasGrace(JsonField.of(hasGrace))
 
-            /** Whether the account currently has grace or not */
+            /**
+             * Sets [Builder.hasGrace] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.hasGrace] with a well-typed [Boolean] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun hasGrace(hasGrace: JsonField<Boolean>) = apply { this.hasGrace = hasGrace }
 
             /** Current overall period number */
             fun periodNumber(periodNumber: Long) = periodNumber(JsonField.of(periodNumber))
 
-            /** Current overall period number */
+            /**
+             * Sets [Builder.periodNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.periodNumber] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun periodNumber(periodNumber: JsonField<Long>) = apply {
                 this.periodNumber = periodNumber
             }
 
             fun periodState(periodState: PeriodState) = periodState(JsonField.of(periodState))
 
+            /**
+             * Sets [Builder.periodState] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.periodState] with a well-typed [PeriodState] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun periodState(periodState: JsonField<PeriodState>) = apply {
                 this.periodState = periodState
             }
@@ -959,21 +1389,32 @@ private constructor(
          * something is owed. If the amount owed is positive there was a net credit. If
          * auto-collections are enabled this is the amount that will be requested on the payment due
          * date
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Amount past due for statement in cents */
+        /**
+         * Amount past due for statement in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pastDue(): Long = pastDue.getRequired("past_due")
 
         /**
-         * Payment due at the end of the billing period in cents. Negative amount indicates
-         * something is owed. If the amount owed is positive there was a net credit. If
-         * auto-collections are enabled this is the amount that will be requested on the payment due
-         * date
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Amount past due for statement in cents */
+        /**
+         * Returns the raw JSON value of [pastDue].
+         *
+         * Unlike [pastDue], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("past_due") @ExcludeMissing fun _pastDue(): JsonField<Long> = pastDue
 
         @JsonAnyGetter
@@ -1031,17 +1472,24 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Payment due at the end of the billing period in cents. Negative amount indicates
-             * something is owed. If the amount owed is positive there was a net credit. If
-             * auto-collections are enabled this is the amount that will be requested on the payment
-             * due date
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Amount past due for statement in cents */
             fun pastDue(pastDue: Long) = pastDue(JsonField.of(pastDue))
 
-            /** Amount past due for statement in cents */
+            /**
+             * Sets [Builder.pastDue] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pastDue] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun pastDue(pastDue: JsonField<Long>) = apply { this.pastDue = pastDue }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1116,54 +1564,115 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Opening balance transferred from previous account in cents */
+        /**
+         * Opening balance transferred from previous account in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun balanceTransfers(): Long = balanceTransfers.getRequired("balance_transfers")
 
-        /** ATM and cashback transactions in cents */
+        /**
+         * ATM and cashback transactions in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun cashAdvances(): Long = cashAdvances.getRequired("cash_advances")
 
         /**
          * Volume of credit management operation transactions less any balance transfers in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun credits(): Long = credits.getRequired("credits")
 
-        /** Volume of debit management operation transactions less any interest in cents */
+        /**
+         * Volume of debit management operation transactions less any interest in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun fees(): Long = fees.getRequired("fees")
 
-        /** Interest accrued in cents */
+        /**
+         * Interest accrued in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun interest(): Long = interest.getRequired("interest")
 
-        /** Any funds transfers which affective the balance in cents */
+        /**
+         * Any funds transfers which affective the balance in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun payments(): Long = payments.getRequired("payments")
 
-        /** Net card transaction volume less any cash advances in cents */
+        /**
+         * Net card transaction volume less any cash advances in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun purchases(): Long = purchases.getRequired("purchases")
 
-        /** Opening balance transferred from previous account in cents */
+        /**
+         * Returns the raw JSON value of [balanceTransfers].
+         *
+         * Unlike [balanceTransfers], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("balance_transfers")
         @ExcludeMissing
         fun _balanceTransfers(): JsonField<Long> = balanceTransfers
 
-        /** ATM and cashback transactions in cents */
+        /**
+         * Returns the raw JSON value of [cashAdvances].
+         *
+         * Unlike [cashAdvances], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("cash_advances")
         @ExcludeMissing
         fun _cashAdvances(): JsonField<Long> = cashAdvances
 
         /**
-         * Volume of credit management operation transactions less any balance transfers in cents
+         * Returns the raw JSON value of [credits].
+         *
+         * Unlike [credits], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("credits") @ExcludeMissing fun _credits(): JsonField<Long> = credits
 
-        /** Volume of debit management operation transactions less any interest in cents */
+        /**
+         * Returns the raw JSON value of [fees].
+         *
+         * Unlike [fees], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("fees") @ExcludeMissing fun _fees(): JsonField<Long> = fees
 
-        /** Interest accrued in cents */
+        /**
+         * Returns the raw JSON value of [interest].
+         *
+         * Unlike [interest], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("interest") @ExcludeMissing fun _interest(): JsonField<Long> = interest
 
-        /** Any funds transfers which affective the balance in cents */
+        /**
+         * Returns the raw JSON value of [payments].
+         *
+         * Unlike [payments], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("payments") @ExcludeMissing fun _payments(): JsonField<Long> = payments
 
-        /** Net card transaction volume less any cash advances in cents */
+        /**
+         * Returns the raw JSON value of [purchases].
+         *
+         * Unlike [purchases], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("purchases") @ExcludeMissing fun _purchases(): JsonField<Long> = purchases
 
         @JsonAnyGetter
@@ -1236,7 +1745,13 @@ private constructor(
             fun balanceTransfers(balanceTransfers: Long) =
                 balanceTransfers(JsonField.of(balanceTransfers))
 
-            /** Opening balance transferred from previous account in cents */
+            /**
+             * Sets [Builder.balanceTransfers] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.balanceTransfers] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun balanceTransfers(balanceTransfers: JsonField<Long>) = apply {
                 this.balanceTransfers = balanceTransfers
             }
@@ -1244,7 +1759,13 @@ private constructor(
             /** ATM and cashback transactions in cents */
             fun cashAdvances(cashAdvances: Long) = cashAdvances(JsonField.of(cashAdvances))
 
-            /** ATM and cashback transactions in cents */
+            /**
+             * Sets [Builder.cashAdvances] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cashAdvances] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun cashAdvances(cashAdvances: JsonField<Long>) = apply {
                 this.cashAdvances = cashAdvances
             }
@@ -1256,33 +1777,60 @@ private constructor(
             fun credits(credits: Long) = credits(JsonField.of(credits))
 
             /**
-             * Volume of credit management operation transactions less any balance transfers in
-             * cents
+             * Sets [Builder.credits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.credits] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun credits(credits: JsonField<Long>) = apply { this.credits = credits }
 
             /** Volume of debit management operation transactions less any interest in cents */
             fun fees(fees: Long) = fees(JsonField.of(fees))
 
-            /** Volume of debit management operation transactions less any interest in cents */
+            /**
+             * Sets [Builder.fees] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fees] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
 
             /** Interest accrued in cents */
             fun interest(interest: Long) = interest(JsonField.of(interest))
 
-            /** Interest accrued in cents */
+            /**
+             * Sets [Builder.interest] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.interest] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
 
             /** Any funds transfers which affective the balance in cents */
             fun payments(payments: Long) = payments(JsonField.of(payments))
 
-            /** Any funds transfers which affective the balance in cents */
+            /**
+             * Sets [Builder.payments] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.payments] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun payments(payments: JsonField<Long>) = apply { this.payments = payments }
 
             /** Net card transaction volume less any cash advances in cents */
             fun purchases(purchases: Long) = purchases(JsonField.of(purchases))
 
-            /** Net card transaction volume less any cash advances in cents */
+            /**
+             * Sets [Builder.purchases] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.purchases] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun purchases(purchases: JsonField<Long>) = apply { this.purchases = purchases }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1467,48 +2015,117 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun actualInterestCharged(): Optional<Long> =
             Optional.ofNullable(actualInterestCharged.getNullable("actual_interest_charged"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun dailyBalanceAmounts(): CategoryDetails =
             dailyBalanceAmounts.getRequired("daily_balance_amounts")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectiveApr(): CategoryDetails = effectiveApr.getRequired("effective_apr")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun interestCalculationMethod(): InterestCalculationMethod =
             interestCalculationMethod.getRequired("interest_calculation_method")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun interestForPeriod(): CategoryDetails =
             interestForPeriod.getRequired("interest_for_period")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun primeRate(): Optional<String> = Optional.ofNullable(primeRate.getNullable("prime_rate"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun minimumInterestCharged(): Optional<Long> =
             Optional.ofNullable(minimumInterestCharged.getNullable("minimum_interest_charged"))
 
+        /**
+         * Returns the raw JSON value of [actualInterestCharged].
+         *
+         * Unlike [actualInterestCharged], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("actual_interest_charged")
         @ExcludeMissing
         fun _actualInterestCharged(): JsonField<Long> = actualInterestCharged
 
+        /**
+         * Returns the raw JSON value of [dailyBalanceAmounts].
+         *
+         * Unlike [dailyBalanceAmounts], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("daily_balance_amounts")
         @ExcludeMissing
         fun _dailyBalanceAmounts(): JsonField<CategoryDetails> = dailyBalanceAmounts
 
+        /**
+         * Returns the raw JSON value of [effectiveApr].
+         *
+         * Unlike [effectiveApr], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_apr")
         @ExcludeMissing
         fun _effectiveApr(): JsonField<CategoryDetails> = effectiveApr
 
+        /**
+         * Returns the raw JSON value of [interestCalculationMethod].
+         *
+         * Unlike [interestCalculationMethod], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("interest_calculation_method")
         @ExcludeMissing
         fun _interestCalculationMethod(): JsonField<InterestCalculationMethod> =
             interestCalculationMethod
 
+        /**
+         * Returns the raw JSON value of [interestForPeriod].
+         *
+         * Unlike [interestForPeriod], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("interest_for_period")
         @ExcludeMissing
         fun _interestForPeriod(): JsonField<CategoryDetails> = interestForPeriod
 
+        /**
+         * Returns the raw JSON value of [primeRate].
+         *
+         * Unlike [primeRate], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("prime_rate") @ExcludeMissing fun _primeRate(): JsonField<String> = primeRate
 
+        /**
+         * Returns the raw JSON value of [minimumInterestCharged].
+         *
+         * Unlike [minimumInterestCharged], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("minimum_interest_charged")
         @ExcludeMissing
         fun _minimumInterestCharged(): JsonField<Long> = minimumInterestCharged
@@ -1581,12 +2198,28 @@ private constructor(
             fun actualInterestCharged(actualInterestCharged: Long?) =
                 actualInterestCharged(JsonField.ofNullable(actualInterestCharged))
 
+            /**
+             * Alias for [Builder.actualInterestCharged].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
             fun actualInterestCharged(actualInterestCharged: Long) =
                 actualInterestCharged(actualInterestCharged as Long?)
 
+            /**
+             * Alias for calling [Builder.actualInterestCharged] with
+             * `actualInterestCharged.orElse(null)`.
+             */
             fun actualInterestCharged(actualInterestCharged: Optional<Long>) =
                 actualInterestCharged(actualInterestCharged.getOrNull())
 
+            /**
+             * Sets [Builder.actualInterestCharged] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.actualInterestCharged] with a well-typed [Long]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun actualInterestCharged(actualInterestCharged: JsonField<Long>) = apply {
                 this.actualInterestCharged = actualInterestCharged
             }
@@ -1594,6 +2227,13 @@ private constructor(
             fun dailyBalanceAmounts(dailyBalanceAmounts: CategoryDetails) =
                 dailyBalanceAmounts(JsonField.of(dailyBalanceAmounts))
 
+            /**
+             * Sets [Builder.dailyBalanceAmounts] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dailyBalanceAmounts] with a well-typed
+             * [CategoryDetails] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun dailyBalanceAmounts(dailyBalanceAmounts: JsonField<CategoryDetails>) = apply {
                 this.dailyBalanceAmounts = dailyBalanceAmounts
             }
@@ -1601,6 +2241,13 @@ private constructor(
             fun effectiveApr(effectiveApr: CategoryDetails) =
                 effectiveApr(JsonField.of(effectiveApr))
 
+            /**
+             * Sets [Builder.effectiveApr] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveApr] with a well-typed [CategoryDetails]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun effectiveApr(effectiveApr: JsonField<CategoryDetails>) = apply {
                 this.effectiveApr = effectiveApr
             }
@@ -1608,6 +2255,13 @@ private constructor(
             fun interestCalculationMethod(interestCalculationMethod: InterestCalculationMethod) =
                 interestCalculationMethod(JsonField.of(interestCalculationMethod))
 
+            /**
+             * Sets [Builder.interestCalculationMethod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.interestCalculationMethod] with a well-typed
+             * [InterestCalculationMethod] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
             fun interestCalculationMethod(
                 interestCalculationMethod: JsonField<InterestCalculationMethod>
             ) = apply { this.interestCalculationMethod = interestCalculationMethod }
@@ -1615,25 +2269,56 @@ private constructor(
             fun interestForPeriod(interestForPeriod: CategoryDetails) =
                 interestForPeriod(JsonField.of(interestForPeriod))
 
+            /**
+             * Sets [Builder.interestForPeriod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.interestForPeriod] with a well-typed
+             * [CategoryDetails] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
             fun interestForPeriod(interestForPeriod: JsonField<CategoryDetails>) = apply {
                 this.interestForPeriod = interestForPeriod
             }
 
             fun primeRate(primeRate: String?) = primeRate(JsonField.ofNullable(primeRate))
 
+            /** Alias for calling [Builder.primeRate] with `primeRate.orElse(null)`. */
             fun primeRate(primeRate: Optional<String>) = primeRate(primeRate.getOrNull())
 
+            /**
+             * Sets [Builder.primeRate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.primeRate] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun primeRate(primeRate: JsonField<String>) = apply { this.primeRate = primeRate }
 
             fun minimumInterestCharged(minimumInterestCharged: Long?) =
                 minimumInterestCharged(JsonField.ofNullable(minimumInterestCharged))
 
+            /**
+             * Alias for [Builder.minimumInterestCharged].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
             fun minimumInterestCharged(minimumInterestCharged: Long) =
                 minimumInterestCharged(minimumInterestCharged as Long?)
 
+            /**
+             * Alias for calling [Builder.minimumInterestCharged] with
+             * `minimumInterestCharged.orElse(null)`.
+             */
             fun minimumInterestCharged(minimumInterestCharged: Optional<Long>) =
                 minimumInterestCharged(minimumInterestCharged.getOrNull())
 
+            /**
+             * Sets [Builder.minimumInterestCharged] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.minimumInterestCharged] with a well-typed [Long]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun minimumInterestCharged(minimumInterestCharged: JsonField<Long>) = apply {
                 this.minimumInterestCharged = minimumInterestCharged
             }
@@ -1687,20 +2372,53 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun balanceTransfers(): String = balanceTransfers.getRequired("balance_transfers")
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun cashAdvances(): String = cashAdvances.getRequired("cash_advances")
 
+            /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun purchases(): String = purchases.getRequired("purchases")
 
+            /**
+             * Returns the raw JSON value of [balanceTransfers].
+             *
+             * Unlike [balanceTransfers], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("balance_transfers")
             @ExcludeMissing
             fun _balanceTransfers(): JsonField<String> = balanceTransfers
 
+            /**
+             * Returns the raw JSON value of [cashAdvances].
+             *
+             * Unlike [cashAdvances], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("cash_advances")
             @ExcludeMissing
             fun _cashAdvances(): JsonField<String> = cashAdvances
 
+            /**
+             * Returns the raw JSON value of [purchases].
+             *
+             * Unlike [purchases], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("purchases")
             @ExcludeMissing
             fun _purchases(): JsonField<String> = purchases
@@ -1758,18 +2476,39 @@ private constructor(
                 fun balanceTransfers(balanceTransfers: String) =
                     balanceTransfers(JsonField.of(balanceTransfers))
 
+                /**
+                 * Sets [Builder.balanceTransfers] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.balanceTransfers] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun balanceTransfers(balanceTransfers: JsonField<String>) = apply {
                     this.balanceTransfers = balanceTransfers
                 }
 
                 fun cashAdvances(cashAdvances: String) = cashAdvances(JsonField.of(cashAdvances))
 
+                /**
+                 * Sets [Builder.cashAdvances] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.cashAdvances] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun cashAdvances(cashAdvances: JsonField<String>) = apply {
                     this.cashAdvances = cashAdvances
                 }
 
                 fun purchases(purchases: String) = purchases(JsonField.of(purchases))
 
+                /**
+                 * Sets [Builder.purchases] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.purchases] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun purchases(purchases: JsonField<String>) = apply { this.purchases = purchases }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

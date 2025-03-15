@@ -34,20 +34,56 @@ private constructor(
 
     fun idempotencyKey(): Optional<String> = Optional.ofNullable(idempotencyKey)
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun nickname(): String = body.nickname()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun type(): Type = body.type()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun accountToken(): Optional<String> = body.accountToken()
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun isForBenefitOf(): Optional<Boolean> = body.isForBenefitOf()
 
+    /**
+     * Returns the raw JSON value of [nickname].
+     *
+     * Unlike [nickname], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _nickname(): JsonField<String> = body._nickname()
 
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _type(): JsonField<Type> = body._type()
 
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _accountToken(): JsonField<String> = body._accountToken()
 
+    /**
+     * Returns the raw JSON value of [isForBenefitOf].
+     *
+     * Unlike [isForBenefitOf], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _isForBenefitOf(): JsonField<Boolean> = body._isForBenefitOf()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -85,24 +121,62 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun nickname(): String = nickname.getRequired("nickname")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): Type = type.getRequired("type")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun accountToken(): Optional<String> =
             Optional.ofNullable(accountToken.getNullable("account_token"))
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun isForBenefitOf(): Optional<Boolean> =
             Optional.ofNullable(isForBenefitOf.getNullable("is_for_benefit_of"))
 
+        /**
+         * Returns the raw JSON value of [nickname].
+         *
+         * Unlike [nickname], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
 
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
+        /**
+         * Returns the raw JSON value of [accountToken].
+         *
+         * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("account_token")
         @ExcludeMissing
         fun _accountToken(): JsonField<String> = accountToken
 
+        /**
+         * Returns the raw JSON value of [isForBenefitOf].
+         *
+         * Unlike [isForBenefitOf], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("is_for_benefit_of")
         @ExcludeMissing
         fun _isForBenefitOf(): JsonField<Boolean> = isForBenefitOf
@@ -164,14 +238,35 @@ private constructor(
 
             fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
+            /**
+             * Sets [Builder.nickname] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nickname] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun type(type: Type) = type(JsonField.of(type))
 
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
+            /**
+             * Sets [Builder.accountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun accountToken(accountToken: JsonField<String>) = apply {
                 this.accountToken = accountToken
             }
@@ -179,6 +274,13 @@ private constructor(
             fun isForBenefitOf(isForBenefitOf: Boolean) =
                 isForBenefitOf(JsonField.of(isForBenefitOf))
 
+            /**
+             * Sets [Builder.isForBenefitOf] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isForBenefitOf] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
                 this.isForBenefitOf = isForBenefitOf
             }
@@ -266,25 +368,52 @@ private constructor(
 
         fun idempotencyKey(idempotencyKey: String?) = apply { this.idempotencyKey = idempotencyKey }
 
+        /** Alias for calling [Builder.idempotencyKey] with `idempotencyKey.orElse(null)`. */
         fun idempotencyKey(idempotencyKey: Optional<String>) =
             idempotencyKey(idempotencyKey.getOrNull())
 
         fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
+        /**
+         * Sets [Builder.nickname] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nickname] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun nickname(nickname: JsonField<String>) = apply { body.nickname(nickname) }
 
         fun type(type: Type) = apply { body.type(type) }
 
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
 
+        /**
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun accountToken(accountToken: JsonField<String>) = apply {
             body.accountToken(accountToken)
         }
 
         fun isForBenefitOf(isForBenefitOf: Boolean) = apply { body.isForBenefitOf(isForBenefitOf) }
 
+        /**
+         * Sets [Builder.isForBenefitOf] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isForBenefitOf] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
             body.isForBenefitOf(isForBenefitOf)
         }

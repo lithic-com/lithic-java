@@ -86,81 +86,178 @@ private constructor(
      * A globally unique identifier for this record of an external bank account association. If a
      * program links an external bank account to more than one end-user or to both the program and
      * the end-user, then Lithic will return each record of the association
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun token(): String = token.getRequired("token")
 
     /**
      * The country that the bank account is located in using ISO 3166-1. We will only accept USA
      * bank accounts e.g., USA
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun country(): String = country.getRequired("country")
 
-    /** An ISO 8601 string representing when this funding source was added to the Lithic account. */
+    /**
+     * An ISO 8601 string representing when this funding source was added to the Lithic account.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** currency of the external account 3-character alphabetic ISO 4217 code */
+    /**
+     * currency of the external account 3-character alphabetic ISO 4217 code
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currency(): String = currency.getRequired("currency")
 
-    /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
+    /**
+     * The last 4 digits of the bank account. Derived by Lithic from the account number passed
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastFour(): String = lastFour.getRequired("last_four")
 
     /**
      * Legal Name of the business or individual who owns the external account. This will appear in
      * statements
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun owner(): String = owner.getRequired("owner")
 
-    /** Owner Type */
+    /**
+     * Owner Type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun ownerType(): OwnerType = ownerType.getRequired("owner_type")
 
-    /** Routing Number */
+    /**
+     * Routing Number
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun routingNumber(): String = routingNumber.getRequired("routing_number")
 
-    /** Account State */
+    /**
+     * Account State
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun state(): State = state.getRequired("state")
 
-    /** Account Type */
+    /**
+     * Account Type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun type(): Type = type.getRequired("type")
 
-    /** The number of attempts at verification */
+    /**
+     * The number of attempts at verification
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun verificationAttempts(): Long = verificationAttempts.getRequired("verification_attempts")
 
-    /** Verification Method */
+    /**
+     * Verification Method
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun verificationMethod(): VerificationMethod =
         verificationMethod.getRequired("verification_method")
 
-    /** Verification State */
+    /**
+     * Verification State
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun verificationState(): VerificationState = verificationState.getRequired("verification_state")
 
     /**
      * Indicates which Lithic account the external account is associated with. For external accounts
      * that are associated with the program, account_token field returned will be null
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun accountToken(): Optional<String> =
         Optional.ofNullable(accountToken.getNullable("account_token"))
 
-    /** Address */
+    /**
+     * Address
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun address(): Optional<ExternalBankAccountAddress> =
         Optional.ofNullable(address.getNullable("address"))
 
-    /** Optional field that helps identify bank accounts in receipts */
+    /**
+     * Optional field that helps identify bank accounts in receipts
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
 
-    /** Date of Birth of the Individual that owns the external bank account */
+    /**
+     * Date of Birth of the Individual that owns the external bank account
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun dob(): Optional<LocalDate> = Optional.ofNullable(dob.getNullable("dob"))
 
-    /** Doing Business As */
+    /**
+     * Doing Business As
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun doingBusinessAs(): Optional<String> =
         Optional.ofNullable(doingBusinessAs.getNullable("doing_business_as"))
 
-    /** The financial account token of the operating account to fund the micro deposits */
+    /**
+     * The financial account token of the operating account to fund the micro deposits
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun financialAccountToken(): Optional<String> =
         Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
 
-    /** The nickname for this External Bank Account */
+    /**
+     * The nickname for this External Bank Account
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-    /** User Defined ID */
+    /**
+     * User Defined ID
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
@@ -168,108 +265,187 @@ private constructor(
      * Optional free text description of the reason for the failed verification. For ACH
      * micro-deposits returned, this field will display the reason return code sent by the ACH
      * network
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun verificationFailedReason(): Optional<String> =
         Optional.ofNullable(verificationFailedReason.getNullable("verification_failed_reason"))
 
     /**
-     * A globally unique identifier for this record of an external bank account association. If a
-     * program links an external bank account to more than one end-user or to both the program and
-     * the end-user, then Lithic will return each record of the association
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * The country that the bank account is located in using ISO 3166-1. We will only accept USA
-     * bank accounts e.g., USA
+     * Returns the raw JSON value of [country].
+     *
+     * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
-    /** An ISO 8601 string representing when this funding source was added to the Lithic account. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** currency of the external account 3-character alphabetic ISO 4217 code */
+    /**
+     * Returns the raw JSON value of [currency].
+     *
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
-    /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
+    /**
+     * Returns the raw JSON value of [lastFour].
+     *
+     * Unlike [lastFour], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
     /**
-     * Legal Name of the business or individual who owns the external account. This will appear in
-     * statements
+     * Returns the raw JSON value of [owner].
+     *
+     * Unlike [owner], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("owner") @ExcludeMissing fun _owner(): JsonField<String> = owner
 
-    /** Owner Type */
+    /**
+     * Returns the raw JSON value of [ownerType].
+     *
+     * Unlike [ownerType], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("owner_type") @ExcludeMissing fun _ownerType(): JsonField<OwnerType> = ownerType
 
-    /** Routing Number */
+    /**
+     * Returns the raw JSON value of [routingNumber].
+     *
+     * Unlike [routingNumber], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("routing_number")
     @ExcludeMissing
     fun _routingNumber(): JsonField<String> = routingNumber
 
-    /** Account State */
+    /**
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
-    /** Account Type */
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
-    /** The number of attempts at verification */
+    /**
+     * Returns the raw JSON value of [verificationAttempts].
+     *
+     * Unlike [verificationAttempts], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("verification_attempts")
     @ExcludeMissing
     fun _verificationAttempts(): JsonField<Long> = verificationAttempts
 
-    /** Verification Method */
+    /**
+     * Returns the raw JSON value of [verificationMethod].
+     *
+     * Unlike [verificationMethod], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("verification_method")
     @ExcludeMissing
     fun _verificationMethod(): JsonField<VerificationMethod> = verificationMethod
 
-    /** Verification State */
+    /**
+     * Returns the raw JSON value of [verificationState].
+     *
+     * Unlike [verificationState], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("verification_state")
     @ExcludeMissing
     fun _verificationState(): JsonField<VerificationState> = verificationState
 
     /**
-     * Indicates which Lithic account the external account is associated with. For external accounts
-     * that are associated with the program, account_token field returned will be null
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
-    /** Address */
+    /**
+     * Returns the raw JSON value of [address].
+     *
+     * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("address")
     @ExcludeMissing
     fun _address(): JsonField<ExternalBankAccountAddress> = address
 
-    /** Optional field that helps identify bank accounts in receipts */
+    /**
+     * Returns the raw JSON value of [companyId].
+     *
+     * Unlike [companyId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("company_id") @ExcludeMissing fun _companyId(): JsonField<String> = companyId
 
-    /** Date of Birth of the Individual that owns the external bank account */
+    /**
+     * Returns the raw JSON value of [dob].
+     *
+     * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<LocalDate> = dob
 
-    /** Doing Business As */
+    /**
+     * Returns the raw JSON value of [doingBusinessAs].
+     *
+     * Unlike [doingBusinessAs], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("doing_business_as")
     @ExcludeMissing
     fun _doingBusinessAs(): JsonField<String> = doingBusinessAs
 
-    /** The financial account token of the operating account to fund the micro deposits */
+    /**
+     * Returns the raw JSON value of [financialAccountToken].
+     *
+     * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-    /** The nickname for this External Bank Account */
+    /**
+     * Returns the raw JSON value of [name].
+     *
+     * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-    /** User Defined ID */
+    /**
+     * Returns the raw JSON value of [userDefinedId].
+     *
+     * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("user_defined_id")
     @ExcludeMissing
     fun _userDefinedId(): JsonField<String> = userDefinedId
 
     /**
-     * Optional free text description of the reason for the failed verification. For ACH
-     * micro-deposits returned, this field will display the reason return code sent by the ACH
-     * network
+     * Returns the raw JSON value of [verificationFailedReason].
+     *
+     * Unlike [verificationFailedReason], this method doesn't throw if the JSON field has an
+     * unexpected type.
      */
     @JsonProperty("verification_failed_reason")
     @ExcludeMissing
@@ -404,9 +580,10 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /**
-         * A globally unique identifier for this record of an external bank account association. If
-         * a program links an external bank account to more than one end-user or to both the program
-         * and the end-user, then Lithic will return each record of the association
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
@@ -417,8 +594,10 @@ private constructor(
         fun country(country: String) = country(JsonField.of(country))
 
         /**
-         * The country that the bank account is located in using ISO 3166-1. We will only accept USA
-         * bank accounts e.g., USA
+         * Sets [Builder.country] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.country] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun country(country: JsonField<String>) = apply { this.country = country }
 
@@ -428,14 +607,23 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
-         * An ISO 8601 string representing when this funding source was added to the Lithic account.
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** currency of the external account 3-character alphabetic ISO 4217 code */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** currency of the external account 3-character alphabetic ISO 4217 code */
+        /**
+         * Sets [Builder.currency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
@@ -444,7 +632,10 @@ private constructor(
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
         /**
-         * The last 4 digits of the bank account. Derived by Lithic from the account number passed
+         * Sets [Builder.lastFour] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastFour] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
@@ -455,21 +646,35 @@ private constructor(
         fun owner(owner: String) = owner(JsonField.of(owner))
 
         /**
-         * Legal Name of the business or individual who owns the external account. This will appear
-         * in statements
+         * Sets [Builder.owner] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.owner] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
         /** Owner Type */
         fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
 
-        /** Owner Type */
+        /**
+         * Sets [Builder.ownerType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.ownerType] with a well-typed [OwnerType] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
 
         /** Routing Number */
         fun routingNumber(routingNumber: String) = routingNumber(JsonField.of(routingNumber))
 
-        /** Routing Number */
+        /**
+         * Sets [Builder.routingNumber] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.routingNumber] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun routingNumber(routingNumber: JsonField<String>) = apply {
             this.routingNumber = routingNumber
         }
@@ -477,20 +682,36 @@ private constructor(
         /** Account State */
         fun state(state: State) = state(JsonField.of(state))
 
-        /** Account State */
+        /**
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [State] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun state(state: JsonField<State>) = apply { this.state = state }
 
         /** Account Type */
         fun type(type: Type) = type(JsonField.of(type))
 
-        /** Account Type */
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /** The number of attempts at verification */
         fun verificationAttempts(verificationAttempts: Long) =
             verificationAttempts(JsonField.of(verificationAttempts))
 
-        /** The number of attempts at verification */
+        /**
+         * Sets [Builder.verificationAttempts] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.verificationAttempts] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun verificationAttempts(verificationAttempts: JsonField<Long>) = apply {
             this.verificationAttempts = verificationAttempts
         }
@@ -499,7 +720,13 @@ private constructor(
         fun verificationMethod(verificationMethod: VerificationMethod) =
             verificationMethod(JsonField.of(verificationMethod))
 
-        /** Verification Method */
+        /**
+         * Sets [Builder.verificationMethod] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.verificationMethod] with a well-typed
+         * [VerificationMethod] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
         fun verificationMethod(verificationMethod: JsonField<VerificationMethod>) = apply {
             this.verificationMethod = verificationMethod
         }
@@ -508,7 +735,13 @@ private constructor(
         fun verificationState(verificationState: VerificationState) =
             verificationState(JsonField.of(verificationState))
 
-        /** Verification State */
+        /**
+         * Sets [Builder.verificationState] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.verificationState] with a well-typed [VerificationState]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun verificationState(verificationState: JsonField<VerificationState>) = apply {
             this.verificationState = verificationState
         }
@@ -520,8 +753,11 @@ private constructor(
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /**
-         * Indicates which Lithic account the external account is associated with. For external
-         * accounts that are associated with the program, account_token field returned will be null
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
@@ -530,7 +766,13 @@ private constructor(
         /** Address */
         fun address(address: ExternalBankAccountAddress) = address(JsonField.of(address))
 
-        /** Address */
+        /**
+         * Sets [Builder.address] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.address] with a well-typed [ExternalBankAccountAddress]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
         fun address(address: JsonField<ExternalBankAccountAddress>) = apply {
             this.address = address
         }
@@ -538,20 +780,37 @@ private constructor(
         /** Optional field that helps identify bank accounts in receipts */
         fun companyId(companyId: String) = companyId(JsonField.of(companyId))
 
-        /** Optional field that helps identify bank accounts in receipts */
+        /**
+         * Sets [Builder.companyId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.companyId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
         /** Date of Birth of the Individual that owns the external bank account */
         fun dob(dob: LocalDate) = dob(JsonField.of(dob))
 
-        /** Date of Birth of the Individual that owns the external bank account */
+        /**
+         * Sets [Builder.dob] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.dob] with a well-typed [LocalDate] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
         /** Doing Business As */
         fun doingBusinessAs(doingBusinessAs: String) =
             doingBusinessAs(JsonField.of(doingBusinessAs))
 
-        /** Doing Business As */
+        /**
+         * Sets [Builder.doingBusinessAs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.doingBusinessAs] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun doingBusinessAs(doingBusinessAs: JsonField<String>) = apply {
             this.doingBusinessAs = doingBusinessAs
         }
@@ -560,7 +819,13 @@ private constructor(
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
-        /** The financial account token of the operating account to fund the micro deposits */
+        /**
+         * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.financialAccountToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -568,13 +833,24 @@ private constructor(
         /** The nickname for this External Bank Account */
         fun name(name: String) = name(JsonField.of(name))
 
-        /** The nickname for this External Bank Account */
+        /**
+         * Sets [Builder.name] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.name] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** User Defined ID */
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
-        /** User Defined ID */
+        /**
+         * Sets [Builder.userDefinedId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.userDefinedId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
         }
@@ -588,9 +864,11 @@ private constructor(
             verificationFailedReason(JsonField.of(verificationFailedReason))
 
         /**
-         * Optional free text description of the reason for the failed verification. For ACH
-         * micro-deposits returned, this field will display the reason return code sent by the ACH
-         * network
+         * Sets [Builder.verificationFailedReason] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.verificationFailedReason] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
          */
         fun verificationFailedReason(verificationFailedReason: JsonField<String>) = apply {
             this.verificationFailedReason = verificationFailedReason

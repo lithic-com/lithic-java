@@ -41,30 +41,76 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** A unique identifier for the enhanced commercial data. */
+    /**
+     * A unique identifier for the enhanced commercial data.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun common(): CommonData = common.getRequired("common")
 
-    /** The token of the event that the enhanced data is associated with. */
+    /**
+     * The token of the event that the enhanced data is associated with.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun eventToken(): String = eventToken.getRequired("event_token")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun fleet(): List<Fleet> = fleet.getRequired("fleet")
 
-    /** The token of the transaction that the enhanced data is associated with. */
+    /**
+     * The token of the transaction that the enhanced data is associated with.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun transactionToken(): String = transactionToken.getRequired("transaction_token")
 
-    /** A unique identifier for the enhanced commercial data. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
+    /**
+     * Returns the raw JSON value of [common].
+     *
+     * Unlike [common], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("common") @ExcludeMissing fun _common(): JsonField<CommonData> = common
 
-    /** The token of the event that the enhanced data is associated with. */
+    /**
+     * Returns the raw JSON value of [eventToken].
+     *
+     * Unlike [eventToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("event_token") @ExcludeMissing fun _eventToken(): JsonField<String> = eventToken
 
+    /**
+     * Returns the raw JSON value of [fleet].
+     *
+     * Unlike [fleet], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("fleet") @ExcludeMissing fun _fleet(): JsonField<List<Fleet>> = fleet
 
-    /** The token of the transaction that the enhanced data is associated with. */
+    /**
+     * Returns the raw JSON value of [transactionToken].
+     *
+     * Unlike [transactionToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("transaction_token")
     @ExcludeMissing
     fun _transactionToken(): JsonField<String> = transactionToken
@@ -130,25 +176,55 @@ private constructor(
         /** A unique identifier for the enhanced commercial data. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** A unique identifier for the enhanced commercial data. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun common(common: CommonData) = common(JsonField.of(common))
 
+        /**
+         * Sets [Builder.common] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.common] with a well-typed [CommonData] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun common(common: JsonField<CommonData>) = apply { this.common = common }
 
         /** The token of the event that the enhanced data is associated with. */
         fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
 
-        /** The token of the event that the enhanced data is associated with. */
+        /**
+         * Sets [Builder.eventToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
 
         fun fleet(fleet: List<Fleet>) = fleet(JsonField.of(fleet))
 
+        /**
+         * Sets [Builder.fleet] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fleet] with a well-typed `List<Fleet>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun fleet(fleet: JsonField<List<Fleet>>) = apply {
             this.fleet = fleet.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Fleet] to [Builder.fleet].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addFleet(fleet: Fleet) = apply {
             this.fleet =
                 (this.fleet ?: JsonField.of(mutableListOf())).also {
@@ -160,7 +236,13 @@ private constructor(
         fun transactionToken(transactionToken: String) =
             transactionToken(JsonField.of(transactionToken))
 
-        /** The token of the transaction that the enhanced data is associated with. */
+        /**
+         * Sets [Builder.transactionToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun transactionToken(transactionToken: JsonField<String>) = apply {
             this.transactionToken = transactionToken
         }
@@ -216,39 +298,86 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun lineItems(): List<LineItem> = lineItems.getRequired("line_items")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun tax(): TaxData = tax.getRequired("tax")
 
-        /** A customer identifier. */
+        /**
+         * A customer identifier.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun customerReferenceNumber(): Optional<String> =
             Optional.ofNullable(customerReferenceNumber.getNullable("customer_reference_number"))
 
-        /** A merchant identifier. */
+        /**
+         * A merchant identifier.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun merchantReferenceNumber(): Optional<String> =
             Optional.ofNullable(merchantReferenceNumber.getNullable("merchant_reference_number"))
 
-        /** The date of the order. */
+        /**
+         * The date of the order.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun orderDate(): Optional<LocalDate> =
             Optional.ofNullable(orderDate.getNullable("order_date"))
 
+        /**
+         * Returns the raw JSON value of [lineItems].
+         *
+         * Unlike [lineItems], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("line_items")
         @ExcludeMissing
         fun _lineItems(): JsonField<List<LineItem>> = lineItems
 
+        /**
+         * Returns the raw JSON value of [tax].
+         *
+         * Unlike [tax], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("tax") @ExcludeMissing fun _tax(): JsonField<TaxData> = tax
 
-        /** A customer identifier. */
+        /**
+         * Returns the raw JSON value of [customerReferenceNumber].
+         *
+         * Unlike [customerReferenceNumber], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("customer_reference_number")
         @ExcludeMissing
         fun _customerReferenceNumber(): JsonField<String> = customerReferenceNumber
 
-        /** A merchant identifier. */
+        /**
+         * Returns the raw JSON value of [merchantReferenceNumber].
+         *
+         * Unlike [merchantReferenceNumber], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("merchant_reference_number")
         @ExcludeMissing
         fun _merchantReferenceNumber(): JsonField<String> = merchantReferenceNumber
 
-        /** The date of the order. */
+        /**
+         * Returns the raw JSON value of [orderDate].
+         *
+         * Unlike [orderDate], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("order_date")
         @ExcludeMissing
         fun _orderDate(): JsonField<LocalDate> = orderDate
@@ -310,10 +439,22 @@ private constructor(
 
             fun lineItems(lineItems: List<LineItem>) = lineItems(JsonField.of(lineItems))
 
+            /**
+             * Sets [Builder.lineItems] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lineItems] with a well-typed `List<LineItem>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun lineItems(lineItems: JsonField<List<LineItem>>) = apply {
                 this.lineItems = lineItems.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [LineItem] to [lineItems].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addLineItem(lineItem: LineItem) = apply {
                 lineItems =
                     (lineItems ?: JsonField.of(mutableListOf())).also {
@@ -323,13 +464,26 @@ private constructor(
 
             fun tax(tax: TaxData) = tax(JsonField.of(tax))
 
+            /**
+             * Sets [Builder.tax] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tax] with a well-typed [TaxData] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun tax(tax: JsonField<TaxData>) = apply { this.tax = tax }
 
             /** A customer identifier. */
             fun customerReferenceNumber(customerReferenceNumber: String) =
                 customerReferenceNumber(JsonField.of(customerReferenceNumber))
 
-            /** A customer identifier. */
+            /**
+             * Sets [Builder.customerReferenceNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.customerReferenceNumber] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun customerReferenceNumber(customerReferenceNumber: JsonField<String>) = apply {
                 this.customerReferenceNumber = customerReferenceNumber
             }
@@ -338,7 +492,13 @@ private constructor(
             fun merchantReferenceNumber(merchantReferenceNumber: String) =
                 merchantReferenceNumber(JsonField.of(merchantReferenceNumber))
 
-            /** A merchant identifier. */
+            /**
+             * Sets [Builder.merchantReferenceNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantReferenceNumber] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun merchantReferenceNumber(merchantReferenceNumber: JsonField<String>) = apply {
                 this.merchantReferenceNumber = merchantReferenceNumber
             }
@@ -346,7 +506,13 @@ private constructor(
             /** The date of the order. */
             fun orderDate(orderDate: LocalDate) = orderDate(JsonField.of(orderDate))
 
-            /** The date of the order. */
+            /**
+             * Sets [Builder.orderDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.orderDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun orderDate(orderDate: JsonField<LocalDate>) = apply { this.orderDate = orderDate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -400,34 +566,73 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The price of the item purchased in merchant currency. */
+            /**
+             * The price of the item purchased in merchant currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun amount(): Optional<Double> = Optional.ofNullable(amount.getNullable("amount"))
 
-            /** A human-readable description of the item. */
+            /**
+             * A human-readable description of the item.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun description(): Optional<String> =
                 Optional.ofNullable(description.getNullable("description"))
 
-            /** An identifier for the item purchased. */
+            /**
+             * An identifier for the item purchased.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun productCode(): Optional<String> =
                 Optional.ofNullable(productCode.getNullable("product_code"))
 
-            /** The quantity of the item purchased. */
+            /**
+             * The quantity of the item purchased.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun quantity(): Optional<Double> = Optional.ofNullable(quantity.getNullable("quantity"))
 
-            /** The price of the item purchased in merchant currency. */
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Double> = amount
 
-            /** A human-readable description of the item. */
+            /**
+             * Returns the raw JSON value of [description].
+             *
+             * Unlike [description], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("description")
             @ExcludeMissing
             fun _description(): JsonField<String> = description
 
-            /** An identifier for the item purchased. */
+            /**
+             * Returns the raw JSON value of [productCode].
+             *
+             * Unlike [productCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("product_code")
             @ExcludeMissing
             fun _productCode(): JsonField<String> = productCode
 
-            /** The quantity of the item purchased. */
+            /**
+             * Returns the raw JSON value of [quantity].
+             *
+             * Unlike [quantity], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
 
             @JsonAnyGetter
@@ -477,13 +682,25 @@ private constructor(
                 /** The price of the item purchased in merchant currency. */
                 fun amount(amount: Double) = amount(JsonField.of(amount))
 
-                /** The price of the item purchased in merchant currency. */
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Double] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
 
                 /** A human-readable description of the item. */
                 fun description(description: String) = description(JsonField.of(description))
 
-                /** A human-readable description of the item. */
+                /**
+                 * Sets [Builder.description] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.description] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun description(description: JsonField<String>) = apply {
                     this.description = description
                 }
@@ -491,7 +708,13 @@ private constructor(
                 /** An identifier for the item purchased. */
                 fun productCode(productCode: String) = productCode(JsonField.of(productCode))
 
-                /** An identifier for the item purchased. */
+                /**
+                 * Sets [Builder.productCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.productCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun productCode(productCode: JsonField<String>) = apply {
                     this.productCode = productCode
                 }
@@ -499,7 +722,13 @@ private constructor(
                 /** The quantity of the item purchased. */
                 fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
 
-                /** The quantity of the item purchased. */
+                /**
+                 * Sets [Builder.quantity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.quantity] with a well-typed [Double] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -569,26 +798,54 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The amount of tax collected. */
+            /**
+             * The amount of tax collected.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
-            /** A flag indicating whether the transaction is tax exempt or not. */
+            /**
+             * A flag indicating whether the transaction is tax exempt or not.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun exempt(): Optional<TaxExemptIndicator> =
                 Optional.ofNullable(exempt.getNullable("exempt"))
 
-            /** The tax ID of the merchant. */
+            /**
+             * The tax ID of the merchant.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun merchantTaxId(): Optional<String> =
                 Optional.ofNullable(merchantTaxId.getNullable("merchant_tax_id"))
 
-            /** The amount of tax collected. */
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-            /** A flag indicating whether the transaction is tax exempt or not. */
+            /**
+             * Returns the raw JSON value of [exempt].
+             *
+             * Unlike [exempt], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("exempt")
             @ExcludeMissing
             fun _exempt(): JsonField<TaxExemptIndicator> = exempt
 
-            /** The tax ID of the merchant. */
+            /**
+             * Returns the raw JSON value of [merchantTaxId].
+             *
+             * Unlike [merchantTaxId], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("merchant_tax_id")
             @ExcludeMissing
             fun _merchantTaxId(): JsonField<String> = merchantTaxId
@@ -637,20 +894,38 @@ private constructor(
                 /** The amount of tax collected. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The amount of tax collected. */
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** A flag indicating whether the transaction is tax exempt or not. */
                 fun exempt(exempt: TaxExemptIndicator) = exempt(JsonField.of(exempt))
 
-                /** A flag indicating whether the transaction is tax exempt or not. */
+                /**
+                 * Sets [Builder.exempt] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.exempt] with a well-typed [TaxExemptIndicator]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
                 fun exempt(exempt: JsonField<TaxExemptIndicator>) = apply { this.exempt = exempt }
 
                 /** The tax ID of the merchant. */
                 fun merchantTaxId(merchantTaxId: String) =
                     merchantTaxId(JsonField.of(merchantTaxId))
 
-                /** The tax ID of the merchant. */
+                /**
+                 * Sets [Builder.merchantTaxId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.merchantTaxId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun merchantTaxId(merchantTaxId: JsonField<String>) = apply {
                     this.merchantTaxId = merchantTaxId
                 }
@@ -858,56 +1133,103 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amountTotals(): AmountTotals = amountTotals.getRequired("amount_totals")
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun fuel(): FuelData = fuel.getRequired("fuel")
 
         /**
          * The driver number entered into the terminal at the time of sale, with leading zeros
          * stripped.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun driverNumber(): Optional<String> =
             Optional.ofNullable(driverNumber.getNullable("driver_number"))
 
-        /** The odometer reading entered into the terminal at the time of sale. */
+        /**
+         * The odometer reading entered into the terminal at the time of sale.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun odometer(): Optional<Long> = Optional.ofNullable(odometer.getNullable("odometer"))
 
-        /** The type of fuel service. */
+        /**
+         * The type of fuel service.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun serviceType(): Optional<ServiceType> =
             Optional.ofNullable(serviceType.getNullable("service_type"))
 
         /**
          * The vehicle number entered into the terminal at the time of sale, with leading zeros
          * stripped.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun vehicleNumber(): Optional<String> =
             Optional.ofNullable(vehicleNumber.getNullable("vehicle_number"))
 
+        /**
+         * Returns the raw JSON value of [amountTotals].
+         *
+         * Unlike [amountTotals], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("amount_totals")
         @ExcludeMissing
         fun _amountTotals(): JsonField<AmountTotals> = amountTotals
 
+        /**
+         * Returns the raw JSON value of [fuel].
+         *
+         * Unlike [fuel], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("fuel") @ExcludeMissing fun _fuel(): JsonField<FuelData> = fuel
 
         /**
-         * The driver number entered into the terminal at the time of sale, with leading zeros
-         * stripped.
+         * Returns the raw JSON value of [driverNumber].
+         *
+         * Unlike [driverNumber], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("driver_number")
         @ExcludeMissing
         fun _driverNumber(): JsonField<String> = driverNumber
 
-        /** The odometer reading entered into the terminal at the time of sale. */
+        /**
+         * Returns the raw JSON value of [odometer].
+         *
+         * Unlike [odometer], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("odometer") @ExcludeMissing fun _odometer(): JsonField<Long> = odometer
 
-        /** The type of fuel service. */
+        /**
+         * Returns the raw JSON value of [serviceType].
+         *
+         * Unlike [serviceType], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("service_type")
         @ExcludeMissing
         fun _serviceType(): JsonField<ServiceType> = serviceType
 
         /**
-         * The vehicle number entered into the terminal at the time of sale, with leading zeros
-         * stripped.
+         * Returns the raw JSON value of [vehicleNumber].
+         *
+         * Unlike [vehicleNumber], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("vehicle_number")
         @ExcludeMissing
@@ -973,12 +1295,26 @@ private constructor(
 
             fun amountTotals(amountTotals: AmountTotals) = amountTotals(JsonField.of(amountTotals))
 
+            /**
+             * Sets [Builder.amountTotals] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amountTotals] with a well-typed [AmountTotals] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun amountTotals(amountTotals: JsonField<AmountTotals>) = apply {
                 this.amountTotals = amountTotals
             }
 
             fun fuel(fuel: FuelData) = fuel(JsonField.of(fuel))
 
+            /**
+             * Sets [Builder.fuel] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fuel] with a well-typed [FuelData] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun fuel(fuel: JsonField<FuelData>) = apply { this.fuel = fuel }
 
             /**
@@ -988,8 +1324,11 @@ private constructor(
             fun driverNumber(driverNumber: String) = driverNumber(JsonField.of(driverNumber))
 
             /**
-             * The driver number entered into the terminal at the time of sale, with leading zeros
-             * stripped.
+             * Sets [Builder.driverNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.driverNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun driverNumber(driverNumber: JsonField<String>) = apply {
                 this.driverNumber = driverNumber
@@ -998,13 +1337,25 @@ private constructor(
             /** The odometer reading entered into the terminal at the time of sale. */
             fun odometer(odometer: Long) = odometer(JsonField.of(odometer))
 
-            /** The odometer reading entered into the terminal at the time of sale. */
+            /**
+             * Sets [Builder.odometer] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.odometer] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun odometer(odometer: JsonField<Long>) = apply { this.odometer = odometer }
 
             /** The type of fuel service. */
             fun serviceType(serviceType: ServiceType) = serviceType(JsonField.of(serviceType))
 
-            /** The type of fuel service. */
+            /**
+             * Sets [Builder.serviceType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.serviceType] with a well-typed [ServiceType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun serviceType(serviceType: JsonField<ServiceType>) = apply {
                 this.serviceType = serviceType
             }
@@ -1016,8 +1367,11 @@ private constructor(
             fun vehicleNumber(vehicleNumber: String) = vehicleNumber(JsonField.of(vehicleNumber))
 
             /**
-             * The vehicle number entered into the terminal at the time of sale, with leading zeros
-             * stripped.
+             * Sets [Builder.vehicleNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.vehicleNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun vehicleNumber(vehicleNumber: JsonField<String>) = apply {
                 this.vehicleNumber = vehicleNumber
@@ -1071,25 +1425,54 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The discount applied to the gross sale amount. */
+            /**
+             * The discount applied to the gross sale amount.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun discount(): Optional<Long> = Optional.ofNullable(discount.getNullable("discount"))
 
-            /** The gross sale amount. */
+            /**
+             * The gross sale amount.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun grossSale(): Optional<Long> =
                 Optional.ofNullable(grossSale.getNullable("gross_sale"))
 
-            /** The amount after discount. */
+            /**
+             * The amount after discount.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun netSale(): Optional<Long> = Optional.ofNullable(netSale.getNullable("net_sale"))
 
-            /** The discount applied to the gross sale amount. */
+            /**
+             * Returns the raw JSON value of [discount].
+             *
+             * Unlike [discount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("discount") @ExcludeMissing fun _discount(): JsonField<Long> = discount
 
-            /** The gross sale amount. */
+            /**
+             * Returns the raw JSON value of [grossSale].
+             *
+             * Unlike [grossSale], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("gross_sale")
             @ExcludeMissing
             fun _grossSale(): JsonField<Long> = grossSale
 
-            /** The amount after discount. */
+            /**
+             * Returns the raw JSON value of [netSale].
+             *
+             * Unlike [netSale], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("net_sale") @ExcludeMissing fun _netSale(): JsonField<Long> = netSale
 
             @JsonAnyGetter
@@ -1136,19 +1519,37 @@ private constructor(
                 /** The discount applied to the gross sale amount. */
                 fun discount(discount: Long) = discount(JsonField.of(discount))
 
-                /** The discount applied to the gross sale amount. */
+                /**
+                 * Sets [Builder.discount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.discount] with a well-typed [Long] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun discount(discount: JsonField<Long>) = apply { this.discount = discount }
 
                 /** The gross sale amount. */
                 fun grossSale(grossSale: Long) = grossSale(JsonField.of(grossSale))
 
-                /** The gross sale amount. */
+                /**
+                 * Sets [Builder.grossSale] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.grossSale] with a well-typed [Long] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun grossSale(grossSale: JsonField<Long>) = apply { this.grossSale = grossSale }
 
                 /** The amount after discount. */
                 fun netSale(netSale: Long) = netSale(JsonField.of(netSale))
 
-                /** The amount after discount. */
+                /**
+                 * Sets [Builder.netSale] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.netSale] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun netSale(netSale: JsonField<Long>) = apply { this.netSale = netSale }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1215,32 +1616,71 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            /** The quantity of fuel purchased. */
+            /**
+             * The quantity of fuel purchased.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun quantity(): Optional<Double> = Optional.ofNullable(quantity.getNullable("quantity"))
 
-            /** The type of fuel purchased. */
+            /**
+             * The type of fuel purchased.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun type(): Optional<FuelType> = Optional.ofNullable(type.getNullable("type"))
 
-            /** Unit of measure for fuel disbursement. */
+            /**
+             * Unit of measure for fuel disbursement.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun unitOfMeasure(): Optional<FuelUnitOfMeasure> =
                 Optional.ofNullable(unitOfMeasure.getNullable("unit_of_measure"))
 
-            /** The price per unit of fuel. */
+            /**
+             * The price per unit of fuel.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
             fun unitPrice(): Optional<Long> =
                 Optional.ofNullable(unitPrice.getNullable("unit_price"))
 
-            /** The quantity of fuel purchased. */
+            /**
+             * Returns the raw JSON value of [quantity].
+             *
+             * Unlike [quantity], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
 
-            /** The type of fuel purchased. */
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<FuelType> = type
 
-            /** Unit of measure for fuel disbursement. */
+            /**
+             * Returns the raw JSON value of [unitOfMeasure].
+             *
+             * Unlike [unitOfMeasure], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("unit_of_measure")
             @ExcludeMissing
             fun _unitOfMeasure(): JsonField<FuelUnitOfMeasure> = unitOfMeasure
 
-            /** The price per unit of fuel. */
+            /**
+             * Returns the raw JSON value of [unitPrice].
+             *
+             * Unlike [unitPrice], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("unit_price")
             @ExcludeMissing
             fun _unitPrice(): JsonField<Long> = unitPrice
@@ -1292,20 +1732,38 @@ private constructor(
                 /** The quantity of fuel purchased. */
                 fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
 
-                /** The quantity of fuel purchased. */
+                /**
+                 * Sets [Builder.quantity] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.quantity] with a well-typed [Double] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
 
                 /** The type of fuel purchased. */
                 fun type(type: FuelType) = type(JsonField.of(type))
 
-                /** The type of fuel purchased. */
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [FuelType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun type(type: JsonField<FuelType>) = apply { this.type = type }
 
                 /** Unit of measure for fuel disbursement. */
                 fun unitOfMeasure(unitOfMeasure: FuelUnitOfMeasure) =
                     unitOfMeasure(JsonField.of(unitOfMeasure))
 
-                /** Unit of measure for fuel disbursement. */
+                /**
+                 * Sets [Builder.unitOfMeasure] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.unitOfMeasure] with a well-typed
+                 * [FuelUnitOfMeasure] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
+                 */
                 fun unitOfMeasure(unitOfMeasure: JsonField<FuelUnitOfMeasure>) = apply {
                     this.unitOfMeasure = unitOfMeasure
                 }
@@ -1313,7 +1771,13 @@ private constructor(
                 /** The price per unit of fuel. */
                 fun unitPrice(unitPrice: Long) = unitPrice(JsonField.of(unitPrice))
 
-                /** The price per unit of fuel. */
+                /**
+                 * Sets [Builder.unitPrice] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.unitPrice] with a well-typed [Long] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun unitPrice(unitPrice: JsonField<Long>) = apply { this.unitPrice = unitPrice }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

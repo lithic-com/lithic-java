@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 @NoAutoDetect
@@ -33,33 +34,52 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier for an entity. */
+    /**
+     * Globally unique identifier for an entity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun entityToken(): String = entityToken.getRequired("entity_token")
 
     /**
      * rovides the status reasons that will be satisfied by providing one of the valid documents.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun statusReasons(): List<String> = statusReasons.getRequired("status_reasons")
 
     /**
      * A list of valid documents that will satisfy the KYC requirements for the specified entity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun validDocuments(): List<String> = validDocuments.getRequired("valid_documents")
 
-    /** Globally unique identifier for an entity. */
+    /**
+     * Returns the raw JSON value of [entityToken].
+     *
+     * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("entity_token")
     @ExcludeMissing
     fun _entityToken(): JsonField<String> = entityToken
 
     /**
-     * rovides the status reasons that will be satisfied by providing one of the valid documents.
+     * Returns the raw JSON value of [statusReasons].
+     *
+     * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("status_reasons")
     @ExcludeMissing
     fun _statusReasons(): JsonField<List<String>> = statusReasons
 
     /**
-     * A list of valid documents that will satisfy the KYC requirements for the specified entity.
+     * Returns the raw JSON value of [validDocuments].
+     *
+     * Unlike [validDocuments], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("valid_documents")
     @ExcludeMissing
@@ -118,7 +138,13 @@ private constructor(
         /** Globally unique identifier for an entity. */
         fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
-        /** Globally unique identifier for an entity. */
+        /**
+         * Sets [Builder.entityToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.entityToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
 
         /**
@@ -128,16 +154,20 @@ private constructor(
         fun statusReasons(statusReasons: List<String>) = statusReasons(JsonField.of(statusReasons))
 
         /**
-         * rovides the status reasons that will be satisfied by providing one of the valid
-         * documents.
+         * Sets [Builder.statusReasons] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statusReasons] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun statusReasons(statusReasons: JsonField<List<String>>) = apply {
             this.statusReasons = statusReasons.map { it.toMutableList() }
         }
 
         /**
-         * rovides the status reasons that will be satisfied by providing one of the valid
-         * documents.
+         * Adds a single [String] to [statusReasons].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addStatusReason(statusReason: String) = apply {
             statusReasons =
@@ -154,16 +184,20 @@ private constructor(
             validDocuments(JsonField.of(validDocuments))
 
         /**
-         * A list of valid documents that will satisfy the KYC requirements for the specified
-         * entity.
+         * Sets [Builder.validDocuments] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.validDocuments] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun validDocuments(validDocuments: JsonField<List<String>>) = apply {
             this.validDocuments = validDocuments.map { it.toMutableList() }
         }
 
         /**
-         * A list of valid documents that will satisfy the KYC requirements for the specified
-         * entity.
+         * Adds a single [String] to [validDocuments].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addValidDocument(validDocument: String) = apply {
             validDocuments =

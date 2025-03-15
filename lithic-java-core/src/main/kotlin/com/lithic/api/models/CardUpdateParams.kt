@@ -42,22 +42,36 @@ private constructor(
      * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
      * See
      * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun digitalCardArtToken(): Optional<String> = body.digitalCardArtToken()
 
-    /** Friendly name to identify the card. */
+    /**
+     * Friendly name to identify the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = body.memo()
 
     /**
      * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
      * Changing PIN also resets PIN status to `OK`. See
      * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun pin(): Optional<String> = body.pin()
 
     /**
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
      * Can only be set to `OK` to unblock a card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun pinStatus(): Optional<PinStatus> = body.pinStatus()
 
@@ -66,6 +80,9 @@ private constructor(
      * Transaction requests above the spend limit will be declined. Note that a spend limit of 0 is
      * effectively no limit, and should only be used to reset or remove a prior limit. Only a limit
      * of 1 or above will result in declined transactions due to checks against the card limit.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun spendLimit(): Optional<Long> = body.spendLimit()
 
@@ -79,6 +96,9 @@ private constructor(
      *   month prior.
      * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
      *   under the spend limit.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun spendLimitDuration(): Optional<SpendLimitDuration> = body.spendLimitDuration()
 
@@ -87,59 +107,60 @@ private constructor(
      * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
      * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
      * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun state(): Optional<State> = body.state()
 
     /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
-     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     * Returns the raw JSON value of [digitalCardArtToken].
+     *
+     * Unlike [digitalCardArtToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     fun _digitalCardArtToken(): JsonField<String> = body._digitalCardArtToken()
 
-    /** Friendly name to identify the card. */
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _memo(): JsonField<String> = body._memo()
 
     /**
-     * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-     * Changing PIN also resets PIN status to `OK`. See
-     * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+     * Returns the raw JSON value of [pin].
+     *
+     * Unlike [pin], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _pin(): JsonField<String> = body._pin()
 
     /**
-     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
-     * Can only be set to `OK` to unblock a card.
+     * Returns the raw JSON value of [pinStatus].
+     *
+     * Unlike [pinStatus], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _pinStatus(): JsonField<PinStatus> = body._pinStatus()
 
     /**
-     * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
-     * Transaction requests above the spend limit will be declined. Note that a spend limit of 0 is
-     * effectively no limit, and should only be used to reset or remove a prior limit. Only a limit
-     * of 1 or above will result in declined transactions due to checks against the card limit.
+     * Returns the raw JSON value of [spendLimit].
+     *
+     * Unlike [spendLimit], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _spendLimit(): JsonField<Long> = body._spendLimit()
 
     /**
-     * Spend limit duration values:
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
-     *   support recurring monthly payments, which can occur on different day every month, the time
-     *   window we consider for monthly velocity starts 6 days after the current calendar date one
-     *   month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
-     *   under the spend limit.
+     * Returns the raw JSON value of [spendLimitDuration].
+     *
+     * Unlike [spendLimitDuration], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     fun _spendLimitDuration(): JsonField<SpendLimitDuration> = body._spendLimitDuration()
 
     /**
-     * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _state(): JsonField<State> = body._state()
 
@@ -194,23 +215,37 @@ private constructor(
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun digitalCardArtToken(): Optional<String> =
             Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
-        /** Friendly name to identify the card. */
+        /**
+         * Friendly name to identify the card.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun pinStatus(): Optional<PinStatus> =
             Optional.ofNullable(pinStatus.getNullable("pin_status"))
@@ -221,6 +256,9 @@ private constructor(
          * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
          * limit of 1 or above will result in declined transactions due to checks against the card
          * limit.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun spendLimit(): Optional<Long> =
             Optional.ofNullable(spendLimit.getNullable("spend_limit"))
@@ -236,6 +274,9 @@ private constructor(
          *   calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun spendLimitDuration(): Optional<SpendLimitDuration> =
             Optional.ofNullable(spendLimitDuration.getNullable("spend_limit_duration"))
@@ -245,67 +286,66 @@ private constructor(
          * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Returns the raw JSON value of [digitalCardArtToken].
+         *
+         * Unlike [digitalCardArtToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("digital_card_art_token")
         @ExcludeMissing
         fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
-        /** Friendly name to identify the card. */
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * Changing PIN also resets PIN status to `OK`. See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         * Returns the raw JSON value of [pin].
+         *
+         * Unlike [pin], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("pin") @ExcludeMissing fun _pin(): JsonField<String> = pin
 
         /**
-         * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
-         * attempts). Can only be set to `OK` to unblock a card.
+         * Returns the raw JSON value of [pinStatus].
+         *
+         * Unlike [pinStatus], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("pin_status")
         @ExcludeMissing
         fun _pinStatus(): JsonField<PinStatus> = pinStatus
 
         /**
-         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
-         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
-         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
-         * limit of 1 or above will result in declined transactions due to checks against the card
-         * limit.
+         * Returns the raw JSON value of [spendLimit].
+         *
+         * Unlike [spendLimit], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
         /**
-         * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         *   To support recurring monthly payments, which can occur on different day every month,
-         *   the time window we consider for monthly velocity starts 6 days after the current
-         *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
+         * Returns the raw JSON value of [spendLimitDuration].
+         *
+         * Unlike [spendLimitDuration], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
         @JsonProperty("spend_limit_duration")
         @ExcludeMissing
         fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
         /**
-         * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
@@ -372,10 +412,11 @@ private constructor(
                 digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
             /**
-             * Specifies the digital card art to be displayed in the user’s digital wallet after
-             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-             * use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             * Sets [Builder.digitalCardArtToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.digitalCardArtToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
             fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
@@ -384,7 +425,13 @@ private constructor(
             /** Friendly name to identify the card. */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
-            /** Friendly name to identify the card. */
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             /**
@@ -395,9 +442,11 @@ private constructor(
             fun pin(pin: String) = pin(JsonField.of(pin))
 
             /**
-             * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
-             * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+             * Sets [Builder.pin] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pin] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun pin(pin: JsonField<String>) = apply { this.pin = pin }
 
@@ -408,8 +457,11 @@ private constructor(
             fun pinStatus(pinStatus: PinStatus) = pinStatus(JsonField.of(pinStatus))
 
             /**
-             * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
-             * attempts). Can only be set to `OK` to unblock a card.
+             * Sets [Builder.pinStatus] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pinStatus] with a well-typed [PinStatus] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
@@ -423,11 +475,11 @@ private constructor(
             fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
             /**
-             * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000
-             * limit). Transaction requests above the spend limit will be declined. Note that a
-             * spend limit of 0 is effectively no limit, and should only be used to reset or remove
-             * a prior limit. Only a limit of 1 or above will result in declined transactions due to
-             * checks against the card limit.
+             * Sets [Builder.spendLimit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
@@ -448,17 +500,11 @@ private constructor(
                 spendLimitDuration(JsonField.of(spendLimitDuration))
 
             /**
-             * Spend limit duration values:
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
-             *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
-             *   the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
-             *   month. To support recurring monthly payments, which can occur on different day
-             *   every month, the time window we consider for monthly velocity starts 6 days after
-             *   the current calendar date one month prior.
-             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             *   transaction is under the spend limit.
+             * Sets [Builder.spendLimitDuration] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.spendLimitDuration] with a well-typed
+             * [SpendLimitDuration] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
              */
             fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
                 this.spendLimitDuration = spendLimitDuration
@@ -475,12 +521,11 @@ private constructor(
             fun state(state: State) = state(JsonField.of(state))
 
             /**
-             * Card state values:
-             * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
-             *   undone.
-             * - `OPEN` - Card will approve authorizations (if they match card and account
-             *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [State] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun state(state: JsonField<State>) = apply { this.state = state }
 
@@ -579,10 +624,11 @@ private constructor(
         }
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Sets [Builder.digitalCardArtToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.digitalCardArtToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
@@ -591,7 +637,12 @@ private constructor(
         /** Friendly name to identify the card. */
         fun memo(memo: String) = apply { body.memo(memo) }
 
-        /** Friendly name to identify the card. */
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         /**
@@ -602,9 +653,10 @@ private constructor(
         fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * Changing PIN also resets PIN status to `OK`. See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         * Sets [Builder.pin] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pin] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
 
@@ -615,8 +667,11 @@ private constructor(
         fun pinStatus(pinStatus: PinStatus) = apply { body.pinStatus(pinStatus) }
 
         /**
-         * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
-         * attempts). Can only be set to `OK` to unblock a card.
+         * Sets [Builder.pinStatus] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pinStatus] with a well-typed [PinStatus] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { body.pinStatus(pinStatus) }
 
@@ -630,11 +685,10 @@ private constructor(
         fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
-         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
-         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
-         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
-         * limit of 1 or above will result in declined transactions due to checks against the card
-         * limit.
+         * Sets [Builder.spendLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun spendLimit(spendLimit: JsonField<Long>) = apply { body.spendLimit(spendLimit) }
 
@@ -655,16 +709,11 @@ private constructor(
         }
 
         /**
-         * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         *   To support recurring monthly payments, which can occur on different day every month,
-         *   the time window we consider for monthly velocity starts 6 days after the current
-         *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
+         * Sets [Builder.spendLimitDuration] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimitDuration] with a well-typed
+         * [SpendLimitDuration] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
          */
         fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
             body.spendLimitDuration(spendLimitDuration)
@@ -679,10 +728,10 @@ private constructor(
         fun state(state: State) = apply { body.state(state) }
 
         /**
-         * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [State] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<State>) = apply { body.state(state) }
 

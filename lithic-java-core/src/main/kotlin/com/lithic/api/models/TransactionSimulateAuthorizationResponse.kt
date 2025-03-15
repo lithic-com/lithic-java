@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -30,20 +31,34 @@ private constructor(
     /**
      * A unique token to reference this transaction with later calls to void or clear the
      * authorization.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
-    /** Debugging request ID to share with Lithic Support team. */
+    /**
+     * Debugging request ID to share with Lithic Support team.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun debuggingRequestId(): Optional<String> =
         Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
 
     /**
-     * A unique token to reference this transaction with later calls to void or clear the
-     * authorization.
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Debugging request ID to share with Lithic Support team. */
+    /**
+     * Returns the raw JSON value of [debuggingRequestId].
+     *
+     * Unlike [debuggingRequestId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
     fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
@@ -99,8 +114,10 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /**
-         * A unique token to reference this transaction with later calls to void or clear the
-         * authorization.
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
@@ -108,7 +125,13 @@ private constructor(
         fun debuggingRequestId(debuggingRequestId: String) =
             debuggingRequestId(JsonField.of(debuggingRequestId))
 
-        /** Debugging request ID to share with Lithic Support team. */
+        /**
+         * Sets [Builder.debuggingRequestId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.debuggingRequestId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
             this.debuggingRequestId = debuggingRequestId
         }

@@ -47,63 +47,131 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun eventSubscriptionToken(): String =
         eventSubscriptionToken.getRequired("event_subscription_token")
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun eventToken(): String = eventToken.getRequired("event_token")
 
-    /** The response body from the event subscription's URL. */
+    /**
+     * The response body from the event subscription's URL.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun response(): String = response.getRequired("response")
 
-    /** The response status code from the event subscription's URL. */
+    /**
+     * The response status code from the event subscription's URL.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun responseStatusCode(): Long = responseStatusCode.getRequired("response_status_code")
 
-    /** The status of the event attempt. */
+    /**
+     * The status of the event attempt.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun status(): Status = status.getRequired("status")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun url(): String = url.getRequired("url")
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * An RFC 3339 timestamp for when the event was created. UTC time zone.
+     * Returns the raw JSON value of [created].
      *
-     * If no timezone is specified, UTC will be used.
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [eventSubscriptionToken].
+     *
+     * Unlike [eventSubscriptionToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
     @JsonProperty("event_subscription_token")
     @ExcludeMissing
     fun _eventSubscriptionToken(): JsonField<String> = eventSubscriptionToken
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [eventToken].
+     *
+     * Unlike [eventToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("event_token") @ExcludeMissing fun _eventToken(): JsonField<String> = eventToken
 
-    /** The response body from the event subscription's URL. */
+    /**
+     * Returns the raw JSON value of [response].
+     *
+     * Unlike [response], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("response") @ExcludeMissing fun _response(): JsonField<String> = response
 
-    /** The response status code from the event subscription's URL. */
+    /**
+     * Returns the raw JSON value of [responseStatusCode].
+     *
+     * Unlike [responseStatusCode], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("response_status_code")
     @ExcludeMissing
     fun _responseStatusCode(): JsonField<Long> = responseStatusCode
 
-    /** The status of the event attempt. */
+    /**
+     * Returns the raw JSON value of [status].
+     *
+     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
+    /**
+     * Returns the raw JSON value of [url].
+     *
+     * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
     @JsonAnyGetter
@@ -179,7 +247,12 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -190,9 +263,11 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
-         * An RFC 3339 timestamp for when the event was created. UTC time zone.
+         * Sets [Builder.created] to an arbitrary JSON value.
          *
-         * If no timezone is specified, UTC will be used.
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
@@ -200,7 +275,13 @@ private constructor(
         fun eventSubscriptionToken(eventSubscriptionToken: String) =
             eventSubscriptionToken(JsonField.of(eventSubscriptionToken))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.eventSubscriptionToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventSubscriptionToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun eventSubscriptionToken(eventSubscriptionToken: JsonField<String>) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
@@ -208,20 +289,37 @@ private constructor(
         /** Globally unique identifier. */
         fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.eventToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
 
         /** The response body from the event subscription's URL. */
         fun response(response: String) = response(JsonField.of(response))
 
-        /** The response body from the event subscription's URL. */
+        /**
+         * Sets [Builder.response] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.response] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun response(response: JsonField<String>) = apply { this.response = response }
 
         /** The response status code from the event subscription's URL. */
         fun responseStatusCode(responseStatusCode: Long) =
             responseStatusCode(JsonField.of(responseStatusCode))
 
-        /** The response status code from the event subscription's URL. */
+        /**
+         * Sets [Builder.responseStatusCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.responseStatusCode] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun responseStatusCode(responseStatusCode: JsonField<Long>) = apply {
             this.responseStatusCode = responseStatusCode
         }
@@ -229,11 +327,22 @@ private constructor(
         /** The status of the event attempt. */
         fun status(status: Status) = status(JsonField.of(status))
 
-        /** The status of the event attempt. */
+        /**
+         * Sets [Builder.status] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         fun url(url: String) = url(JsonField.of(url))
 
+        /**
+         * Sets [Builder.url] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.url] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

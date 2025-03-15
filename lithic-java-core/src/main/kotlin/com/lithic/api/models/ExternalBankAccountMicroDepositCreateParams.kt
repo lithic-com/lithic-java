@@ -18,6 +18,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /** Verify the external bank account by providing the micro deposit amounts. */
@@ -31,8 +32,17 @@ private constructor(
 
     fun externalBankAccountToken(): String = externalBankAccountToken
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun microDeposits(): List<Long> = body.microDeposits()
 
+    /**
+     * Returns the raw JSON value of [microDeposits].
+     *
+     * Unlike [microDeposits], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _microDeposits(): JsonField<List<Long>> = body._microDeposits()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -65,8 +75,18 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun microDeposits(): List<Long> = microDeposits.getRequired("micro_deposits")
 
+        /**
+         * Returns the raw JSON value of [microDeposits].
+         *
+         * Unlike [microDeposits], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("micro_deposits")
         @ExcludeMissing
         fun _microDeposits(): JsonField<List<Long>> = microDeposits
@@ -120,10 +140,22 @@ private constructor(
             fun microDeposits(microDeposits: List<Long>) =
                 microDeposits(JsonField.of(microDeposits))
 
+            /**
+             * Sets [Builder.microDeposits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.microDeposits] with a well-typed `List<Long>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
                 this.microDeposits = microDeposits.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [Long] to [microDeposits].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addMicroDeposit(microDeposit: Long) = apply {
                 microDeposits =
                     (microDeposits ?: JsonField.of(mutableListOf())).also {
@@ -221,10 +253,22 @@ private constructor(
 
         fun microDeposits(microDeposits: List<Long>) = apply { body.microDeposits(microDeposits) }
 
+        /**
+         * Sets [Builder.microDeposits] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.microDeposits] with a well-typed `List<Long>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
             body.microDeposits(microDeposits)
         }
 
+        /**
+         * Adds a single [Long] to [microDeposits].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addMicroDeposit(microDeposit: Long) = apply { body.addMicroDeposit(microDeposit) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

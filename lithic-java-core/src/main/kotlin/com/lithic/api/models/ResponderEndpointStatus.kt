@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -28,16 +29,34 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** True if the instance has an endpoint enrolled. */
+    /**
+     * True if the instance has an endpoint enrolled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun enrolled(): Optional<Boolean> = Optional.ofNullable(enrolled.getNullable("enrolled"))
 
-    /** The URL of the currently enrolled endpoint or null. */
+    /**
+     * The URL of the currently enrolled endpoint or null.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
 
-    /** True if the instance has an endpoint enrolled. */
+    /**
+     * Returns the raw JSON value of [enrolled].
+     *
+     * Unlike [enrolled], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("enrolled") @ExcludeMissing fun _enrolled(): JsonField<Boolean> = enrolled
 
-    /** The URL of the currently enrolled endpoint or null. */
+    /**
+     * Returns the raw JSON value of [url].
+     *
+     * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
     @JsonAnyGetter
@@ -81,16 +100,27 @@ private constructor(
         /** True if the instance has an endpoint enrolled. */
         fun enrolled(enrolled: Boolean) = enrolled(JsonField.of(enrolled))
 
-        /** True if the instance has an endpoint enrolled. */
+        /**
+         * Sets [Builder.enrolled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.enrolled] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         /** The URL of the currently enrolled endpoint or null. */
         fun url(url: String?) = url(JsonField.ofNullable(url))
 
-        /** The URL of the currently enrolled endpoint or null. */
+        /** Alias for calling [Builder.url] with `url.orElse(null)`. */
         fun url(url: Optional<String>) = url(url.getOrNull())
 
-        /** The URL of the currently enrolled endpoint or null. */
+        /**
+         * Sets [Builder.url] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.url] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

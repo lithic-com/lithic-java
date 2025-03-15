@@ -169,10 +169,7 @@ private constructor(
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        /**
-         * Datetime in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
@@ -181,10 +178,7 @@ private constructor(
          */
         fun end(end: OffsetDateTime?) = apply { this.end = end }
 
-        /**
-         * Datetime in RFC 3339 format. Only entries created before the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
@@ -193,32 +187,33 @@ private constructor(
          */
         fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
+        /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Institution ID to filter on. */
         fun institutionId(institutionId: String?) = apply { this.institutionId = institutionId }
 
-        /** Institution ID to filter on. */
+        /** Alias for calling [Builder.institutionId] with `institutionId.orElse(null)`. */
         fun institutionId(institutionId: Optional<String>) =
             institutionId(institutionId.getOrNull())
 
         /** Network to filter on. */
         fun network(network: Network?) = apply { this.network = network }
 
-        /** Network to filter on. */
+        /** Alias for calling [Builder.network] with `network.orElse(null)`. */
         fun network(network: Optional<Network>) = network(network.getOrNull())
 
         /** Number of records per page. */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
-        /** Number of records per page. */
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
 
-        /** Number of records per page. */
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /**
@@ -227,10 +222,7 @@ private constructor(
          */
         fun reportDate(reportDate: LocalDate?) = apply { this.reportDate = reportDate }
 
-        /**
-         * Singular report date to filter on (YYYY-MM-DD). Cannot be populated in conjunction with
-         * report_date_begin or report_date_end.
-         */
+        /** Alias for calling [Builder.reportDate] with `reportDate.orElse(null)`. */
         fun reportDate(reportDate: Optional<LocalDate>) = reportDate(reportDate.getOrNull())
 
         /** Earliest report date to filter on, inclusive (YYYY-MM-DD). */
@@ -238,14 +230,14 @@ private constructor(
             this.reportDateBegin = reportDateBegin
         }
 
-        /** Earliest report date to filter on, inclusive (YYYY-MM-DD). */
+        /** Alias for calling [Builder.reportDateBegin] with `reportDateBegin.orElse(null)`. */
         fun reportDateBegin(reportDateBegin: Optional<LocalDate>) =
             reportDateBegin(reportDateBegin.getOrNull())
 
         /** Latest report date to filter on, inclusive (YYYY-MM-DD). */
         fun reportDateEnd(reportDateEnd: LocalDate?) = apply { this.reportDateEnd = reportDateEnd }
 
-        /** Latest report date to filter on, inclusive (YYYY-MM-DD). */
+        /** Alias for calling [Builder.reportDateEnd] with `reportDateEnd.orElse(null)`. */
         fun reportDateEnd(reportDateEnd: Optional<LocalDate>) =
             reportDateEnd(reportDateEnd.getOrNull())
 
@@ -254,7 +246,10 @@ private constructor(
             this.settlementInstitutionId = settlementInstitutionId
         }
 
-        /** Settlement institution ID to filter on. */
+        /**
+         * Alias for calling [Builder.settlementInstitutionId] with
+         * `settlementInstitutionId.orElse(null)`.
+         */
         fun settlementInstitutionId(settlementInstitutionId: Optional<String>) =
             settlementInstitutionId(settlementInstitutionId.getOrNull())
 
@@ -264,10 +259,7 @@ private constructor(
          */
         fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
+        /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 

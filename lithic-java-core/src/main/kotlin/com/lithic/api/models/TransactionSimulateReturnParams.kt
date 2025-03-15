@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /**
@@ -30,22 +31,49 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** Amount (in cents) to authorize. */
+    /**
+     * Amount (in cents) to authorize.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun amount(): Long = body.amount()
 
-    /** Merchant descriptor. */
+    /**
+     * Merchant descriptor.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun descriptor(): String = body.descriptor()
 
-    /** Sixteen digit card number. */
+    /**
+     * Sixteen digit card number.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun pan(): String = body.pan()
 
-    /** Amount (in cents) to authorize. */
+    /**
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _amount(): JsonField<Long> = body._amount()
 
-    /** Merchant descriptor. */
+    /**
+     * Returns the raw JSON value of [descriptor].
+     *
+     * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _descriptor(): JsonField<String> = body._descriptor()
 
-    /** Sixteen digit card number. */
+    /**
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _pan(): JsonField<String> = body._pan()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -75,24 +103,51 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Amount (in cents) to authorize. */
+        /**
+         * Amount (in cents) to authorize.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Merchant descriptor. */
+        /**
+         * Merchant descriptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun descriptor(): String = descriptor.getRequired("descriptor")
 
-        /** Sixteen digit card number. */
+        /**
+         * Sixteen digit card number.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun pan(): String = pan.getRequired("pan")
 
-        /** Amount (in cents) to authorize. */
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        /** Merchant descriptor. */
+        /**
+         * Returns the raw JSON value of [descriptor].
+         *
+         * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("descriptor")
         @ExcludeMissing
         fun _descriptor(): JsonField<String> = descriptor
 
-        /** Sixteen digit card number. */
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
         @JsonAnyGetter
@@ -148,19 +203,37 @@ private constructor(
             /** Amount (in cents) to authorize. */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            /** Amount (in cents) to authorize. */
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
-            /** Merchant descriptor. */
+            /**
+             * Sets [Builder.descriptor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.descriptor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
             fun pan(pan: String) = pan(JsonField.of(pan))
 
-            /** Sixteen digit card number. */
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -247,19 +320,35 @@ private constructor(
         /** Amount (in cents) to authorize. */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
-        /** Amount (in cents) to authorize. */
+        /**
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Merchant descriptor. */
         fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
 
-        /** Merchant descriptor. */
+        /**
+         * Sets [Builder.descriptor] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.descriptor] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun descriptor(descriptor: JsonField<String>) = apply { body.descriptor(descriptor) }
 
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /** Sixteen digit card number. */
+        /**
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

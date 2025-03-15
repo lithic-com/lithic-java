@@ -35,12 +35,20 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The transaction token returned from the /v1/simulate/authorize response. */
+    /**
+     * The transaction token returned from the /v1/simulate/authorize response.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = body.token()
 
     /**
      * Amount (in cents) to void. Typically this will match the amount in the original
      * authorization, but can be less.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun amount(): Optional<Long> = body.amount()
 
@@ -48,22 +56,30 @@ private constructor(
      * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
      * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
      * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun type(): Optional<Type> = body.type()
 
-    /** The transaction token returned from the /v1/simulate/authorize response. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _token(): JsonField<String> = body._token()
 
     /**
-     * Amount (in cents) to void. Typically this will match the amount in the original
-     * authorization, but can be less.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
     /**
-     * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-     * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
-     * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _type(): JsonField<Type> = body._type()
 
@@ -94,12 +110,20 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * The transaction token returned from the /v1/simulate/authorize response.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
@@ -107,22 +131,30 @@ private constructor(
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         /**
-         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
-         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
@@ -177,7 +209,13 @@ private constructor(
             /** The transaction token returned from the /v1/simulate/authorize response. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** The transaction token returned from the /v1/simulate/authorize response. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -187,8 +225,11 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount (in cents) to void. Typically this will match the amount in the original
-             * authorization, but can be less.
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -201,10 +242,11 @@ private constructor(
             fun type(type: Type) = type(JsonField.of(type))
 
             /**
-             * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
-             *   Lithic.
-             * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
@@ -288,7 +330,12 @@ private constructor(
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { body.token(token) }
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /**
@@ -298,8 +345,10 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
@@ -311,9 +360,10 @@ private constructor(
         fun type(type: Type) = apply { body.type(type) }
 
         /**
-         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
-         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun type(type: JsonField<Type>) = apply { body.type(type) }
 
