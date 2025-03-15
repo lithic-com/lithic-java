@@ -102,6 +102,7 @@ private constructor(
 
         fun webhookSecret(webhookSecret: String?) = apply { this.webhookSecret = webhookSecret }
 
+        /** Alias for calling [Builder.webhookSecret] with `webhookSecret.orElse(null)`. */
         fun webhookSecret(webhookSecret: Optional<String>) =
             webhookSecret(webhookSecret.getOrNull())
 

@@ -236,10 +236,13 @@ private constructor(
 
         fun body(body: Body) = apply { this.body = body }
 
+        /** Alias for calling [body] with `Body.ofKyb(kyb)`. */
         fun body(kyb: Kyb) = body(Body.ofKyb(kyb))
 
+        /** Alias for calling [body] with `Body.ofKyc(kyc)`. */
         fun body(kyc: Kyc) = body(Body.ofKyc(kyc))
 
+        /** Alias for calling [body] with `Body.ofKycExempt(kycExempt)`. */
         fun body(kycExempt: KycExempt) = body(Body.ofKycExempt(kycExempt))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

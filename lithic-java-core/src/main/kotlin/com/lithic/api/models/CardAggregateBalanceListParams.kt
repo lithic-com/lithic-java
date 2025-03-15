@@ -74,7 +74,7 @@ private constructor(
         /** Cardholder to retrieve aggregate balances for. */
         fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-        /** Cardholder to retrieve aggregate balances for. */
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** Business to retrieve aggregate balances for. */
@@ -82,7 +82,10 @@ private constructor(
             this.businessAccountToken = businessAccountToken
         }
 
-        /** Business to retrieve aggregate balances for. */
+        /**
+         * Alias for calling [Builder.businessAccountToken] with
+         * `businessAccountToken.orElse(null)`.
+         */
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 

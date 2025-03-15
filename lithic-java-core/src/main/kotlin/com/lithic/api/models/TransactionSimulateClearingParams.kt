@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -34,7 +35,12 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The transaction token returned from the /v1/simulate/authorize response. */
+    /**
+     * The transaction token returned from the /v1/simulate/authorize response.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = body.token()
 
     /**
@@ -46,21 +52,23 @@ private constructor(
      *
      * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
      * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun amount(): Optional<Long> = body.amount()
 
-    /** The transaction token returned from the /v1/simulate/authorize response. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _token(): JsonField<String> = body._token()
 
     /**
-     * Amount (in cents) to clear. Typically this will match the amount in the original
-     * authorization, but can be higher or lower. The sign of this amount will automatically match
-     * the sign of the original authorization's amount. For example, entering 100 in this field will
-     * result in a -100 amount in the transaction, if the original authorization is a credit
-     * authorization.
+     * Returns the raw JSON value of [amount].
      *
-     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
-     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
@@ -90,7 +98,12 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * The transaction token returned from the /v1/simulate/authorize response.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
@@ -103,22 +116,23 @@ private constructor(
          * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
         fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * Amount (in cents) to clear. Typically this will match the amount in the original
-         * authorization, but can be higher or lower. The sign of this amount will automatically
-         * match the sign of the original authorization's amount. For example, entering 100 in this
-         * field will result in a -100 amount in the transaction, if the original authorization is a
-         * credit authorization.
+         * Returns the raw JSON value of [amount].
          *
-         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
-         * that have already cleared, either partially or fully, cannot be cleared again using this
-         * endpoint.
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
@@ -170,7 +184,13 @@ private constructor(
             /** The transaction token returned from the /v1/simulate/authorize response. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** The transaction token returned from the /v1/simulate/authorize response. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -187,15 +207,11 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount (in cents) to clear. Typically this will match the amount in the original
-             * authorization, but can be higher or lower. The sign of this amount will automatically
-             * match the sign of the original authorization's amount. For example, entering 100 in
-             * this field will result in a -100 amount in the transaction, if the original
-             * authorization is a credit authorization.
+             * Sets [Builder.amount] to an arbitrary JSON value.
              *
-             * If `amount` is not set, the full amount of the transaction will be cleared.
-             * Transactions that have already cleared, either partially or fully, cannot be cleared
-             * again using this endpoint.
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -276,7 +292,12 @@ private constructor(
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { body.token(token) }
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /**
@@ -293,15 +314,10 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount (in cents) to clear. Typically this will match the amount in the original
-         * authorization, but can be higher or lower. The sign of this amount will automatically
-         * match the sign of the original authorization's amount. For example, entering 100 in this
-         * field will result in a -100 amount in the transaction, if the original authorization is a
-         * credit authorization.
+         * Sets [Builder.amount] to an arbitrary JSON value.
          *
-         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
-         * that have already cleared, either partially or fully, cannot be cleared again using this
-         * endpoint.
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 

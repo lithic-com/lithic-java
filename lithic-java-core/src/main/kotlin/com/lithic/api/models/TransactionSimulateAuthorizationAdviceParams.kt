@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
 /**
@@ -30,21 +31,34 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The transaction token returned from the /v1/simulate/authorize. response. */
+    /**
+     * The transaction token returned from the /v1/simulate/authorize. response.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = body.token()
 
     /**
      * Amount (in cents) to authorize. This amount will override the transaction's amount that was
      * originally set by /v1/simulate/authorize.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun amount(): Long = body.amount()
 
-    /** The transaction token returned from the /v1/simulate/authorize. response. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _token(): JsonField<String> = body._token()
 
     /**
-     * Amount (in cents) to authorize. This amount will override the transaction's amount that was
-     * originally set by /v1/simulate/authorize.
+     * Returns the raw JSON value of [amount].
+     *
+     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _amount(): JsonField<Long> = body._amount()
 
@@ -74,21 +88,34 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** The transaction token returned from the /v1/simulate/authorize. response. */
+        /**
+         * The transaction token returned from the /v1/simulate/authorize. response.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** The transaction token returned from the /v1/simulate/authorize. response. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * Amount (in cents) to authorize. This amount will override the transaction's amount that
-         * was originally set by /v1/simulate/authorize.
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
@@ -141,7 +168,13 @@ private constructor(
             /** The transaction token returned from the /v1/simulate/authorize. response. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** The transaction token returned from the /v1/simulate/authorize. response. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -151,8 +184,11 @@ private constructor(
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
-             * Amount (in cents) to authorize. This amount will override the transaction's amount
-             * that was originally set by /v1/simulate/authorize.
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
@@ -241,7 +277,12 @@ private constructor(
         /** The transaction token returned from the /v1/simulate/authorize. response. */
         fun token(token: String) = apply { body.token(token) }
 
-        /** The transaction token returned from the /v1/simulate/authorize. response. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /**
@@ -251,8 +292,10 @@ private constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
-         * Amount (in cents) to authorize. This amount will override the transaction's amount that
-         * was originally set by /v1/simulate/authorize.
+         * Sets [Builder.amount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 

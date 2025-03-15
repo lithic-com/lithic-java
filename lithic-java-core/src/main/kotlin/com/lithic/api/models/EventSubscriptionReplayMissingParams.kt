@@ -127,10 +127,7 @@ private constructor(
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /**
@@ -139,10 +136,7 @@ private constructor(
          */
         fun end(end: OffsetDateTime?) = apply { this.end = end }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created before the specified time will be
-         * included. UTC time zone.
-         */
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

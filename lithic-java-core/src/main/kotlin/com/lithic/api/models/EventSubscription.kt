@@ -40,31 +40,76 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** A description of the subscription. */
+    /**
+     * A description of the subscription.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun description(): String = description.getRequired("description")
 
-    /** Whether the subscription is disabled. */
+    /**
+     * Whether the subscription is disabled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun disabled(): Boolean = disabled.getRequired("disabled")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun url(): String = url.getRequired("url")
 
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun eventTypes(): Optional<List<EventType>> =
         Optional.ofNullable(eventTypes.getNullable("event_types"))
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** A description of the subscription. */
+    /**
+     * Returns the raw JSON value of [description].
+     *
+     * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
-    /** Whether the subscription is disabled. */
+    /**
+     * Returns the raw JSON value of [disabled].
+     *
+     * Unlike [disabled], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
 
+    /**
+     * Returns the raw JSON value of [url].
+     *
+     * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
+    /**
+     * Returns the raw JSON value of [eventTypes].
+     *
+     * Unlike [eventTypes], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("event_types")
     @ExcludeMissing
     fun _eventTypes(): JsonField<List<EventType>> = eventTypes
@@ -129,33 +174,69 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** A description of the subscription. */
         fun description(description: String) = description(JsonField.of(description))
 
-        /** A description of the subscription. */
+        /**
+         * Sets [Builder.description] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.description] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun description(description: JsonField<String>) = apply { this.description = description }
 
         /** Whether the subscription is disabled. */
         fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
 
-        /** Whether the subscription is disabled. */
+        /**
+         * Sets [Builder.disabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disabled] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
 
         fun url(url: String) = url(JsonField.of(url))
 
+        /**
+         * Sets [Builder.url] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.url] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun eventTypes(eventTypes: List<EventType>?) = eventTypes(JsonField.ofNullable(eventTypes))
 
+        /** Alias for calling [Builder.eventTypes] with `eventTypes.orElse(null)`. */
         fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.getOrNull())
 
+        /**
+         * Sets [Builder.eventTypes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventTypes] with a well-typed `List<EventType>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
             this.eventTypes = eventTypes.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [EventType] to [eventTypes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addEventType(eventType: EventType) = apply {
             eventTypes =
                 (eventTypes ?: JsonField.of(mutableListOf())).also {

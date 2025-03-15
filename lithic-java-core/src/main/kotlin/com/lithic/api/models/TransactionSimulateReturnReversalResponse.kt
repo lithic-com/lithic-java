@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -26,11 +27,21 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Debugging request ID to share with Lithic Support team. */
+    /**
+     * Debugging request ID to share with Lithic Support team.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun debuggingRequestId(): Optional<String> =
         Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
 
-    /** Debugging request ID to share with Lithic Support team. */
+    /**
+     * Returns the raw JSON value of [debuggingRequestId].
+     *
+     * Unlike [debuggingRequestId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
     fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
@@ -80,7 +91,13 @@ private constructor(
         fun debuggingRequestId(debuggingRequestId: String) =
             debuggingRequestId(JsonField.of(debuggingRequestId))
 
-        /** Debugging request ID to share with Lithic Support team. */
+        /**
+         * Sets [Builder.debuggingRequestId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.debuggingRequestId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
             this.debuggingRequestId = debuggingRequestId
         }

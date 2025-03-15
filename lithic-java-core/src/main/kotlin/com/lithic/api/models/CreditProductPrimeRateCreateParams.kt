@@ -17,6 +17,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
 
@@ -32,16 +33,34 @@ private constructor(
     /** Globally unique identifier for credit products. */
     fun creditProductToken(): String = creditProductToken
 
-    /** Date the rate goes into effect */
+    /**
+     * Date the rate goes into effect
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun effectiveDate(): LocalDate = body.effectiveDate()
 
-    /** The rate in decimal format */
+    /**
+     * The rate in decimal format
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun rate(): String = body.rate()
 
-    /** Date the rate goes into effect */
+    /**
+     * Returns the raw JSON value of [effectiveDate].
+     *
+     * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
 
-    /** The rate in decimal format */
+    /**
+     * Returns the raw JSON value of [rate].
+     *
+     * Unlike [rate], this method doesn't throw if the JSON field has an unexpected type.
+     */
     fun _rate(): JsonField<String> = body._rate()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
@@ -77,18 +96,37 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Date the rate goes into effect */
+        /**
+         * Date the rate goes into effect
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
-        /** The rate in decimal format */
+        /**
+         * The rate in decimal format
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun rate(): String = rate.getRequired("rate")
 
-        /** Date the rate goes into effect */
+        /**
+         * Returns the raw JSON value of [effectiveDate].
+         *
+         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("effective_date")
         @ExcludeMissing
         fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
-        /** The rate in decimal format */
+        /**
+         * Returns the raw JSON value of [rate].
+         *
+         * Unlike [rate], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("rate") @ExcludeMissing fun _rate(): JsonField<String> = rate
 
         @JsonAnyGetter
@@ -140,7 +178,13 @@ private constructor(
             /** Date the rate goes into effect */
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
-            /** Date the rate goes into effect */
+            /**
+             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
@@ -148,7 +192,13 @@ private constructor(
             /** The rate in decimal format */
             fun rate(rate: String) = rate(JsonField.of(rate))
 
-            /** The rate in decimal format */
+            /**
+             * Sets [Builder.rate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.rate] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun rate(rate: JsonField<String>) = apply { this.rate = rate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -241,7 +291,13 @@ private constructor(
         /** Date the rate goes into effect */
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
-        /** Date the rate goes into effect */
+        /**
+         * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
             body.effectiveDate(effectiveDate)
         }
@@ -249,7 +305,12 @@ private constructor(
         /** The rate in decimal format */
         fun rate(rate: String) = apply { body.rate(rate) }
 
-        /** The rate in decimal format */
+        /**
+         * Sets [Builder.rate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.rate] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun rate(rate: JsonField<String>) = apply { body.rate(rate) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {

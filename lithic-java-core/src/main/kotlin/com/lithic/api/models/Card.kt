@@ -86,32 +86,68 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** Globally unique identifier. */
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun token(): String = token.getRequired("token")
 
-    /** Globally unique identifier for the account to which the card belongs. */
+    /**
+     * Globally unique identifier for the account to which the card belongs.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
-    /** Globally unique identifier for the card program on which the card exists. */
+    /**
+     * Globally unique identifier for the card program on which the card exists.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
 
-    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
+    /**
+     * An RFC 3339 timestamp for when the card was created. UTC time zone.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Deprecated: Funding account for the card. */
+    /**
+     * Deprecated: Funding account for the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun funding(): FundingAccount = funding.getRequired("funding")
 
-    /** Last four digits of the card number. */
+    /**
+     * Last four digits of the card number.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun lastFour(): String = lastFour.getRequired("last_four")
 
     /**
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun pinStatus(): PinStatus = pinStatus.getRequired("pin_status")
 
     /**
      * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
      * Transaction requests above the spend limit will be declined.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun spendLimit(): Long = spendLimit.getRequired("spend_limit")
 
@@ -125,6 +161,9 @@ private constructor(
      *   month prior.
      * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
      *   under the spend limit.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun spendLimitDuration(): SpendLimitDuration =
         spendLimitDuration.getRequired("spend_limit_duration")
@@ -145,6 +184,9 @@ private constructor(
      *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun state(): State = state.getRequired("state")
 
@@ -161,6 +203,9 @@ private constructor(
      * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
      * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun type(): Type = type.getRequired("type")
 
@@ -169,16 +214,29 @@ private constructor(
      * deprecated and will no longer be populated in the `Card` object. The key will be removed from
      * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
      * information instead.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
-    /** Three digit cvv printed on the back of the card. */
+    /**
+     * Three digit cvv printed on the back of the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun cvv(): Optional<String> = Optional.ofNullable(cvv.getNullable("cvv"))
 
     /**
@@ -186,26 +244,52 @@ private constructor(
      * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
      * See
      * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun digitalCardArtToken(): Optional<String> =
         Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
-    /** Two digit (MM) expiry month. */
+    /**
+     * Two digit (MM) expiry month.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
 
-    /** Four digit (yyyy) expiry year. */
+    /**
+     * Four digit (yyyy) expiry year.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
 
-    /** Hostname of card’s locked merchant (will be empty if not applicable). */
+    /**
+     * Hostname of card’s locked merchant (will be empty if not applicable).
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun hostname(): Optional<String> = Optional.ofNullable(hostname.getNullable("hostname"))
 
-    /** Friendly name to identify the card. */
+    /**
+     * Friendly name to identify the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
     /**
      * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
      * PAN returned as a field in production. Please contact
      * [support@lithic.com](mailto:support@lithic.com) for questions.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
 
@@ -213,6 +297,9 @@ private constructor(
      * Indicates if there are offline PIN changes pending card interaction with an offline PIN
      * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
      * markets supporting offline PINs.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun pendingCommands(): Optional<List<String>> =
         Optional.ofNullable(pendingCommands.getNullable("pending_commands"))
@@ -221,166 +308,199 @@ private constructor(
      * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
      * Specifies the configuration (i.e., physical card art) that the card should be manufactured
      * with.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
 
     /**
      * If the card is a replacement for another card, the globally unique identifier for the card
      * that was replaced.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
     fun replacementFor(): Optional<String> =
         Optional.ofNullable(replacementFor.getNullable("replacement_for"))
 
-    /** Globally unique identifier. */
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    /** Globally unique identifier for the account to which the card belongs. */
+    /**
+     * Returns the raw JSON value of [accountToken].
+     *
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("account_token")
     @ExcludeMissing
     fun _accountToken(): JsonField<String> = accountToken
 
-    /** Globally unique identifier for the card program on which the card exists. */
+    /**
+     * Returns the raw JSON value of [cardProgramToken].
+     *
+     * Unlike [cardProgramToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("card_program_token")
     @ExcludeMissing
     fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
-    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    /** Deprecated: Funding account for the card. */
+    /**
+     * Returns the raw JSON value of [funding].
+     *
+     * Unlike [funding], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("funding") @ExcludeMissing fun _funding(): JsonField<FundingAccount> = funding
 
-    /** Last four digits of the card number. */
+    /**
+     * Returns the raw JSON value of [lastFour].
+     *
+     * Unlike [lastFour], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
     /**
-     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     * Returns the raw JSON value of [pinStatus].
+     *
+     * Unlike [pinStatus], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("pin_status") @ExcludeMissing fun _pinStatus(): JsonField<PinStatus> = pinStatus
 
     /**
-     * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
-     * Transaction requests above the spend limit will be declined.
+     * Returns the raw JSON value of [spendLimit].
+     *
+     * Unlike [spendLimit], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
     /**
-     * Spend limit duration values:
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
-     *   support recurring monthly payments, which can occur on different day every month, the time
-     *   window we consider for monthly velocity starts 6 days after the current calendar date one
-     *   month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
-     *   under the spend limit.
+     * Returns the raw JSON value of [spendLimitDuration].
+     *
+     * Unlike [spendLimitDuration], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("spend_limit_duration")
     @ExcludeMissing
     fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
     /**
-     * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-     *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
-     *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-     *   physical card itself is present.
-     * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
-     *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
-     *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
-     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
+     * Returns the raw JSON value of [state].
      *
-     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
     /**
-     * Card types:
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
-     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-     *   [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `SINGLE_USE` - Card is closed upon first successful authorization.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
-     *   authorizes the card.
-     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
-     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-     *   instead.
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
     /**
-     * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-     * deprecated and will no longer be populated in the `Card` object. The key will be removed from
-     * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-     * information instead.
+     * Returns the raw JSON value of [authRuleTokens].
+     *
+     * Unlike [authRuleTokens], this method doesn't throw if the JSON field has an unexpected type.
      */
     @Deprecated("deprecated")
     @JsonProperty("auth_rule_tokens")
     @ExcludeMissing
     fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
-    /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+    /**
+     * Returns the raw JSON value of [cardholderCurrency].
+     *
+     * Unlike [cardholderCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
-    /** Three digit cvv printed on the back of the card. */
+    /**
+     * Returns the raw JSON value of [cvv].
+     *
+     * Unlike [cvv], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("cvv") @ExcludeMissing fun _cvv(): JsonField<String> = cvv
 
     /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
-     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     * Returns the raw JSON value of [digitalCardArtToken].
+     *
+     * Unlike [digitalCardArtToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
      */
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
     fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
-    /** Two digit (MM) expiry month. */
+    /**
+     * Returns the raw JSON value of [expMonth].
+     *
+     * Unlike [expMonth], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("exp_month") @ExcludeMissing fun _expMonth(): JsonField<String> = expMonth
 
-    /** Four digit (yyyy) expiry year. */
+    /**
+     * Returns the raw JSON value of [expYear].
+     *
+     * Unlike [expYear], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("exp_year") @ExcludeMissing fun _expYear(): JsonField<String> = expYear
 
-    /** Hostname of card’s locked merchant (will be empty if not applicable). */
+    /**
+     * Returns the raw JSON value of [hostname].
+     *
+     * Unlike [hostname], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("hostname") @ExcludeMissing fun _hostname(): JsonField<String> = hostname
 
-    /** Friendly name to identify the card. */
+    /**
+     * Returns the raw JSON value of [memo].
+     *
+     * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
     /**
-     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
-     * PAN returned as a field in production. Please contact
-     * [support@lithic.com](mailto:support@lithic.com) for questions.
+     * Returns the raw JSON value of [pan].
+     *
+     * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
     /**
-     * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-     * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
-     * markets supporting offline PINs.
+     * Returns the raw JSON value of [pendingCommands].
+     *
+     * Unlike [pendingCommands], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("pending_commands")
     @ExcludeMissing
     fun _pendingCommands(): JsonField<List<String>> = pendingCommands
 
     /**
-     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
-     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
-     * with.
+     * Returns the raw JSON value of [productId].
+     *
+     * Unlike [productId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
 
     /**
-     * If the card is a replacement for another card, the globally unique identifier for the card
-     * that was replaced.
+     * Returns the raw JSON value of [replacementFor].
+     *
+     * Unlike [replacementFor], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("replacement_for")
     @ExcludeMissing
@@ -507,13 +627,24 @@ private constructor(
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
-        /** Globally unique identifier. */
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account to which the card belongs. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
-        /** Globally unique identifier for the account to which the card belongs. */
+        /**
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -522,7 +653,13 @@ private constructor(
         fun cardProgramToken(cardProgramToken: String) =
             cardProgramToken(JsonField.of(cardProgramToken))
 
-        /** Globally unique identifier for the card program on which the card exists. */
+        /**
+         * Sets [Builder.cardProgramToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardProgramToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
             this.cardProgramToken = cardProgramToken
         }
@@ -530,19 +667,36 @@ private constructor(
         /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Deprecated: Funding account for the card. */
         fun funding(funding: FundingAccount) = funding(JsonField.of(funding))
 
-        /** Deprecated: Funding account for the card. */
+        /**
+         * Sets [Builder.funding] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.funding] with a well-typed [FundingAccount] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun funding(funding: JsonField<FundingAccount>) = apply { this.funding = funding }
 
         /** Last four digits of the card number. */
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
-        /** Last four digits of the card number. */
+        /**
+         * Sets [Builder.lastFour] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lastFour] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
         /**
@@ -552,8 +706,11 @@ private constructor(
         fun pinStatus(pinStatus: PinStatus) = pinStatus(JsonField.of(pinStatus))
 
         /**
-         * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
-         * attempts).
+         * Sets [Builder.pinStatus] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pinStatus] with a well-typed [PinStatus] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
@@ -564,8 +721,10 @@ private constructor(
         fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
         /**
-         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
-         * Transaction requests above the spend limit will be declined.
+         * Sets [Builder.spendLimit] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
@@ -585,16 +744,11 @@ private constructor(
             spendLimitDuration(JsonField.of(spendLimitDuration))
 
         /**
-         * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         *   To support recurring monthly payments, which can occur on different day every month,
-         *   the time window we consider for monthly velocity starts 6 days after the current
-         *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
+         * Sets [Builder.spendLimitDuration] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.spendLimitDuration] with a well-typed
+         * [SpendLimitDuration] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
          */
         fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
             this.spendLimitDuration = spendLimitDuration
@@ -622,23 +776,10 @@ private constructor(
         fun state(state: State) = state(JsonField.of(state))
 
         /**
-         * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-         *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
-         *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-         *   physical card itself is present.
-         * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
-         *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
-         *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
-         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
-         *   card.
+         * Sets [Builder.state] to an arbitrary JSON value.
          *
-         * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
-         * manufactured.
+         * You should usually call [Builder.state] with a well-typed [State] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<State>) = apply { this.state = state }
 
@@ -660,19 +801,10 @@ private constructor(
         fun type(type: Type) = type(JsonField.of(type))
 
         /**
-         * Card types:
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         *   [lithic.com/contact](https://lithic.com/contact) for more information.
-         * - `SINGLE_USE` - Card is closed upon first successful authorization.
-         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         *   successfully authorizes the card.
-         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-         *   instead.
-         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-         *   instead.
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
@@ -687,10 +819,11 @@ private constructor(
             authRuleTokens(JsonField.of(authRuleTokens))
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-         * deprecated and will no longer be populated in the `Card` object. The key will be removed
-         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-         * information instead.
+         * Sets [Builder.authRuleTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.authRuleTokens] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         @Deprecated("deprecated")
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
@@ -698,10 +831,9 @@ private constructor(
         }
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-         * deprecated and will no longer be populated in the `Card` object. The key will be removed
-         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-         * information instead.
+         * Adds a single [String] to [authRuleTokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         @Deprecated("deprecated")
         fun addAuthRuleToken(authRuleToken: String) = apply {
@@ -715,7 +847,13 @@ private constructor(
         fun cardholderCurrency(cardholderCurrency: String) =
             cardholderCurrency(JsonField.of(cardholderCurrency))
 
-        /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
+        /**
+         * Sets [Builder.cardholderCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardholderCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
             this.cardholderCurrency = cardholderCurrency
         }
@@ -723,7 +861,12 @@ private constructor(
         /** Three digit cvv printed on the back of the card. */
         fun cvv(cvv: String) = cvv(JsonField.of(cvv))
 
-        /** Three digit cvv printed on the back of the card. */
+        /**
+         * Sets [Builder.cvv] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cvv] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
 
         /**
@@ -736,10 +879,11 @@ private constructor(
             digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Sets [Builder.digitalCardArtToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.digitalCardArtToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
             this.digitalCardArtToken = digitalCardArtToken
@@ -748,25 +892,45 @@ private constructor(
         /** Two digit (MM) expiry month. */
         fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
 
-        /** Two digit (MM) expiry month. */
+        /**
+         * Sets [Builder.expMonth] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.expMonth] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
 
         /** Four digit (yyyy) expiry year. */
         fun expYear(expYear: String) = expYear(JsonField.of(expYear))
 
-        /** Four digit (yyyy) expiry year. */
+        /**
+         * Sets [Builder.expYear] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.expYear] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
         /** Hostname of card’s locked merchant (will be empty if not applicable). */
         fun hostname(hostname: String) = hostname(JsonField.of(hostname))
 
-        /** Hostname of card’s locked merchant (will be empty if not applicable). */
+        /**
+         * Sets [Builder.hostname] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.hostname] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
 
         /** Friendly name to identify the card. */
         fun memo(memo: String) = memo(JsonField.of(memo))
 
-        /** Friendly name to identify the card. */
+        /**
+         * Sets [Builder.memo] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
         /**
@@ -777,9 +941,10 @@ private constructor(
         fun pan(pan: String) = pan(JsonField.of(pan))
 
         /**
-         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
-         * [support@lithic.com](mailto:support@lithic.com) for questions.
+         * Sets [Builder.pan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
@@ -792,18 +957,20 @@ private constructor(
             pendingCommands(JsonField.of(pendingCommands))
 
         /**
-         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
-         * in markets supporting offline PINs.
+         * Sets [Builder.pendingCommands] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.pendingCommands] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun pendingCommands(pendingCommands: JsonField<List<String>>) = apply {
             this.pendingCommands = pendingCommands.map { it.toMutableList() }
         }
 
         /**
-         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
-         * in markets supporting offline PINs.
+         * Adds a single [String] to [pendingCommands].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
          */
         fun addPendingCommand(pendingCommand: String) = apply {
             pendingCommands =
@@ -820,9 +987,11 @@ private constructor(
         fun productId(productId: String) = productId(JsonField.of(productId))
 
         /**
-         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
-         * use. Specifies the configuration (i.e., physical card art) that the card should be
-         * manufactured with.
+         * Sets [Builder.productId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.productId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
         fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
@@ -833,16 +1002,16 @@ private constructor(
         fun replacementFor(replacementFor: String?) =
             replacementFor(JsonField.ofNullable(replacementFor))
 
-        /**
-         * If the card is a replacement for another card, the globally unique identifier for the
-         * card that was replaced.
-         */
+        /** Alias for calling [Builder.replacementFor] with `replacementFor.orElse(null)`. */
         fun replacementFor(replacementFor: Optional<String>) =
             replacementFor(replacementFor.getOrNull())
 
         /**
-         * If the card is a replacement for another card, the globally unique identifier for the
-         * card that was replaced.
+         * Sets [Builder.replacementFor] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.replacementFor] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
         fun replacementFor(replacementFor: JsonField<String>) = apply {
             this.replacementFor = replacementFor
@@ -924,18 +1093,29 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** A globally unique identifier for this FundingAccount. */
+        /**
+         * A globally unique identifier for this FundingAccount.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun token(): String = token.getRequired("token")
 
         /**
          * An RFC 3339 string representing when this funding source was added to the Lithic account.
          * This may be `null`. UTC time zone.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
          * The last 4 digits of the account (e.g. bank account, debit card) associated with this
          * FundingAccount. This may be null.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun lastFour(): String = lastFour.getRequired("last_four")
 
@@ -947,6 +1127,9 @@ private constructor(
          * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
          *   verification.
          * - `DELETED` - The founding account has been deleted.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun state(): State = state.getRequired("state")
 
@@ -954,55 +1137,78 @@ private constructor(
          * Types of funding source:
          * - `DEPOSITORY_CHECKING` - Bank checking account.
          * - `DEPOSITORY_SAVINGS` - Bank savings account.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun type(): Type = type.getRequired("type")
 
-        /** Account name identifying the funding source. This may be `null`. */
+        /**
+         * Account name identifying the funding source. This may be `null`.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun accountName(): Optional<String> =
             Optional.ofNullable(accountName.getNullable("account_name"))
 
-        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+        /**
+         * The nickname given to the `FundingAccount` or `null` if it has no nickname.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
         fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
 
-        /** A globally unique identifier for this FundingAccount. */
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
-         * An RFC 3339 string representing when this funding source was added to the Lithic account.
-         * This may be `null`. UTC time zone.
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
-         * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-         * FundingAccount. This may be null.
+         * Returns the raw JSON value of [lastFour].
+         *
+         * Unlike [lastFour], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
         /**
-         * State of funding source.
+         * Returns the raw JSON value of [state].
          *
-         * Funding source states:
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         *   verification.
-         * - `DELETED` - The founding account has been deleted.
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         /**
-         * Types of funding source:
-         * - `DEPOSITORY_CHECKING` - Bank checking account.
-         * - `DEPOSITORY_SAVINGS` - Bank savings account.
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
-        /** Account name identifying the funding source. This may be `null`. */
+        /**
+         * Returns the raw JSON value of [accountName].
+         *
+         * Unlike [accountName], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("account_name")
         @ExcludeMissing
         fun _accountName(): JsonField<String> = accountName
 
-        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+        /**
+         * Returns the raw JSON value of [nickname].
+         *
+         * Unlike [nickname], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
 
         @JsonAnyGetter
@@ -1072,7 +1278,13 @@ private constructor(
             /** A globally unique identifier for this FundingAccount. */
             fun token(token: String) = token(JsonField.of(token))
 
-            /** A globally unique identifier for this FundingAccount. */
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -1082,8 +1294,11 @@ private constructor(
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /**
-             * An RFC 3339 string representing when this funding source was added to the Lithic
-             * account. This may be `null`. UTC time zone.
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
@@ -1094,8 +1309,11 @@ private constructor(
             fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
             /**
-             * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-             * FundingAccount. This may be null.
+             * Sets [Builder.lastFour] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lastFour] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
             fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
@@ -1112,14 +1330,11 @@ private constructor(
             fun state(state: State) = state(JsonField.of(state))
 
             /**
-             * State of funding source.
+             * Sets [Builder.state] to an arbitrary JSON value.
              *
-             * Funding source states:
-             * - `ENABLED` - The funding account is available to use for card creation and
-             *   transactions.
-             * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-             *   verification.
-             * - `DELETED` - The founding account has been deleted.
+             * You should usually call [Builder.state] with a well-typed [State] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun state(state: JsonField<State>) = apply { this.state = state }
 
@@ -1131,16 +1346,24 @@ private constructor(
             fun type(type: Type) = type(JsonField.of(type))
 
             /**
-             * Types of funding source:
-             * - `DEPOSITORY_CHECKING` - Bank checking account.
-             * - `DEPOSITORY_SAVINGS` - Bank savings account.
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /** Account name identifying the funding source. This may be `null`. */
             fun accountName(accountName: String) = accountName(JsonField.of(accountName))
 
-            /** Account name identifying the funding source. This may be `null`. */
+            /**
+             * Sets [Builder.accountName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun accountName(accountName: JsonField<String>) = apply {
                 this.accountName = accountName
             }
@@ -1148,7 +1371,13 @@ private constructor(
             /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
             fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
-            /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+            /**
+             * Sets [Builder.nickname] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nickname] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
