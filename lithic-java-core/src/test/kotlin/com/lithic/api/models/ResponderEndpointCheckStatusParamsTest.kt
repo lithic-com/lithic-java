@@ -21,9 +21,11 @@ internal class ResponderEndpointCheckStatusParamsTest {
             ResponderEndpointCheckStatusParams.builder()
                 .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("type", ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
     }
 
     @Test
@@ -32,8 +34,10 @@ internal class ResponderEndpointCheckStatusParamsTest {
             ResponderEndpointCheckStatusParams.builder()
                 .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("type", ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
     }
 }

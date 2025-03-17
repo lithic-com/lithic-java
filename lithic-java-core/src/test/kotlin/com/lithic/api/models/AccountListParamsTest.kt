@@ -30,19 +30,27 @@ internal class AccountListParamsTest {
                 .pageSize(1L)
                 .startingAfter("starting_after")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "ending_before")
-        expected.put("page_size", "1")
-        expected.put("starting_after", "starting_after")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "ending_before")
+                    .put("page_size", "1")
+                    .put("starting_after", "starting_after")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = AccountListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

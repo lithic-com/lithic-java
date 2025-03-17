@@ -26,10 +26,16 @@ internal class CreditProductPrimeRateRetrieveParamsTest {
                 .endingBefore(LocalDate.parse("2019-12-27"))
                 .startingAfter(LocalDate.parse("2019-12-27"))
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("ending_before", "2019-12-27")
-        expected.put("starting_after", "2019-12-27")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("ending_before", "2019-12-27")
+                    .put("starting_after", "2019-12-27")
+                    .build()
+            )
     }
 
     @Test
@@ -38,8 +44,10 @@ internal class CreditProductPrimeRateRetrieveParamsTest {
             CreditProductPrimeRateRetrieveParams.builder()
                 .creditProductToken("credit_product_token")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

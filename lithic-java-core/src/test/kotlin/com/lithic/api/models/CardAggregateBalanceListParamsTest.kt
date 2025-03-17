@@ -23,16 +23,24 @@ internal class CardAggregateBalanceListParamsTest {
                 .accountToken("account_token")
                 .businessAccountToken("business_account_token")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("account_token", "account_token")
-        expected.put("business_account_token", "business_account_token")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("account_token", "account_token")
+                    .put("business_account_token", "business_account_token")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = CardAggregateBalanceListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

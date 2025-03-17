@@ -21,18 +21,19 @@ internal class AggregateBalanceListParamsTest {
             AggregateBalanceListParams.builder()
                 .financialAccountType(AggregateBalanceListParams.FinancialAccountType.ISSUING)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put(
-            "financial_account_type",
-            AggregateBalanceListParams.FinancialAccountType.ISSUING.toString(),
-        )
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("financial_account_type", "ISSUING").build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = AggregateBalanceListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

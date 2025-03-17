@@ -94,12 +94,13 @@ private constructor(
 
     @JvmSynthetic internal fun _body(): CreateFinancialAccountRequest = body
 
-    override fun _headers(): Headers {
-        val headers = Headers.builder()
-        this.idempotencyKey?.let { headers.put("Idempotency-Key", listOf(it.toString())) }
-        headers.putAll(additionalHeaders)
-        return headers.build()
-    }
+    override fun _headers(): Headers =
+        Headers.builder()
+            .apply {
+                idempotencyKey?.let { put("Idempotency-Key", it) }
+                putAll(additionalHeaders)
+            }
+            .build()
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 

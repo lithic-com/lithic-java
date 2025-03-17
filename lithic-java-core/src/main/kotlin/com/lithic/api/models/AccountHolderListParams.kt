@@ -90,28 +90,23 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.begin?.let {
-            queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.email?.let { queryParams.put("email", listOf(it.toString())) }
-        this.end?.let {
-            queryParams.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.externalId?.let { queryParams.put("external_id", listOf(it.toString())) }
-        this.firstName?.let { queryParams.put("first_name", listOf(it.toString())) }
-        this.lastName?.let { queryParams.put("last_name", listOf(it.toString())) }
-        this.legalBusinessName?.let {
-            queryParams.put("legal_business_name", listOf(it.toString()))
-        }
-        this.limit?.let { queryParams.put("limit", listOf(it.toString())) }
-        this.phoneNumber?.let { queryParams.put("phone_number", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                email?.let { put("email", it) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                externalId?.let { put("external_id", it) }
+                firstName?.let { put("first_name", it) }
+                lastName?.let { put("last_name", it) }
+                legalBusinessName?.let { put("legal_business_name", it) }
+                limit?.let { put("limit", it.toString()) }
+                phoneNumber?.let { put("phone_number", it) }
+                startingAfter?.let { put("starting_after", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

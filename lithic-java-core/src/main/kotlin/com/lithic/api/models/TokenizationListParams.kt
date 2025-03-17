@@ -70,21 +70,20 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.accountToken?.let { queryParams.put("account_token", listOf(it.toString())) }
-        this.begin?.let { queryParams.put("begin", listOf(it.toString())) }
-        this.cardToken?.let { queryParams.put("card_token", listOf(it.toString())) }
-        this.end?.let { queryParams.put("end", listOf(it.toString())) }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        this.tokenizationChannel?.let {
-            queryParams.put("tokenization_channel", listOf(it.toString()))
-        }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                accountToken?.let { put("account_token", it) }
+                begin?.let { put("begin", it.toString()) }
+                cardToken?.let { put("card_token", it) }
+                end?.let { put("end", it.toString()) }
+                endingBefore?.let { put("ending_before", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                tokenizationChannel?.let { put("tokenization_channel", it.asString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

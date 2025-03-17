@@ -34,21 +34,29 @@ internal class CardListParamsTest {
                 .startingAfter("starting_after")
                 .state(CardListParams.State.CLOSED)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "ending_before")
-        expected.put("page_size", "1")
-        expected.put("starting_after", "starting_after")
-        expected.put("state", CardListParams.State.CLOSED.toString())
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "ending_before")
+                    .put("page_size", "1")
+                    .put("starting_after", "starting_after")
+                    .put("state", "CLOSED")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = CardListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }
