@@ -112,6 +112,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [SubscriptionRetrieveSecretResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): SubscriptionRetrieveSecretResponse =
             SubscriptionRetrieveSecretResponse(secret, additionalProperties.toImmutable())
     }

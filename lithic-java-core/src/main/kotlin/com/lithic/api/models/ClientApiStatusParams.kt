@@ -144,6 +144,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ClientApiStatusParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): ClientApiStatusParams =
             ClientApiStatusParams(additionalHeaders.build(), additionalQueryParams.build())
     }

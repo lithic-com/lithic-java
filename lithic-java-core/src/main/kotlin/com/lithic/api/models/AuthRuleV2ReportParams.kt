@@ -242,6 +242,18 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AuthRuleV2ReportParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AuthRuleV2ReportParams =
             AuthRuleV2ReportParams(
                 checkRequired("authRuleToken", authRuleToken),

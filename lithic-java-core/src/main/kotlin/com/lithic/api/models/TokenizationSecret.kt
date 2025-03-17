@@ -107,6 +107,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [TokenizationSecret].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): TokenizationSecret =
             TokenizationSecret(secret, additionalProperties.toImmutable())
     }

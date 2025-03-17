@@ -363,6 +363,21 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SimulateReceiptRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .financialAccountToken()
+             * .receiptType()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): SimulateReceiptRequest =
                 SimulateReceiptRequest(
                     checkRequired("token", token),
@@ -605,6 +620,21 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [PaymentSimulateReceiptParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .amount()
+         * .financialAccountToken()
+         * .receiptType()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): PaymentSimulateReceiptParams =
             PaymentSimulateReceiptParams(
                 body.build(),

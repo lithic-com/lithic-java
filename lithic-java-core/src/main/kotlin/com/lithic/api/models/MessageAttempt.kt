@@ -364,6 +364,25 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [MessageAttempt].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .eventSubscriptionToken()
+         * .eventToken()
+         * .response()
+         * .responseStatusCode()
+         * .status()
+         * .url()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): MessageAttempt =
             MessageAttempt(
                 checkRequired("token", token),

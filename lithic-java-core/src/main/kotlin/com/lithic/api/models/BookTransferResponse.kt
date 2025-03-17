@@ -531,6 +531,29 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [BookTransferResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .events()
+         * .fromFinancialAccountToken()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .status()
+         * .toFinancialAccountToken()
+         * .updated()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): BookTransferResponse =
             BookTransferResponse(
                 checkRequired("token", token),
@@ -1042,6 +1065,25 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [BookTransferEvent].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .created()
+             * .detailedResults()
+             * .memo()
+             * .result()
+             * .subtype()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): BookTransferEvent =
                 BookTransferEvent(
                     checkRequired("token", token),

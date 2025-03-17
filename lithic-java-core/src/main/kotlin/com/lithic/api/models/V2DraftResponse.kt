@@ -500,6 +500,26 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [V2DraftResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountTokens()
+         * .cardTokens()
+         * .currentVersion()
+         * .draftVersion()
+         * .name()
+         * .programLevel()
+         * .state()
+         * .type()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): V2DraftResponse =
             V2DraftResponse(
                 checkRequired("token", token),
@@ -669,6 +689,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [CurrentVersion].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .parameters()
+             * .version()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): CurrentVersion =
                 CurrentVersion(
                     checkRequired("parameters", parameters),
@@ -1004,6 +1037,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [DraftVersion].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .parameters()
+             * .version()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): DraftVersion =
                 DraftVersion(
                     checkRequired("parameters", parameters),

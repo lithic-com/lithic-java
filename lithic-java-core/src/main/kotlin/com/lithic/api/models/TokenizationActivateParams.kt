@@ -209,6 +209,18 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [TokenizationActivateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .tokenizationToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): TokenizationActivateParams =
             TokenizationActivateParams(
                 checkRequired("tokenizationToken", tokenizationToken),

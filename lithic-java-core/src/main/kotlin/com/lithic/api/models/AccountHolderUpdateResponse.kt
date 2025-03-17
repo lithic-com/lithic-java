@@ -1140,6 +1140,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [KybKycPatchResponse].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): KybKycPatchResponse =
                 KybKycPatchResponse(
                     token,
@@ -1497,6 +1502,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Individual].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Individual =
                     Individual(
                         address,
@@ -1817,6 +1827,22 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Address].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .address1()
+                     * .city()
+                     * .country()
+                     * .postalCode()
+                     * .state()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): Address =
                         Address(
                             checkRequired("address1", address1),
@@ -2737,6 +2763,21 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [VerificationApplication].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .created()
+                 * .status()
+                 * .statusReasons()
+                 * .updated()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): VerificationApplication =
                     VerificationApplication(
                         checkRequired("created", created),
@@ -3539,6 +3580,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [PatchResponse].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): PatchResponse =
                 PatchResponse(
                     token,
@@ -3849,6 +3895,22 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Address].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .address1()
+                 * .city()
+                 * .country()
+                 * .postalCode()
+                 * .state()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): Address =
                     Address(
                         checkRequired("address1", address1),

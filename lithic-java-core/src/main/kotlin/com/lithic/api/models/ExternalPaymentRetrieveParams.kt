@@ -167,6 +167,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ExternalPaymentRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .externalPaymentToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ExternalPaymentRetrieveParams =
             ExternalPaymentRetrieveParams(
                 checkRequired("externalPaymentToken", externalPaymentToken),
