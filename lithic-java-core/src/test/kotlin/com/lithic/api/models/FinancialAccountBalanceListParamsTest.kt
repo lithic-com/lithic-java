@@ -26,10 +26,16 @@ internal class FinancialAccountBalanceListParamsTest {
                 .balanceDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("balance_date", "2019-12-27T18:11:19.117Z")
-        expected.put("last_transaction_event_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("balance_date", "2019-12-27T18:11:19.117Z")
+                    .put("last_transaction_event_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
     }
 
     @Test
@@ -38,8 +44,10 @@ internal class FinancialAccountBalanceListParamsTest {
             FinancialAccountBalanceListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

@@ -79,28 +79,21 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.begin?.let {
-            queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.businessAccountToken?.let {
-            queryParams.put("business_account_token", listOf(it.toString()))
-        }
-        this.category?.let { queryParams.put("category", listOf(it.toString())) }
-        this.end?.let {
-            queryParams.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.financialAccountToken?.let {
-            queryParams.put("financial_account_token", listOf(it.toString()))
-        }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        this.status?.let { queryParams.put("status", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                businessAccountToken?.let { put("business_account_token", it) }
+                category?.let { put("category", it.asString()) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                financialAccountToken?.let { put("financial_account_token", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                status?.let { put("status", it.asString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

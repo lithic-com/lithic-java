@@ -37,13 +37,14 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                endingBefore?.let { put("ending_before", it.toString()) }
+                startingAfter?.let { put("starting_after", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

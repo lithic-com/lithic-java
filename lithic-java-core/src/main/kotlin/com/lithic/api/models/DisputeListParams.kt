@@ -70,24 +70,19 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.begin?.let {
-            queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.end?.let {
-            queryParams.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        this.status?.let { queryParams.put("status", listOf(it.toString())) }
-        this.transactionTokens?.let {
-            queryParams.put("transaction_tokens", listOf(it.joinToString(separator = ",")))
-        }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                status?.let { put("status", it.asString()) }
+                transactionTokens?.let { put("transaction_tokens", it.joinToString(",")) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

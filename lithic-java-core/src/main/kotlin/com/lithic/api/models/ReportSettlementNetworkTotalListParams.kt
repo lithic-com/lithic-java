@@ -89,28 +89,23 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.begin?.let {
-            queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.end?.let {
-            queryParams.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.institutionId?.let { queryParams.put("institution_id", listOf(it.toString())) }
-        this.network?.let { queryParams.put("network", listOf(it.toString())) }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.reportDate?.let { queryParams.put("report_date", listOf(it.toString())) }
-        this.reportDateBegin?.let { queryParams.put("report_date_begin", listOf(it.toString())) }
-        this.reportDateEnd?.let { queryParams.put("report_date_end", listOf(it.toString())) }
-        this.settlementInstitutionId?.let {
-            queryParams.put("settlement_institution_id", listOf(it.toString()))
-        }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                institutionId?.let { put("institution_id", it) }
+                network?.let { put("network", it.asString()) }
+                pageSize?.let { put("page_size", it.toString()) }
+                reportDate?.let { put("report_date", it.toString()) }
+                reportDateBegin?.let { put("report_date_begin", it.toString()) }
+                reportDateEnd?.let { put("report_date_end", it.toString()) }
+                settlementInstitutionId?.let { put("settlement_institution_id", it) }
+                startingAfter?.let { put("starting_after", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 
