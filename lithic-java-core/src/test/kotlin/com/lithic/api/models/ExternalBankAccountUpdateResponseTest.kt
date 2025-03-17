@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ExternalBankAccountUpdateResponseTest {
+internal class ExternalBankAccountUpdateResponseTest {
 
     @Test
     fun createExternalBankAccountUpdateResponse() {

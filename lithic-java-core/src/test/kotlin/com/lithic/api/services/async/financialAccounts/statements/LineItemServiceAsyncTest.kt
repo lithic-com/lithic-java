@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class LineItemServiceAsyncTest {
+internal class LineItemServiceAsyncTest {
 
     @Test
     fun list() {

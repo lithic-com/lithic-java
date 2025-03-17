@@ -4,7 +4,7 @@ package com.lithic.api.models
 
 import org.junit.jupiter.api.Test
 
-class ThreeDSDecisioningRotateSecretParamsTest {
+internal class ThreeDSDecisioningRotateSecretParamsTest {
 
     @Test
     fun create() {

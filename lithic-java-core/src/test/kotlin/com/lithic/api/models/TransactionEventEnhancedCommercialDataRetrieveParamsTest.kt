@@ -5,7 +5,7 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class TransactionEventEnhancedCommercialDataRetrieveParamsTest {
+internal class TransactionEventEnhancedCommercialDataRetrieveParamsTest {
 
     @Test
     fun create() {

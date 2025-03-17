@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class AggregateBalanceServiceTest {
+internal class AggregateBalanceServiceTest {
 
     @Test
     fun list() {

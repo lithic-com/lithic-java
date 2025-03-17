@@ -4,7 +4,7 @@ package com.lithic.api.models
 
 import org.junit.jupiter.api.Test
 
-class TokenizationDecisioningRotateSecretParamsTest {
+internal class TokenizationDecisioningRotateSecretParamsTest {
 
     @Test
     fun create() {
