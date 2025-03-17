@@ -34,14 +34,20 @@ internal class FinancialAccountStatementListParamsTest {
                 .pageSize(1L)
                 .startingAfter("starting_after")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27")
-        expected.put("end", "2019-12-27")
-        expected.put("ending_before", "ending_before")
-        expected.put("include_initial_statements", "true")
-        expected.put("page_size", "1")
-        expected.put("starting_after", "starting_after")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27")
+                    .put("end", "2019-12-27")
+                    .put("ending_before", "ending_before")
+                    .put("include_initial_statements", "true")
+                    .put("page_size", "1")
+                    .put("starting_after", "starting_after")
+                    .build()
+            )
     }
 
     @Test
@@ -50,8 +56,10 @@ internal class FinancialAccountStatementListParamsTest {
             FinancialAccountStatementListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

@@ -66,19 +66,18 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.begin?.let { queryParams.put("begin", listOf(it.toString())) }
-        this.end?.let { queryParams.put("end", listOf(it.toString())) }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.includeInitialStatements?.let {
-            queryParams.put("include_initial_statements", listOf(it.toString()))
-        }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", it.toString()) }
+                end?.let { put("end", it.toString()) }
+                endingBefore?.let { put("ending_before", it) }
+                includeInitialStatements?.let { put("include_initial_statements", it.toString()) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

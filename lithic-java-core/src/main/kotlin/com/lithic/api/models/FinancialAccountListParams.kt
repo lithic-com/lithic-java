@@ -39,16 +39,15 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.accountToken?.let { queryParams.put("account_token", listOf(it.toString())) }
-        this.businessAccountToken?.let {
-            queryParams.put("business_account_token", listOf(it.toString()))
-        }
-        this.type?.let { queryParams.put("type", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                accountToken?.let { put("account_token", it) }
+                businessAccountToken?.let { put("business_account_token", it) }
+                type?.let { put("type", it.asString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

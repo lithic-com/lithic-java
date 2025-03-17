@@ -36,15 +36,21 @@ internal class FinancialTransactionListParamsTest {
                 .startingAfter("starting_after")
                 .status(FinancialTransactionListParams.Status.DECLINED)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("category", FinancialTransactionListParams.Category.ACH.toString())
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "ending_before")
-        expected.put("result", FinancialTransactionListParams.Result.APPROVED.toString())
-        expected.put("starting_after", "starting_after")
-        expected.put("status", FinancialTransactionListParams.Status.DECLINED.toString())
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("category", "ACH")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "ending_before")
+                    .put("result", "APPROVED")
+                    .put("starting_after", "starting_after")
+                    .put("status", "DECLINED")
+                    .build()
+            )
     }
 
     @Test
@@ -53,8 +59,10 @@ internal class FinancialTransactionListParamsTest {
             FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

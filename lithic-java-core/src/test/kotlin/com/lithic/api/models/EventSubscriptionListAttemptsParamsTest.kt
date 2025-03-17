@@ -34,14 +34,20 @@ internal class EventSubscriptionListAttemptsParamsTest {
                 .startingAfter("starting_after")
                 .status(EventSubscriptionListAttemptsParams.Status.FAILED)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "ending_before")
-        expected.put("page_size", "1")
-        expected.put("starting_after", "starting_after")
-        expected.put("status", EventSubscriptionListAttemptsParams.Status.FAILED.toString())
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "ending_before")
+                    .put("page_size", "1")
+                    .put("starting_after", "starting_after")
+                    .put("status", "FAILED")
+                    .build()
+            )
     }
 
     @Test
@@ -50,8 +56,10 @@ internal class EventSubscriptionListAttemptsParamsTest {
             EventSubscriptionListAttemptsParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

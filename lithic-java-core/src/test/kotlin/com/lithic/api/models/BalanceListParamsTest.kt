@@ -28,21 +28,26 @@ internal class BalanceListParamsTest {
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .financialAccountType(BalanceListParams.FinancialAccountType.ISSUING)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put("balance_date", "2019-12-27T18:11:19.117Z")
-        expected.put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put(
-            "financial_account_type",
-            BalanceListParams.FinancialAccountType.ISSUING.toString(),
-        )
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("balance_date", "2019-12-27T18:11:19.117Z")
+                    .put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("financial_account_type", "ISSUING")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = BalanceListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

@@ -41,20 +41,16 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.balanceDate?.let {
-            queryParams.put(
-                "balance_date",
-                listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)),
-            )
-        }
-        this.lastTransactionEventToken?.let {
-            queryParams.put("last_transaction_event_token", listOf(it.toString()))
-        }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                balanceDate?.let {
+                    put("balance_date", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it))
+                }
+                lastTransactionEventToken?.let { put("last_transaction_event_token", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

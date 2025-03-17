@@ -43,25 +43,33 @@ internal class ReportSettlementNetworkTotalListParamsTest {
                 .settlementInstitutionId("settlement_institution_id")
                 .startingAfter("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put("institution_id", "institution_id")
-        expected.put("network", ReportSettlementNetworkTotalListParams.Network.VISA.toString())
-        expected.put("page_size", "1")
-        expected.put("report_date", "2019-12-27")
-        expected.put("report_date_begin", "2019-12-27")
-        expected.put("report_date_end", "2019-12-27")
-        expected.put("settlement_institution_id", "settlement_institution_id")
-        expected.put("starting_after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("institution_id", "institution_id")
+                    .put("network", "VISA")
+                    .put("page_size", "1")
+                    .put("report_date", "2019-12-27")
+                    .put("report_date_begin", "2019-12-27")
+                    .put("report_date_end", "2019-12-27")
+                    .put("settlement_institution_id", "settlement_institution_id")
+                    .put("starting_after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ReportSettlementNetworkTotalListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }
