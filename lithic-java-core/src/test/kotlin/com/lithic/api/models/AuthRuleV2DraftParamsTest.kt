@@ -6,7 +6,7 @@ import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class AuthRuleV2DraftParamsTest {
+internal class AuthRuleV2DraftParamsTest {
 
     @Test
     fun create() {

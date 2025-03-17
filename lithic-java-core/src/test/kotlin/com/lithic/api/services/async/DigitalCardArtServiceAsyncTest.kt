@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class DigitalCardArtServiceAsyncTest {
+internal class DigitalCardArtServiceAsyncTest {
 
     @Test
     fun retrieve() {

@@ -6,7 +6,7 @@ import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class TransactionSimulateReturnParamsTest {
+internal class TransactionSimulateReturnParamsTest {
 
     @Test
     fun create() {

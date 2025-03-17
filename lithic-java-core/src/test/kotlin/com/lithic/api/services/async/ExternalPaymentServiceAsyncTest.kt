@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class ExternalPaymentServiceAsyncTest {
+internal class ExternalPaymentServiceAsyncTest {
 
     @Test
     fun create() {
