@@ -878,6 +878,38 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [LoanTape].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .accountStanding()
+         * .availableCredit()
+         * .balances()
+         * .created()
+         * .creditLimit()
+         * .creditProductToken()
+         * .date()
+         * .dayTotals()
+         * .endingBalance()
+         * .excessCredits()
+         * .financialAccountToken()
+         * .interestDetails()
+         * .minimumPaymentBalance()
+         * .paymentAllocation()
+         * .periodTotals()
+         * .previousStatementBalance()
+         * .startingBalance()
+         * .updated()
+         * .version()
+         * .ytdTotals()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): LoanTape =
             LoanTape(
                 checkRequired("token", token),
@@ -1239,6 +1271,24 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [AccountStanding].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .consecutiveFullPaymentsMade()
+             * .consecutiveMinimumPaymentsMade()
+             * .consecutiveMinimumPaymentsMissed()
+             * .daysPastDue()
+             * .hasGrace()
+             * .periodNumber()
+             * .periodState()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): AccountStanding =
                 AccountStanding(
                     checkRequired("consecutiveFullPaymentsMade", consecutiveFullPaymentsMade),
@@ -1608,6 +1658,21 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Balances].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .due()
+             * .nextStatementDue()
+             * .pastDue()
+             * .pastStatementsDue()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Balances =
                 Balances(
                     checkRequired("due", due),
@@ -1788,6 +1853,20 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [CategoryBalances].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .fees()
+                 * .interest()
+                 * .principal()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): CategoryBalances =
                     CategoryBalances(
                         checkRequired("fees", fees),
@@ -2148,6 +2227,24 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [StatementTotals].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .balanceTransfers()
+             * .cashAdvances()
+             * .credits()
+             * .fees()
+             * .interest()
+             * .payments()
+             * .purchases()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): StatementTotals =
                 StatementTotals(
                     checkRequired("balanceTransfers", balanceTransfers),
@@ -2536,6 +2633,23 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [InterestDetails].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .actualInterestCharged()
+             * .dailyBalanceAmounts()
+             * .effectiveApr()
+             * .interestCalculationMethod()
+             * .interestForPeriod()
+             * .primeRate()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): InterestDetails =
                 InterestDetails(
                     checkRequired("actualInterestCharged", actualInterestCharged),
@@ -2727,6 +2841,20 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [CategoryDetails].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .balanceTransfers()
+                 * .cashAdvances()
+                 * .purchases()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): CategoryDetails =
                     CategoryDetails(
                         checkRequired("balanceTransfers", balanceTransfers),
@@ -3009,6 +3137,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [BalanceDetails].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .amount()
+             * .remaining()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): BalanceDetails =
                 BalanceDetails(
                     checkRequired("amount", amount),
@@ -3191,6 +3332,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [CategoryBalances].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .fees()
+             * .interest()
+             * .principal()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): CategoryBalances =
                 CategoryBalances(
                     checkRequired("fees", fees),

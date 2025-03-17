@@ -206,6 +206,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [CreditProductPrimeRateRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .creditProductToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): CreditProductPrimeRateRetrieveParams =
             CreditProductPrimeRateRetrieveParams(
                 checkRequired("creditProductToken", creditProductToken),

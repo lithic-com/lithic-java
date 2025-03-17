@@ -163,6 +163,19 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [StatementLineItems].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .data()
+         * .hasMore()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): StatementLineItems =
             StatementLineItems(
                 checkRequired("data", data).map { it.toImmutable() },
@@ -673,6 +686,27 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [StatementLineItemResponse].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .amount()
+             * .category()
+             * .created()
+             * .currency()
+             * .effectiveDate()
+             * .eventType()
+             * .financialAccountToken()
+             * .financialTransactionEventToken()
+             * .financialTransactionToken()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): StatementLineItemResponse =
                 StatementLineItemResponse(
                     checkRequired("token", token),

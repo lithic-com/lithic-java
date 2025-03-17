@@ -407,6 +407,24 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [KycExempt].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .address()
+         * .email()
+         * .firstName()
+         * .kycExemptionType()
+         * .lastName()
+         * .phoneNumber()
+         * .workflow()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): KycExempt =
             KycExempt(
                 checkRequired("address", address),

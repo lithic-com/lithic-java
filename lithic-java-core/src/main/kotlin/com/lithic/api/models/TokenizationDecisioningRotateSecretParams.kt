@@ -189,6 +189,11 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [TokenizationDecisioningRotateSecretParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): TokenizationDecisioningRotateSecretParams =
             TokenizationDecisioningRotateSecretParams(
                 additionalHeaders.build(),

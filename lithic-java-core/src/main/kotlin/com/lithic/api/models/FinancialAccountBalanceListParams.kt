@@ -225,6 +225,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [FinancialAccountBalanceListParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .financialAccountToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): FinancialAccountBalanceListParams =
             FinancialAccountBalanceListParams(
                 checkRequired("financialAccountToken", financialAccountToken),

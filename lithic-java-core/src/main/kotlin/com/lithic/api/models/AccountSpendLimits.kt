@@ -188,6 +188,18 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AccountSpendLimits].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .availableSpendLimit()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AccountSpendLimits =
             AccountSpendLimits(
                 checkRequired("availableSpendLimit", availableSpendLimit),
@@ -367,6 +379,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [AvailableSpendLimit].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): AvailableSpendLimit =
                 AvailableSpendLimit(daily, lifetime, monthly, additionalProperties.toImmutable())
         }
@@ -547,6 +564,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SpendLimit].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): SpendLimit =
                 SpendLimit(daily, lifetime, monthly, additionalProperties.toImmutable())
         }
@@ -739,6 +761,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SpendVelocity].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): SpendVelocity =
                 SpendVelocity(daily, lifetime, monthly, additionalProperties.toImmutable())
         }

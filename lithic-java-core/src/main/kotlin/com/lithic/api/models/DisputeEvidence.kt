@@ -342,6 +342,21 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [DisputeEvidence].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .disputeToken()
+         * .uploadStatus()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): DisputeEvidence =
             DisputeEvidence(
                 checkRequired("token", token),

@@ -209,6 +209,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [CardProgramListParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): CardProgramListParams =
             CardProgramListParams(
                 endingBefore,

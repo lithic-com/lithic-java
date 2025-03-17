@@ -518,6 +518,28 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [FinancialTransaction].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .descriptor()
+         * .events()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .status()
+         * .updated()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): FinancialTransaction =
             FinancialTransaction(
                 checkRequired("token", token),
@@ -882,6 +904,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [FinancialEvent].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): FinancialEvent =
                 FinancialEvent(
                     token,

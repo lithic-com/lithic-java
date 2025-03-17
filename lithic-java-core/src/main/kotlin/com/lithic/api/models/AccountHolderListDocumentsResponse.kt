@@ -125,6 +125,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AccountHolderListDocumentsResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): AccountHolderListDocumentsResponse =
             AccountHolderListDocumentsResponse(
                 (data ?: JsonMissing.of()).map { it.toImmutable() },

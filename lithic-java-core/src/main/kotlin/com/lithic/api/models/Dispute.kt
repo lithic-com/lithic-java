@@ -980,6 +980,36 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [Dispute].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .amount()
+         * .arbitrationDate()
+         * .created()
+         * .customerFiledDate()
+         * .customerNote()
+         * .networkClaimIds()
+         * .networkFiledDate()
+         * .networkReasonCode()
+         * .prearbitrationDate()
+         * .primaryClaimId()
+         * .reason()
+         * .representmentDate()
+         * .resolutionAmount()
+         * .resolutionDate()
+         * .resolutionNote()
+         * .resolutionReason()
+         * .status()
+         * .transactionToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): Dispute =
             Dispute(
                 checkRequired("token", token),

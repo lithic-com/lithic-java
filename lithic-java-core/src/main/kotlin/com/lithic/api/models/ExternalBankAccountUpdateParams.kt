@@ -569,6 +569,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [UpdateBankAccountApiRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): UpdateBankAccountApiRequest =
                 UpdateBankAccountApiRequest(
                     address,
@@ -874,6 +879,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ExternalBankAccountUpdateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ExternalBankAccountUpdateParams =
             ExternalBankAccountUpdateParams(
                 checkRequired("externalBankAccountToken", externalBankAccountToken),

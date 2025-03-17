@@ -202,6 +202,18 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AuthRuleV2PromoteParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AuthRuleV2PromoteParams =
             AuthRuleV2PromoteParams(
                 checkRequired("authRuleToken", authRuleToken),

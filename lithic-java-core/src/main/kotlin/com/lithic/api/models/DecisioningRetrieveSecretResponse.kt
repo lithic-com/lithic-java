@@ -112,6 +112,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [DecisioningRetrieveSecretResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): DecisioningRetrieveSecretResponse =
             DecisioningRetrieveSecretResponse(secret, additionalProperties.toImmutable())
     }

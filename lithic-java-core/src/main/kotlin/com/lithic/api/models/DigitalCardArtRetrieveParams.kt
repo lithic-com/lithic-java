@@ -166,6 +166,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [DigitalCardArtRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .digitalCardArtToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): DigitalCardArtRetrieveParams =
             DigitalCardArtRetrieveParams(
                 checkRequired("digitalCardArtToken", digitalCardArtToken),
