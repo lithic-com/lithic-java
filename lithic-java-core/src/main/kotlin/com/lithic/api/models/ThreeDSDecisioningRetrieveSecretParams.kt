@@ -156,6 +156,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ThreeDSDecisioningRetrieveSecretParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams(
                 additionalHeaders.build(),

@@ -391,6 +391,18 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ApplyAuthRuleRequestAccountTokens].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountTokens()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): ApplyAuthRuleRequestAccountTokens =
                     ApplyAuthRuleRequestAccountTokens(
                         checkRequired("accountTokens", accountTokens).map { it.toImmutable() },
@@ -540,6 +552,18 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ApplyAuthRuleRequestCardTokens].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .cardTokens()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): ApplyAuthRuleRequestCardTokens =
                     ApplyAuthRuleRequestCardTokens(
                         checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
@@ -732,6 +756,18 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ApplyAuthRuleRequestProgramLevel].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .programLevel()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): ApplyAuthRuleRequestProgramLevel =
                     ApplyAuthRuleRequestProgramLevel(
                         checkRequired("programLevel", programLevel),
@@ -915,6 +951,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [AuthRuleV2ApplyParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * .body()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AuthRuleV2ApplyParams =
             AuthRuleV2ApplyParams(
                 checkRequired("authRuleToken", authRuleToken),

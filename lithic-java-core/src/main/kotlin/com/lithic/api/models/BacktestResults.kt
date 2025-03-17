@@ -191,6 +191,20 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [BacktestResults].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .backtestToken()
+         * .results()
+         * .simulationParameters()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): BacktestResults =
             BacktestResults(
                 checkRequired("backtestToken", backtestToken),
@@ -341,6 +355,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Results].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): Results =
                 Results(currentVersion, draftVersion, additionalProperties.toImmutable())
         }
@@ -576,6 +595,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [RuleStats].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): RuleStats =
                     RuleStats(
                         approved,
@@ -763,6 +787,11 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Example].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
                     fun build(): Example =
                         Example(approved, eventToken, timestamp, additionalProperties.toImmutable())
                 }
@@ -985,6 +1014,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SimulationParameters].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): SimulationParameters =
                 SimulationParameters(authRuleToken, end, start, additionalProperties.toImmutable())
         }

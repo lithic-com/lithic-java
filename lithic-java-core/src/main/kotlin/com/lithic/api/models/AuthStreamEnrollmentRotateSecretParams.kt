@@ -190,6 +190,11 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AuthStreamEnrollmentRotateSecretParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams(
                 additionalHeaders.build(),

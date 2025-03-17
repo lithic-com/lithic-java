@@ -190,6 +190,11 @@ private constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
+        /**
+         * Returns an immutable instance of [ThreeDSDecisioningRotateSecretParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): ThreeDSDecisioningRotateSecretParams =
             ThreeDSDecisioningRotateSecretParams(
                 additionalHeaders.build(),

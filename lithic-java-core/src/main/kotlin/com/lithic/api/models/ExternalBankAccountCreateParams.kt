@@ -1024,6 +1024,26 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [BankVerifiedCreateBankAccountApiRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountNumber()
+                 * .country()
+                 * .currency()
+                 * .financialAccountToken()
+                 * .owner()
+                 * .ownerType()
+                 * .routingNumber()
+                 * .type()
+                 * .verificationMethod()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): BankVerifiedCreateBankAccountApiRequest =
                     BankVerifiedCreateBankAccountApiRequest(
                         checkRequired("accountNumber", accountNumber),
@@ -1597,6 +1617,21 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [PlaidCreateBankAccountApiRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .owner()
+                 * .ownerType()
+                 * .processorToken()
+                 * .verificationMethod()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): PlaidCreateBankAccountApiRequest =
                     PlaidCreateBankAccountApiRequest(
                         checkRequired("owner", owner),
@@ -2287,6 +2322,25 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ExternallyVerifiedCreateBankAccountApiRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .accountNumber()
+                 * .country()
+                 * .currency()
+                 * .owner()
+                 * .ownerType()
+                 * .routingNumber()
+                 * .type()
+                 * .verificationMethod()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): ExternallyVerifiedCreateBankAccountApiRequest =
                     ExternallyVerifiedCreateBankAccountApiRequest(
                         checkRequired("accountNumber", accountNumber),
@@ -2705,6 +2759,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ExternalBankAccountCreateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): ExternalBankAccountCreateParams =
             ExternalBankAccountCreateParams(
                 body,

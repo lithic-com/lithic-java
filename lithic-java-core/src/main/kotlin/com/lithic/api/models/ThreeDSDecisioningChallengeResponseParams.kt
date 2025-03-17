@@ -170,6 +170,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ThreeDSDecisioningChallengeResponseParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .challengeResponse()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ThreeDSDecisioningChallengeResponseParams =
             ThreeDSDecisioningChallengeResponseParams(
                 checkRequired("challengeResponse", challengeResponse),

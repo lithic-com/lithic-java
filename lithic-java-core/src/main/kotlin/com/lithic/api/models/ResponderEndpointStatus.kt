@@ -142,6 +142,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [ResponderEndpointStatus].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): ResponderEndpointStatus =
             ResponderEndpointStatus(enrolled, url, additionalProperties.toImmutable())
     }

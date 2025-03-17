@@ -181,6 +181,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [FinancialTransactionRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .financialAccountToken()
+         * .financialTransactionToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): FinancialTransactionRetrieveParams =
             FinancialTransactionRetrieveParams(
                 checkRequired("financialAccountToken", financialAccountToken),

@@ -108,6 +108,11 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [V2ReportResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): V2ReportResponse =
             V2ReportResponse(reportToken, additionalProperties.toImmutable())
     }

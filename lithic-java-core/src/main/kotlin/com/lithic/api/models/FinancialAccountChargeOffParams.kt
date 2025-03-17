@@ -165,6 +165,18 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [ChargeOffAccountRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .reason()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): ChargeOffAccountRequest =
                 ChargeOffAccountRequest(
                     checkRequired("reason", reason),
@@ -359,6 +371,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [FinancialAccountChargeOffParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .financialAccountToken()
+         * .reason()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): FinancialAccountChargeOffParams =
             FinancialAccountChargeOffParams(
                 checkRequired("financialAccountToken", financialAccountToken),

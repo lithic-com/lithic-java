@@ -264,6 +264,18 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [ExternalPaymentActionWithProgressToRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .effectiveDate()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): ExternalPaymentActionWithProgressToRequest =
                 ExternalPaymentActionWithProgressToRequest(
                     checkRequired("effectiveDate", effectiveDate),
@@ -484,6 +496,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ExternalPaymentSettleParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .externalPaymentToken()
+         * .effectiveDate()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ExternalPaymentSettleParams =
             ExternalPaymentSettleParams(
                 checkRequired("externalPaymentToken", externalPaymentToken),

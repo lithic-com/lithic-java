@@ -354,6 +354,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SimulateEnrollmentDocumentReviewRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .documentUploadToken()
+             * .status()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): SimulateEnrollmentDocumentReviewRequest =
                 SimulateEnrollmentDocumentReviewRequest(
                     checkRequired("documentUploadToken", documentUploadToken),
@@ -610,6 +623,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [AccountHolderSimulateEnrollmentDocumentReviewParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .documentUploadToken()
+         * .status()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AccountHolderSimulateEnrollmentDocumentReviewParams =
             AccountHolderSimulateEnrollmentDocumentReviewParams(
                 body.build(),
