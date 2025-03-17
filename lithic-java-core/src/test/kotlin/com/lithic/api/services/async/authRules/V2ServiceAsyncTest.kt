@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class V2ServiceAsyncTest {
+internal class V2ServiceAsyncTest {
 
     @Test
     fun create() {

@@ -5,7 +5,7 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class V2DraftResponseTest {
+internal class V2DraftResponseTest {
 
     @Test
     fun createV2DraftResponse() {

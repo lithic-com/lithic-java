@@ -5,7 +5,7 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class KycExemptTest {
+internal class KycExemptTest {
 
     @Test
     fun createKycExempt() {

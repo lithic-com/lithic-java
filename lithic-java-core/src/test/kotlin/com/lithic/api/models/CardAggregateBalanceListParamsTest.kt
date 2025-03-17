@@ -6,7 +6,7 @@ import com.lithic.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class CardAggregateBalanceListParamsTest {
+internal class CardAggregateBalanceListParamsTest {
 
     @Test
     fun create() {

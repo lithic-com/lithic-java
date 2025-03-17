@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class AccountHolderServiceTest {
+internal class AccountHolderServiceTest {
 
     @Test
     fun create() {

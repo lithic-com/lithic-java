@@ -5,7 +5,7 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class AuthRuleV2UpdateParamsTest {
+internal class AuthRuleV2UpdateParamsTest {
 
     @Test
     fun create() {

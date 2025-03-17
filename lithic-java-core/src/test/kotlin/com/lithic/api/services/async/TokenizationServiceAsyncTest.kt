@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class TokenizationServiceAsyncTest {
+internal class TokenizationServiceAsyncTest {
 
     @Test
     fun retrieve() {

@@ -7,7 +7,7 @@ import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FinancialAccountLoanTapeListParamsTest {
+internal class FinancialAccountLoanTapeListParamsTest {
 
     @Test
     fun create() {

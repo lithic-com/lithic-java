@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class ExternalBankAccountServiceTest {
+internal class ExternalBankAccountServiceTest {
 
     @Test
     fun create() {
