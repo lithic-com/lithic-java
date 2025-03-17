@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class PrimeRateServiceAsyncTest {
+internal class PrimeRateServiceAsyncTest {
 
     @Test
     fun create() {

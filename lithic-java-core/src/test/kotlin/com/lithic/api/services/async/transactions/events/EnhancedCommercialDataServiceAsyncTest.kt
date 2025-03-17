@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class EnhancedCommercialDataServiceAsyncTest {
+internal class EnhancedCommercialDataServiceAsyncTest {
 
     @Test
     fun retrieve() {

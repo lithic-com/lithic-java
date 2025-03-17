@@ -4,7 +4,7 @@ package com.lithic.api.models
 
 import org.junit.jupiter.api.Test
 
-class ClientApiStatusParamsTest {
+internal class ClientApiStatusParamsTest {
 
     @Test
     fun create() {

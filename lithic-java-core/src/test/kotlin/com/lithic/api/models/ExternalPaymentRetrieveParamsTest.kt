@@ -5,7 +5,7 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ExternalPaymentRetrieveParamsTest {
+internal class ExternalPaymentRetrieveParamsTest {
 
     @Test
     fun create() {

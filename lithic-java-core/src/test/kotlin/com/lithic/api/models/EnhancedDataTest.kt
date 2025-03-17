@@ -6,7 +6,7 @@ import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EnhancedDataTest {
+internal class EnhancedDataTest {
 
     @Test
     fun createEnhancedData() {

@@ -7,7 +7,7 @@ import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ExternalBankAccountCreateParamsTest {
+internal class ExternalBankAccountCreateParamsTest {
 
     @Test
     fun create() {
