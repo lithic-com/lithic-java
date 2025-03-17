@@ -42,25 +42,33 @@ internal class AccountHolderListParamsTest {
                 .phoneNumber("phone_number")
                 .startingAfter("starting_after")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("email", "email")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        expected.put("ending_before", "ending_before")
-        expected.put("external_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put("first_name", "first_name")
-        expected.put("last_name", "last_name")
-        expected.put("legal_business_name", "legal_business_name")
-        expected.put("limit", "0")
-        expected.put("phone_number", "phone_number")
-        expected.put("starting_after", "starting_after")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("email", "email")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .put("ending_before", "ending_before")
+                    .put("external_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("first_name", "first_name")
+                    .put("last_name", "last_name")
+                    .put("legal_business_name", "legal_business_name")
+                    .put("limit", "0")
+                    .put("phone_number", "phone_number")
+                    .put("starting_after", "starting_after")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = AccountHolderListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

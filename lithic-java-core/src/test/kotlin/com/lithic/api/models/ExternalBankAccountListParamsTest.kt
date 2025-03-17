@@ -37,26 +37,31 @@ internal class ExternalBankAccountListParamsTest {
                 .addState(ExternalBankAccountListParams.AccountState.ENABLED)
                 .addVerificationState(ExternalBankAccountListParams.VerificationState.PENDING)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        expected.put("account_types", ExternalBankAccountListParams.AccountType.CHECKING.toString())
-        expected.put("countries", "string")
-        expected.put("ending_before", "ending_before")
-        expected.put("owner_types", OwnerType.INDIVIDUAL.toString())
-        expected.put("page_size", "1")
-        expected.put("starting_after", "starting_after")
-        expected.put("states", ExternalBankAccountListParams.AccountState.ENABLED.toString())
-        expected.put(
-            "verification_states",
-            ExternalBankAccountListParams.VerificationState.PENDING.toString(),
-        )
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("account_types", listOf("CHECKING").joinToString(","))
+                    .put("countries", listOf("string").joinToString(","))
+                    .put("ending_before", "ending_before")
+                    .put("owner_types", listOf("INDIVIDUAL").joinToString(","))
+                    .put("page_size", "1")
+                    .put("starting_after", "starting_after")
+                    .put("states", listOf("ENABLED").joinToString(","))
+                    .put("verification_states", listOf("PENDING").joinToString(","))
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ExternalBankAccountListParams.builder().build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

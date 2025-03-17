@@ -65,28 +65,23 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.accountToken?.let { queryParams.put("account_token", listOf(it.toString())) }
-        this.accountTypes?.let {
-            queryParams.put("account_types", listOf(it.joinToString(separator = ",")))
-        }
-        this.countries?.let {
-            queryParams.put("countries", listOf(it.joinToString(separator = ",")))
-        }
-        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
-        this.ownerTypes?.let {
-            queryParams.put("owner_types", listOf(it.joinToString(separator = ",")))
-        }
-        this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
-        this.states?.let { queryParams.put("states", listOf(it.joinToString(separator = ","))) }
-        this.verificationStates?.let {
-            queryParams.put("verification_states", listOf(it.joinToString(separator = ",")))
-        }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                accountToken?.let { put("account_token", it) }
+                accountTypes?.let { put("account_types", it.joinToString(",") { it.asString() }) }
+                countries?.let { put("countries", it.joinToString(",")) }
+                endingBefore?.let { put("ending_before", it) }
+                ownerTypes?.let { put("owner_types", it.joinToString(",") { it.asString() }) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                states?.let { put("states", it.joinToString(",") { it.asString() }) }
+                verificationStates?.let {
+                    put("verification_states", it.joinToString(",") { it.asString() })
+                }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 

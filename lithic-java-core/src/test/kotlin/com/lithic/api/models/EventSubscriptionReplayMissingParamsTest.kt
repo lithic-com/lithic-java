@@ -26,10 +26,16 @@ internal class EventSubscriptionReplayMissingParamsTest {
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("begin", "2019-12-27T18:11:19.117Z")
-        expected.put("end", "2019-12-27T18:11:19.117Z")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
+                    .build()
+            )
     }
 
     @Test
@@ -38,8 +44,10 @@ internal class EventSubscriptionReplayMissingParamsTest {
             EventSubscriptionReplayMissingParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test
