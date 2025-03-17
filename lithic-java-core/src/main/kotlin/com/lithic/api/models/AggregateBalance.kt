@@ -470,6 +470,27 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [AggregateBalance].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .availableAmount()
+         * .created()
+         * .currency()
+         * .financialAccountType()
+         * .lastFinancialAccountToken()
+         * .lastTransactionEventToken()
+         * .lastTransactionToken()
+         * .pendingAmount()
+         * .totalAmount()
+         * .updated()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AggregateBalance =
             AggregateBalance(
                 checkRequired("availableAmount", availableAmount),

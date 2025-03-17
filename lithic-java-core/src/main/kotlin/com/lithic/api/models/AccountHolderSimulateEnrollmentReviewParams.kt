@@ -286,6 +286,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [SimulateEnrollmentReviewRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): SimulateEnrollmentReviewRequest =
                 SimulateEnrollmentReviewRequest(
                     accountHolderToken,
@@ -516,6 +521,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [AccountHolderSimulateEnrollmentReviewParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): AccountHolderSimulateEnrollmentReviewParams =
             AccountHolderSimulateEnrollmentReviewParams(
                 body.build(),

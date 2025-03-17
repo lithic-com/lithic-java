@@ -563,6 +563,28 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [SettlementReport].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .created()
+         * .currency()
+         * .details()
+         * .disputesGrossAmount()
+         * .interchangeGrossAmount()
+         * .isComplete()
+         * .otherFeesGrossAmount()
+         * .reportDate()
+         * .settledNetAmount()
+         * .transactionsGrossAmount()
+         * .updated()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): SettlementReport =
             SettlementReport(
                 checkRequired("created", created),

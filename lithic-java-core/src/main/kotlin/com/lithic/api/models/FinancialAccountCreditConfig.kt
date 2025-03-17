@@ -410,6 +410,25 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [FinancialAccountCreditConfig].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .accountToken()
+         * .chargedOffReason()
+         * .creditLimit()
+         * .creditProductToken()
+         * .externalBankAccountToken()
+         * .financialAccountState()
+         * .isSpendBlocked()
+         * .tier()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): FinancialAccountCreditConfig =
             FinancialAccountCreditConfig(
                 checkRequired("accountToken", accountToken),

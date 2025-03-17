@@ -819,6 +819,35 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [PaymentCreateResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .category()
+         * .created()
+         * .currency()
+         * .descriptor()
+         * .direction()
+         * .events()
+         * .externalBankAccountToken()
+         * .financialAccountToken()
+         * .method()
+         * .methodAttributes()
+         * .pendingAmount()
+         * .result()
+         * .settledAmount()
+         * .source()
+         * .status()
+         * .updated()
+         * .userDefinedId()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): PaymentCreateResponse =
             PaymentCreateResponse(
                 checkRequired("token", token),

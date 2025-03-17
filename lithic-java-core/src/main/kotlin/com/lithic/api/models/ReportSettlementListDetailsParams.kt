@@ -233,6 +233,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ReportSettlementListDetailsParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .reportDate()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ReportSettlementListDetailsParams =
             ReportSettlementListDetailsParams(
                 checkRequired("reportDate", reportDate),

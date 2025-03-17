@@ -273,6 +273,21 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [Event].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .created()
+         * .eventType()
+         * .payload()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): Event =
             Event(
                 checkRequired("token", token),
@@ -734,6 +749,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Payload].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): Payload = Payload(additionalProperties.toImmutable())
         }
 

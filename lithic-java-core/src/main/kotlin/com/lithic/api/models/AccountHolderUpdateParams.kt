@@ -685,6 +685,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [KybPatchRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): KybPatchRequest =
                     KybPatchRequest(
                         (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
@@ -1077,6 +1082,18 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [KybBusinessEntityPatch].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): KybBusinessEntityPatch =
                         KybBusinessEntityPatch(
                             checkRequired("entityToken", entityToken),
@@ -1502,6 +1519,18 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [IndividualPatch].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): IndividualPatch =
                         IndividualPatch(
                             checkRequired("entityToken", entityToken),
@@ -1700,6 +1729,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [KycPatchRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): KycPatchRequest =
                     KycPatchRequest(externalId, individual, additionalProperties.toImmutable())
             }
@@ -2101,6 +2135,18 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [IndividualPatch].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .entityToken()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): IndividualPatch =
                         IndividualPatch(
                             checkRequired("entityToken", entityToken),
@@ -2490,6 +2536,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [PatchRequest].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): PatchRequest =
                     PatchRequest(
                         address,
@@ -2671,6 +2722,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [AccountHolderUpdateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .accountHolderToken()
+         * .body()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AccountHolderUpdateParams =
             AccountHolderUpdateParams(
                 checkRequired("accountHolderToken", accountHolderToken),

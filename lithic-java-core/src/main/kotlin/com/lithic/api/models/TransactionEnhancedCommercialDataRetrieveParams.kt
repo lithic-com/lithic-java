@@ -174,6 +174,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [TransactionEnhancedCommercialDataRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .transactionToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): TransactionEnhancedCommercialDataRetrieveParams =
             TransactionEnhancedCommercialDataRetrieveParams(
                 checkRequired("transactionToken", transactionToken),

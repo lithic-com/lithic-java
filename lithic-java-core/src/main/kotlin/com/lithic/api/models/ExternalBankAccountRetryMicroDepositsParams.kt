@@ -167,6 +167,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [RetryMicroDepositVerificationRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): RetryMicroDepositVerificationRequest =
                 RetryMicroDepositVerificationRequest(
                     financialAccountToken,
@@ -367,6 +372,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ExternalBankAccountRetryMicroDepositsParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .externalBankAccountToken()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ExternalBankAccountRetryMicroDepositsParams =
             ExternalBankAccountRetryMicroDepositsParams(
                 checkRequired("externalBankAccountToken", externalBankAccountToken),

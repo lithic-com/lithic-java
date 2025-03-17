@@ -421,6 +421,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [AccountLevelRule].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): AccountLevelRule =
                     AccountLevelRule(
                         (accountTokens ?: JsonMissing.of()).map { it.toImmutable() },
@@ -745,6 +750,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [CardLevelRule].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): CardLevelRule =
                     CardLevelRule(
                         (cardTokens ?: JsonMissing.of()).map { it.toImmutable() },
@@ -1110,6 +1120,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ProgramLevelRule].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): ProgramLevelRule =
                     ProgramLevelRule(
                         (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
@@ -1390,6 +1405,19 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [AuthRuleV2UpdateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .authRuleToken()
+         * .body()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): AuthRuleV2UpdateParams =
             AuthRuleV2UpdateParams(
                 checkRequired("authRuleToken", authRuleToken),
