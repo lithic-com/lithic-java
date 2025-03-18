@@ -78,7 +78,7 @@ private constructor(
                 endingBefore?.let { put("ending_before", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                state?.let { put("state", it.asString()) }
+                state?.let { put("state", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()

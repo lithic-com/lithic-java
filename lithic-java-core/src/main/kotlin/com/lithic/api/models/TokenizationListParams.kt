@@ -80,7 +80,7 @@ private constructor(
                 endingBefore?.let { put("ending_before", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                tokenizationChannel?.let { put("tokenization_channel", it.asString()) }
+                tokenizationChannel?.let { put("tokenization_channel", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()

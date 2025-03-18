@@ -69,15 +69,15 @@ private constructor(
         QueryParams.builder()
             .apply {
                 accountToken?.let { put("account_token", it) }
-                accountTypes?.let { put("account_types", it.joinToString(",") { it.asString() }) }
+                accountTypes?.let { put("account_types", it.joinToString(",") { it.toString() }) }
                 countries?.let { put("countries", it.joinToString(",")) }
                 endingBefore?.let { put("ending_before", it) }
-                ownerTypes?.let { put("owner_types", it.joinToString(",") { it.asString() }) }
+                ownerTypes?.let { put("owner_types", it.joinToString(",") { it.toString() }) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                states?.let { put("states", it.joinToString(",") { it.asString() }) }
+                states?.let { put("states", it.joinToString(",") { it.toString() }) }
                 verificationStates?.let {
-                    put("verification_states", it.joinToString(",") { it.asString() })
+                    put("verification_states", it.joinToString(",") { it.toString() })
                 }
                 putAll(additionalQueryParams)
             }

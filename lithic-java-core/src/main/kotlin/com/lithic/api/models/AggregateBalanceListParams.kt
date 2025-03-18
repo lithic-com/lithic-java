@@ -35,7 +35,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                financialAccountType?.let { put("financial_account_type", it.asString()) }
+                financialAccountType?.let { put("financial_account_type", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()

@@ -76,7 +76,7 @@ private constructor(
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
-                eventTypes?.let { put("event_types", it.joinToString(",") { it.asString() }) }
+                eventTypes?.let { put("event_types", it.joinToString(",") { it.toString() }) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
                 withContent?.let { put("with_content", it.toString()) }

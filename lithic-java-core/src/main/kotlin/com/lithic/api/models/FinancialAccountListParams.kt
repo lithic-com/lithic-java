@@ -44,7 +44,7 @@ private constructor(
             .apply {
                 accountToken?.let { put("account_token", it) }
                 businessAccountToken?.let { put("business_account_token", it) }
-                type?.let { put("type", it.asString()) }
+                type?.let { put("type", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
