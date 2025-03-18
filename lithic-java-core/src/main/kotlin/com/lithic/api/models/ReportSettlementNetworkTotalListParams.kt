@@ -96,7 +96,7 @@ private constructor(
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
                 institutionId?.let { put("institution_id", it) }
-                network?.let { put("network", it.asString()) }
+                network?.let { put("network", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
                 reportDate?.let { put("report_date", it.toString()) }
                 reportDateBegin?.let { put("report_date_begin", it.toString()) }

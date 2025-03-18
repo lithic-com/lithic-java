@@ -54,7 +54,7 @@ private constructor(
                     put("balance_date", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it))
                 }
                 businessAccountToken?.let { put("business_account_token", it) }
-                financialAccountType?.let { put("financial_account_type", it.asString()) }
+                financialAccountType?.let { put("financial_account_type", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()

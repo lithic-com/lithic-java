@@ -1,16 +1,20 @@
 plugins {
-    id("lithic.kotlin")
     id("java")
     application
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
     implementation(project(":lithic-java"))
 }
 
-tasks.withType<JavaCompile>().configureEach {
+java {
     // Allow using more modern APIs, like `List.of` and `Map.of`, in examples.
-    options.release.set(9)
+    sourceCompatibility = JavaVersion.VERSION_1_9
+    targetCompatibility = JavaVersion.VERSION_1_9
 }
 
 application {

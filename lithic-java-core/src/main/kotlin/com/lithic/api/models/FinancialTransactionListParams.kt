@@ -83,12 +83,12 @@ private constructor(
         QueryParams.builder()
             .apply {
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
-                category?.let { put("category", it.asString()) }
+                category?.let { put("category", it.toString()) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
-                result?.let { put("result", it.asString()) }
+                result?.let { put("result", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.asString()) }
+                status?.let { put("status", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()

@@ -84,13 +84,13 @@ private constructor(
             .apply {
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 businessAccountToken?.let { put("business_account_token", it) }
-                category?.let { put("category", it.asString()) }
+                category?.let { put("category", it.toString()) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
                 financialAccountToken?.let { put("financial_account_token", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.asString()) }
+                status?.let { put("status", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
