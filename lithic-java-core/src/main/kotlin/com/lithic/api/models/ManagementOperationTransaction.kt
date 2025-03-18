@@ -1433,6 +1433,8 @@ private constructor(
 
                 @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
+                @JvmField val LOSS_WRITE_OFF = of("LOSS_WRITE_OFF")
+
                 @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
                 @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
@@ -1460,6 +1462,7 @@ private constructor(
                 LATE_PAYMENT,
                 BILLING_ERROR,
                 PROVISIONAL_CREDIT,
+                LOSS_WRITE_OFF,
                 CASH_BACK_REVERSAL,
                 CURRENCY_CONVERSION_REVERSAL,
                 INTEREST_REVERSAL,
@@ -1488,6 +1491,7 @@ private constructor(
                 LATE_PAYMENT,
                 BILLING_ERROR,
                 PROVISIONAL_CREDIT,
+                LOSS_WRITE_OFF,
                 CASH_BACK_REVERSAL,
                 CURRENCY_CONVERSION_REVERSAL,
                 INTEREST_REVERSAL,
@@ -1518,6 +1522,7 @@ private constructor(
                     LATE_PAYMENT -> Value.LATE_PAYMENT
                     BILLING_ERROR -> Value.BILLING_ERROR
                     PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
+                    LOSS_WRITE_OFF -> Value.LOSS_WRITE_OFF
                     CASH_BACK_REVERSAL -> Value.CASH_BACK_REVERSAL
                     CURRENCY_CONVERSION_REVERSAL -> Value.CURRENCY_CONVERSION_REVERSAL
                     INTEREST_REVERSAL -> Value.INTEREST_REVERSAL
@@ -1546,6 +1551,7 @@ private constructor(
                     LATE_PAYMENT -> Known.LATE_PAYMENT
                     BILLING_ERROR -> Known.BILLING_ERROR
                     PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
+                    LOSS_WRITE_OFF -> Known.LOSS_WRITE_OFF
                     CASH_BACK_REVERSAL -> Known.CASH_BACK_REVERSAL
                     CURRENCY_CONVERSION_REVERSAL -> Known.CURRENCY_CONVERSION_REVERSAL
                     INTEREST_REVERSAL -> Known.INTEREST_REVERSAL

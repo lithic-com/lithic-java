@@ -171,10 +171,11 @@ private constructor(
     /**
      * Date when the payment is due
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun paymentDueDate(): LocalDate = paymentDueDate.getRequired("payment_due_date")
+    fun paymentDueDate(): Optional<LocalDate> =
+        Optional.ofNullable(paymentDueDate.getNullable("payment_due_date"))
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -693,7 +694,12 @@ private constructor(
         }
 
         /** Date when the payment is due */
-        fun paymentDueDate(paymentDueDate: LocalDate) = paymentDueDate(JsonField.of(paymentDueDate))
+        fun paymentDueDate(paymentDueDate: LocalDate?) =
+            paymentDueDate(JsonField.ofNullable(paymentDueDate))
+
+        /** Alias for calling [Builder.paymentDueDate] with `paymentDueDate.orElse(null)`. */
+        fun paymentDueDate(paymentDueDate: Optional<LocalDate>) =
+            paymentDueDate(paymentDueDate.getOrNull())
 
         /**
          * Sets [Builder.paymentDueDate] to an arbitrary JSON value.
@@ -1980,6 +1986,8 @@ private constructor(
 
             @JvmField val PERIOD_END = of("PERIOD_END")
 
+            @JvmField val FINAL = of("FINAL")
+
             @JvmStatic fun of(value: String) = StatementType(JsonField.of(value))
         }
 
@@ -1987,6 +1995,7 @@ private constructor(
         enum class Known {
             INITIAL,
             PERIOD_END,
+            FINAL,
         }
 
         /**
@@ -2001,6 +2010,7 @@ private constructor(
         enum class Value {
             INITIAL,
             PERIOD_END,
+            FINAL,
             /**
              * An enum member indicating that [StatementType] was instantiated with an unknown
              * value.
@@ -2019,6 +2029,7 @@ private constructor(
             when (this) {
                 INITIAL -> Value.INITIAL
                 PERIOD_END -> Value.PERIOD_END
+                FINAL -> Value.FINAL
                 else -> Value._UNKNOWN
             }
 
@@ -2035,6 +2046,7 @@ private constructor(
             when (this) {
                 INITIAL -> Known.INITIAL
                 PERIOD_END -> Known.PERIOD_END
+                FINAL -> Known.FINAL
                 else -> throw LithicInvalidDataException("Unknown StatementType: $value")
             }
 

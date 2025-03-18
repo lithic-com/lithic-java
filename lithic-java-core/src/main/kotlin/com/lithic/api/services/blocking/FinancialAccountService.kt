@@ -6,13 +6,12 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccount
-import com.lithic.api.models.FinancialAccountChargeOffParams
 import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountCreditConfig
 import com.lithic.api.models.FinancialAccountListPage
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
+import com.lithic.api.models.FinancialAccountUpdateStatusParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
@@ -84,15 +83,15 @@ interface FinancialAccountService {
     fun list(requestOptions: RequestOptions): FinancialAccountListPage =
         list(FinancialAccountListParams.none(), requestOptions)
 
-    /** Update issuing account state to charged off */
-    fun chargeOff(params: FinancialAccountChargeOffParams): FinancialAccountCreditConfig =
-        chargeOff(params, RequestOptions.none())
+    /** Update financial account status */
+    fun updateStatus(params: FinancialAccountUpdateStatusParams): FinancialAccount =
+        updateStatus(params, RequestOptions.none())
 
-    /** @see [chargeOff] */
-    fun chargeOff(
-        params: FinancialAccountChargeOffParams,
+    /** @see [updateStatus] */
+    fun updateStatus(
+        params: FinancialAccountUpdateStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): FinancialAccountCreditConfig
+    ): FinancialAccount
 
     /**
      * A view of [FinancialAccountService] that provides access to raw HTTP responses for each
@@ -183,19 +182,19 @@ interface FinancialAccountService {
 
         /**
          * Returns a raw HTTP response for `post
-         * /v1/financial_accounts/{financial_account_token}/charge_off`, but is otherwise the same
-         * as [FinancialAccountService.chargeOff].
+         * /v1/financial_accounts/{financial_account_token}/update_status`, but is otherwise the
+         * same as [FinancialAccountService.updateStatus].
          */
         @MustBeClosed
-        fun chargeOff(
-            params: FinancialAccountChargeOffParams
-        ): HttpResponseFor<FinancialAccountCreditConfig> = chargeOff(params, RequestOptions.none())
+        fun updateStatus(
+            params: FinancialAccountUpdateStatusParams
+        ): HttpResponseFor<FinancialAccount> = updateStatus(params, RequestOptions.none())
 
-        /** @see [chargeOff] */
+        /** @see [updateStatus] */
         @MustBeClosed
-        fun chargeOff(
-            params: FinancialAccountChargeOffParams,
+        fun updateStatus(
+            params: FinancialAccountUpdateStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<FinancialAccountCreditConfig>
+        ): HttpResponseFor<FinancialAccount>
     }
 }
