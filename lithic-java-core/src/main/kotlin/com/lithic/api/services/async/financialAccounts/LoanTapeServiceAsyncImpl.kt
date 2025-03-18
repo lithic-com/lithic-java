@@ -61,9 +61,9 @@ class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: C
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "loan_tapes",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -94,12 +94,7 @@ class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "v1",
-                        "financial_accounts",
-                        params.getPathParam(0),
-                        "loan_tapes",
-                    )
+                    .addPathSegments("v1", "financial_accounts", params._pathParam(0), "loan_tapes")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

@@ -52,7 +52,7 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
                         "v1",
                         "transactions",
                         "events",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "enhanced_commercial_data",
                     )
                     .build()

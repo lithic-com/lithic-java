@@ -60,7 +60,7 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v2", "auth_rules", params.getPathParam(0), "backtests")
+                    .addPathSegments("v2", "auth_rules", params._pathParam(0), "backtests")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -93,9 +93,9 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
                     .addPathSegments(
                         "v2",
                         "auth_rules",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "backtests",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

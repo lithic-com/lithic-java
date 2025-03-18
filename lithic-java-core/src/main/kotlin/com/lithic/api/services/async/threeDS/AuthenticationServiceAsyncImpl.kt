@@ -70,7 +70,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "three_ds_authentication", params.getPathParam(0))
+                    .addPathSegments("v1", "three_ds_authentication", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

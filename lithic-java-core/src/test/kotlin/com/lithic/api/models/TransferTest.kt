@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -66,7 +67,7 @@ internal class TransferTest {
         assertThat(transfer.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(transfer.currency()).contains("currency")
         assertThat(transfer.descriptor()).contains("descriptor")
-        assertThat(transfer.events().get())
+        assertThat(transfer.events().getOrNull())
             .containsExactly(
                 Transfer.FinancialEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -76,7 +77,7 @@ internal class TransferTest {
                     .type(Transfer.FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                     .build()
             )
-        assertThat(transfer.fromBalance().get())
+        assertThat(transfer.fromBalance().getOrNull())
             .containsExactly(
                 Balance.builder()
                     .availableAmount(0L)
@@ -95,7 +96,7 @@ internal class TransferTest {
         assertThat(transfer.result()).contains(Transfer.Result.APPROVED)
         assertThat(transfer.settledAmount()).contains(0L)
         assertThat(transfer.status()).contains(Transfer.Status.DECLINED)
-        assertThat(transfer.toBalance().get())
+        assertThat(transfer.toBalance().getOrNull())
             .containsExactly(
                 Balance.builder()
                     .availableAmount(0L)

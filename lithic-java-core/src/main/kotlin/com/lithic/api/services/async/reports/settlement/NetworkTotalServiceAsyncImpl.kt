@@ -64,7 +64,7 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
                         "reports",
                         "settlement",
                         "network_totals",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

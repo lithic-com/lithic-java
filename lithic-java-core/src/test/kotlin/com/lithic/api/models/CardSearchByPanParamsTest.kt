@@ -22,14 +22,4 @@ internal class CardSearchByPanParamsTest {
         assertNotNull(body)
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }
-
-    @Test
-    fun bodyWithoutOptionalFields() {
-        val params = CardSearchByPanParams.builder().pan("4111111289144142").build()
-
-        val body = params._body()
-
-        assertNotNull(body)
-        assertThat(body.pan()).isEqualTo("4111111289144142")
-    }
 }

@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -97,7 +98,7 @@ internal class V2UpdateResponseTest {
         assertThat(v2UpdateResponse.state()).isEqualTo(V2UpdateResponse.AuthRuleState.ACTIVE)
         assertThat(v2UpdateResponse.type())
             .isEqualTo(V2UpdateResponse.AuthRuleType.CONDITIONAL_BLOCK)
-        assertThat(v2UpdateResponse.excludedCardTokens().get())
+        assertThat(v2UpdateResponse.excludedCardTokens().getOrNull())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

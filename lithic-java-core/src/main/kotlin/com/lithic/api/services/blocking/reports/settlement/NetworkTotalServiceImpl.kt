@@ -63,7 +63,7 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
                         "reports",
                         "settlement",
                         "network_totals",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                     )
                     .build()
                     .prepare(clientOptions, params)

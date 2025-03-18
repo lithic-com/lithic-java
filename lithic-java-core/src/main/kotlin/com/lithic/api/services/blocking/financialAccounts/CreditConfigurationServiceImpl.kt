@@ -61,7 +61,7 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "credit_configuration",
                     )
                     .build()
@@ -93,7 +93,7 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "credit_configuration",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))

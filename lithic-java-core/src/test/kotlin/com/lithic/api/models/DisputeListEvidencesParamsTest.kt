@@ -22,6 +22,18 @@ internal class DisputeListEvidencesParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params =
+            DisputeListEvidencesParams.builder()
+                .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             DisputeListEvidencesParams.builder()
@@ -57,18 +69,5 @@ internal class DisputeListEvidencesParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params =
-            DisputeListEvidencesParams.builder()
-                .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        assertThat(params).isNotNull
-        // path param "disputeToken"
-        assertThat(params.getPathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }
