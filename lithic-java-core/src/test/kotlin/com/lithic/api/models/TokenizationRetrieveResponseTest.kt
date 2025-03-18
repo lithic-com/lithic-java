@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class TokenizationRetrieveResponseTest {
 
     @Test
-    fun createTokenizationRetrieveResponse() {
+    fun create() {
         val tokenizationRetrieveResponse =
             TokenizationRetrieveResponse.builder()
                 .data(
@@ -37,7 +37,7 @@ internal class TokenizationRetrieveResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(tokenizationRetrieveResponse).isNotNull
+
         assertThat(tokenizationRetrieveResponse.data())
             .contains(
                 Tokenization.builder()

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class TokenizationSimulateResponseTest {
 
     @Test
-    fun createTokenizationSimulateResponse() {
+    fun create() {
         val tokenizationSimulateResponse =
             TokenizationSimulateResponse.builder()
                 .addData(
@@ -38,7 +38,7 @@ internal class TokenizationSimulateResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(tokenizationSimulateResponse).isNotNull
+
         assertThat(tokenizationSimulateResponse.data().getOrNull())
             .containsExactly(
                 Tokenization.builder()

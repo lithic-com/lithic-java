@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class StatementsTest {
 
     @Test
-    fun createStatements() {
+    fun create() {
         val statements =
             Statements.builder()
                 .addData(
@@ -100,7 +100,7 @@ internal class StatementsTest {
                 )
                 .hasMore(true)
                 .build()
-        assertThat(statements).isNotNull
+
         assertThat(statements.data())
             .containsExactly(
                 Statement.builder()

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class SettlementSummaryDetailsTest {
 
     @Test
-    fun createSettlementSummaryDetails() {
+    fun create() {
         val settlementSummaryDetails =
             SettlementSummaryDetails.builder()
                 .currency("USD")
@@ -20,7 +20,7 @@ internal class SettlementSummaryDetailsTest {
                 .settledNetAmount(1893L)
                 .transactionsGrossAmount(1900L)
                 .build()
-        assertThat(settlementSummaryDetails).isNotNull
+
         assertThat(settlementSummaryDetails.currency()).contains("USD")
         assertThat(settlementSummaryDetails.disputesGrossAmount()).contains(0L)
         assertThat(settlementSummaryDetails.institution()).contains("00001")

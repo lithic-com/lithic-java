@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class ExternalBankAccountUpdateResponseTest {
 
     @Test
-    fun createExternalBankAccountUpdateResponse() {
+    fun create() {
         val externalBankAccountUpdateResponse =
             ExternalBankAccountUpdateResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -45,7 +45,7 @@ internal class ExternalBankAccountUpdateResponseTest {
                 .userDefinedId("user_defined_id")
                 .verificationFailedReason("verification_failed_reason")
                 .build()
-        assertThat(externalBankAccountUpdateResponse).isNotNull
+
         assertThat(externalBankAccountUpdateResponse.token())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(externalBankAccountUpdateResponse.country()).isEqualTo("country")

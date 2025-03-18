@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class KycExemptTest {
 
     @Test
-    fun createKycExempt() {
+    fun create() {
         val kycExempt =
             KycExempt.builder()
                 .address(
@@ -30,7 +30,7 @@ internal class KycExemptTest {
                 .businessAccountToken("business_account_token")
                 .externalId("external_id")
                 .build()
-        assertThat(kycExempt).isNotNull
+
         assertThat(kycExempt.address())
             .isEqualTo(
                 Address.builder()

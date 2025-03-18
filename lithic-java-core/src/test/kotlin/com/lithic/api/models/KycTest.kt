@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class KycTest {
 
     @Test
-    fun createKyc() {
+    fun create() {
         val kyc =
             Kyc.builder()
                 .individual(
@@ -36,7 +36,7 @@ internal class KycTest {
                 .externalId("external_id")
                 .kycPassedTimestamp("kyc_passed_timestamp")
                 .build()
-        assertThat(kyc).isNotNull
+
         assertThat(kyc.individual())
             .isEqualTo(
                 Kyc.Individual.builder()

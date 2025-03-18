@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class MessageAttemptTest {
 
     @Test
-    fun createMessageAttempt() {
+    fun create() {
         val messageAttempt =
             MessageAttempt.builder()
                 .token("atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2")
@@ -21,7 +21,7 @@ internal class MessageAttemptTest {
                 .status(MessageAttempt.Status.FAILED)
                 .url("https://example.com")
                 .build()
-        assertThat(messageAttempt).isNotNull
+
         assertThat(messageAttempt.token()).isEqualTo("atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2")
         assertThat(messageAttempt.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

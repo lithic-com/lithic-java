@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test
 internal class CardProvisionResponseTest {
 
     @Test
-    fun createCardProvisionResponse() {
+    fun create() {
         val cardProvisionResponse =
             CardProvisionResponse.builder().provisioningPayload("provisioning_payload").build()
-        assertThat(cardProvisionResponse).isNotNull
+
         assertThat(cardProvisionResponse.provisioningPayload()).contains("provisioning_payload")
     }
 }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class ShippingAddressTest {
 
     @Test
-    fun createShippingAddress() {
+    fun create() {
         val shippingAddress =
             ShippingAddress.builder()
                 .address1("5 Broad Street")
@@ -23,7 +23,7 @@ internal class ShippingAddressTest {
                 .line2Text("The Bluth Company")
                 .phoneNumber("+15555555555")
                 .build()
-        assertThat(shippingAddress).isNotNull
+
         assertThat(shippingAddress.address1()).isEqualTo("5 Broad Street")
         assertThat(shippingAddress.city()).isEqualTo("NEW YORK")
         assertThat(shippingAddress.country()).isEqualTo("USA")

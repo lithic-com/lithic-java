@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class AddressUpdateTest {
 
     @Test
-    fun createAddressUpdate() {
+    fun create() {
         val addressUpdate =
             AddressUpdate.builder()
                 .address1("123 Old Forest Way")
@@ -18,7 +18,7 @@ internal class AddressUpdateTest {
                 .postalCode("68022")
                 .state("NE")
                 .build()
-        assertThat(addressUpdate).isNotNull
+
         assertThat(addressUpdate.address1()).contains("123 Old Forest Way")
         assertThat(addressUpdate.address2()).contains("address2")
         assertThat(addressUpdate.city()).contains("Omaha")

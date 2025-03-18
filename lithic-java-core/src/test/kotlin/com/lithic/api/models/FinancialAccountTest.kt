@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class FinancialAccountTest {
 
     @Test
-    fun createFinancialAccount() {
+    fun create() {
         val financialAccount =
             FinancialAccount.builder()
                 .token("b68b7424-aa69-4cbc-a946-30d90181b621")
@@ -43,7 +43,7 @@ internal class FinancialAccountTest {
                     FinancialAccount.FinancialAccountStatusChangeReason.CHARGED_OFF_DELINQUENT
                 )
                 .build()
-        assertThat(financialAccount).isNotNull
+
         assertThat(financialAccount.token()).isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
         assertThat(financialAccount.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(financialAccount.created())

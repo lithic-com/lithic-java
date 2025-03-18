@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class DigitalCardArtTest {
 
     @Test
-    fun createDigitalCardArt() {
+    fun create() {
         val digitalCardArt =
             DigitalCardArt.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -20,7 +20,7 @@ internal class DigitalCardArtTest {
                 .network(DigitalCardArt.Network.MASTERCARD)
                 .isCardProgramDefault(true)
                 .build()
-        assertThat(digitalCardArt).isNotNull
+
         assertThat(digitalCardArt.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(digitalCardArt.cardProgramToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

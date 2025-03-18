@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class TransactionTest {
 
     @Test
-    fun createTransaction() {
+    fun create() {
         val transaction =
             Transaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -209,7 +209,7 @@ internal class TransactionTest {
                         .build()
                 )
                 .build()
-        assertThat(transaction).isNotNull
+
         assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transaction.accountToken()).isEqualTo("bd5e5649-1be8-4117-9bc5-3268258d1417")
         assertThat(transaction.acquirerFee()).contains(0L)
