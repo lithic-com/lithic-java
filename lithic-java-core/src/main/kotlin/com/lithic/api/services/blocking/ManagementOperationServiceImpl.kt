@@ -103,7 +103,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "management_operations", params.getPathParam(0))
+                    .addPathSegments("v1", "management_operations", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -164,12 +164,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments(
-                        "v1",
-                        "management_operations",
-                        params.getPathParam(0),
-                        "reverse",
-                    )
+                    .addPathSegments("v1", "management_operations", params._pathParam(0), "reverse")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)

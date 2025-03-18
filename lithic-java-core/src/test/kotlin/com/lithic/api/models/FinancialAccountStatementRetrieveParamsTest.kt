@@ -16,18 +16,16 @@ internal class FinancialAccountStatementRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params =
             FinancialAccountStatementRetrieveParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .statementToken("statement_token")
                 .build()
-        assertThat(params).isNotNull
-        // path param "financialAccountToken"
-        assertThat(params.getPathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        // path param "statementToken"
-        assertThat(params.getPathParam(1)).isEqualTo("statement_token")
+
+        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(params._pathParam(1)).isEqualTo("statement_token")
         // out-of-bound path param
-        assertThat(params.getPathParam(2)).isEqualTo("")
+        assertThat(params._pathParam(2)).isEqualTo("")
     }
 }

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -29,6 +30,6 @@ internal class CardProgramTest {
         assertThat(cardProgram.panRangeEnd()).isEqualTo("52304803")
         assertThat(cardProgram.panRangeStart()).isEqualTo("52304803")
         assertThat(cardProgram.cardholderCurrency()).contains("USD")
-        assertThat(cardProgram.settlementCurrencies().get()).containsExactly("USD", "CAD")
+        assertThat(cardProgram.settlementCurrencies().getOrNull()).containsExactly("USD", "CAD")
     }
 }

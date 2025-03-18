@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -149,7 +150,7 @@ internal class AccountHolderTest {
         assertThat(accountHolder.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(accountHolder.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(accountHolder.beneficialOwnerEntities().get())
+        assertThat(accountHolder.beneficialOwnerEntities().getOrNull())
             .containsExactly(
                 AccountHolder.AccountHolderBusinessResponse.builder()
                     .address(
@@ -170,7 +171,7 @@ internal class AccountHolderTest {
                     .parentCompany("parent_company")
                     .build()
             )
-        assertThat(accountHolder.beneficialOwnerIndividuals().get())
+        assertThat(accountHolder.beneficialOwnerIndividuals().getOrNull())
             .containsExactly(
                 AccountHolder.AccountHolderIndividualResponse.builder()
                     .address(
@@ -262,7 +263,7 @@ internal class AccountHolderTest {
             )
         assertThat(accountHolder.natureOfBusiness()).contains("nature_of_business")
         assertThat(accountHolder.phoneNumber()).contains("+15555555555")
-        assertThat(accountHolder.requiredDocuments().get())
+        assertThat(accountHolder.requiredDocuments().getOrNull())
             .containsExactly(
                 RequiredDocument.builder()
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -271,7 +272,7 @@ internal class AccountHolderTest {
                     .build()
             )
         assertThat(accountHolder.status()).contains(AccountHolder.Status.ACCEPTED)
-        assertThat(accountHolder.statusReasons().get())
+        assertThat(accountHolder.statusReasons().getOrNull())
             .containsExactly(AccountHolder.StatusReason.ADDRESS_VERIFICATION_FAILURE)
         assertThat(accountHolder.userType()).contains(AccountHolder.UserType.BUSINESS)
         assertThat(accountHolder.verificationApplication())

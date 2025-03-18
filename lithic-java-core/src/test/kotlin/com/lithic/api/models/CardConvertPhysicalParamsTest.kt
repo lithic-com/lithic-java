@@ -34,6 +34,29 @@ internal class CardConvertPhysicalParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params =
+            CardConvertPhysicalParams.builder()
+                .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .shippingAddress(
+                    ShippingAddress.builder()
+                        .address1("5 Broad Street")
+                        .city("NEW YORK")
+                        .country("USA")
+                        .firstName("Janet")
+                        .lastName("Yellen")
+                        .postalCode("10001")
+                        .state("NY")
+                        .build()
+                )
+                .build()
+
+        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun body() {
         val params =
             CardConvertPhysicalParams.builder()
@@ -116,29 +139,5 @@ internal class CardConvertPhysicalParamsTest {
                     .state("NY")
                     .build()
             )
-    }
-
-    @Test
-    fun getPathParam() {
-        val params =
-            CardConvertPhysicalParams.builder()
-                .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .shippingAddress(
-                    ShippingAddress.builder()
-                        .address1("5 Broad Street")
-                        .city("NEW YORK")
-                        .country("USA")
-                        .firstName("Janet")
-                        .lastName("Yellen")
-                        .postalCode("10001")
-                        .state("NY")
-                        .build()
-                )
-                .build()
-        assertThat(params).isNotNull
-        // path param "cardToken"
-        assertThat(params.getPathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

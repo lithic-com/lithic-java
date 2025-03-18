@@ -27,17 +27,4 @@ internal class ResponderEndpointDeleteParamsTest {
         assertThat(queryParams)
             .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
     }
-
-    @Test
-    fun queryParamsWithoutOptionalFields() {
-        val params =
-            ResponderEndpointDeleteParams.builder()
-                .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
-                .build()
-
-        val queryParams = params._queryParams()
-
-        assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
-    }
 }

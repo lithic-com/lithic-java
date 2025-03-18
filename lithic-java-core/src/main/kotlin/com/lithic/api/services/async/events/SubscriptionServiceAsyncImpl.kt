@@ -165,7 +165,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -194,7 +194,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
-                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -260,7 +260,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
-                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -283,12 +283,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "v1",
-                        "event_subscriptions",
-                        params.getPathParam(0),
-                        "attempts",
-                    )
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "attempts")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -323,7 +318,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "recover")
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "recover")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -348,7 +343,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                     .addPathSegments(
                         "v1",
                         "event_subscriptions",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "replay_missing",
                     )
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
@@ -373,7 +368,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "secret")
+                    .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "secret")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -405,7 +400,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                     .addPathSegments(
                         "v1",
                         "event_subscriptions",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "secret",
                         "rotate",
                     )
@@ -434,7 +429,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                         "v1",
                         "simulate",
                         "event_subscriptions",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "send_example",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))

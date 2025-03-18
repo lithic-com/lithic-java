@@ -20,6 +20,18 @@ internal class ReportSettlementListDetailsParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params =
+            ReportSettlementListDetailsParams.builder()
+                .reportDate(LocalDate.parse("2023-09-01"))
+                .build()
+
+        assertThat(params._pathParam(0)).isEqualTo("2023-09-01")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             ReportSettlementListDetailsParams.builder()
@@ -51,18 +63,5 @@ internal class ReportSettlementListDetailsParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params =
-            ReportSettlementListDetailsParams.builder()
-                .reportDate(LocalDate.parse("2023-09-01"))
-                .build()
-        assertThat(params).isNotNull
-        // path param "reportDate"
-        assertThat(params.getPathParam(0)).isEqualTo("2023-09-01")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -41,7 +42,7 @@ internal class DisputeTest {
         assertThat(dispute.customerFiledDate())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(dispute.customerNote()).contains("customer_note")
-        assertThat(dispute.networkClaimIds().get()).containsExactly("string")
+        assertThat(dispute.networkClaimIds().getOrNull()).containsExactly("string")
         assertThat(dispute.networkFiledDate())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(dispute.networkReasonCode()).contains("network_reason_code")
