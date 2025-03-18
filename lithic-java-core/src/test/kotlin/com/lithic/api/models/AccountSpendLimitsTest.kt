@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class AccountSpendLimitsTest {
 
     @Test
-    fun createAccountSpendLimits() {
+    fun create() {
         val accountSpendLimits =
             AccountSpendLimits.builder()
                 .availableSpendLimit(
@@ -33,7 +33,7 @@ internal class AccountSpendLimitsTest {
                         .build()
                 )
                 .build()
-        assertThat(accountSpendLimits).isNotNull
+
         assertThat(accountSpendLimits.availableSpendLimit())
             .isEqualTo(
                 AccountSpendLimits.AvailableSpendLimit.builder()

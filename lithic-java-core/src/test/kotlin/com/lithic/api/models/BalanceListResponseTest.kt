@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class BalanceListResponseTest {
 
     @Test
-    fun createBalanceListResponse() {
+    fun create() {
         val balanceListResponse =
             BalanceListResponse.builder()
                 .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -23,7 +23,7 @@ internal class BalanceListResponseTest {
                 .type(BalanceListResponse.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        assertThat(balanceListResponse).isNotNull
+
         assertThat(balanceListResponse.token()).isEqualTo("3fa85f64-5717-4562-b3fc-2c963f66afa6")
         assertThat(balanceListResponse.availableAmount()).isEqualTo(0L)
         assertThat(balanceListResponse.created())

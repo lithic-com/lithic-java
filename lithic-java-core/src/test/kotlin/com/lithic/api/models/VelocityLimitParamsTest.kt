@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class VelocityLimitParamsTest {
 
     @Test
-    fun createVelocityLimitParams() {
+    fun create() {
         val velocityLimitParams =
             VelocityLimitParams.builder()
                 .filters(
@@ -24,7 +24,7 @@ internal class VelocityLimitParamsTest {
                 .limitAmount(10000L)
                 .limitCount(0L)
                 .build()
-        assertThat(velocityLimitParams).isNotNull
+
         assertThat(velocityLimitParams.filters())
             .isEqualTo(
                 VelocityLimitParams.Filters.builder()

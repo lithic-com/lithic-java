@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class AggregateBalanceTest {
 
     @Test
-    fun createAggregateBalance() {
+    fun create() {
         val aggregateBalance =
             AggregateBalance.builder()
                 .availableAmount(0L)
@@ -23,7 +23,7 @@ internal class AggregateBalanceTest {
                 .totalAmount(0L)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        assertThat(aggregateBalance).isNotNull
+
         assertThat(aggregateBalance.availableAmount()).isEqualTo(0L)
         assertThat(aggregateBalance.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

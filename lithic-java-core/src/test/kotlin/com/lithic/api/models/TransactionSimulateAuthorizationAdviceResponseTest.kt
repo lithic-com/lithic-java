@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 internal class TransactionSimulateAuthorizationAdviceResponseTest {
 
     @Test
-    fun createTransactionSimulateAuthorizationAdviceResponse() {
+    fun create() {
         val transactionSimulateAuthorizationAdviceResponse =
             TransactionSimulateAuthorizationAdviceResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .debuggingRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(transactionSimulateAuthorizationAdviceResponse).isNotNull
+
         assertThat(transactionSimulateAuthorizationAdviceResponse.token())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transactionSimulateAuthorizationAdviceResponse.debuggingRequestId())

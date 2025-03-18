@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class AccountHolderListDocumentsResponseTest {
 
     @Test
-    fun createAccountHolderListDocumentsResponse() {
+    fun create() {
         val accountHolderListDocumentsResponse =
             AccountHolderListDocumentsResponse.builder()
                 .addData(
@@ -40,7 +40,7 @@ internal class AccountHolderListDocumentsResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(accountHolderListDocumentsResponse).isNotNull
+
         assertThat(accountHolderListDocumentsResponse.data().getOrNull())
             .containsExactly(
                 Document.builder()

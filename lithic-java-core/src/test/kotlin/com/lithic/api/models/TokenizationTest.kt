@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class TokenizationTest {
 
     @Test
-    fun createTokenization() {
+    fun create() {
         val tokenization =
             Tokenization.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -34,7 +34,7 @@ internal class TokenizationTest {
                 )
                 .paymentAccountReferenceId("payment_account_reference_id")
                 .build()
-        assertThat(tokenization).isNotNull
+
         assertThat(tokenization.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(tokenization.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(tokenization.cardToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

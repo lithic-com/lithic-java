@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test
 internal class PaymentSimulateReturnResponseTest {
 
     @Test
-    fun createPaymentSimulateReturnResponse() {
+    fun create() {
         val paymentSimulateReturnResponse =
             PaymentSimulateReturnResponse.builder()
                 .debuggingRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .result(PaymentSimulateReturnResponse.Result.APPROVED)
                 .transactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(paymentSimulateReturnResponse).isNotNull
+
         assertThat(paymentSimulateReturnResponse.debuggingRequestId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(paymentSimulateReturnResponse.result())

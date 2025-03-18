@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test
 internal class ResponderEndpointCreateResponseTest {
 
     @Test
-    fun createResponderEndpointCreateResponse() {
+    fun create() {
         val responderEndpointCreateResponse =
             ResponderEndpointCreateResponse.builder().enrolled(true).build()
-        assertThat(responderEndpointCreateResponse).isNotNull
+
         assertThat(responderEndpointCreateResponse.enrolled()).contains(true)
     }
 }

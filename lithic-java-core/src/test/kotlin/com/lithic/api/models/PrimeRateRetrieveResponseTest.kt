@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class PrimeRateRetrieveResponseTest {
 
     @Test
-    fun createPrimeRateRetrieveResponse() {
+    fun create() {
         val primeRateRetrieveResponse =
             PrimeRateRetrieveResponse.builder()
                 .addData(
@@ -20,7 +20,7 @@ internal class PrimeRateRetrieveResponseTest {
                 )
                 .hasMore(true)
                 .build()
-        assertThat(primeRateRetrieveResponse).isNotNull
+
         assertThat(primeRateRetrieveResponse.data())
             .containsExactly(
                 PrimeRateRetrieveResponse.InterestRate.builder()

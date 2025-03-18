@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class EnhancedDataTest {
 
     @Test
-    fun createEnhancedData() {
+    fun create() {
         val enhancedData =
             EnhancedData.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -65,7 +65,7 @@ internal class EnhancedDataTest {
                 )
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(enhancedData).isNotNull
+
         assertThat(enhancedData.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(enhancedData.common())
             .isEqualTo(

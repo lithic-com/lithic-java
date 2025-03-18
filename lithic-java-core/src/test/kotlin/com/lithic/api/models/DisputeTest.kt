@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class DisputeTest {
 
     @Test
-    fun createDispute() {
+    fun create() {
         val dispute =
             Dispute.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -33,7 +33,7 @@ internal class DisputeTest {
                 .status(Dispute.Status.ARBITRATION)
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(dispute).isNotNull
+
         assertThat(dispute.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(dispute.amount()).isEqualTo(0L)
         assertThat(dispute.arbitrationDate())

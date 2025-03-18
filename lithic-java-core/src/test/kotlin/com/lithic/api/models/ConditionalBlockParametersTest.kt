@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class ConditionalBlockParametersTest {
 
     @Test
-    fun createConditionalBlockParameters() {
+    fun create() {
         val conditionalBlockParameters =
             ConditionalBlockParameters.builder()
                 .addCondition(
@@ -19,7 +19,7 @@ internal class ConditionalBlockParametersTest {
                         .build()
                 )
                 .build()
-        assertThat(conditionalBlockParameters).isNotNull
+
         assertThat(conditionalBlockParameters.conditions())
             .containsExactly(
                 AuthRuleCondition.builder()

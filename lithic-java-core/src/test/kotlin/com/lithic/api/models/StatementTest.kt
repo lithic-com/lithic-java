@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class StatementTest {
 
     @Test
-    fun createStatement() {
+    fun create() {
         val statement =
             Statement.builder()
                 .token("token")
@@ -95,7 +95,7 @@ internal class StatementTest {
                 .nextPaymentDueDate(LocalDate.parse("2019-12-27"))
                 .nextStatementEndDate(LocalDate.parse("2019-12-27"))
                 .build()
-        assertThat(statement).isNotNull
+
         assertThat(statement.token()).isEqualTo("token")
         assertThat(statement.accountStanding())
             .isEqualTo(

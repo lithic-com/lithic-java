@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class EnhancedCommercialDataRetrieveResponseTest {
 
     @Test
-    fun createEnhancedCommercialDataRetrieveResponse() {
+    fun create() {
         val enhancedCommercialDataRetrieveResponse =
             EnhancedCommercialDataRetrieveResponse.builder()
                 .addData(
@@ -70,7 +70,7 @@ internal class EnhancedCommercialDataRetrieveResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(enhancedCommercialDataRetrieveResponse).isNotNull
+
         assertThat(enhancedCommercialDataRetrieveResponse.data())
             .containsExactly(
                 EnhancedData.builder()

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test
 internal class ResponderEndpointStatusTest {
 
     @Test
-    fun createResponderEndpointStatus() {
+    fun create() {
         val responderEndpointStatus =
             ResponderEndpointStatus.builder().enrolled(true).url("https://example.com").build()
-        assertThat(responderEndpointStatus).isNotNull
+
         assertThat(responderEndpointStatus.enrolled()).contains(true)
         assertThat(responderEndpointStatus.url()).contains("https://example.com")
     }

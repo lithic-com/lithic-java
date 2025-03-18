@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 internal class ApiStatusTest {
 
     @Test
-    fun createApiStatus() {
+    fun create() {
         val apiStatus = ApiStatus.builder().message("message").build()
-        assertThat(apiStatus).isNotNull
+
         assertThat(apiStatus.message()).contains("message")
     }
 }

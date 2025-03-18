@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class ManagementOperationTransactionTest {
 
     @Test
-    fun createManagementOperationTransaction() {
+    fun create() {
         val managementOperationTransaction =
             ManagementOperationTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -50,7 +50,7 @@ internal class ManagementOperationTransactionTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
                 .build()
-        assertThat(managementOperationTransaction).isNotNull
+
         assertThat(managementOperationTransaction.token())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(managementOperationTransaction.category())
