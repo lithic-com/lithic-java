@@ -59,7 +59,7 @@ class PrimeRateServiceAsyncImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "credit_products", params.getPathParam(0), "prime_rates")
+                    .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -82,7 +82,7 @@ class PrimeRateServiceAsyncImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "credit_products", params.getPathParam(0), "prime_rates")
+                    .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

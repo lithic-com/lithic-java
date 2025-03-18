@@ -151,7 +151,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "account_holders", params.getPathParam(0))
+                    .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -178,7 +178,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
-                    .addPathSegments("v1", "account_holders", params.getPathParam(0))
+                    .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)
@@ -240,7 +240,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "account_holders", params.getPathParam(0), "documents")
+                    .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -269,9 +269,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .addPathSegments(
                         "v1",
                         "account_holders",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "documents",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepare(clientOptions, params)
@@ -359,7 +359,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "account_holders", params.getPathParam(0), "documents")
+                    .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)

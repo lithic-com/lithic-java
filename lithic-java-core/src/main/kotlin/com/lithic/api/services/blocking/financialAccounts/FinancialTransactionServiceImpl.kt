@@ -62,9 +62,9 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "financial_transactions",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepare(clientOptions, params)
@@ -95,7 +95,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "financial_transactions",
                     )
                     .build()

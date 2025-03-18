@@ -15,15 +15,14 @@ internal class TransactionEnhancedCommercialDataRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params =
             TransactionEnhancedCommercialDataRetrieveParams.builder()
                 .transactionToken("00000000-0000-0000-0000-000000000000")
                 .build()
-        assertThat(params).isNotNull
-        // path param "transactionToken"
-        assertThat(params.getPathParam(0)).isEqualTo("00000000-0000-0000-0000-000000000000")
+
+        assertThat(params._pathParam(0)).isEqualTo("00000000-0000-0000-0000-000000000000")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

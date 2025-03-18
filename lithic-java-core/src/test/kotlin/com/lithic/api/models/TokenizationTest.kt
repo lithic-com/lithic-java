@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -50,7 +51,7 @@ internal class TokenizationTest {
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(tokenization.digitalCardArtToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(tokenization.events().get())
+        assertThat(tokenization.events().getOrNull())
             .containsExactly(
                 Tokenization.TokenizationEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

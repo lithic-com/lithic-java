@@ -56,9 +56,9 @@ class LineItemServiceAsyncImpl internal constructor(private val clientOptions: C
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "statements",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                         "line_items",
                     )
                     .build()

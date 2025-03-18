@@ -72,9 +72,9 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "statements",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepare(clientOptions, params)
@@ -102,12 +102,7 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "v1",
-                        "financial_accounts",
-                        params.getPathParam(0),
-                        "statements",
-                    )
+                    .addPathSegments("v1", "financial_accounts", params._pathParam(0), "statements")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

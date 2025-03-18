@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -157,7 +158,9 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.accountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerEntities().get())
+        assertThat(
+                accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerEntities().getOrNull()
+            )
             .containsExactly(
                 KybBusinessEntity.builder()
                     .address(
@@ -177,7 +180,11 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
                     .parentCompany("parent_company")
                     .build()
             )
-        assertThat(accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerIndividuals().get())
+        assertThat(
+                accountHolderSimulateEnrollmentReviewResponse
+                    .beneficialOwnerIndividuals()
+                    .getOrNull()
+            )
             .containsExactly(
                 AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                     .address(
@@ -270,7 +277,7 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains("nature_of_business")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.phoneNumber())
             .contains("phone_number")
-        assertThat(accountHolderSimulateEnrollmentReviewResponse.requiredDocuments().get())
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.requiredDocuments().getOrNull())
             .containsExactly(
                 RequiredDocument.builder()
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -280,7 +287,7 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
             )
         assertThat(accountHolderSimulateEnrollmentReviewResponse.status())
             .contains(AccountHolderSimulateEnrollmentReviewResponse.Status.ACCEPTED)
-        assertThat(accountHolderSimulateEnrollmentReviewResponse.statusReasons().get())
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.statusReasons().getOrNull())
             .containsExactly(
                 AccountHolderSimulateEnrollmentReviewResponse.StatusReasons
                     .ADDRESS_VERIFICATION_FAILURE

@@ -54,7 +54,7 @@ class MicroDepositServiceAsyncImpl internal constructor(private val clientOption
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "micro_deposits",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))

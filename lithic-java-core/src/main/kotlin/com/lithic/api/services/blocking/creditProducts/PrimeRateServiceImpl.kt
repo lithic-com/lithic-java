@@ -59,7 +59,7 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "credit_products", params.getPathParam(0), "prime_rates")
+                    .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)
@@ -79,7 +79,7 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "credit_products", params.getPathParam(0), "prime_rates")
+                    .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

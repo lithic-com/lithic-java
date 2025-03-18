@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -26,13 +27,13 @@ internal class AuthRuleTest {
         assertThat(authRule).isNotNull
         assertThat(authRule.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(authRule.state()).isEqualTo(AuthRule.State.ACTIVE)
-        assertThat(authRule.accountTokens().get())
+        assertThat(authRule.accountTokens().getOrNull())
             .containsExactly("3fa85f64-5717-4562-b3fc-2c963f66afa6")
-        assertThat(authRule.allowedCountries().get()).containsExactly("MEX")
-        assertThat(authRule.allowedMcc().get()).containsExactly("3000")
-        assertThat(authRule.blockedCountries().get()).containsExactly("CAN", "USA")
-        assertThat(authRule.blockedMcc().get()).containsExactly("5811", "5812")
-        assertThat(authRule.cardTokens().get())
+        assertThat(authRule.allowedCountries().getOrNull()).containsExactly("MEX")
+        assertThat(authRule.allowedMcc().getOrNull()).containsExactly("3000")
+        assertThat(authRule.blockedCountries().getOrNull()).containsExactly("CAN", "USA")
+        assertThat(authRule.blockedMcc().getOrNull()).containsExactly("5811", "5812")
+        assertThat(authRule.cardTokens().getOrNull())
             .containsExactly("3fa85f64-5717-4562-b3fc-2c963f66afa6")
         assertThat(authRule.programLevel()).contains(false)
     }

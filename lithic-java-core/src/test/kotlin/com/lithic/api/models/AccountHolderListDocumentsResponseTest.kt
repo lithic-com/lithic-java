@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -40,7 +41,7 @@ internal class AccountHolderListDocumentsResponseTest {
                 )
                 .build()
         assertThat(accountHolderListDocumentsResponse).isNotNull
-        assertThat(accountHolderListDocumentsResponse.data().get())
+        assertThat(accountHolderListDocumentsResponse.data().getOrNull())
             .containsExactly(
                 Document.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

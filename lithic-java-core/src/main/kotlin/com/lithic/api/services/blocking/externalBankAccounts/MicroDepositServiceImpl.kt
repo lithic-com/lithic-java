@@ -53,7 +53,7 @@ class MicroDepositServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "micro_deposits",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))

@@ -73,9 +73,9 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "statements",
-                        params.getPathParam(1),
+                        params._pathParam(1),
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -106,12 +106,7 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "v1",
-                        "financial_accounts",
-                        params.getPathParam(0),
-                        "statements",
-                    )
+                    .addPathSegments("v1", "financial_accounts", params._pathParam(0), "statements")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
