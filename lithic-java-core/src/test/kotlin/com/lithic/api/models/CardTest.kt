@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class CardTest {
 
     @Test
-    fun createCard() {
+    fun create() {
         val card =
             Card.builder()
                 .token("7ef7d65c-9023-4da3-b113-3b8583fd7951")
@@ -47,7 +47,7 @@ internal class CardTest {
                 .productId("1")
                 .replacementFor("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .build()
-        assertThat(card).isNotNull
+
         assertThat(card.token()).isEqualTo("7ef7d65c-9023-4da3-b113-3b8583fd7951")
         assertThat(card.accountToken()).isEqualTo("f3f4918c-dee9-464d-a819-4aa42901d624")
         assertThat(card.cardProgramToken()).isEqualTo("5e9483eb-8103-4e16-9794-2106111b2eca")

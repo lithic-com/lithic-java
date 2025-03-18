@@ -6,12 +6,12 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class PaymentTest {
+internal class PaymentRetryResponseTest {
 
     @Test
     fun create() {
-        val payment =
-            Payment.builder()
+        val paymentRetryResponse =
+            PaymentRetryResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(Payment.Category.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -48,15 +48,30 @@ internal class PaymentTest {
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
+                .balance(
+                    Balance.builder()
+                        .availableAmount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .currency("currency")
+                        .financialAccountToken("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+                        .financialAccountType(Balance.FinancialAccountType.ISSUING)
+                        .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .pendingAmount(0L)
+                        .totalAmount(0L)
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .build()
+                )
                 .build()
 
-        assertThat(payment.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(payment.category()).isEqualTo(Payment.Category.ACH)
-        assertThat(payment.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(payment.currency()).isEqualTo("currency")
-        assertThat(payment.descriptor()).isEqualTo("descriptor")
-        assertThat(payment.direction()).isEqualTo(Payment.Direction.CREDIT)
-        assertThat(payment.events())
+        assertThat(paymentRetryResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(paymentRetryResponse.category()).isEqualTo(Payment.Category.ACH)
+        assertThat(paymentRetryResponse.created())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(paymentRetryResponse.currency()).isEqualTo("currency")
+        assertThat(paymentRetryResponse.descriptor()).isEqualTo("descriptor")
+        assertThat(paymentRetryResponse.direction()).isEqualTo(Payment.Direction.CREDIT)
+        assertThat(paymentRetryResponse.events())
             .containsExactly(
                 Payment.PaymentEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -67,12 +82,12 @@ internal class PaymentTest {
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                     .build()
             )
-        assertThat(payment.externalBankAccountToken())
+        assertThat(paymentRetryResponse.externalBankAccountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(payment.financialAccountToken())
+        assertThat(paymentRetryResponse.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(payment.method()).isEqualTo(Payment.Method.ACH_NEXT_DAY)
-        assertThat(payment.methodAttributes())
+        assertThat(paymentRetryResponse.method()).isEqualTo(Payment.Method.ACH_NEXT_DAY)
+        assertThat(paymentRetryResponse.methodAttributes())
             .isEqualTo(
                 Payment.PaymentMethodAttributes.builder()
                     .companyId("company_id")
@@ -83,12 +98,28 @@ internal class PaymentTest {
                     .addTraceNumber("string")
                     .build()
             )
-        assertThat(payment.pendingAmount()).isEqualTo(0L)
-        assertThat(payment.result()).isEqualTo(Payment.Result.APPROVED)
-        assertThat(payment.settledAmount()).isEqualTo(0L)
-        assertThat(payment.source()).isEqualTo(Payment.Source.CUSTOMER)
-        assertThat(payment.status()).isEqualTo(Payment.Status.DECLINED)
-        assertThat(payment.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(payment.userDefinedId()).contains("user_defined_id")
+        assertThat(paymentRetryResponse.pendingAmount()).isEqualTo(0L)
+        assertThat(paymentRetryResponse.result()).isEqualTo(Payment.Result.APPROVED)
+        assertThat(paymentRetryResponse.settledAmount()).isEqualTo(0L)
+        assertThat(paymentRetryResponse.source()).isEqualTo(Payment.Source.CUSTOMER)
+        assertThat(paymentRetryResponse.status()).isEqualTo(Payment.Status.DECLINED)
+        assertThat(paymentRetryResponse.updated())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(paymentRetryResponse.userDefinedId()).contains("user_defined_id")
+        assertThat(paymentRetryResponse.balance())
+            .contains(
+                Balance.builder()
+                    .availableAmount(0L)
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .currency("currency")
+                    .financialAccountToken("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+                    .financialAccountType(Balance.FinancialAccountType.ISSUING)
+                    .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .pendingAmount(0L)
+                    .totalAmount(0L)
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .build()
+            )
     }
 }

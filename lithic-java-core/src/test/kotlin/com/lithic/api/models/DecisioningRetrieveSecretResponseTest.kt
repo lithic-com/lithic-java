@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test
 internal class DecisioningRetrieveSecretResponseTest {
 
     @Test
-    fun createDecisioningRetrieveSecretResponse() {
+    fun create() {
         val decisioningRetrieveSecretResponse =
             DecisioningRetrieveSecretResponse.builder()
                 .secret("whsec_1NDsYinMGr951KuDEaj78VtWzlyPaOnwUVagFiWIPJs=")
                 .build()
-        assertThat(decisioningRetrieveSecretResponse).isNotNull
+
         assertThat(decisioningRetrieveSecretResponse.secret())
             .contains("whsec_1NDsYinMGr951KuDEaj78VtWzlyPaOnwUVagFiWIPJs=")
     }

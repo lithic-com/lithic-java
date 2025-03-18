@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 internal class ChallengeResponseTest {
 
     @Test
-    fun createChallengeResponse() {
+    fun create() {
         val challengeResponse =
             ChallengeResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .challengeResponse(ChallengeResult.APPROVE)
                 .build()
-        assertThat(challengeResponse).isNotNull
+
         assertThat(challengeResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(challengeResponse.challengeResponse()).isEqualTo(ChallengeResult.APPROVE)
     }

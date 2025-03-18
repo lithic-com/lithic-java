@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class TokenizationUpdateDigitalCardArtResponseTest {
 
     @Test
-    fun createTokenizationUpdateDigitalCardArtResponse() {
+    fun create() {
         val tokenizationUpdateDigitalCardArtResponse =
             TokenizationUpdateDigitalCardArtResponse.builder()
                 .data(
@@ -37,7 +37,7 @@ internal class TokenizationUpdateDigitalCardArtResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(tokenizationUpdateDigitalCardArtResponse).isNotNull
+
         assertThat(tokenizationUpdateDigitalCardArtResponse.data())
             .contains(
                 Tokenization.builder()

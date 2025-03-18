@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class KybBusinessEntityTest {
 
     @Test
-    fun createKybBusinessEntity() {
+    fun create() {
         val kybBusinessEntity =
             KybBusinessEntity.builder()
                 .address(
@@ -27,7 +27,7 @@ internal class KybBusinessEntityTest {
                 .dbaBusinessName("dba_business_name")
                 .parentCompany("parent_company")
                 .build()
-        assertThat(kybBusinessEntity).isNotNull
+
         assertThat(kybBusinessEntity.address())
             .isEqualTo(
                 KybBusinessEntity.Address.builder()

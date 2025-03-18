@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test
 internal class BacktestCreateResponseTest {
 
     @Test
-    fun createBacktestCreateResponse() {
+    fun create() {
         val backtestCreateResponse =
             BacktestCreateResponse.builder()
                 .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(backtestCreateResponse).isNotNull
+
         assertThat(backtestCreateResponse.backtestToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }

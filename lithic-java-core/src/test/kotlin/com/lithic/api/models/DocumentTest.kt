@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class DocumentTest {
 
     @Test
-    fun createDocument() {
+    fun create() {
         val document =
             Document.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -33,7 +33,7 @@ internal class DocumentTest {
                         .build()
                 )
                 .build()
-        assertThat(document).isNotNull
+
         assertThat(document.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(document.accountHolderToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(document.documentType()).isEqualTo(Document.DocumentType.DRIVERS_LICENSE)

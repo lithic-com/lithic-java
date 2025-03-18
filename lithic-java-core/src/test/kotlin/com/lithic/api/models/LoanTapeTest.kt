@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class LoanTapeTest {
 
     @Test
-    fun createLoanTape() {
+    fun create() {
         val loanTape =
             LoanTape.builder()
                 .token("token")
@@ -143,7 +143,7 @@ internal class LoanTapeTest {
                 )
                 .tier("tier")
                 .build()
-        assertThat(loanTape).isNotNull
+
         assertThat(loanTape.token()).isEqualTo("token")
         assertThat(loanTape.accountStanding())
             .isEqualTo(
