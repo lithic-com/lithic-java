@@ -20,14 +20,22 @@ interface ResponderEndpointService {
     fun withRawResponse(): WithRawResponse
 
     /** Enroll a responder endpoint */
-    fun create(params: ResponderEndpointCreateParams): ResponderEndpointCreateResponse =
-        create(params, RequestOptions.none())
+    fun create(): ResponderEndpointCreateResponse = create(ResponderEndpointCreateParams.none())
 
     /** @see [create] */
     fun create(
-        params: ResponderEndpointCreateParams,
+        params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponderEndpointCreateResponse
+
+    /** @see [create] */
+    fun create(
+        params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
+    ): ResponderEndpointCreateResponse = create(params, RequestOptions.none())
+
+    /** @see [create] */
+    fun create(requestOptions: RequestOptions): ResponderEndpointCreateResponse =
+        create(ResponderEndpointCreateParams.none(), requestOptions)
 
     /** Disenroll a responder endpoint */
     fun delete(params: ResponderEndpointDeleteParams) = delete(params, RequestOptions.none())
@@ -59,16 +67,28 @@ interface ResponderEndpointService {
          * as [ResponderEndpointService.create].
          */
         @MustBeClosed
+        fun create(): HttpResponseFor<ResponderEndpointCreateResponse> =
+            create(ResponderEndpointCreateParams.none())
+
+        /** @see [create] */
+        @MustBeClosed
         fun create(
-            params: ResponderEndpointCreateParams
+            params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ResponderEndpointCreateResponse>
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
         ): HttpResponseFor<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
 
         /** @see [create] */
         @MustBeClosed
         fun create(
-            params: ResponderEndpointCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ResponderEndpointCreateResponse>
+            requestOptions: RequestOptions
+        ): HttpResponseFor<ResponderEndpointCreateResponse> =
+            create(ResponderEndpointCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete /v1/responder_endpoints`, but is otherwise the

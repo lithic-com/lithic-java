@@ -161,16 +161,29 @@ interface AccountHolderServiceAsync {
      * Simulates an enrollment review for an account holder. This endpoint is only applicable for
      * workflows that may required intervention such as `KYB_BASIC`.
      */
+    fun simulateEnrollmentReview():
+        CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
+        simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none())
+
+    /** @see [simulateEnrollmentReview] */
     fun simulateEnrollmentReview(
-        params: AccountHolderSimulateEnrollmentReviewParams
+        params: AccountHolderSimulateEnrollmentReviewParams =
+            AccountHolderSimulateEnrollmentReviewParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse>
+
+    /** @see [simulateEnrollmentReview] */
+    fun simulateEnrollmentReview(
+        params: AccountHolderSimulateEnrollmentReviewParams =
+            AccountHolderSimulateEnrollmentReviewParams.none()
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
         simulateEnrollmentReview(params, RequestOptions.none())
 
     /** @see [simulateEnrollmentReview] */
     fun simulateEnrollmentReview(
-        params: AccountHolderSimulateEnrollmentReviewParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse>
+        requestOptions: RequestOptions
+    ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
+        simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none(), requestOptions)
 
     /**
      * Use this endpoint to identify which type of supported government-issued documentation you
@@ -344,17 +357,35 @@ interface AccountHolderServiceAsync {
          * but is otherwise the same as [AccountHolderServiceAsync.simulateEnrollmentReview].
          */
         @MustBeClosed
+        fun simulateEnrollmentReview():
+            CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
+            simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none())
+
+        /** @see [simulateEnrollmentReview] */
+        @MustBeClosed
         fun simulateEnrollmentReview(
-            params: AccountHolderSimulateEnrollmentReviewParams
+            params: AccountHolderSimulateEnrollmentReviewParams =
+                AccountHolderSimulateEnrollmentReviewParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>>
+
+        /** @see [simulateEnrollmentReview] */
+        @MustBeClosed
+        fun simulateEnrollmentReview(
+            params: AccountHolderSimulateEnrollmentReviewParams =
+                AccountHolderSimulateEnrollmentReviewParams.none()
         ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
             simulateEnrollmentReview(params, RequestOptions.none())
 
         /** @see [simulateEnrollmentReview] */
         @MustBeClosed
         fun simulateEnrollmentReview(
-            params: AccountHolderSimulateEnrollmentReviewParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
+            simulateEnrollmentReview(
+                AccountHolderSimulateEnrollmentReviewParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
