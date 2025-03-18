@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class FinancialAccountCreditConfigTest {
 
     @Test
-    fun createFinancialAccountCreditConfig() {
+    fun create() {
         val financialAccountCreditConfig =
             FinancialAccountCreditConfig.builder()
                 .accountToken("b68b7424-aa69-4cbc-a946-30d90181b621")
@@ -20,7 +20,7 @@ internal class FinancialAccountCreditConfigTest {
                 .isSpendBlocked(true)
                 .tier("tier")
                 .build()
-        assertThat(financialAccountCreditConfig).isNotNull
+
         assertThat(financialAccountCreditConfig.accountToken())
             .isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
         assertThat(financialAccountCreditConfig.chargedOffReason())

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 internal class CarrierTest {
 
     @Test
-    fun createCarrier() {
+    fun create() {
         val carrier = Carrier.builder().qrCodeUrl("qr_code_url").build()
-        assertThat(carrier).isNotNull
+
         assertThat(carrier.qrCodeUrl()).contains("qr_code_url")
     }
 }

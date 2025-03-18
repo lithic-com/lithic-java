@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class V2PromoteResponseTest {
 
     @Test
-    fun createV2PromoteResponse() {
+    fun create() {
         val v2PromoteResponse =
             V2PromoteResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -53,7 +53,7 @@ internal class V2PromoteResponseTest {
                 .type(V2PromoteResponse.AuthRuleType.CONDITIONAL_BLOCK)
                 .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        assertThat(v2PromoteResponse).isNotNull
+
         assertThat(v2PromoteResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2PromoteResponse.accountTokens())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

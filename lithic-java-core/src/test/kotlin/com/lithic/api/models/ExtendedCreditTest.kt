@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 internal class ExtendedCreditTest {
 
     @Test
-    fun createExtendedCredit() {
+    fun create() {
         val extendedCredit = ExtendedCredit.builder().creditExtended(0L).build()
-        assertThat(extendedCredit).isNotNull
+
         assertThat(extendedCredit.creditExtended()).isEqualTo(0L)
     }
 }

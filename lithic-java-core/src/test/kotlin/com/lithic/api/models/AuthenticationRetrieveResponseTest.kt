@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class AuthenticationRetrieveResponseTest {
 
     @Test
-    fun createAuthenticationRetrieveResponse() {
+    fun create() {
         val authenticationRetrieveResponse =
             AuthenticationRetrieveResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -146,7 +146,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .build()
                 )
                 .build()
-        assertThat(authenticationRetrieveResponse).isNotNull
+
         assertThat(authenticationRetrieveResponse.token())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(authenticationRetrieveResponse.accountType())

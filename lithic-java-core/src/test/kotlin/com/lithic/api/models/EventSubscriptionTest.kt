@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class EventSubscriptionTest {
 
     @Test
-    fun createEventSubscription() {
+    fun create() {
         val eventSubscription =
             EventSubscription.builder()
                 .token("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
@@ -18,7 +18,7 @@ internal class EventSubscriptionTest {
                 .url("https://example.com")
                 .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
                 .build()
-        assertThat(eventSubscription).isNotNull
+
         assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(eventSubscription.description()).isEqualTo("description")
         assertThat(eventSubscription.disabled()).isEqualTo(true)

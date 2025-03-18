@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class SettlementDetailTest {
 
     @Test
-    fun createSettlementDetail() {
+    fun create() {
         val settlementDetail =
             SettlementDetail.builder()
                 .token("e34a817f-119d-4976-9fb3-8b020b8bbec3")
@@ -34,7 +34,7 @@ internal class SettlementDetailTest {
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .feeDescription("INTERCHANGE COMPLIANCE ADJUSTMENT FOR : 11/12/24")
                 .build()
-        assertThat(settlementDetail).isNotNull
+
         assertThat(settlementDetail.token()).isEqualTo("e34a817f-119d-4976-9fb3-8b020b8bbec3")
         assertThat(settlementDetail.accountToken())
             .isEqualTo("e34a817f-119d-4976-9fb3-8b020b8bbec3")

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class AuthRuleTest {
 
     @Test
-    fun createAuthRule() {
+    fun create() {
         val authRule =
             AuthRule.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -24,7 +24,7 @@ internal class AuthRuleTest {
                 .addCardToken("3fa85f64-5717-4562-b3fc-2c963f66afa6")
                 .programLevel(false)
                 .build()
-        assertThat(authRule).isNotNull
+
         assertThat(authRule.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(authRule.state()).isEqualTo(AuthRule.State.ACTIVE)
         assertThat(authRule.accountTokens().getOrNull())

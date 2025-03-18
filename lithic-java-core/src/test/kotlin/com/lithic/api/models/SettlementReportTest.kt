@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class SettlementReportTest {
 
     @Test
-    fun createSettlementReport() {
+    fun create() {
         val settlementReport =
             SettlementReport.builder()
                 .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
@@ -35,7 +35,7 @@ internal class SettlementReportTest {
                 .transactionsGrossAmount(1900L)
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .build()
-        assertThat(settlementReport).isNotNull
+
         assertThat(settlementReport.created())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
         assertThat(settlementReport.currency()).isEqualTo("USD")

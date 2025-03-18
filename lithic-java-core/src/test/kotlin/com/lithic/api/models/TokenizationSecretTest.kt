@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test
 internal class TokenizationSecretTest {
 
     @Test
-    fun createTokenizationSecret() {
+    fun create() {
         val tokenizationSecret =
             TokenizationSecret.builder()
                 .secret("whsec_1NDsYinMGr951KuDEaj78VtWzlyPaOnwUVagFiWIPJs=")
                 .build()
-        assertThat(tokenizationSecret).isNotNull
+
         assertThat(tokenizationSecret.secret())
             .contains("whsec_1NDsYinMGr951KuDEaj78VtWzlyPaOnwUVagFiWIPJs=")
     }

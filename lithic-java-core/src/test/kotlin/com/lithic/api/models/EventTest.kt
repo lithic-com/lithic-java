@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class EventTest {
 
     @Test
-    fun createEvent() {
+    fun create() {
         val event =
             Event.builder()
                 .token("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
@@ -17,7 +17,7 @@ internal class EventTest {
                 .eventType(Event.EventType.ACCOUNT_HOLDER_CREATED)
                 .payload(Event.Payload.builder().build())
                 .build()
-        assertThat(event).isNotNull
+
         assertThat(event.token()).isEqualTo("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(event.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(event.eventType()).isEqualTo(Event.EventType.ACCOUNT_HOLDER_CREATED)

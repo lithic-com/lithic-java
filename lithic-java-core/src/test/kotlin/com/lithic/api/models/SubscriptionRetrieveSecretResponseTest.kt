@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test
 internal class SubscriptionRetrieveSecretResponseTest {
 
     @Test
-    fun createSubscriptionRetrieveSecretResponse() {
+    fun create() {
         val subscriptionRetrieveSecretResponse =
             SubscriptionRetrieveSecretResponse.builder().secret("secret").build()
-        assertThat(subscriptionRetrieveSecretResponse).isNotNull
+
         assertThat(subscriptionRetrieveSecretResponse.secret()).contains("secret")
     }
 }

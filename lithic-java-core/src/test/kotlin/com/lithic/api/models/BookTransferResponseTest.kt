@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class BookTransferResponseTest {
 
     @Test
-    fun createBookTransferResponse() {
+    fun create() {
         val bookTransferResponse =
             BookTransferResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -39,7 +39,7 @@ internal class BookTransferResponseTest {
                 .toFinancialAccountToken(JsonValue.from(mapOf<String, Any>()))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        assertThat(bookTransferResponse).isNotNull
+
         assertThat(bookTransferResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(bookTransferResponse.category())
             .isEqualTo(BookTransferResponse.Category.ADJUSTMENT)

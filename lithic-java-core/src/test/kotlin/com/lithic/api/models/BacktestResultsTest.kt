@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class BacktestResultsTest {
 
     @Test
-    fun createBacktestResults() {
+    fun create() {
         val backtestResults =
             BacktestResults.builder()
                 .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -53,7 +53,7 @@ internal class BacktestResultsTest {
                         .build()
                 )
                 .build()
-        assertThat(backtestResults).isNotNull
+
         assertThat(backtestResults.backtestToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(backtestResults.results())

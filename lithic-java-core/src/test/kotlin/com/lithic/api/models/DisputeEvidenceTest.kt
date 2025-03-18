@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class DisputeEvidenceTest {
 
     @Test
-    fun createDisputeEvidence() {
+    fun create() {
         val disputeEvidence =
             DisputeEvidence.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -20,7 +20,7 @@ internal class DisputeEvidenceTest {
                 .filename("filename")
                 .uploadUrl("upload_url")
                 .build()
-        assertThat(disputeEvidence).isNotNull
+
         assertThat(disputeEvidence.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(disputeEvidence.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

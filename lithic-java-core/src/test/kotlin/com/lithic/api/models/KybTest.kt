@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class KybTest {
 
     @Test
-    fun createKyb() {
+    fun create() {
         val kyb =
             Kyb.builder()
                 .addBeneficialOwnerEntity(
@@ -96,7 +96,7 @@ internal class KybTest {
                 .kybPassedTimestamp("2018-05-29T21:16:05Z")
                 .websiteUrl("www.mybusiness.com")
                 .build()
-        assertThat(kyb).isNotNull
+
         assertThat(kyb.beneficialOwnerEntities())
             .containsExactly(
                 Kyb.BusinessEntity.builder()

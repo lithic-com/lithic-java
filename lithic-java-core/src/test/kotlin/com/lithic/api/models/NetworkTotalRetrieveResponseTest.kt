@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 internal class NetworkTotalRetrieveResponseTest {
 
     @Test
-    fun createNetworkTotalRetrieveResponse() {
+    fun create() {
         val networkTotalRetrieveResponse =
             NetworkTotalRetrieveResponse.builder()
                 .token("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
@@ -32,7 +32,7 @@ internal class NetworkTotalRetrieveResponseTest {
                 .updated(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
                 .cycle(0L)
                 .build()
-        assertThat(networkTotalRetrieveResponse).isNotNull
+
         assertThat(networkTotalRetrieveResponse.token())
             .isEqualTo("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
         assertThat(networkTotalRetrieveResponse.amounts())
