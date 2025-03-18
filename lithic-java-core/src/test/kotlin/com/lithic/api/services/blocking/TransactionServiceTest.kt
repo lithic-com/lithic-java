@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionRetrieveParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
@@ -49,6 +50,22 @@ internal class TransactionServiceTest {
         val page = transactionService.list()
 
         page.response().validate()
+    }
+
+    @Test
+    fun expireAuthorization() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val transactionService = client.transactions()
+
+        transactionService.expireAuthorization(
+            TransactionExpireAuthorizationParams.builder()
+                .transactionToken("00000000-0000-0000-0000-000000000000")
+                .build()
+        )
     }
 
     @Test

@@ -4,11 +4,13 @@ package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -16,6 +18,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Transaction
+import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
@@ -72,6 +75,13 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
     ): CompletableFuture<TransactionListPageAsync> =
         // get /v1/transactions
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun expireAuthorization(
+        params: TransactionExpireAuthorizationParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        // post /v1/transactions/{transaction_token}/expire_authorization
+        withRawResponse().expireAuthorization(params, requestOptions).thenAccept {}
 
     override fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
@@ -208,6 +218,33 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
                                 )
                             }
                     }
+                }
+        }
+
+        private val expireAuthorizationHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun expireAuthorization(
+            params: TransactionExpireAuthorizationParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "v1",
+                        "transactions",
+                        params._pathParam(0),
+                        "expire_authorization",
+                    )
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable { response.use { expireAuthorizationHandler.handle(it) } }
                 }
         }
 

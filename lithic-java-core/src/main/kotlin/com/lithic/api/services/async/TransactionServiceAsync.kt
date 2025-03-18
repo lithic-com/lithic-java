@@ -4,8 +4,10 @@ package com.lithic.api.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Transaction
+import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
@@ -71,6 +73,17 @@ interface TransactionServiceAsync {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<TransactionListPageAsync> =
         list(TransactionListParams.none(), requestOptions)
+
+    /** Expire authorization */
+    fun expireAuthorization(
+        params: TransactionExpireAuthorizationParams
+    ): CompletableFuture<Void?> = expireAuthorization(params, RequestOptions.none())
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        params: TransactionExpireAuthorizationParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?>
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -240,6 +253,23 @@ interface TransactionServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> =
             list(TransactionListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/transactions/{transaction_token}/expire_authorization`, but is otherwise the same as
+         * [TransactionServiceAsync.expireAuthorization].
+         */
+        @MustBeClosed
+        fun expireAuthorization(
+            params: TransactionExpireAuthorizationParams
+        ): CompletableFuture<HttpResponse> = expireAuthorization(params, RequestOptions.none())
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            params: TransactionExpireAuthorizationParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same
