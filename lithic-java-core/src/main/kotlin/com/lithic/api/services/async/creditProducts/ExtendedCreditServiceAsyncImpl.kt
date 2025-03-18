@@ -52,7 +52,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
                     .addPathSegments(
                         "v1",
                         "credit_products",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "extended_credit",
                     )
                     .build()

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -330,7 +331,7 @@ internal class TransactionTest {
             )
         assertThat(transaction.updated())
             .isEqualTo(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
-        assertThat(transaction.events().get())
+        assertThat(transaction.events().getOrNull())
             .containsExactly(
                 Transaction.TransactionEvent.builder()
                     .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")

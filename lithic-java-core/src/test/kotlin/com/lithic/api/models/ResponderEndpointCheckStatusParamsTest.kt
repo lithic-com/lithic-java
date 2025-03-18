@@ -27,17 +27,4 @@ internal class ResponderEndpointCheckStatusParamsTest {
         assertThat(queryParams)
             .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
     }
-
-    @Test
-    fun queryParamsWithoutOptionalFields() {
-        val params =
-            ResponderEndpointCheckStatusParams.builder()
-                .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
-                .build()
-
-        val queryParams = params._queryParams()
-
-        assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("type", "AUTH_STREAM_ACCESS").build())
-    }
 }

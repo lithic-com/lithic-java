@@ -33,21 +33,4 @@ internal class TransactionSimulateReturnParamsTest {
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }
-
-    @Test
-    fun bodyWithoutOptionalFields() {
-        val params =
-            TransactionSimulateReturnParams.builder()
-                .amount(3831L)
-                .descriptor("COFFEE SHOP")
-                .pan("4111111289144142")
-                .build()
-
-        val body = params._body()
-
-        assertNotNull(body)
-        assertThat(body.amount()).isEqualTo(3831L)
-        assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
-        assertThat(body.pan()).isEqualTo("4111111289144142")
-    }
 }

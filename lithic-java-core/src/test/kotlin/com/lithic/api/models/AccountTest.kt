@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -60,7 +61,7 @@ internal class AccountTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
-        assertThat(account.authRuleTokens().get()).containsExactly("string")
+        assertThat(account.authRuleTokens().getOrNull()).containsExactly("string")
         assertThat(account.cardholderCurrency()).contains("USD")
         assertThat(account.verificationAddress())
             .contains(

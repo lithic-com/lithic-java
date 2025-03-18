@@ -142,7 +142,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "external_bank_accounts", params.getPathParam(0))
+                    .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -172,7 +172,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
-                    .addPathSegments("v1", "external_bank_accounts", params.getPathParam(0))
+                    .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -244,7 +244,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "retry_micro_deposits",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
@@ -280,7 +280,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "retry_prenote",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))

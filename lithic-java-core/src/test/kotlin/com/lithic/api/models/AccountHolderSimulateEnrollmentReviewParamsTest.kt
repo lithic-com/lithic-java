@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.jvm.optionals.getOrNull
 import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -38,12 +39,10 @@ internal class AccountHolderSimulateEnrollmentReviewParamsTest {
         assertThat(body.accountHolderToken()).contains("1415964d-4400-4d79-9fb3-eee0faaee4e4")
         assertThat(body.status())
             .contains(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
-        assertThat(body.statusReasons())
-            .contains(
-                listOf(
-                    AccountHolderSimulateEnrollmentReviewParams.StatusReason
-                        .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
-                )
+        assertThat(body.statusReasons().getOrNull())
+            .containsExactly(
+                AccountHolderSimulateEnrollmentReviewParams.StatusReason
+                    .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
             )
     }
 

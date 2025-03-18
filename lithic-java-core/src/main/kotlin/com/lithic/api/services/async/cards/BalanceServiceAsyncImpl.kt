@@ -50,7 +50,7 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "cards", params.getPathParam(0), "balances")
+                    .addPathSegments("v1", "cards", params._pathParam(0), "balances")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

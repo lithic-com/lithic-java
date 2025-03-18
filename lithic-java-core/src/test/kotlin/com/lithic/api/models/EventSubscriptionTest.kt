@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -22,7 +23,7 @@ internal class EventSubscriptionTest {
         assertThat(eventSubscription.description()).isEqualTo("description")
         assertThat(eventSubscription.disabled()).isEqualTo(true)
         assertThat(eventSubscription.url()).isEqualTo("https://example.com")
-        assertThat(eventSubscription.eventTypes().get())
+        assertThat(eventSubscription.eventTypes().getOrNull())
             .containsExactly(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
     }
 }

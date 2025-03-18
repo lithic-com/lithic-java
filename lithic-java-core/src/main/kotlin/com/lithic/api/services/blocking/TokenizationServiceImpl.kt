@@ -112,7 +112,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("v1", "tokenizations", params.getPathParam(0))
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
@@ -167,7 +167,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "tokenizations", params.getPathParam(0), "activate")
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0), "activate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)
@@ -186,7 +186,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "tokenizations", params.getPathParam(0), "deactivate")
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0), "deactivate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)
@@ -204,7 +204,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "tokenizations", params.getPathParam(0), "pause")
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0), "pause")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)
@@ -226,7 +226,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments(
                         "v1",
                         "tokenizations",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "resend_activation_code",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
@@ -274,7 +274,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments("v1", "tokenizations", params.getPathParam(0), "unpause")
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0), "unpause")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
                     .prepare(clientOptions, params)
@@ -297,7 +297,7 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments(
                         "v1",
                         "tokenizations",
-                        params.getPathParam(0),
+                        params._pathParam(0),
                         "update_digital_card_art",
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
