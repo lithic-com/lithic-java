@@ -21,15 +21,23 @@ interface ResponderEndpointServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Enroll a responder endpoint */
-    fun create(
-        params: ResponderEndpointCreateParams
-    ): CompletableFuture<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
+    fun create(): CompletableFuture<ResponderEndpointCreateResponse> =
+        create(ResponderEndpointCreateParams.none())
 
     /** @see [create] */
     fun create(
-        params: ResponderEndpointCreateParams,
+        params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponderEndpointCreateResponse>
+
+    /** @see [create] */
+    fun create(
+        params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
+    ): CompletableFuture<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
+
+    /** @see [create] */
+    fun create(requestOptions: RequestOptions): CompletableFuture<ResponderEndpointCreateResponse> =
+        create(ResponderEndpointCreateParams.none(), requestOptions)
 
     /** Disenroll a responder endpoint */
     fun delete(params: ResponderEndpointDeleteParams): CompletableFuture<Void?> =
@@ -63,17 +71,29 @@ interface ResponderEndpointServiceAsync {
          * as [ResponderEndpointServiceAsync.create].
          */
         @MustBeClosed
+        fun create(): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
+            create(ResponderEndpointCreateParams.none())
+
+        /** @see [create] */
+        @MustBeClosed
         fun create(
-            params: ResponderEndpointCreateParams
+            params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>>
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
         @MustBeClosed
         fun create(
-            params: ResponderEndpointCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
+            create(ResponderEndpointCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete /v1/responder_endpoints`, but is otherwise the

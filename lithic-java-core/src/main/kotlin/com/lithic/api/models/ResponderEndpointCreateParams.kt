@@ -222,6 +222,8 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ResponderEndpointCreateParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ResponderEndpointCreateParams].
