@@ -6,13 +6,12 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccount
-import com.lithic.api.models.FinancialAccountChargeOffParams
 import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountCreditConfig
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
+import com.lithic.api.models.FinancialAccountUpdateStatusParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
@@ -86,16 +85,16 @@ interface FinancialAccountServiceAsync {
     fun list(requestOptions: RequestOptions): CompletableFuture<FinancialAccountListPageAsync> =
         list(FinancialAccountListParams.none(), requestOptions)
 
-    /** Update issuing account state to charged off */
-    fun chargeOff(
-        params: FinancialAccountChargeOffParams
-    ): CompletableFuture<FinancialAccountCreditConfig> = chargeOff(params, RequestOptions.none())
+    /** Update financial account status */
+    fun updateStatus(
+        params: FinancialAccountUpdateStatusParams
+    ): CompletableFuture<FinancialAccount> = updateStatus(params, RequestOptions.none())
 
-    /** @see [chargeOff] */
-    fun chargeOff(
-        params: FinancialAccountChargeOffParams,
+    /** @see [updateStatus] */
+    fun updateStatus(
+        params: FinancialAccountUpdateStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<FinancialAccountCreditConfig>
+    ): CompletableFuture<FinancialAccount>
 
     /**
      * A view of [FinancialAccountServiceAsync] that provides access to raw HTTP responses for each
@@ -195,20 +194,20 @@ interface FinancialAccountServiceAsync {
 
         /**
          * Returns a raw HTTP response for `post
-         * /v1/financial_accounts/{financial_account_token}/charge_off`, but is otherwise the same
-         * as [FinancialAccountServiceAsync.chargeOff].
+         * /v1/financial_accounts/{financial_account_token}/update_status`, but is otherwise the
+         * same as [FinancialAccountServiceAsync.updateStatus].
          */
         @MustBeClosed
-        fun chargeOff(
-            params: FinancialAccountChargeOffParams
-        ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            chargeOff(params, RequestOptions.none())
+        fun updateStatus(
+            params: FinancialAccountUpdateStatusParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
+            updateStatus(params, RequestOptions.none())
 
-        /** @see [chargeOff] */
+        /** @see [updateStatus] */
         @MustBeClosed
-        fun chargeOff(
-            params: FinancialAccountChargeOffParams,
+        fun updateStatus(
+            params: FinancialAccountUpdateStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>>
+        ): CompletableFuture<HttpResponseFor<FinancialAccount>>
     }
 }
