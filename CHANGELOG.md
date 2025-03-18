@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.81.0 (2025-03-18)
+
+Full Changelog: [v0.80.0...v0.81.0](https://github.com/lithic-com/lithic-java/compare/v0.80.0...v0.81.0)
+
+### Features
+
+* **api:** updates to 2 `FinancialAccounts` endpoints and new `ExpireAuthorization` endpoint ([#543](https://github.com/lithic-com/lithic-java/issues/543)) ([cbd38ee](https://github.com/lithic-com/lithic-java/commit/cbd38ee727188a1d41588213188c4729b6a64be4))
+* **client:** don't require params for some service methods ([#541](https://github.com/lithic-com/lithic-java/issues/541)) ([1dc4c22](https://github.com/lithic-com/lithic-java/commit/1dc4c228a82cc2e2e5b186459c359e6c298f47f1))
+
+
+### Bug Fixes
+
+* **client:** support kotlin 1.8 runtime ([#544](https://github.com/lithic-com/lithic-java/issues/544)) ([1ef766f](https://github.com/lithic-com/lithic-java/commit/1ef766f253b1a95dfeb93449780627f733240dc7))
+
+
+### Chores
+
+* **internal:** add generated comment ([#535](https://github.com/lithic-com/lithic-java/issues/535)) ([5ec4019](https://github.com/lithic-com/lithic-java/commit/5ec4019a1dcabd563d5a214d3fb1a54d37642a3a))
+* **internal:** add some tests for union classes ([#542](https://github.com/lithic-com/lithic-java/issues/542)) ([3faa3b8](https://github.com/lithic-com/lithic-java/commit/3faa3b8bc31068fafaa2717a87c33aefb2644c61))
+* **internal:** add tests for `_headers()` ([#539](https://github.com/lithic-com/lithic-java/issues/539)) ([de2778e](https://github.com/lithic-com/lithic-java/commit/de2778e271b6c4c0782833a60f74cba4aaa217d1))
+* **internal:** delete duplicate tests ([f68c161](https://github.com/lithic-com/lithic-java/commit/f68c1614cfc1ef1d7247475f6b6c65ea8de0a23a))
+* **internal:** generate more tests ([cf4866c](https://github.com/lithic-com/lithic-java/commit/cf4866cff36fcf8bd3ae2d238b093db897ca4d99))
+* **internal:** make test classes internal ([#534](https://github.com/lithic-com/lithic-java/issues/534)) ([3737c81](https://github.com/lithic-com/lithic-java/commit/3737c819ada96803807ba791a6c9477f2b018e76))
+* **internal:** refactor query param serialization impl and tests ([#537](https://github.com/lithic-com/lithic-java/issues/537)) ([aa4e7b9](https://github.com/lithic-com/lithic-java/commit/aa4e7b955f2ce8cee135c3d27ba4e682e42fc95c))
+* **internal:** refactor some test assertions ([f68c161](https://github.com/lithic-com/lithic-java/commit/f68c1614cfc1ef1d7247475f6b6c65ea8de0a23a))
+* **internal:** reformat some tests ([#540](https://github.com/lithic-com/lithic-java/issues/540)) ([cf4866c](https://github.com/lithic-com/lithic-java/commit/cf4866cff36fcf8bd3ae2d238b093db897ca4d99))
+* **internal:** remove extra empty newlines ([#531](https://github.com/lithic-com/lithic-java/issues/531)) ([1ec3d9c](https://github.com/lithic-com/lithic-java/commit/1ec3d9cf1327e3db3f5a1e6d2781ad4d9f29452c))
+* **internal:** rename `getPathParam` ([#538](https://github.com/lithic-com/lithic-java/issues/538)) ([f68c161](https://github.com/lithic-com/lithic-java/commit/f68c1614cfc1ef1d7247475f6b6c65ea8de0a23a))
+* **internal:** reorder some params methodsc ([f68c161](https://github.com/lithic-com/lithic-java/commit/f68c1614cfc1ef1d7247475f6b6c65ea8de0a23a))
+
+
+### Documentation
+
+* add `build` method comments ([#536](https://github.com/lithic-com/lithic-java/issues/536)) ([1b0b00a](https://github.com/lithic-com/lithic-java/commit/1b0b00a8ea4ad629ed95462c46337ceecbf79b33))
+* deduplicate and refine comments ([#533](https://github.com/lithic-com/lithic-java/issues/533)) ([eaafce6](https://github.com/lithic-com/lithic-java/commit/eaafce67920b967704241ef05297016f103022be))
+
 ## 0.80.0 (2025-03-11)
 
 Full Changelog: [v0.79.0...v0.80.0](https://github.com/lithic-com/lithic-java/compare/v0.79.0...v0.80.0)
