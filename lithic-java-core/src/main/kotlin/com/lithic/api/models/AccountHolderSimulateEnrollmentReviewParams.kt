@@ -322,6 +322,8 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): AccountHolderSimulateEnrollmentReviewParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [AccountHolderSimulateEnrollmentReviewParams].
