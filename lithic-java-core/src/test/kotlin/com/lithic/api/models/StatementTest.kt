@@ -119,7 +119,7 @@ internal class StatementTest {
         assertThat(statement.endingBalance()).isEqualTo(0L)
         assertThat(statement.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(statement.paymentDueDate()).isEqualTo(LocalDate.parse("2019-12-27"))
+        assertThat(statement.paymentDueDate()).contains(LocalDate.parse("2019-12-27"))
         assertThat(statement.periodTotals())
             .isEqualTo(
                 Statement.StatementTotals.builder()
