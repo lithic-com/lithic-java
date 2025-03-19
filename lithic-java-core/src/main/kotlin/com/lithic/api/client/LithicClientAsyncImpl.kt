@@ -3,6 +3,7 @@
 package com.lithic.api.client
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.getPackageVersion
 import com.lithic.api.core.handlers.errorHandler
@@ -14,7 +15,6 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.async.AccountHolderServiceAsync
@@ -251,7 +251,7 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LithicClientAsync.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val accounts: AccountServiceAsync.WithRawResponse by lazy {
             AccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
