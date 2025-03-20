@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -38,7 +37,6 @@ internal class DisputeInitiateEvidenceUploadParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.filename()).contains("filename")
     }
 
@@ -50,7 +48,5 @@ internal class DisputeInitiateEvidenceUploadParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }

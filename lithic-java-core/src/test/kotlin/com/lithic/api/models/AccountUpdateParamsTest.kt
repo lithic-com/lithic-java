@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -64,7 +63,6 @@ internal class AccountUpdateParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.dailySpendLimit()).contains(1000L)
         assertThat(body.lifetimeSpendLimit()).contains(0L)
         assertThat(body.monthlySpendLimit()).contains(0L)
@@ -90,7 +88,5 @@ internal class AccountUpdateParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }
