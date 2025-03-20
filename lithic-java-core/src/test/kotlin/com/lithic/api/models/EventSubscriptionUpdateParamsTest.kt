@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import kotlin.jvm.optionals.getOrNull
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -46,7 +45,6 @@ internal class EventSubscriptionUpdateParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.url()).isEqualTo("https://example.com")
         assertThat(body.description()).contains("description")
         assertThat(body.disabled()).contains(true)
@@ -64,7 +62,6 @@ internal class EventSubscriptionUpdateParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.url()).isEqualTo("https://example.com")
     }
 }

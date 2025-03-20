@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import kotlin.jvm.optionals.getOrNull
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -35,7 +34,6 @@ internal class AccountHolderSimulateEnrollmentReviewParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.accountHolderToken()).contains("1415964d-4400-4d79-9fb3-eee0faaee4e4")
         assertThat(body.status())
             .contains(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
@@ -51,7 +49,5 @@ internal class AccountHolderSimulateEnrollmentReviewParamsTest {
         val params = AccountHolderSimulateEnrollmentReviewParams.builder().build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }
