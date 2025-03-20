@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import java.time.OffsetDateTime
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -41,7 +40,6 @@ internal class AuthRuleV2BacktestCreateParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.end()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(body.start()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
@@ -54,7 +52,5 @@ internal class AuthRuleV2BacktestCreateParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }

@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -58,7 +57,6 @@ internal class AuthRuleV2DraftParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.parameters())
             .contains(
                 AuthRuleV2DraftParams.Parameters.ofConditionalBlock(
@@ -83,7 +81,5 @@ internal class AuthRuleV2DraftParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }
