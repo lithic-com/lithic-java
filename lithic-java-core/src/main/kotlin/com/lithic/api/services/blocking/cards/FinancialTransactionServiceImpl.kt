@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking.cards
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -13,7 +14,6 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.CardFinancialTransactionListPage
 import com.lithic.api.models.CardFinancialTransactionListParams
 import com.lithic.api.models.CardFinancialTransactionRetrieveParams
@@ -45,7 +45,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         FinancialTransactionService.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<FinancialTransaction> =
             jsonHandler<FinancialTransaction>(clientOptions.jsonMapper)

@@ -16,7 +16,6 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListAttemptsPageAsync
 import com.lithic.api.models.EventListAttemptsParams
@@ -66,7 +65,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         EventServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val subscriptions: SubscriptionServiceAsync.WithRawResponse by lazy {
             SubscriptionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
