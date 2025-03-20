@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -44,7 +43,6 @@ internal class TokenizationResendActivationCodeParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.activationMethodType())
             .contains(
                 TokenizationResendActivationCodeParams.ActivationMethodType
@@ -60,7 +58,5 @@ internal class TokenizationResendActivationCodeParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }

@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -46,7 +45,6 @@ internal class CardProvisionParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.certificate()).contains("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.clientDeviceId()).contains("client_device_id")
         assertThat(body.clientWalletAccountId()).contains("client_wallet_account_id")
@@ -61,7 +59,5 @@ internal class CardProvisionParamsTest {
             CardProvisionParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }
