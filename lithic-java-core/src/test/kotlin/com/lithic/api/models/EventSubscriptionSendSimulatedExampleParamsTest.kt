@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -40,7 +39,6 @@ internal class EventSubscriptionSendSimulatedExampleParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.eventType())
             .contains(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
     }
@@ -53,7 +51,5 @@ internal class EventSubscriptionSendSimulatedExampleParamsTest {
                 .build()
 
         val body = params._body()
-
-        assertNotNull(body)
     }
 }

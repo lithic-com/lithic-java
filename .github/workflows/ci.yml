@@ -31,3 +31,25 @@ jobs:
 
       - name: Run lints
         run: ./scripts/lint
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    if: github.repository == 'lithic-com/lithic-java'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            8
+            17
+          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run tests
+        run: ./scripts/test

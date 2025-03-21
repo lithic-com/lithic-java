@@ -6,10 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.getRequiredHeader
-import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.http.Headers
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicException
 import java.security.MessageDigest
 import java.time.Duration
@@ -19,9 +16,7 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.optionals.getOrNull
 
-class WebhookServiceImpl constructor(private val clientOptions: ClientOptions) : WebhookService {
-
-    private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+class WebhookServiceImpl(private val clientOptions: ClientOptions) : WebhookService {
 
     override fun unwrap(payload: String, headers: Headers, secret: String?): JsonValue {
         verifySignature(payload, headers, secret)

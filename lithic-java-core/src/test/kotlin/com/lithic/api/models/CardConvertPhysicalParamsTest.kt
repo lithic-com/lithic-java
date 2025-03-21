@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -83,7 +82,6 @@ internal class CardConvertPhysicalParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()
@@ -126,7 +124,6 @@ internal class CardConvertPhysicalParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()

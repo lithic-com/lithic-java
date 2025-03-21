@@ -3,6 +3,7 @@
 package com.lithic.api.services.async.authRules
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
@@ -16,7 +17,6 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
@@ -117,7 +117,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         V2ServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val backtests: BacktestServiceAsync.WithRawResponse by lazy {
             BacktestServiceAsyncImpl.WithRawResponseImpl(clientOptions)

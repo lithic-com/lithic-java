@@ -3,6 +3,7 @@
 package com.lithic.api.services.async.financialAccounts.statements
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -13,7 +14,6 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccountStatementLineItemListPageAsync
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import java.util.concurrent.CompletableFuture
@@ -38,7 +38,7 @@ class LineItemServiceAsyncImpl internal constructor(private val clientOptions: C
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LineItemServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val listHandler: Handler<FinancialAccountStatementLineItemListPageAsync.Response> =
             jsonHandler<FinancialAccountStatementLineItemListPageAsync.Response>(

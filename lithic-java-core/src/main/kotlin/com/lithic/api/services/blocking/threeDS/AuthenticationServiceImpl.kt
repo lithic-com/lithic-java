@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
@@ -16,7 +17,6 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthenticationRetrieveResponse
 import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
@@ -57,7 +57,7 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AuthenticationService.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<AuthenticationRetrieveResponse> =
             jsonHandler<AuthenticationRetrieveResponse>(clientOptions.jsonMapper)

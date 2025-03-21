@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import java.time.LocalDate
-import kotlin.test.assertNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -44,7 +43,6 @@ internal class ExternalPaymentSettleParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.memo()).contains("memo")
         assertThat(body.progressTo())
@@ -61,7 +59,6 @@ internal class ExternalPaymentSettleParamsTest {
 
         val body = params._body()
 
-        assertNotNull(body)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
     }
 }

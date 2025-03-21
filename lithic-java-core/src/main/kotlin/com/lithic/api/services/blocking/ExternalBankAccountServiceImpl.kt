@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -14,7 +15,6 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ExternalBankAccountCreateParams
 import com.lithic.api.models.ExternalBankAccountCreateResponse
 import com.lithic.api.models.ExternalBankAccountListPage
@@ -90,7 +90,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ExternalBankAccountService.WithRawResponse {
 
-        private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val microDeposits: MicroDepositService.WithRawResponse by lazy {
             MicroDepositServiceImpl.WithRawResponseImpl(clientOptions)
