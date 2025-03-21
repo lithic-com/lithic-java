@@ -138,6 +138,8 @@ interface DisputeServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeEvidence>
 
+    fun uploadEvidence(disputeToken: String, file: ByteArray): CompletableFuture<Void>
+
     /**
      * A view of [DisputeServiceAsync] that provides access to raw HTTP responses for each method.
      */

@@ -128,6 +128,8 @@ interface DisputeService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DisputeEvidence
 
+    fun uploadEvidence(disputeToken: String, file: ByteArray)
+
     /** A view of [DisputeService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 

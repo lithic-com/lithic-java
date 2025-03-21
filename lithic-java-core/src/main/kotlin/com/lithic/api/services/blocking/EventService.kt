@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Event
@@ -57,6 +58,8 @@ interface EventService {
         params: EventListAttemptsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventListAttemptsPage
+
+    fun resend(eventToken: String, eventSubscriptionToken: String, body: JsonValue)
 
     /** A view of [EventService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {

@@ -33,7 +33,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("type", type.toString())
+                put("type", type.asString())
                 putAll(additionalQueryParams)
             }
             .build()

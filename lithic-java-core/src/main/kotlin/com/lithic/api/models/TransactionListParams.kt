@@ -92,9 +92,9 @@ private constructor(
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
                 pageSize?.let { put("page_size", it.toString()) }
-                result?.let { put("result", it.toString()) }
+                result?.let { put("result", it.asString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.toString()) }
+                status?.let { put("status", it.asString()) }
                 putAll(additionalQueryParams)
             }
             .build()

@@ -2,6 +2,7 @@
 
 package com.lithic.api.core
 
+import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.SortedMap
@@ -60,5 +61,9 @@ internal fun Any?.contentToString(): String {
     }
     return string
 }
+
+@JvmSynthetic
+internal fun Headers.getRequiredHeader(name: String): String =
+    values(name).firstOrNull() ?: throw LithicInvalidDataException("Could not find $name header")
 
 internal interface Enum

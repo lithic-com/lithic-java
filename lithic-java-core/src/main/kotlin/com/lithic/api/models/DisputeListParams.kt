@@ -78,7 +78,7 @@ private constructor(
                 endingBefore?.let { put("ending_before", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.toString()) }
+                status?.let { put("status", it.asString()) }
                 transactionTokens?.let { put("transaction_tokens", it.joinToString(",")) }
                 putAll(additionalQueryParams)
             }

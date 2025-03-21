@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -12,6 +13,7 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.Event
@@ -144,6 +146,24 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                     }
                     .let { EventListAttemptsPage.of(EventServiceImpl(clientOptions), params, it) }
             }
+        }
+    }
+
+    override fun resend(eventToken: String, eventSubscriptionToken: String, body: JsonValue) {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments(
+                    "events",
+                    eventToken,
+                    "event_subscriptions",
+                    eventSubscriptionToken,
+                    "resend",
+                )
+                .body(json(clientOptions.jsonMapper, body))
+                .build()
+        clientOptions.httpClient.execute(request).let { response ->
+            response.let { emptyHandler().handle(it) }
         }
     }
 }

@@ -92,14 +92,14 @@ private constructor(
                 accountToken?.let { put("account_token", it) }
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 businessAccountToken?.let { put("business_account_token", it) }
-                category?.let { put("category", it.toString()) }
+                category?.let { put("category", it.asString()) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
                 financialAccountToken?.let { put("financial_account_token", it) }
                 pageSize?.let { put("page_size", it.toString()) }
-                result?.let { put("result", it.toString()) }
+                result?.let { put("result", it.asString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.toString()) }
+                status?.let { put("status", it.asString()) }
                 putAll(additionalQueryParams)
             }
             .build()
