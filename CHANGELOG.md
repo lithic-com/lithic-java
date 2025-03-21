@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.82.0 (2025-03-21)
+
+Full Changelog: [v0.81.0...v0.82.0](https://github.com/lithic-com/lithic-java/compare/v0.81.0...v0.82.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** refactor exception structure and methods ([#549](https://github.com/lithic-com/lithic-java/issues/549))
+
+### Chores
+
+* **client:** refactor exception structure and methods ([#549](https://github.com/lithic-com/lithic-java/issues/549)) ([43441d9](https://github.com/lithic-com/lithic-java/commit/43441d9475f9680f6f5fa5df1e26d7645febfaaa))
+* **internal:** add missing release please block ([#546](https://github.com/lithic-com/lithic-java/issues/546)) ([c524fd6](https://github.com/lithic-com/lithic-java/commit/c524fd6e417d4cbe694f0d1aa3ef3dc9259a3d59))
+* **internal:** fix example formatting ([#553](https://github.com/lithic-com/lithic-java/issues/553)) ([ee172e8](https://github.com/lithic-com/lithic-java/commit/ee172e811ae6f398708d4820757699dccb675fbd))
+* **internal:** make multipart assertions more robust ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* **internal:** remove unnecessary `assertNotNull` calls ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* **internal:** remove unnecessary import ([#554](https://github.com/lithic-com/lithic-java/issues/554)) ([2750ce7](https://github.com/lithic-com/lithic-java/commit/2750ce7c513ae7357f2778e3029635d871db50a9))
+* **internal:** update .stats.yml ([#548](https://github.com/lithic-com/lithic-java/issues/548)) ([872c032](https://github.com/lithic-com/lithic-java/commit/872c032930dc2f0deda9b3f89f2c89d4580b8f8b))
+
+
+### Documentation
+
+* refine comments on multipart params ([#552](https://github.com/lithic-com/lithic-java/issues/552)) ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* update readme exception docs ([#555](https://github.com/lithic-com/lithic-java/issues/555)) ([4621a20](https://github.com/lithic-com/lithic-java/commit/4621a205f412d255d251f7f68ed4b0814aa90d74))
+
 ## 0.81.0 (2025-03-18)
 
 Full Changelog: [v0.80.0...v0.81.0](https://github.com/lithic-com/lithic-java/compare/v0.80.0...v0.81.0)
