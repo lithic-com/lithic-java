@@ -1,7 +1,8 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package com.lithic.api.core.http
 
 import java.io.InputStream
-import java.lang.AutoCloseable
 
 interface HttpResponse : AutoCloseable {
 
