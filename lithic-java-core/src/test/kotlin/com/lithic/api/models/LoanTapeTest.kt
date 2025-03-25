@@ -20,6 +20,20 @@ internal class LoanTapeTest {
                         .consecutiveMinimumPaymentsMade(0L)
                         .consecutiveMinimumPaymentsMissed(0L)
                         .daysPastDue(0L)
+                        .financialAccountState(
+                            LoanTape.AccountStanding.FinancialAccountState.builder()
+                                .status(
+                                    LoanTape.AccountStanding.FinancialAccountState
+                                        .FinancialAccountStatus
+                                        .OPEN
+                                )
+                                .statusChangeReason(
+                                    LoanTape.AccountStanding.FinancialAccountState
+                                        .FinancialAccountStatusChangeReason
+                                        .CHARGED_OFF_DELINQUENT
+                                )
+                                .build()
+                        )
                         .hasGrace(true)
                         .periodNumber(0L)
                         .periodState(LoanTape.AccountStanding.PeriodState.STANDARD)
@@ -152,6 +166,20 @@ internal class LoanTapeTest {
                     .consecutiveMinimumPaymentsMade(0L)
                     .consecutiveMinimumPaymentsMissed(0L)
                     .daysPastDue(0L)
+                    .financialAccountState(
+                        LoanTape.AccountStanding.FinancialAccountState.builder()
+                            .status(
+                                LoanTape.AccountStanding.FinancialAccountState
+                                    .FinancialAccountStatus
+                                    .OPEN
+                            )
+                            .statusChangeReason(
+                                LoanTape.AccountStanding.FinancialAccountState
+                                    .FinancialAccountStatusChangeReason
+                                    .CHARGED_OFF_DELINQUENT
+                            )
+                            .build()
+                    )
                     .hasGrace(true)
                     .periodNumber(0L)
                     .periodState(LoanTape.AccountStanding.PeriodState.STANDARD)
