@@ -11,35 +11,38 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class Kyc
-@JsonCreator
 private constructor(
-    @JsonProperty("individual")
-    @ExcludeMissing
-    private val individual: JsonField<Individual> = JsonMissing.of(),
-    @JsonProperty("tos_timestamp")
-    @ExcludeMissing
-    private val tosTimestamp: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("workflow")
-    @ExcludeMissing
-    private val workflow: JsonField<Workflow> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("kyc_passed_timestamp")
-    @ExcludeMissing
-    private val kycPassedTimestamp: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val individual: JsonField<Individual>,
+    private val tosTimestamp: JsonField<String>,
+    private val workflow: JsonField<Workflow>,
+    private val externalId: JsonField<String>,
+    private val kycPassedTimestamp: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("individual")
+        @ExcludeMissing
+        individual: JsonField<Individual> = JsonMissing.of(),
+        @JsonProperty("tos_timestamp")
+        @ExcludeMissing
+        tosTimestamp: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("workflow") @ExcludeMissing workflow: JsonField<Workflow> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("kyc_passed_timestamp")
+        @ExcludeMissing
+        kycPassedTimestamp: JsonField<String> = JsonMissing.of(),
+    ) : this(individual, tosTimestamp, workflow, externalId, kycPassedTimestamp, mutableMapOf())
 
     /**
      * Information on individual for whom the account is being opened and KYC is being run.
@@ -129,24 +132,15 @@ private constructor(
     @ExcludeMissing
     fun _kycPassedTimestamp(): JsonField<String> = kycPassedTimestamp
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Kyc = apply {
-        if (validated) {
-            return@apply
-        }
-
-        individual().validate()
-        tosTimestamp()
-        workflow()
-        externalId()
-        kycPassedTimestamp()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -299,37 +293,65 @@ private constructor(
                 checkRequired("workflow", workflow),
                 externalId,
                 kycPassedTimestamp,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
+    private var validated: Boolean = false
+
+    fun validate(): Kyc = apply {
+        if (validated) {
+            return@apply
+        }
+
+        individual().validate()
+        tosTimestamp()
+        workflow()
+        externalId()
+        kycPassedTimestamp()
+        validated = true
+    }
+
     /** Information on individual for whom the account is being opened and KYC is being run. */
-    @NoAutoDetect
     class Individual
-    @JsonCreator
     private constructor(
-        @JsonProperty("address")
-        @ExcludeMissing
-        private val address: JsonField<Address> = JsonMissing.of(),
-        @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("email")
-        @ExcludeMissing
-        private val email: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("first_name")
-        @ExcludeMissing
-        private val firstName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("government_id")
-        @ExcludeMissing
-        private val governmentId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("last_name")
-        @ExcludeMissing
-        private val lastName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("phone_number")
-        @ExcludeMissing
-        private val phoneNumber: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val address: JsonField<Address>,
+        private val dob: JsonField<String>,
+        private val email: JsonField<String>,
+        private val firstName: JsonField<String>,
+        private val governmentId: JsonField<String>,
+        private val lastName: JsonField<String>,
+        private val phoneNumber: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+            @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("first_name")
+            @ExcludeMissing
+            firstName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("government_id")
+            @ExcludeMissing
+            governmentId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("last_name")
+            @ExcludeMissing
+            lastName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_number")
+            @ExcludeMissing
+            phoneNumber: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            address,
+            dob,
+            email,
+            firstName,
+            governmentId,
+            lastName,
+            phoneNumber,
+            mutableMapOf(),
+        )
 
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -446,26 +468,15 @@ private constructor(
         @ExcludeMissing
         fun _phoneNumber(): JsonField<String> = phoneNumber
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Individual = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address().validate()
-            dob()
-            email()
-            firstName()
-            governmentId()
-            lastName()
-            phoneNumber()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -657,8 +668,25 @@ private constructor(
                     checkRequired("governmentId", governmentId),
                     checkRequired("lastName", lastName),
                     checkRequired("phoneNumber", phoneNumber),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Individual = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address().validate()
+            dob()
+            email()
+            firstName()
+            governmentId()
+            lastName()
+            phoneNumber()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

@@ -20,49 +20,68 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class V2CreateResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_tokens")
-    @ExcludeMissing
-    private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("card_tokens")
-    @ExcludeMissing
-    private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("current_version")
-    @ExcludeMissing
-    private val currentVersion: JsonField<CurrentVersion> = JsonMissing.of(),
-    @JsonProperty("draft_version")
-    @ExcludeMissing
-    private val draftVersion: JsonField<DraftVersion> = JsonMissing.of(),
-    @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("program_level")
-    @ExcludeMissing
-    private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("state")
-    @ExcludeMissing
-    private val state: JsonField<AuthRuleState> = JsonMissing.of(),
-    @JsonProperty("type")
-    @ExcludeMissing
-    private val type: JsonField<AuthRuleType> = JsonMissing.of(),
-    @JsonProperty("excluded_card_tokens")
-    @ExcludeMissing
-    private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountTokens: JsonField<List<String>>,
+    private val cardTokens: JsonField<List<String>>,
+    private val currentVersion: JsonField<CurrentVersion>,
+    private val draftVersion: JsonField<DraftVersion>,
+    private val name: JsonField<String>,
+    private val programLevel: JsonField<Boolean>,
+    private val state: JsonField<AuthRuleState>,
+    private val type: JsonField<AuthRuleType>,
+    private val excludedCardTokens: JsonField<List<String>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_tokens")
+        @ExcludeMissing
+        accountTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("card_tokens")
+        @ExcludeMissing
+        cardTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("current_version")
+        @ExcludeMissing
+        currentVersion: JsonField<CurrentVersion> = JsonMissing.of(),
+        @JsonProperty("draft_version")
+        @ExcludeMissing
+        draftVersion: JsonField<DraftVersion> = JsonMissing.of(),
+        @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("program_level")
+        @ExcludeMissing
+        programLevel: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("state") @ExcludeMissing state: JsonField<AuthRuleState> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing type: JsonField<AuthRuleType> = JsonMissing.of(),
+        @JsonProperty("excluded_card_tokens")
+        @ExcludeMissing
+        excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountTokens,
+        cardTokens,
+        currentVersion,
+        draftVersion,
+        name,
+        programLevel,
+        state,
+        type,
+        excludedCardTokens,
+        mutableMapOf(),
+    )
 
     /**
      * Auth Rule Token
@@ -226,29 +245,15 @@ private constructor(
     @ExcludeMissing
     fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): V2CreateResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountTokens()
-        cardTokens()
-        currentVersion().ifPresent { it.validate() }
-        draftVersion().ifPresent { it.validate() }
-        name()
-        programLevel()
-        state()
-        type()
-        excludedCardTokens()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -532,23 +537,44 @@ private constructor(
                 checkRequired("state", state),
                 checkRequired("type", type),
                 (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): V2CreateResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountTokens()
+        cardTokens()
+        currentVersion().ifPresent { it.validate() }
+        draftVersion().ifPresent { it.validate() }
+        name()
+        programLevel()
+        state()
+        type()
+        excludedCardTokens()
+        validated = true
+    }
+
     class CurrentVersion
-    @JsonCreator
     private constructor(
-        @JsonProperty("parameters")
-        @ExcludeMissing
-        private val parameters: JsonField<Parameters> = JsonMissing.of(),
-        @JsonProperty("version")
-        @ExcludeMissing
-        private val version: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val parameters: JsonField<Parameters>,
+        private val version: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            parameters: JsonField<Parameters> = JsonMissing.of(),
+            @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        ) : this(parameters, version, mutableMapOf())
 
         /**
          * Parameters for the Auth Rule
@@ -582,21 +608,15 @@ private constructor(
          */
         @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): CurrentVersion = apply {
-            if (validated) {
-                return@apply
-            }
-
-            parameters().validate()
-            version()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -706,8 +726,20 @@ private constructor(
                 CurrentVersion(
                     checkRequired("parameters", parameters),
                     checkRequired("version", version),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): CurrentVersion = apply {
+            if (validated) {
+                return@apply
+            }
+
+            parameters().validate()
+            version()
+            validated = true
         }
 
         /** Parameters for the Auth Rule */
@@ -884,19 +916,20 @@ private constructor(
             "CurrentVersion{parameters=$parameters, version=$version, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class DraftVersion
-    @JsonCreator
     private constructor(
-        @JsonProperty("parameters")
-        @ExcludeMissing
-        private val parameters: JsonField<Parameters> = JsonMissing.of(),
-        @JsonProperty("version")
-        @ExcludeMissing
-        private val version: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val parameters: JsonField<Parameters>,
+        private val version: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            parameters: JsonField<Parameters> = JsonMissing.of(),
+            @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        ) : this(parameters, version, mutableMapOf())
 
         /**
          * Parameters for the Auth Rule
@@ -930,21 +963,15 @@ private constructor(
          */
         @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): DraftVersion = apply {
-            if (validated) {
-                return@apply
-            }
-
-            parameters().validate()
-            version()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1054,8 +1081,20 @@ private constructor(
                 DraftVersion(
                     checkRequired("parameters", parameters),
                     checkRequired("version", version),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): DraftVersion = apply {
+            if (validated) {
+                return@apply
+            }
+
+            parameters().validate()
+            version()
+            validated = true
         }
 
         /** Parameters for the Auth Rule */

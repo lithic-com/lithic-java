@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toImmutable
-import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
@@ -44,7 +42,6 @@ constructor(
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     @JsonDeserialize(builder = CardGetEmbedUrlBody.Builder::class)
-    @NoAutoDetect
     class CardGetEmbedUrlBody
     internal constructor(
         private val token: String?,
@@ -237,7 +234,6 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    @NoAutoDetect
     class Builder {
 
         private var token: String? = null

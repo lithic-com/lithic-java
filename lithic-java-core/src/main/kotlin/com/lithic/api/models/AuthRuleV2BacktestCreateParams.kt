@@ -10,15 +10,13 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -91,170 +89,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): BacktestRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> authRuleToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class BacktestRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("end")
-        @ExcludeMissing
-        private val end: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("start")
-        @ExcludeMissing
-        private val start: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * The end time of the backtest.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end.getNullable("end"))
-
-        /**
-         * The start time of the backtest.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
-
-        /**
-         * Returns the raw JSON value of [end].
-         *
-         * Unlike [end], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("end") @ExcludeMissing fun _end(): JsonField<OffsetDateTime> = end
-
-        /**
-         * Returns the raw JSON value of [start].
-         *
-         * Unlike [start], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("start") @ExcludeMissing fun _start(): JsonField<OffsetDateTime> = start
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): BacktestRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            end()
-            start()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /** Returns a mutable builder for constructing an instance of [BacktestRequest]. */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [BacktestRequest]. */
-        class Builder internal constructor() {
-
-            private var end: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var start: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(backtestRequest: BacktestRequest) = apply {
-                end = backtestRequest.end
-                start = backtestRequest.start
-                additionalProperties = backtestRequest.additionalProperties.toMutableMap()
-            }
-
-            /** The end time of the backtest. */
-            fun end(end: OffsetDateTime) = end(JsonField.of(end))
-
-            /**
-             * Sets [Builder.end] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.end] with a well-typed [OffsetDateTime] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun end(end: JsonField<OffsetDateTime>) = apply { this.end = end }
-
-            /** The start time of the backtest. */
-            fun start(start: OffsetDateTime) = start(JsonField.of(start))
-
-            /**
-             * Sets [Builder.start] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.start] with a well-typed [OffsetDateTime] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun start(start: JsonField<OffsetDateTime>) = apply { this.start = start }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [BacktestRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): BacktestRequest =
-                BacktestRequest(end, start, additionalProperties.toImmutable())
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is BacktestRequest && end == other.end && start == other.start && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(end, start, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "BacktestRequest{end=$end, start=$start, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -272,7 +106,6 @@ private constructor(
     }
 
     /** A builder for [AuthRuleV2BacktestCreateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var authRuleToken: String? = null
@@ -450,6 +283,177 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): BacktestRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> authRuleToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class BacktestRequest
+    private constructor(
+        private val end: JsonField<OffsetDateTime>,
+        private val start: JsonField<OffsetDateTime>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("end") @ExcludeMissing end: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("start")
+            @ExcludeMissing
+            start: JsonField<OffsetDateTime> = JsonMissing.of(),
+        ) : this(end, start, mutableMapOf())
+
+        /**
+         * The end time of the backtest.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end.getNullable("end"))
+
+        /**
+         * The start time of the backtest.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
+
+        /**
+         * Returns the raw JSON value of [end].
+         *
+         * Unlike [end], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("end") @ExcludeMissing fun _end(): JsonField<OffsetDateTime> = end
+
+        /**
+         * Returns the raw JSON value of [start].
+         *
+         * Unlike [start], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("start") @ExcludeMissing fun _start(): JsonField<OffsetDateTime> = start
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [BacktestRequest]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [BacktestRequest]. */
+        class Builder internal constructor() {
+
+            private var end: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var start: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(backtestRequest: BacktestRequest) = apply {
+                end = backtestRequest.end
+                start = backtestRequest.start
+                additionalProperties = backtestRequest.additionalProperties.toMutableMap()
+            }
+
+            /** The end time of the backtest. */
+            fun end(end: OffsetDateTime) = end(JsonField.of(end))
+
+            /**
+             * Sets [Builder.end] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.end] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun end(end: JsonField<OffsetDateTime>) = apply { this.end = end }
+
+            /** The start time of the backtest. */
+            fun start(start: OffsetDateTime) = start(JsonField.of(start))
+
+            /**
+             * Sets [Builder.start] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.start] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun start(start: JsonField<OffsetDateTime>) = apply { this.start = start }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [BacktestRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): BacktestRequest =
+                BacktestRequest(end, start, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): BacktestRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            end()
+            start()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is BacktestRequest && end == other.end && start == other.start && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(end, start, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "BacktestRequest{end=$end, start=$start, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

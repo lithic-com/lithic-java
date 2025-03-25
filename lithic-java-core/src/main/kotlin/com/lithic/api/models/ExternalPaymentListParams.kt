@@ -5,7 +5,6 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -81,25 +80,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
-                businessAccountToken?.let { put("business_account_token", it) }
-                category?.let { put("category", it.asString()) }
-                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
-                endingBefore?.let { put("ending_before", it) }
-                financialAccountToken?.let { put("financial_account_token", it) }
-                pageSize?.let { put("page_size", it.toString()) }
-                result?.let { put("result", it.asString()) }
-                startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.asString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -113,7 +93,6 @@ private constructor(
     }
 
     /** A builder for [ExternalPaymentListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var begin: OffsetDateTime? = null
@@ -358,6 +337,25 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                businessAccountToken?.let { put("business_account_token", it) }
+                category?.let { put("category", it.toString()) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                financialAccountToken?.let { put("financial_account_token", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                result?.let { put("result", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                status?.let { put("status", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /** External Payment category to be returned. */
     class ExternalPaymentCategory

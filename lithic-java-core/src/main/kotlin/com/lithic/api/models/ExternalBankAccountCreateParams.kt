@@ -20,16 +20,14 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -47,6 +45,185 @@ private constructor(
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        @JvmStatic fun none(): ExternalBankAccountCreateParams = builder().build()
+
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountCreateParams].
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [ExternalBankAccountCreateParams]. */
+    class Builder internal constructor() {
+
+        private var body: Body? = null
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
+
+        @JvmSynthetic
+        internal fun from(externalBankAccountCreateParams: ExternalBankAccountCreateParams) =
+            apply {
+                body = externalBankAccountCreateParams.body
+                additionalHeaders = externalBankAccountCreateParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    externalBankAccountCreateParams.additionalQueryParams.toBuilder()
+            }
+
+        fun body(body: Body?) = apply { this.body = body }
+
+        /** Alias for calling [Builder.body] with `body.orElse(null)`. */
+        fun body(body: Optional<Body>) = body(body.getOrNull())
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofBankVerifiedCreateBankAccountApiRequest(bankVerifiedCreateBankAccountApiRequest)`.
+         */
+        fun body(
+            bankVerifiedCreateBankAccountApiRequest: Body.BankVerifiedCreateBankAccountApiRequest
+        ) =
+            body(
+                Body.ofBankVerifiedCreateBankAccountApiRequest(
+                    bankVerifiedCreateBankAccountApiRequest
+                )
+            )
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)`.
+         */
+        fun body(plaidCreateBankAccountApiRequest: Body.PlaidCreateBankAccountApiRequest) =
+            body(Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest))
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofExternallyVerifiedCreateBankAccountApiRequest(externallyVerifiedCreateBankAccountApiRequest)`.
+         */
+        fun body(
+            externallyVerifiedCreateBankAccountApiRequest:
+                Body.ExternallyVerifiedCreateBankAccountApiRequest
+        ) =
+            body(
+                Body.ofExternallyVerifiedCreateBankAccountApiRequest(
+                    externallyVerifiedCreateBankAccountApiRequest
+                )
+            )
+
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
+        }
+
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
+
+        /**
+         * Returns an immutable instance of [ExternalBankAccountCreateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
+        fun build(): ExternalBankAccountCreateParams =
+            ExternalBankAccountCreateParams(
+                body,
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
+    }
 
     @JvmSynthetic internal fun _body(): Optional<Body> = Optional.ofNullable(body)
 
@@ -290,64 +467,95 @@ private constructor(
             }
         }
 
-        @NoAutoDetect
         class BankVerifiedCreateBankAccountApiRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("account_number")
-            @ExcludeMissing
-            private val accountNumber: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("country")
-            @ExcludeMissing
-            private val country: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("currency")
-            @ExcludeMissing
-            private val currency: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("financial_account_token")
-            @ExcludeMissing
-            private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("owner")
-            @ExcludeMissing
-            private val owner: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("owner_type")
-            @ExcludeMissing
-            private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
-            @JsonProperty("routing_number")
-            @ExcludeMissing
-            private val routingNumber: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<AccountType> = JsonMissing.of(),
-            @JsonProperty("verification_method")
-            @ExcludeMissing
-            private val verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
-            @JsonProperty("account_token")
-            @ExcludeMissing
-            private val accountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("address")
-            @ExcludeMissing
-            private val address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
-            @JsonProperty("company_id")
-            @ExcludeMissing
-            private val companyId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("dob")
-            @ExcludeMissing
-            private val dob: JsonField<LocalDate> = JsonMissing.of(),
-            @JsonProperty("doing_business_as")
-            @ExcludeMissing
-            private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("user_defined_id")
-            @ExcludeMissing
-            private val userDefinedId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("verification_enforcement")
-            @ExcludeMissing
-            private val verificationEnforcement: JsonField<Boolean> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val accountNumber: JsonField<String>,
+            private val country: JsonField<String>,
+            private val currency: JsonField<String>,
+            private val financialAccountToken: JsonField<String>,
+            private val owner: JsonField<String>,
+            private val ownerType: JsonField<OwnerType>,
+            private val routingNumber: JsonField<String>,
+            private val type: JsonField<AccountType>,
+            private val verificationMethod: JsonField<VerificationMethod>,
+            private val accountToken: JsonField<String>,
+            private val address: JsonField<ExternalBankAccountAddress>,
+            private val companyId: JsonField<String>,
+            private val dob: JsonField<LocalDate>,
+            private val doingBusinessAs: JsonField<String>,
+            private val name: JsonField<String>,
+            private val userDefinedId: JsonField<String>,
+            private val verificationEnforcement: JsonField<Boolean>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("account_number")
+                @ExcludeMissing
+                accountNumber: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("country")
+                @ExcludeMissing
+                country: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("currency")
+                @ExcludeMissing
+                currency: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("financial_account_token")
+                @ExcludeMissing
+                financialAccountToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("owner") @ExcludeMissing owner: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("owner_type")
+                @ExcludeMissing
+                ownerType: JsonField<OwnerType> = JsonMissing.of(),
+                @JsonProperty("routing_number")
+                @ExcludeMissing
+                routingNumber: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AccountType> = JsonMissing.of(),
+                @JsonProperty("verification_method")
+                @ExcludeMissing
+                verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
+                @JsonProperty("account_token")
+                @ExcludeMissing
+                accountToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("address")
+                @ExcludeMissing
+                address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
+                @JsonProperty("company_id")
+                @ExcludeMissing
+                companyId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("dob") @ExcludeMissing dob: JsonField<LocalDate> = JsonMissing.of(),
+                @JsonProperty("doing_business_as")
+                @ExcludeMissing
+                doingBusinessAs: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("user_defined_id")
+                @ExcludeMissing
+                userDefinedId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("verification_enforcement")
+                @ExcludeMissing
+                verificationEnforcement: JsonField<Boolean> = JsonMissing.of(),
+            ) : this(
+                accountNumber,
+                country,
+                currency,
+                financialAccountToken,
+                owner,
+                ownerType,
+                routingNumber,
+                type,
+                verificationMethod,
+                accountToken,
+                address,
+                companyId,
+                dob,
+                doingBusinessAs,
+                name,
+                userDefinedId,
+                verificationEnforcement,
+                mutableMapOf(),
+            )
 
             /**
              * Account Number
@@ -656,36 +864,15 @@ private constructor(
             @ExcludeMissing
             fun _verificationEnforcement(): JsonField<Boolean> = verificationEnforcement
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): BankVerifiedCreateBankAccountApiRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                accountNumber()
-                country()
-                currency()
-                financialAccountToken()
-                owner()
-                ownerType()
-                routingNumber()
-                type()
-                verificationMethod()
-                accountToken()
-                address().ifPresent { it.validate() }
-                companyId()
-                dob()
-                doingBusinessAs()
-                name()
-                userDefinedId()
-                verificationEnforcement()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1063,8 +1250,35 @@ private constructor(
                         name,
                         userDefinedId,
                         verificationEnforcement,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): BankVerifiedCreateBankAccountApiRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accountNumber()
+                country()
+                currency()
+                financialAccountToken()
+                owner()
+                ownerType()
+                routingNumber()
+                type()
+                verificationMethod()
+                accountToken()
+                address().ifPresent { it.validate() }
+                companyId()
+                dob()
+                doingBusinessAs()
+                name()
+                userDefinedId()
+                verificationEnforcement()
+                validated = true
             }
 
             /** Account Type */
@@ -1191,40 +1405,57 @@ private constructor(
                 "BankVerifiedCreateBankAccountApiRequest{accountNumber=$accountNumber, country=$country, currency=$currency, financialAccountToken=$financialAccountToken, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, type=$type, verificationMethod=$verificationMethod, accountToken=$accountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, userDefinedId=$userDefinedId, verificationEnforcement=$verificationEnforcement, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class PlaidCreateBankAccountApiRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("owner")
-            @ExcludeMissing
-            private val owner: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("owner_type")
-            @ExcludeMissing
-            private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
-            @JsonProperty("processor_token")
-            @ExcludeMissing
-            private val processorToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("verification_method")
-            @ExcludeMissing
-            private val verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
-            @JsonProperty("account_token")
-            @ExcludeMissing
-            private val accountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("company_id")
-            @ExcludeMissing
-            private val companyId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("dob")
-            @ExcludeMissing
-            private val dob: JsonField<LocalDate> = JsonMissing.of(),
-            @JsonProperty("doing_business_as")
-            @ExcludeMissing
-            private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("user_defined_id")
-            @ExcludeMissing
-            private val userDefinedId: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val owner: JsonField<String>,
+            private val ownerType: JsonField<OwnerType>,
+            private val processorToken: JsonField<String>,
+            private val verificationMethod: JsonField<VerificationMethod>,
+            private val accountToken: JsonField<String>,
+            private val companyId: JsonField<String>,
+            private val dob: JsonField<LocalDate>,
+            private val doingBusinessAs: JsonField<String>,
+            private val userDefinedId: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("owner") @ExcludeMissing owner: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("owner_type")
+                @ExcludeMissing
+                ownerType: JsonField<OwnerType> = JsonMissing.of(),
+                @JsonProperty("processor_token")
+                @ExcludeMissing
+                processorToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("verification_method")
+                @ExcludeMissing
+                verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
+                @JsonProperty("account_token")
+                @ExcludeMissing
+                accountToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("company_id")
+                @ExcludeMissing
+                companyId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("dob") @ExcludeMissing dob: JsonField<LocalDate> = JsonMissing.of(),
+                @JsonProperty("doing_business_as")
+                @ExcludeMissing
+                doingBusinessAs: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("user_defined_id")
+                @ExcludeMissing
+                userDefinedId: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                owner,
+                ownerType,
+                processorToken,
+                verificationMethod,
+                accountToken,
+                companyId,
+                dob,
+                doingBusinessAs,
+                userDefinedId,
+                mutableMapOf(),
+            )
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
@@ -1392,28 +1623,15 @@ private constructor(
             @ExcludeMissing
             fun _userDefinedId(): JsonField<String> = userDefinedId
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): PlaidCreateBankAccountApiRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                owner()
-                ownerType()
-                processorToken()
-                verificationMethod()
-                accountToken()
-                companyId()
-                dob()
-                doingBusinessAs()
-                userDefinedId()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1643,8 +1861,27 @@ private constructor(
                         dob,
                         doingBusinessAs,
                         userDefinedId,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): PlaidCreateBankAccountApiRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                owner()
+                ownerType()
+                processorToken()
+                verificationMethod()
+                accountToken()
+                companyId()
+                dob()
+                doingBusinessAs()
+                userDefinedId()
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1665,59 +1902,84 @@ private constructor(
                 "PlaidCreateBankAccountApiRequest{owner=$owner, ownerType=$ownerType, processorToken=$processorToken, verificationMethod=$verificationMethod, accountToken=$accountToken, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class ExternallyVerifiedCreateBankAccountApiRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("account_number")
-            @ExcludeMissing
-            private val accountNumber: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("country")
-            @ExcludeMissing
-            private val country: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("currency")
-            @ExcludeMissing
-            private val currency: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("owner")
-            @ExcludeMissing
-            private val owner: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("owner_type")
-            @ExcludeMissing
-            private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
-            @JsonProperty("routing_number")
-            @ExcludeMissing
-            private val routingNumber: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<Type> = JsonMissing.of(),
-            @JsonProperty("verification_method")
-            @ExcludeMissing
-            private val verificationMethod: JsonField<ExternallyVerifiedVerificationMethod> =
-                JsonMissing.of(),
-            @JsonProperty("account_token")
-            @ExcludeMissing
-            private val accountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("address")
-            @ExcludeMissing
-            private val address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
-            @JsonProperty("company_id")
-            @ExcludeMissing
-            private val companyId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("dob")
-            @ExcludeMissing
-            private val dob: JsonField<LocalDate> = JsonMissing.of(),
-            @JsonProperty("doing_business_as")
-            @ExcludeMissing
-            private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("user_defined_id")
-            @ExcludeMissing
-            private val userDefinedId: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val accountNumber: JsonField<String>,
+            private val country: JsonField<String>,
+            private val currency: JsonField<String>,
+            private val owner: JsonField<String>,
+            private val ownerType: JsonField<OwnerType>,
+            private val routingNumber: JsonField<String>,
+            private val type: JsonField<Type>,
+            private val verificationMethod: JsonField<ExternallyVerifiedVerificationMethod>,
+            private val accountToken: JsonField<String>,
+            private val address: JsonField<ExternalBankAccountAddress>,
+            private val companyId: JsonField<String>,
+            private val dob: JsonField<LocalDate>,
+            private val doingBusinessAs: JsonField<String>,
+            private val name: JsonField<String>,
+            private val userDefinedId: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("account_number")
+                @ExcludeMissing
+                accountNumber: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("country")
+                @ExcludeMissing
+                country: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("currency")
+                @ExcludeMissing
+                currency: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("owner") @ExcludeMissing owner: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("owner_type")
+                @ExcludeMissing
+                ownerType: JsonField<OwnerType> = JsonMissing.of(),
+                @JsonProperty("routing_number")
+                @ExcludeMissing
+                routingNumber: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+                @JsonProperty("verification_method")
+                @ExcludeMissing
+                verificationMethod: JsonField<ExternallyVerifiedVerificationMethod> =
+                    JsonMissing.of(),
+                @JsonProperty("account_token")
+                @ExcludeMissing
+                accountToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("address")
+                @ExcludeMissing
+                address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
+                @JsonProperty("company_id")
+                @ExcludeMissing
+                companyId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("dob") @ExcludeMissing dob: JsonField<LocalDate> = JsonMissing.of(),
+                @JsonProperty("doing_business_as")
+                @ExcludeMissing
+                doingBusinessAs: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("user_defined_id")
+                @ExcludeMissing
+                userDefinedId: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                accountNumber,
+                country,
+                currency,
+                owner,
+                ownerType,
+                routingNumber,
+                type,
+                verificationMethod,
+                accountToken,
+                address,
+                companyId,
+                dob,
+                doingBusinessAs,
+                name,
+                userDefinedId,
+                mutableMapOf(),
+            )
 
             /**
              * Account Number
@@ -1990,34 +2252,15 @@ private constructor(
             @ExcludeMissing
             fun _userDefinedId(): JsonField<String> = userDefinedId
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): ExternallyVerifiedCreateBankAccountApiRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                accountNumber()
-                country()
-                currency()
-                owner()
-                ownerType()
-                routingNumber()
-                type()
-                verificationMethod()
-                accountToken()
-                address().ifPresent { it.validate() }
-                companyId()
-                dob()
-                doingBusinessAs()
-                name()
-                userDefinedId()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -2358,8 +2601,33 @@ private constructor(
                         doingBusinessAs,
                         name,
                         userDefinedId,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): ExternallyVerifiedCreateBankAccountApiRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accountNumber()
+                country()
+                currency()
+                owner()
+                ownerType()
+                routingNumber()
+                type()
+                verificationMethod()
+                accountToken()
+                address().ifPresent { it.validate() }
+                companyId()
+                dob()
+                doingBusinessAs()
+                name()
+                userDefinedId()
+                validated = true
             }
 
             /** Account Type */
@@ -2590,186 +2858,6 @@ private constructor(
             override fun toString() =
                 "ExternallyVerifiedCreateBankAccountApiRequest{accountNumber=$accountNumber, country=$country, currency=$currency, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, type=$type, verificationMethod=$verificationMethod, accountToken=$accountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
         }
-    }
-
-    fun toBuilder() = Builder().from(this)
-
-    companion object {
-
-        @JvmStatic fun none(): ExternalBankAccountCreateParams = builder().build()
-
-        /**
-         * Returns a mutable builder for constructing an instance of
-         * [ExternalBankAccountCreateParams].
-         */
-        @JvmStatic fun builder() = Builder()
-    }
-
-    /** A builder for [ExternalBankAccountCreateParams]. */
-    @NoAutoDetect
-    class Builder internal constructor() {
-
-        private var body: Body? = null
-        private var additionalHeaders: Headers.Builder = Headers.builder()
-        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-
-        @JvmSynthetic
-        internal fun from(externalBankAccountCreateParams: ExternalBankAccountCreateParams) =
-            apply {
-                body = externalBankAccountCreateParams.body
-                additionalHeaders = externalBankAccountCreateParams.additionalHeaders.toBuilder()
-                additionalQueryParams =
-                    externalBankAccountCreateParams.additionalQueryParams.toBuilder()
-            }
-
-        fun body(body: Body?) = apply { this.body = body }
-
-        /** Alias for calling [Builder.body] with `body.orElse(null)`. */
-        fun body(body: Optional<Body>) = body(body.getOrNull())
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofBankVerifiedCreateBankAccountApiRequest(bankVerifiedCreateBankAccountApiRequest)`.
-         */
-        fun body(
-            bankVerifiedCreateBankAccountApiRequest: Body.BankVerifiedCreateBankAccountApiRequest
-        ) =
-            body(
-                Body.ofBankVerifiedCreateBankAccountApiRequest(
-                    bankVerifiedCreateBankAccountApiRequest
-                )
-            )
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)`.
-         */
-        fun body(plaidCreateBankAccountApiRequest: Body.PlaidCreateBankAccountApiRequest) =
-            body(Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest))
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofExternallyVerifiedCreateBankAccountApiRequest(externallyVerifiedCreateBankAccountApiRequest)`.
-         */
-        fun body(
-            externallyVerifiedCreateBankAccountApiRequest:
-                Body.ExternallyVerifiedCreateBankAccountApiRequest
-        ) =
-            body(
-                Body.ofExternallyVerifiedCreateBankAccountApiRequest(
-                    externallyVerifiedCreateBankAccountApiRequest
-                )
-            )
-
-        fun additionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun putAdditionalHeader(name: String, value: String) = apply {
-            additionalHeaders.put(name, value)
-        }
-
-        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.put(name, values)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun replaceAdditionalHeaders(name: String, value: String) = apply {
-            additionalHeaders.replace(name, value)
-        }
-
-        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.replace(name, values)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
-
-        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
-            additionalHeaders.removeAll(names)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun putAdditionalQueryParam(key: String, value: String) = apply {
-            additionalQueryParams.put(key, value)
-        }
-
-        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.put(key, values)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
-
-        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
-            additionalQueryParams.replace(key, value)
-        }
-
-        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.replace(key, values)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.replaceAll(additionalQueryParams)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.replaceAll(additionalQueryParams)
-            }
-
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
-
-        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
-            additionalQueryParams.removeAll(keys)
-        }
-
-        /**
-         * Returns an immutable instance of [ExternalBankAccountCreateParams].
-         *
-         * Further updates to this [Builder] will not mutate the returned instance.
-         */
-        fun build(): ExternalBankAccountCreateParams =
-            ExternalBankAccountCreateParams(
-                body,
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
     }
 
     override fun equals(other: Any?): Boolean {

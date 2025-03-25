@@ -20,16 +20,15 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -47,6 +46,176 @@ private constructor(
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2CreateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .body()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [AuthRuleV2CreateParams]. */
+    class Builder internal constructor() {
+
+        private var body: Body? = null
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
+
+        @JvmSynthetic
+        internal fun from(authRuleV2CreateParams: AuthRuleV2CreateParams) = apply {
+            body = authRuleV2CreateParams.body
+            additionalHeaders = authRuleV2CreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2CreateParams.additionalQueryParams.toBuilder()
+        }
+
+        fun body(body: Body) = apply { this.body = body }
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens)`.
+         */
+        fun body(createAuthRuleRequestAccountTokens: Body.CreateAuthRuleRequestAccountTokens) =
+            body(Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens))
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens)`.
+         */
+        fun body(createAuthRuleRequestCardTokens: Body.CreateAuthRuleRequestCardTokens) =
+            body(Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens))
+
+        /**
+         * Alias for calling [body] with
+         * `Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel)`.
+         */
+        fun body(createAuthRuleRequestProgramLevel: Body.CreateAuthRuleRequestProgramLevel) =
+            body(Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel))
+
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
+        }
+
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
+
+        /**
+         * Returns an immutable instance of [AuthRuleV2CreateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .body()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): AuthRuleV2CreateParams =
+            AuthRuleV2CreateParams(
+                checkRequired("body", body),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
+    }
 
     @JvmSynthetic internal fun _body(): Body = body
 
@@ -256,25 +425,28 @@ private constructor(
             }
         }
 
-        @NoAutoDetect
         class CreateAuthRuleRequestAccountTokens
-        @JsonCreator
         private constructor(
-            @JsonProperty("account_tokens")
-            @ExcludeMissing
-            private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("parameters")
-            @ExcludeMissing
-            private val parameters: JsonField<Parameters> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<AuthRuleType> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val accountTokens: JsonField<List<String>>,
+            private val name: JsonField<String>,
+            private val parameters: JsonField<Parameters>,
+            private val type: JsonField<AuthRuleType>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("account_tokens")
+                @ExcludeMissing
+                accountTokens: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
+            ) : this(accountTokens, name, parameters, type, mutableMapOf())
 
             /**
              * Account tokens to which the Auth Rule applies.
@@ -344,23 +516,15 @@ private constructor(
              */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): CreateAuthRuleRequestAccountTokens = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                accountTokens()
-                name()
-                parameters().ifPresent { it.validate() }
-                type()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -522,8 +686,22 @@ private constructor(
                         name,
                         parameters,
                         type,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): CreateAuthRuleRequestAccountTokens = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accountTokens()
+                name()
+                parameters().ifPresent { it.validate() }
+                type()
+                validated = true
             }
 
             /** Parameters for the Auth Rule */
@@ -809,25 +987,28 @@ private constructor(
                 "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class CreateAuthRuleRequestCardTokens
-        @JsonCreator
         private constructor(
-            @JsonProperty("card_tokens")
-            @ExcludeMissing
-            private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("parameters")
-            @ExcludeMissing
-            private val parameters: JsonField<Parameters> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<AuthRuleType> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val cardTokens: JsonField<List<String>>,
+            private val name: JsonField<String>,
+            private val parameters: JsonField<Parameters>,
+            private val type: JsonField<AuthRuleType>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("card_tokens")
+                @ExcludeMissing
+                cardTokens: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
+            ) : this(cardTokens, name, parameters, type, mutableMapOf())
 
             /**
              * Card tokens to which the Auth Rule applies.
@@ -897,23 +1078,15 @@ private constructor(
              */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): CreateAuthRuleRequestCardTokens = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                cardTokens()
-                name()
-                parameters().ifPresent { it.validate() }
-                type()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1074,8 +1247,22 @@ private constructor(
                         name,
                         parameters,
                         type,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): CreateAuthRuleRequestCardTokens = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                cardTokens()
+                name()
+                parameters().ifPresent { it.validate() }
+                type()
+                validated = true
             }
 
             /** Parameters for the Auth Rule */
@@ -1361,28 +1548,32 @@ private constructor(
                 "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class CreateAuthRuleRequestProgramLevel
-        @JsonCreator
         private constructor(
-            @JsonProperty("program_level")
-            @ExcludeMissing
-            private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-            @JsonProperty("excluded_card_tokens")
-            @ExcludeMissing
-            private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("parameters")
-            @ExcludeMissing
-            private val parameters: JsonField<Parameters> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<AuthRuleType> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val programLevel: JsonField<Boolean>,
+            private val excludedCardTokens: JsonField<List<String>>,
+            private val name: JsonField<String>,
+            private val parameters: JsonField<Parameters>,
+            private val type: JsonField<AuthRuleType>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("program_level")
+                @ExcludeMissing
+                programLevel: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("excluded_card_tokens")
+                @ExcludeMissing
+                excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
+            ) : this(programLevel, excludedCardTokens, name, parameters, type, mutableMapOf())
 
             /**
              * Whether the Auth Rule applies to all authorizations on the card program.
@@ -1471,24 +1662,15 @@ private constructor(
              */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): CreateAuthRuleRequestProgramLevel = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                programLevel()
-                excludedCardTokens()
-                name()
-                parameters().ifPresent { it.validate() }
-                type()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1669,8 +1851,23 @@ private constructor(
                         name,
                         parameters,
                         type,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): CreateAuthRuleRequestProgramLevel = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                programLevel()
+                excludedCardTokens()
+                name()
+                parameters().ifPresent { it.validate() }
+                type()
+                validated = true
             }
 
             /** Parameters for the Auth Rule */
@@ -1955,177 +2152,6 @@ private constructor(
             override fun toString() =
                 "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
         }
-    }
-
-    fun toBuilder() = Builder().from(this)
-
-    companion object {
-
-        /**
-         * Returns a mutable builder for constructing an instance of [AuthRuleV2CreateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .body()
-         * ```
-         */
-        @JvmStatic fun builder() = Builder()
-    }
-
-    /** A builder for [AuthRuleV2CreateParams]. */
-    @NoAutoDetect
-    class Builder internal constructor() {
-
-        private var body: Body? = null
-        private var additionalHeaders: Headers.Builder = Headers.builder()
-        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-
-        @JvmSynthetic
-        internal fun from(authRuleV2CreateParams: AuthRuleV2CreateParams) = apply {
-            body = authRuleV2CreateParams.body
-            additionalHeaders = authRuleV2CreateParams.additionalHeaders.toBuilder()
-            additionalQueryParams = authRuleV2CreateParams.additionalQueryParams.toBuilder()
-        }
-
-        fun body(body: Body) = apply { this.body = body }
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens)`.
-         */
-        fun body(createAuthRuleRequestAccountTokens: Body.CreateAuthRuleRequestAccountTokens) =
-            body(Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens))
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens)`.
-         */
-        fun body(createAuthRuleRequestCardTokens: Body.CreateAuthRuleRequestCardTokens) =
-            body(Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens))
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel)`.
-         */
-        fun body(createAuthRuleRequestProgramLevel: Body.CreateAuthRuleRequestProgramLevel) =
-            body(Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel))
-
-        fun additionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun putAdditionalHeader(name: String, value: String) = apply {
-            additionalHeaders.put(name, value)
-        }
-
-        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.put(name, values)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun replaceAdditionalHeaders(name: String, value: String) = apply {
-            additionalHeaders.replace(name, value)
-        }
-
-        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.replace(name, values)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
-
-        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
-            additionalHeaders.removeAll(names)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun putAdditionalQueryParam(key: String, value: String) = apply {
-            additionalQueryParams.put(key, value)
-        }
-
-        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.put(key, values)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
-
-        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
-            additionalQueryParams.replace(key, value)
-        }
-
-        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.replace(key, values)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.replaceAll(additionalQueryParams)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.replaceAll(additionalQueryParams)
-            }
-
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
-
-        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
-            additionalQueryParams.removeAll(keys)
-        }
-
-        /**
-         * Returns an immutable instance of [AuthRuleV2CreateParams].
-         *
-         * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .body()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
-         */
-        fun build(): AuthRuleV2CreateParams =
-            AuthRuleV2CreateParams(
-                checkRequired("body", body),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
     }
 
     override fun equals(other: Any?): Boolean {

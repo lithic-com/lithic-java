@@ -10,22 +10,21 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class ResponderEndpointCreateResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("enrolled")
-    @ExcludeMissing
-    private val enrolled: JsonField<Boolean> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val enrolled: JsonField<Boolean>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("enrolled") @ExcludeMissing enrolled: JsonField<Boolean> = JsonMissing.of()
+    ) : this(enrolled, mutableMapOf())
 
     /**
      * True if the endpoint was enrolled successfully.
@@ -42,20 +41,15 @@ private constructor(
      */
     @JsonProperty("enrolled") @ExcludeMissing fun _enrolled(): JsonField<Boolean> = enrolled
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ResponderEndpointCreateResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        enrolled()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -119,7 +113,18 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): ResponderEndpointCreateResponse =
-            ResponderEndpointCreateResponse(enrolled, additionalProperties.toImmutable())
+            ResponderEndpointCreateResponse(enrolled, additionalProperties.toMutableMap())
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ResponderEndpointCreateResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        enrolled()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

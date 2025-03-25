@@ -10,22 +10,23 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class TransactionSimulateClearingResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("debugging_request_id")
-    @ExcludeMissing
-    private val debuggingRequestId: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val debuggingRequestId: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("debugging_request_id")
+        @ExcludeMissing
+        debuggingRequestId: JsonField<String> = JsonMissing.of()
+    ) : this(debuggingRequestId, mutableMapOf())
 
     /**
      * Debugging request ID to share with Lithic Support team.
@@ -46,20 +47,15 @@ private constructor(
     @ExcludeMissing
     fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): TransactionSimulateClearingResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        debuggingRequestId()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -129,8 +125,19 @@ private constructor(
         fun build(): TransactionSimulateClearingResponse =
             TransactionSimulateClearingResponse(
                 debuggingRequestId,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): TransactionSimulateClearingResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        debuggingRequestId()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

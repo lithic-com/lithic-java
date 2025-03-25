@@ -10,23 +10,25 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 
-@NoAutoDetect
 class ChallengeResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("challenge_response")
-    @ExcludeMissing
-    private val challengeResponse: JsonField<ChallengeResult> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val challengeResponse: JsonField<ChallengeResult>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("challenge_response")
+        @ExcludeMissing
+        challengeResponse: JsonField<ChallengeResult> = JsonMissing.of(),
+    ) : this(token, challengeResponse, mutableMapOf())
 
     /**
      * Globally unique identifier for the 3DS authentication. This token is sent as part of the
@@ -63,21 +65,15 @@ private constructor(
     @ExcludeMissing
     fun _challengeResponse(): JsonField<ChallengeResult> = challengeResponse
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ChallengeResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        challengeResponse()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -175,8 +171,20 @@ private constructor(
             ChallengeResponse(
                 checkRequired("token", token),
                 checkRequired("challengeResponse", challengeResponse),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ChallengeResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        challengeResponse()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

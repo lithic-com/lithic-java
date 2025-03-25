@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
@@ -27,12 +26,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ChallengeResponse = challengeResponse
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -50,7 +43,6 @@ private constructor(
     }
 
     /** A builder for [ThreeDSDecisioningChallengeResponseParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var challengeResponse: ChallengeResponse? = null
@@ -189,6 +181,12 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    @JvmSynthetic internal fun _body(): ChallengeResponse = challengeResponse
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

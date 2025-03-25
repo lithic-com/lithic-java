@@ -19,16 +19,15 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -58,6 +57,176 @@ private constructor(
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountHolderUpdateParams].
+         *
+         * The following fields are required:
+         * ```java
+         * .accountHolderToken()
+         * .body()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [AccountHolderUpdateParams]. */
+    class Builder internal constructor() {
+
+        private var accountHolderToken: String? = null
+        private var body: Body? = null
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
+
+        @JvmSynthetic
+        internal fun from(accountHolderUpdateParams: AccountHolderUpdateParams) = apply {
+            accountHolderToken = accountHolderUpdateParams.accountHolderToken
+            body = accountHolderUpdateParams.body
+            additionalHeaders = accountHolderUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = accountHolderUpdateParams.additionalQueryParams.toBuilder()
+        }
+
+        fun accountHolderToken(accountHolderToken: String) = apply {
+            this.accountHolderToken = accountHolderToken
+        }
+
+        /** The KYB request payload for updating a business. */
+        fun body(body: Body) = apply { this.body = body }
+
+        /** Alias for calling [body] with `Body.ofKybPatchRequest(kybPatchRequest)`. */
+        fun body(kybPatchRequest: Body.KybPatchRequest) =
+            body(Body.ofKybPatchRequest(kybPatchRequest))
+
+        /** Alias for calling [body] with `Body.ofKycPatchRequest(kycPatchRequest)`. */
+        fun body(kycPatchRequest: Body.KycPatchRequest) =
+            body(Body.ofKycPatchRequest(kycPatchRequest))
+
+        /** Alias for calling [body] with `Body.ofPatchRequest(patchRequest)`. */
+        fun body(patchRequest: Body.PatchRequest) = body(Body.ofPatchRequest(patchRequest))
+
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
+        }
+
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
+
+        /**
+         * Returns an immutable instance of [AccountHolderUpdateParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .accountHolderToken()
+         * .body()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): AccountHolderUpdateParams =
+            AccountHolderUpdateParams(
+                checkRequired("accountHolderToken", accountHolderToken),
+                checkRequired("body", body),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
+    }
 
     @JvmSynthetic internal fun _body(): Body = body
 
@@ -244,36 +413,51 @@ private constructor(
         }
 
         /** The KYB request payload for updating a business. */
-        @NoAutoDetect
         class KybPatchRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("beneficial_owner_entities")
-            @ExcludeMissing
-            private val beneficialOwnerEntities: JsonField<List<KybBusinessEntityPatch>> =
-                JsonMissing.of(),
-            @JsonProperty("beneficial_owner_individuals")
-            @ExcludeMissing
-            private val beneficialOwnerIndividuals: JsonField<List<IndividualPatch>> =
-                JsonMissing.of(),
-            @JsonProperty("business_entity")
-            @ExcludeMissing
-            private val businessEntity: JsonField<KybBusinessEntityPatch> = JsonMissing.of(),
-            @JsonProperty("control_person")
-            @ExcludeMissing
-            private val controlPerson: JsonField<IndividualPatch> = JsonMissing.of(),
-            @JsonProperty("external_id")
-            @ExcludeMissing
-            private val externalId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("nature_of_business")
-            @ExcludeMissing
-            private val natureOfBusiness: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("website_url")
-            @ExcludeMissing
-            private val websiteUrl: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val beneficialOwnerEntities: JsonField<List<KybBusinessEntityPatch>>,
+            private val beneficialOwnerIndividuals: JsonField<List<IndividualPatch>>,
+            private val businessEntity: JsonField<KybBusinessEntityPatch>,
+            private val controlPerson: JsonField<IndividualPatch>,
+            private val externalId: JsonField<String>,
+            private val natureOfBusiness: JsonField<String>,
+            private val websiteUrl: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("beneficial_owner_entities")
+                @ExcludeMissing
+                beneficialOwnerEntities: JsonField<List<KybBusinessEntityPatch>> = JsonMissing.of(),
+                @JsonProperty("beneficial_owner_individuals")
+                @ExcludeMissing
+                beneficialOwnerIndividuals: JsonField<List<IndividualPatch>> = JsonMissing.of(),
+                @JsonProperty("business_entity")
+                @ExcludeMissing
+                businessEntity: JsonField<KybBusinessEntityPatch> = JsonMissing.of(),
+                @JsonProperty("control_person")
+                @ExcludeMissing
+                controlPerson: JsonField<IndividualPatch> = JsonMissing.of(),
+                @JsonProperty("external_id")
+                @ExcludeMissing
+                externalId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("nature_of_business")
+                @ExcludeMissing
+                natureOfBusiness: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("website_url")
+                @ExcludeMissing
+                websiteUrl: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                beneficialOwnerEntities,
+                beneficialOwnerIndividuals,
+                businessEntity,
+                controlPerson,
+                externalId,
+                natureOfBusiness,
+                websiteUrl,
+                mutableMapOf(),
+            )
 
             /**
              * List of all entities with >25% ownership in the company. If no entity or individual
@@ -434,26 +618,15 @@ private constructor(
             @ExcludeMissing
             fun _websiteUrl(): JsonField<String> = websiteUrl
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): KybPatchRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
-                beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
-                businessEntity().ifPresent { it.validate() }
-                controlPerson().ifPresent { it.validate() }
-                externalId()
-                natureOfBusiness()
-                websiteUrl()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -698,38 +871,72 @@ private constructor(
                         externalId,
                         natureOfBusiness,
                         websiteUrl,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): KybPatchRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
+                beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
+                businessEntity().ifPresent { it.validate() }
+                controlPerson().ifPresent { it.validate() }
+                externalId()
+                natureOfBusiness()
+                websiteUrl()
+                validated = true
+            }
+
             class KybBusinessEntityPatch
-            @JsonCreator
             private constructor(
-                @JsonProperty("entity_token")
-                @ExcludeMissing
-                private val entityToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("address")
-                @ExcludeMissing
-                private val address: JsonField<AddressUpdate> = JsonMissing.of(),
-                @JsonProperty("dba_business_name")
-                @ExcludeMissing
-                private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("government_id")
-                @ExcludeMissing
-                private val governmentId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("legal_business_name")
-                @ExcludeMissing
-                private val legalBusinessName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("parent_company")
-                @ExcludeMissing
-                private val parentCompany: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("phone_numbers")
-                @ExcludeMissing
-                private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val entityToken: JsonField<String>,
+                private val address: JsonField<AddressUpdate>,
+                private val dbaBusinessName: JsonField<String>,
+                private val governmentId: JsonField<String>,
+                private val legalBusinessName: JsonField<String>,
+                private val parentCompany: JsonField<String>,
+                private val phoneNumbers: JsonField<List<String>>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("entity_token")
+                    @ExcludeMissing
+                    entityToken: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("address")
+                    @ExcludeMissing
+                    address: JsonField<AddressUpdate> = JsonMissing.of(),
+                    @JsonProperty("dba_business_name")
+                    @ExcludeMissing
+                    dbaBusinessName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("government_id")
+                    @ExcludeMissing
+                    governmentId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("legal_business_name")
+                    @ExcludeMissing
+                    legalBusinessName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("parent_company")
+                    @ExcludeMissing
+                    parentCompany: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("phone_numbers")
+                    @ExcludeMissing
+                    phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+                ) : this(
+                    entityToken,
+                    address,
+                    dbaBusinessName,
+                    governmentId,
+                    legalBusinessName,
+                    parentCompany,
+                    phoneNumbers,
+                    mutableMapOf(),
+                )
 
                 /**
                  * Globally unique identifier for an entity.
@@ -868,26 +1075,15 @@ private constructor(
                 @ExcludeMissing
                 fun _phoneNumbers(): JsonField<List<String>> = phoneNumbers
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): KybBusinessEntityPatch = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    entityToken()
-                    address().ifPresent { it.validate() }
-                    dbaBusinessName()
-                    governmentId()
-                    legalBusinessName()
-                    parentCompany()
-                    phoneNumbers()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1102,8 +1298,25 @@ private constructor(
                             legalBusinessName,
                             parentCompany,
                             (phoneNumbers ?: JsonMissing.of()).map { it.toImmutable() },
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): KybBusinessEntityPatch = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    entityToken()
+                    address().ifPresent { it.validate() }
+                    dbaBusinessName()
+                    governmentId()
+                    legalBusinessName()
+                    parentCompany()
+                    phoneNumbers()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -1125,37 +1338,54 @@ private constructor(
             }
 
             /** Individuals associated with a KYB application. Phone number is optional. */
-            @NoAutoDetect
             class IndividualPatch
-            @JsonCreator
             private constructor(
-                @JsonProperty("entity_token")
-                @ExcludeMissing
-                private val entityToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("address")
-                @ExcludeMissing
-                private val address: JsonField<AddressUpdate> = JsonMissing.of(),
-                @JsonProperty("dob")
-                @ExcludeMissing
-                private val dob: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("email")
-                @ExcludeMissing
-                private val email: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("first_name")
-                @ExcludeMissing
-                private val firstName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("government_id")
-                @ExcludeMissing
-                private val governmentId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("last_name")
-                @ExcludeMissing
-                private val lastName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("phone_number")
-                @ExcludeMissing
-                private val phoneNumber: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val entityToken: JsonField<String>,
+                private val address: JsonField<AddressUpdate>,
+                private val dob: JsonField<String>,
+                private val email: JsonField<String>,
+                private val firstName: JsonField<String>,
+                private val governmentId: JsonField<String>,
+                private val lastName: JsonField<String>,
+                private val phoneNumber: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("entity_token")
+                    @ExcludeMissing
+                    entityToken: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("address")
+                    @ExcludeMissing
+                    address: JsonField<AddressUpdate> = JsonMissing.of(),
+                    @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("email")
+                    @ExcludeMissing
+                    email: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("first_name")
+                    @ExcludeMissing
+                    firstName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("government_id")
+                    @ExcludeMissing
+                    governmentId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("last_name")
+                    @ExcludeMissing
+                    lastName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("phone_number")
+                    @ExcludeMissing
+                    phoneNumber: JsonField<String> = JsonMissing.of(),
+                ) : this(
+                    entityToken,
+                    address,
+                    dob,
+                    email,
+                    firstName,
+                    governmentId,
+                    lastName,
+                    phoneNumber,
+                    mutableMapOf(),
+                )
 
                 /**
                  * Globally unique identifier for an entity.
@@ -1307,27 +1537,15 @@ private constructor(
                 @ExcludeMissing
                 fun _phoneNumber(): JsonField<String> = phoneNumber
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): IndividualPatch = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    entityToken()
-                    address().ifPresent { it.validate() }
-                    dob()
-                    email()
-                    firstName()
-                    governmentId()
-                    lastName()
-                    phoneNumber()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1540,8 +1758,26 @@ private constructor(
                             governmentId,
                             lastName,
                             phoneNumber,
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): IndividualPatch = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    entityToken()
+                    address().ifPresent { it.validate() }
+                    dob()
+                    email()
+                    firstName()
+                    governmentId()
+                    lastName()
+                    phoneNumber()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -1581,19 +1817,22 @@ private constructor(
         }
 
         /** The KYC request payload for updating an account holder. */
-        @NoAutoDetect
         class KycPatchRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("external_id")
-            @ExcludeMissing
-            private val externalId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("individual")
-            @ExcludeMissing
-            private val individual: JsonField<IndividualPatch> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val externalId: JsonField<String>,
+            private val individual: JsonField<IndividualPatch>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("external_id")
+                @ExcludeMissing
+                externalId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("individual")
+                @ExcludeMissing
+                individual: JsonField<IndividualPatch> = JsonMissing.of(),
+            ) : this(externalId, individual, mutableMapOf())
 
             /**
              * A user provided id that can be used to link an account holder with an external system
@@ -1634,21 +1873,15 @@ private constructor(
             @ExcludeMissing
             fun _individual(): JsonField<IndividualPatch> = individual
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): KycPatchRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                externalId()
-                individual().ifPresent { it.validate() }
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1734,44 +1967,73 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): KycPatchRequest =
-                    KycPatchRequest(externalId, individual, additionalProperties.toImmutable())
+                    KycPatchRequest(externalId, individual, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): KycPatchRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                externalId()
+                individual().ifPresent { it.validate() }
+                validated = true
             }
 
             /**
              * Information on the individual for whom the account is being opened and KYC is being
              * run.
              */
-            @NoAutoDetect
             class IndividualPatch
-            @JsonCreator
             private constructor(
-                @JsonProperty("entity_token")
-                @ExcludeMissing
-                private val entityToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("address")
-                @ExcludeMissing
-                private val address: JsonField<AddressUpdate> = JsonMissing.of(),
-                @JsonProperty("dob")
-                @ExcludeMissing
-                private val dob: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("email")
-                @ExcludeMissing
-                private val email: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("first_name")
-                @ExcludeMissing
-                private val firstName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("government_id")
-                @ExcludeMissing
-                private val governmentId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("last_name")
-                @ExcludeMissing
-                private val lastName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("phone_number")
-                @ExcludeMissing
-                private val phoneNumber: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val entityToken: JsonField<String>,
+                private val address: JsonField<AddressUpdate>,
+                private val dob: JsonField<String>,
+                private val email: JsonField<String>,
+                private val firstName: JsonField<String>,
+                private val governmentId: JsonField<String>,
+                private val lastName: JsonField<String>,
+                private val phoneNumber: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("entity_token")
+                    @ExcludeMissing
+                    entityToken: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("address")
+                    @ExcludeMissing
+                    address: JsonField<AddressUpdate> = JsonMissing.of(),
+                    @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("email")
+                    @ExcludeMissing
+                    email: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("first_name")
+                    @ExcludeMissing
+                    firstName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("government_id")
+                    @ExcludeMissing
+                    governmentId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("last_name")
+                    @ExcludeMissing
+                    lastName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("phone_number")
+                    @ExcludeMissing
+                    phoneNumber: JsonField<String> = JsonMissing.of(),
+                ) : this(
+                    entityToken,
+                    address,
+                    dob,
+                    email,
+                    firstName,
+                    governmentId,
+                    lastName,
+                    phoneNumber,
+                    mutableMapOf(),
+                )
 
                 /**
                  * Globally unique identifier for an entity.
@@ -1923,27 +2185,15 @@ private constructor(
                 @ExcludeMissing
                 fun _phoneNumber(): JsonField<String> = phoneNumber
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): IndividualPatch = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    entityToken()
-                    address().ifPresent { it.validate() }
-                    dob()
-                    email()
-                    firstName()
-                    governmentId()
-                    lastName()
-                    phoneNumber()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -2156,8 +2406,26 @@ private constructor(
                             governmentId,
                             lastName,
                             phoneNumber,
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): IndividualPatch = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    entityToken()
+                    address().ifPresent { it.validate() }
+                    dob()
+                    email()
+                    firstName()
+                    governmentId()
+                    lastName()
+                    phoneNumber()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -2197,34 +2465,49 @@ private constructor(
         }
 
         /** The legacy request for updating an account holder. */
-        @NoAutoDetect
         class PatchRequest
-        @JsonCreator
         private constructor(
-            @JsonProperty("address")
-            @ExcludeMissing
-            private val address: JsonField<AddressUpdate> = JsonMissing.of(),
-            @JsonProperty("business_account_token")
-            @ExcludeMissing
-            private val businessAccountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("email")
-            @ExcludeMissing
-            private val email: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("first_name")
-            @ExcludeMissing
-            private val firstName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("last_name")
-            @ExcludeMissing
-            private val lastName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("legal_business_name")
-            @ExcludeMissing
-            private val legalBusinessName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("phone_number")
-            @ExcludeMissing
-            private val phoneNumber: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val address: JsonField<AddressUpdate>,
+            private val businessAccountToken: JsonField<String>,
+            private val email: JsonField<String>,
+            private val firstName: JsonField<String>,
+            private val lastName: JsonField<String>,
+            private val legalBusinessName: JsonField<String>,
+            private val phoneNumber: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("address")
+                @ExcludeMissing
+                address: JsonField<AddressUpdate> = JsonMissing.of(),
+                @JsonProperty("business_account_token")
+                @ExcludeMissing
+                businessAccountToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("first_name")
+                @ExcludeMissing
+                firstName: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("last_name")
+                @ExcludeMissing
+                lastName: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("legal_business_name")
+                @ExcludeMissing
+                legalBusinessName: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("phone_number")
+                @ExcludeMissing
+                phoneNumber: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                address,
+                businessAccountToken,
+                email,
+                firstName,
+                lastName,
+                legalBusinessName,
+                phoneNumber,
+                mutableMapOf(),
+            )
 
             /**
              * Allowed for: KYC-Exempt, BYO-KYC, BYO-KYB.
@@ -2357,26 +2640,15 @@ private constructor(
             @ExcludeMissing
             fun _phoneNumber(): JsonField<String> = phoneNumber
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): PatchRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                address().ifPresent { it.validate() }
-                businessAccountToken()
-                email()
-                firstName()
-                lastName()
-                legalBusinessName()
-                phoneNumber()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -2549,8 +2821,25 @@ private constructor(
                         lastName,
                         legalBusinessName,
                         phoneNumber,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): PatchRequest = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                address().ifPresent { it.validate() }
+                businessAccountToken()
+                email()
+                firstName()
+                lastName()
+                legalBusinessName()
+                phoneNumber()
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {
@@ -2570,177 +2859,6 @@ private constructor(
             override fun toString() =
                 "PatchRequest{address=$address, businessAccountToken=$businessAccountToken, email=$email, firstName=$firstName, lastName=$lastName, legalBusinessName=$legalBusinessName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
         }
-    }
-
-    fun toBuilder() = Builder().from(this)
-
-    companion object {
-
-        /**
-         * Returns a mutable builder for constructing an instance of [AccountHolderUpdateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .accountHolderToken()
-         * .body()
-         * ```
-         */
-        @JvmStatic fun builder() = Builder()
-    }
-
-    /** A builder for [AccountHolderUpdateParams]. */
-    @NoAutoDetect
-    class Builder internal constructor() {
-
-        private var accountHolderToken: String? = null
-        private var body: Body? = null
-        private var additionalHeaders: Headers.Builder = Headers.builder()
-        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-
-        @JvmSynthetic
-        internal fun from(accountHolderUpdateParams: AccountHolderUpdateParams) = apply {
-            accountHolderToken = accountHolderUpdateParams.accountHolderToken
-            body = accountHolderUpdateParams.body
-            additionalHeaders = accountHolderUpdateParams.additionalHeaders.toBuilder()
-            additionalQueryParams = accountHolderUpdateParams.additionalQueryParams.toBuilder()
-        }
-
-        fun accountHolderToken(accountHolderToken: String) = apply {
-            this.accountHolderToken = accountHolderToken
-        }
-
-        /** The KYB request payload for updating a business. */
-        fun body(body: Body) = apply { this.body = body }
-
-        /** Alias for calling [body] with `Body.ofKybPatchRequest(kybPatchRequest)`. */
-        fun body(kybPatchRequest: Body.KybPatchRequest) =
-            body(Body.ofKybPatchRequest(kybPatchRequest))
-
-        /** Alias for calling [body] with `Body.ofKycPatchRequest(kycPatchRequest)`. */
-        fun body(kycPatchRequest: Body.KycPatchRequest) =
-            body(Body.ofKycPatchRequest(kycPatchRequest))
-
-        /** Alias for calling [body] with `Body.ofPatchRequest(patchRequest)`. */
-        fun body(patchRequest: Body.PatchRequest) = body(Body.ofPatchRequest(patchRequest))
-
-        fun additionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.clear()
-            putAllAdditionalHeaders(additionalHeaders)
-        }
-
-        fun putAdditionalHeader(name: String, value: String) = apply {
-            additionalHeaders.put(name, value)
-        }
-
-        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.put(name, values)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
-        }
-
-        fun replaceAdditionalHeaders(name: String, value: String) = apply {
-            additionalHeaders.replace(name, value)
-        }
-
-        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.replace(name, values)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            this.additionalHeaders.replaceAll(additionalHeaders)
-        }
-
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
-
-        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
-            additionalHeaders.removeAll(names)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllAdditionalQueryParams(additionalQueryParams)
-        }
-
-        fun putAdditionalQueryParam(key: String, value: String) = apply {
-            additionalQueryParams.put(key, value)
-        }
-
-        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.put(key, values)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
-        }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
-
-        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
-            additionalQueryParams.replace(key, value)
-        }
-
-        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.replace(key, values)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
-            this.additionalQueryParams.replaceAll(additionalQueryParams)
-        }
-
-        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
-            apply {
-                this.additionalQueryParams.replaceAll(additionalQueryParams)
-            }
-
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
-
-        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
-            additionalQueryParams.removeAll(keys)
-        }
-
-        /**
-         * Returns an immutable instance of [AccountHolderUpdateParams].
-         *
-         * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .accountHolderToken()
-         * .body()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
-         */
-        fun build(): AccountHolderUpdateParams =
-            AccountHolderUpdateParams(
-                checkRequired("accountHolderToken", accountHolderToken),
-                checkRequired("body", body),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
     }
 
     override fun equals(other: Any?): Boolean {

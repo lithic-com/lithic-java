@@ -11,60 +11,87 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class ManagementOperationTransaction
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("category")
-    @ExcludeMissing
-    private val category: JsonField<ManagementOperationCategory> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("direction")
-    @ExcludeMissing
-    private val direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
-    @JsonProperty("events")
-    @ExcludeMissing
-    private val events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("pending_amount")
-    @ExcludeMissing
-    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("result")
-    @ExcludeMissing
-    private val result: JsonField<TransactionResult> = JsonMissing.of(),
-    @JsonProperty("settled_amount")
-    @ExcludeMissing
-    private val settledAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<TransactionStatus> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("user_defined_id")
-    @ExcludeMissing
-    private val userDefinedId: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val category: JsonField<ManagementOperationCategory>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val direction: JsonField<ManagementOperationDirection>,
+    private val events: JsonField<List<ManagementOperationEvent>>,
+    private val financialAccountToken: JsonField<String>,
+    private val pendingAmount: JsonField<Long>,
+    private val result: JsonField<TransactionResult>,
+    private val settledAmount: JsonField<Long>,
+    private val status: JsonField<TransactionStatus>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val userDefinedId: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("category")
+        @ExcludeMissing
+        category: JsonField<ManagementOperationCategory> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("direction")
+        @ExcludeMissing
+        direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
+        @JsonProperty("events")
+        @ExcludeMissing
+        events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pending_amount")
+        @ExcludeMissing
+        pendingAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        result: JsonField<TransactionResult> = JsonMissing.of(),
+        @JsonProperty("settled_amount")
+        @ExcludeMissing
+        settledAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        status: JsonField<TransactionStatus> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        userDefinedId: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        category,
+        created,
+        currency,
+        direction,
+        events,
+        financialAccountToken,
+        pendingAmount,
+        result,
+        settledAmount,
+        status,
+        updated,
+        userDefinedId,
+        mutableMapOf(),
+    )
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -252,32 +279,15 @@ private constructor(
     @ExcludeMissing
     fun _userDefinedId(): JsonField<String> = userDefinedId
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ManagementOperationTransaction = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        category()
-        created()
-        currency()
-        direction()
-        events().forEach { it.validate() }
-        financialAccountToken()
-        pendingAmount()
-        result()
-        settledAmount()
-        status()
-        updated()
-        userDefinedId()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -568,8 +578,31 @@ private constructor(
                 checkRequired("status", status),
                 checkRequired("updated", updated),
                 userDefinedId,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ManagementOperationTransaction = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        category()
+        created()
+        currency()
+        direction()
+        events().forEach { it.validate() }
+        financialAccountToken()
+        pendingAmount()
+        result()
+        settledAmount()
+        status()
+        updated()
+        userDefinedId()
+        validated = true
     }
 
     class ManagementOperationCategory
@@ -796,40 +829,53 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @NoAutoDetect
     class ManagementOperationEvent
-    @JsonCreator
     private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("detailed_results")
-        @ExcludeMissing
-        private val detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of(),
-        @JsonProperty("effective_date")
-        @ExcludeMissing
-        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
-        @JsonProperty("memo")
-        @ExcludeMissing
-        private val memo: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("result")
-        @ExcludeMissing
-        private val result: JsonField<TransactionResult> = JsonMissing.of(),
-        @JsonProperty("type")
-        @ExcludeMissing
-        private val type: JsonField<ManagementOperationEventType> = JsonMissing.of(),
-        @JsonProperty("subtype")
-        @ExcludeMissing
-        private val subtype: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val token: JsonField<String>,
+        private val amount: JsonField<Long>,
+        private val created: JsonField<OffsetDateTime>,
+        private val detailedResults: JsonField<List<DetailedResults>>,
+        private val effectiveDate: JsonField<LocalDate>,
+        private val memo: JsonField<String>,
+        private val result: JsonField<TransactionResult>,
+        private val type: JsonField<ManagementOperationEventType>,
+        private val subtype: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("detailed_results")
+            @ExcludeMissing
+            detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of(),
+            @JsonProperty("effective_date")
+            @ExcludeMissing
+            effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+            @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("result")
+            @ExcludeMissing
+            result: JsonField<TransactionResult> = JsonMissing.of(),
+            @JsonProperty("type")
+            @ExcludeMissing
+            type: JsonField<ManagementOperationEventType> = JsonMissing.of(),
+            @JsonProperty("subtype") @ExcludeMissing subtype: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            token,
+            amount,
+            created,
+            detailedResults,
+            effectiveDate,
+            memo,
+            result,
+            type,
+            subtype,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -957,28 +1003,15 @@ private constructor(
          */
         @JsonProperty("subtype") @ExcludeMissing fun _subtype(): JsonField<String> = subtype
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): ManagementOperationEvent = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            amount()
-            created()
-            detailedResults()
-            effectiveDate()
-            memo()
-            result()
-            type()
-            subtype()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1196,8 +1229,27 @@ private constructor(
                     checkRequired("result", result),
                     checkRequired("type", type),
                     subtype,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): ManagementOperationEvent = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            amount()
+            created()
+            detailedResults()
+            effectiveDate()
+            memo()
+            result()
+            type()
+            subtype()
+            validated = true
         }
 
         class DetailedResults

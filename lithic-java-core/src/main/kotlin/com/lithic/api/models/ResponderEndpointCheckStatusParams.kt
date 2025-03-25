@@ -5,7 +5,6 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
@@ -28,16 +27,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                put("type", type.asString())
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -55,7 +44,6 @@ private constructor(
     }
 
     /** A builder for [ResponderEndpointCheckStatusParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var type: Type? = null
@@ -191,6 +179,16 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                put("type", type.toString())
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /** The type of the endpoint. */
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

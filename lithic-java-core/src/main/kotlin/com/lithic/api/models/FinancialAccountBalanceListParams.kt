@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
@@ -39,25 +38,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> financialAccountToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                balanceDate?.let {
-                    put("balance_date", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it))
-                }
-                lastTransactionEventToken?.let { put("last_transaction_event_token", it) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -75,7 +55,6 @@ private constructor(
     }
 
     /** A builder for [FinancialAccountBalanceListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
@@ -241,6 +220,25 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> financialAccountToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                balanceDate?.let {
+                    put("balance_date", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it))
+                }
+                lastTransactionEventToken?.let { put("last_transaction_event_token", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

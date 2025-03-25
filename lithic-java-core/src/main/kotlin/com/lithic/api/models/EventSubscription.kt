@@ -11,34 +11,38 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** A subscription to specific event types. */
-@NoAutoDetect
 class EventSubscription
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("description")
-    @ExcludeMissing
-    private val description: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("disabled")
-    @ExcludeMissing
-    private val disabled: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("event_types")
-    @ExcludeMissing
-    private val eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val description: JsonField<String>,
+    private val disabled: JsonField<Boolean>,
+    private val url: JsonField<String>,
+    private val eventTypes: JsonField<List<EventType>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("description")
+        @ExcludeMissing
+        description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("disabled") @ExcludeMissing disabled: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("event_types")
+        @ExcludeMissing
+        eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
+    ) : this(token, description, disabled, url, eventTypes, mutableMapOf())
 
     /**
      * Globally unique identifier.
@@ -114,24 +118,15 @@ private constructor(
     @ExcludeMissing
     fun _eventTypes(): JsonField<List<EventType>> = eventTypes
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): EventSubscription = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        description()
-        disabled()
-        url()
-        eventTypes()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -285,8 +280,23 @@ private constructor(
                 checkRequired("disabled", disabled),
                 checkRequired("url", url),
                 (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): EventSubscription = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        description()
+        disabled()
+        url()
+        eventTypes()
+        validated = true
     }
 
     class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

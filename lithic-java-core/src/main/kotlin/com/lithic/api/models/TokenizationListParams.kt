@@ -5,7 +5,6 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -68,23 +67,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                accountToken?.let { put("account_token", it) }
-                begin?.let { put("begin", it.toString()) }
-                cardToken?.let { put("card_token", it) }
-                end?.let { put("end", it.toString()) }
-                endingBefore?.let { put("ending_before", it) }
-                pageSize?.let { put("page_size", it.toString()) }
-                startingAfter?.let { put("starting_after", it) }
-                tokenizationChannel?.let { put("tokenization_channel", it.asString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -96,7 +78,6 @@ private constructor(
     }
 
     /** A builder for [TokenizationListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var accountToken: String? = null
@@ -311,6 +292,23 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                accountToken?.let { put("account_token", it) }
+                begin?.let { put("begin", it.toString()) }
+                cardToken?.let { put("card_token", it) }
+                end?.let { put("end", it.toString()) }
+                endingBefore?.let { put("ending_before", it) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                tokenizationChannel?.let { put("tokenization_channel", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /**
      * Filter for tokenizations by tokenization channel. If this is not specified, only
