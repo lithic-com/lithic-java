@@ -11,44 +11,65 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class AuthRule
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
-    @JsonProperty("account_tokens")
-    @ExcludeMissing
-    private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("allowed_countries")
-    @ExcludeMissing
-    private val allowedCountries: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("allowed_mcc")
-    @ExcludeMissing
-    private val allowedMcc: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("blocked_countries")
-    @ExcludeMissing
-    private val blockedCountries: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("blocked_mcc")
-    @ExcludeMissing
-    private val blockedMcc: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("card_tokens")
-    @ExcludeMissing
-    private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("program_level")
-    @ExcludeMissing
-    private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val state: JsonField<State>,
+    private val accountTokens: JsonField<List<String>>,
+    private val allowedCountries: JsonField<List<String>>,
+    private val allowedMcc: JsonField<List<String>>,
+    private val blockedCountries: JsonField<List<String>>,
+    private val blockedMcc: JsonField<List<String>>,
+    private val cardTokens: JsonField<List<String>>,
+    private val programLevel: JsonField<Boolean>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+        @JsonProperty("account_tokens")
+        @ExcludeMissing
+        accountTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("allowed_countries")
+        @ExcludeMissing
+        allowedCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("allowed_mcc")
+        @ExcludeMissing
+        allowedMcc: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("blocked_countries")
+        @ExcludeMissing
+        blockedCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("blocked_mcc")
+        @ExcludeMissing
+        blockedMcc: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("card_tokens")
+        @ExcludeMissing
+        cardTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("program_level")
+        @ExcludeMissing
+        programLevel: JsonField<Boolean> = JsonMissing.of(),
+    ) : this(
+        token,
+        state,
+        accountTokens,
+        allowedCountries,
+        allowedMcc,
+        blockedCountries,
+        blockedMcc,
+        cardTokens,
+        programLevel,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -212,28 +233,15 @@ private constructor(
     @ExcludeMissing
     fun _programLevel(): JsonField<Boolean> = programLevel
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): AuthRule = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        state()
-        accountTokens()
-        allowedCountries()
-        allowedMcc()
-        blockedCountries()
-        blockedMcc()
-        cardTokens()
-        programLevel()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -526,8 +534,27 @@ private constructor(
                 (blockedMcc ?: JsonMissing.of()).map { it.toImmutable() },
                 (cardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 programLevel,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): AuthRule = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        state()
+        accountTokens()
+        allowedCountries()
+        allowedMcc()
+        blockedCountries()
+        blockedMcc()
+        cardTokens()
+        programLevel()
+        validated = true
     }
 
     /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */

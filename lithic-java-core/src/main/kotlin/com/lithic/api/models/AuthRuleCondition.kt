@@ -20,27 +20,30 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class AuthRuleCondition
-@JsonCreator
 private constructor(
-    @JsonProperty("attribute")
-    @ExcludeMissing
-    private val attribute: JsonField<ConditionalAttribute> = JsonMissing.of(),
-    @JsonProperty("operation")
-    @ExcludeMissing
-    private val operation: JsonField<Operation> = JsonMissing.of(),
-    @JsonProperty("value") @ExcludeMissing private val value: JsonField<Value> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val attribute: JsonField<ConditionalAttribute>,
+    private val operation: JsonField<Operation>,
+    private val value: JsonField<Value>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("attribute")
+        @ExcludeMissing
+        attribute: JsonField<ConditionalAttribute> = JsonMissing.of(),
+        @JsonProperty("operation")
+        @ExcludeMissing
+        operation: JsonField<Operation> = JsonMissing.of(),
+        @JsonProperty("value") @ExcludeMissing value: JsonField<Value> = JsonMissing.of(),
+    ) : this(attribute, operation, value, mutableMapOf())
 
     /**
      * The attribute to target.
@@ -119,22 +122,15 @@ private constructor(
      */
     @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<Value> = value
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): AuthRuleCondition = apply {
-        if (validated) {
-            return@apply
-        }
-
-        attribute()
-        operation()
-        value().ifPresent { it.validate() }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -266,7 +262,20 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): AuthRuleCondition =
-            AuthRuleCondition(attribute, operation, value, additionalProperties.toImmutable())
+            AuthRuleCondition(attribute, operation, value, additionalProperties.toMutableMap())
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): AuthRuleCondition = apply {
+        if (validated) {
+            return@apply
+        }
+
+        attribute()
+        operation()
+        value().ifPresent { it.validate() }
+        validated = true
     }
 
     /** The operation to apply to the attribute */

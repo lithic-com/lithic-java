@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -97,261 +95,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("merchant")
-        @ExcludeMissing
-        private val merchant: JsonField<Merchant> = JsonMissing.of(),
-        @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("transaction")
-        @ExcludeMissing
-        private val transaction: JsonField<Transaction> = JsonMissing.of(),
-        @JsonProperty("card_expiry_check")
-        @ExcludeMissing
-        private val cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun merchant(): Merchant = merchant.getRequired("merchant")
-
-        /**
-         * Sixteen digit card number.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun pan(): String = pan.getRequired("pan")
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun transaction(): Transaction = transaction.getRequired("transaction")
-
-        /**
-         * When set will use the following values as part of the Simulated Authentication. When not
-         * set defaults to MATCH
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun cardExpiryCheck(): Optional<CardExpiryCheck> =
-            Optional.ofNullable(cardExpiryCheck.getNullable("card_expiry_check"))
-
-        /**
-         * Returns the raw JSON value of [merchant].
-         *
-         * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
-
-        /**
-         * Returns the raw JSON value of [pan].
-         *
-         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
-
-        /**
-         * Returns the raw JSON value of [transaction].
-         *
-         * Unlike [transaction], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("transaction")
-        @ExcludeMissing
-        fun _transaction(): JsonField<Transaction> = transaction
-
-        /**
-         * Returns the raw JSON value of [cardExpiryCheck].
-         *
-         * Unlike [cardExpiryCheck], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("card_expiry_check")
-        @ExcludeMissing
-        fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = cardExpiryCheck
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            merchant().validate()
-            pan()
-            transaction().validate()
-            cardExpiryCheck()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .merchant()
-             * .pan()
-             * .transaction()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var merchant: JsonField<Merchant>? = null
-            private var pan: JsonField<String>? = null
-            private var transaction: JsonField<Transaction>? = null
-            private var cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                merchant = body.merchant
-                pan = body.pan
-                transaction = body.transaction
-                cardExpiryCheck = body.cardExpiryCheck
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
-
-            /**
-             * Sets [Builder.merchant] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.merchant] with a well-typed [Merchant] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
-
-            /** Sixteen digit card number. */
-            fun pan(pan: String) = pan(JsonField.of(pan))
-
-            /**
-             * Sets [Builder.pan] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
-
-            fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
-
-            /**
-             * Sets [Builder.transaction] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.transaction] with a well-typed [Transaction] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun transaction(transaction: JsonField<Transaction>) = apply {
-                this.transaction = transaction
-            }
-
-            /**
-             * When set will use the following values as part of the Simulated Authentication. When
-             * not set defaults to MATCH
-             */
-            fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck) =
-                cardExpiryCheck(JsonField.of(cardExpiryCheck))
-
-            /**
-             * Sets [Builder.cardExpiryCheck] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.cardExpiryCheck] with a well-typed [CardExpiryCheck]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
-                this.cardExpiryCheck = cardExpiryCheck
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .merchant()
-             * .pan()
-             * .transaction()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): Body =
-                Body(
-                    checkRequired("merchant", merchant),
-                    checkRequired("pan", pan),
-                    checkRequired("transaction", transaction),
-                    cardExpiryCheck,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(merchant, pan, transaction, cardExpiryCheck, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -371,7 +114,6 @@ private constructor(
     }
 
     /** A builder for [ThreeDSAuthenticationSimulateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var body: Body.Builder = Body.builder()
@@ -581,21 +323,288 @@ private constructor(
             )
     }
 
-    @NoAutoDetect
-    class Merchant
-    @JsonCreator
+    @JvmSynthetic internal fun _body(): Body = body
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("country")
-        @ExcludeMissing
-        private val country: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("mcc") @ExcludeMissing private val mcc: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("name")
-        @ExcludeMissing
-        private val name: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val merchant: JsonField<Merchant>,
+        private val pan: JsonField<String>,
+        private val transaction: JsonField<Transaction>,
+        private val cardExpiryCheck: JsonField<CardExpiryCheck>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("merchant")
+            @ExcludeMissing
+            merchant: JsonField<Merchant> = JsonMissing.of(),
+            @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("transaction")
+            @ExcludeMissing
+            transaction: JsonField<Transaction> = JsonMissing.of(),
+            @JsonProperty("card_expiry_check")
+            @ExcludeMissing
+            cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of(),
+        ) : this(merchant, pan, transaction, cardExpiryCheck, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun merchant(): Merchant = merchant.getRequired("merchant")
+
+        /**
+         * Sixteen digit card number.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun pan(): String = pan.getRequired("pan")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun transaction(): Transaction = transaction.getRequired("transaction")
+
+        /**
+         * When set will use the following values as part of the Simulated Authentication. When not
+         * set defaults to MATCH
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun cardExpiryCheck(): Optional<CardExpiryCheck> =
+            Optional.ofNullable(cardExpiryCheck.getNullable("card_expiry_check"))
+
+        /**
+         * Returns the raw JSON value of [merchant].
+         *
+         * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
+
+        /**
+         * Returns the raw JSON value of [pan].
+         *
+         * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+        /**
+         * Returns the raw JSON value of [transaction].
+         *
+         * Unlike [transaction], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("transaction")
+        @ExcludeMissing
+        fun _transaction(): JsonField<Transaction> = transaction
+
+        /**
+         * Returns the raw JSON value of [cardExpiryCheck].
+         *
+         * Unlike [cardExpiryCheck], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("card_expiry_check")
+        @ExcludeMissing
+        fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = cardExpiryCheck
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .merchant()
+             * .pan()
+             * .transaction()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var merchant: JsonField<Merchant>? = null
+            private var pan: JsonField<String>? = null
+            private var transaction: JsonField<Transaction>? = null
+            private var cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                merchant = body.merchant
+                pan = body.pan
+                transaction = body.transaction
+                cardExpiryCheck = body.cardExpiryCheck
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
+
+            /**
+             * Sets [Builder.merchant] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchant] with a well-typed [Merchant] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
+
+            /** Sixteen digit card number. */
+            fun pan(pan: String) = pan(JsonField.of(pan))
+
+            /**
+             * Sets [Builder.pan] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.pan] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+            fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
+
+            /**
+             * Sets [Builder.transaction] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.transaction] with a well-typed [Transaction] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun transaction(transaction: JsonField<Transaction>) = apply {
+                this.transaction = transaction
+            }
+
+            /**
+             * When set will use the following values as part of the Simulated Authentication. When
+             * not set defaults to MATCH
+             */
+            fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck) =
+                cardExpiryCheck(JsonField.of(cardExpiryCheck))
+
+            /**
+             * Sets [Builder.cardExpiryCheck] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.cardExpiryCheck] with a well-typed [CardExpiryCheck]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
+                this.cardExpiryCheck = cardExpiryCheck
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .merchant()
+             * .pan()
+             * .transaction()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Body =
+                Body(
+                    checkRequired("merchant", merchant),
+                    checkRequired("pan", pan),
+                    checkRequired("transaction", transaction),
+                    cardExpiryCheck,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            merchant().validate()
+            pan()
+            transaction().validate()
+            cardExpiryCheck()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(merchant, pan, transaction, cardExpiryCheck, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
+    }
+
+    class Merchant
+    private constructor(
+        private val id: JsonField<String>,
+        private val country: JsonField<String>,
+        private val mcc: JsonField<String>,
+        private val name: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        ) : this(id, country, mcc, name, mutableMapOf())
 
         /**
          * Unique identifier to identify the payment card acceptor. Corresponds to
@@ -661,23 +670,15 @@ private constructor(
          */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Merchant = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            country()
-            mcc()
-            name()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -816,8 +817,22 @@ private constructor(
                     checkRequired("country", country),
                     checkRequired("mcc", mcc),
                     checkRequired("name", name),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Merchant = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            country()
+            mcc()
+            name()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -838,19 +853,18 @@ private constructor(
             "Merchant{id=$id, country=$country, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class Transaction
-    @JsonCreator
     private constructor(
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("currency")
-        @ExcludeMissing
-        private val currency: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val amount: JsonField<Long>,
+        private val currency: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        ) : this(amount, currency, mutableMapOf())
 
         /**
          * Amount (in cents) to authenticate.
@@ -882,21 +896,15 @@ private constructor(
          */
         @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Transaction = apply {
-            if (validated) {
-                return@apply
-            }
-
-            amount()
-            currency()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -988,8 +996,20 @@ private constructor(
                 Transaction(
                     checkRequired("amount", amount),
                     checkRequired("currency", currency),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Transaction = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount()
+            currency()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

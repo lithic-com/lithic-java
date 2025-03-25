@@ -11,47 +11,67 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 
 /** Balance of a Financial Account */
-@NoAutoDetect
 class BalanceListResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("available_amount")
-    @ExcludeMissing
-    private val availableAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("last_transaction_event_token")
-    @ExcludeMissing
-    private val lastTransactionEventToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("last_transaction_token")
-    @ExcludeMissing
-    private val lastTransactionToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("pending_amount")
-    @ExcludeMissing
-    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("total_amount")
-    @ExcludeMissing
-    private val totalAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val availableAmount: JsonField<Long>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val lastTransactionEventToken: JsonField<String>,
+    private val lastTransactionToken: JsonField<String>,
+    private val pendingAmount: JsonField<Long>,
+    private val totalAmount: JsonField<Long>,
+    private val type: JsonField<Type>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("available_amount")
+        @ExcludeMissing
+        availableAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_transaction_event_token")
+        @ExcludeMissing
+        lastTransactionEventToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_transaction_token")
+        @ExcludeMissing
+        lastTransactionToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pending_amount")
+        @ExcludeMissing
+        pendingAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("total_amount")
+        @ExcludeMissing
+        totalAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    ) : this(
+        token,
+        availableAmount,
+        created,
+        currency,
+        lastTransactionEventToken,
+        lastTransactionToken,
+        pendingAmount,
+        totalAmount,
+        type,
+        updated,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the financial account that holds this balance.
@@ -217,29 +237,15 @@ private constructor(
      */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): BalanceListResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        availableAmount()
-        created()
-        currency()
-        lastTransactionEventToken()
-        lastTransactionToken()
-        pendingAmount()
-        totalAmount()
-        type()
-        updated()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -485,8 +491,28 @@ private constructor(
                 checkRequired("totalAmount", totalAmount),
                 checkRequired("type", type),
                 checkRequired("updated", updated),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): BalanceListResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        availableAmount()
+        created()
+        currency()
+        lastTransactionEventToken()
+        lastTransactionToken()
+        pendingAmount()
+        totalAmount()
+        type()
+        updated()
+        validated = true
     }
 
     /** Type of financial account. */

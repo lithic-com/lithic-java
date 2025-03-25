@@ -11,41 +11,53 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
 /** Dispute evidence. */
-@NoAutoDetect
 class DisputeEvidence
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("dispute_token")
-    @ExcludeMissing
-    private val disputeToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("upload_status")
-    @ExcludeMissing
-    private val uploadStatus: JsonField<UploadStatus> = JsonMissing.of(),
-    @JsonProperty("download_url")
-    @ExcludeMissing
-    private val downloadUrl: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("filename")
-    @ExcludeMissing
-    private val filename: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("upload_url")
-    @ExcludeMissing
-    private val uploadUrl: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val disputeToken: JsonField<String>,
+    private val uploadStatus: JsonField<UploadStatus>,
+    private val downloadUrl: JsonField<String>,
+    private val filename: JsonField<String>,
+    private val uploadUrl: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("dispute_token")
+        @ExcludeMissing
+        disputeToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("upload_status")
+        @ExcludeMissing
+        uploadStatus: JsonField<UploadStatus> = JsonMissing.of(),
+        @JsonProperty("download_url")
+        @ExcludeMissing
+        downloadUrl: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("filename") @ExcludeMissing filename: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("upload_url") @ExcludeMissing uploadUrl: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        created,
+        disputeToken,
+        uploadStatus,
+        downloadUrl,
+        filename,
+        uploadUrl,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -164,26 +176,15 @@ private constructor(
      */
     @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): DisputeEvidence = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        created()
-        disputeToken()
-        uploadStatus()
-        downloadUrl()
-        filename()
-        uploadUrl()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -366,8 +367,25 @@ private constructor(
                 downloadUrl,
                 filename,
                 uploadUrl,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): DisputeEvidence = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        created()
+        disputeToken()
+        uploadStatus()
+        downloadUrl()
+        filename()
+        uploadUrl()
+        validated = true
     }
 
     /**

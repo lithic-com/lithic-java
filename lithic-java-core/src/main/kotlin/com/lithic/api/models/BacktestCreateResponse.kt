@@ -10,22 +10,23 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class BacktestCreateResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("backtest_token")
-    @ExcludeMissing
-    private val backtestToken: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val backtestToken: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("backtest_token")
+        @ExcludeMissing
+        backtestToken: JsonField<String> = JsonMissing.of()
+    ) : this(backtestToken, mutableMapOf())
 
     /**
      * Auth Rule Backtest Token
@@ -45,20 +46,15 @@ private constructor(
     @ExcludeMissing
     fun _backtestToken(): JsonField<String> = backtestToken
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): BacktestCreateResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        backtestToken()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -119,7 +115,18 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): BacktestCreateResponse =
-            BacktestCreateResponse(backtestToken, additionalProperties.toImmutable())
+            BacktestCreateResponse(backtestToken, additionalProperties.toMutableMap())
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): BacktestCreateResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        backtestToken()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

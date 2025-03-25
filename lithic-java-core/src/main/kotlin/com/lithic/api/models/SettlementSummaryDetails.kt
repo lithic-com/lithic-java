@@ -11,43 +11,57 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class SettlementSummaryDetails
-@JsonCreator
 private constructor(
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("disputes_gross_amount")
-    @ExcludeMissing
-    private val disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("institution")
-    @ExcludeMissing
-    private val institution: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("interchange_gross_amount")
-    @ExcludeMissing
-    private val interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("network")
-    @ExcludeMissing
-    private val network: JsonField<Network> = JsonMissing.of(),
-    @JsonProperty("other_fees_gross_amount")
-    @ExcludeMissing
-    private val otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("settled_net_amount")
-    @ExcludeMissing
-    private val settledNetAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("transactions_gross_amount")
-    @ExcludeMissing
-    private val transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val currency: JsonField<String>,
+    private val disputesGrossAmount: JsonField<Long>,
+    private val institution: JsonField<String>,
+    private val interchangeGrossAmount: JsonField<Long>,
+    private val network: JsonField<Network>,
+    private val otherFeesGrossAmount: JsonField<Long>,
+    private val settledNetAmount: JsonField<Long>,
+    private val transactionsGrossAmount: JsonField<Long>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("disputes_gross_amount")
+        @ExcludeMissing
+        disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("institution")
+        @ExcludeMissing
+        institution: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("interchange_gross_amount")
+        @ExcludeMissing
+        interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("network") @ExcludeMissing network: JsonField<Network> = JsonMissing.of(),
+        @JsonProperty("other_fees_gross_amount")
+        @ExcludeMissing
+        otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("settled_net_amount")
+        @ExcludeMissing
+        settledNetAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("transactions_gross_amount")
+        @ExcludeMissing
+        transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
+    ) : this(
+        currency,
+        disputesGrossAmount,
+        institution,
+        interchangeGrossAmount,
+        network,
+        otherFeesGrossAmount,
+        settledNetAmount,
+        transactionsGrossAmount,
+        mutableMapOf(),
+    )
 
     /**
      * 3-character alphabetic ISO 4217 code.
@@ -191,27 +205,15 @@ private constructor(
     @ExcludeMissing
     fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): SettlementSummaryDetails = apply {
-        if (validated) {
-            return@apply
-        }
-
-        currency()
-        disputesGrossAmount()
-        institution()
-        interchangeGrossAmount()
-        network()
-        otherFeesGrossAmount()
-        settledNetAmount()
-        transactionsGrossAmount()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -398,8 +400,26 @@ private constructor(
                 otherFeesGrossAmount,
                 settledNetAmount,
                 transactionsGrossAmount,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): SettlementSummaryDetails = apply {
+        if (validated) {
+            return@apply
+        }
+
+        currency()
+        disputesGrossAmount()
+        institution()
+        interchangeGrossAmount()
+        network()
+        otherFeesGrossAmount()
+        settledNetAmount()
+        transactionsGrossAmount()
+        validated = true
     }
 
     /** Card network where the transaction took place */

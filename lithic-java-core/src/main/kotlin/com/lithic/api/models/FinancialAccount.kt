@@ -11,55 +11,78 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class FinancialAccount
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("credit_configuration")
-    @ExcludeMissing
-    private val creditConfiguration: JsonField<FinancialAccountCreditConfig> = JsonMissing.of(),
-    @JsonProperty("is_for_benefit_of")
-    @ExcludeMissing
-    private val isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("nickname")
-    @ExcludeMissing
-    private val nickname: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
-    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("account_number")
-    @ExcludeMissing
-    private val accountNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("routing_number")
-    @ExcludeMissing
-    private val routingNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("status_change_reason")
-    @ExcludeMissing
-    private val statusChangeReason: JsonField<FinancialAccountStatusChangeReason> =
-        JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountToken: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val creditConfiguration: JsonField<FinancialAccountCreditConfig>,
+    private val isForBenefitOf: JsonField<Boolean>,
+    private val nickname: JsonField<String>,
+    private val status: JsonField<FinancialAccountStatus>,
+    private val type: JsonField<Type>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val accountNumber: JsonField<String>,
+    private val routingNumber: JsonField<String>,
+    private val statusChangeReason: JsonField<FinancialAccountStatusChangeReason>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("credit_configuration")
+        @ExcludeMissing
+        creditConfiguration: JsonField<FinancialAccountCreditConfig> = JsonMissing.of(),
+        @JsonProperty("is_for_benefit_of")
+        @ExcludeMissing
+        isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("nickname") @ExcludeMissing nickname: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("account_number")
+        @ExcludeMissing
+        accountNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("routing_number")
+        @ExcludeMissing
+        routingNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status_change_reason")
+        @ExcludeMissing
+        statusChangeReason: JsonField<FinancialAccountStatusChangeReason> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountToken,
+        created,
+        creditConfiguration,
+        isForBenefitOf,
+        nickname,
+        status,
+        type,
+        updated,
+        accountNumber,
+        routingNumber,
+        statusChangeReason,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the account
@@ -246,31 +269,15 @@ private constructor(
     @ExcludeMissing
     fun _statusChangeReason(): JsonField<FinancialAccountStatusChangeReason> = statusChangeReason
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): FinancialAccount = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountToken()
-        created()
-        creditConfiguration().ifPresent { it.validate() }
-        isForBenefitOf()
-        nickname()
-        status()
-        type()
-        updated()
-        accountNumber()
-        routingNumber()
-        statusChangeReason()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -560,38 +567,75 @@ private constructor(
                 accountNumber,
                 routingNumber,
                 statusChangeReason,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): FinancialAccount = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountToken()
+        created()
+        creditConfiguration().ifPresent { it.validate() }
+        isForBenefitOf()
+        nickname()
+        status()
+        type()
+        updated()
+        accountNumber()
+        routingNumber()
+        statusChangeReason()
+        validated = true
+    }
+
     class FinancialAccountCreditConfig
-    @JsonCreator
     private constructor(
-        @JsonProperty("charged_off_reason")
-        @ExcludeMissing
-        private val chargedOffReason: JsonField<ChargedOffReason> = JsonMissing.of(),
-        @JsonProperty("credit_limit")
-        @ExcludeMissing
-        private val creditLimit: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("credit_product_token")
-        @ExcludeMissing
-        private val creditProductToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("external_bank_account_token")
-        @ExcludeMissing
-        private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("financial_account_state")
-        @ExcludeMissing
-        private val financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of(),
-        @JsonProperty("is_spend_blocked")
-        @ExcludeMissing
-        private val isSpendBlocked: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("tier")
-        @ExcludeMissing
-        private val tier: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val chargedOffReason: JsonField<ChargedOffReason>,
+        private val creditLimit: JsonField<Long>,
+        private val creditProductToken: JsonField<String>,
+        private val externalBankAccountToken: JsonField<String>,
+        private val financialAccountState: JsonField<FinancialAccountState>,
+        private val isSpendBlocked: JsonField<Boolean>,
+        private val tier: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("charged_off_reason")
+            @ExcludeMissing
+            chargedOffReason: JsonField<ChargedOffReason> = JsonMissing.of(),
+            @JsonProperty("credit_limit")
+            @ExcludeMissing
+            creditLimit: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("credit_product_token")
+            @ExcludeMissing
+            creditProductToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("external_bank_account_token")
+            @ExcludeMissing
+            externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("financial_account_state")
+            @ExcludeMissing
+            financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of(),
+            @JsonProperty("is_spend_blocked")
+            @ExcludeMissing
+            isSpendBlocked: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("tier") @ExcludeMissing tier: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            chargedOffReason,
+            creditLimit,
+            creditProductToken,
+            externalBankAccountToken,
+            financialAccountState,
+            isSpendBlocked,
+            tier,
+            mutableMapOf(),
+        )
 
         /**
          * Reason for the financial account being marked as Charged Off
@@ -714,26 +758,15 @@ private constructor(
          */
         @JsonProperty("tier") @ExcludeMissing fun _tier(): JsonField<String> = tier
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): FinancialAccountCreditConfig = apply {
-            if (validated) {
-                return@apply
-            }
-
-            chargedOffReason()
-            creditLimit()
-            creditProductToken()
-            externalBankAccountToken()
-            financialAccountState()
-            isSpendBlocked()
-            tier()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -965,8 +998,25 @@ private constructor(
                     checkRequired("financialAccountState", financialAccountState),
                     checkRequired("isSpendBlocked", isSpendBlocked),
                     checkRequired("tier", tier),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountCreditConfig = apply {
+            if (validated) {
+                return@apply
+            }
+
+            chargedOffReason()
+            creditLimit()
+            creditProductToken()
+            externalBankAccountToken()
+            financialAccountState()
+            isSpendBlocked()
+            tier()
+            validated = true
         }
 
         /** Reason for the financial account being marked as Charged Off */

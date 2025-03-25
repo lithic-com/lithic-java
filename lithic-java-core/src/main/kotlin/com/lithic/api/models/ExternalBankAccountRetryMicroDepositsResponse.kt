@@ -11,76 +11,114 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class ExternalBankAccountRetryMicroDepositsResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("country")
-    @ExcludeMissing
-    private val country: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("last_four")
-    @ExcludeMissing
-    private val lastFour: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("owner") @ExcludeMissing private val owner: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("owner_type")
-    @ExcludeMissing
-    private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
-    @JsonProperty("routing_number")
-    @ExcludeMissing
-    private val routingNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
-    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-    @JsonProperty("verification_attempts")
-    @ExcludeMissing
-    private val verificationAttempts: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("verification_method")
-    @ExcludeMissing
-    private val verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
-    @JsonProperty("verification_state")
-    @ExcludeMissing
-    private val verificationState: JsonField<VerificationState> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("address")
-    @ExcludeMissing
-    private val address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
-    @JsonProperty("company_id")
-    @ExcludeMissing
-    private val companyId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("doing_business_as")
-    @ExcludeMissing
-    private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("user_defined_id")
-    @ExcludeMissing
-    private val userDefinedId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("verification_failed_reason")
-    @ExcludeMissing
-    private val verificationFailedReason: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val country: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val lastFour: JsonField<String>,
+    private val owner: JsonField<String>,
+    private val ownerType: JsonField<OwnerType>,
+    private val routingNumber: JsonField<String>,
+    private val state: JsonField<State>,
+    private val type: JsonField<Type>,
+    private val verificationAttempts: JsonField<Long>,
+    private val verificationMethod: JsonField<VerificationMethod>,
+    private val verificationState: JsonField<VerificationState>,
+    private val accountToken: JsonField<String>,
+    private val address: JsonField<ExternalBankAccountAddress>,
+    private val companyId: JsonField<String>,
+    private val dob: JsonField<LocalDate>,
+    private val doingBusinessAs: JsonField<String>,
+    private val financialAccountToken: JsonField<String>,
+    private val name: JsonField<String>,
+    private val userDefinedId: JsonField<String>,
+    private val verificationFailedReason: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_four") @ExcludeMissing lastFour: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("owner") @ExcludeMissing owner: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("owner_type")
+        @ExcludeMissing
+        ownerType: JsonField<OwnerType> = JsonMissing.of(),
+        @JsonProperty("routing_number")
+        @ExcludeMissing
+        routingNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("verification_attempts")
+        @ExcludeMissing
+        verificationAttempts: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("verification_method")
+        @ExcludeMissing
+        verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
+        @JsonProperty("verification_state")
+        @ExcludeMissing
+        verificationState: JsonField<VerificationState> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("address")
+        @ExcludeMissing
+        address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
+        @JsonProperty("company_id") @ExcludeMissing companyId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("dob") @ExcludeMissing dob: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("doing_business_as")
+        @ExcludeMissing
+        doingBusinessAs: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        userDefinedId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("verification_failed_reason")
+        @ExcludeMissing
+        verificationFailedReason: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        country,
+        created,
+        currency,
+        lastFour,
+        owner,
+        ownerType,
+        routingNumber,
+        state,
+        type,
+        verificationAttempts,
+        verificationMethod,
+        verificationState,
+        accountToken,
+        address,
+        companyId,
+        dob,
+        doingBusinessAs,
+        financialAccountToken,
+        name,
+        userDefinedId,
+        verificationFailedReason,
+        mutableMapOf(),
+    )
 
     /**
      * A globally unique identifier for this record of an external bank account association. If a
@@ -451,41 +489,15 @@ private constructor(
     @ExcludeMissing
     fun _verificationFailedReason(): JsonField<String> = verificationFailedReason
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ExternalBankAccountRetryMicroDepositsResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        country()
-        created()
-        currency()
-        lastFour()
-        owner()
-        ownerType()
-        routingNumber()
-        state()
-        type()
-        verificationAttempts()
-        verificationMethod()
-        verificationState()
-        accountToken()
-        address().ifPresent { it.validate() }
-        companyId()
-        dob()
-        doingBusinessAs()
-        financialAccountToken()
-        name()
-        userDefinedId()
-        verificationFailedReason()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -945,8 +957,40 @@ private constructor(
                 name,
                 userDefinedId,
                 verificationFailedReason,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ExternalBankAccountRetryMicroDepositsResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        country()
+        created()
+        currency()
+        lastFour()
+        owner()
+        ownerType()
+        routingNumber()
+        state()
+        type()
+        verificationAttempts()
+        verificationMethod()
+        verificationState()
+        accountToken()
+        address().ifPresent { it.validate() }
+        companyId()
+        dob()
+        doingBusinessAs()
+        financialAccountToken()
+        name()
+        userDefinedId()
+        verificationFailedReason()
+        validated = true
     }
 
     /** Owner Type */

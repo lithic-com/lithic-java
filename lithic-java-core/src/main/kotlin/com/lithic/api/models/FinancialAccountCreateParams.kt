@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -92,260 +90,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): CreateFinancialAccountRequest = body
-
-    override fun _headers(): Headers =
-        Headers.builder()
-            .apply {
-                idempotencyKey?.let { put("Idempotency-Key", it) }
-                putAll(additionalHeaders)
-            }
-            .build()
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class CreateFinancialAccountRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("nickname")
-        @ExcludeMissing
-        private val nickname: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-        @JsonProperty("account_token")
-        @ExcludeMissing
-        private val accountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("is_for_benefit_of")
-        @ExcludeMissing
-        private val isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun nickname(): String = nickname.getRequired("nickname")
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun type(): Type = type.getRequired("type")
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun accountToken(): Optional<String> =
-            Optional.ofNullable(accountToken.getNullable("account_token"))
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun isForBenefitOf(): Optional<Boolean> =
-            Optional.ofNullable(isForBenefitOf.getNullable("is_for_benefit_of"))
-
-        /**
-         * Returns the raw JSON value of [nickname].
-         *
-         * Unlike [nickname], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
-
-        /**
-         * Returns the raw JSON value of [type].
-         *
-         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
-        /**
-         * Returns the raw JSON value of [accountToken].
-         *
-         * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("account_token")
-        @ExcludeMissing
-        fun _accountToken(): JsonField<String> = accountToken
-
-        /**
-         * Returns the raw JSON value of [isForBenefitOf].
-         *
-         * Unlike [isForBenefitOf], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("is_for_benefit_of")
-        @ExcludeMissing
-        fun _isForBenefitOf(): JsonField<Boolean> = isForBenefitOf
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): CreateFinancialAccountRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            nickname()
-            type()
-            accountToken()
-            isForBenefitOf()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [CreateFinancialAccountRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .nickname()
-             * .type()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [CreateFinancialAccountRequest]. */
-        class Builder internal constructor() {
-
-            private var nickname: JsonField<String>? = null
-            private var type: JsonField<Type>? = null
-            private var accountToken: JsonField<String> = JsonMissing.of()
-            private var isForBenefitOf: JsonField<Boolean> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(createFinancialAccountRequest: CreateFinancialAccountRequest) =
-                apply {
-                    nickname = createFinancialAccountRequest.nickname
-                    type = createFinancialAccountRequest.type
-                    accountToken = createFinancialAccountRequest.accountToken
-                    isForBenefitOf = createFinancialAccountRequest.isForBenefitOf
-                    additionalProperties =
-                        createFinancialAccountRequest.additionalProperties.toMutableMap()
-                }
-
-            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
-
-            /**
-             * Sets [Builder.nickname] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.nickname] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
-
-            fun type(type: Type) = type(JsonField.of(type))
-
-            /**
-             * Sets [Builder.type] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
-
-            fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
-
-            /**
-             * Sets [Builder.accountToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.accountToken] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun accountToken(accountToken: JsonField<String>) = apply {
-                this.accountToken = accountToken
-            }
-
-            fun isForBenefitOf(isForBenefitOf: Boolean) =
-                isForBenefitOf(JsonField.of(isForBenefitOf))
-
-            /**
-             * Sets [Builder.isForBenefitOf] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.isForBenefitOf] with a well-typed [Boolean] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
-                this.isForBenefitOf = isForBenefitOf
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [CreateFinancialAccountRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .nickname()
-             * .type()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): CreateFinancialAccountRequest =
-                CreateFinancialAccountRequest(
-                    checkRequired("nickname", nickname),
-                    checkRequired("type", type),
-                    accountToken,
-                    isForBenefitOf,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is CreateFinancialAccountRequest && nickname == other.nickname && type == other.type && accountToken == other.accountToken && isForBenefitOf == other.isForBenefitOf && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(nickname, type, accountToken, isForBenefitOf, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "CreateFinancialAccountRequest{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -363,7 +107,6 @@ private constructor(
     }
 
     /** A builder for [FinancialAccountCreateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var idempotencyKey: String? = null
@@ -569,6 +312,271 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): CreateFinancialAccountRequest = body
+
+    override fun _headers(): Headers =
+        Headers.builder()
+            .apply {
+                idempotencyKey?.let { put("Idempotency-Key", it) }
+                putAll(additionalHeaders)
+            }
+            .build()
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class CreateFinancialAccountRequest
+    private constructor(
+        private val nickname: JsonField<String>,
+        private val type: JsonField<Type>,
+        private val accountToken: JsonField<String>,
+        private val isForBenefitOf: JsonField<Boolean>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("nickname")
+            @ExcludeMissing
+            nickname: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            @JsonProperty("account_token")
+            @ExcludeMissing
+            accountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("is_for_benefit_of")
+            @ExcludeMissing
+            isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(nickname, type, accountToken, isForBenefitOf, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun nickname(): String = nickname.getRequired("nickname")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun type(): Type = type.getRequired("type")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun accountToken(): Optional<String> =
+            Optional.ofNullable(accountToken.getNullable("account_token"))
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun isForBenefitOf(): Optional<Boolean> =
+            Optional.ofNullable(isForBenefitOf.getNullable("is_for_benefit_of"))
+
+        /**
+         * Returns the raw JSON value of [nickname].
+         *
+         * Unlike [nickname], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        /**
+         * Returns the raw JSON value of [accountToken].
+         *
+         * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        fun _accountToken(): JsonField<String> = accountToken
+
+        /**
+         * Returns the raw JSON value of [isForBenefitOf].
+         *
+         * Unlike [isForBenefitOf], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("is_for_benefit_of")
+        @ExcludeMissing
+        fun _isForBenefitOf(): JsonField<Boolean> = isForBenefitOf
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [CreateFinancialAccountRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .nickname()
+             * .type()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [CreateFinancialAccountRequest]. */
+        class Builder internal constructor() {
+
+            private var nickname: JsonField<String>? = null
+            private var type: JsonField<Type>? = null
+            private var accountToken: JsonField<String> = JsonMissing.of()
+            private var isForBenefitOf: JsonField<Boolean> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(createFinancialAccountRequest: CreateFinancialAccountRequest) =
+                apply {
+                    nickname = createFinancialAccountRequest.nickname
+                    type = createFinancialAccountRequest.type
+                    accountToken = createFinancialAccountRequest.accountToken
+                    isForBenefitOf = createFinancialAccountRequest.isForBenefitOf
+                    additionalProperties =
+                        createFinancialAccountRequest.additionalProperties.toMutableMap()
+                }
+
+            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
+
+            /**
+             * Sets [Builder.nickname] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nickname] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+
+            /**
+             * Sets [Builder.accountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun accountToken(accountToken: JsonField<String>) = apply {
+                this.accountToken = accountToken
+            }
+
+            fun isForBenefitOf(isForBenefitOf: Boolean) =
+                isForBenefitOf(JsonField.of(isForBenefitOf))
+
+            /**
+             * Sets [Builder.isForBenefitOf] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isForBenefitOf] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
+                this.isForBenefitOf = isForBenefitOf
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [CreateFinancialAccountRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .nickname()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): CreateFinancialAccountRequest =
+                CreateFinancialAccountRequest(
+                    checkRequired("nickname", nickname),
+                    checkRequired("type", type),
+                    accountToken,
+                    isForBenefitOf,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): CreateFinancialAccountRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            nickname()
+            type()
+            accountToken()
+            isForBenefitOf()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is CreateFinancialAccountRequest && nickname == other.nickname && type == other.type && accountToken == other.accountToken && isForBenefitOf == other.isForBenefitOf && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(nickname, type, accountToken, isForBenefitOf, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "CreateFinancialAccountRequest{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalProperties=$additionalProperties}"
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -88,26 +87,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
-                email?.let { put("email", it) }
-                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
-                endingBefore?.let { put("ending_before", it) }
-                externalId?.let { put("external_id", it) }
-                firstName?.let { put("first_name", it) }
-                lastName?.let { put("last_name", it) }
-                legalBusinessName?.let { put("legal_business_name", it) }
-                limit?.let { put("limit", it.toString()) }
-                phoneNumber?.let { put("phone_number", it) }
-                startingAfter?.let { put("starting_after", it) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -119,7 +98,6 @@ private constructor(
     }
 
     /** A builder for [AccountHolderListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var begin: OffsetDateTime? = null
@@ -373,6 +351,26 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                email?.let { put("email", it) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                endingBefore?.let { put("ending_before", it) }
+                externalId?.let { put("external_id", it) }
+                firstName?.let { put("first_name", it) }
+                lastName?.let { put("last_name", it) }
+                legalBusinessName?.let { put("legal_business_name", it) }
+                limit?.let { put("limit", it.toString()) }
+                phoneNumber?.let { put("phone_number", it) }
+                startingAfter?.let { put("starting_after", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

@@ -5,7 +5,6 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -63,26 +62,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                accountToken?.let { put("account_token", it) }
-                accountTypes?.let { put("account_types", it.joinToString(",") { it.asString() }) }
-                countries?.let { put("countries", it.joinToString(",")) }
-                endingBefore?.let { put("ending_before", it) }
-                ownerTypes?.let { put("owner_types", it.joinToString(",") { it.asString() }) }
-                pageSize?.let { put("page_size", it.toString()) }
-                startingAfter?.let { put("starting_after", it) }
-                states?.let { put("states", it.joinToString(",") { it.asString() }) }
-                verificationStates?.let {
-                    put("verification_states", it.joinToString(",") { it.asString() })
-                }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -97,7 +76,6 @@ private constructor(
     }
 
     /** A builder for [ExternalBankAccountListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var accountToken: String? = null
@@ -365,6 +343,26 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                accountToken?.let { put("account_token", it) }
+                accountTypes?.let { put("account_types", it.joinToString(",") { it.toString() }) }
+                countries?.let { put("countries", it.joinToString(",")) }
+                endingBefore?.let { put("ending_before", it) }
+                ownerTypes?.let { put("owner_types", it.joinToString(",") { it.toString() }) }
+                pageSize?.let { put("page_size", it.toString()) }
+                startingAfter?.let { put("starting_after", it) }
+                states?.let { put("states", it.joinToString(",") { it.toString() }) }
+                verificationStates?.let {
+                    put("verification_states", it.joinToString(",") { it.toString() })
+                }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     class AccountType @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {

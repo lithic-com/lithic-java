@@ -11,51 +11,69 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class NetworkTotalRetrieveResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("amounts")
-    @ExcludeMissing
-    private val amounts: JsonField<Amounts> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("institution_id")
-    @ExcludeMissing
-    private val institutionId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("network")
-    @ExcludeMissing
-    private val network: JsonField<Network> = JsonMissing.of(),
-    @JsonProperty("report_date")
-    @ExcludeMissing
-    private val reportDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("settlement_institution_id")
-    @ExcludeMissing
-    private val settlementInstitutionId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("settlement_service")
-    @ExcludeMissing
-    private val settlementService: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("cycle") @ExcludeMissing private val cycle: JsonField<Long> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val amounts: JsonField<Amounts>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val institutionId: JsonField<String>,
+    private val network: JsonField<Network>,
+    private val reportDate: JsonField<LocalDate>,
+    private val settlementInstitutionId: JsonField<String>,
+    private val settlementService: JsonField<String>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val cycle: JsonField<Long>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("amounts") @ExcludeMissing amounts: JsonField<Amounts> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("institution_id")
+        @ExcludeMissing
+        institutionId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("network") @ExcludeMissing network: JsonField<Network> = JsonMissing.of(),
+        @JsonProperty("report_date")
+        @ExcludeMissing
+        reportDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("settlement_institution_id")
+        @ExcludeMissing
+        settlementInstitutionId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("settlement_service")
+        @ExcludeMissing
+        settlementService: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("cycle") @ExcludeMissing cycle: JsonField<Long> = JsonMissing.of(),
+    ) : this(
+        token,
+        amounts,
+        created,
+        currency,
+        institutionId,
+        network,
+        reportDate,
+        settlementInstitutionId,
+        settlementService,
+        updated,
+        cycle,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -233,30 +251,15 @@ private constructor(
      */
     @JsonProperty("cycle") @ExcludeMissing fun _cycle(): JsonField<Long> = cycle
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): NetworkTotalRetrieveResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        amounts().validate()
-        created()
-        currency()
-        institutionId()
-        network()
-        reportDate()
-        settlementInstitutionId()
-        settlementService()
-        updated()
-        cycle()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -510,29 +513,55 @@ private constructor(
                 checkRequired("settlementService", settlementService),
                 checkRequired("updated", updated),
                 cycle,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): NetworkTotalRetrieveResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        amounts().validate()
+        created()
+        currency()
+        institutionId()
+        network()
+        reportDate()
+        settlementInstitutionId()
+        settlementService()
+        updated()
+        cycle()
+        validated = true
+    }
+
     class Amounts
-    @JsonCreator
     private constructor(
-        @JsonProperty("gross_settlement")
-        @ExcludeMissing
-        private val grossSettlement: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("interchange_fees")
-        @ExcludeMissing
-        private val interchangeFees: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("net_settlement")
-        @ExcludeMissing
-        private val netSettlement: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("visa_charges")
-        @ExcludeMissing
-        private val visaCharges: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val grossSettlement: JsonField<Long>,
+        private val interchangeFees: JsonField<Long>,
+        private val netSettlement: JsonField<Long>,
+        private val visaCharges: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("gross_settlement")
+            @ExcludeMissing
+            grossSettlement: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("interchange_fees")
+            @ExcludeMissing
+            interchangeFees: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("net_settlement")
+            @ExcludeMissing
+            netSettlement: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("visa_charges")
+            @ExcludeMissing
+            visaCharges: JsonField<Long> = JsonMissing.of(),
+        ) : this(grossSettlement, interchangeFees, netSettlement, visaCharges, mutableMapOf())
 
         /**
          * Total settlement amount excluding interchange, in currency's smallest unit.
@@ -607,23 +636,15 @@ private constructor(
         @ExcludeMissing
         fun _visaCharges(): JsonField<Long> = visaCharges
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Amounts = apply {
-            if (validated) {
-                return@apply
-            }
-
-            grossSettlement()
-            interchangeFees()
-            netSettlement()
-            visaCharges()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -758,8 +779,22 @@ private constructor(
                     checkRequired("interchangeFees", interchangeFees),
                     checkRequired("netSettlement", netSettlement),
                     visaCharges,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Amounts = apply {
+            if (validated) {
+                return@apply
+            }
+
+            grossSettlement()
+            interchangeFees()
+            netSettlement()
+            visaCharges()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

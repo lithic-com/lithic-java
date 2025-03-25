@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -146,370 +144,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> cardToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("shipping_address")
-        @ExcludeMissing
-        private val shippingAddress: JsonField<ShippingAddress> = JsonMissing.of(),
-        @JsonProperty("carrier")
-        @ExcludeMissing
-        private val carrier: JsonField<Carrier> = JsonMissing.of(),
-        @JsonProperty("exp_month")
-        @ExcludeMissing
-        private val expMonth: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("exp_year")
-        @ExcludeMissing
-        private val expYear: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("product_id")
-        @ExcludeMissing
-        private val productId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("shipping_method")
-        @ExcludeMissing
-        private val shippingMethod: JsonField<ShippingMethod> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * The shipping address this card will be sent to.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun shippingAddress(): ShippingAddress = shippingAddress.getRequired("shipping_address")
-
-        /**
-         * If omitted, the previous carrier will be used.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
-
-        /**
-         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
-
-        /**
-         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
-
-        /**
-         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
-
-        /**
-         * Shipping method for the card. Use of options besides `STANDARD` require additional
-         * permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-         *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-         * - `2_DAY` - FedEx 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun shippingMethod(): Optional<ShippingMethod> =
-            Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
-
-        /**
-         * Returns the raw JSON value of [shippingAddress].
-         *
-         * Unlike [shippingAddress], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("shipping_address")
-        @ExcludeMissing
-        fun _shippingAddress(): JsonField<ShippingAddress> = shippingAddress
-
-        /**
-         * Returns the raw JSON value of [carrier].
-         *
-         * Unlike [carrier], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("carrier") @ExcludeMissing fun _carrier(): JsonField<Carrier> = carrier
-
-        /**
-         * Returns the raw JSON value of [expMonth].
-         *
-         * Unlike [expMonth], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("exp_month") @ExcludeMissing fun _expMonth(): JsonField<String> = expMonth
-
-        /**
-         * Returns the raw JSON value of [expYear].
-         *
-         * Unlike [expYear], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("exp_year") @ExcludeMissing fun _expYear(): JsonField<String> = expYear
-
-        /**
-         * Returns the raw JSON value of [productId].
-         *
-         * Unlike [productId], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
-
-        /**
-         * Returns the raw JSON value of [shippingMethod].
-         *
-         * Unlike [shippingMethod], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("shipping_method")
-        @ExcludeMissing
-        fun _shippingMethod(): JsonField<ShippingMethod> = shippingMethod
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            shippingAddress().validate()
-            carrier().ifPresent { it.validate() }
-            expMonth()
-            expYear()
-            productId()
-            shippingMethod()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .shippingAddress()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var shippingAddress: JsonField<ShippingAddress>? = null
-            private var carrier: JsonField<Carrier> = JsonMissing.of()
-            private var expMonth: JsonField<String> = JsonMissing.of()
-            private var expYear: JsonField<String> = JsonMissing.of()
-            private var productId: JsonField<String> = JsonMissing.of()
-            private var shippingMethod: JsonField<ShippingMethod> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                shippingAddress = body.shippingAddress
-                carrier = body.carrier
-                expMonth = body.expMonth
-                expYear = body.expYear
-                productId = body.productId
-                shippingMethod = body.shippingMethod
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /** The shipping address this card will be sent to. */
-            fun shippingAddress(shippingAddress: ShippingAddress) =
-                shippingAddress(JsonField.of(shippingAddress))
-
-            /**
-             * Sets [Builder.shippingAddress] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.shippingAddress] with a well-typed [ShippingAddress]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
-                this.shippingAddress = shippingAddress
-            }
-
-            /** If omitted, the previous carrier will be used. */
-            fun carrier(carrier: Carrier) = carrier(JsonField.of(carrier))
-
-            /**
-             * Sets [Builder.carrier] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.carrier] with a well-typed [Carrier] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun carrier(carrier: JsonField<Carrier>) = apply { this.carrier = carrier }
-
-            /**
-             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date six years in the future will be generated.
-             */
-            fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
-
-            /**
-             * Sets [Builder.expMonth] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.expMonth] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
-
-            /**
-             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date six years in the future will be generated.
-             */
-            fun expYear(expYear: String) = expYear(JsonField.of(expYear))
-
-            /**
-             * Sets [Builder.expYear] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.expYear] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
-
-            /**
-             * Specifies the configuration (e.g. physical card art) that the card should be
-             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
-             * configured with Lithic before use.
-             */
-            fun productId(productId: String) = productId(JsonField.of(productId))
-
-            /**
-             * Sets [Builder.productId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.productId] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun productId(productId: JsonField<String>) = apply { this.productId = productId }
-
-            /**
-             * Shipping method for the card. Use of options besides `STANDARD` require additional
-             * permissions.
-             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-             *   tracking
-             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-             * - `2_DAY` - FedEx 2-day shipping, with tracking
-             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             *   tracking
-             */
-            fun shippingMethod(shippingMethod: ShippingMethod) =
-                shippingMethod(JsonField.of(shippingMethod))
-
-            /**
-             * Sets [Builder.shippingMethod] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.shippingMethod] with a well-typed [ShippingMethod]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
-                this.shippingMethod = shippingMethod
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .shippingAddress()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): Body =
-                Body(
-                    checkRequired("shippingAddress", shippingAddress),
-                    carrier,
-                    expMonth,
-                    expYear,
-                    productId,
-                    shippingMethod,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && shippingAddress == other.shippingAddress && carrier == other.carrier && expMonth == other.expMonth && expYear == other.expYear && productId == other.productId && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(shippingAddress, carrier, expMonth, expYear, productId, shippingMethod, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -527,7 +161,6 @@ private constructor(
     }
 
     /** A builder for [CardRenewParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var cardToken: String? = null
@@ -779,6 +412,387 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> cardToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val shippingAddress: JsonField<ShippingAddress>,
+        private val carrier: JsonField<Carrier>,
+        private val expMonth: JsonField<String>,
+        private val expYear: JsonField<String>,
+        private val productId: JsonField<String>,
+        private val shippingMethod: JsonField<ShippingMethod>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("shipping_address")
+            @ExcludeMissing
+            shippingAddress: JsonField<ShippingAddress> = JsonMissing.of(),
+            @JsonProperty("carrier") @ExcludeMissing carrier: JsonField<Carrier> = JsonMissing.of(),
+            @JsonProperty("exp_month")
+            @ExcludeMissing
+            expMonth: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("exp_year") @ExcludeMissing expYear: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("product_id")
+            @ExcludeMissing
+            productId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("shipping_method")
+            @ExcludeMissing
+            shippingMethod: JsonField<ShippingMethod> = JsonMissing.of(),
+        ) : this(
+            shippingAddress,
+            carrier,
+            expMonth,
+            expYear,
+            productId,
+            shippingMethod,
+            mutableMapOf(),
+        )
+
+        /**
+         * The shipping address this card will be sent to.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun shippingAddress(): ShippingAddress = shippingAddress.getRequired("shipping_address")
+
+        /**
+         * If omitted, the previous carrier will be used.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
+
+        /**
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
+
+        /**
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
+
+        /**
+         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+         * before use.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+
+        /**
+         * Shipping method for the card. Use of options besides `STANDARD` require additional
+         * permissions.
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         *   tracking
+         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+         * - `2_DAY` - FedEx 2-day shipping, with tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun shippingMethod(): Optional<ShippingMethod> =
+            Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
+
+        /**
+         * Returns the raw JSON value of [shippingAddress].
+         *
+         * Unlike [shippingAddress], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("shipping_address")
+        @ExcludeMissing
+        fun _shippingAddress(): JsonField<ShippingAddress> = shippingAddress
+
+        /**
+         * Returns the raw JSON value of [carrier].
+         *
+         * Unlike [carrier], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("carrier") @ExcludeMissing fun _carrier(): JsonField<Carrier> = carrier
+
+        /**
+         * Returns the raw JSON value of [expMonth].
+         *
+         * Unlike [expMonth], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("exp_month") @ExcludeMissing fun _expMonth(): JsonField<String> = expMonth
+
+        /**
+         * Returns the raw JSON value of [expYear].
+         *
+         * Unlike [expYear], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("exp_year") @ExcludeMissing fun _expYear(): JsonField<String> = expYear
+
+        /**
+         * Returns the raw JSON value of [productId].
+         *
+         * Unlike [productId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
+
+        /**
+         * Returns the raw JSON value of [shippingMethod].
+         *
+         * Unlike [shippingMethod], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("shipping_method")
+        @ExcludeMissing
+        fun _shippingMethod(): JsonField<ShippingMethod> = shippingMethod
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .shippingAddress()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var shippingAddress: JsonField<ShippingAddress>? = null
+            private var carrier: JsonField<Carrier> = JsonMissing.of()
+            private var expMonth: JsonField<String> = JsonMissing.of()
+            private var expYear: JsonField<String> = JsonMissing.of()
+            private var productId: JsonField<String> = JsonMissing.of()
+            private var shippingMethod: JsonField<ShippingMethod> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                shippingAddress = body.shippingAddress
+                carrier = body.carrier
+                expMonth = body.expMonth
+                expYear = body.expYear
+                productId = body.productId
+                shippingMethod = body.shippingMethod
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** The shipping address this card will be sent to. */
+            fun shippingAddress(shippingAddress: ShippingAddress) =
+                shippingAddress(JsonField.of(shippingAddress))
+
+            /**
+             * Sets [Builder.shippingAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shippingAddress] with a well-typed [ShippingAddress]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
+                this.shippingAddress = shippingAddress
+            }
+
+            /** If omitted, the previous carrier will be used. */
+            fun carrier(carrier: Carrier) = carrier(JsonField.of(carrier))
+
+            /**
+             * Sets [Builder.carrier] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.carrier] with a well-typed [Carrier] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun carrier(carrier: JsonField<Carrier>) = apply { this.carrier = carrier }
+
+            /**
+             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date six years in the future will be generated.
+             */
+            fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
+
+            /**
+             * Sets [Builder.expMonth] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.expMonth] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
+
+            /**
+             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date six years in the future will be generated.
+             */
+            fun expYear(expYear: String) = expYear(JsonField.of(expYear))
+
+            /**
+             * Sets [Builder.expYear] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.expYear] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
+
+            /**
+             * Specifies the configuration (e.g. physical card art) that the card should be
+             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
+             * configured with Lithic before use.
+             */
+            fun productId(productId: String) = productId(JsonField.of(productId))
+
+            /**
+             * Sets [Builder.productId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.productId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun productId(productId: JsonField<String>) = apply { this.productId = productId }
+
+            /**
+             * Shipping method for the card. Use of options besides `STANDARD` require additional
+             * permissions.
+             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             *   tracking
+             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+             * - `2_DAY` - FedEx 2-day shipping, with tracking
+             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
+             *   tracking
+             */
+            fun shippingMethod(shippingMethod: ShippingMethod) =
+                shippingMethod(JsonField.of(shippingMethod))
+
+            /**
+             * Sets [Builder.shippingMethod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shippingMethod] with a well-typed [ShippingMethod]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
+                this.shippingMethod = shippingMethod
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .shippingAddress()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Body =
+                Body(
+                    checkRequired("shippingAddress", shippingAddress),
+                    carrier,
+                    expMonth,
+                    expYear,
+                    productId,
+                    shippingMethod,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            shippingAddress().validate()
+            carrier().ifPresent { it.validate() }
+            expMonth()
+            expYear()
+            productId()
+            shippingMethod()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && shippingAddress == other.shippingAddress && carrier == other.carrier && expMonth == other.expMonth && expYear == other.expYear && productId == other.productId && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(shippingAddress, carrier, expMonth, expYear, productId, shippingMethod, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
     }
 
     /**

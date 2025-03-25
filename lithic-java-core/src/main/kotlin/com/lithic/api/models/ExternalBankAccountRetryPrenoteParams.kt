@@ -10,14 +10,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -52,149 +50,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): RetryPrenoteVerificationRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> externalBankAccountToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class RetryPrenoteVerificationRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
-        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun financialAccountToken(): Optional<String> =
-            Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
-
-        /**
-         * Returns the raw JSON value of [financialAccountToken].
-         *
-         * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
-        fun _financialAccountToken(): JsonField<String> = financialAccountToken
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): RetryPrenoteVerificationRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            financialAccountToken()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [RetryPrenoteVerificationRequest].
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [RetryPrenoteVerificationRequest]. */
-        class Builder internal constructor() {
-
-            private var financialAccountToken: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(retryPrenoteVerificationRequest: RetryPrenoteVerificationRequest) =
-                apply {
-                    financialAccountToken = retryPrenoteVerificationRequest.financialAccountToken
-                    additionalProperties =
-                        retryPrenoteVerificationRequest.additionalProperties.toMutableMap()
-                }
-
-            fun financialAccountToken(financialAccountToken: String) =
-                financialAccountToken(JsonField.of(financialAccountToken))
-
-            /**
-             * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.financialAccountToken] with a well-typed [String]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
-                this.financialAccountToken = financialAccountToken
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [RetryPrenoteVerificationRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): RetryPrenoteVerificationRequest =
-                RetryPrenoteVerificationRequest(
-                    financialAccountToken,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is RetryPrenoteVerificationRequest && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(financialAccountToken, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "RetryPrenoteVerificationRequest{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -212,7 +67,6 @@ private constructor(
     }
 
     /** A builder for [ExternalBankAccountRetryPrenoteParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
@@ -388,6 +242,157 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): RetryPrenoteVerificationRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> externalBankAccountToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class RetryPrenoteVerificationRequest
+    private constructor(
+        private val financialAccountToken: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("financial_account_token")
+            @ExcludeMissing
+            financialAccountToken: JsonField<String> = JsonMissing.of()
+        ) : this(financialAccountToken, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun financialAccountToken(): Optional<String> =
+            Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
+
+        /**
+         * Returns the raw JSON value of [financialAccountToken].
+         *
+         * Unlike [financialAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        fun _financialAccountToken(): JsonField<String> = financialAccountToken
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [RetryPrenoteVerificationRequest].
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [RetryPrenoteVerificationRequest]. */
+        class Builder internal constructor() {
+
+            private var financialAccountToken: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(retryPrenoteVerificationRequest: RetryPrenoteVerificationRequest) =
+                apply {
+                    financialAccountToken = retryPrenoteVerificationRequest.financialAccountToken
+                    additionalProperties =
+                        retryPrenoteVerificationRequest.additionalProperties.toMutableMap()
+                }
+
+            fun financialAccountToken(financialAccountToken: String) =
+                financialAccountToken(JsonField.of(financialAccountToken))
+
+            /**
+             * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+                this.financialAccountToken = financialAccountToken
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [RetryPrenoteVerificationRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): RetryPrenoteVerificationRequest =
+                RetryPrenoteVerificationRequest(
+                    financialAccountToken,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): RetryPrenoteVerificationRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            financialAccountToken()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is RetryPrenoteVerificationRequest && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(financialAccountToken, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "RetryPrenoteVerificationRequest{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

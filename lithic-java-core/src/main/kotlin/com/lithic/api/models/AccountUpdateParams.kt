@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -132,336 +130,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> accountToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("daily_spend_limit")
-        @ExcludeMissing
-        private val dailySpendLimit: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("lifetime_spend_limit")
-        @ExcludeMissing
-        private val lifetimeSpendLimit: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("monthly_spend_limit")
-        @ExcludeMissing
-        private val monthlySpendLimit: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("state")
-        @ExcludeMissing
-        private val state: JsonField<State> = JsonMissing.of(),
-        @JsonProperty("verification_address")
-        @ExcludeMissing
-        private val verificationAddress: JsonField<VerificationAddress> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
-         * limit). By default the daily spend limit is set to $1,250.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun dailySpendLimit(): Optional<Long> =
-            Optional.ofNullable(dailySpendLimit.getNullable("daily_spend_limit"))
-
-        /**
-         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
-         * limit). Once this limit is reached, no transactions will be accepted on any card created
-         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
-         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
-         * above will result in declined transactions due to checks against the account limit. This
-         * behavior differs from the daily spend limit and the monthly spend limit.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun lifetimeSpendLimit(): Optional<Long> =
-            Optional.ofNullable(lifetimeSpendLimit.getNullable("lifetime_spend_limit"))
-
-        /**
-         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
-         * limit). By default the monthly spend limit is set to $5,000.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun monthlySpendLimit(): Optional<Long> =
-            Optional.ofNullable(monthlySpendLimit.getNullable("monthly_spend_limit"))
-
-        /**
-         * Account states.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
-
-        /**
-         * Address used during Address Verification Service (AVS) checks during transactions if
-         * enabled via Auth Rules. This field is deprecated as AVS checks are no longer supported by
-         * Authorization Rules. The field will be removed from the schema in a future release.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        @Deprecated("deprecated")
-        fun verificationAddress(): Optional<VerificationAddress> =
-            Optional.ofNullable(verificationAddress.getNullable("verification_address"))
-
-        /**
-         * Returns the raw JSON value of [dailySpendLimit].
-         *
-         * Unlike [dailySpendLimit], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("daily_spend_limit")
-        @ExcludeMissing
-        fun _dailySpendLimit(): JsonField<Long> = dailySpendLimit
-
-        /**
-         * Returns the raw JSON value of [lifetimeSpendLimit].
-         *
-         * Unlike [lifetimeSpendLimit], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("lifetime_spend_limit")
-        @ExcludeMissing
-        fun _lifetimeSpendLimit(): JsonField<Long> = lifetimeSpendLimit
-
-        /**
-         * Returns the raw JSON value of [monthlySpendLimit].
-         *
-         * Unlike [monthlySpendLimit], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("monthly_spend_limit")
-        @ExcludeMissing
-        fun _monthlySpendLimit(): JsonField<Long> = monthlySpendLimit
-
-        /**
-         * Returns the raw JSON value of [state].
-         *
-         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
-
-        /**
-         * Returns the raw JSON value of [verificationAddress].
-         *
-         * Unlike [verificationAddress], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("verification_address")
-        @ExcludeMissing
-        fun _verificationAddress(): JsonField<VerificationAddress> = verificationAddress
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            dailySpendLimit()
-            lifetimeSpendLimit()
-            monthlySpendLimit()
-            state()
-            verificationAddress().ifPresent { it.validate() }
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /** Returns a mutable builder for constructing an instance of [Body]. */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var dailySpendLimit: JsonField<Long> = JsonMissing.of()
-            private var lifetimeSpendLimit: JsonField<Long> = JsonMissing.of()
-            private var monthlySpendLimit: JsonField<Long> = JsonMissing.of()
-            private var state: JsonField<State> = JsonMissing.of()
-            private var verificationAddress: JsonField<VerificationAddress> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                dailySpendLimit = body.dailySpendLimit
-                lifetimeSpendLimit = body.lifetimeSpendLimit
-                monthlySpendLimit = body.monthlySpendLimit
-                state = body.state
-                verificationAddress = body.verificationAddress
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /**
-             * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
-             * limit). By default the daily spend limit is set to $1,250.
-             */
-            fun dailySpendLimit(dailySpendLimit: Long) =
-                dailySpendLimit(JsonField.of(dailySpendLimit))
-
-            /**
-             * Sets [Builder.dailySpendLimit] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.dailySpendLimit] with a well-typed [Long] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun dailySpendLimit(dailySpendLimit: JsonField<Long>) = apply {
-                this.dailySpendLimit = dailySpendLimit
-            }
-
-            /**
-             * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a
-             * $1,000 limit). Once this limit is reached, no transactions will be accepted on any
-             * card created for this account until the limit is updated. Note that a spend limit of
-             * 0 is effectively no limit, and should only be used to reset or remove a prior limit.
-             * Only a limit of 1 or above will result in declined transactions due to checks against
-             * the account limit. This behavior differs from the daily spend limit and the monthly
-             * spend limit.
-             */
-            fun lifetimeSpendLimit(lifetimeSpendLimit: Long) =
-                lifetimeSpendLimit(JsonField.of(lifetimeSpendLimit))
-
-            /**
-             * Sets [Builder.lifetimeSpendLimit] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.lifetimeSpendLimit] with a well-typed [Long] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun lifetimeSpendLimit(lifetimeSpendLimit: JsonField<Long>) = apply {
-                this.lifetimeSpendLimit = lifetimeSpendLimit
-            }
-
-            /**
-             * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a
-             * $1,000 limit). By default the monthly spend limit is set to $5,000.
-             */
-            fun monthlySpendLimit(monthlySpendLimit: Long) =
-                monthlySpendLimit(JsonField.of(monthlySpendLimit))
-
-            /**
-             * Sets [Builder.monthlySpendLimit] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.monthlySpendLimit] with a well-typed [Long] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun monthlySpendLimit(monthlySpendLimit: JsonField<Long>) = apply {
-                this.monthlySpendLimit = monthlySpendLimit
-            }
-
-            /** Account states. */
-            fun state(state: State) = state(JsonField.of(state))
-
-            /**
-             * Sets [Builder.state] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.state] with a well-typed [State] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun state(state: JsonField<State>) = apply { this.state = state }
-
-            /**
-             * Address used during Address Verification Service (AVS) checks during transactions if
-             * enabled via Auth Rules. This field is deprecated as AVS checks are no longer
-             * supported by Authorization Rules. The field will be removed from the schema in a
-             * future release.
-             */
-            @Deprecated("deprecated")
-            fun verificationAddress(verificationAddress: VerificationAddress) =
-                verificationAddress(JsonField.of(verificationAddress))
-
-            /**
-             * Sets [Builder.verificationAddress] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.verificationAddress] with a well-typed
-             * [VerificationAddress] value instead. This method is primarily for setting the field
-             * to an undocumented or not yet supported value.
-             */
-            @Deprecated("deprecated")
-            fun verificationAddress(verificationAddress: JsonField<VerificationAddress>) = apply {
-                this.verificationAddress = verificationAddress
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): Body =
-                Body(
-                    dailySpendLimit,
-                    lifetimeSpendLimit,
-                    monthlySpendLimit,
-                    state,
-                    verificationAddress,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && dailySpendLimit == other.dailySpendLimit && lifetimeSpendLimit == other.lifetimeSpendLimit && monthlySpendLimit == other.monthlySpendLimit && state == other.state && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -478,7 +146,6 @@ private constructor(
     }
 
     /** A builder for [AccountUpdateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var accountToken: String? = null
@@ -726,6 +393,353 @@ private constructor(
             )
     }
 
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> accountToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val dailySpendLimit: JsonField<Long>,
+        private val lifetimeSpendLimit: JsonField<Long>,
+        private val monthlySpendLimit: JsonField<Long>,
+        private val state: JsonField<State>,
+        private val verificationAddress: JsonField<VerificationAddress>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("daily_spend_limit")
+            @ExcludeMissing
+            dailySpendLimit: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("lifetime_spend_limit")
+            @ExcludeMissing
+            lifetimeSpendLimit: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("monthly_spend_limit")
+            @ExcludeMissing
+            monthlySpendLimit: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+            @JsonProperty("verification_address")
+            @ExcludeMissing
+            verificationAddress: JsonField<VerificationAddress> = JsonMissing.of(),
+        ) : this(
+            dailySpendLimit,
+            lifetimeSpendLimit,
+            monthlySpendLimit,
+            state,
+            verificationAddress,
+            mutableMapOf(),
+        )
+
+        /**
+         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the daily spend limit is set to $1,250.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun dailySpendLimit(): Optional<Long> =
+            Optional.ofNullable(dailySpendLimit.getNullable("daily_spend_limit"))
+
+        /**
+         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+         * limit). Once this limit is reached, no transactions will be accepted on any card created
+         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
+         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
+         * above will result in declined transactions due to checks against the account limit. This
+         * behavior differs from the daily spend limit and the monthly spend limit.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun lifetimeSpendLimit(): Optional<Long> =
+            Optional.ofNullable(lifetimeSpendLimit.getNullable("lifetime_spend_limit"))
+
+        /**
+         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the monthly spend limit is set to $5,000.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun monthlySpendLimit(): Optional<Long> =
+            Optional.ofNullable(monthlySpendLimit.getNullable("monthly_spend_limit"))
+
+        /**
+         * Account states.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+
+        /**
+         * Address used during Address Verification Service (AVS) checks during transactions if
+         * enabled via Auth Rules. This field is deprecated as AVS checks are no longer supported by
+         * Authorization Rules. The field will be removed from the schema in a future release.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        @Deprecated("deprecated")
+        fun verificationAddress(): Optional<VerificationAddress> =
+            Optional.ofNullable(verificationAddress.getNullable("verification_address"))
+
+        /**
+         * Returns the raw JSON value of [dailySpendLimit].
+         *
+         * Unlike [dailySpendLimit], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("daily_spend_limit")
+        @ExcludeMissing
+        fun _dailySpendLimit(): JsonField<Long> = dailySpendLimit
+
+        /**
+         * Returns the raw JSON value of [lifetimeSpendLimit].
+         *
+         * Unlike [lifetimeSpendLimit], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("lifetime_spend_limit")
+        @ExcludeMissing
+        fun _lifetimeSpendLimit(): JsonField<Long> = lifetimeSpendLimit
+
+        /**
+         * Returns the raw JSON value of [monthlySpendLimit].
+         *
+         * Unlike [monthlySpendLimit], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("monthly_spend_limit")
+        @ExcludeMissing
+        fun _monthlySpendLimit(): JsonField<Long> = monthlySpendLimit
+
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
+
+        /**
+         * Returns the raw JSON value of [verificationAddress].
+         *
+         * Unlike [verificationAddress], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @Deprecated("deprecated")
+        @JsonProperty("verification_address")
+        @ExcludeMissing
+        fun _verificationAddress(): JsonField<VerificationAddress> = verificationAddress
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var dailySpendLimit: JsonField<Long> = JsonMissing.of()
+            private var lifetimeSpendLimit: JsonField<Long> = JsonMissing.of()
+            private var monthlySpendLimit: JsonField<Long> = JsonMissing.of()
+            private var state: JsonField<State> = JsonMissing.of()
+            private var verificationAddress: JsonField<VerificationAddress> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                dailySpendLimit = body.dailySpendLimit
+                lifetimeSpendLimit = body.lifetimeSpendLimit
+                monthlySpendLimit = body.monthlySpendLimit
+                state = body.state
+                verificationAddress = body.verificationAddress
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+             * limit). By default the daily spend limit is set to $1,250.
+             */
+            fun dailySpendLimit(dailySpendLimit: Long) =
+                dailySpendLimit(JsonField.of(dailySpendLimit))
+
+            /**
+             * Sets [Builder.dailySpendLimit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dailySpendLimit] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun dailySpendLimit(dailySpendLimit: JsonField<Long>) = apply {
+                this.dailySpendLimit = dailySpendLimit
+            }
+
+            /**
+             * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a
+             * $1,000 limit). Once this limit is reached, no transactions will be accepted on any
+             * card created for this account until the limit is updated. Note that a spend limit of
+             * 0 is effectively no limit, and should only be used to reset or remove a prior limit.
+             * Only a limit of 1 or above will result in declined transactions due to checks against
+             * the account limit. This behavior differs from the daily spend limit and the monthly
+             * spend limit.
+             */
+            fun lifetimeSpendLimit(lifetimeSpendLimit: Long) =
+                lifetimeSpendLimit(JsonField.of(lifetimeSpendLimit))
+
+            /**
+             * Sets [Builder.lifetimeSpendLimit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lifetimeSpendLimit] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun lifetimeSpendLimit(lifetimeSpendLimit: JsonField<Long>) = apply {
+                this.lifetimeSpendLimit = lifetimeSpendLimit
+            }
+
+            /**
+             * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a
+             * $1,000 limit). By default the monthly spend limit is set to $5,000.
+             */
+            fun monthlySpendLimit(monthlySpendLimit: Long) =
+                monthlySpendLimit(JsonField.of(monthlySpendLimit))
+
+            /**
+             * Sets [Builder.monthlySpendLimit] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.monthlySpendLimit] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun monthlySpendLimit(monthlySpendLimit: JsonField<Long>) = apply {
+                this.monthlySpendLimit = monthlySpendLimit
+            }
+
+            /** Account states. */
+            fun state(state: State) = state(JsonField.of(state))
+
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [State] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun state(state: JsonField<State>) = apply { this.state = state }
+
+            /**
+             * Address used during Address Verification Service (AVS) checks during transactions if
+             * enabled via Auth Rules. This field is deprecated as AVS checks are no longer
+             * supported by Authorization Rules. The field will be removed from the schema in a
+             * future release.
+             */
+            @Deprecated("deprecated")
+            fun verificationAddress(verificationAddress: VerificationAddress) =
+                verificationAddress(JsonField.of(verificationAddress))
+
+            /**
+             * Sets [Builder.verificationAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.verificationAddress] with a well-typed
+             * [VerificationAddress] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            @Deprecated("deprecated")
+            fun verificationAddress(verificationAddress: JsonField<VerificationAddress>) = apply {
+                this.verificationAddress = verificationAddress
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body =
+                Body(
+                    dailySpendLimit,
+                    lifetimeSpendLimit,
+                    monthlySpendLimit,
+                    state,
+                    verificationAddress,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            dailySpendLimit()
+            lifetimeSpendLimit()
+            monthlySpendLimit()
+            state()
+            verificationAddress().ifPresent { it.validate() }
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && dailySpendLimit == other.dailySpendLimit && lifetimeSpendLimit == other.lifetimeSpendLimit && monthlySpendLimit == other.monthlySpendLimit && state == other.state && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
+    }
+
     /** Account states. */
     class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -831,31 +845,32 @@ private constructor(
      * Authorization Rules. The field will be removed from the schema in a future release.
      */
     @Deprecated("deprecated")
-    @NoAutoDetect
     class VerificationAddress
-    @JsonCreator
     private constructor(
-        @JsonProperty("address1")
-        @ExcludeMissing
-        private val address1: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("address2")
-        @ExcludeMissing
-        private val address2: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("city")
-        @ExcludeMissing
-        private val city: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("country")
-        @ExcludeMissing
-        private val country: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("postal_code")
-        @ExcludeMissing
-        private val postalCode: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("state")
-        @ExcludeMissing
-        private val state: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val address1: JsonField<String>,
+        private val address2: JsonField<String>,
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val postalCode: JsonField<String>,
+        private val state: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address1")
+            @ExcludeMissing
+            address1: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("address2")
+            @ExcludeMissing
+            address2: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("postal_code")
+            @ExcludeMissing
+            postalCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+        ) : this(address1, address2, city, country, postalCode, state, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -938,25 +953,15 @@ private constructor(
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): VerificationAddress = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address1()
-            address2()
-            city()
-            country()
-            postalCode()
-            state()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1086,8 +1091,24 @@ private constructor(
                     country,
                     postalCode,
                     state,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): VerificationAddress = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address1()
+            address2()
+            city()
+            country()
+            postalCode()
+            state()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

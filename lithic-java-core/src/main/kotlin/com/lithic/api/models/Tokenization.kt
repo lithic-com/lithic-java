@@ -11,58 +11,83 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class Tokenization
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("card_token")
-    @ExcludeMissing
-    private val cardToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created_at")
-    @ExcludeMissing
-    private val createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("dpan") @ExcludeMissing private val dpan: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("token_requestor_name")
-    @ExcludeMissing
-    private val tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of(),
-    @JsonProperty("token_unique_reference")
-    @ExcludeMissing
-    private val tokenUniqueReference: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("tokenization_channel")
-    @ExcludeMissing
-    private val tokenizationChannel: JsonField<TokenizationChannel> = JsonMissing.of(),
-    @JsonProperty("updated_at")
-    @ExcludeMissing
-    private val updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("digital_card_art_token")
-    @ExcludeMissing
-    private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("events")
-    @ExcludeMissing
-    private val events: JsonField<List<TokenizationEvent>> = JsonMissing.of(),
-    @JsonProperty("payment_account_reference_id")
-    @ExcludeMissing
-    private val paymentAccountReferenceId: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountToken: JsonField<String>,
+    private val cardToken: JsonField<String>,
+    private val createdAt: JsonField<OffsetDateTime>,
+    private val dpan: JsonField<String>,
+    private val status: JsonField<Status>,
+    private val tokenRequestorName: JsonField<TokenRequestorName>,
+    private val tokenUniqueReference: JsonField<String>,
+    private val tokenizationChannel: JsonField<TokenizationChannel>,
+    private val updatedAt: JsonField<OffsetDateTime>,
+    private val digitalCardArtToken: JsonField<String>,
+    private val events: JsonField<List<TokenizationEvent>>,
+    private val paymentAccountReferenceId: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("card_token") @ExcludeMissing cardToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("dpan") @ExcludeMissing dpan: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("token_requestor_name")
+        @ExcludeMissing
+        tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of(),
+        @JsonProperty("token_unique_reference")
+        @ExcludeMissing
+        tokenUniqueReference: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tokenization_channel")
+        @ExcludeMissing
+        tokenizationChannel: JsonField<TokenizationChannel> = JsonMissing.of(),
+        @JsonProperty("updated_at")
+        @ExcludeMissing
+        updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("digital_card_art_token")
+        @ExcludeMissing
+        digitalCardArtToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("events")
+        @ExcludeMissing
+        events: JsonField<List<TokenizationEvent>> = JsonMissing.of(),
+        @JsonProperty("payment_account_reference_id")
+        @ExcludeMissing
+        paymentAccountReferenceId: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountToken,
+        cardToken,
+        createdAt,
+        dpan,
+        status,
+        tokenRequestorName,
+        tokenUniqueReference,
+        tokenizationChannel,
+        updatedAt,
+        digitalCardArtToken,
+        events,
+        paymentAccountReferenceId,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for a Tokenization
@@ -289,32 +314,15 @@ private constructor(
     @ExcludeMissing
     fun _paymentAccountReferenceId(): JsonField<String> = paymentAccountReferenceId
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Tokenization = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountToken()
-        cardToken()
-        createdAt()
-        dpan()
-        status()
-        tokenRequestorName()
-        tokenUniqueReference()
-        tokenizationChannel()
-        updatedAt()
-        digitalCardArtToken()
-        events().ifPresent { it.forEach { it.validate() } }
-        paymentAccountReferenceId()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -630,8 +638,31 @@ private constructor(
                 digitalCardArtToken,
                 (events ?: JsonMissing.of()).map { it.toImmutable() },
                 paymentAccountReferenceId,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): Tokenization = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountToken()
+        cardToken()
+        createdAt()
+        dpan()
+        status()
+        tokenRequestorName()
+        tokenUniqueReference()
+        tokenizationChannel()
+        updatedAt()
+        digitalCardArtToken()
+        events().ifPresent { it.forEach { it.validate() } }
+        paymentAccountReferenceId()
+        validated = true
     }
 
     /** The status of the tokenization request */
@@ -1025,23 +1056,24 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @NoAutoDetect
     class TokenizationEvent
-    @JsonCreator
     private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("created_at")
-        @ExcludeMissing
-        private val createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("result")
-        @ExcludeMissing
-        private val result: JsonField<Result> = JsonMissing.of(),
-        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val token: JsonField<String>,
+        private val createdAt: JsonField<OffsetDateTime>,
+        private val result: JsonField<Result>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("created_at")
+            @ExcludeMissing
+            createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        ) : this(token, createdAt, result, type, mutableMapOf())
 
         /**
          * Globally unique identifier for a Tokenization Event
@@ -1106,23 +1138,15 @@ private constructor(
          */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): TokenizationEvent = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            createdAt()
-            result()
-            type()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1230,8 +1254,22 @@ private constructor(
                     createdAt,
                     result,
                     type,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): TokenizationEvent = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            createdAt()
+            result()
+            type()
+            validated = true
         }
 
         /** Enum representing the result of the tokenization event */
