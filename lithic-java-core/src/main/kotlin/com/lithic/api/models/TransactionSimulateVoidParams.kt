@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -89,225 +87,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * The transaction token returned from the /v1/simulate/authorize response.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun token(): String = token.getRequired("token")
-
-        /**
-         * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
-
-        /**
-         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
-         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
-
-        /**
-         * Returns the raw JSON value of [token].
-         *
-         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
-
-        /**
-         * Returns the raw JSON value of [amount].
-         *
-         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
-
-        /**
-         * Returns the raw JSON value of [type].
-         *
-         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            amount()
-            type()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .token()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var token: JsonField<String>? = null
-            private var amount: JsonField<Long> = JsonMissing.of()
-            private var type: JsonField<Type> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                token = body.token
-                amount = body.amount
-                type = body.type
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /** The transaction token returned from the /v1/simulate/authorize response. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /**
-             * Sets [Builder.token] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.token] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
-            /**
-             * Amount (in cents) to void. Typically this will match the amount in the original
-             * authorization, but can be less.
-             */
-            fun amount(amount: Long) = amount(JsonField.of(amount))
-
-            /**
-             * Sets [Builder.amount] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
-
-            /**
-             * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
-             *   Lithic.
-             * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
-             */
-            fun type(type: Type) = type(JsonField.of(type))
-
-            /**
-             * Sets [Builder.type] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .token()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): Body =
-                Body(
-                    checkRequired("token", token),
-                    amount,
-                    type,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && token == other.token && amount == other.amount && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, type, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{token=$token, amount=$amount, type=$type, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -325,7 +104,6 @@ private constructor(
     }
 
     /** A builder for [TransactionSimulateVoidParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var body: Body.Builder = Body.builder()
@@ -514,6 +292,231 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val token: JsonField<String>,
+        private val amount: JsonField<Long>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        ) : this(token, amount, type, mutableMapOf())
+
+        /**
+         * The transaction token returned from the /v1/simulate/authorize response.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun token(): String = token.getRequired("token")
+
+        /**
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+
+        /**
+         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
+         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long> = JsonMissing.of()
+            private var type: JsonField<Type> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                token = body.token
+                amount = body.amount
+                type = body.type
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** The transaction token returned from the /v1/simulate/authorize response. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
+            /**
+             * Amount (in cents) to void. Typically this will match the amount in the original
+             * authorization, but can be less.
+             */
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+            /**
+             * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
+             *   Lithic.
+             * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+             */
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Body =
+                Body(
+                    checkRequired("token", token),
+                    amount,
+                    type,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            amount()
+            type()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && token == other.token && amount == other.amount && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(token, amount, type, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{token=$token, amount=$amount, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /**

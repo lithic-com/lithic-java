@@ -10,32 +10,34 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class BacktestResults
-@JsonCreator
 private constructor(
-    @JsonProperty("backtest_token")
-    @ExcludeMissing
-    private val backtestToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("results")
-    @ExcludeMissing
-    private val results: JsonField<Results> = JsonMissing.of(),
-    @JsonProperty("simulation_parameters")
-    @ExcludeMissing
-    private val simulationParameters: JsonField<SimulationParameters> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val backtestToken: JsonField<String>,
+    private val results: JsonField<Results>,
+    private val simulationParameters: JsonField<SimulationParameters>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("backtest_token")
+        @ExcludeMissing
+        backtestToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("results") @ExcludeMissing results: JsonField<Results> = JsonMissing.of(),
+        @JsonProperty("simulation_parameters")
+        @ExcludeMissing
+        simulationParameters: JsonField<SimulationParameters> = JsonMissing.of(),
+    ) : this(backtestToken, results, simulationParameters, mutableMapOf())
 
     /**
      * Auth Rule Backtest Token
@@ -84,22 +86,15 @@ private constructor(
     @ExcludeMissing
     fun _simulationParameters(): JsonField<SimulationParameters> = simulationParameters
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): BacktestResults = apply {
-        if (validated) {
-            return@apply
-        }
-
-        backtestToken()
-        results().validate()
-        simulationParameters().validate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -210,23 +205,39 @@ private constructor(
                 checkRequired("backtestToken", backtestToken),
                 checkRequired("results", results),
                 checkRequired("simulationParameters", simulationParameters),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): BacktestResults = apply {
+        if (validated) {
+            return@apply
+        }
+
+        backtestToken()
+        results().validate()
+        simulationParameters().validate()
+        validated = true
+    }
+
     class Results
-    @JsonCreator
     private constructor(
-        @JsonProperty("current_version")
-        @ExcludeMissing
-        private val currentVersion: JsonField<RuleStats> = JsonMissing.of(),
-        @JsonProperty("draft_version")
-        @ExcludeMissing
-        private val draftVersion: JsonField<RuleStats> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val currentVersion: JsonField<RuleStats>,
+        private val draftVersion: JsonField<RuleStats>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("current_version")
+            @ExcludeMissing
+            currentVersion: JsonField<RuleStats> = JsonMissing.of(),
+            @JsonProperty("draft_version")
+            @ExcludeMissing
+            draftVersion: JsonField<RuleStats> = JsonMissing.of(),
+        ) : this(currentVersion, draftVersion, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -262,21 +273,15 @@ private constructor(
         @ExcludeMissing
         fun _draftVersion(): JsonField<RuleStats> = draftVersion
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Results = apply {
-            if (validated) {
-                return@apply
-            }
-
-            currentVersion().ifPresent { it.validate() }
-            draftVersion().ifPresent { it.validate() }
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -361,28 +366,43 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): Results =
-                Results(currentVersion, draftVersion, additionalProperties.toImmutable())
+                Results(currentVersion, draftVersion, additionalProperties.toMutableMap())
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Results = apply {
+            if (validated) {
+                return@apply
+            }
+
+            currentVersion().ifPresent { it.validate() }
+            draftVersion().ifPresent { it.validate() }
+            validated = true
+        }
+
         class RuleStats
-        @JsonCreator
         private constructor(
-            @JsonProperty("approved")
-            @ExcludeMissing
-            private val approved: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("declined")
-            @ExcludeMissing
-            private val declined: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("examples")
-            @ExcludeMissing
-            private val examples: JsonField<List<Example>> = JsonMissing.of(),
-            @JsonProperty("version")
-            @ExcludeMissing
-            private val version: JsonField<Long> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val approved: JsonField<Long>,
+            private val declined: JsonField<Long>,
+            private val examples: JsonField<List<Example>>,
+            private val version: JsonField<Long>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("approved")
+                @ExcludeMissing
+                approved: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("declined")
+                @ExcludeMissing
+                declined: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("examples")
+                @ExcludeMissing
+                examples: JsonField<List<Example>> = JsonMissing.of(),
+                @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+            ) : this(approved, declined, examples, version, mutableMapOf())
 
             /**
              * The total number of historical transactions approved by this rule during the backtest
@@ -454,23 +474,15 @@ private constructor(
              */
             @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): RuleStats = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                approved()
-                declined()
-                examples().ifPresent { it.forEach { it.validate() } }
-                version()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -606,26 +618,44 @@ private constructor(
                         declined,
                         (examples ?: JsonMissing.of()).map { it.toImmutable() },
                         version,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): RuleStats = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                approved()
+                declined()
+                examples().ifPresent { it.forEach { it.validate() } }
+                version()
+                validated = true
+            }
+
             class Example
-            @JsonCreator
             private constructor(
-                @JsonProperty("approved")
-                @ExcludeMissing
-                private val approved: JsonField<Boolean> = JsonMissing.of(),
-                @JsonProperty("event_token")
-                @ExcludeMissing
-                private val eventToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("timestamp")
-                @ExcludeMissing
-                private val timestamp: JsonField<OffsetDateTime> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val approved: JsonField<Boolean>,
+                private val eventToken: JsonField<String>,
+                private val timestamp: JsonField<OffsetDateTime>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("approved")
+                    @ExcludeMissing
+                    approved: JsonField<Boolean> = JsonMissing.of(),
+                    @JsonProperty("event_token")
+                    @ExcludeMissing
+                    eventToken: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("timestamp")
+                    @ExcludeMissing
+                    timestamp: JsonField<OffsetDateTime> = JsonMissing.of(),
+                ) : this(approved, eventToken, timestamp, mutableMapOf())
 
                 /**
                  * Whether the rule would have approved the authorization request.
@@ -684,22 +714,15 @@ private constructor(
                 @ExcludeMissing
                 fun _timestamp(): JsonField<OffsetDateTime> = timestamp
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): Example = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    approved()
-                    eventToken()
-                    timestamp()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -793,7 +816,25 @@ private constructor(
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
                     fun build(): Example =
-                        Example(approved, eventToken, timestamp, additionalProperties.toImmutable())
+                        Example(
+                            approved,
+                            eventToken,
+                            timestamp,
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Example = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    approved()
+                    eventToken()
+                    timestamp()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -850,22 +891,24 @@ private constructor(
             "Results{currentVersion=$currentVersion, draftVersion=$draftVersion, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class SimulationParameters
-    @JsonCreator
     private constructor(
-        @JsonProperty("auth_rule_token")
-        @ExcludeMissing
-        private val authRuleToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("end")
-        @ExcludeMissing
-        private val end: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("start")
-        @ExcludeMissing
-        private val start: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val authRuleToken: JsonField<String>,
+        private val end: JsonField<OffsetDateTime>,
+        private val start: JsonField<OffsetDateTime>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("auth_rule_token")
+            @ExcludeMissing
+            authRuleToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("end") @ExcludeMissing end: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("start")
+            @ExcludeMissing
+            start: JsonField<OffsetDateTime> = JsonMissing.of(),
+        ) : this(authRuleToken, end, start, mutableMapOf())
 
         /**
          * Auth Rule Token
@@ -916,22 +959,15 @@ private constructor(
          */
         @JsonProperty("start") @ExcludeMissing fun _start(): JsonField<OffsetDateTime> = start
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SimulationParameters = apply {
-            if (validated) {
-                return@apply
-            }
-
-            authRuleToken()
-            end()
-            start()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1020,7 +1056,20 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): SimulationParameters =
-                SimulationParameters(authRuleToken, end, start, additionalProperties.toImmutable())
+                SimulationParameters(authRuleToken, end, start, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SimulationParameters = apply {
+            if (validated) {
+                return@apply
+            }
+
+            authRuleToken()
+            end()
+            start()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

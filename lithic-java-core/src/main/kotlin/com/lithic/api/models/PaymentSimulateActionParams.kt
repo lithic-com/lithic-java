@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -85,241 +83,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): SimulateActionRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> paymentToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class SimulateActionRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("event_type")
-        @ExcludeMissing
-        private val eventType: JsonField<SupportedSimulationTypes> = JsonMissing.of(),
-        @JsonProperty("decline_reason")
-        @ExcludeMissing
-        private val declineReason: JsonField<SupportedSimulationDeclineReasons> = JsonMissing.of(),
-        @JsonProperty("return_reason_code")
-        @ExcludeMissing
-        private val returnReasonCode: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Event Type
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun eventType(): SupportedSimulationTypes = eventType.getRequired("event_type")
-
-        /**
-         * Decline reason
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
-            Optional.ofNullable(declineReason.getNullable("decline_reason"))
-
-        /**
-         * Return Reason Code
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun returnReasonCode(): Optional<String> =
-            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
-
-        /**
-         * Returns the raw JSON value of [eventType].
-         *
-         * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("event_type")
-        @ExcludeMissing
-        fun _eventType(): JsonField<SupportedSimulationTypes> = eventType
-
-        /**
-         * Returns the raw JSON value of [declineReason].
-         *
-         * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("decline_reason")
-        @ExcludeMissing
-        fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = declineReason
-
-        /**
-         * Returns the raw JSON value of [returnReasonCode].
-         *
-         * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("return_reason_code")
-        @ExcludeMissing
-        fun _returnReasonCode(): JsonField<String> = returnReasonCode
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SimulateActionRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            eventType()
-            declineReason()
-            returnReasonCode()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [SimulateActionRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .eventType()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [SimulateActionRequest]. */
-        class Builder internal constructor() {
-
-            private var eventType: JsonField<SupportedSimulationTypes>? = null
-            private var declineReason: JsonField<SupportedSimulationDeclineReasons> =
-                JsonMissing.of()
-            private var returnReasonCode: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(simulateActionRequest: SimulateActionRequest) = apply {
-                eventType = simulateActionRequest.eventType
-                declineReason = simulateActionRequest.declineReason
-                returnReasonCode = simulateActionRequest.returnReasonCode
-                additionalProperties = simulateActionRequest.additionalProperties.toMutableMap()
-            }
-
-            /** Event Type */
-            fun eventType(eventType: SupportedSimulationTypes) = eventType(JsonField.of(eventType))
-
-            /**
-             * Sets [Builder.eventType] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.eventType] with a well-typed
-             * [SupportedSimulationTypes] value instead. This method is primarily for setting the
-             * field to an undocumented or not yet supported value.
-             */
-            fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
-                this.eventType = eventType
-            }
-
-            /** Decline reason */
-            fun declineReason(declineReason: SupportedSimulationDeclineReasons) =
-                declineReason(JsonField.of(declineReason))
-
-            /**
-             * Sets [Builder.declineReason] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.declineReason] with a well-typed
-             * [SupportedSimulationDeclineReasons] value instead. This method is primarily for
-             * setting the field to an undocumented or not yet supported value.
-             */
-            fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
-                this.declineReason = declineReason
-            }
-
-            /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String) =
-                returnReasonCode(JsonField.of(returnReasonCode))
-
-            /**
-             * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
-                this.returnReasonCode = returnReasonCode
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [SimulateActionRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .eventType()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): SimulateActionRequest =
-                SimulateActionRequest(
-                    checkRequired("eventType", eventType),
-                    declineReason,
-                    returnReasonCode,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is SimulateActionRequest && eventType == other.eventType && declineReason == other.declineReason && returnReasonCode == other.returnReasonCode && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(eventType, declineReason, returnReasonCode, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "SimulateActionRequest{eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -337,7 +100,6 @@ private constructor(
     }
 
     /** A builder for [PaymentSimulateActionParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var paymentToken: String? = null
@@ -538,6 +300,251 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): SimulateActionRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> paymentToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class SimulateActionRequest
+    private constructor(
+        private val eventType: JsonField<SupportedSimulationTypes>,
+        private val declineReason: JsonField<SupportedSimulationDeclineReasons>,
+        private val returnReasonCode: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("event_type")
+            @ExcludeMissing
+            eventType: JsonField<SupportedSimulationTypes> = JsonMissing.of(),
+            @JsonProperty("decline_reason")
+            @ExcludeMissing
+            declineReason: JsonField<SupportedSimulationDeclineReasons> = JsonMissing.of(),
+            @JsonProperty("return_reason_code")
+            @ExcludeMissing
+            returnReasonCode: JsonField<String> = JsonMissing.of(),
+        ) : this(eventType, declineReason, returnReasonCode, mutableMapOf())
+
+        /**
+         * Event Type
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun eventType(): SupportedSimulationTypes = eventType.getRequired("event_type")
+
+        /**
+         * Decline reason
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
+            Optional.ofNullable(declineReason.getNullable("decline_reason"))
+
+        /**
+         * Return Reason Code
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun returnReasonCode(): Optional<String> =
+            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+
+        /**
+         * Returns the raw JSON value of [eventType].
+         *
+         * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("event_type")
+        @ExcludeMissing
+        fun _eventType(): JsonField<SupportedSimulationTypes> = eventType
+
+        /**
+         * Returns the raw JSON value of [declineReason].
+         *
+         * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("decline_reason")
+        @ExcludeMissing
+        fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = declineReason
+
+        /**
+         * Returns the raw JSON value of [returnReasonCode].
+         *
+         * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        fun _returnReasonCode(): JsonField<String> = returnReasonCode
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [SimulateActionRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .eventType()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [SimulateActionRequest]. */
+        class Builder internal constructor() {
+
+            private var eventType: JsonField<SupportedSimulationTypes>? = null
+            private var declineReason: JsonField<SupportedSimulationDeclineReasons> =
+                JsonMissing.of()
+            private var returnReasonCode: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(simulateActionRequest: SimulateActionRequest) = apply {
+                eventType = simulateActionRequest.eventType
+                declineReason = simulateActionRequest.declineReason
+                returnReasonCode = simulateActionRequest.returnReasonCode
+                additionalProperties = simulateActionRequest.additionalProperties.toMutableMap()
+            }
+
+            /** Event Type */
+            fun eventType(eventType: SupportedSimulationTypes) = eventType(JsonField.of(eventType))
+
+            /**
+             * Sets [Builder.eventType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.eventType] with a well-typed
+             * [SupportedSimulationTypes] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
+            fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
+                this.eventType = eventType
+            }
+
+            /** Decline reason */
+            fun declineReason(declineReason: SupportedSimulationDeclineReasons) =
+                declineReason(JsonField.of(declineReason))
+
+            /**
+             * Sets [Builder.declineReason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.declineReason] with a well-typed
+             * [SupportedSimulationDeclineReasons] value instead. This method is primarily for
+             * setting the field to an undocumented or not yet supported value.
+             */
+            fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
+                this.declineReason = declineReason
+            }
+
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: String) =
+                returnReasonCode(JsonField.of(returnReasonCode))
+
+            /**
+             * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+                this.returnReasonCode = returnReasonCode
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [SimulateActionRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .eventType()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): SimulateActionRequest =
+                SimulateActionRequest(
+                    checkRequired("eventType", eventType),
+                    declineReason,
+                    returnReasonCode,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SimulateActionRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            eventType()
+            declineReason()
+            returnReasonCode()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is SimulateActionRequest && eventType == other.eventType && declineReason == other.declineReason && returnReasonCode == other.returnReasonCode && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(eventType, declineReason, returnReasonCode, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "SimulateActionRequest{eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
     }
 
     /** Event Type */

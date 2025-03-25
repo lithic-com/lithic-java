@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -66,150 +64,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> tokenizationToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("activation_method_type")
-        @ExcludeMissing
-        private val activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * The communication method that the user has selected to use to receive the authentication
-         * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-         * "EMAIL_TO_CARDHOLDER_ADDRESS"
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun activationMethodType(): Optional<ActivationMethodType> =
-            Optional.ofNullable(activationMethodType.getNullable("activation_method_type"))
-
-        /**
-         * Returns the raw JSON value of [activationMethodType].
-         *
-         * Unlike [activationMethodType], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("activation_method_type")
-        @ExcludeMissing
-        fun _activationMethodType(): JsonField<ActivationMethodType> = activationMethodType
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            activationMethodType()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /** Returns a mutable builder for constructing an instance of [Body]. */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                activationMethodType = body.activationMethodType
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /**
-             * The communication method that the user has selected to use to receive the
-             * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
-             * "EMAIL_TO_CARDHOLDER_ADDRESS"
-             */
-            fun activationMethodType(activationMethodType: ActivationMethodType) =
-                activationMethodType(JsonField.of(activationMethodType))
-
-            /**
-             * Sets [Builder.activationMethodType] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.activationMethodType] with a well-typed
-             * [ActivationMethodType] value instead. This method is primarily for setting the field
-             * to an undocumented or not yet supported value.
-             */
-            fun activationMethodType(activationMethodType: JsonField<ActivationMethodType>) =
-                apply {
-                    this.activationMethodType = activationMethodType
-                }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): Body = Body(activationMethodType, additionalProperties.toImmutable())
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && activationMethodType == other.activationMethodType && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(activationMethodType, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{activationMethodType=$activationMethodType, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -227,7 +81,6 @@ private constructor(
     }
 
     /** A builder for [TokenizationResendActivationCodeParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var tokenizationToken: String? = null
@@ -406,6 +259,158 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> tokenizationToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val activationMethodType: JsonField<ActivationMethodType>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("activation_method_type")
+            @ExcludeMissing
+            activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of()
+        ) : this(activationMethodType, mutableMapOf())
+
+        /**
+         * The communication method that the user has selected to use to receive the authentication
+         * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
+         * "EMAIL_TO_CARDHOLDER_ADDRESS"
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun activationMethodType(): Optional<ActivationMethodType> =
+            Optional.ofNullable(activationMethodType.getNullable("activation_method_type"))
+
+        /**
+         * Returns the raw JSON value of [activationMethodType].
+         *
+         * Unlike [activationMethodType], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("activation_method_type")
+        @ExcludeMissing
+        fun _activationMethodType(): JsonField<ActivationMethodType> = activationMethodType
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var activationMethodType: JsonField<ActivationMethodType> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                activationMethodType = body.activationMethodType
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * The communication method that the user has selected to use to receive the
+             * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
+             * "EMAIL_TO_CARDHOLDER_ADDRESS"
+             */
+            fun activationMethodType(activationMethodType: ActivationMethodType) =
+                activationMethodType(JsonField.of(activationMethodType))
+
+            /**
+             * Sets [Builder.activationMethodType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activationMethodType] with a well-typed
+             * [ActivationMethodType] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            fun activationMethodType(activationMethodType: JsonField<ActivationMethodType>) =
+                apply {
+                    this.activationMethodType = activationMethodType
+                }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body = Body(activationMethodType, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            activationMethodType()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && activationMethodType == other.activationMethodType && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(activationMethodType, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{activationMethodType=$activationMethodType, additionalProperties=$additionalProperties}"
     }
 
     /**

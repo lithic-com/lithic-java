@@ -10,39 +10,52 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class KybBusinessEntity
-@JsonCreator
 private constructor(
-    @JsonProperty("address")
-    @ExcludeMissing
-    private val address: JsonField<Address> = JsonMissing.of(),
-    @JsonProperty("government_id")
-    @ExcludeMissing
-    private val governmentId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("legal_business_name")
-    @ExcludeMissing
-    private val legalBusinessName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("phone_numbers")
-    @ExcludeMissing
-    private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("dba_business_name")
-    @ExcludeMissing
-    private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("parent_company")
-    @ExcludeMissing
-    private val parentCompany: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val address: JsonField<Address>,
+    private val governmentId: JsonField<String>,
+    private val legalBusinessName: JsonField<String>,
+    private val phoneNumbers: JsonField<List<String>>,
+    private val dbaBusinessName: JsonField<String>,
+    private val parentCompany: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        governmentId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("legal_business_name")
+        @ExcludeMissing
+        legalBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_numbers")
+        @ExcludeMissing
+        phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        dbaBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        parentCompany: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        address,
+        governmentId,
+        legalBusinessName,
+        phoneNumbers,
+        dbaBusinessName,
+        parentCompany,
+        mutableMapOf(),
+    )
 
     /**
      * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -150,25 +163,15 @@ private constructor(
     @ExcludeMissing
     fun _parentCompany(): JsonField<String> = parentCompany
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): KybBusinessEntity = apply {
-        if (validated) {
-            return@apply
-        }
-
-        address().validate()
-        governmentId()
-        legalBusinessName()
-        phoneNumbers()
-        dbaBusinessName()
-        parentCompany()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -356,39 +359,54 @@ private constructor(
                 checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
                 dbaBusinessName,
                 parentCompany,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): KybBusinessEntity = apply {
+        if (validated) {
+            return@apply
+        }
+
+        address().validate()
+        governmentId()
+        legalBusinessName()
+        phoneNumbers()
+        dbaBusinessName()
+        parentCompany()
+        validated = true
     }
 
     /**
      * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
      */
-    @NoAutoDetect
     class Address
-    @JsonCreator
     private constructor(
-        @JsonProperty("address1")
-        @ExcludeMissing
-        private val address1: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("city")
-        @ExcludeMissing
-        private val city: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("country")
-        @ExcludeMissing
-        private val country: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("postal_code")
-        @ExcludeMissing
-        private val postalCode: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("state")
-        @ExcludeMissing
-        private val state: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("address2")
-        @ExcludeMissing
-        private val address2: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val address1: JsonField<String>,
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val postalCode: JsonField<String>,
+        private val state: JsonField<String>,
+        private val address2: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address1")
+            @ExcludeMissing
+            address1: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("postal_code")
+            @ExcludeMissing
+            postalCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("address2") @ExcludeMissing address2: JsonField<String> = JsonMissing.of(),
+        ) : this(address1, city, country, postalCode, state, address2, mutableMapOf())
 
         /**
          * Valid deliverable address (no PO boxes).
@@ -485,25 +503,15 @@ private constructor(
          */
         @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Address = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address1()
-            city()
-            country()
-            postalCode()
-            state()
-            address2()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -670,8 +678,24 @@ private constructor(
                     checkRequired("postalCode", postalCode),
                     checkRequired("state", state),
                     address2,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Address = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address1()
+            city()
+            country()
+            postalCode()
+            state()
+            address2()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

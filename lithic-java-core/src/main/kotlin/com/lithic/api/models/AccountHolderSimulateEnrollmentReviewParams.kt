@@ -11,14 +11,13 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -86,238 +85,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): SimulateEnrollmentReviewRequest = body
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class SimulateEnrollmentReviewRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("account_holder_token")
-        @ExcludeMissing
-        private val accountHolderToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("status")
-        @ExcludeMissing
-        private val status: JsonField<Status> = JsonMissing.of(),
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
-        private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * The account holder which to perform the simulation upon.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun accountHolderToken(): Optional<String> =
-            Optional.ofNullable(accountHolderToken.getNullable("account_holder_token"))
-
-        /**
-         * An account holder's status for use within the simulation.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
-
-        /**
-         * Status reason that will be associated with the simulated account holder status. Only
-         * required for a `REJECTED` status.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun statusReasons(): Optional<List<StatusReason>> =
-            Optional.ofNullable(statusReasons.getNullable("status_reasons"))
-
-        /**
-         * Returns the raw JSON value of [accountHolderToken].
-         *
-         * Unlike [accountHolderToken], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("account_holder_token")
-        @ExcludeMissing
-        fun _accountHolderToken(): JsonField<String> = accountHolderToken
-
-        /**
-         * Returns the raw JSON value of [status].
-         *
-         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
-
-        /**
-         * Returns the raw JSON value of [statusReasons].
-         *
-         * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
-        fun _statusReasons(): JsonField<List<StatusReason>> = statusReasons
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SimulateEnrollmentReviewRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            accountHolderToken()
-            status()
-            statusReasons()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [SimulateEnrollmentReviewRequest].
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [SimulateEnrollmentReviewRequest]. */
-        class Builder internal constructor() {
-
-            private var accountHolderToken: JsonField<String> = JsonMissing.of()
-            private var status: JsonField<Status> = JsonMissing.of()
-            private var statusReasons: JsonField<MutableList<StatusReason>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(simulateEnrollmentReviewRequest: SimulateEnrollmentReviewRequest) =
-                apply {
-                    accountHolderToken = simulateEnrollmentReviewRequest.accountHolderToken
-                    status = simulateEnrollmentReviewRequest.status
-                    statusReasons =
-                        simulateEnrollmentReviewRequest.statusReasons.map { it.toMutableList() }
-                    additionalProperties =
-                        simulateEnrollmentReviewRequest.additionalProperties.toMutableMap()
-                }
-
-            /** The account holder which to perform the simulation upon. */
-            fun accountHolderToken(accountHolderToken: String) =
-                accountHolderToken(JsonField.of(accountHolderToken))
-
-            /**
-             * Sets [Builder.accountHolderToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.accountHolderToken] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
-                this.accountHolderToken = accountHolderToken
-            }
-
-            /** An account holder's status for use within the simulation. */
-            fun status(status: Status) = status(JsonField.of(status))
-
-            /**
-             * Sets [Builder.status] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.status] with a well-typed [Status] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun status(status: JsonField<Status>) = apply { this.status = status }
-
-            /**
-             * Status reason that will be associated with the simulated account holder status. Only
-             * required for a `REJECTED` status.
-             */
-            fun statusReasons(statusReasons: List<StatusReason>) =
-                statusReasons(JsonField.of(statusReasons))
-
-            /**
-             * Sets [Builder.statusReasons] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.statusReasons] with a well-typed
-             * `List<StatusReason>` value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
-             */
-            fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
-                this.statusReasons = statusReasons.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [StatusReason] to [statusReasons].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addStatusReason(statusReason: StatusReason) = apply {
-                statusReasons =
-                    (statusReasons ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("statusReasons", it).add(statusReason)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [SimulateEnrollmentReviewRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): SimulateEnrollmentReviewRequest =
-                SimulateEnrollmentReviewRequest(
-                    accountHolderToken,
-                    status,
-                    (statusReasons ?: JsonMissing.of()).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is SimulateEnrollmentReviewRequest && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(accountHolderToken, status, statusReasons, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "SimulateEnrollmentReviewRequest{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -332,7 +99,6 @@ private constructor(
     }
 
     /** A builder for [AccountHolderSimulateEnrollmentReviewParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var body: SimulateEnrollmentReviewRequest.Builder =
@@ -534,6 +300,246 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): SimulateEnrollmentReviewRequest = body
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class SimulateEnrollmentReviewRequest
+    private constructor(
+        private val accountHolderToken: JsonField<String>,
+        private val status: JsonField<Status>,
+        private val statusReasons: JsonField<List<StatusReason>>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("account_holder_token")
+            @ExcludeMissing
+            accountHolderToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+            @JsonProperty("status_reasons")
+            @ExcludeMissing
+            statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
+        ) : this(accountHolderToken, status, statusReasons, mutableMapOf())
+
+        /**
+         * The account holder which to perform the simulation upon.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun accountHolderToken(): Optional<String> =
+            Optional.ofNullable(accountHolderToken.getNullable("account_holder_token"))
+
+        /**
+         * An account holder's status for use within the simulation.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+
+        /**
+         * Status reason that will be associated with the simulated account holder status. Only
+         * required for a `REJECTED` status.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun statusReasons(): Optional<List<StatusReason>> =
+            Optional.ofNullable(statusReasons.getNullable("status_reasons"))
+
+        /**
+         * Returns the raw JSON value of [accountHolderToken].
+         *
+         * Unlike [accountHolderToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("account_holder_token")
+        @ExcludeMissing
+        fun _accountHolderToken(): JsonField<String> = accountHolderToken
+
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
+
+        /**
+         * Returns the raw JSON value of [statusReasons].
+         *
+         * Unlike [statusReasons], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        fun _statusReasons(): JsonField<List<StatusReason>> = statusReasons
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [SimulateEnrollmentReviewRequest].
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [SimulateEnrollmentReviewRequest]. */
+        class Builder internal constructor() {
+
+            private var accountHolderToken: JsonField<String> = JsonMissing.of()
+            private var status: JsonField<Status> = JsonMissing.of()
+            private var statusReasons: JsonField<MutableList<StatusReason>>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(simulateEnrollmentReviewRequest: SimulateEnrollmentReviewRequest) =
+                apply {
+                    accountHolderToken = simulateEnrollmentReviewRequest.accountHolderToken
+                    status = simulateEnrollmentReviewRequest.status
+                    statusReasons =
+                        simulateEnrollmentReviewRequest.statusReasons.map { it.toMutableList() }
+                    additionalProperties =
+                        simulateEnrollmentReviewRequest.additionalProperties.toMutableMap()
+                }
+
+            /** The account holder which to perform the simulation upon. */
+            fun accountHolderToken(accountHolderToken: String) =
+                accountHolderToken(JsonField.of(accountHolderToken))
+
+            /**
+             * Sets [Builder.accountHolderToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountHolderToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
+                this.accountHolderToken = accountHolderToken
+            }
+
+            /** An account holder's status for use within the simulation. */
+            fun status(status: Status) = status(JsonField.of(status))
+
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun status(status: JsonField<Status>) = apply { this.status = status }
+
+            /**
+             * Status reason that will be associated with the simulated account holder status. Only
+             * required for a `REJECTED` status.
+             */
+            fun statusReasons(statusReasons: List<StatusReason>) =
+                statusReasons(JsonField.of(statusReasons))
+
+            /**
+             * Sets [Builder.statusReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.statusReasons] with a well-typed
+             * `List<StatusReason>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
+                this.statusReasons = statusReasons.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [StatusReason] to [statusReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addStatusReason(statusReason: StatusReason) = apply {
+                statusReasons =
+                    (statusReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("statusReasons", it).add(statusReason)
+                    }
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [SimulateEnrollmentReviewRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): SimulateEnrollmentReviewRequest =
+                SimulateEnrollmentReviewRequest(
+                    accountHolderToken,
+                    status,
+                    (statusReasons ?: JsonMissing.of()).map { it.toImmutable() },
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SimulateEnrollmentReviewRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accountHolderToken()
+            status()
+            statusReasons()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is SimulateEnrollmentReviewRequest && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(accountHolderToken, status, statusReasons, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "SimulateEnrollmentReviewRequest{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
     }
 
     /** An account holder's status for use within the simulation. */

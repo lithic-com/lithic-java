@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -143,369 +141,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> cardToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("certificate")
-        @ExcludeMissing
-        private val certificate: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("client_device_id")
-        @ExcludeMissing
-        private val clientDeviceId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("client_wallet_account_id")
-        @ExcludeMissing
-        private val clientWalletAccountId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("digital_wallet")
-        @ExcludeMissing
-        private val digitalWallet: JsonField<DigitalWallet> = JsonMissing.of(),
-        @JsonProperty("nonce")
-        @ExcludeMissing
-        private val nonce: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("nonce_signature")
-        @ExcludeMissing
-        private val nonceSignature: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
-         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
-         * wallet.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun certificate(): Optional<String> =
-            Optional.ofNullable(certificate.getNullable("certificate"))
-
-        /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Stable device identification set by the wallet provider.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun clientDeviceId(): Optional<String> =
-            Optional.ofNullable(clientDeviceId.getNullable("client_device_id"))
-
-        /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Consumer ID that identifies the wallet account holder entity.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun clientWalletAccountId(): Optional<String> =
-            Optional.ofNullable(clientWalletAccountId.getNullable("client_wallet_account_id"))
-
-        /**
-         * Name of digital wallet provider.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun digitalWallet(): Optional<DigitalWallet> =
-            Optional.ofNullable(digitalWallet.getNullable("digital_wallet"))
-
-        /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun nonce(): Optional<String> = Optional.ofNullable(nonce.getNullable("nonce"))
-
-        /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun nonceSignature(): Optional<String> =
-            Optional.ofNullable(nonceSignature.getNullable("nonce_signature"))
-
-        /**
-         * Returns the raw JSON value of [certificate].
-         *
-         * Unlike [certificate], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("certificate")
-        @ExcludeMissing
-        fun _certificate(): JsonField<String> = certificate
-
-        /**
-         * Returns the raw JSON value of [clientDeviceId].
-         *
-         * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("client_device_id")
-        @ExcludeMissing
-        fun _clientDeviceId(): JsonField<String> = clientDeviceId
-
-        /**
-         * Returns the raw JSON value of [clientWalletAccountId].
-         *
-         * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("client_wallet_account_id")
-        @ExcludeMissing
-        fun _clientWalletAccountId(): JsonField<String> = clientWalletAccountId
-
-        /**
-         * Returns the raw JSON value of [digitalWallet].
-         *
-         * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("digital_wallet")
-        @ExcludeMissing
-        fun _digitalWallet(): JsonField<DigitalWallet> = digitalWallet
-
-        /**
-         * Returns the raw JSON value of [nonce].
-         *
-         * Unlike [nonce], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("nonce") @ExcludeMissing fun _nonce(): JsonField<String> = nonce
-
-        /**
-         * Returns the raw JSON value of [nonceSignature].
-         *
-         * Unlike [nonceSignature], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("nonce_signature")
-        @ExcludeMissing
-        fun _nonceSignature(): JsonField<String> = nonceSignature
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            certificate()
-            clientDeviceId()
-            clientWalletAccountId()
-            digitalWallet()
-            nonce()
-            nonceSignature()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /** Returns a mutable builder for constructing an instance of [Body]. */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var certificate: JsonField<String> = JsonMissing.of()
-            private var clientDeviceId: JsonField<String> = JsonMissing.of()
-            private var clientWalletAccountId: JsonField<String> = JsonMissing.of()
-            private var digitalWallet: JsonField<DigitalWallet> = JsonMissing.of()
-            private var nonce: JsonField<String> = JsonMissing.of()
-            private var nonceSignature: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                certificate = body.certificate
-                clientDeviceId = body.clientDeviceId
-                clientWalletAccountId = body.clientWalletAccountId
-                digitalWallet = body.digitalWallet
-                nonce = body.nonce
-                nonceSignature = body.nonceSignature
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Apple's public leaf certificate. Base64 encoded in
-             * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
-             * Provided by the device's wallet.
-             */
-            fun certificate(certificate: String) = certificate(JsonField.of(certificate))
-
-            /**
-             * Sets [Builder.certificate] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.certificate] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun certificate(certificate: JsonField<String>) = apply {
-                this.certificate = certificate
-            }
-
-            /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Stable device identification set by the wallet provider.
-             */
-            fun clientDeviceId(clientDeviceId: String) =
-                clientDeviceId(JsonField.of(clientDeviceId))
-
-            /**
-             * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
-                this.clientDeviceId = clientDeviceId
-            }
-
-            /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
-             */
-            fun clientWalletAccountId(clientWalletAccountId: String) =
-                clientWalletAccountId(JsonField.of(clientWalletAccountId))
-
-            /**
-             * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.clientWalletAccountId] with a well-typed [String]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
-                this.clientWalletAccountId = clientWalletAccountId
-            }
-
-            /** Name of digital wallet provider. */
-            fun digitalWallet(digitalWallet: DigitalWallet) =
-                digitalWallet(JsonField.of(digitalWallet))
-
-            /**
-             * Sets [Builder.digitalWallet] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.digitalWallet] with a well-typed [DigitalWallet]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
-                this.digitalWallet = digitalWallet
-            }
-
-            /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
-             */
-            fun nonce(nonce: String) = nonce(JsonField.of(nonce))
-
-            /**
-             * Sets [Builder.nonce] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.nonce] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun nonce(nonce: JsonField<String>) = apply { this.nonce = nonce }
-
-            /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
-             */
-            fun nonceSignature(nonceSignature: String) =
-                nonceSignature(JsonField.of(nonceSignature))
-
-            /**
-             * Sets [Builder.nonceSignature] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.nonceSignature] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun nonceSignature(nonceSignature: JsonField<String>) = apply {
-                this.nonceSignature = nonceSignature
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): Body =
-                Body(
-                    certificate,
-                    clientDeviceId,
-                    clientWalletAccountId,
-                    digitalWallet,
-                    nonce,
-                    nonceSignature,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -522,7 +157,6 @@ private constructor(
     }
 
     /** A builder for [CardProvisionParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var cardToken: String? = null
@@ -776,6 +410,388 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> cardToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val certificate: JsonField<String>,
+        private val clientDeviceId: JsonField<String>,
+        private val clientWalletAccountId: JsonField<String>,
+        private val digitalWallet: JsonField<DigitalWallet>,
+        private val nonce: JsonField<String>,
+        private val nonceSignature: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("certificate")
+            @ExcludeMissing
+            certificate: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("client_device_id")
+            @ExcludeMissing
+            clientDeviceId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("client_wallet_account_id")
+            @ExcludeMissing
+            clientWalletAccountId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("digital_wallet")
+            @ExcludeMissing
+            digitalWallet: JsonField<DigitalWallet> = JsonMissing.of(),
+            @JsonProperty("nonce") @ExcludeMissing nonce: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("nonce_signature")
+            @ExcludeMissing
+            nonceSignature: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            certificate,
+            clientDeviceId,
+            clientWalletAccountId,
+            digitalWallet,
+            nonce,
+            nonceSignature,
+            mutableMapOf(),
+        )
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
+         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
+         * wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun certificate(): Optional<String> =
+            Optional.ofNullable(certificate.getNullable("certificate"))
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Stable device identification set by the wallet provider.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun clientDeviceId(): Optional<String> =
+            Optional.ofNullable(clientDeviceId.getNullable("client_device_id"))
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun clientWalletAccountId(): Optional<String> =
+            Optional.ofNullable(clientWalletAccountId.getNullable("client_wallet_account_id"))
+
+        /**
+         * Name of digital wallet provider.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun digitalWallet(): Optional<DigitalWallet> =
+            Optional.ofNullable(digitalWallet.getNullable("digital_wallet"))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun nonce(): Optional<String> = Optional.ofNullable(nonce.getNullable("nonce"))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun nonceSignature(): Optional<String> =
+            Optional.ofNullable(nonceSignature.getNullable("nonce_signature"))
+
+        /**
+         * Returns the raw JSON value of [certificate].
+         *
+         * Unlike [certificate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("certificate")
+        @ExcludeMissing
+        fun _certificate(): JsonField<String> = certificate
+
+        /**
+         * Returns the raw JSON value of [clientDeviceId].
+         *
+         * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("client_device_id")
+        @ExcludeMissing
+        fun _clientDeviceId(): JsonField<String> = clientDeviceId
+
+        /**
+         * Returns the raw JSON value of [clientWalletAccountId].
+         *
+         * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("client_wallet_account_id")
+        @ExcludeMissing
+        fun _clientWalletAccountId(): JsonField<String> = clientWalletAccountId
+
+        /**
+         * Returns the raw JSON value of [digitalWallet].
+         *
+         * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("digital_wallet")
+        @ExcludeMissing
+        fun _digitalWallet(): JsonField<DigitalWallet> = digitalWallet
+
+        /**
+         * Returns the raw JSON value of [nonce].
+         *
+         * Unlike [nonce], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("nonce") @ExcludeMissing fun _nonce(): JsonField<String> = nonce
+
+        /**
+         * Returns the raw JSON value of [nonceSignature].
+         *
+         * Unlike [nonceSignature], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("nonce_signature")
+        @ExcludeMissing
+        fun _nonceSignature(): JsonField<String> = nonceSignature
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var certificate: JsonField<String> = JsonMissing.of()
+            private var clientDeviceId: JsonField<String> = JsonMissing.of()
+            private var clientWalletAccountId: JsonField<String> = JsonMissing.of()
+            private var digitalWallet: JsonField<DigitalWallet> = JsonMissing.of()
+            private var nonce: JsonField<String> = JsonMissing.of()
+            private var nonceSignature: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                certificate = body.certificate
+                clientDeviceId = body.clientDeviceId
+                clientWalletAccountId = body.clientWalletAccountId
+                digitalWallet = body.digitalWallet
+                nonce = body.nonce
+                nonceSignature = body.nonceSignature
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Apple's public leaf certificate. Base64 encoded in
+             * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
+             * Provided by the device's wallet.
+             */
+            fun certificate(certificate: String) = certificate(JsonField.of(certificate))
+
+            /**
+             * Sets [Builder.certificate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.certificate] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun certificate(certificate: JsonField<String>) = apply {
+                this.certificate = certificate
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Stable device identification set by the wallet provider.
+             */
+            fun clientDeviceId(clientDeviceId: String) =
+                clientDeviceId(JsonField.of(clientDeviceId))
+
+            /**
+             * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
+                this.clientDeviceId = clientDeviceId
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
+             */
+            fun clientWalletAccountId(clientWalletAccountId: String) =
+                clientWalletAccountId(JsonField.of(clientWalletAccountId))
+
+            /**
+             * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientWalletAccountId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
+                this.clientWalletAccountId = clientWalletAccountId
+            }
+
+            /** Name of digital wallet provider. */
+            fun digitalWallet(digitalWallet: DigitalWallet) =
+                digitalWallet(JsonField.of(digitalWallet))
+
+            /**
+             * Sets [Builder.digitalWallet] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.digitalWallet] with a well-typed [DigitalWallet]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
+                this.digitalWallet = digitalWallet
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonce(nonce: String) = nonce(JsonField.of(nonce))
+
+            /**
+             * Sets [Builder.nonce] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nonce] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun nonce(nonce: JsonField<String>) = apply { this.nonce = nonce }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonceSignature(nonceSignature: String) =
+                nonceSignature(JsonField.of(nonceSignature))
+
+            /**
+             * Sets [Builder.nonceSignature] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nonceSignature] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun nonceSignature(nonceSignature: JsonField<String>) = apply {
+                this.nonceSignature = nonceSignature
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body =
+                Body(
+                    certificate,
+                    clientDeviceId,
+                    clientWalletAccountId,
+                    digitalWallet,
+                    nonce,
+                    nonceSignature,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            certificate()
+            clientDeviceId()
+            clientWalletAccountId()
+            digitalWallet()
+            nonce()
+            nonceSignature()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
     }
 
     /** Name of digital wallet provider. */

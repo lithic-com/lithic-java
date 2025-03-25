@@ -11,45 +11,57 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class KycExempt
-@JsonCreator
 private constructor(
-    @JsonProperty("address")
-    @ExcludeMissing
-    private val address: JsonField<Address> = JsonMissing.of(),
-    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("first_name")
-    @ExcludeMissing
-    private val firstName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("kyc_exemption_type")
-    @ExcludeMissing
-    private val kycExemptionType: JsonField<KycExemptionType> = JsonMissing.of(),
-    @JsonProperty("last_name")
-    @ExcludeMissing
-    private val lastName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("phone_number")
-    @ExcludeMissing
-    private val phoneNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("workflow")
-    @ExcludeMissing
-    private val workflow: JsonField<Workflow> = JsonMissing.of(),
-    @JsonProperty("business_account_token")
-    @ExcludeMissing
-    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val address: JsonField<Address>,
+    private val email: JsonField<String>,
+    private val firstName: JsonField<String>,
+    private val kycExemptionType: JsonField<KycExemptionType>,
+    private val lastName: JsonField<String>,
+    private val phoneNumber: JsonField<String>,
+    private val workflow: JsonField<Workflow>,
+    private val businessAccountToken: JsonField<String>,
+    private val externalId: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("first_name") @ExcludeMissing firstName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("kyc_exemption_type")
+        @ExcludeMissing
+        kycExemptionType: JsonField<KycExemptionType> = JsonMissing.of(),
+        @JsonProperty("last_name") @ExcludeMissing lastName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        phoneNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("workflow") @ExcludeMissing workflow: JsonField<Workflow> = JsonMissing.of(),
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        businessAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        address,
+        email,
+        firstName,
+        kycExemptionType,
+        lastName,
+        phoneNumber,
+        workflow,
+        businessAccountToken,
+        externalId,
+        mutableMapOf(),
+    )
 
     /**
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -198,28 +210,15 @@ private constructor(
      */
     @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): KycExempt = apply {
-        if (validated) {
-            return@apply
-        }
-
-        address().validate()
-        email()
-        firstName()
-        kycExemptionType()
-        lastName()
-        phoneNumber()
-        workflow()
-        businessAccountToken()
-        externalId()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -436,8 +435,27 @@ private constructor(
                 checkRequired("workflow", workflow),
                 businessAccountToken,
                 externalId,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): KycExempt = apply {
+        if (validated) {
+            return@apply
+        }
+
+        address().validate()
+        email()
+        firstName()
+        kycExemptionType()
+        lastName()
+        phoneNumber()
+        workflow()
+        businessAccountToken()
+        externalId()
+        validated = true
     }
 
     /** Specifies the type of KYC Exempt user */

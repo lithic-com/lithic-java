@@ -11,55 +11,74 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 
-@NoAutoDetect
 class BookTransferResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("category")
-    @ExcludeMissing
-    private val category: JsonField<Category> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("events")
-    @ExcludeMissing
-    private val events: JsonField<List<BookTransferEvent>> = JsonMissing.of(),
-    @JsonProperty("from_financial_account_token")
-    @ExcludeMissing
-    private val fromFinancialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("pending_amount")
-    @ExcludeMissing
-    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("result")
-    @ExcludeMissing
-    private val result: JsonField<Result> = JsonMissing.of(),
-    @JsonProperty("settled_amount")
-    @ExcludeMissing
-    private val settledAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("to_financial_account_token")
-    @ExcludeMissing
-    private val toFinancialAccountToken: JsonValue = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val category: JsonField<Category>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val events: JsonField<List<BookTransferEvent>>,
+    private val fromFinancialAccountToken: JsonField<String>,
+    private val pendingAmount: JsonField<Long>,
+    private val result: JsonField<Result>,
+    private val settledAmount: JsonField<Long>,
+    private val status: JsonField<Status>,
+    private val toFinancialAccountToken: JsonValue,
+    private val updated: JsonField<OffsetDateTime>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("category") @ExcludeMissing category: JsonField<Category> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("events")
+        @ExcludeMissing
+        events: JsonField<List<BookTransferEvent>> = JsonMissing.of(),
+        @JsonProperty("from_financial_account_token")
+        @ExcludeMissing
+        fromFinancialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pending_amount")
+        @ExcludeMissing
+        pendingAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("settled_amount")
+        @ExcludeMissing
+        settledAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("to_financial_account_token")
+        @ExcludeMissing
+        toFinancialAccountToken: JsonValue = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    ) : this(
+        token,
+        category,
+        created,
+        currency,
+        events,
+        fromFinancialAccountToken,
+        pendingAmount,
+        result,
+        settledAmount,
+        status,
+        toFinancialAccountToken,
+        updated,
+        mutableMapOf(),
+    )
 
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
@@ -251,30 +270,15 @@ private constructor(
      */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): BookTransferResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        category()
-        created()
-        currency()
-        events().forEach { it.validate() }
-        fromFinancialAccountToken()
-        pendingAmount()
-        result()
-        settledAmount()
-        status()
-        updated()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -568,8 +572,29 @@ private constructor(
                 checkRequired("status", status),
                 checkRequired("toFinancialAccountToken", toFinancialAccountToken),
                 checkRequired("updated", updated),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): BookTransferResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        category()
+        created()
+        currency()
+        events().forEach { it.validate() }
+        fromFinancialAccountToken()
+        pendingAmount()
+        result()
+        settledAmount()
+        status()
+        updated()
+        validated = true
     }
 
     /** Category of the book transfer */
@@ -701,37 +726,44 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @NoAutoDetect
     class BookTransferEvent
-    @JsonCreator
     private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("detailed_results")
-        @ExcludeMissing
-        private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
-        @JsonProperty("memo")
-        @ExcludeMissing
-        private val memo: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("result")
-        @ExcludeMissing
-        private val result: JsonField<Result> = JsonMissing.of(),
-        @JsonProperty("subtype")
-        @ExcludeMissing
-        private val subtype: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("type")
-        @ExcludeMissing
-        private val type: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val token: JsonField<String>,
+        private val amount: JsonField<Long>,
+        private val created: JsonField<OffsetDateTime>,
+        private val detailedResults: JsonField<List<DetailedResult>>,
+        private val memo: JsonField<String>,
+        private val result: JsonField<Result>,
+        private val subtype: JsonField<String>,
+        private val type: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("detailed_results")
+            @ExcludeMissing
+            detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
+            @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+            @JsonProperty("subtype") @ExcludeMissing subtype: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            token,
+            amount,
+            created,
+            detailedResults,
+            memo,
+            result,
+            subtype,
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * Globally unique identifier.
@@ -859,27 +891,15 @@ private constructor(
          */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): BookTransferEvent = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            amount()
-            created()
-            detailedResults()
-            memo()
-            result()
-            subtype()
-            type()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1094,8 +1114,26 @@ private constructor(
                     checkRequired("result", result),
                     checkRequired("subtype", subtype),
                     checkRequired("type", type),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): BookTransferEvent = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            amount()
+            created()
+            detailedResults()
+            memo()
+            result()
+            subtype()
+            type()
+            validated = true
         }
 
         class DetailedResult

@@ -19,15 +19,13 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -69,158 +67,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> authRuleToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("parameters")
-        @ExcludeMissing
-        private val parameters: JsonField<Parameters> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Parameters for the Auth Rule
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun parameters(): Optional<Parameters> =
-            Optional.ofNullable(parameters.getNullable("parameters"))
-
-        /**
-         * Returns the raw JSON value of [parameters].
-         *
-         * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("parameters")
-        @ExcludeMissing
-        fun _parameters(): JsonField<Parameters> = parameters
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            parameters().ifPresent { it.validate() }
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /** Returns a mutable builder for constructing an instance of [Body]. */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var parameters: JsonField<Parameters> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                parameters = body.parameters
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /** Parameters for the Auth Rule */
-            fun parameters(parameters: Parameters?) = parameters(JsonField.ofNullable(parameters))
-
-            /** Alias for calling [Builder.parameters] with `parameters.orElse(null)`. */
-            fun parameters(parameters: Optional<Parameters>) = parameters(parameters.getOrNull())
-
-            /**
-             * Sets [Builder.parameters] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.parameters] with a well-typed [Parameters] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun parameters(parameters: JsonField<Parameters>) = apply {
-                this.parameters = parameters
-            }
-
-            /**
-             * Alias for calling [parameters] with
-             * `Parameters.ofConditionalBlock(conditionalBlock)`.
-             */
-            fun parameters(conditionalBlock: ConditionalBlockParameters) =
-                parameters(Parameters.ofConditionalBlock(conditionalBlock))
-
-            /**
-             * Alias for calling [parameters] with
-             * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
-             */
-            fun parameters(velocityLimitParams: VelocityLimitParams) =
-                parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             */
-            fun build(): Body = Body(parameters, additionalProperties.toImmutable())
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(parameters, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{parameters=$parameters, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -237,7 +83,6 @@ private constructor(
     }
 
     /** A builder for [AuthRuleV2DraftParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var authRuleToken: String? = null
@@ -421,6 +266,166 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> authRuleToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val parameters: JsonField<Parameters>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            parameters: JsonField<Parameters> = JsonMissing.of()
+        ) : this(parameters, mutableMapOf())
+
+        /**
+         * Parameters for the Auth Rule
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun parameters(): Optional<Parameters> =
+            Optional.ofNullable(parameters.getNullable("parameters"))
+
+        /**
+         * Returns the raw JSON value of [parameters].
+         *
+         * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("parameters")
+        @ExcludeMissing
+        fun _parameters(): JsonField<Parameters> = parameters
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var parameters: JsonField<Parameters> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                parameters = body.parameters
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** Parameters for the Auth Rule */
+            fun parameters(parameters: Parameters?) = parameters(JsonField.ofNullable(parameters))
+
+            /** Alias for calling [Builder.parameters] with `parameters.orElse(null)`. */
+            fun parameters(parameters: Optional<Parameters>) = parameters(parameters.getOrNull())
+
+            /**
+             * Sets [Builder.parameters] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun parameters(parameters: JsonField<Parameters>) = apply {
+                this.parameters = parameters
+            }
+
+            /**
+             * Alias for calling [parameters] with
+             * `Parameters.ofConditionalBlock(conditionalBlock)`.
+             */
+            fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                parameters(Parameters.ofConditionalBlock(conditionalBlock))
+
+            /**
+             * Alias for calling [parameters] with
+             * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+             */
+            fun parameters(velocityLimitParams: VelocityLimitParams) =
+                parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body = Body(parameters, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            parameters().ifPresent { it.validate() }
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(parameters, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 
     /** Parameters for the Auth Rule */

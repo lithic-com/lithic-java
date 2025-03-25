@@ -10,15 +10,13 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -65,190 +63,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): ManagementOperationActionRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> managementOperationToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class ManagementOperationActionRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("effective_date")
-        @ExcludeMissing
-        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
-        @JsonProperty("memo")
-        @ExcludeMissing
-        private val memo: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
-
-        /**
-         * Returns the raw JSON value of [effectiveDate].
-         *
-         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("effective_date")
-        @ExcludeMissing
-        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
-
-        /**
-         * Returns the raw JSON value of [memo].
-         *
-         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): ManagementOperationActionRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            effectiveDate()
-            memo()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [ManagementOperationActionRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .effectiveDate()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [ManagementOperationActionRequest]. */
-        class Builder internal constructor() {
-
-            private var effectiveDate: JsonField<LocalDate>? = null
-            private var memo: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(managementOperationActionRequest: ManagementOperationActionRequest) =
-                apply {
-                    effectiveDate = managementOperationActionRequest.effectiveDate
-                    memo = managementOperationActionRequest.memo
-                    additionalProperties =
-                        managementOperationActionRequest.additionalProperties.toMutableMap()
-                }
-
-            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
-
-            /**
-             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
-                this.effectiveDate = effectiveDate
-            }
-
-            fun memo(memo: String) = memo(JsonField.of(memo))
-
-            /**
-             * Sets [Builder.memo] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [ManagementOperationActionRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .effectiveDate()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): ManagementOperationActionRequest =
-                ManagementOperationActionRequest(
-                    checkRequired("effectiveDate", effectiveDate),
-                    memo,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationActionRequest && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(effectiveDate, memo, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "ManagementOperationActionRequest{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -267,7 +81,6 @@ private constructor(
     }
 
     /** A builder for [ManagementOperationReverseParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var managementOperationToken: String? = null
@@ -450,6 +263,197 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): ManagementOperationActionRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> managementOperationToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class ManagementOperationActionRequest
+    private constructor(
+        private val effectiveDate: JsonField<LocalDate>,
+        private val memo: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("effective_date")
+            @ExcludeMissing
+            effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+            @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+        ) : this(effectiveDate, memo, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        /**
+         * Returns the raw JSON value of [effectiveDate].
+         *
+         * Unlike [effectiveDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
+
+        /**
+         * Returns the raw JSON value of [memo].
+         *
+         * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [ManagementOperationActionRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .effectiveDate()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [ManagementOperationActionRequest]. */
+        class Builder internal constructor() {
+
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(managementOperationActionRequest: ManagementOperationActionRequest) =
+                apply {
+                    effectiveDate = managementOperationActionRequest.effectiveDate
+                    memo = managementOperationActionRequest.memo
+                    additionalProperties =
+                        managementOperationActionRequest.additionalProperties.toMutableMap()
+                }
+
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            /**
+             * Sets [Builder.effectiveDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.effectiveDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+                this.effectiveDate = effectiveDate
+            }
+
+            fun memo(memo: String) = memo(JsonField.of(memo))
+
+            /**
+             * Sets [Builder.memo] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.memo] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [ManagementOperationActionRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .effectiveDate()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): ManagementOperationActionRequest =
+                ManagementOperationActionRequest(
+                    checkRequired("effectiveDate", effectiveDate),
+                    memo,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): ManagementOperationActionRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            effectiveDate()
+            memo()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationActionRequest && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(effectiveDate, memo, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "ManagementOperationActionRequest{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

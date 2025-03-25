@@ -11,41 +11,56 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class AccountHolderCreateResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("status_reasons")
-    @ExcludeMissing
-    private val statusReasons: JsonField<List<StatusReasons>> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("required_documents")
-    @ExcludeMissing
-    private val requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountToken: JsonField<String>,
+    private val status: JsonField<Status>,
+    private val statusReasons: JsonField<List<StatusReasons>>,
+    private val created: JsonField<OffsetDateTime>,
+    private val externalId: JsonField<String>,
+    private val requiredDocuments: JsonField<List<RequiredDocument>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        statusReasons: JsonField<List<StatusReasons>> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("required_documents")
+        @ExcludeMissing
+        requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountToken,
+        status,
+        statusReasons,
+        created,
+        externalId,
+        requiredDocuments,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the account holder.
@@ -165,26 +180,15 @@ private constructor(
     @ExcludeMissing
     fun _requiredDocuments(): JsonField<List<RequiredDocument>> = requiredDocuments
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): AccountHolderCreateResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountToken()
-        status()
-        statusReasons()
-        created()
-        externalId()
-        requiredDocuments().ifPresent { it.forEach { it.validate() } }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -397,8 +401,25 @@ private constructor(
                 created,
                 externalId,
                 (requiredDocuments ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): AccountHolderCreateResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountToken()
+        status()
+        statusReasons()
+        created()
+        externalId()
+        requiredDocuments().ifPresent { it.forEach { it.validate() } }
+        validated = true
     }
 
     /**

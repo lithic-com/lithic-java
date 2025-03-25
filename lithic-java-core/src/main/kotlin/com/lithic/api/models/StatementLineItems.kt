@@ -11,29 +11,30 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class StatementLineItems
-@JsonCreator
 private constructor(
-    @JsonProperty("data")
-    @ExcludeMissing
-    private val data: JsonField<List<StatementLineItemResponse>> = JsonMissing.of(),
-    @JsonProperty("has_more")
-    @ExcludeMissing
-    private val hasMore: JsonField<Boolean> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val data: JsonField<List<StatementLineItemResponse>>,
+    private val hasMore: JsonField<Boolean>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("data")
+        @ExcludeMissing
+        data: JsonField<List<StatementLineItemResponse>> = JsonMissing.of(),
+        @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
+    ) : this(data, hasMore, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -63,21 +64,15 @@ private constructor(
      */
     @JsonProperty("has_more") @ExcludeMissing fun _hasMore(): JsonField<Boolean> = hasMore
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): StatementLineItems = apply {
-        if (validated) {
-            return@apply
-        }
-
-        data().forEach { it.validate() }
-        hasMore()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -180,53 +175,88 @@ private constructor(
             StatementLineItems(
                 checkRequired("data", data).map { it.toImmutable() },
                 checkRequired("hasMore", hasMore),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): StatementLineItems = apply {
+        if (validated) {
+            return@apply
+        }
+
+        data().forEach { it.validate() }
+        hasMore()
+        validated = true
+    }
+
     class StatementLineItemResponse
-    @JsonCreator
     private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("category")
-        @ExcludeMissing
-        private val category: JsonField<TransactionCategory> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("currency")
-        @ExcludeMissing
-        private val currency: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("effective_date")
-        @ExcludeMissing
-        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
-        @JsonProperty("event_type")
-        @ExcludeMissing
-        private val eventType: JsonField<FinancialEventType> = JsonMissing.of(),
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
-        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("financial_transaction_event_token")
-        @ExcludeMissing
-        private val financialTransactionEventToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("financial_transaction_token")
-        @ExcludeMissing
-        private val financialTransactionToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("card_token")
-        @ExcludeMissing
-        private val cardToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("descriptor")
-        @ExcludeMissing
-        private val descriptor: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val token: JsonField<String>,
+        private val amount: JsonField<Long>,
+        private val category: JsonField<TransactionCategory>,
+        private val created: JsonField<OffsetDateTime>,
+        private val currency: JsonField<String>,
+        private val effectiveDate: JsonField<LocalDate>,
+        private val eventType: JsonField<FinancialEventType>,
+        private val financialAccountToken: JsonField<String>,
+        private val financialTransactionEventToken: JsonField<String>,
+        private val financialTransactionToken: JsonField<String>,
+        private val cardToken: JsonField<String>,
+        private val descriptor: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("category")
+            @ExcludeMissing
+            category: JsonField<TransactionCategory> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("currency")
+            @ExcludeMissing
+            currency: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("effective_date")
+            @ExcludeMissing
+            effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+            @JsonProperty("event_type")
+            @ExcludeMissing
+            eventType: JsonField<FinancialEventType> = JsonMissing.of(),
+            @JsonProperty("financial_account_token")
+            @ExcludeMissing
+            financialAccountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("financial_transaction_event_token")
+            @ExcludeMissing
+            financialTransactionEventToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("financial_transaction_token")
+            @ExcludeMissing
+            financialTransactionToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("card_token")
+            @ExcludeMissing
+            cardToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("descriptor")
+            @ExcludeMissing
+            descriptor: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            token,
+            amount,
+            category,
+            created,
+            currency,
+            effectiveDate,
+            eventType,
+            financialAccountToken,
+            financialTransactionEventToken,
+            financialTransactionToken,
+            cardToken,
+            descriptor,
+            mutableMapOf(),
+        )
 
         /**
          * Globally unique identifier for a Statement Line Item
@@ -424,31 +454,15 @@ private constructor(
         @ExcludeMissing
         fun _descriptor(): JsonField<String> = descriptor
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): StatementLineItemResponse = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            amount()
-            category()
-            created()
-            currency()
-            effectiveDate()
-            eventType()
-            financialAccountToken()
-            financialTransactionEventToken()
-            financialTransactionToken()
-            cardToken()
-            descriptor()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -721,8 +735,30 @@ private constructor(
                     checkRequired("financialTransactionToken", financialTransactionToken),
                     cardToken,
                     descriptor,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): StatementLineItemResponse = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            amount()
+            category()
+            created()
+            currency()
+            effectiveDate()
+            eventType()
+            financialAccountToken()
+            financialTransactionEventToken()
+            financialTransactionToken()
+            cardToken()
+            descriptor()
+            validated = true
         }
 
         class TransactionCategory

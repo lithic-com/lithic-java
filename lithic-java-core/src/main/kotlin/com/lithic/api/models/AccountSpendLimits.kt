@@ -10,29 +10,32 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class AccountSpendLimits
-@JsonCreator
 private constructor(
-    @JsonProperty("available_spend_limit")
-    @ExcludeMissing
-    private val availableSpendLimit: JsonField<AvailableSpendLimit> = JsonMissing.of(),
-    @JsonProperty("spend_limit")
-    @ExcludeMissing
-    private val spendLimit: JsonField<SpendLimit> = JsonMissing.of(),
-    @JsonProperty("spend_velocity")
-    @ExcludeMissing
-    private val spendVelocity: JsonField<SpendVelocity> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val availableSpendLimit: JsonField<AvailableSpendLimit>,
+    private val spendLimit: JsonField<SpendLimit>,
+    private val spendVelocity: JsonField<SpendVelocity>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("available_spend_limit")
+        @ExcludeMissing
+        availableSpendLimit: JsonField<AvailableSpendLimit> = JsonMissing.of(),
+        @JsonProperty("spend_limit")
+        @ExcludeMissing
+        spendLimit: JsonField<SpendLimit> = JsonMissing.of(),
+        @JsonProperty("spend_velocity")
+        @ExcludeMissing
+        spendVelocity: JsonField<SpendVelocity> = JsonMissing.of(),
+    ) : this(availableSpendLimit, spendLimit, spendVelocity, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -83,22 +86,15 @@ private constructor(
     @ExcludeMissing
     fun _spendVelocity(): JsonField<SpendVelocity> = spendVelocity
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): AccountSpendLimits = apply {
-        if (validated) {
-            return@apply
-        }
-
-        availableSpendLimit().validate()
-        spendLimit().ifPresent { it.validate() }
-        spendVelocity().ifPresent { it.validate() }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -205,26 +201,37 @@ private constructor(
                 checkRequired("availableSpendLimit", availableSpendLimit),
                 spendLimit,
                 spendVelocity,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): AccountSpendLimits = apply {
+        if (validated) {
+            return@apply
+        }
+
+        availableSpendLimit().validate()
+        spendLimit().ifPresent { it.validate() }
+        spendVelocity().ifPresent { it.validate() }
+        validated = true
+    }
+
     class AvailableSpendLimit
-    @JsonCreator
     private constructor(
-        @JsonProperty("daily")
-        @ExcludeMissing
-        private val daily: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("lifetime")
-        @ExcludeMissing
-        private val lifetime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("monthly")
-        @ExcludeMissing
-        private val monthly: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val daily: JsonField<Long>,
+        private val lifetime: JsonField<Long>,
+        private val monthly: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("daily") @ExcludeMissing daily: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("lifetime") @ExcludeMissing lifetime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("monthly") @ExcludeMissing monthly: JsonField<Long> = JsonMissing.of(),
+        ) : this(daily, lifetime, monthly, mutableMapOf())
 
         /**
          * The available spend limit (in cents) relative to the daily limit configured on the
@@ -274,22 +281,15 @@ private constructor(
          */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AvailableSpendLimit = apply {
-            if (validated) {
-                return@apply
-            }
-
-            daily()
-            lifetime()
-            monthly()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -385,7 +385,20 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): AvailableSpendLimit =
-                AvailableSpendLimit(daily, lifetime, monthly, additionalProperties.toImmutable())
+                AvailableSpendLimit(daily, lifetime, monthly, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AvailableSpendLimit = apply {
+            if (validated) {
+                return@apply
+            }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -406,22 +419,20 @@ private constructor(
             "AvailableSpendLimit{daily=$daily, lifetime=$lifetime, monthly=$monthly, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class SpendLimit
-    @JsonCreator
     private constructor(
-        @JsonProperty("daily")
-        @ExcludeMissing
-        private val daily: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("lifetime")
-        @ExcludeMissing
-        private val lifetime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("monthly")
-        @ExcludeMissing
-        private val monthly: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val daily: JsonField<Long>,
+        private val lifetime: JsonField<Long>,
+        private val monthly: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("daily") @ExcludeMissing daily: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("lifetime") @ExcludeMissing lifetime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("monthly") @ExcludeMissing monthly: JsonField<Long> = JsonMissing.of(),
+        ) : this(daily, lifetime, monthly, mutableMapOf())
 
         /**
          * The configured daily spend limit (in cents) on the Account.
@@ -468,22 +479,15 @@ private constructor(
          */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SpendLimit = apply {
-            if (validated) {
-                return@apply
-            }
-
-            daily()
-            lifetime()
-            monthly()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -570,7 +574,20 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): SpendLimit =
-                SpendLimit(daily, lifetime, monthly, additionalProperties.toImmutable())
+                SpendLimit(daily, lifetime, monthly, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SpendLimit = apply {
+            if (validated) {
+                return@apply
+            }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -591,22 +608,20 @@ private constructor(
             "SpendLimit{daily=$daily, lifetime=$lifetime, monthly=$monthly, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class SpendVelocity
-    @JsonCreator
     private constructor(
-        @JsonProperty("daily")
-        @ExcludeMissing
-        private val daily: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("lifetime")
-        @ExcludeMissing
-        private val lifetime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("monthly")
-        @ExcludeMissing
-        private val monthly: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val daily: JsonField<Long>,
+        private val lifetime: JsonField<Long>,
+        private val monthly: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("daily") @ExcludeMissing daily: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("lifetime") @ExcludeMissing lifetime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("monthly") @ExcludeMissing monthly: JsonField<Long> = JsonMissing.of(),
+        ) : this(daily, lifetime, monthly, mutableMapOf())
 
         /**
          * Current daily spend velocity (in cents) on the Account. Present if daily spend limit is
@@ -656,22 +671,15 @@ private constructor(
          */
         @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SpendVelocity = apply {
-            if (validated) {
-                return@apply
-            }
-
-            daily()
-            lifetime()
-            monthly()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -767,7 +775,20 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): SpendVelocity =
-                SpendVelocity(daily, lifetime, monthly, additionalProperties.toImmutable())
+                SpendVelocity(daily, lifetime, monthly, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SpendVelocity = apply {
+            if (validated) {
+                return@apply
+            }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

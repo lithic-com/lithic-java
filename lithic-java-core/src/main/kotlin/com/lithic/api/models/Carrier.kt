@@ -10,22 +10,21 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class Carrier
-@JsonCreator
 private constructor(
-    @JsonProperty("qr_code_url")
-    @ExcludeMissing
-    private val qrCodeUrl: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val qrCodeUrl: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("qr_code_url") @ExcludeMissing qrCodeUrl: JsonField<String> = JsonMissing.of()
+    ) : this(qrCodeUrl, mutableMapOf())
 
     /**
      * QR code url to display on the card carrier
@@ -42,20 +41,15 @@ private constructor(
      */
     @JsonProperty("qr_code_url") @ExcludeMissing fun _qrCodeUrl(): JsonField<String> = qrCodeUrl
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Carrier = apply {
-        if (validated) {
-            return@apply
-        }
-
-        qrCodeUrl()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -113,7 +107,18 @@ private constructor(
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): Carrier = Carrier(qrCodeUrl, additionalProperties.toImmutable())
+        fun build(): Carrier = Carrier(qrCodeUrl, additionalProperties.toMutableMap())
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): Carrier = apply {
+        if (validated) {
+            return@apply
+        }
+
+        qrCodeUrl()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

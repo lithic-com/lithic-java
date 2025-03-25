@@ -11,77 +11,114 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Dispute. */
-@NoAutoDetect
 class Dispute
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("arbitration_date")
-    @ExcludeMissing
-    private val arbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("customer_filed_date")
-    @ExcludeMissing
-    private val customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("customer_note")
-    @ExcludeMissing
-    private val customerNote: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("network_claim_ids")
-    @ExcludeMissing
-    private val networkClaimIds: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("network_filed_date")
-    @ExcludeMissing
-    private val networkFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("network_reason_code")
-    @ExcludeMissing
-    private val networkReasonCode: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("prearbitration_date")
-    @ExcludeMissing
-    private val prearbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("primary_claim_id")
-    @ExcludeMissing
-    private val primaryClaimId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("reason")
-    @ExcludeMissing
-    private val reason: JsonField<Reason> = JsonMissing.of(),
-    @JsonProperty("representment_date")
-    @ExcludeMissing
-    private val representmentDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("resolution_amount")
-    @ExcludeMissing
-    private val resolutionAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("resolution_date")
-    @ExcludeMissing
-    private val resolutionDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("resolution_note")
-    @ExcludeMissing
-    private val resolutionNote: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("resolution_reason")
-    @ExcludeMissing
-    private val resolutionReason: JsonField<ResolutionReason> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("transaction_token")
-    @ExcludeMissing
-    private val transactionToken: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val amount: JsonField<Long>,
+    private val arbitrationDate: JsonField<OffsetDateTime>,
+    private val created: JsonField<OffsetDateTime>,
+    private val customerFiledDate: JsonField<OffsetDateTime>,
+    private val customerNote: JsonField<String>,
+    private val networkClaimIds: JsonField<List<String>>,
+    private val networkFiledDate: JsonField<OffsetDateTime>,
+    private val networkReasonCode: JsonField<String>,
+    private val prearbitrationDate: JsonField<OffsetDateTime>,
+    private val primaryClaimId: JsonField<String>,
+    private val reason: JsonField<Reason>,
+    private val representmentDate: JsonField<OffsetDateTime>,
+    private val resolutionAmount: JsonField<Long>,
+    private val resolutionDate: JsonField<OffsetDateTime>,
+    private val resolutionNote: JsonField<String>,
+    private val resolutionReason: JsonField<ResolutionReason>,
+    private val status: JsonField<Status>,
+    private val transactionToken: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("arbitration_date")
+        @ExcludeMissing
+        arbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("customer_filed_date")
+        @ExcludeMissing
+        customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("customer_note")
+        @ExcludeMissing
+        customerNote: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("network_claim_ids")
+        @ExcludeMissing
+        networkClaimIds: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("network_filed_date")
+        @ExcludeMissing
+        networkFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("network_reason_code")
+        @ExcludeMissing
+        networkReasonCode: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("prearbitration_date")
+        @ExcludeMissing
+        prearbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("primary_claim_id")
+        @ExcludeMissing
+        primaryClaimId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("reason") @ExcludeMissing reason: JsonField<Reason> = JsonMissing.of(),
+        @JsonProperty("representment_date")
+        @ExcludeMissing
+        representmentDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("resolution_amount")
+        @ExcludeMissing
+        resolutionAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("resolution_date")
+        @ExcludeMissing
+        resolutionDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("resolution_note")
+        @ExcludeMissing
+        resolutionNote: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("resolution_reason")
+        @ExcludeMissing
+        resolutionReason: JsonField<ResolutionReason> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("transaction_token")
+        @ExcludeMissing
+        transactionToken: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        amount,
+        arbitrationDate,
+        created,
+        customerFiledDate,
+        customerNote,
+        networkClaimIds,
+        networkFiledDate,
+        networkReasonCode,
+        prearbitrationDate,
+        primaryClaimId,
+        reason,
+        representmentDate,
+        resolutionAmount,
+        resolutionDate,
+        resolutionNote,
+        resolutionReason,
+        status,
+        transactionToken,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -458,38 +495,15 @@ private constructor(
     @ExcludeMissing
     fun _transactionToken(): JsonField<String> = transactionToken
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Dispute = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        amount()
-        arbitrationDate()
-        created()
-        customerFiledDate()
-        customerNote()
-        networkClaimIds()
-        networkFiledDate()
-        networkReasonCode()
-        prearbitrationDate()
-        primaryClaimId()
-        reason()
-        representmentDate()
-        resolutionAmount()
-        resolutionDate()
-        resolutionNote()
-        resolutionReason()
-        status()
-        transactionToken()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -1031,8 +1045,37 @@ private constructor(
                 checkRequired("resolutionReason", resolutionReason),
                 checkRequired("status", status),
                 checkRequired("transactionToken", transactionToken),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): Dispute = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        amount()
+        arbitrationDate()
+        created()
+        customerFiledDate()
+        customerNote()
+        networkClaimIds()
+        networkFiledDate()
+        networkReasonCode()
+        prearbitrationDate()
+        primaryClaimId()
+        reason()
+        representmentDate()
+        resolutionAmount()
+        resolutionDate()
+        resolutionNote()
+        resolutionReason()
+        status()
+        transactionToken()
+        validated = true
     }
 
     /**

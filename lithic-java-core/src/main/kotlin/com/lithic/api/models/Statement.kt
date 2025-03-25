@@ -11,84 +11,128 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class Statement
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_standing")
-    @ExcludeMissing
-    private val accountStanding: JsonField<AccountStanding> = JsonMissing.of(),
-    @JsonProperty("amount_due")
-    @ExcludeMissing
-    private val amountDue: JsonField<AmountDue> = JsonMissing.of(),
-    @JsonProperty("available_credit")
-    @ExcludeMissing
-    private val availableCredit: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("credit_limit")
-    @ExcludeMissing
-    private val creditLimit: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("credit_product_token")
-    @ExcludeMissing
-    private val creditProductToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("days_in_billing_cycle")
-    @ExcludeMissing
-    private val daysInBillingCycle: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("ending_balance")
-    @ExcludeMissing
-    private val endingBalance: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("payment_due_date")
-    @ExcludeMissing
-    private val paymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("period_totals")
-    @ExcludeMissing
-    private val periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
-    @JsonProperty("starting_balance")
-    @ExcludeMissing
-    private val startingBalance: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("statement_end_date")
-    @ExcludeMissing
-    private val statementEndDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("statement_start_date")
-    @ExcludeMissing
-    private val statementStartDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("statement_type")
-    @ExcludeMissing
-    private val statementType: JsonField<StatementType> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("ytd_totals")
-    @ExcludeMissing
-    private val ytdTotals: JsonField<StatementTotals> = JsonMissing.of(),
-    @JsonProperty("interest_details")
-    @ExcludeMissing
-    private val interestDetails: JsonField<InterestDetails> = JsonMissing.of(),
-    @JsonProperty("next_payment_due_date")
-    @ExcludeMissing
-    private val nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("next_statement_end_date")
-    @ExcludeMissing
-    private val nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountStanding: JsonField<AccountStanding>,
+    private val amountDue: JsonField<AmountDue>,
+    private val availableCredit: JsonField<Long>,
+    private val created: JsonField<OffsetDateTime>,
+    private val creditLimit: JsonField<Long>,
+    private val creditProductToken: JsonField<String>,
+    private val daysInBillingCycle: JsonField<Long>,
+    private val endingBalance: JsonField<Long>,
+    private val financialAccountToken: JsonField<String>,
+    private val paymentDueDate: JsonField<LocalDate>,
+    private val periodTotals: JsonField<StatementTotals>,
+    private val startingBalance: JsonField<Long>,
+    private val statementEndDate: JsonField<LocalDate>,
+    private val statementStartDate: JsonField<LocalDate>,
+    private val statementType: JsonField<StatementType>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val ytdTotals: JsonField<StatementTotals>,
+    private val interestDetails: JsonField<InterestDetails>,
+    private val nextPaymentDueDate: JsonField<LocalDate>,
+    private val nextStatementEndDate: JsonField<LocalDate>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_standing")
+        @ExcludeMissing
+        accountStanding: JsonField<AccountStanding> = JsonMissing.of(),
+        @JsonProperty("amount_due")
+        @ExcludeMissing
+        amountDue: JsonField<AmountDue> = JsonMissing.of(),
+        @JsonProperty("available_credit")
+        @ExcludeMissing
+        availableCredit: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("credit_limit")
+        @ExcludeMissing
+        creditLimit: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("credit_product_token")
+        @ExcludeMissing
+        creditProductToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("days_in_billing_cycle")
+        @ExcludeMissing
+        daysInBillingCycle: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("ending_balance")
+        @ExcludeMissing
+        endingBalance: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("payment_due_date")
+        @ExcludeMissing
+        paymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("period_totals")
+        @ExcludeMissing
+        periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
+        @JsonProperty("starting_balance")
+        @ExcludeMissing
+        startingBalance: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("statement_end_date")
+        @ExcludeMissing
+        statementEndDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("statement_start_date")
+        @ExcludeMissing
+        statementStartDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("statement_type")
+        @ExcludeMissing
+        statementType: JsonField<StatementType> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("ytd_totals")
+        @ExcludeMissing
+        ytdTotals: JsonField<StatementTotals> = JsonMissing.of(),
+        @JsonProperty("interest_details")
+        @ExcludeMissing
+        interestDetails: JsonField<InterestDetails> = JsonMissing.of(),
+        @JsonProperty("next_payment_due_date")
+        @ExcludeMissing
+        nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("next_statement_end_date")
+        @ExcludeMissing
+        nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountStanding,
+        amountDue,
+        availableCredit,
+        created,
+        creditLimit,
+        creditProductToken,
+        daysInBillingCycle,
+        endingBalance,
+        financialAccountToken,
+        paymentDueDate,
+        periodTotals,
+        startingBalance,
+        statementEndDate,
+        statementStartDate,
+        statementType,
+        updated,
+        ytdTotals,
+        interestDetails,
+        nextPaymentDueDate,
+        nextStatementEndDate,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for a statement
@@ -438,40 +482,15 @@ private constructor(
     @ExcludeMissing
     fun _nextStatementEndDate(): JsonField<LocalDate> = nextStatementEndDate
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Statement = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountStanding().validate()
-        amountDue().validate()
-        availableCredit()
-        created()
-        creditLimit()
-        creditProductToken()
-        daysInBillingCycle()
-        endingBalance()
-        financialAccountToken()
-        paymentDueDate()
-        periodTotals().validate()
-        startingBalance()
-        statementEndDate()
-        statementStartDate()
-        statementType()
-        updated()
-        ytdTotals().validate()
-        interestDetails().ifPresent { it.validate() }
-        nextPaymentDueDate()
-        nextStatementEndDate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -924,38 +943,86 @@ private constructor(
                 interestDetails,
                 nextPaymentDueDate,
                 nextStatementEndDate,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): Statement = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountStanding().validate()
+        amountDue().validate()
+        availableCredit()
+        created()
+        creditLimit()
+        creditProductToken()
+        daysInBillingCycle()
+        endingBalance()
+        financialAccountToken()
+        paymentDueDate()
+        periodTotals().validate()
+        startingBalance()
+        statementEndDate()
+        statementStartDate()
+        statementType()
+        updated()
+        ytdTotals().validate()
+        interestDetails().ifPresent { it.validate() }
+        nextPaymentDueDate()
+        nextStatementEndDate()
+        validated = true
+    }
+
     class AccountStanding
-    @JsonCreator
     private constructor(
-        @JsonProperty("consecutive_full_payments_made")
-        @ExcludeMissing
-        private val consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("consecutive_minimum_payments_made")
-        @ExcludeMissing
-        private val consecutiveMinimumPaymentsMade: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("consecutive_minimum_payments_missed")
-        @ExcludeMissing
-        private val consecutiveMinimumPaymentsMissed: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("days_past_due")
-        @ExcludeMissing
-        private val daysPastDue: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("has_grace")
-        @ExcludeMissing
-        private val hasGrace: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("period_number")
-        @ExcludeMissing
-        private val periodNumber: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("period_state")
-        @ExcludeMissing
-        private val periodState: JsonField<PeriodState> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val consecutiveFullPaymentsMade: JsonField<Long>,
+        private val consecutiveMinimumPaymentsMade: JsonField<Long>,
+        private val consecutiveMinimumPaymentsMissed: JsonField<Long>,
+        private val daysPastDue: JsonField<Long>,
+        private val hasGrace: JsonField<Boolean>,
+        private val periodNumber: JsonField<Long>,
+        private val periodState: JsonField<PeriodState>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("consecutive_full_payments_made")
+            @ExcludeMissing
+            consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("consecutive_minimum_payments_made")
+            @ExcludeMissing
+            consecutiveMinimumPaymentsMade: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("consecutive_minimum_payments_missed")
+            @ExcludeMissing
+            consecutiveMinimumPaymentsMissed: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("days_past_due")
+            @ExcludeMissing
+            daysPastDue: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("has_grace")
+            @ExcludeMissing
+            hasGrace: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("period_number")
+            @ExcludeMissing
+            periodNumber: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("period_state")
+            @ExcludeMissing
+            periodState: JsonField<PeriodState> = JsonMissing.of(),
+        ) : this(
+            consecutiveFullPaymentsMade,
+            consecutiveMinimumPaymentsMade,
+            consecutiveMinimumPaymentsMissed,
+            daysPastDue,
+            hasGrace,
+            periodNumber,
+            periodState,
+            mutableMapOf(),
+        )
 
         /**
          * Number of consecutive full payments made
@@ -1079,26 +1146,15 @@ private constructor(
         @ExcludeMissing
         fun _periodState(): JsonField<PeriodState> = periodState
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AccountStanding = apply {
-            if (validated) {
-                return@apply
-            }
-
-            consecutiveFullPaymentsMade()
-            consecutiveMinimumPaymentsMade()
-            consecutiveMinimumPaymentsMissed()
-            daysPastDue()
-            hasGrace()
-            periodNumber()
-            periodState()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1291,8 +1347,25 @@ private constructor(
                     checkRequired("hasGrace", hasGrace),
                     checkRequired("periodNumber", periodNumber),
                     checkRequired("periodState", periodState),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountStanding = apply {
+            if (validated) {
+                return@apply
+            }
+
+            consecutiveFullPaymentsMade()
+            consecutiveMinimumPaymentsMade()
+            consecutiveMinimumPaymentsMissed()
+            daysPastDue()
+            hasGrace()
+            periodNumber()
+            periodState()
+            validated = true
         }
 
         class PeriodState @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1423,19 +1496,18 @@ private constructor(
             "AccountStanding{consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, daysPastDue=$daysPastDue, hasGrace=$hasGrace, periodNumber=$periodNumber, periodState=$periodState, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class AmountDue
-    @JsonCreator
     private constructor(
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("past_due")
-        @ExcludeMissing
-        private val pastDue: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val amount: JsonField<Long>,
+        private val pastDue: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("past_due") @ExcludeMissing pastDue: JsonField<Long> = JsonMissing.of(),
+        ) : this(amount, pastDue, mutableMapOf())
 
         /**
          * Payment due at the end of the billing period in cents. Negative amount indicates
@@ -1470,21 +1542,15 @@ private constructor(
          */
         @JsonProperty("past_due") @ExcludeMissing fun _pastDue(): JsonField<Long> = pastDue
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AmountDue = apply {
-            if (validated) {
-                return@apply
-            }
-
-            amount()
-            pastDue()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1581,8 +1647,20 @@ private constructor(
                 AmountDue(
                     checkRequired("amount", amount),
                     checkRequired("pastDue", pastDue),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AmountDue = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount()
+            pastDue()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1603,32 +1681,41 @@ private constructor(
             "AmountDue{amount=$amount, pastDue=$pastDue, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class StatementTotals
-    @JsonCreator
     private constructor(
-        @JsonProperty("balance_transfers")
-        @ExcludeMissing
-        private val balanceTransfers: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("cash_advances")
-        @ExcludeMissing
-        private val cashAdvances: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("credits")
-        @ExcludeMissing
-        private val credits: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("fees") @ExcludeMissing private val fees: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("interest")
-        @ExcludeMissing
-        private val interest: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("payments")
-        @ExcludeMissing
-        private val payments: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("purchases")
-        @ExcludeMissing
-        private val purchases: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val balanceTransfers: JsonField<Long>,
+        private val cashAdvances: JsonField<Long>,
+        private val credits: JsonField<Long>,
+        private val fees: JsonField<Long>,
+        private val interest: JsonField<Long>,
+        private val payments: JsonField<Long>,
+        private val purchases: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("balance_transfers")
+            @ExcludeMissing
+            balanceTransfers: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("cash_advances")
+            @ExcludeMissing
+            cashAdvances: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("credits") @ExcludeMissing credits: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("fees") @ExcludeMissing fees: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("interest") @ExcludeMissing interest: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("payments") @ExcludeMissing payments: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("purchases") @ExcludeMissing purchases: JsonField<Long> = JsonMissing.of(),
+        ) : this(
+            balanceTransfers,
+            cashAdvances,
+            credits,
+            fees,
+            interest,
+            payments,
+            purchases,
+            mutableMapOf(),
+        )
 
         /**
          * Opening balance transferred from previous account in cents
@@ -1741,26 +1828,15 @@ private constructor(
          */
         @JsonProperty("purchases") @ExcludeMissing fun _purchases(): JsonField<Long> = purchases
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): StatementTotals = apply {
-            if (validated) {
-                return@apply
-            }
-
-            balanceTransfers()
-            cashAdvances()
-            credits()
-            fees()
-            interest()
-            payments()
-            purchases()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1945,8 +2021,25 @@ private constructor(
                     checkRequired("interest", interest),
                     checkRequired("payments", payments),
                     checkRequired("purchases", purchases),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): StatementTotals = apply {
+            if (validated) {
+                return@apply
+            }
+
+            balanceTransfers()
+            cashAdvances()
+            credits()
+            fees()
+            interest()
+            payments()
+            purchases()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -2075,35 +2168,51 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @NoAutoDetect
     class InterestDetails
-    @JsonCreator
     private constructor(
-        @JsonProperty("actual_interest_charged")
-        @ExcludeMissing
-        private val actualInterestCharged: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("daily_balance_amounts")
-        @ExcludeMissing
-        private val dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of(),
-        @JsonProperty("effective_apr")
-        @ExcludeMissing
-        private val effectiveApr: JsonField<CategoryDetails> = JsonMissing.of(),
-        @JsonProperty("interest_calculation_method")
-        @ExcludeMissing
-        private val interestCalculationMethod: JsonField<InterestCalculationMethod> =
-            JsonMissing.of(),
-        @JsonProperty("interest_for_period")
-        @ExcludeMissing
-        private val interestForPeriod: JsonField<CategoryDetails> = JsonMissing.of(),
-        @JsonProperty("prime_rate")
-        @ExcludeMissing
-        private val primeRate: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("minimum_interest_charged")
-        @ExcludeMissing
-        private val minimumInterestCharged: JsonField<Long> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val actualInterestCharged: JsonField<Long>,
+        private val dailyBalanceAmounts: JsonField<CategoryDetails>,
+        private val effectiveApr: JsonField<CategoryDetails>,
+        private val interestCalculationMethod: JsonField<InterestCalculationMethod>,
+        private val interestForPeriod: JsonField<CategoryDetails>,
+        private val primeRate: JsonField<String>,
+        private val minimumInterestCharged: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("actual_interest_charged")
+            @ExcludeMissing
+            actualInterestCharged: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("daily_balance_amounts")
+            @ExcludeMissing
+            dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of(),
+            @JsonProperty("effective_apr")
+            @ExcludeMissing
+            effectiveApr: JsonField<CategoryDetails> = JsonMissing.of(),
+            @JsonProperty("interest_calculation_method")
+            @ExcludeMissing
+            interestCalculationMethod: JsonField<InterestCalculationMethod> = JsonMissing.of(),
+            @JsonProperty("interest_for_period")
+            @ExcludeMissing
+            interestForPeriod: JsonField<CategoryDetails> = JsonMissing.of(),
+            @JsonProperty("prime_rate")
+            @ExcludeMissing
+            primeRate: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("minimum_interest_charged")
+            @ExcludeMissing
+            minimumInterestCharged: JsonField<Long> = JsonMissing.of(),
+        ) : this(
+            actualInterestCharged,
+            dailyBalanceAmounts,
+            effectiveApr,
+            interestCalculationMethod,
+            interestForPeriod,
+            primeRate,
+            minimumInterestCharged,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -2220,26 +2329,15 @@ private constructor(
         @ExcludeMissing
         fun _minimumInterestCharged(): JsonField<Long> = minimumInterestCharged
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): InterestDetails = apply {
-            if (validated) {
-                return@apply
-            }
-
-            actualInterestCharged()
-            dailyBalanceAmounts().validate()
-            effectiveApr().validate()
-            interestCalculationMethod()
-            interestForPeriod().validate()
-            primeRate()
-            minimumInterestCharged()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -2458,26 +2556,47 @@ private constructor(
                     checkRequired("interestForPeriod", interestForPeriod),
                     checkRequired("primeRate", primeRate),
                     minimumInterestCharged,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): InterestDetails = apply {
+            if (validated) {
+                return@apply
+            }
+
+            actualInterestCharged()
+            dailyBalanceAmounts().validate()
+            effectiveApr().validate()
+            interestCalculationMethod()
+            interestForPeriod().validate()
+            primeRate()
+            minimumInterestCharged()
+            validated = true
+        }
+
         class CategoryDetails
-        @JsonCreator
         private constructor(
-            @JsonProperty("balance_transfers")
-            @ExcludeMissing
-            private val balanceTransfers: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("cash_advances")
-            @ExcludeMissing
-            private val cashAdvances: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("purchases")
-            @ExcludeMissing
-            private val purchases: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val balanceTransfers: JsonField<String>,
+            private val cashAdvances: JsonField<String>,
+            private val purchases: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("balance_transfers")
+                @ExcludeMissing
+                balanceTransfers: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("cash_advances")
+                @ExcludeMissing
+                cashAdvances: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("purchases")
+                @ExcludeMissing
+                purchases: JsonField<String> = JsonMissing.of(),
+            ) : this(balanceTransfers, cashAdvances, purchases, mutableMapOf())
 
             /**
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -2530,22 +2649,15 @@ private constructor(
             @ExcludeMissing
             fun _purchases(): JsonField<String> = purchases
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): CategoryDetails = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                balanceTransfers()
-                cashAdvances()
-                purchases()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -2659,8 +2771,21 @@ private constructor(
                         checkRequired("balanceTransfers", balanceTransfers),
                         checkRequired("cashAdvances", cashAdvances),
                         checkRequired("purchases", purchases),
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): CategoryDetails = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                balanceTransfers()
+                cashAdvances()
+                purchases()
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {

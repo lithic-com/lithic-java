@@ -11,15 +11,14 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -101,280 +100,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): Body = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> eventSubscriptionToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class Body
-    @JsonCreator
-    private constructor(
-        @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("description")
-        @ExcludeMissing
-        private val description: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("disabled")
-        @ExcludeMissing
-        private val disabled: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("event_types")
-        @ExcludeMissing
-        private val eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * URL to which event webhooks will be sent. URL must be a valid HTTPS address.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun url(): String = url.getRequired("url")
-
-        /**
-         * Event subscription description.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun description(): Optional<String> =
-            Optional.ofNullable(description.getNullable("description"))
-
-        /**
-         * Whether the event subscription is active (false) or inactive (true).
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled.getNullable("disabled"))
-
-        /**
-         * Indicates types of events that will be sent to this subscription. If left blank, all
-         * types will be sent.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun eventTypes(): Optional<List<EventType>> =
-            Optional.ofNullable(eventTypes.getNullable("event_types"))
-
-        /**
-         * Returns the raw JSON value of [url].
-         *
-         * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
-
-        /**
-         * Returns the raw JSON value of [description].
-         *
-         * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("description")
-        @ExcludeMissing
-        fun _description(): JsonField<String> = description
-
-        /**
-         * Returns the raw JSON value of [disabled].
-         *
-         * Unlike [disabled], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
-
-        /**
-         * Returns the raw JSON value of [eventTypes].
-         *
-         * Unlike [eventTypes], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("event_types")
-        @ExcludeMissing
-        fun _eventTypes(): JsonField<List<EventType>> = eventTypes
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Body = apply {
-            if (validated) {
-                return@apply
-            }
-
-            url()
-            description()
-            disabled()
-            eventTypes()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .url()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Body]. */
-        class Builder internal constructor() {
-
-            private var url: JsonField<String>? = null
-            private var description: JsonField<String> = JsonMissing.of()
-            private var disabled: JsonField<Boolean> = JsonMissing.of()
-            private var eventTypes: JsonField<MutableList<EventType>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                url = body.url
-                description = body.description
-                disabled = body.disabled
-                eventTypes = body.eventTypes.map { it.toMutableList() }
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
-
-            /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-            fun url(url: String) = url(JsonField.of(url))
-
-            /**
-             * Sets [Builder.url] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.url] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun url(url: JsonField<String>) = apply { this.url = url }
-
-            /** Event subscription description. */
-            fun description(description: String) = description(JsonField.of(description))
-
-            /**
-             * Sets [Builder.description] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.description] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun description(description: JsonField<String>) = apply {
-                this.description = description
-            }
-
-            /** Whether the event subscription is active (false) or inactive (true). */
-            fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
-
-            /**
-             * Sets [Builder.disabled] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.disabled] with a well-typed [Boolean] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
-
-            /**
-             * Indicates types of events that will be sent to this subscription. If left blank, all
-             * types will be sent.
-             */
-            fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
-
-            /**
-             * Sets [Builder.eventTypes] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.eventTypes] with a well-typed `List<EventType>`
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
-                this.eventTypes = eventTypes.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [EventType] to [eventTypes].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addEventType(eventType: EventType) = apply {
-                eventTypes =
-                    (eventTypes ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("eventTypes", it).add(eventType)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Body].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .url()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): Body =
-                Body(
-                    checkRequired("url", url),
-                    description,
-                    disabled,
-                    (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Body && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(url, description, disabled, eventTypes, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Body{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -393,7 +118,6 @@ private constructor(
     }
 
     /** A builder for [EventSubscriptionUpdateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var eventSubscriptionToken: String? = null
@@ -609,6 +333,291 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): Body = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> eventSubscriptionToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class Body
+    private constructor(
+        private val url: JsonField<String>,
+        private val description: JsonField<String>,
+        private val disabled: JsonField<Boolean>,
+        private val eventTypes: JsonField<List<EventType>>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("description")
+            @ExcludeMissing
+            description: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("disabled")
+            @ExcludeMissing
+            disabled: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("event_types")
+            @ExcludeMissing
+            eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
+        ) : this(url, description, disabled, eventTypes, mutableMapOf())
+
+        /**
+         * URL to which event webhooks will be sent. URL must be a valid HTTPS address.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun url(): String = url.getRequired("url")
+
+        /**
+         * Event subscription description.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun description(): Optional<String> =
+            Optional.ofNullable(description.getNullable("description"))
+
+        /**
+         * Whether the event subscription is active (false) or inactive (true).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled.getNullable("disabled"))
+
+        /**
+         * Indicates types of events that will be sent to this subscription. If left blank, all
+         * types will be sent.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun eventTypes(): Optional<List<EventType>> =
+            Optional.ofNullable(eventTypes.getNullable("event_types"))
+
+        /**
+         * Returns the raw JSON value of [url].
+         *
+         * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
+
+        /**
+         * Returns the raw JSON value of [description].
+         *
+         * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("description")
+        @ExcludeMissing
+        fun _description(): JsonField<String> = description
+
+        /**
+         * Returns the raw JSON value of [disabled].
+         *
+         * Unlike [disabled], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
+
+        /**
+         * Returns the raw JSON value of [eventTypes].
+         *
+         * Unlike [eventTypes], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("event_types")
+        @ExcludeMissing
+        fun _eventTypes(): JsonField<List<EventType>> = eventTypes
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Body].
+             *
+             * The following fields are required:
+             * ```java
+             * .url()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var url: JsonField<String>? = null
+            private var description: JsonField<String> = JsonMissing.of()
+            private var disabled: JsonField<Boolean> = JsonMissing.of()
+            private var eventTypes: JsonField<MutableList<EventType>>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                url = body.url
+                description = body.description
+                disabled = body.disabled
+                eventTypes = body.eventTypes.map { it.toMutableList() }
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
+            fun url(url: String) = url(JsonField.of(url))
+
+            /**
+             * Sets [Builder.url] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.url] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun url(url: JsonField<String>) = apply { this.url = url }
+
+            /** Event subscription description. */
+            fun description(description: String) = description(JsonField.of(description))
+
+            /**
+             * Sets [Builder.description] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.description] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun description(description: JsonField<String>) = apply {
+                this.description = description
+            }
+
+            /** Whether the event subscription is active (false) or inactive (true). */
+            fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
+
+            /**
+             * Sets [Builder.disabled] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.disabled] with a well-typed [Boolean] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
+
+            /**
+             * Indicates types of events that will be sent to this subscription. If left blank, all
+             * types will be sent.
+             */
+            fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
+
+            /**
+             * Sets [Builder.eventTypes] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.eventTypes] with a well-typed `List<EventType>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
+                this.eventTypes = eventTypes.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [EventType] to [eventTypes].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addEventType(eventType: EventType) = apply {
+                eventTypes =
+                    (eventTypes ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("eventTypes", it).add(eventType)
+                    }
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .url()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Body =
+                Body(
+                    checkRequired("url", url),
+                    description,
+                    disabled,
+                    (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            url()
+            description()
+            disabled()
+            eventTypes()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Body && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(url, description, disabled, eventTypes, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
     }
 
     class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

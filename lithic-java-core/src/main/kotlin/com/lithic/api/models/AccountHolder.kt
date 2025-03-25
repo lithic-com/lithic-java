@@ -11,81 +11,118 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class AccountHolder
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("beneficial_owner_entities")
-    @ExcludeMissing
-    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>> =
-        JsonMissing.of(),
-    @JsonProperty("beneficial_owner_individuals")
-    @ExcludeMissing
-    private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
-        JsonMissing.of(),
-    @JsonProperty("business_account_token")
-    @ExcludeMissing
-    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("business_entity")
-    @ExcludeMissing
-    private val businessEntity: JsonField<AccountHolderBusinessResponse> = JsonMissing.of(),
-    @JsonProperty("control_person")
-    @ExcludeMissing
-    private val controlPerson: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
-    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("exemption_type")
-    @ExcludeMissing
-    private val exemptionType: JsonField<ExemptionType> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("individual")
-    @ExcludeMissing
-    private val individual: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
-    @JsonProperty("nature_of_business")
-    @ExcludeMissing
-    private val natureOfBusiness: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("phone_number")
-    @ExcludeMissing
-    private val phoneNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("required_documents")
-    @ExcludeMissing
-    private val requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("status_reasons")
-    @ExcludeMissing
-    private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
-    @JsonProperty("user_type")
-    @ExcludeMissing
-    private val userType: JsonField<UserType> = JsonMissing.of(),
-    @JsonProperty("verification_application")
-    @ExcludeMissing
-    private val verificationApplication: JsonField<AccountHolderVerificationApplication> =
-        JsonMissing.of(),
-    @JsonProperty("website_url")
-    @ExcludeMissing
-    private val websiteUrl: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val accountToken: JsonField<String>,
+    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>,
+    private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>,
+    private val businessAccountToken: JsonField<String>,
+    private val businessEntity: JsonField<AccountHolderBusinessResponse>,
+    private val controlPerson: JsonField<AccountHolderIndividualResponse>,
+    private val email: JsonField<String>,
+    private val exemptionType: JsonField<ExemptionType>,
+    private val externalId: JsonField<String>,
+    private val individual: JsonField<AccountHolderIndividualResponse>,
+    private val natureOfBusiness: JsonField<String>,
+    private val phoneNumber: JsonField<String>,
+    private val requiredDocuments: JsonField<List<RequiredDocument>>,
+    private val status: JsonField<Status>,
+    private val statusReasons: JsonField<List<StatusReason>>,
+    private val userType: JsonField<UserType>,
+    private val verificationApplication: JsonField<AccountHolderVerificationApplication>,
+    private val websiteUrl: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("beneficial_owner_entities")
+        @ExcludeMissing
+        beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>> = JsonMissing.of(),
+        @JsonProperty("beneficial_owner_individuals")
+        @ExcludeMissing
+        beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
+            JsonMissing.of(),
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        businessAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("business_entity")
+        @ExcludeMissing
+        businessEntity: JsonField<AccountHolderBusinessResponse> = JsonMissing.of(),
+        @JsonProperty("control_person")
+        @ExcludeMissing
+        controlPerson: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
+        @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("exemption_type")
+        @ExcludeMissing
+        exemptionType: JsonField<ExemptionType> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("individual")
+        @ExcludeMissing
+        individual: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
+        @JsonProperty("nature_of_business")
+        @ExcludeMissing
+        natureOfBusiness: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        phoneNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("required_documents")
+        @ExcludeMissing
+        requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
+        @JsonProperty("user_type") @ExcludeMissing userType: JsonField<UserType> = JsonMissing.of(),
+        @JsonProperty("verification_application")
+        @ExcludeMissing
+        verificationApplication: JsonField<AccountHolderVerificationApplication> = JsonMissing.of(),
+        @JsonProperty("website_url")
+        @ExcludeMissing
+        websiteUrl: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        created,
+        accountToken,
+        beneficialOwnerEntities,
+        beneficialOwnerIndividuals,
+        businessAccountToken,
+        businessEntity,
+        controlPerson,
+        email,
+        exemptionType,
+        externalId,
+        individual,
+        natureOfBusiness,
+        phoneNumber,
+        requiredDocuments,
+        status,
+        statusReasons,
+        userType,
+        verificationApplication,
+        websiteUrl,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the account holder.
@@ -460,39 +497,15 @@ private constructor(
      */
     @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl(): JsonField<String> = websiteUrl
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): AccountHolder = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        created()
-        accountToken()
-        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
-        beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
-        businessAccountToken()
-        businessEntity().ifPresent { it.validate() }
-        controlPerson().ifPresent { it.validate() }
-        email()
-        exemptionType()
-        externalId()
-        individual().ifPresent { it.validate() }
-        natureOfBusiness()
-        phoneNumber()
-        requiredDocuments().ifPresent { it.forEach { it.validate() } }
-        status()
-        statusReasons()
-        userType()
-        verificationApplication().ifPresent { it.validate() }
-        websiteUrl()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -1001,38 +1014,83 @@ private constructor(
                 userType,
                 verificationApplication,
                 websiteUrl,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): AccountHolder = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        created()
+        accountToken()
+        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
+        beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
+        businessAccountToken()
+        businessEntity().ifPresent { it.validate() }
+        controlPerson().ifPresent { it.validate() }
+        email()
+        exemptionType()
+        externalId()
+        individual().ifPresent { it.validate() }
+        natureOfBusiness()
+        phoneNumber()
+        requiredDocuments().ifPresent { it.forEach { it.validate() } }
+        status()
+        statusReasons()
+        userType()
+        verificationApplication().ifPresent { it.validate() }
+        websiteUrl()
+        validated = true
+    }
+
     class AccountHolderBusinessResponse
-    @JsonCreator
     private constructor(
-        @JsonProperty("address")
-        @ExcludeMissing
-        private val address: JsonField<Address> = JsonMissing.of(),
-        @JsonProperty("dba_business_name")
-        @ExcludeMissing
-        private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("entity_token")
-        @ExcludeMissing
-        private val entityToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("government_id")
-        @ExcludeMissing
-        private val governmentId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("legal_business_name")
-        @ExcludeMissing
-        private val legalBusinessName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("phone_numbers")
-        @ExcludeMissing
-        private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("parent_company")
-        @ExcludeMissing
-        private val parentCompany: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val address: JsonField<Address>,
+        private val dbaBusinessName: JsonField<String>,
+        private val entityToken: JsonField<String>,
+        private val governmentId: JsonField<String>,
+        private val legalBusinessName: JsonField<String>,
+        private val phoneNumbers: JsonField<List<String>>,
+        private val parentCompany: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+            @JsonProperty("dba_business_name")
+            @ExcludeMissing
+            dbaBusinessName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("entity_token")
+            @ExcludeMissing
+            entityToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("government_id")
+            @ExcludeMissing
+            governmentId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("legal_business_name")
+            @ExcludeMissing
+            legalBusinessName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_numbers")
+            @ExcludeMissing
+            phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("parent_company")
+            @ExcludeMissing
+            parentCompany: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            address,
+            dbaBusinessName,
+            entityToken,
+            governmentId,
+            legalBusinessName,
+            phoneNumbers,
+            parentCompany,
+            mutableMapOf(),
+        )
 
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -1160,26 +1218,15 @@ private constructor(
         @ExcludeMissing
         fun _parentCompany(): JsonField<String> = parentCompany
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AccountHolderBusinessResponse = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address().validate()
-            dbaBusinessName()
-            entityToken()
-            governmentId()
-            legalBusinessName()
-            phoneNumbers()
-            parentCompany()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1393,8 +1440,25 @@ private constructor(
                     checkRequired("legalBusinessName", legalBusinessName),
                     checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
                     parentCompany,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderBusinessResponse = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address().validate()
+            dbaBusinessName()
+            entityToken()
+            governmentId()
+            legalBusinessName()
+            phoneNumbers()
+            parentCompany()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1419,32 +1483,36 @@ private constructor(
      * Information about an individual associated with an account holder. A subset of the
      * information provided via KYC. For example, we do not return the government id.
      */
-    @NoAutoDetect
     class AccountHolderIndividualResponse
-    @JsonCreator
     private constructor(
-        @JsonProperty("address")
-        @ExcludeMissing
-        private val address: JsonField<Address> = JsonMissing.of(),
-        @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("email")
-        @ExcludeMissing
-        private val email: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("entity_token")
-        @ExcludeMissing
-        private val entityToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("first_name")
-        @ExcludeMissing
-        private val firstName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("last_name")
-        @ExcludeMissing
-        private val lastName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("phone_number")
-        @ExcludeMissing
-        private val phoneNumber: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val address: JsonField<Address>,
+        private val dob: JsonField<String>,
+        private val email: JsonField<String>,
+        private val entityToken: JsonField<String>,
+        private val firstName: JsonField<String>,
+        private val lastName: JsonField<String>,
+        private val phoneNumber: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+            @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("entity_token")
+            @ExcludeMissing
+            entityToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("first_name")
+            @ExcludeMissing
+            firstName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("last_name")
+            @ExcludeMissing
+            lastName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_number")
+            @ExcludeMissing
+            phoneNumber: JsonField<String> = JsonMissing.of(),
+        ) : this(address, dob, email, entityToken, firstName, lastName, phoneNumber, mutableMapOf())
 
         /**
          * Individual's current address
@@ -1555,26 +1623,15 @@ private constructor(
         @ExcludeMissing
         fun _phoneNumber(): JsonField<String> = phoneNumber
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AccountHolderIndividualResponse = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address().validate()
-            dob()
-            email()
-            entityToken()
-            firstName()
-            lastName()
-            phoneNumber()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1758,8 +1815,25 @@ private constructor(
                     checkRequired("firstName", firstName),
                     checkRequired("lastName", lastName),
                     checkRequired("phoneNumber", phoneNumber),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderIndividualResponse = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address().validate()
+            dob()
+            email()
+            entityToken()
+            firstName()
+            lastName()
+            phoneNumber()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {
@@ -2267,25 +2341,28 @@ private constructor(
     }
 
     /** Information about the most recent identity verification attempt */
-    @NoAutoDetect
     class AccountHolderVerificationApplication
-    @JsonCreator
     private constructor(
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("status")
-        @ExcludeMissing
-        private val status: JsonField<Status> = JsonMissing.of(),
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
-        private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
-        @JsonProperty("updated")
-        @ExcludeMissing
-        private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val created: JsonField<OffsetDateTime>,
+        private val status: JsonField<Status>,
+        private val statusReasons: JsonField<List<StatusReason>>,
+        private val updated: JsonField<OffsetDateTime>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+            @JsonProperty("status_reasons")
+            @ExcludeMissing
+            statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
+            @JsonProperty("updated")
+            @ExcludeMissing
+            updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        ) : this(created, status, statusReasons, updated, mutableMapOf())
 
         /**
          * Timestamp of when the application was created.
@@ -2356,23 +2433,15 @@ private constructor(
          */
         @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): AccountHolderVerificationApplication = apply {
-            if (validated) {
-                return@apply
-            }
-
-            created()
-            status()
-            statusReasons()
-            updated()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -2505,8 +2574,22 @@ private constructor(
                     status,
                     (statusReasons ?: JsonMissing.of()).map { it.toImmutable() },
                     updated,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderVerificationApplication = apply {
+            if (validated) {
+                return@apply
+            }
+
+            created()
+            status()
+            statusReasons()
+            updated()
+            validated = true
         }
 
         /**
