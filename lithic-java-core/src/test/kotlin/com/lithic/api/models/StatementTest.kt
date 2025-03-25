@@ -20,6 +20,20 @@ internal class StatementTest {
                         .consecutiveMinimumPaymentsMade(0L)
                         .consecutiveMinimumPaymentsMissed(0L)
                         .daysPastDue(0L)
+                        .financialAccountState(
+                            Statement.AccountStanding.FinancialAccountState.builder()
+                                .status(
+                                    Statement.AccountStanding.FinancialAccountState
+                                        .FinancialAccountStatus
+                                        .OPEN
+                                )
+                                .statusChangeReason(
+                                    Statement.AccountStanding.FinancialAccountState
+                                        .FinancialAccountStatusChangeReason
+                                        .CHARGED_OFF_DELINQUENT
+                                )
+                                .build()
+                        )
                         .hasGrace(true)
                         .periodNumber(0L)
                         .periodState(Statement.AccountStanding.PeriodState.STANDARD)
@@ -104,6 +118,20 @@ internal class StatementTest {
                     .consecutiveMinimumPaymentsMade(0L)
                     .consecutiveMinimumPaymentsMissed(0L)
                     .daysPastDue(0L)
+                    .financialAccountState(
+                        Statement.AccountStanding.FinancialAccountState.builder()
+                            .status(
+                                Statement.AccountStanding.FinancialAccountState
+                                    .FinancialAccountStatus
+                                    .OPEN
+                            )
+                            .statusChangeReason(
+                                Statement.AccountStanding.FinancialAccountState
+                                    .FinancialAccountStatusChangeReason
+                                    .CHARGED_OFF_DELINQUENT
+                            )
+                            .build()
+                    )
                     .hasGrace(true)
                     .periodNumber(0L)
                     .periodState(Statement.AccountStanding.PeriodState.STANDARD)

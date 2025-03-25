@@ -31,12 +31,20 @@ import com.lithic.api.errors.LithicInvalidDataException
  *   authorization. Scores are on a range of 0-999, with 0 representing the lowest risk and 999
  *   representing the highest risk. For Visa transactions, where the raw score has a range of 0-99,
  *   Lithic will normalize the score by multiplying the raw score by 10x.
+ * - `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in the trailing 15 minutes
+ *   before the authorization.
  * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the trailing hour up and
  *   until the authorization.
  * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24 hours
  *   up and until the authorization.
  * - `CARD_STATE`: The current state of the card associated with the transaction. Valid values are
  *   `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+ * - `PIN_ENTERED`: Indicates whether a PIN was entered during the transaction. Valid values are
+ *   `TRUE`, `FALSE`.
+ * - `PIN_STATUS`: The current state of card's PIN. Valid values are `NOT_SET`, `OK`, `BLOCKED`.
+ * - `WALLET_TYPE`: For transactions using a digital wallet token, indicates the source of the
+ *   token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`,
+ *   `OTHER`, `NONE`.
  */
 class ConditionalAttribute @JsonCreator private constructor(private val value: JsonField<String>) :
     Enum {
@@ -70,11 +78,19 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
 
         @JvmField val RISK_SCORE = of("RISK_SCORE")
 
+        @JvmField val CARD_TRANSACTION_COUNT_15_M = of("CARD_TRANSACTION_COUNT_15M")
+
         @JvmField val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
 
         @JvmField val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
 
         @JvmField val CARD_STATE = of("CARD_STATE")
+
+        @JvmField val PIN_ENTERED = of("PIN_ENTERED")
+
+        @JvmField val PIN_STATUS = of("PIN_STATUS")
+
+        @JvmField val WALLET_TYPE = of("WALLET_TYPE")
 
         @JvmStatic fun of(value: String) = ConditionalAttribute(JsonField.of(value))
     }
@@ -90,9 +106,13 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         PAN_ENTRY_MODE,
         TRANSACTION_AMOUNT,
         RISK_SCORE,
+        CARD_TRANSACTION_COUNT_15_M,
         CARD_TRANSACTION_COUNT_1_H,
         CARD_TRANSACTION_COUNT_24_H,
         CARD_STATE,
+        PIN_ENTERED,
+        PIN_STATUS,
+        WALLET_TYPE,
     }
 
     /**
@@ -114,9 +134,13 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         PAN_ENTRY_MODE,
         TRANSACTION_AMOUNT,
         RISK_SCORE,
+        CARD_TRANSACTION_COUNT_15_M,
         CARD_TRANSACTION_COUNT_1_H,
         CARD_TRANSACTION_COUNT_24_H,
         CARD_STATE,
+        PIN_ENTERED,
+        PIN_STATUS,
+        WALLET_TYPE,
         /**
          * An enum member indicating that [ConditionalAttribute] was instantiated with an unknown
          * value.
@@ -142,9 +166,13 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
             TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
             RISK_SCORE -> Value.RISK_SCORE
+            CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
             CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
             CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
             CARD_STATE -> Value.CARD_STATE
+            PIN_ENTERED -> Value.PIN_ENTERED
+            PIN_STATUS -> Value.PIN_STATUS
+            WALLET_TYPE -> Value.WALLET_TYPE
             else -> Value._UNKNOWN
         }
 
@@ -167,9 +195,13 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
             TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
             RISK_SCORE -> Known.RISK_SCORE
+            CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
             CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
             CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
             CARD_STATE -> Known.CARD_STATE
+            PIN_ENTERED -> Known.PIN_ENTERED
+            PIN_STATUS -> Known.PIN_STATUS
+            WALLET_TYPE -> Known.WALLET_TYPE
             else -> throw LithicInvalidDataException("Unknown ConditionalAttribute: $value")
         }
 
