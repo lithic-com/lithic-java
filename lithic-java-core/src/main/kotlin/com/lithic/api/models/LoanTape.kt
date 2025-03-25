@@ -992,6 +992,7 @@ private constructor(
         private val consecutiveMinimumPaymentsMade: JsonField<Long>,
         private val consecutiveMinimumPaymentsMissed: JsonField<Long>,
         private val daysPastDue: JsonField<Long>,
+        private val financialAccountState: JsonField<FinancialAccountState>,
         private val hasGrace: JsonField<Boolean>,
         private val periodNumber: JsonField<Long>,
         private val periodState: JsonField<PeriodState>,
@@ -1012,6 +1013,9 @@ private constructor(
             @JsonProperty("days_past_due")
             @ExcludeMissing
             daysPastDue: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("financial_account_state")
+            @ExcludeMissing
+            financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of(),
             @JsonProperty("has_grace")
             @ExcludeMissing
             hasGrace: JsonField<Boolean> = JsonMissing.of(),
@@ -1026,6 +1030,7 @@ private constructor(
             consecutiveMinimumPaymentsMade,
             consecutiveMinimumPaymentsMissed,
             daysPastDue,
+            financialAccountState,
             hasGrace,
             periodNumber,
             periodState,
@@ -1066,6 +1071,15 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun daysPastDue(): Long = daysPastDue.getRequired("days_past_due")
+
+        /**
+         * Information about the financial account state
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun financialAccountState(): FinancialAccountState =
+            financialAccountState.getRequired("financial_account_state")
 
         /**
          * Whether the account currently has grace or not
@@ -1129,6 +1143,16 @@ private constructor(
         fun _daysPastDue(): JsonField<Long> = daysPastDue
 
         /**
+         * Returns the raw JSON value of [financialAccountState].
+         *
+         * Unlike [financialAccountState], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("financial_account_state")
+        @ExcludeMissing
+        fun _financialAccountState(): JsonField<FinancialAccountState> = financialAccountState
+
+        /**
          * Returns the raw JSON value of [hasGrace].
          *
          * Unlike [hasGrace], this method doesn't throw if the JSON field has an unexpected type.
@@ -1177,6 +1201,7 @@ private constructor(
              * .consecutiveMinimumPaymentsMade()
              * .consecutiveMinimumPaymentsMissed()
              * .daysPastDue()
+             * .financialAccountState()
              * .hasGrace()
              * .periodNumber()
              * .periodState()
@@ -1192,6 +1217,7 @@ private constructor(
             private var consecutiveMinimumPaymentsMade: JsonField<Long>? = null
             private var consecutiveMinimumPaymentsMissed: JsonField<Long>? = null
             private var daysPastDue: JsonField<Long>? = null
+            private var financialAccountState: JsonField<FinancialAccountState>? = null
             private var hasGrace: JsonField<Boolean>? = null
             private var periodNumber: JsonField<Long>? = null
             private var periodState: JsonField<PeriodState>? = null
@@ -1203,6 +1229,7 @@ private constructor(
                 consecutiveMinimumPaymentsMade = accountStanding.consecutiveMinimumPaymentsMade
                 consecutiveMinimumPaymentsMissed = accountStanding.consecutiveMinimumPaymentsMissed
                 daysPastDue = accountStanding.daysPastDue
+                financialAccountState = accountStanding.financialAccountState
                 hasGrace = accountStanding.hasGrace
                 periodNumber = accountStanding.periodNumber
                 periodState = accountStanding.periodState
@@ -1266,6 +1293,22 @@ private constructor(
              * supported value.
              */
             fun daysPastDue(daysPastDue: JsonField<Long>) = apply { this.daysPastDue = daysPastDue }
+
+            /** Information about the financial account state */
+            fun financialAccountState(financialAccountState: FinancialAccountState) =
+                financialAccountState(JsonField.of(financialAccountState))
+
+            /**
+             * Sets [Builder.financialAccountState] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialAccountState] with a well-typed
+             * [FinancialAccountState] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            fun financialAccountState(financialAccountState: JsonField<FinancialAccountState>) =
+                apply {
+                    this.financialAccountState = financialAccountState
+                }
 
             /** Whether the account currently has grace or not */
             fun hasGrace(hasGrace: Boolean) = hasGrace(JsonField.of(hasGrace))
@@ -1336,6 +1379,7 @@ private constructor(
              * .consecutiveMinimumPaymentsMade()
              * .consecutiveMinimumPaymentsMissed()
              * .daysPastDue()
+             * .financialAccountState()
              * .hasGrace()
              * .periodNumber()
              * .periodState()
@@ -1352,6 +1396,7 @@ private constructor(
                         consecutiveMinimumPaymentsMissed,
                     ),
                     checkRequired("daysPastDue", daysPastDue),
+                    checkRequired("financialAccountState", financialAccountState),
                     checkRequired("hasGrace", hasGrace),
                     checkRequired("periodNumber", periodNumber),
                     checkRequired("periodState", periodState),
@@ -1370,10 +1415,470 @@ private constructor(
             consecutiveMinimumPaymentsMade()
             consecutiveMinimumPaymentsMissed()
             daysPastDue()
+            financialAccountState().validate()
             hasGrace()
             periodNumber()
             periodState()
             validated = true
+        }
+
+        /** Information about the financial account state */
+        class FinancialAccountState
+        private constructor(
+            private val status: JsonField<FinancialAccountStatus>,
+            private val statusChangeReason: JsonField<FinancialAccountStatusChangeReason>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("status")
+                @ExcludeMissing
+                status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
+                @JsonProperty("status_change_reason")
+                @ExcludeMissing
+                statusChangeReason: JsonField<FinancialAccountStatusChangeReason> = JsonMissing.of(),
+            ) : this(status, statusChangeReason, mutableMapOf())
+
+            /**
+             * Status of the financial account
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun status(): FinancialAccountStatus = status.getRequired("status")
+
+            /**
+             * Reason for the financial account status change
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun statusChangeReason(): Optional<FinancialAccountStatusChangeReason> =
+                Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
+
+            /**
+             * Returns the raw JSON value of [status].
+             *
+             * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("status")
+            @ExcludeMissing
+            fun _status(): JsonField<FinancialAccountStatus> = status
+
+            /**
+             * Returns the raw JSON value of [statusChangeReason].
+             *
+             * Unlike [statusChangeReason], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("status_change_reason")
+            @ExcludeMissing
+            fun _statusChangeReason(): JsonField<FinancialAccountStatusChangeReason> =
+                statusChangeReason
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [FinancialAccountState].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .status()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [FinancialAccountState]. */
+            class Builder internal constructor() {
+
+                private var status: JsonField<FinancialAccountStatus>? = null
+                private var statusChangeReason: JsonField<FinancialAccountStatusChangeReason> =
+                    JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(financialAccountState: FinancialAccountState) = apply {
+                    status = financialAccountState.status
+                    statusChangeReason = financialAccountState.statusChangeReason
+                    additionalProperties = financialAccountState.additionalProperties.toMutableMap()
+                }
+
+                /** Status of the financial account */
+                fun status(status: FinancialAccountStatus) = status(JsonField.of(status))
+
+                /**
+                 * Sets [Builder.status] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.status] with a well-typed
+                 * [FinancialAccountStatus] value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
+                 */
+                fun status(status: JsonField<FinancialAccountStatus>) = apply {
+                    this.status = status
+                }
+
+                /** Reason for the financial account status change */
+                fun statusChangeReason(statusChangeReason: FinancialAccountStatusChangeReason?) =
+                    statusChangeReason(JsonField.ofNullable(statusChangeReason))
+
+                /**
+                 * Alias for calling [Builder.statusChangeReason] with
+                 * `statusChangeReason.orElse(null)`.
+                 */
+                fun statusChangeReason(
+                    statusChangeReason: Optional<FinancialAccountStatusChangeReason>
+                ) = statusChangeReason(statusChangeReason.getOrNull())
+
+                /**
+                 * Sets [Builder.statusChangeReason] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.statusChangeReason] with a well-typed
+                 * [FinancialAccountStatusChangeReason] value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
+                 */
+                fun statusChangeReason(
+                    statusChangeReason: JsonField<FinancialAccountStatusChangeReason>
+                ) = apply { this.statusChangeReason = statusChangeReason }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [FinancialAccountState].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .status()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): FinancialAccountState =
+                    FinancialAccountState(
+                        checkRequired("status", status),
+                        statusChangeReason,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): FinancialAccountState = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                status()
+                statusChangeReason()
+                validated = true
+            }
+
+            /** Status of the financial account */
+            class FinancialAccountStatus
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val OPEN = of("OPEN")
+
+                    @JvmField val CLOSED = of("CLOSED")
+
+                    @JvmField val SUSPENDED = of("SUSPENDED")
+
+                    @JvmField val PENDING = of("PENDING")
+
+                    @JvmStatic fun of(value: String) = FinancialAccountStatus(JsonField.of(value))
+                }
+
+                /** An enum containing [FinancialAccountStatus]'s known values. */
+                enum class Known {
+                    OPEN,
+                    CLOSED,
+                    SUSPENDED,
+                    PENDING,
+                }
+
+                /**
+                 * An enum containing [FinancialAccountStatus]'s known values, as well as an
+                 * [_UNKNOWN] member.
+                 *
+                 * An instance of [FinancialAccountStatus] can contain an unknown value in a couple
+                 * of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    OPEN,
+                    CLOSED,
+                    SUSPENDED,
+                    PENDING,
+                    /**
+                     * An enum member indicating that [FinancialAccountStatus] was instantiated with
+                     * an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        OPEN -> Value.OPEN
+                        CLOSED -> Value.CLOSED
+                        SUSPENDED -> Value.SUSPENDED
+                        PENDING -> Value.PENDING
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        OPEN -> Known.OPEN
+                        CLOSED -> Known.CLOSED
+                        SUSPENDED -> Known.SUSPENDED
+                        PENDING -> Known.PENDING
+                        else ->
+                            throw LithicInvalidDataException(
+                                "Unknown FinancialAccountStatus: $value"
+                            )
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is FinancialAccountStatus && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            /** Reason for the financial account status change */
+            class FinancialAccountStatusChangeReason
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val CHARGED_OFF_DELINQUENT = of("CHARGED_OFF_DELINQUENT")
+
+                    @JvmField val CHARGED_OFF_FRAUD = of("CHARGED_OFF_FRAUD")
+
+                    @JvmField val END_USER_REQUEST = of("END_USER_REQUEST")
+
+                    @JvmField val BANK_REQUEST = of("BANK_REQUEST")
+
+                    @JvmField val DELINQUENT = of("DELINQUENT")
+
+                    @JvmStatic
+                    fun of(value: String) = FinancialAccountStatusChangeReason(JsonField.of(value))
+                }
+
+                /** An enum containing [FinancialAccountStatusChangeReason]'s known values. */
+                enum class Known {
+                    CHARGED_OFF_DELINQUENT,
+                    CHARGED_OFF_FRAUD,
+                    END_USER_REQUEST,
+                    BANK_REQUEST,
+                    DELINQUENT,
+                }
+
+                /**
+                 * An enum containing [FinancialAccountStatusChangeReason]'s known values, as well
+                 * as an [_UNKNOWN] member.
+                 *
+                 * An instance of [FinancialAccountStatusChangeReason] can contain an unknown value
+                 * in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    CHARGED_OFF_DELINQUENT,
+                    CHARGED_OFF_FRAUD,
+                    END_USER_REQUEST,
+                    BANK_REQUEST,
+                    DELINQUENT,
+                    /**
+                     * An enum member indicating that [FinancialAccountStatusChangeReason] was
+                     * instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        CHARGED_OFF_DELINQUENT -> Value.CHARGED_OFF_DELINQUENT
+                        CHARGED_OFF_FRAUD -> Value.CHARGED_OFF_FRAUD
+                        END_USER_REQUEST -> Value.END_USER_REQUEST
+                        BANK_REQUEST -> Value.BANK_REQUEST
+                        DELINQUENT -> Value.DELINQUENT
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        CHARGED_OFF_DELINQUENT -> Known.CHARGED_OFF_DELINQUENT
+                        CHARGED_OFF_FRAUD -> Known.CHARGED_OFF_FRAUD
+                        END_USER_REQUEST -> Known.END_USER_REQUEST
+                        BANK_REQUEST -> Known.BANK_REQUEST
+                        DELINQUENT -> Known.DELINQUENT
+                        else ->
+                            throw LithicInvalidDataException(
+                                "Unknown FinancialAccountStatusChangeReason: $value"
+                            )
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is FinancialAccountStatusChangeReason && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is FinancialAccountState && status == other.status && statusChangeReason == other.statusChangeReason && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(status, statusChangeReason, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "FinancialAccountState{status=$status, statusChangeReason=$statusChangeReason, additionalProperties=$additionalProperties}"
         }
 
         class PeriodState @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1491,17 +1996,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountStanding && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && daysPastDue == other.daysPastDue && hasGrace == other.hasGrace && periodNumber == other.periodNumber && periodState == other.periodState && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountStanding && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && daysPastDue == other.daysPastDue && financialAccountState == other.financialAccountState && hasGrace == other.hasGrace && periodNumber == other.periodNumber && periodState == other.periodState && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, daysPastDue, hasGrace, periodNumber, periodState, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, daysPastDue, financialAccountState, hasGrace, periodNumber, periodState, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AccountStanding{consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, daysPastDue=$daysPastDue, hasGrace=$hasGrace, periodNumber=$periodNumber, periodState=$periodState, additionalProperties=$additionalProperties}"
+            "AccountStanding{consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, daysPastDue=$daysPastDue, financialAccountState=$financialAccountState, hasGrace=$hasGrace, periodNumber=$periodNumber, periodState=$periodState, additionalProperties=$additionalProperties}"
     }
 
     class Balances
