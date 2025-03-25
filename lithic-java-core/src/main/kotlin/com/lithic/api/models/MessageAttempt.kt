@@ -11,41 +11,55 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 
 /** A subscription to specific event types. */
-@NoAutoDetect
 class MessageAttempt
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("event_subscription_token")
-    @ExcludeMissing
-    private val eventSubscriptionToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("event_token")
-    @ExcludeMissing
-    private val eventToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("response")
-    @ExcludeMissing
-    private val response: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("response_status_code")
-    @ExcludeMissing
-    private val responseStatusCode: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val eventSubscriptionToken: JsonField<String>,
+    private val eventToken: JsonField<String>,
+    private val response: JsonField<String>,
+    private val responseStatusCode: JsonField<Long>,
+    private val status: JsonField<Status>,
+    private val url: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("event_subscription_token")
+        @ExcludeMissing
+        eventSubscriptionToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("event_token")
+        @ExcludeMissing
+        eventToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("response") @ExcludeMissing response: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("response_status_code")
+        @ExcludeMissing
+        responseStatusCode: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        token,
+        created,
+        eventSubscriptionToken,
+        eventToken,
+        response,
+        responseStatusCode,
+        status,
+        url,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -174,27 +188,15 @@ private constructor(
      */
     @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): MessageAttempt = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        created()
-        eventSubscriptionToken()
-        eventToken()
-        response()
-        responseStatusCode()
-        status()
-        url()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -393,8 +395,26 @@ private constructor(
                 checkRequired("responseStatusCode", responseStatusCode),
                 checkRequired("status", status),
                 checkRequired("url", url),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): MessageAttempt = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        created()
+        eventSubscriptionToken()
+        eventToken()
+        response()
+        responseStatusCode()
+        status()
+        url()
+        validated = true
     }
 
     /** The status of the event attempt. */

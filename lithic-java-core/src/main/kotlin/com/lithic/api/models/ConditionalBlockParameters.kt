@@ -10,23 +10,25 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 
-@NoAutoDetect
 class ConditionalBlockParameters
-@JsonCreator
 private constructor(
-    @JsonProperty("conditions")
-    @ExcludeMissing
-    private val conditions: JsonField<List<AuthRuleCondition>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val conditions: JsonField<List<AuthRuleCondition>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("conditions")
+        @ExcludeMissing
+        conditions: JsonField<List<AuthRuleCondition>> = JsonMissing.of()
+    ) : this(conditions, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -43,20 +45,15 @@ private constructor(
     @ExcludeMissing
     fun _conditions(): JsonField<List<AuthRuleCondition>> = conditions
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ConditionalBlockParameters = apply {
-        if (validated) {
-            return@apply
-        }
-
-        conditions().forEach { it.validate() }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -144,8 +141,19 @@ private constructor(
         fun build(): ConditionalBlockParameters =
             ConditionalBlockParameters(
                 checkRequired("conditions", conditions).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ConditionalBlockParameters = apply {
+        if (validated) {
+            return@apply
+        }
+
+        conditions().forEach { it.validate() }
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

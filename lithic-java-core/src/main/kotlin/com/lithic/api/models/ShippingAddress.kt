@@ -10,47 +10,59 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class ShippingAddress
-@JsonCreator
 private constructor(
-    @JsonProperty("address1")
-    @ExcludeMissing
-    private val address1: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("city") @ExcludeMissing private val city: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("country")
-    @ExcludeMissing
-    private val country: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("first_name")
-    @ExcludeMissing
-    private val firstName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("last_name")
-    @ExcludeMissing
-    private val lastName: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("postal_code")
-    @ExcludeMissing
-    private val postalCode: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("address2")
-    @ExcludeMissing
-    private val address2: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("line2_text")
-    @ExcludeMissing
-    private val line2Text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("phone_number")
-    @ExcludeMissing
-    private val phoneNumber: JsonField<String> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val address1: JsonField<String>,
+    private val city: JsonField<String>,
+    private val country: JsonField<String>,
+    private val firstName: JsonField<String>,
+    private val lastName: JsonField<String>,
+    private val postalCode: JsonField<String>,
+    private val state: JsonField<String>,
+    private val address2: JsonField<String>,
+    private val email: JsonField<String>,
+    private val line2Text: JsonField<String>,
+    private val phoneNumber: JsonField<String>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("address1") @ExcludeMissing address1: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("first_name") @ExcludeMissing firstName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_name") @ExcludeMissing lastName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("postal_code")
+        @ExcludeMissing
+        postalCode: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("address2") @ExcludeMissing address2: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("line2_text") @ExcludeMissing line2Text: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        phoneNumber: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        address1,
+        city,
+        country,
+        firstName,
+        lastName,
+        postalCode,
+        state,
+        address2,
+        email,
+        line2Text,
+        phoneNumber,
+        mutableMapOf(),
+    )
 
     /**
      * Valid USPS routable address.
@@ -227,30 +239,15 @@ private constructor(
     @ExcludeMissing
     fun _phoneNumber(): JsonField<String> = phoneNumber
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): ShippingAddress = apply {
-        if (validated) {
-            return@apply
-        }
-
-        address1()
-        city()
-        country()
-        firstName()
-        lastName()
-        postalCode()
-        state()
-        address2()
-        email()
-        line2Text()
-        phoneNumber()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -501,8 +498,29 @@ private constructor(
                 email,
                 line2Text,
                 phoneNumber,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): ShippingAddress = apply {
+        if (validated) {
+            return@apply
+        }
+
+        address1()
+        city()
+        country()
+        firstName()
+        lastName()
+        postalCode()
+        state()
+        address2()
+        email()
+        line2Text()
+        phoneNumber()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

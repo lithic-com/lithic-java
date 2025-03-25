@@ -10,26 +10,25 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 
-@NoAutoDetect
 class Statements
-@JsonCreator
 private constructor(
-    @JsonProperty("data")
-    @ExcludeMissing
-    private val data: JsonField<List<Statement>> = JsonMissing.of(),
-    @JsonProperty("has_more")
-    @ExcludeMissing
-    private val hasMore: JsonField<Boolean> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val data: JsonField<List<Statement>>,
+    private val hasMore: JsonField<Boolean>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<Statement>> = JsonMissing.of(),
+        @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
+    ) : this(data, hasMore, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -57,21 +56,15 @@ private constructor(
      */
     @JsonProperty("has_more") @ExcludeMissing fun _hasMore(): JsonField<Boolean> = hasMore
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Statements = apply {
-        if (validated) {
-            return@apply
-        }
-
-        data().forEach { it.validate() }
-        hasMore()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -174,8 +167,20 @@ private constructor(
             Statements(
                 checkRequired("data", data).map { it.toImmutable() },
                 checkRequired("hasMore", hasMore),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): Statements = apply {
+        if (validated) {
+            return@apply
+        }
+
+        data().forEach { it.validate() }
+        hasMore()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

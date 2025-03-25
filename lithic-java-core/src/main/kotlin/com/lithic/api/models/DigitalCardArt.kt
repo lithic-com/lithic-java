@@ -11,40 +11,54 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class DigitalCardArt
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("card_program_token")
-    @ExcludeMissing
-    private val cardProgramToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("description")
-    @ExcludeMissing
-    private val description: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("is_enabled")
-    @ExcludeMissing
-    private val isEnabled: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("network")
-    @ExcludeMissing
-    private val network: JsonField<Network> = JsonMissing.of(),
-    @JsonProperty("is_card_program_default")
-    @ExcludeMissing
-    private val isCardProgramDefault: JsonField<Boolean> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val cardProgramToken: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val description: JsonField<String>,
+    private val isEnabled: JsonField<Boolean>,
+    private val network: JsonField<Network>,
+    private val isCardProgramDefault: JsonField<Boolean>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("card_program_token")
+        @ExcludeMissing
+        cardProgramToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("description")
+        @ExcludeMissing
+        description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("is_enabled")
+        @ExcludeMissing
+        isEnabled: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("network") @ExcludeMissing network: JsonField<Network> = JsonMissing.of(),
+        @JsonProperty("is_card_program_default")
+        @ExcludeMissing
+        isCardProgramDefault: JsonField<Boolean> = JsonMissing.of(),
+    ) : this(
+        token,
+        cardProgramToken,
+        created,
+        description,
+        isEnabled,
+        network,
+        isCardProgramDefault,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the card art.
@@ -158,26 +172,15 @@ private constructor(
     @ExcludeMissing
     fun _isCardProgramDefault(): JsonField<Boolean> = isCardProgramDefault
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): DigitalCardArt = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        cardProgramToken()
-        created()
-        description()
-        isEnabled()
-        network()
-        isCardProgramDefault()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -356,8 +359,25 @@ private constructor(
                 checkRequired("isEnabled", isEnabled),
                 checkRequired("network", network),
                 isCardProgramDefault,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): DigitalCardArt = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        cardProgramToken()
+        created()
+        description()
+        isEnabled()
+        network()
+        isCardProgramDefault()
+        validated = true
     }
 
     /** Card network. */

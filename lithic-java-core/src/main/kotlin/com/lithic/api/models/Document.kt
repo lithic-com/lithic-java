@@ -11,35 +11,48 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 
 /** Describes the document and the required document image uploads required to re-run KYC */
-@NoAutoDetect
 class Document
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_holder_token")
-    @ExcludeMissing
-    private val accountHolderToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("document_type")
-    @ExcludeMissing
-    private val documentType: JsonField<DocumentType> = JsonMissing.of(),
-    @JsonProperty("entity_token")
-    @ExcludeMissing
-    private val entityToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("required_document_uploads")
-    @ExcludeMissing
-    private val requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val accountHolderToken: JsonField<String>,
+    private val documentType: JsonField<DocumentType>,
+    private val entityToken: JsonField<String>,
+    private val requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_holder_token")
+        @ExcludeMissing
+        accountHolderToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("document_type")
+        @ExcludeMissing
+        documentType: JsonField<DocumentType> = JsonMissing.of(),
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        entityToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("required_document_uploads")
+        @ExcludeMissing
+        requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> = JsonMissing.of(),
+    ) : this(
+        token,
+        accountHolderToken,
+        documentType,
+        entityToken,
+        requiredDocumentUploads,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the document.
@@ -128,24 +141,15 @@ private constructor(
     fun _requiredDocumentUploads(): JsonField<List<RequiredDocumentUpload>> =
         requiredDocumentUploads
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): Document = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        accountHolderToken()
-        documentType()
-        entityToken()
-        requiredDocumentUploads().forEach { it.validate() }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -311,8 +315,23 @@ private constructor(
                 checkRequired("requiredDocumentUploads", requiredDocumentUploads).map {
                     it.toImmutable()
                 },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): Document = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        accountHolderToken()
+        documentType()
+        entityToken()
+        requiredDocumentUploads().forEach { it.validate() }
+        validated = true
     }
 
     /** Type of documentation to be submitted for verification of an account holder */
@@ -520,40 +539,59 @@ private constructor(
     }
 
     /** Represents a single image of the document to upload. */
-    @NoAutoDetect
     class RequiredDocumentUpload
-    @JsonCreator
     private constructor(
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("accepted_entity_status_reasons")
-        @ExcludeMissing
-        private val acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("image_type")
-        @ExcludeMissing
-        private val imageType: JsonField<ImageType> = JsonMissing.of(),
-        @JsonProperty("rejected_entity_status_reasons")
-        @ExcludeMissing
-        private val rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("status")
-        @ExcludeMissing
-        private val status: JsonField<DocumentUploadStatus> = JsonMissing.of(),
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
-        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>> = JsonMissing.of(),
-        @JsonProperty("updated")
-        @ExcludeMissing
-        private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("upload_url")
-        @ExcludeMissing
-        private val uploadUrl: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val token: JsonField<String>,
+        private val acceptedEntityStatusReasons: JsonField<List<String>>,
+        private val created: JsonField<OffsetDateTime>,
+        private val imageType: JsonField<ImageType>,
+        private val rejectedEntityStatusReasons: JsonField<List<String>>,
+        private val status: JsonField<DocumentUploadStatus>,
+        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>>,
+        private val updated: JsonField<OffsetDateTime>,
+        private val uploadUrl: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("accepted_entity_status_reasons")
+            @ExcludeMissing
+            acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("image_type")
+            @ExcludeMissing
+            imageType: JsonField<ImageType> = JsonMissing.of(),
+            @JsonProperty("rejected_entity_status_reasons")
+            @ExcludeMissing
+            rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("status")
+            @ExcludeMissing
+            status: JsonField<DocumentUploadStatus> = JsonMissing.of(),
+            @JsonProperty("status_reasons")
+            @ExcludeMissing
+            statusReasons: JsonField<List<DocumentUploadStatusReasons>> = JsonMissing.of(),
+            @JsonProperty("updated")
+            @ExcludeMissing
+            updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("upload_url")
+            @ExcludeMissing
+            uploadUrl: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            token,
+            acceptedEntityStatusReasons,
+            created,
+            imageType,
+            rejectedEntityStatusReasons,
+            status,
+            statusReasons,
+            updated,
+            uploadUrl,
+            mutableMapOf(),
+        )
 
         /**
          * Globally unique identifier for the document upload.
@@ -712,28 +750,15 @@ private constructor(
          */
         @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): RequiredDocumentUpload = apply {
-            if (validated) {
-                return@apply
-            }
-
-            token()
-            acceptedEntityStatusReasons()
-            created()
-            imageType()
-            rejectedEntityStatusReasons()
-            status()
-            statusReasons()
-            updated()
-            uploadUrl()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -1013,8 +1038,27 @@ private constructor(
                     checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
                     checkRequired("updated", updated),
                     checkRequired("uploadUrl", uploadUrl),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): RequiredDocumentUpload = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            acceptedEntityStatusReasons()
+            created()
+            imageType()
+            rejectedEntityStatusReasons()
+            status()
+            statusReasons()
+            updated()
+            uploadUrl()
+            validated = true
         }
 
         /** Type of image to upload. */

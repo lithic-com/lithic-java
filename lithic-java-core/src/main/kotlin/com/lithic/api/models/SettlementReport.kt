@@ -10,54 +10,77 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 
-@NoAutoDetect
 class SettlementReport
-@JsonCreator
 private constructor(
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("details")
-    @ExcludeMissing
-    private val details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of(),
-    @JsonProperty("disputes_gross_amount")
-    @ExcludeMissing
-    private val disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("interchange_gross_amount")
-    @ExcludeMissing
-    private val interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("is_complete")
-    @ExcludeMissing
-    private val isComplete: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("other_fees_gross_amount")
-    @ExcludeMissing
-    private val otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("report_date")
-    @ExcludeMissing
-    private val reportDate: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("settled_net_amount")
-    @ExcludeMissing
-    private val settledNetAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("transactions_gross_amount")
-    @ExcludeMissing
-    private val transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val details: JsonField<List<SettlementSummaryDetails>>,
+    private val disputesGrossAmount: JsonField<Long>,
+    private val interchangeGrossAmount: JsonField<Long>,
+    private val isComplete: JsonField<Boolean>,
+    private val otherFeesGrossAmount: JsonField<Long>,
+    private val reportDate: JsonField<String>,
+    private val settledNetAmount: JsonField<Long>,
+    private val transactionsGrossAmount: JsonField<Long>,
+    private val updated: JsonField<OffsetDateTime>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("details")
+        @ExcludeMissing
+        details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of(),
+        @JsonProperty("disputes_gross_amount")
+        @ExcludeMissing
+        disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("interchange_gross_amount")
+        @ExcludeMissing
+        interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("is_complete")
+        @ExcludeMissing
+        isComplete: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("other_fees_gross_amount")
+        @ExcludeMissing
+        otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("report_date")
+        @ExcludeMissing
+        reportDate: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("settled_net_amount")
+        @ExcludeMissing
+        settledNetAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("transactions_gross_amount")
+        @ExcludeMissing
+        transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    ) : this(
+        created,
+        currency,
+        details,
+        disputesGrossAmount,
+        interchangeGrossAmount,
+        isComplete,
+        otherFeesGrossAmount,
+        reportDate,
+        settledNetAmount,
+        transactionsGrossAmount,
+        updated,
+        mutableMapOf(),
+    )
 
     /**
      * Date and time when the transaction first occurred. UTC time zone.
@@ -267,30 +290,15 @@ private constructor(
      */
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): SettlementReport = apply {
-        if (validated) {
-            return@apply
-        }
-
-        created()
-        currency()
-        details().forEach { it.validate() }
-        disputesGrossAmount()
-        interchangeGrossAmount()
-        isComplete()
-        otherFeesGrossAmount()
-        reportDate()
-        settledNetAmount()
-        transactionsGrossAmount()
-        updated()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -598,8 +606,29 @@ private constructor(
                 checkRequired("settledNetAmount", settledNetAmount),
                 checkRequired("transactionsGrossAmount", transactionsGrossAmount),
                 checkRequired("updated", updated),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): SettlementReport = apply {
+        if (validated) {
+            return@apply
+        }
+
+        created()
+        currency()
+        details().forEach { it.validate() }
+        disputesGrossAmount()
+        interchangeGrossAmount()
+        isComplete()
+        otherFeesGrossAmount()
+        reportDate()
+        settledNetAmount()
+        transactionsGrossAmount()
+        updated()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {

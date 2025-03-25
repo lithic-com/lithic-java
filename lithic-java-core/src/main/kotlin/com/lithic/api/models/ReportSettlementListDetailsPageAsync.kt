@@ -10,10 +10,8 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.services.async.reports.SettlementServiceAsync
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
@@ -91,16 +89,17 @@ private constructor(
         ) = ReportSettlementListDetailsPageAsync(settlementService, params, response)
     }
 
-    @NoAutoDetect
-    class Response
-    @JsonCreator
-    constructor(
-        @JsonProperty("data")
-        private val data: JsonField<List<SettlementDetail>> = JsonMissing.of(),
-        @JsonProperty("has_more") private val hasMore: JsonField<Boolean> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    class Response(
+        private val data: JsonField<List<SettlementDetail>>,
+        private val hasMore: JsonField<Boolean>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("data") data: JsonField<List<SettlementDetail>> = JsonMissing.of(),
+            @JsonProperty("has_more") hasMore: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(data, hasMore, mutableMapOf())
 
         fun data(): List<SettlementDetail> = data.getNullable("data") ?: listOf()
 
@@ -112,9 +111,15 @@ private constructor(
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         private var validated: Boolean = false
 
@@ -182,7 +187,7 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Response = Response(data, hasMore, additionalProperties.toImmutable())
+            fun build(): Response = Response(data, hasMore, additionalProperties.toMutableMap())
         }
     }
 

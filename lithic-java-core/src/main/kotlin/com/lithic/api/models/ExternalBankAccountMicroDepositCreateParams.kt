@@ -10,15 +10,14 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 
 /** Verify the external bank account by providing the micro deposit amounts. */
@@ -51,173 +50,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): MicroDepositVerificationRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> externalBankAccountToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class MicroDepositVerificationRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("micro_deposits")
-        @ExcludeMissing
-        private val microDeposits: JsonField<List<Long>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun microDeposits(): List<Long> = microDeposits.getRequired("micro_deposits")
-
-        /**
-         * Returns the raw JSON value of [microDeposits].
-         *
-         * Unlike [microDeposits], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("micro_deposits")
-        @ExcludeMissing
-        fun _microDeposits(): JsonField<List<Long>> = microDeposits
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): MicroDepositVerificationRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            microDeposits()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [MicroDepositVerificationRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .microDeposits()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [MicroDepositVerificationRequest]. */
-        class Builder internal constructor() {
-
-            private var microDeposits: JsonField<MutableList<Long>>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(microDepositVerificationRequest: MicroDepositVerificationRequest) =
-                apply {
-                    microDeposits =
-                        microDepositVerificationRequest.microDeposits.map { it.toMutableList() }
-                    additionalProperties =
-                        microDepositVerificationRequest.additionalProperties.toMutableMap()
-                }
-
-            fun microDeposits(microDeposits: List<Long>) =
-                microDeposits(JsonField.of(microDeposits))
-
-            /**
-             * Sets [Builder.microDeposits] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.microDeposits] with a well-typed `List<Long>` value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
-                this.microDeposits = microDeposits.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [Long] to [microDeposits].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addMicroDeposit(microDeposit: Long) = apply {
-                microDeposits =
-                    (microDeposits ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("microDeposits", it).add(microDeposit)
-                    }
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [MicroDepositVerificationRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .microDeposits()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): MicroDepositVerificationRequest =
-                MicroDepositVerificationRequest(
-                    checkRequired("microDeposits", microDeposits).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is MicroDepositVerificationRequest && microDeposits == other.microDeposits && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(microDeposits, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "MicroDepositVerificationRequest{microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -236,7 +68,6 @@ private constructor(
     }
 
     /** A builder for [ExternalBankAccountMicroDepositCreateParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var externalBankAccountToken: String? = null
@@ -419,6 +250,181 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): MicroDepositVerificationRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> externalBankAccountToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class MicroDepositVerificationRequest
+    private constructor(
+        private val microDeposits: JsonField<List<Long>>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("micro_deposits")
+            @ExcludeMissing
+            microDeposits: JsonField<List<Long>> = JsonMissing.of()
+        ) : this(microDeposits, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun microDeposits(): List<Long> = microDeposits.getRequired("micro_deposits")
+
+        /**
+         * Returns the raw JSON value of [microDeposits].
+         *
+         * Unlike [microDeposits], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("micro_deposits")
+        @ExcludeMissing
+        fun _microDeposits(): JsonField<List<Long>> = microDeposits
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [MicroDepositVerificationRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .microDeposits()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [MicroDepositVerificationRequest]. */
+        class Builder internal constructor() {
+
+            private var microDeposits: JsonField<MutableList<Long>>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(microDepositVerificationRequest: MicroDepositVerificationRequest) =
+                apply {
+                    microDeposits =
+                        microDepositVerificationRequest.microDeposits.map { it.toMutableList() }
+                    additionalProperties =
+                        microDepositVerificationRequest.additionalProperties.toMutableMap()
+                }
+
+            fun microDeposits(microDeposits: List<Long>) =
+                microDeposits(JsonField.of(microDeposits))
+
+            /**
+             * Sets [Builder.microDeposits] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.microDeposits] with a well-typed `List<Long>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
+                this.microDeposits = microDeposits.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Long] to [microDeposits].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addMicroDeposit(microDeposit: Long) = apply {
+                microDeposits =
+                    (microDeposits ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("microDeposits", it).add(microDeposit)
+                    }
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [MicroDepositVerificationRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .microDeposits()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): MicroDepositVerificationRequest =
+                MicroDepositVerificationRequest(
+                    checkRequired("microDeposits", microDeposits).map { it.toImmutable() },
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): MicroDepositVerificationRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            microDeposits()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is MicroDepositVerificationRequest && microDeposits == other.microDeposits && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(microDeposits, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "MicroDepositVerificationRequest{microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

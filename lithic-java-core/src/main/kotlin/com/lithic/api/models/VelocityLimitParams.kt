@@ -20,36 +20,36 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-@NoAutoDetect
 class VelocityLimitParams
-@JsonCreator
 private constructor(
-    @JsonProperty("filters")
-    @ExcludeMissing
-    private val filters: JsonField<Filters> = JsonMissing.of(),
-    @JsonProperty("period")
-    @ExcludeMissing
-    private val period: JsonField<Period> = JsonMissing.of(),
-    @JsonProperty("scope") @ExcludeMissing private val scope: JsonField<Scope> = JsonMissing.of(),
-    @JsonProperty("limit_amount")
-    @ExcludeMissing
-    private val limitAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("limit_count")
-    @ExcludeMissing
-    private val limitCount: JsonField<Long> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val filters: JsonField<Filters>,
+    private val period: JsonField<Period>,
+    private val scope: JsonField<Scope>,
+    private val limitAmount: JsonField<Long>,
+    private val limitCount: JsonField<Long>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("filters") @ExcludeMissing filters: JsonField<Filters> = JsonMissing.of(),
+        @JsonProperty("period") @ExcludeMissing period: JsonField<Period> = JsonMissing.of(),
+        @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
+        @JsonProperty("limit_amount")
+        @ExcludeMissing
+        limitAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("limit_count") @ExcludeMissing limitCount: JsonField<Long> = JsonMissing.of(),
+    ) : this(filters, period, scope, limitAmount, limitCount, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -127,24 +127,15 @@ private constructor(
      */
     @JsonProperty("limit_count") @ExcludeMissing fun _limitCount(): JsonField<Long> = limitCount
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): VelocityLimitParams = apply {
-        if (validated) {
-            return@apply
-        }
-
-        filters().validate()
-        period().validate()
-        scope()
-        limitAmount()
-        limitCount()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -319,29 +310,49 @@ private constructor(
                 checkRequired("scope", scope),
                 limitAmount,
                 limitCount,
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): VelocityLimitParams = apply {
+        if (validated) {
+            return@apply
+        }
+
+        filters().validate()
+        period().validate()
+        scope()
+        limitAmount()
+        limitCount()
+        validated = true
+    }
+
     class Filters
-    @JsonCreator
     private constructor(
-        @JsonProperty("exclude_countries")
-        @ExcludeMissing
-        private val excludeCountries: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("exclude_mccs")
-        @ExcludeMissing
-        private val excludeMccs: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("include_countries")
-        @ExcludeMissing
-        private val includeCountries: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("include_mccs")
-        @ExcludeMissing
-        private val includeMccs: JsonField<List<String>> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val excludeCountries: JsonField<List<String>>,
+        private val excludeMccs: JsonField<List<String>>,
+        private val includeCountries: JsonField<List<String>>,
+        private val includeMccs: JsonField<List<String>>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("exclude_countries")
+            @ExcludeMissing
+            excludeCountries: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("exclude_mccs")
+            @ExcludeMissing
+            excludeMccs: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("include_countries")
+            @ExcludeMissing
+            includeCountries: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("include_mccs")
+            @ExcludeMissing
+            includeMccs: JsonField<List<String>> = JsonMissing.of(),
+        ) : this(excludeCountries, excludeMccs, includeCountries, includeMccs, mutableMapOf())
 
         /**
          * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
@@ -421,23 +432,15 @@ private constructor(
         @ExcludeMissing
         fun _includeMccs(): JsonField<List<String>> = includeMccs
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Filters = apply {
-            if (validated) {
-                return@apply
-            }
-
-            excludeCountries()
-            excludeMccs()
-            includeCountries()
-            includeMccs()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -636,8 +639,22 @@ private constructor(
                     (excludeMccs ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeCountries ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeMccs ?: JsonMissing.of()).map { it.toImmutable() },
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Filters = apply {
+            if (validated) {
+                return@apply
+            }
+
+            excludeCountries()
+            excludeMccs()
+            includeCountries()
+            includeMccs()
+            validated = true
         }
 
         override fun equals(other: Any?): Boolean {

@@ -11,14 +11,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -73,214 +71,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): UpdateFinancialAccountStatusRequest = body
-
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> financialAccountToken
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class UpdateFinancialAccountStatusRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("status")
-        @ExcludeMissing
-        private val status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
-        @JsonProperty("status_change_reason")
-        @ExcludeMissing
-        private val statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason> =
-            JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Status of the financial account
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun status(): FinancialAccountStatus = status.getRequired("status")
-
-        /**
-         * Reason for the financial account status change
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun statusChangeReason(): Optional<UpdateFinancialAccountStatusChangeReason> =
-            Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
-
-        /**
-         * Returns the raw JSON value of [status].
-         *
-         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("status")
-        @ExcludeMissing
-        fun _status(): JsonField<FinancialAccountStatus> = status
-
-        /**
-         * Returns the raw JSON value of [statusChangeReason].
-         *
-         * Unlike [statusChangeReason], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("status_change_reason")
-        @ExcludeMissing
-        fun _statusChangeReason(): JsonField<UpdateFinancialAccountStatusChangeReason> =
-            statusChangeReason
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): UpdateFinancialAccountStatusRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            status()
-            statusChangeReason()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [UpdateFinancialAccountStatusRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .status()
-             * .statusChangeReason()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [UpdateFinancialAccountStatusRequest]. */
-        class Builder internal constructor() {
-
-            private var status: JsonField<FinancialAccountStatus>? = null
-            private var statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>? =
-                null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(
-                updateFinancialAccountStatusRequest: UpdateFinancialAccountStatusRequest
-            ) = apply {
-                status = updateFinancialAccountStatusRequest.status
-                statusChangeReason = updateFinancialAccountStatusRequest.statusChangeReason
-                additionalProperties =
-                    updateFinancialAccountStatusRequest.additionalProperties.toMutableMap()
-            }
-
-            /** Status of the financial account */
-            fun status(status: FinancialAccountStatus) = status(JsonField.of(status))
-
-            /**
-             * Sets [Builder.status] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.status] with a well-typed [FinancialAccountStatus]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun status(status: JsonField<FinancialAccountStatus>) = apply { this.status = status }
-
-            /** Reason for the financial account status change */
-            fun statusChangeReason(statusChangeReason: UpdateFinancialAccountStatusChangeReason?) =
-                statusChangeReason(JsonField.ofNullable(statusChangeReason))
-
-            /**
-             * Alias for calling [Builder.statusChangeReason] with
-             * `statusChangeReason.orElse(null)`.
-             */
-            fun statusChangeReason(
-                statusChangeReason: Optional<UpdateFinancialAccountStatusChangeReason>
-            ) = statusChangeReason(statusChangeReason.getOrNull())
-
-            /**
-             * Sets [Builder.statusChangeReason] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.statusChangeReason] with a well-typed
-             * [UpdateFinancialAccountStatusChangeReason] value instead. This method is primarily
-             * for setting the field to an undocumented or not yet supported value.
-             */
-            fun statusChangeReason(
-                statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>
-            ) = apply { this.statusChangeReason = statusChangeReason }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [UpdateFinancialAccountStatusRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .status()
-             * .statusChangeReason()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): UpdateFinancialAccountStatusRequest =
-                UpdateFinancialAccountStatusRequest(
-                    checkRequired("status", status),
-                    checkRequired("statusChangeReason", statusChangeReason),
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is UpdateFinancialAccountStatusRequest && status == other.status && statusChangeReason == other.statusChangeReason && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(status, statusChangeReason, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "UpdateFinancialAccountStatusRequest{status=$status, statusChangeReason=$statusChangeReason, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -300,7 +90,6 @@ private constructor(
     }
 
     /** A builder for [FinancialAccountUpdateStatusParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var financialAccountToken: String? = null
@@ -497,6 +286,223 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): UpdateFinancialAccountStatusRequest = body
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> financialAccountToken
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class UpdateFinancialAccountStatusRequest
+    private constructor(
+        private val status: JsonField<FinancialAccountStatus>,
+        private val statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("status")
+            @ExcludeMissing
+            status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
+            @JsonProperty("status_change_reason")
+            @ExcludeMissing
+            statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason> =
+                JsonMissing.of(),
+        ) : this(status, statusChangeReason, mutableMapOf())
+
+        /**
+         * Status of the financial account
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun status(): FinancialAccountStatus = status.getRequired("status")
+
+        /**
+         * Reason for the financial account status change
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun statusChangeReason(): Optional<UpdateFinancialAccountStatusChangeReason> =
+            Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
+
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("status")
+        @ExcludeMissing
+        fun _status(): JsonField<FinancialAccountStatus> = status
+
+        /**
+         * Returns the raw JSON value of [statusChangeReason].
+         *
+         * Unlike [statusChangeReason], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("status_change_reason")
+        @ExcludeMissing
+        fun _statusChangeReason(): JsonField<UpdateFinancialAccountStatusChangeReason> =
+            statusChangeReason
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [UpdateFinancialAccountStatusRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .status()
+             * .statusChangeReason()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [UpdateFinancialAccountStatusRequest]. */
+        class Builder internal constructor() {
+
+            private var status: JsonField<FinancialAccountStatus>? = null
+            private var statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>? =
+                null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(
+                updateFinancialAccountStatusRequest: UpdateFinancialAccountStatusRequest
+            ) = apply {
+                status = updateFinancialAccountStatusRequest.status
+                statusChangeReason = updateFinancialAccountStatusRequest.statusChangeReason
+                additionalProperties =
+                    updateFinancialAccountStatusRequest.additionalProperties.toMutableMap()
+            }
+
+            /** Status of the financial account */
+            fun status(status: FinancialAccountStatus) = status(JsonField.of(status))
+
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [FinancialAccountStatus]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun status(status: JsonField<FinancialAccountStatus>) = apply { this.status = status }
+
+            /** Reason for the financial account status change */
+            fun statusChangeReason(statusChangeReason: UpdateFinancialAccountStatusChangeReason?) =
+                statusChangeReason(JsonField.ofNullable(statusChangeReason))
+
+            /**
+             * Alias for calling [Builder.statusChangeReason] with
+             * `statusChangeReason.orElse(null)`.
+             */
+            fun statusChangeReason(
+                statusChangeReason: Optional<UpdateFinancialAccountStatusChangeReason>
+            ) = statusChangeReason(statusChangeReason.getOrNull())
+
+            /**
+             * Sets [Builder.statusChangeReason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.statusChangeReason] with a well-typed
+             * [UpdateFinancialAccountStatusChangeReason] value instead. This method is primarily
+             * for setting the field to an undocumented or not yet supported value.
+             */
+            fun statusChangeReason(
+                statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>
+            ) = apply { this.statusChangeReason = statusChangeReason }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [UpdateFinancialAccountStatusRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .status()
+             * .statusChangeReason()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): UpdateFinancialAccountStatusRequest =
+                UpdateFinancialAccountStatusRequest(
+                    checkRequired("status", status),
+                    checkRequired("statusChangeReason", statusChangeReason),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): UpdateFinancialAccountStatusRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            status()
+            statusChangeReason()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is UpdateFinancialAccountStatusRequest && status == other.status && statusChangeReason == other.statusChangeReason && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(status, statusChangeReason, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "UpdateFinancialAccountStatusRequest{status=$status, statusChangeReason=$statusChangeReason, additionalProperties=$additionalProperties}"
     }
 
     /** Status of the financial account */

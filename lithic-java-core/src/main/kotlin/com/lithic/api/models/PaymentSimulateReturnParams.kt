@@ -10,14 +10,12 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.immutableEmptyMap
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
@@ -66,197 +64,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun _body(): SimulateOriginationReturnRequest = body
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
-    @NoAutoDetect
-    class SimulateOriginationReturnRequest
-    @JsonCreator
-    private constructor(
-        @JsonProperty("payment_token")
-        @ExcludeMissing
-        private val paymentToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("return_reason_code")
-        @ExcludeMissing
-        private val returnReasonCode: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-    ) {
-
-        /**
-         * Payment Token
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun paymentToken(): String = paymentToken.getRequired("payment_token")
-
-        /**
-         * Return Reason Code
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun returnReasonCode(): Optional<String> =
-            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
-
-        /**
-         * Returns the raw JSON value of [paymentToken].
-         *
-         * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("payment_token")
-        @ExcludeMissing
-        fun _paymentToken(): JsonField<String> = paymentToken
-
-        /**
-         * Returns the raw JSON value of [returnReasonCode].
-         *
-         * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("return_reason_code")
-        @ExcludeMissing
-        fun _returnReasonCode(): JsonField<String> = returnReasonCode
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): SimulateOriginationReturnRequest = apply {
-            if (validated) {
-                return@apply
-            }
-
-            paymentToken()
-            returnReasonCode()
-            validated = true
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [SimulateOriginationReturnRequest].
-             *
-             * The following fields are required:
-             * ```java
-             * .paymentToken()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [SimulateOriginationReturnRequest]. */
-        class Builder internal constructor() {
-
-            private var paymentToken: JsonField<String>? = null
-            private var returnReasonCode: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(simulateOriginationReturnRequest: SimulateOriginationReturnRequest) =
-                apply {
-                    paymentToken = simulateOriginationReturnRequest.paymentToken
-                    returnReasonCode = simulateOriginationReturnRequest.returnReasonCode
-                    additionalProperties =
-                        simulateOriginationReturnRequest.additionalProperties.toMutableMap()
-                }
-
-            /** Payment Token */
-            fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
-
-            /**
-             * Sets [Builder.paymentToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.paymentToken] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun paymentToken(paymentToken: JsonField<String>) = apply {
-                this.paymentToken = paymentToken
-            }
-
-            /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String) =
-                returnReasonCode(JsonField.of(returnReasonCode))
-
-            /**
-             * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
-                this.returnReasonCode = returnReasonCode
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [SimulateOriginationReturnRequest].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .paymentToken()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): SimulateOriginationReturnRequest =
-                SimulateOriginationReturnRequest(
-                    checkRequired("paymentToken", paymentToken),
-                    returnReasonCode,
-                    additionalProperties.toImmutable(),
-                )
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is SimulateOriginationReturnRequest && paymentToken == other.paymentToken && returnReasonCode == other.returnReasonCode && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(paymentToken, returnReasonCode, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "SimulateOriginationReturnRequest{paymentToken=$paymentToken, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
-    }
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -273,7 +80,6 @@ private constructor(
     }
 
     /** A builder for [PaymentSimulateReturnParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var body: SimulateOriginationReturnRequest.Builder =
@@ -453,6 +259,206 @@ private constructor(
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
+    }
+
+    @JvmSynthetic internal fun _body(): SimulateOriginationReturnRequest = body
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
+
+    class SimulateOriginationReturnRequest
+    private constructor(
+        private val paymentToken: JsonField<String>,
+        private val returnReasonCode: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("payment_token")
+            @ExcludeMissing
+            paymentToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("return_reason_code")
+            @ExcludeMissing
+            returnReasonCode: JsonField<String> = JsonMissing.of(),
+        ) : this(paymentToken, returnReasonCode, mutableMapOf())
+
+        /**
+         * Payment Token
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun paymentToken(): String = paymentToken.getRequired("payment_token")
+
+        /**
+         * Return Reason Code
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun returnReasonCode(): Optional<String> =
+            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+
+        /**
+         * Returns the raw JSON value of [paymentToken].
+         *
+         * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        fun _paymentToken(): JsonField<String> = paymentToken
+
+        /**
+         * Returns the raw JSON value of [returnReasonCode].
+         *
+         * Unlike [returnReasonCode], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        fun _returnReasonCode(): JsonField<String> = returnReasonCode
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [SimulateOriginationReturnRequest].
+             *
+             * The following fields are required:
+             * ```java
+             * .paymentToken()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [SimulateOriginationReturnRequest]. */
+        class Builder internal constructor() {
+
+            private var paymentToken: JsonField<String>? = null
+            private var returnReasonCode: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(simulateOriginationReturnRequest: SimulateOriginationReturnRequest) =
+                apply {
+                    paymentToken = simulateOriginationReturnRequest.paymentToken
+                    returnReasonCode = simulateOriginationReturnRequest.returnReasonCode
+                    additionalProperties =
+                        simulateOriginationReturnRequest.additionalProperties.toMutableMap()
+                }
+
+            /** Payment Token */
+            fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
+
+            /**
+             * Sets [Builder.paymentToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.paymentToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun paymentToken(paymentToken: JsonField<String>) = apply {
+                this.paymentToken = paymentToken
+            }
+
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: String) =
+                returnReasonCode(JsonField.of(returnReasonCode))
+
+            /**
+             * Sets [Builder.returnReasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.returnReasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+                this.returnReasonCode = returnReasonCode
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [SimulateOriginationReturnRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .paymentToken()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): SimulateOriginationReturnRequest =
+                SimulateOriginationReturnRequest(
+                    checkRequired("paymentToken", paymentToken),
+                    returnReasonCode,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): SimulateOriginationReturnRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            paymentToken()
+            returnReasonCode()
+            validated = true
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is SimulateOriginationReturnRequest && paymentToken == other.paymentToken && returnReasonCode == other.returnReasonCode && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(paymentToken, returnReasonCode, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "SimulateOriginationReturnRequest{paymentToken=$paymentToken, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

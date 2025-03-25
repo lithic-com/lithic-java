@@ -10,39 +10,56 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-@NoAutoDetect
 class CardProgram
-@JsonCreator
 private constructor(
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("pan_range_end")
-    @ExcludeMissing
-    private val panRangeEnd: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("pan_range_start")
-    @ExcludeMissing
-    private val panRangeStart: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("cardholder_currency")
-    @ExcludeMissing
-    private val cardholderCurrency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("settlement_currencies")
-    @ExcludeMissing
-    private val settlementCurrencies: JsonField<List<String>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val token: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val name: JsonField<String>,
+    private val panRangeEnd: JsonField<String>,
+    private val panRangeStart: JsonField<String>,
+    private val cardholderCurrency: JsonField<String>,
+    private val settlementCurrencies: JsonField<List<String>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pan_range_end")
+        @ExcludeMissing
+        panRangeEnd: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pan_range_start")
+        @ExcludeMissing
+        panRangeStart: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("cardholder_currency")
+        @ExcludeMissing
+        cardholderCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("settlement_currencies")
+        @ExcludeMissing
+        settlementCurrencies: JsonField<List<String>> = JsonMissing.of(),
+    ) : this(
+        token,
+        created,
+        name,
+        panRangeEnd,
+        panRangeStart,
+        cardholderCurrency,
+        settlementCurrencies,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -162,26 +179,15 @@ private constructor(
     @ExcludeMissing
     fun _settlementCurrencies(): JsonField<List<String>> = settlementCurrencies
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): CardProgram = apply {
-        if (validated) {
-            return@apply
-        }
-
-        token()
-        created()
-        name()
-        panRangeEnd()
-        panRangeStart()
-        cardholderCurrency()
-        settlementCurrencies()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -375,8 +381,25 @@ private constructor(
                 checkRequired("panRangeStart", panRangeStart),
                 cardholderCurrency,
                 (settlementCurrencies ?: JsonMissing.of()).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): CardProgram = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        created()
+        name()
+        panRangeEnd()
+        panRangeStart()
+        cardholderCurrency()
+        settlementCurrencies()
+        validated = true
     }
 
     override fun equals(other: Any?): Boolean {
