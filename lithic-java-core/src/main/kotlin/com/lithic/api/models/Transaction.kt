@@ -2469,7 +2469,7 @@ private constructor(
 
     class CardholderAuthentication
     private constructor(
-        private val _3dsVersion: JsonField<String>,
+        private val threeDSVersion: JsonField<String>,
         private val acquirerExemption: JsonField<AcquirerExemption>,
         private val authenticationResult: JsonField<AuthenticationResult>,
         private val decisionMadeBy: JsonField<DecisionMadeBy>,
@@ -2484,7 +2484,7 @@ private constructor(
         private constructor(
             @JsonProperty("3ds_version")
             @ExcludeMissing
-            _3dsVersion: JsonField<String> = JsonMissing.of(),
+            threeDSVersion: JsonField<String> = JsonMissing.of(),
             @JsonProperty("acquirer_exemption")
             @ExcludeMissing
             acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of(),
@@ -2507,7 +2507,7 @@ private constructor(
             @ExcludeMissing
             verificationResult: JsonField<VerificationResult> = JsonMissing.of(),
         ) : this(
-            _3dsVersion,
+            threeDSVersion,
             acquirerExemption,
             authenticationResult,
             decisionMadeBy,
@@ -2524,8 +2524,8 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun _3dsVersion(): Optional<String> =
-            Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
+        fun threeDSVersion(): Optional<String> =
+            Optional.ofNullable(threeDSVersion.getNullable("3ds_version"))
 
         /**
          * Whether an acquirer exemption applied to the transaction.
@@ -2603,13 +2603,14 @@ private constructor(
             verificationResult.getRequired("verification_result")
 
         /**
-         * Returns the raw JSON value of [_3dsVersion].
+         * Returns the raw JSON value of [threeDSVersion].
          *
-         * Unlike [_3dsVersion], this method doesn't throw if the JSON field has an unexpected type.
+         * Unlike [threeDSVersion], this method doesn't throw if the JSON field has an unexpected
+         * type.
          */
         @JsonProperty("3ds_version")
         @ExcludeMissing
-        fun __3dsVersion(): JsonField<String> = _3dsVersion
+        fun _threeDSVersion(): JsonField<String> = threeDSVersion
 
         /**
          * Returns the raw JSON value of [acquirerExemption].
@@ -2700,7 +2701,7 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * ._3dsVersion()
+             * .threeDSVersion()
              * .acquirerExemption()
              * .authenticationResult()
              * .decisionMadeBy()
@@ -2716,7 +2717,7 @@ private constructor(
         /** A builder for [CardholderAuthentication]. */
         class Builder internal constructor() {
 
-            private var _3dsVersion: JsonField<String>? = null
+            private var threeDSVersion: JsonField<String>? = null
             private var acquirerExemption: JsonField<AcquirerExemption>? = null
             private var authenticationResult: JsonField<AuthenticationResult>? = null
             private var decisionMadeBy: JsonField<DecisionMadeBy>? = null
@@ -2728,7 +2729,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(cardholderAuthentication: CardholderAuthentication) = apply {
-                _3dsVersion = cardholderAuthentication._3dsVersion
+                threeDSVersion = cardholderAuthentication.threeDSVersion
                 acquirerExemption = cardholderAuthentication.acquirerExemption
                 authenticationResult = cardholderAuthentication.authenticationResult
                 decisionMadeBy = cardholderAuthentication.decisionMadeBy
@@ -2740,20 +2741,22 @@ private constructor(
             }
 
             /** The 3DS version used for the authentication */
-            fun _3dsVersion(_3dsVersion: String?) = _3dsVersion(JsonField.ofNullable(_3dsVersion))
+            fun threeDSVersion(threeDSVersion: String?) =
+                threeDSVersion(JsonField.ofNullable(threeDSVersion))
 
-            /** Alias for calling [Builder._3dsVersion] with `_3dsVersion.orElse(null)`. */
-            fun _3dsVersion(_3dsVersion: Optional<String>) = _3dsVersion(_3dsVersion.getOrNull())
+            /** Alias for calling [Builder.threeDSVersion] with `threeDSVersion.orElse(null)`. */
+            fun threeDSVersion(threeDSVersion: Optional<String>) =
+                threeDSVersion(threeDSVersion.getOrNull())
 
             /**
-             * Sets [Builder._3dsVersion] to an arbitrary JSON value.
+             * Sets [Builder.threeDSVersion] to an arbitrary JSON value.
              *
-             * You should usually call [Builder._3dsVersion] with a well-typed [String] value
+             * You should usually call [Builder.threeDSVersion] with a well-typed [String] value
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun _3dsVersion(_3dsVersion: JsonField<String>) = apply {
-                this._3dsVersion = _3dsVersion
+            fun threeDSVersion(threeDSVersion: JsonField<String>) = apply {
+                this.threeDSVersion = threeDSVersion
             }
 
             /** Whether an acquirer exemption applied to the transaction. */
@@ -2916,7 +2919,7 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * ._3dsVersion()
+             * .threeDSVersion()
              * .acquirerExemption()
              * .authenticationResult()
              * .decisionMadeBy()
@@ -2930,7 +2933,7 @@ private constructor(
              */
             fun build(): CardholderAuthentication =
                 CardholderAuthentication(
-                    checkRequired("_3dsVersion", _3dsVersion),
+                    checkRequired("threeDSVersion", threeDSVersion),
                     checkRequired("acquirerExemption", acquirerExemption),
                     checkRequired("authenticationResult", authenticationResult),
                     checkRequired("decisionMadeBy", decisionMadeBy),
@@ -2949,7 +2952,7 @@ private constructor(
                 return@apply
             }
 
-            _3dsVersion()
+            threeDSVersion()
             acquirerExemption()
             authenticationResult()
             decisionMadeBy()
@@ -3731,17 +3734,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardholderAuthentication && _3dsVersion == other._3dsVersion && acquirerExemption == other.acquirerExemption && authenticationResult == other.authenticationResult && decisionMadeBy == other.decisionMadeBy && liabilityShift == other.liabilityShift && threeDSAuthenticationToken == other.threeDSAuthenticationToken && verificationAttempted == other.verificationAttempted && verificationResult == other.verificationResult && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardholderAuthentication && threeDSVersion == other.threeDSVersion && acquirerExemption == other.acquirerExemption && authenticationResult == other.authenticationResult && decisionMadeBy == other.decisionMadeBy && liabilityShift == other.liabilityShift && threeDSAuthenticationToken == other.threeDSAuthenticationToken && verificationAttempted == other.verificationAttempted && verificationResult == other.verificationResult && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(_3dsVersion, acquirerExemption, authenticationResult, decisionMadeBy, liabilityShift, threeDSAuthenticationToken, verificationAttempted, verificationResult, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(threeDSVersion, acquirerExemption, authenticationResult, decisionMadeBy, liabilityShift, threeDSAuthenticationToken, verificationAttempted, verificationResult, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, threeDSAuthenticationToken=$threeDSAuthenticationToken, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
+            "CardholderAuthentication{threeDSVersion=$threeDSVersion, acquirerExemption=$acquirerExemption, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, threeDSAuthenticationToken=$threeDSAuthenticationToken, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
     }
 
     class Merchant
