@@ -55,13 +55,9 @@ private constructor(
         }
 
         return if (params.endingBefore().isPresent) {
-            Optional.of(
-                EventListParams.builder().from(params).endingBefore(data().first().token()).build()
-            )
+            Optional.of(params.toBuilder().endingBefore(data().first().token()).build())
         } else {
-            Optional.of(
-                EventListParams.builder().from(params).startingAfter(data().last().token()).build()
-            )
+            Optional.of(params.toBuilder().startingAfter(data().last().token()).build())
         }
     }
 
