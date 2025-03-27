@@ -5,15 +5,15 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.ExternalPayment
-import com.lithic.api.models.ExternalPaymentCancelParams
-import com.lithic.api.models.ExternalPaymentCreateParams
-import com.lithic.api.models.ExternalPaymentListPageAsync
-import com.lithic.api.models.ExternalPaymentListParams
-import com.lithic.api.models.ExternalPaymentReleaseParams
-import com.lithic.api.models.ExternalPaymentRetrieveParams
-import com.lithic.api.models.ExternalPaymentReverseParams
-import com.lithic.api.models.ExternalPaymentSettleParams
+import com.lithic.api.models.externalpayments.ExternalPayment
+import com.lithic.api.models.externalpayments.ExternalPaymentCancelParams
+import com.lithic.api.models.externalpayments.ExternalPaymentCreateParams
+import com.lithic.api.models.externalpayments.ExternalPaymentListPageAsync
+import com.lithic.api.models.externalpayments.ExternalPaymentListParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReleaseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentRetrieveParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReverseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentSettleParams
 import java.util.concurrent.CompletableFuture
 
 interface ExternalPaymentServiceAsync {

@@ -17,9 +17,9 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
-import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
-import com.lithic.api.models.AuthStreamSecret
+import com.lithic.api.models.authstreamenrollment.AuthStreamEnrollmentRetrieveSecretParams
+import com.lithic.api.models.authstreamenrollment.AuthStreamEnrollmentRotateSecretParams
+import com.lithic.api.models.authstreamenrollment.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
 
 class AuthStreamEnrollmentServiceAsyncImpl

@@ -5,8 +5,8 @@ package com.lithic.api.services.blocking.cards
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardAggregateBalanceListPage
-import com.lithic.api.models.CardAggregateBalanceListParams
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListPage
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListParams
 
 interface AggregateBalanceService {
 
@@ -16,22 +16,22 @@ interface AggregateBalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated card balance across all end-user accounts. */
-    fun list(): CardAggregateBalanceListPage = list(CardAggregateBalanceListParams.none())
+    fun list(): AggregateBalanceListPage = list(AggregateBalanceListParams.none())
 
     /** @see [list] */
     fun list(
-        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CardAggregateBalanceListPage
+    ): AggregateBalanceListPage
 
     /** @see [list] */
     fun list(
-        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
-    ): CardAggregateBalanceListPage = list(params, RequestOptions.none())
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+    ): AggregateBalanceListPage = list(params, RequestOptions.none())
 
     /** @see [list] */
-    fun list(requestOptions: RequestOptions): CardAggregateBalanceListPage =
-        list(CardAggregateBalanceListParams.none(), requestOptions)
+    fun list(requestOptions: RequestOptions): AggregateBalanceListPage =
+        list(AggregateBalanceListParams.none(), requestOptions)
 
     /**
      * A view of [AggregateBalanceService] that provides access to raw HTTP responses for each
@@ -44,25 +44,25 @@ interface AggregateBalanceService {
          * same as [AggregateBalanceService.list].
          */
         @MustBeClosed
-        fun list(): HttpResponseFor<CardAggregateBalanceListPage> =
-            list(CardAggregateBalanceListParams.none())
+        fun list(): HttpResponseFor<AggregateBalanceListPage> =
+            list(AggregateBalanceListParams.none())
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<CardAggregateBalanceListPage>
+        ): HttpResponseFor<AggregateBalanceListPage>
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
-        ): HttpResponseFor<CardAggregateBalanceListPage> = list(params, RequestOptions.none())
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+        ): HttpResponseFor<AggregateBalanceListPage> = list(params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
-        fun list(requestOptions: RequestOptions): HttpResponseFor<CardAggregateBalanceListPage> =
-            list(CardAggregateBalanceListParams.none(), requestOptions)
+        fun list(requestOptions: RequestOptions): HttpResponseFor<AggregateBalanceListPage> =
+            list(AggregateBalanceListParams.none(), requestOptions)
     }
 }

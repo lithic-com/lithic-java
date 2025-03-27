@@ -5,10 +5,10 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.TokenizationDecisioningRetrieveSecretParams
-import com.lithic.api.models.TokenizationDecisioningRotateSecretParams
-import com.lithic.api.models.TokenizationDecisioningRotateSecretResponse
-import com.lithic.api.models.TokenizationSecret
+import com.lithic.api.models.tokenizationdecisioning.TokenizationDecisioningRetrieveSecretParams
+import com.lithic.api.models.tokenizationdecisioning.TokenizationDecisioningRotateSecretParams
+import com.lithic.api.models.tokenizationdecisioning.TokenizationDecisioningRotateSecretResponse
+import com.lithic.api.models.tokenizationdecisioning.TokenizationSecret
 
 interface TokenizationDecisioningService {
 

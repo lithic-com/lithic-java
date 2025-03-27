@@ -2,8 +2,8 @@
 
 package com.lithic.api.services.async
 
-import com.lithic.api.services.async.threeDS.AuthenticationServiceAsync
-import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
+import com.lithic.api.services.async.threeds.AuthenticationServiceAsync
+import com.lithic.api.services.async.threeds.DecisioningServiceAsync
 
 interface ThreeDSServiceAsync {
 

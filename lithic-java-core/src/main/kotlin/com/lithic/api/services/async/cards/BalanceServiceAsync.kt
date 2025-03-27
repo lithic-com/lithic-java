@@ -5,8 +5,8 @@ package com.lithic.api.services.async.cards
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardBalanceListPageAsync
-import com.lithic.api.models.CardBalanceListParams
+import com.lithic.api.models.cards.balances.BalanceListPageAsync
+import com.lithic.api.models.cards.balances.BalanceListParams
 import java.util.concurrent.CompletableFuture
 
 interface BalanceServiceAsync {
@@ -17,14 +17,14 @@ interface BalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given card. */
-    fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
+    fun list(params: BalanceListParams): CompletableFuture<BalanceListPageAsync> =
         list(params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
-        params: CardBalanceListParams,
+        params: BalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<CardBalanceListPageAsync>
+    ): CompletableFuture<BalanceListPageAsync>
 
     /**
      * A view of [BalanceServiceAsync] that provides access to raw HTTP responses for each method.
@@ -37,15 +37,15 @@ interface BalanceServiceAsync {
          */
         @MustBeClosed
         fun list(
-            params: CardBalanceListParams
-        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            params: BalanceListParams
+        ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardBalanceListParams,
+            params: BalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>>
+        ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>>
     }
 }

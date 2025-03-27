@@ -4,7 +4,7 @@ package com.lithic.api.services.async.transactions.events
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -23,7 +23,7 @@ internal class EnhancedCommercialDataServiceAsyncTest {
 
         val enhancedDataFuture =
             enhancedCommercialDataServiceAsync.retrieve(
-                TransactionEventEnhancedCommercialDataRetrieveParams.builder()
+                EnhancedCommercialDataRetrieveParams.builder()
                     .eventToken("00000000-0000-0000-0000-000000000000")
                     .build()
             )

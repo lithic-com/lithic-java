@@ -14,10 +14,10 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.CardProgram
-import com.lithic.api.models.CardProgramListPage
-import com.lithic.api.models.CardProgramListParams
-import com.lithic.api.models.CardProgramRetrieveParams
+import com.lithic.api.models.cardprograms.CardProgram
+import com.lithic.api.models.cardprograms.CardProgramListPage
+import com.lithic.api.models.cardprograms.CardProgramListParams
+import com.lithic.api.models.cardprograms.CardProgramRetrieveParams
 
 class CardProgramServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     CardProgramService {

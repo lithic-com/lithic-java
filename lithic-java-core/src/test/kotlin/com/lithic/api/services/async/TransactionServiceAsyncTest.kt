@@ -4,15 +4,14 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.TransactionExpireAuthorizationParams
-import com.lithic.api.models.TransactionRetrieveParams
-import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
-import com.lithic.api.models.TransactionSimulateAuthorizationParams
-import com.lithic.api.models.TransactionSimulateClearingParams
-import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
-import com.lithic.api.models.TransactionSimulateReturnParams
-import com.lithic.api.models.TransactionSimulateReturnReversalParams
-import com.lithic.api.models.TransactionSimulateVoidParams
+import com.lithic.api.models.transactions.TransactionRetrieveParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationAdviceParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateClearingParams
+import com.lithic.api.models.transactions.TransactionSimulateCreditAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnReversalParams
+import com.lithic.api.models.transactions.TransactionSimulateVoidParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -52,25 +51,6 @@ internal class TransactionServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
-    }
-
-    @Test
-    fun expireAuthorization() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val transactionServiceAsync = client.transactions()
-
-        val future =
-            transactionServiceAsync.expireAuthorization(
-                TransactionExpireAuthorizationParams.builder()
-                    .transactionToken("00000000-0000-0000-0000-000000000000")
-                    .build()
-            )
-
-        val response = future.get()
     }
 
     @Test

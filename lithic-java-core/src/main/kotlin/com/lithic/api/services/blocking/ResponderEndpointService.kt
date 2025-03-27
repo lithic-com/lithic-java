@@ -6,11 +6,11 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.ResponderEndpointCheckStatusParams
-import com.lithic.api.models.ResponderEndpointCreateParams
-import com.lithic.api.models.ResponderEndpointCreateResponse
-import com.lithic.api.models.ResponderEndpointDeleteParams
-import com.lithic.api.models.ResponderEndpointStatus
+import com.lithic.api.models.responderendpoints.ResponderEndpointCheckStatusParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCreateParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCreateResponse
+import com.lithic.api.models.responderendpoints.ResponderEndpointDeleteParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointStatus
 
 interface ResponderEndpointService {
 

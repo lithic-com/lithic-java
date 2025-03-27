@@ -14,10 +14,10 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.CardFinancialTransactionListPage
-import com.lithic.api.models.CardFinancialTransactionListParams
-import com.lithic.api.models.CardFinancialTransactionRetrieveParams
-import com.lithic.api.models.FinancialTransaction
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListPage
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListParams
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialTransaction
 
 class FinancialTransactionServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : FinancialTransactionService {
@@ -29,16 +29,16 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
     override fun withRawResponse(): FinancialTransactionService.WithRawResponse = withRawResponse
 
     override fun retrieve(
-        params: CardFinancialTransactionRetrieveParams,
+        params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions,
     ): FinancialTransaction =
         // get /v1/cards/{card_token}/financial_transactions/{financial_transaction_token}
         withRawResponse().retrieve(params, requestOptions).parse()
 
     override fun list(
-        params: CardFinancialTransactionListParams,
+        params: FinancialTransactionListParams,
         requestOptions: RequestOptions,
-    ): CardFinancialTransactionListPage =
+    ): FinancialTransactionListPage =
         // get /v1/cards/{card_token}/financial_transactions
         withRawResponse().list(params, requestOptions).parse()
 
@@ -52,7 +52,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                 .withErrorHandler(errorHandler)
 
         override fun retrieve(
-            params: CardFinancialTransactionRetrieveParams,
+            params: FinancialTransactionRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialTransaction> {
             val request =
@@ -80,14 +80,14 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             }
         }
 
-        private val listHandler: Handler<CardFinancialTransactionListPage.Response> =
-            jsonHandler<CardFinancialTransactionListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<FinancialTransactionListPage.Response> =
+            jsonHandler<FinancialTransactionListPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardFinancialTransactionListParams,
+            params: FinancialTransactionListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<CardFinancialTransactionListPage> {
+        ): HttpResponseFor<FinancialTransactionListPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -105,7 +105,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                         }
                     }
                     .let {
-                        CardFinancialTransactionListPage.of(
+                        FinancialTransactionListPage.of(
                             FinancialTransactionServiceImpl(clientOptions),
                             params,
                             it,

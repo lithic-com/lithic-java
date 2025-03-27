@@ -4,15 +4,14 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.TransactionExpireAuthorizationParams
-import com.lithic.api.models.TransactionRetrieveParams
-import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
-import com.lithic.api.models.TransactionSimulateAuthorizationParams
-import com.lithic.api.models.TransactionSimulateClearingParams
-import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
-import com.lithic.api.models.TransactionSimulateReturnParams
-import com.lithic.api.models.TransactionSimulateReturnReversalParams
-import com.lithic.api.models.TransactionSimulateVoidParams
+import com.lithic.api.models.transactions.TransactionRetrieveParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationAdviceParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateClearingParams
+import com.lithic.api.models.transactions.TransactionSimulateCreditAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnReversalParams
+import com.lithic.api.models.transactions.TransactionSimulateVoidParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -50,22 +49,6 @@ internal class TransactionServiceTest {
         val page = transactionService.list()
 
         page.response().validate()
-    }
-
-    @Test
-    fun expireAuthorization() {
-        val client =
-            LithicOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val transactionService = client.transactions()
-
-        transactionService.expireAuthorization(
-            TransactionExpireAuthorizationParams.builder()
-                .transactionToken("00000000-0000-0000-0000-000000000000")
-                .build()
-        )
     }
 
     @Test

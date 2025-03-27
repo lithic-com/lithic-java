@@ -17,21 +17,21 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventSubscriptionCreateParams
-import com.lithic.api.models.EventSubscriptionDeleteParams
-import com.lithic.api.models.EventSubscriptionListAttemptsPageAsync
-import com.lithic.api.models.EventSubscriptionListAttemptsParams
-import com.lithic.api.models.EventSubscriptionListPageAsync
-import com.lithic.api.models.EventSubscriptionListParams
-import com.lithic.api.models.EventSubscriptionRecoverParams
-import com.lithic.api.models.EventSubscriptionReplayMissingParams
-import com.lithic.api.models.EventSubscriptionRetrieveParams
-import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventSubscriptionRotateSecretParams
-import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
-import com.lithic.api.models.EventSubscriptionUpdateParams
-import com.lithic.api.models.SubscriptionRetrieveSecretResponse
+import com.lithic.api.models.events.EventSubscription
+import com.lithic.api.models.events.subscriptions.SubscriptionCreateParams
+import com.lithic.api.models.events.subscriptions.SubscriptionDeleteParams
+import com.lithic.api.models.events.subscriptions.SubscriptionListAttemptsPageAsync
+import com.lithic.api.models.events.subscriptions.SubscriptionListAttemptsParams
+import com.lithic.api.models.events.subscriptions.SubscriptionListPageAsync
+import com.lithic.api.models.events.subscriptions.SubscriptionListParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRecoverParams
+import com.lithic.api.models.events.subscriptions.SubscriptionReplayMissingParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveSecretResponse
+import com.lithic.api.models.events.subscriptions.SubscriptionRotateSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionSendSimulatedExampleParams
+import com.lithic.api.models.events.subscriptions.SubscriptionUpdateParams
 import java.util.concurrent.CompletableFuture
 
 class SubscriptionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -44,77 +44,77 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
     override fun withRawResponse(): SubscriptionServiceAsync.WithRawResponse = withRawResponse
 
     override fun create(
-        params: EventSubscriptionCreateParams,
+        params: SubscriptionCreateParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> =
         // post /v1/event_subscriptions
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieve(
-        params: EventSubscriptionRetrieveParams,
+        params: SubscriptionRetrieveParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> =
         // get /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun update(
-        params: EventSubscriptionUpdateParams,
+        params: SubscriptionUpdateParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> =
         // patch /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
-        params: EventSubscriptionListParams,
+        params: SubscriptionListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscriptionListPageAsync> =
+    ): CompletableFuture<SubscriptionListPageAsync> =
         // get /v1/event_subscriptions
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
     override fun delete(
-        params: EventSubscriptionDeleteParams,
+        params: SubscriptionDeleteParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         // delete /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
     override fun listAttempts(
-        params: EventSubscriptionListAttemptsParams,
+        params: SubscriptionListAttemptsParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> =
+    ): CompletableFuture<SubscriptionListAttemptsPageAsync> =
         // get /v1/event_subscriptions/{event_subscription_token}/attempts
         withRawResponse().listAttempts(params, requestOptions).thenApply { it.parse() }
 
     override fun recover(
-        params: EventSubscriptionRecoverParams,
+        params: SubscriptionRecoverParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         // post /v1/event_subscriptions/{event_subscription_token}/recover
         withRawResponse().recover(params, requestOptions).thenAccept {}
 
     override fun replayMissing(
-        params: EventSubscriptionReplayMissingParams,
+        params: SubscriptionReplayMissingParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         // post /v1/event_subscriptions/{event_subscription_token}/replay_missing
         withRawResponse().replayMissing(params, requestOptions).thenAccept {}
 
     override fun retrieveSecret(
-        params: EventSubscriptionRetrieveSecretParams,
+        params: SubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
         // get /v1/event_subscriptions/{event_subscription_token}/secret
         withRawResponse().retrieveSecret(params, requestOptions).thenApply { it.parse() }
 
     override fun rotateSecret(
-        params: EventSubscriptionRotateSecretParams,
+        params: SubscriptionRotateSecretParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         // post /v1/event_subscriptions/{event_subscription_token}/secret/rotate
         withRawResponse().rotateSecret(params, requestOptions).thenAccept {}
 
     override fun sendSimulatedExample(
-        params: EventSubscriptionSendSimulatedExampleParams,
+        params: SubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         // post /v1/simulate/event_subscriptions/{event_subscription_token}/send_example
@@ -129,7 +129,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun create(
-            params: EventSubscriptionCreateParams,
+            params: SubscriptionCreateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<EventSubscription>> {
             val request =
@@ -159,7 +159,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun retrieve(
-            params: EventSubscriptionRetrieveParams,
+            params: SubscriptionRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<EventSubscription>> {
             val request =
@@ -188,7 +188,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun update(
-            params: EventSubscriptionUpdateParams,
+            params: SubscriptionUpdateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<EventSubscription>> {
             val request =
@@ -214,14 +214,14 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val listHandler: Handler<EventSubscriptionListPageAsync.Response> =
-            jsonHandler<EventSubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<SubscriptionListPageAsync.Response> =
+            jsonHandler<SubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: EventSubscriptionListParams,
+            params: SubscriptionListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<EventSubscriptionListPageAsync>> {
+        ): CompletableFuture<HttpResponseFor<SubscriptionListPageAsync>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -241,7 +241,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                EventSubscriptionListPageAsync.of(
+                                SubscriptionListPageAsync.of(
                                     SubscriptionServiceAsyncImpl(clientOptions),
                                     params,
                                     it,
@@ -254,7 +254,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
         private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun delete(
-            params: EventSubscriptionDeleteParams,
+            params: SubscriptionDeleteParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
             val request =
@@ -272,14 +272,14 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageAsync.Response> =
-            jsonHandler<EventSubscriptionListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
+        private val listAttemptsHandler: Handler<SubscriptionListAttemptsPageAsync.Response> =
+            jsonHandler<SubscriptionListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listAttempts(
-            params: EventSubscriptionListAttemptsParams,
+            params: SubscriptionListAttemptsParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> {
+        ): CompletableFuture<HttpResponseFor<SubscriptionListAttemptsPageAsync>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -299,7 +299,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                EventSubscriptionListAttemptsPageAsync.of(
+                                SubscriptionListAttemptsPageAsync.of(
                                     SubscriptionServiceAsyncImpl(clientOptions),
                                     params,
                                     it,
@@ -312,7 +312,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
         private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun recover(
-            params: EventSubscriptionRecoverParams,
+            params: SubscriptionRecoverParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
             val request =
@@ -334,7 +334,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun replayMissing(
-            params: EventSubscriptionReplayMissingParams,
+            params: SubscriptionReplayMissingParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
             val request =
@@ -362,7 +362,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 .withErrorHandler(errorHandler)
 
         override fun retrieveSecret(
-            params: EventSubscriptionRetrieveSecretParams,
+            params: SubscriptionRetrieveSecretParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<SubscriptionRetrieveSecretResponse>> {
             val request =
@@ -391,7 +391,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun rotateSecret(
-            params: EventSubscriptionRotateSecretParams,
+            params: SubscriptionRotateSecretParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
             val request =
@@ -419,7 +419,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun sendSimulatedExample(
-            params: EventSubscriptionSendSimulatedExampleParams,
+            params: SubscriptionSendSimulatedExampleParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
             val request =

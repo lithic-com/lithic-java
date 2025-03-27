@@ -1,0 +1,664 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.lithic.api.models.events
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.lithic.api.core.Enum
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.checkKnown
+import com.lithic.api.core.checkRequired
+import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
+import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
+
+/** A subscription to specific event types. */
+class EventSubscription
+private constructor(
+    private val token: JsonField<String>,
+    private val description: JsonField<String>,
+    private val disabled: JsonField<Boolean>,
+    private val url: JsonField<String>,
+    private val eventTypes: JsonField<List<EventType>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
+) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("description")
+        @ExcludeMissing
+        description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("disabled") @ExcludeMissing disabled: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("event_types")
+        @ExcludeMissing
+        eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
+    ) : this(token, description, disabled, url, eventTypes, mutableMapOf())
+
+    /**
+     * Globally unique identifier.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun token(): String = token.getRequired("token")
+
+    /**
+     * A description of the subscription.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun description(): String = description.getRequired("description")
+
+    /**
+     * Whether the subscription is disabled.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun disabled(): Boolean = disabled.getRequired("disabled")
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun url(): String = url.getRequired("url")
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun eventTypes(): Optional<List<EventType>> =
+        Optional.ofNullable(eventTypes.getNullable("event_types"))
+
+    /**
+     * Returns the raw JSON value of [token].
+     *
+     * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+    /**
+     * Returns the raw JSON value of [description].
+     *
+     * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
+
+    /**
+     * Returns the raw JSON value of [disabled].
+     *
+     * Unlike [disabled], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
+
+    /**
+     * Returns the raw JSON value of [url].
+     *
+     * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
+
+    /**
+     * Returns the raw JSON value of [eventTypes].
+     *
+     * Unlike [eventTypes], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("event_types")
+    @ExcludeMissing
+    fun _eventTypes(): JsonField<List<EventType>> = eventTypes
+
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
+    @JsonAnyGetter
+    @ExcludeMissing
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        /**
+         * Returns a mutable builder for constructing an instance of [EventSubscription].
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .description()
+         * .disabled()
+         * .url()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [EventSubscription]. */
+    class Builder internal constructor() {
+
+        private var token: JsonField<String>? = null
+        private var description: JsonField<String>? = null
+        private var disabled: JsonField<Boolean>? = null
+        private var url: JsonField<String>? = null
+        private var eventTypes: JsonField<MutableList<EventType>>? = null
+        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+        @JvmSynthetic
+        internal fun from(eventSubscription: EventSubscription) = apply {
+            token = eventSubscription.token
+            description = eventSubscription.description
+            disabled = eventSubscription.disabled
+            url = eventSubscription.url
+            eventTypes = eventSubscription.eventTypes.map { it.toMutableList() }
+            additionalProperties = eventSubscription.additionalProperties.toMutableMap()
+        }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /**
+         * Sets [Builder.token] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.token] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /** A description of the subscription. */
+        fun description(description: String) = description(JsonField.of(description))
+
+        /**
+         * Sets [Builder.description] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.description] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun description(description: JsonField<String>) = apply { this.description = description }
+
+        /** Whether the subscription is disabled. */
+        fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
+
+        /**
+         * Sets [Builder.disabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disabled] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
+
+        fun url(url: String) = url(JsonField.of(url))
+
+        /**
+         * Sets [Builder.url] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.url] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun url(url: JsonField<String>) = apply { this.url = url }
+
+        fun eventTypes(eventTypes: List<EventType>?) = eventTypes(JsonField.ofNullable(eventTypes))
+
+        /** Alias for calling [Builder.eventTypes] with `eventTypes.orElse(null)`. */
+        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.getOrNull())
+
+        /**
+         * Sets [Builder.eventTypes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.eventTypes] with a well-typed `List<EventType>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
+            this.eventTypes = eventTypes.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [EventType] to [eventTypes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addEventType(eventType: EventType) = apply {
+            eventTypes =
+                (eventTypes ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("eventTypes", it).add(eventType)
+                }
+        }
+
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.clear()
+            putAllAdditionalProperties(additionalProperties)
+        }
+
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+            additionalProperties.put(key, value)
+        }
+
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
+        }
+
+        /**
+         * Returns an immutable instance of [EventSubscription].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .token()
+         * .description()
+         * .disabled()
+         * .url()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): EventSubscription =
+            EventSubscription(
+                checkRequired("token", token),
+                checkRequired("description", description),
+                checkRequired("disabled", disabled),
+                checkRequired("url", url),
+                (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
+                additionalProperties.toMutableMap(),
+            )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): EventSubscription = apply {
+        if (validated) {
+            return@apply
+        }
+
+        token()
+        description()
+        disabled()
+        url()
+        eventTypes()
+        validated = true
+    }
+
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ACCOUNT_HOLDER_CREATED = of("account_holder.created")
+
+            @JvmField val ACCOUNT_HOLDER_UPDATED = of("account_holder.updated")
+
+            @JvmField val ACCOUNT_HOLDER_VERIFICATION = of("account_holder.verification")
+
+            @JvmField
+            val AUTH_RULES_PERFORMANCE_REPORT_CREATED = of("auth_rules.performance_report.created")
+
+            @JvmField val BALANCE_UPDATED = of("balance.updated")
+
+            @JvmField
+            val BOOK_TRANSFER_TRANSACTION_CREATED = of("book_transfer_transaction.created")
+
+            @JvmField val CARD_CREATED = of("card.created")
+
+            @JvmField val CARD_RENEWED = of("card.renewed")
+
+            @JvmField val CARD_REISSUED = of("card.reissued")
+
+            @JvmField val CARD_CONVERTED = of("card.converted")
+
+            @JvmField val CARD_SHIPPED = of("card.shipped")
+
+            @JvmField val CARD_TRANSACTION_UPDATED = of("card_transaction.updated")
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
+                of("digital_wallet.tokenization_approval_request")
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_RESULT = of("digital_wallet.tokenization_result")
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
+                of("digital_wallet.tokenization_two_factor_authentication_code")
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT =
+                of("digital_wallet.tokenization_two_factor_authentication_code_sent")
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_UPDATED = of("digital_wallet.tokenization_updated")
+
+            @JvmField val DISPUTE_UPDATED = of("dispute.updated")
+
+            @JvmField val DISPUTE_EVIDENCE_UPLOAD_FAILED = of("dispute_evidence.upload_failed")
+
+            @JvmField val EXTERNAL_BANK_ACCOUNT_CREATED = of("external_bank_account.created")
+
+            @JvmField val EXTERNAL_BANK_ACCOUNT_UPDATED = of("external_bank_account.updated")
+
+            @JvmField val EXTERNAL_PAYMENT_CREATED = of("external_payment.created")
+
+            @JvmField val EXTERNAL_PAYMENT_UPDATED = of("external_payment.updated")
+
+            @JvmField val FINANCIAL_ACCOUNT_CREATED = of("financial_account.created")
+
+            @JvmField val FINANCIAL_ACCOUNT_UPDATED = of("financial_account.updated")
+
+            @JvmField val LOAN_TAPE_CREATED = of("loan_tape.created")
+
+            @JvmField val LOAN_TAPE_UPDATED = of("loan_tape.updated")
+
+            @JvmField val MANAGEMENT_OPERATION_CREATED = of("management_operation.created")
+
+            @JvmField val MANAGEMENT_OPERATION_UPDATED = of("management_operation.updated")
+
+            @JvmField val PAYMENT_TRANSACTION_CREATED = of("payment_transaction.created")
+
+            @JvmField val PAYMENT_TRANSACTION_UPDATED = of("payment_transaction.updated")
+
+            @JvmField val SETTLEMENT_REPORT_UPDATED = of("settlement_report.updated")
+
+            @JvmField val STATEMENTS_CREATED = of("statements.created")
+
+            @JvmField val THREE_DS_AUTHENTICATION_CREATED = of("three_ds_authentication.created")
+
+            @JvmField val TOKENIZATION_APPROVAL_REQUEST = of("tokenization.approval_request")
+
+            @JvmField val TOKENIZATION_RESULT = of("tokenization.result")
+
+            @JvmField
+            val TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
+                of("tokenization.two_factor_authentication_code")
+
+            @JvmField
+            val TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT =
+                of("tokenization.two_factor_authentication_code_sent")
+
+            @JvmField val TOKENIZATION_UPDATED = of("tokenization.updated")
+
+            @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
+        }
+
+        /** An enum containing [EventType]'s known values. */
+        enum class Known {
+            ACCOUNT_HOLDER_CREATED,
+            ACCOUNT_HOLDER_UPDATED,
+            ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_PERFORMANCE_REPORT_CREATED,
+            BALANCE_UPDATED,
+            BOOK_TRANSFER_TRANSACTION_CREATED,
+            CARD_CREATED,
+            CARD_RENEWED,
+            CARD_REISSUED,
+            CARD_CONVERTED,
+            CARD_SHIPPED,
+            CARD_TRANSACTION_UPDATED,
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_RESULT,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
+            DIGITAL_WALLET_TOKENIZATION_UPDATED,
+            DISPUTE_UPDATED,
+            DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            EXTERNAL_BANK_ACCOUNT_CREATED,
+            EXTERNAL_BANK_ACCOUNT_UPDATED,
+            EXTERNAL_PAYMENT_CREATED,
+            EXTERNAL_PAYMENT_UPDATED,
+            FINANCIAL_ACCOUNT_CREATED,
+            FINANCIAL_ACCOUNT_UPDATED,
+            LOAN_TAPE_CREATED,
+            LOAN_TAPE_UPDATED,
+            MANAGEMENT_OPERATION_CREATED,
+            MANAGEMENT_OPERATION_UPDATED,
+            PAYMENT_TRANSACTION_CREATED,
+            PAYMENT_TRANSACTION_UPDATED,
+            SETTLEMENT_REPORT_UPDATED,
+            STATEMENTS_CREATED,
+            THREE_DS_AUTHENTICATION_CREATED,
+            TOKENIZATION_APPROVAL_REQUEST,
+            TOKENIZATION_RESULT,
+            TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
+            TOKENIZATION_UPDATED,
+        }
+
+        /**
+         * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [EventType] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ACCOUNT_HOLDER_CREATED,
+            ACCOUNT_HOLDER_UPDATED,
+            ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_PERFORMANCE_REPORT_CREATED,
+            BALANCE_UPDATED,
+            BOOK_TRANSFER_TRANSACTION_CREATED,
+            CARD_CREATED,
+            CARD_RENEWED,
+            CARD_REISSUED,
+            CARD_CONVERTED,
+            CARD_SHIPPED,
+            CARD_TRANSACTION_UPDATED,
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_RESULT,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
+            DIGITAL_WALLET_TOKENIZATION_UPDATED,
+            DISPUTE_UPDATED,
+            DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            EXTERNAL_BANK_ACCOUNT_CREATED,
+            EXTERNAL_BANK_ACCOUNT_UPDATED,
+            EXTERNAL_PAYMENT_CREATED,
+            EXTERNAL_PAYMENT_UPDATED,
+            FINANCIAL_ACCOUNT_CREATED,
+            FINANCIAL_ACCOUNT_UPDATED,
+            LOAN_TAPE_CREATED,
+            LOAN_TAPE_UPDATED,
+            MANAGEMENT_OPERATION_CREATED,
+            MANAGEMENT_OPERATION_UPDATED,
+            PAYMENT_TRANSACTION_CREATED,
+            PAYMENT_TRANSACTION_UPDATED,
+            SETTLEMENT_REPORT_UPDATED,
+            STATEMENTS_CREATED,
+            THREE_DS_AUTHENTICATION_CREATED,
+            TOKENIZATION_APPROVAL_REQUEST,
+            TOKENIZATION_RESULT,
+            TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
+            TOKENIZATION_UPDATED,
+            /**
+             * An enum member indicating that [EventType] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ACCOUNT_HOLDER_CREATED -> Value.ACCOUNT_HOLDER_CREATED
+                ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
+                ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_PERFORMANCE_REPORT_CREATED -> Value.AUTH_RULES_PERFORMANCE_REPORT_CREATED
+                BALANCE_UPDATED -> Value.BALANCE_UPDATED
+                BOOK_TRANSFER_TRANSACTION_CREATED -> Value.BOOK_TRANSFER_TRANSACTION_CREATED
+                CARD_CREATED -> Value.CARD_CREATED
+                CARD_RENEWED -> Value.CARD_RENEWED
+                CARD_REISSUED -> Value.CARD_REISSUED
+                CARD_CONVERTED -> Value.CARD_CONVERTED
+                CARD_SHIPPED -> Value.CARD_SHIPPED
+                CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_RESULT -> Value.DIGITAL_WALLET_TOKENIZATION_RESULT
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
+                DIGITAL_WALLET_TOKENIZATION_UPDATED -> Value.DIGITAL_WALLET_TOKENIZATION_UPDATED
+                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+                DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
+                EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
+                EXTERNAL_PAYMENT_CREATED -> Value.EXTERNAL_PAYMENT_CREATED
+                EXTERNAL_PAYMENT_UPDATED -> Value.EXTERNAL_PAYMENT_UPDATED
+                FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
+                FINANCIAL_ACCOUNT_UPDATED -> Value.FINANCIAL_ACCOUNT_UPDATED
+                LOAN_TAPE_CREATED -> Value.LOAN_TAPE_CREATED
+                LOAN_TAPE_UPDATED -> Value.LOAN_TAPE_UPDATED
+                MANAGEMENT_OPERATION_CREATED -> Value.MANAGEMENT_OPERATION_CREATED
+                MANAGEMENT_OPERATION_UPDATED -> Value.MANAGEMENT_OPERATION_UPDATED
+                PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
+                PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
+                STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
+                THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
+                TOKENIZATION_APPROVAL_REQUEST -> Value.TOKENIZATION_APPROVAL_REQUEST
+                TOKENIZATION_RESULT -> Value.TOKENIZATION_RESULT
+                TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Value.TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Value.TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
+                TOKENIZATION_UPDATED -> Value.TOKENIZATION_UPDATED
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ACCOUNT_HOLDER_CREATED -> Known.ACCOUNT_HOLDER_CREATED
+                ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
+                ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_PERFORMANCE_REPORT_CREATED -> Known.AUTH_RULES_PERFORMANCE_REPORT_CREATED
+                BALANCE_UPDATED -> Known.BALANCE_UPDATED
+                BOOK_TRANSFER_TRANSACTION_CREATED -> Known.BOOK_TRANSFER_TRANSACTION_CREATED
+                CARD_CREATED -> Known.CARD_CREATED
+                CARD_RENEWED -> Known.CARD_RENEWED
+                CARD_REISSUED -> Known.CARD_REISSUED
+                CARD_CONVERTED -> Known.CARD_CONVERTED
+                CARD_SHIPPED -> Known.CARD_SHIPPED
+                CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_RESULT -> Known.DIGITAL_WALLET_TOKENIZATION_RESULT
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
+                DIGITAL_WALLET_TOKENIZATION_UPDATED -> Known.DIGITAL_WALLET_TOKENIZATION_UPDATED
+                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+                DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
+                EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
+                EXTERNAL_PAYMENT_CREATED -> Known.EXTERNAL_PAYMENT_CREATED
+                EXTERNAL_PAYMENT_UPDATED -> Known.EXTERNAL_PAYMENT_UPDATED
+                FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
+                FINANCIAL_ACCOUNT_UPDATED -> Known.FINANCIAL_ACCOUNT_UPDATED
+                LOAN_TAPE_CREATED -> Known.LOAN_TAPE_CREATED
+                LOAN_TAPE_UPDATED -> Known.LOAN_TAPE_UPDATED
+                MANAGEMENT_OPERATION_CREATED -> Known.MANAGEMENT_OPERATION_CREATED
+                MANAGEMENT_OPERATION_UPDATED -> Known.MANAGEMENT_OPERATION_UPDATED
+                PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
+                PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
+                STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
+                THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
+                TOKENIZATION_APPROVAL_REQUEST -> Known.TOKENIZATION_APPROVAL_REQUEST
+                TOKENIZATION_RESULT -> Known.TOKENIZATION_RESULT
+                TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Known.TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Known.TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
+                TOKENIZATION_UPDATED -> Known.TOKENIZATION_UPDATED
+                else -> throw LithicInvalidDataException("Unknown EventType: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is EventSubscription && token == other.token && description == other.description && disabled == other.disabled && url == other.url && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(token, description, disabled, url, eventTypes, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "EventSubscription{token=$token, description=$description, disabled=$disabled, url=$url, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
+}

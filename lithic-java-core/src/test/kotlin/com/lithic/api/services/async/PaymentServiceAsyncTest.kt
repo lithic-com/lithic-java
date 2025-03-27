@@ -4,13 +4,13 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.PaymentCreateParams
-import com.lithic.api.models.PaymentRetrieveParams
-import com.lithic.api.models.PaymentRetryParams
-import com.lithic.api.models.PaymentSimulateActionParams
-import com.lithic.api.models.PaymentSimulateReceiptParams
-import com.lithic.api.models.PaymentSimulateReleaseParams
-import com.lithic.api.models.PaymentSimulateReturnParams
+import com.lithic.api.models.payments.PaymentCreateParams
+import com.lithic.api.models.payments.PaymentRetrieveParams
+import com.lithic.api.models.payments.PaymentRetryParams
+import com.lithic.api.models.payments.PaymentSimulateActionParams
+import com.lithic.api.models.payments.PaymentSimulateReceiptParams
+import com.lithic.api.models.payments.PaymentSimulateReleaseParams
+import com.lithic.api.models.payments.PaymentSimulateReturnParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

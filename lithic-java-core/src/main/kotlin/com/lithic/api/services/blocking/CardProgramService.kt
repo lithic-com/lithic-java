@@ -5,10 +5,10 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardProgram
-import com.lithic.api.models.CardProgramListPage
-import com.lithic.api.models.CardProgramListParams
-import com.lithic.api.models.CardProgramRetrieveParams
+import com.lithic.api.models.cardprograms.CardProgram
+import com.lithic.api.models.cardprograms.CardProgramListPage
+import com.lithic.api.models.cardprograms.CardProgramListParams
+import com.lithic.api.models.cardprograms.CardProgramRetrieveParams
 
 interface CardProgramService {
 

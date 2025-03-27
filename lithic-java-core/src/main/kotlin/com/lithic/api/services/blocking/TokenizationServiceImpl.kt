@@ -17,19 +17,19 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.TokenizationActivateParams
-import com.lithic.api.models.TokenizationDeactivateParams
-import com.lithic.api.models.TokenizationListPage
-import com.lithic.api.models.TokenizationListParams
-import com.lithic.api.models.TokenizationPauseParams
-import com.lithic.api.models.TokenizationResendActivationCodeParams
-import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationRetrieveResponse
-import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSimulateResponse
-import com.lithic.api.models.TokenizationUnpauseParams
-import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
-import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
+import com.lithic.api.models.tokenizations.TokenizationActivateParams
+import com.lithic.api.models.tokenizations.TokenizationDeactivateParams
+import com.lithic.api.models.tokenizations.TokenizationListPage
+import com.lithic.api.models.tokenizations.TokenizationListParams
+import com.lithic.api.models.tokenizations.TokenizationPauseParams
+import com.lithic.api.models.tokenizations.TokenizationResendActivationCodeParams
+import com.lithic.api.models.tokenizations.TokenizationRetrieveParams
+import com.lithic.api.models.tokenizations.TokenizationRetrieveResponse
+import com.lithic.api.models.tokenizations.TokenizationSimulateParams
+import com.lithic.api.models.tokenizations.TokenizationSimulateResponse
+import com.lithic.api.models.tokenizations.TokenizationUnpauseParams
+import com.lithic.api.models.tokenizations.TokenizationUpdateDigitalCardArtParams
+import com.lithic.api.models.tokenizations.TokenizationUpdateDigitalCardArtResponse
 
 class TokenizationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     TokenizationService {

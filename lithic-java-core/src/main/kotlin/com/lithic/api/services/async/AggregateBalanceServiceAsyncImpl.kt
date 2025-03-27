@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.AggregateBalanceListPageAsync
-import com.lithic.api.models.AggregateBalanceListParams
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListPageAsync
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class AggregateBalanceServiceAsyncImpl

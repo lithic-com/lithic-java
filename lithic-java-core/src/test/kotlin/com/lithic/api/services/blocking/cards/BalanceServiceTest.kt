@@ -4,7 +4,7 @@ package com.lithic.api.services.blocking.cards
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.CardBalanceListParams
+import com.lithic.api.models.cards.balances.BalanceListParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -22,7 +22,7 @@ internal class BalanceServiceTest {
 
         val page =
             balanceService.list(
-                CardBalanceListParams.builder()
+                BalanceListParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

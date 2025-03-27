@@ -4,9 +4,9 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.ManagementOperationCreateParams
-import com.lithic.api.models.ManagementOperationRetrieveParams
-import com.lithic.api.models.ManagementOperationReverseParams
+import com.lithic.api.models.managementoperations.ManagementOperationCreateParams
+import com.lithic.api.models.managementoperations.ManagementOperationRetrieveParams
+import com.lithic.api.models.managementoperations.ManagementOperationReverseParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

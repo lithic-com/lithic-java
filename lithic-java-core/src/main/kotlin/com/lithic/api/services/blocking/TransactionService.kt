@@ -4,27 +4,25 @@ package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Transaction
-import com.lithic.api.models.TransactionExpireAuthorizationParams
-import com.lithic.api.models.TransactionListPage
-import com.lithic.api.models.TransactionListParams
-import com.lithic.api.models.TransactionRetrieveParams
-import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
-import com.lithic.api.models.TransactionSimulateAuthorizationAdviceResponse
-import com.lithic.api.models.TransactionSimulateAuthorizationParams
-import com.lithic.api.models.TransactionSimulateAuthorizationResponse
-import com.lithic.api.models.TransactionSimulateClearingParams
-import com.lithic.api.models.TransactionSimulateClearingResponse
-import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
-import com.lithic.api.models.TransactionSimulateCreditAuthorizationResponse
-import com.lithic.api.models.TransactionSimulateReturnParams
-import com.lithic.api.models.TransactionSimulateReturnResponse
-import com.lithic.api.models.TransactionSimulateReturnReversalParams
-import com.lithic.api.models.TransactionSimulateReturnReversalResponse
-import com.lithic.api.models.TransactionSimulateVoidParams
-import com.lithic.api.models.TransactionSimulateVoidResponse
+import com.lithic.api.models.transactions.Transaction
+import com.lithic.api.models.transactions.TransactionListPage
+import com.lithic.api.models.transactions.TransactionListParams
+import com.lithic.api.models.transactions.TransactionRetrieveParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationAdviceParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationAdviceResponse
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateAuthorizationResponse
+import com.lithic.api.models.transactions.TransactionSimulateClearingParams
+import com.lithic.api.models.transactions.TransactionSimulateClearingResponse
+import com.lithic.api.models.transactions.TransactionSimulateCreditAuthorizationParams
+import com.lithic.api.models.transactions.TransactionSimulateCreditAuthorizationResponse
+import com.lithic.api.models.transactions.TransactionSimulateReturnParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnResponse
+import com.lithic.api.models.transactions.TransactionSimulateReturnReversalParams
+import com.lithic.api.models.transactions.TransactionSimulateReturnReversalResponse
+import com.lithic.api.models.transactions.TransactionSimulateVoidParams
+import com.lithic.api.models.transactions.TransactionSimulateVoidResponse
 import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataService
 import com.lithic.api.services.blocking.transactions.EventService
 
@@ -71,16 +69,6 @@ interface TransactionService {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): TransactionListPage =
         list(TransactionListParams.none(), requestOptions)
-
-    /** Expire authorization */
-    fun expireAuthorization(params: TransactionExpireAuthorizationParams) =
-        expireAuthorization(params, RequestOptions.none())
-
-    /** @see [expireAuthorization] */
-    fun expireAuthorization(
-        params: TransactionExpireAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    )
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -239,22 +227,6 @@ interface TransactionService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<TransactionListPage> =
             list(TransactionListParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /v1/transactions/{transaction_token}/expire_authorization`, but is otherwise the same as
-         * [TransactionService.expireAuthorization].
-         */
-        @MustBeClosed
-        fun expireAuthorization(params: TransactionExpireAuthorizationParams): HttpResponse =
-            expireAuthorization(params, RequestOptions.none())
-
-        /** @see [expireAuthorization] */
-        @MustBeClosed
-        fun expireAuthorization(
-            params: TransactionExpireAuthorizationParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same

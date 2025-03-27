@@ -15,8 +15,8 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.Transfer
-import com.lithic.api.models.TransferCreateParams
+import com.lithic.api.models.transfers.Transfer
+import com.lithic.api.models.transfers.TransferCreateParams
 
 class TransferServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     TransferService {

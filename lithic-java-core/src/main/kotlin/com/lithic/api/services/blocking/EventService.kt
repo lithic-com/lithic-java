@@ -5,12 +5,12 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Event
-import com.lithic.api.models.EventListAttemptsPage
-import com.lithic.api.models.EventListAttemptsParams
-import com.lithic.api.models.EventListPage
-import com.lithic.api.models.EventListParams
-import com.lithic.api.models.EventRetrieveParams
+import com.lithic.api.models.events.Event
+import com.lithic.api.models.events.EventListAttemptsPage
+import com.lithic.api.models.events.EventListAttemptsParams
+import com.lithic.api.models.events.EventListPage
+import com.lithic.api.models.events.EventListParams
+import com.lithic.api.models.events.EventRetrieveParams
 import com.lithic.api.services.blocking.events.SubscriptionService
 
 interface EventService {

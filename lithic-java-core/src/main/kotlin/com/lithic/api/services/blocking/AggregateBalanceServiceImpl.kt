@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.AggregateBalanceListPage
-import com.lithic.api.models.AggregateBalanceListParams
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListPage
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListParams
 
 class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AggregateBalanceService {

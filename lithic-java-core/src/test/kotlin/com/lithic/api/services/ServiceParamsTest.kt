@@ -15,10 +15,10 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonValue
-import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.Carrier
 import com.lithic.api.models.ShippingAddress
-import com.lithic.api.models.SpendLimitDuration
+import com.lithic.api.models.cards.CardCreateParams
+import com.lithic.api.models.cards.SpendLimitDuration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 

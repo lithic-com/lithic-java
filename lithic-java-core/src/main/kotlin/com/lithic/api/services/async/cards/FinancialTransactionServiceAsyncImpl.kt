@@ -14,10 +14,10 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.CardFinancialTransactionListPageAsync
-import com.lithic.api.models.CardFinancialTransactionListParams
-import com.lithic.api.models.CardFinancialTransactionRetrieveParams
-import com.lithic.api.models.FinancialTransaction
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListPageAsync
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListParams
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialTransaction
 import java.util.concurrent.CompletableFuture
 
 class FinancialTransactionServiceAsyncImpl
@@ -31,16 +31,16 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
         withRawResponse
 
     override fun retrieve(
-        params: CardFinancialTransactionRetrieveParams,
+        params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<FinancialTransaction> =
         // get /v1/cards/{card_token}/financial_transactions/{financial_transaction_token}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
-        params: CardFinancialTransactionListParams,
+        params: FinancialTransactionListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<CardFinancialTransactionListPageAsync> =
+    ): CompletableFuture<FinancialTransactionListPageAsync> =
         // get /v1/cards/{card_token}/financial_transactions
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -54,7 +54,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                 .withErrorHandler(errorHandler)
 
         override fun retrieve(
-            params: CardFinancialTransactionRetrieveParams,
+            params: FinancialTransactionRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> {
             val request =
@@ -85,14 +85,14 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                 }
         }
 
-        private val listHandler: Handler<CardFinancialTransactionListPageAsync.Response> =
-            jsonHandler<CardFinancialTransactionListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<FinancialTransactionListPageAsync.Response> =
+            jsonHandler<FinancialTransactionListPageAsync.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardFinancialTransactionListParams,
+            params: FinancialTransactionListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> {
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -112,7 +112,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                                 }
                             }
                             .let {
-                                CardFinancialTransactionListPageAsync.of(
+                                FinancialTransactionListPageAsync.of(
                                     FinancialTransactionServiceAsyncImpl(clientOptions),
                                     params,
                                     it,

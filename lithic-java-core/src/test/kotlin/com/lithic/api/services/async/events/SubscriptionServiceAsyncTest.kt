@@ -4,16 +4,16 @@ package com.lithic.api.services.async.events
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.EventSubscriptionCreateParams
-import com.lithic.api.models.EventSubscriptionDeleteParams
-import com.lithic.api.models.EventSubscriptionListAttemptsParams
-import com.lithic.api.models.EventSubscriptionRecoverParams
-import com.lithic.api.models.EventSubscriptionReplayMissingParams
-import com.lithic.api.models.EventSubscriptionRetrieveParams
-import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventSubscriptionRotateSecretParams
-import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
-import com.lithic.api.models.EventSubscriptionUpdateParams
+import com.lithic.api.models.events.subscriptions.SubscriptionCreateParams
+import com.lithic.api.models.events.subscriptions.SubscriptionDeleteParams
+import com.lithic.api.models.events.subscriptions.SubscriptionListAttemptsParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRecoverParams
+import com.lithic.api.models.events.subscriptions.SubscriptionReplayMissingParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRotateSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionSendSimulatedExampleParams
+import com.lithic.api.models.events.subscriptions.SubscriptionUpdateParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -33,11 +33,11 @@ internal class SubscriptionServiceAsyncTest {
 
         val eventSubscriptionFuture =
             subscriptionServiceAsync.create(
-                EventSubscriptionCreateParams.builder()
+                SubscriptionCreateParams.builder()
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    .addEventType(SubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
 
@@ -56,7 +56,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val eventSubscriptionFuture =
             subscriptionServiceAsync.retrieve(
-                EventSubscriptionRetrieveParams.builder()
+                SubscriptionRetrieveParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
@@ -76,12 +76,12 @@ internal class SubscriptionServiceAsyncTest {
 
         val eventSubscriptionFuture =
             subscriptionServiceAsync.update(
-                EventSubscriptionUpdateParams.builder()
+                SubscriptionUpdateParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .addEventType(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    .addEventType(SubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
                     .build()
             )
 
@@ -104,7 +104,7 @@ internal class SubscriptionServiceAsyncTest {
         page.response().validate()
     }
 
-    @Disabled("Prism Mock server doesn't want Accept header, but server requires it.")
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun delete() {
         val client =
@@ -116,7 +116,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val future =
             subscriptionServiceAsync.delete(
-                EventSubscriptionDeleteParams.builder()
+                SubscriptionDeleteParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
@@ -135,7 +135,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val pageFuture =
             subscriptionServiceAsync.listAttempts(
-                EventSubscriptionListAttemptsParams.builder()
+                SubscriptionListAttemptsParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
@@ -144,7 +144,7 @@ internal class SubscriptionServiceAsyncTest {
         page.response().validate()
     }
 
-    @Disabled("Prism Mock server doesn't want Accept header, but server requires it.")
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun recover() {
         val client =
@@ -156,7 +156,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val future =
             subscriptionServiceAsync.recover(
-                EventSubscriptionRecoverParams.builder()
+                SubscriptionRecoverParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -166,7 +166,7 @@ internal class SubscriptionServiceAsyncTest {
         val response = future.get()
     }
 
-    @Disabled("Prism Mock server doesn't want Accept header, but server requires it.")
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun replayMissing() {
         val client =
@@ -178,7 +178,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val future =
             subscriptionServiceAsync.replayMissing(
-                EventSubscriptionReplayMissingParams.builder()
+                SubscriptionReplayMissingParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -199,7 +199,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val responseFuture =
             subscriptionServiceAsync.retrieveSecret(
-                EventSubscriptionRetrieveSecretParams.builder()
+                SubscriptionRetrieveSecretParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
@@ -208,7 +208,7 @@ internal class SubscriptionServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism Mock server doesn't want Accept header, but server requires it.")
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun rotateSecret() {
         val client =
@@ -220,7 +220,7 @@ internal class SubscriptionServiceAsyncTest {
 
         val future =
             subscriptionServiceAsync.rotateSecret(
-                EventSubscriptionRotateSecretParams.builder()
+                SubscriptionRotateSecretParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
@@ -239,10 +239,10 @@ internal class SubscriptionServiceAsyncTest {
 
         val future =
             subscriptionServiceAsync.sendSimulatedExample(
-                EventSubscriptionSendSimulatedExampleParams.builder()
+                SubscriptionSendSimulatedExampleParams.builder()
                     .eventSubscriptionToken("event_subscription_token")
                     .eventType(
-                        EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
+                        SubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
                     )
                     .build()
             )

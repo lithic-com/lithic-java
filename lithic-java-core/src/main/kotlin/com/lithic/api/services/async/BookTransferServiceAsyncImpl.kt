@@ -15,12 +15,12 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.BookTransferCreateParams
-import com.lithic.api.models.BookTransferListPageAsync
-import com.lithic.api.models.BookTransferListParams
-import com.lithic.api.models.BookTransferResponse
-import com.lithic.api.models.BookTransferRetrieveParams
-import com.lithic.api.models.BookTransferReverseParams
+import com.lithic.api.models.booktransfers.BookTransferCreateParams
+import com.lithic.api.models.booktransfers.BookTransferListPageAsync
+import com.lithic.api.models.booktransfers.BookTransferListParams
+import com.lithic.api.models.booktransfers.BookTransferResponse
+import com.lithic.api.models.booktransfers.BookTransferRetrieveParams
+import com.lithic.api.models.booktransfers.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
 
 class BookTransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :

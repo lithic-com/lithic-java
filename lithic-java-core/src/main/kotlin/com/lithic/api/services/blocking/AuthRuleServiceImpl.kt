@@ -3,8 +3,8 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.services.blocking.authRules.V2Service
-import com.lithic.api.services.blocking.authRules.V2ServiceImpl
+import com.lithic.api.services.blocking.authrules.V2Service
+import com.lithic.api.services.blocking.authrules.V2ServiceImpl
 
 class AuthRuleServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AuthRuleService {

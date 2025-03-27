@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.BalanceListPageAsync
-import com.lithic.api.models.BalanceListParams
+import com.lithic.api.models.balances.BalanceListPageAsync
+import com.lithic.api.models.balances.BalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class BalanceServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :

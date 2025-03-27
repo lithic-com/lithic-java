@@ -5,10 +5,10 @@ package com.lithic.api.services.async.cards
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardFinancialTransactionListPageAsync
-import com.lithic.api.models.CardFinancialTransactionListParams
-import com.lithic.api.models.CardFinancialTransactionRetrieveParams
-import com.lithic.api.models.FinancialTransaction
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListPageAsync
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListParams
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialTransaction
 import java.util.concurrent.CompletableFuture
 
 interface FinancialTransactionServiceAsync {
@@ -20,26 +20,25 @@ interface FinancialTransactionServiceAsync {
 
     /** Get the card financial transaction for the provided token. */
     fun retrieve(
-        params: CardFinancialTransactionRetrieveParams
+        params: FinancialTransactionRetrieveParams
     ): CompletableFuture<FinancialTransaction> = retrieve(params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
-        params: CardFinancialTransactionRetrieveParams,
+        params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialTransaction>
 
     /** List the financial transactions for a given card. */
     fun list(
-        params: CardFinancialTransactionListParams
-    ): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(params, RequestOptions.none())
+        params: FinancialTransactionListParams
+    ): CompletableFuture<FinancialTransactionListPageAsync> = list(params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
-        params: CardFinancialTransactionListParams,
+        params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<CardFinancialTransactionListPageAsync>
+    ): CompletableFuture<FinancialTransactionListPageAsync>
 
     /**
      * A view of [FinancialTransactionServiceAsync] that provides access to raw HTTP responses for
@@ -54,14 +53,14 @@ interface FinancialTransactionServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: CardFinancialTransactionRetrieveParams
+            params: FinancialTransactionRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: CardFinancialTransactionRetrieveParams,
+            params: FinancialTransactionRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>>
 
@@ -71,15 +70,15 @@ interface FinancialTransactionServiceAsync {
          */
         @MustBeClosed
         fun list(
-            params: CardFinancialTransactionListParams
-        ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
+            params: FinancialTransactionListParams
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardFinancialTransactionListParams,
+            params: FinancialTransactionListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>>
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>>
     }
 }

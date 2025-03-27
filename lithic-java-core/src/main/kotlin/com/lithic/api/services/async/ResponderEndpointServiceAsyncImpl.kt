@@ -17,11 +17,11 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.ResponderEndpointCheckStatusParams
-import com.lithic.api.models.ResponderEndpointCreateParams
-import com.lithic.api.models.ResponderEndpointCreateResponse
-import com.lithic.api.models.ResponderEndpointDeleteParams
-import com.lithic.api.models.ResponderEndpointStatus
+import com.lithic.api.models.responderendpoints.ResponderEndpointCheckStatusParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCreateParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCreateResponse
+import com.lithic.api.models.responderendpoints.ResponderEndpointDeleteParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointStatus
 import java.util.concurrent.CompletableFuture
 
 class ResponderEndpointServiceAsyncImpl

@@ -15,8 +15,8 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.Transfer
-import com.lithic.api.models.TransferCreateParams
+import com.lithic.api.models.transfers.Transfer
+import com.lithic.api.models.transfers.TransferCreateParams
 import java.util.concurrent.CompletableFuture
 
 class TransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :

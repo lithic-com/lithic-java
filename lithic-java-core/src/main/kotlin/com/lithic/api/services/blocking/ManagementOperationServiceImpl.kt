@@ -15,12 +15,12 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.ManagementOperationCreateParams
-import com.lithic.api.models.ManagementOperationListPage
-import com.lithic.api.models.ManagementOperationListParams
-import com.lithic.api.models.ManagementOperationRetrieveParams
-import com.lithic.api.models.ManagementOperationReverseParams
-import com.lithic.api.models.ManagementOperationTransaction
+import com.lithic.api.models.managementoperations.ManagementOperationCreateParams
+import com.lithic.api.models.managementoperations.ManagementOperationListPage
+import com.lithic.api.models.managementoperations.ManagementOperationListParams
+import com.lithic.api.models.managementoperations.ManagementOperationRetrieveParams
+import com.lithic.api.models.managementoperations.ManagementOperationReverseParams
+import com.lithic.api.models.managementoperations.ManagementOperationTransaction
 
 class ManagementOperationServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : ManagementOperationService {

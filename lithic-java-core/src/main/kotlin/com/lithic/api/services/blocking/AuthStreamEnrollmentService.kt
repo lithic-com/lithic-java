@@ -6,9 +6,9 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
-import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
-import com.lithic.api.models.AuthStreamSecret
+import com.lithic.api.models.authstreamenrollment.AuthStreamEnrollmentRetrieveSecretParams
+import com.lithic.api.models.authstreamenrollment.AuthStreamEnrollmentRotateSecretParams
+import com.lithic.api.models.authstreamenrollment.AuthStreamSecret
 
 interface AuthStreamEnrollmentService {
 

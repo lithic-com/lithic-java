@@ -5,19 +5,19 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Dispute
-import com.lithic.api.models.DisputeCreateParams
-import com.lithic.api.models.DisputeDeleteEvidenceParams
-import com.lithic.api.models.DisputeDeleteParams
-import com.lithic.api.models.DisputeEvidence
-import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
-import com.lithic.api.models.DisputeListEvidencesPageAsync
-import com.lithic.api.models.DisputeListEvidencesParams
-import com.lithic.api.models.DisputeListPageAsync
-import com.lithic.api.models.DisputeListParams
-import com.lithic.api.models.DisputeRetrieveEvidenceParams
-import com.lithic.api.models.DisputeRetrieveParams
-import com.lithic.api.models.DisputeUpdateParams
+import com.lithic.api.models.disputes.Dispute
+import com.lithic.api.models.disputes.DisputeCreateParams
+import com.lithic.api.models.disputes.DisputeDeleteEvidenceParams
+import com.lithic.api.models.disputes.DisputeDeleteParams
+import com.lithic.api.models.disputes.DisputeEvidence
+import com.lithic.api.models.disputes.DisputeInitiateEvidenceUploadParams
+import com.lithic.api.models.disputes.DisputeListEvidencesPageAsync
+import com.lithic.api.models.disputes.DisputeListEvidencesParams
+import com.lithic.api.models.disputes.DisputeListPageAsync
+import com.lithic.api.models.disputes.DisputeListParams
+import com.lithic.api.models.disputes.DisputeRetrieveEvidenceParams
+import com.lithic.api.models.disputes.DisputeRetrieveParams
+import com.lithic.api.models.disputes.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
 
 interface DisputeServiceAsync {

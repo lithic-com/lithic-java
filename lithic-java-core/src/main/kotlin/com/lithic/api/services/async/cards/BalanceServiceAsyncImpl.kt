@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.CardBalanceListPageAsync
-import com.lithic.api.models.CardBalanceListParams
+import com.lithic.api.models.cards.balances.BalanceListPageAsync
+import com.lithic.api.models.cards.balances.BalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class BalanceServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,9 +28,9 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun withRawResponse(): BalanceServiceAsync.WithRawResponse = withRawResponse
 
     override fun list(
-        params: CardBalanceListParams,
+        params: BalanceListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<CardBalanceListPageAsync> =
+    ): CompletableFuture<BalanceListPageAsync> =
         // get /v1/cards/{card_token}/balances
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -39,14 +39,14 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardBalanceListPageAsync.Response> =
-            jsonHandler<CardBalanceListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<BalanceListPageAsync.Response> =
+            jsonHandler<BalanceListPageAsync.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardBalanceListParams,
+            params: BalanceListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> {
+        ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -66,7 +66,7 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                 }
                             }
                             .let {
-                                CardBalanceListPageAsync.of(
+                                BalanceListPageAsync.of(
                                     BalanceServiceAsyncImpl(clientOptions),
                                     params,
                                     it,

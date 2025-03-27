@@ -29,12 +29,6 @@ private constructor(private val value: JsonField<String>) : Enum {
 
         @JvmField val OPERATING = of("OPERATING")
 
-        @JvmField val CHARGED_OFF_FEES = of("CHARGED_OFF_FEES")
-
-        @JvmField val CHARGED_OFF_INTEREST = of("CHARGED_OFF_INTEREST")
-
-        @JvmField val CHARGED_OFF_PRINCIPAL = of("CHARGED_OFF_PRINCIPAL")
-
         @JvmStatic fun of(value: String) = InstanceFinancialAccountType(JsonField.of(value))
     }
 
@@ -43,9 +37,6 @@ private constructor(private val value: JsonField<String>) : Enum {
         ISSUING,
         RESERVE,
         OPERATING,
-        CHARGED_OFF_FEES,
-        CHARGED_OFF_INTEREST,
-        CHARGED_OFF_PRINCIPAL,
     }
 
     /**
@@ -63,9 +54,6 @@ private constructor(private val value: JsonField<String>) : Enum {
         ISSUING,
         RESERVE,
         OPERATING,
-        CHARGED_OFF_FEES,
-        CHARGED_OFF_INTEREST,
-        CHARGED_OFF_PRINCIPAL,
         /**
          * An enum member indicating that [InstanceFinancialAccountType] was instantiated with an
          * unknown value.
@@ -85,9 +73,6 @@ private constructor(private val value: JsonField<String>) : Enum {
             ISSUING -> Value.ISSUING
             RESERVE -> Value.RESERVE
             OPERATING -> Value.OPERATING
-            CHARGED_OFF_FEES -> Value.CHARGED_OFF_FEES
-            CHARGED_OFF_INTEREST -> Value.CHARGED_OFF_INTEREST
-            CHARGED_OFF_PRINCIPAL -> Value.CHARGED_OFF_PRINCIPAL
             else -> Value._UNKNOWN
         }
 
@@ -104,9 +89,6 @@ private constructor(private val value: JsonField<String>) : Enum {
             ISSUING -> Known.ISSUING
             RESERVE -> Known.RESERVE
             OPERATING -> Known.OPERATING
-            CHARGED_OFF_FEES -> Known.CHARGED_OFF_FEES
-            CHARGED_OFF_INTEREST -> Known.CHARGED_OFF_INTEREST
-            CHARGED_OFF_PRINCIPAL -> Known.CHARGED_OFF_PRINCIPAL
             else -> throw LithicInvalidDataException("Unknown InstanceFinancialAccountType: $value")
         }
 

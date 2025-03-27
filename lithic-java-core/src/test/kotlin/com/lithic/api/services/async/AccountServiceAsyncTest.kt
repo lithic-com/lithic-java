@@ -4,9 +4,9 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.AccountRetrieveParams
-import com.lithic.api.models.AccountRetrieveSpendLimitsParams
-import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.accounts.AccountRetrieveParams
+import com.lithic.api.models.accounts.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.accounts.AccountUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

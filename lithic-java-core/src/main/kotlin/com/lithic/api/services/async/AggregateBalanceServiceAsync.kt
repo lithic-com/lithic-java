@@ -5,8 +5,8 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AggregateBalanceListPageAsync
-import com.lithic.api.models.AggregateBalanceListParams
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListPageAsync
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
 interface AggregateBalanceServiceAsync {

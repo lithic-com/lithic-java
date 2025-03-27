@@ -4,8 +4,8 @@ package com.lithic.api.services.blocking.cards
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.CardFinancialTransactionListParams
-import com.lithic.api.models.CardFinancialTransactionRetrieveParams
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionListParams
+import com.lithic.api.models.cards.financialtransactions.FinancialTransactionRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -23,7 +23,7 @@ internal class FinancialTransactionServiceTest {
 
         val financialTransaction =
             financialTransactionService.retrieve(
-                CardFinancialTransactionRetrieveParams.builder()
+                FinancialTransactionRetrieveParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
@@ -43,7 +43,7 @@ internal class FinancialTransactionServiceTest {
 
         val page =
             financialTransactionService.list(
-                CardFinancialTransactionListParams.builder()
+                FinancialTransactionListParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

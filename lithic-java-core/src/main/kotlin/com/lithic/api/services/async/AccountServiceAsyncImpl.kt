@@ -15,13 +15,13 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.Account
-import com.lithic.api.models.AccountListPageAsync
-import com.lithic.api.models.AccountListParams
-import com.lithic.api.models.AccountRetrieveParams
-import com.lithic.api.models.AccountRetrieveSpendLimitsParams
-import com.lithic.api.models.AccountSpendLimits
-import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.accounts.Account
+import com.lithic.api.models.accounts.AccountListPageAsync
+import com.lithic.api.models.accounts.AccountListParams
+import com.lithic.api.models.accounts.AccountRetrieveParams
+import com.lithic.api.models.accounts.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.accounts.AccountSpendLimits
+import com.lithic.api.models.accounts.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
 
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :

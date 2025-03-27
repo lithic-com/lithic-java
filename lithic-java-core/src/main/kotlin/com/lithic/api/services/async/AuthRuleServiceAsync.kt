@@ -2,7 +2,7 @@
 
 package com.lithic.api.services.async
 
-import com.lithic.api.services.async.authRules.V2ServiceAsync
+import com.lithic.api.services.async.authrules.V2ServiceAsync
 
 interface AuthRuleServiceAsync {
 

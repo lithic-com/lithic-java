@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.EnhancedData
-import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedData
 
 class EnhancedCommercialDataServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : EnhancedCommercialDataService {
@@ -27,7 +27,7 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
     override fun withRawResponse(): EnhancedCommercialDataService.WithRawResponse = withRawResponse
 
     override fun retrieve(
-        params: TransactionEventEnhancedCommercialDataRetrieveParams,
+        params: EnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions,
     ): EnhancedData =
         // get /v1/transactions/events/{event_token}/enhanced_commercial_data
@@ -42,7 +42,7 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
             jsonHandler<EnhancedData>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams,
+            params: EnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EnhancedData> {
             val request =

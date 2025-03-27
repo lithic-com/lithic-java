@@ -4,8 +4,8 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.EventListAttemptsParams
-import com.lithic.api.models.EventRetrieveParams
+import com.lithic.api.models.events.EventListAttemptsParams
+import com.lithic.api.models.events.EventRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

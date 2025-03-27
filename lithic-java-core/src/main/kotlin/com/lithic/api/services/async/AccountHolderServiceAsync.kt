@@ -5,22 +5,22 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AccountHolder
-import com.lithic.api.models.AccountHolderCreateParams
-import com.lithic.api.models.AccountHolderCreateResponse
-import com.lithic.api.models.AccountHolderListDocumentsParams
-import com.lithic.api.models.AccountHolderListDocumentsResponse
-import com.lithic.api.models.AccountHolderListPageAsync
-import com.lithic.api.models.AccountHolderListParams
-import com.lithic.api.models.AccountHolderRetrieveDocumentParams
-import com.lithic.api.models.AccountHolderRetrieveParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
-import com.lithic.api.models.AccountHolderUpdateParams
-import com.lithic.api.models.AccountHolderUpdateResponse
-import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import com.lithic.api.models.accountholders.AccountHolder
+import com.lithic.api.models.accountholders.AccountHolderCreateParams
+import com.lithic.api.models.accountholders.AccountHolderCreateResponse
+import com.lithic.api.models.accountholders.AccountHolderListDocumentsParams
+import com.lithic.api.models.accountholders.AccountHolderListDocumentsResponse
+import com.lithic.api.models.accountholders.AccountHolderListPageAsync
+import com.lithic.api.models.accountholders.AccountHolderListParams
+import com.lithic.api.models.accountholders.AccountHolderRetrieveDocumentParams
+import com.lithic.api.models.accountholders.AccountHolderRetrieveParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentDocumentReviewParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentReviewParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentReviewResponse
+import com.lithic.api.models.accountholders.AccountHolderUpdateParams
+import com.lithic.api.models.accountholders.AccountHolderUpdateResponse
+import com.lithic.api.models.accountholders.AccountHolderUploadDocumentParams
 import java.util.concurrent.CompletableFuture
 
 interface AccountHolderServiceAsync {
@@ -57,16 +57,7 @@ interface AccountHolderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolder>
 
-    /**
-     * Update the information associated with a particular account holder (including business owners
-     * and control persons associated to a business account). If Lithic is performing KYB or KYC and
-     * additional verification is required we will run the individual's or business's updated
-     * information again and return whether the status is accepted or pending (i.e., further action
-     * required). All calls to this endpoint will return an immediate response - though in some
-     * cases, the response may indicate the workflow is under review or further action will be
-     * needed to complete the evaluation process. This endpoint can only be used on existing
-     * accounts that are part of the program that the calling API key manages.
-     */
+    /** Update the information associated with a particular account holder. */
     fun update(params: AccountHolderUpdateParams): CompletableFuture<AccountHolderUpdateResponse> =
         update(params, RequestOptions.none())
 

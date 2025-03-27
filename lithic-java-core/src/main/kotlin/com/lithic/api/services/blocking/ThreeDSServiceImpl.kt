@@ -3,10 +3,10 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.services.blocking.threeDS.AuthenticationService
-import com.lithic.api.services.blocking.threeDS.AuthenticationServiceImpl
-import com.lithic.api.services.blocking.threeDS.DecisioningService
-import com.lithic.api.services.blocking.threeDS.DecisioningServiceImpl
+import com.lithic.api.services.blocking.threeds.AuthenticationService
+import com.lithic.api.services.blocking.threeds.AuthenticationServiceImpl
+import com.lithic.api.services.blocking.threeds.DecisioningService
+import com.lithic.api.services.blocking.threeds.DecisioningServiceImpl
 
 class ThreeDSServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ThreeDSService {
