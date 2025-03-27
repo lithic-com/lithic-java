@@ -58,19 +58,9 @@ private constructor(
         }
 
         return if (params.endingBefore().isPresent) {
-            Optional.of(
-                TransactionListParams.builder()
-                    .from(params)
-                    .endingBefore(data().first().token())
-                    .build()
-            )
+            Optional.of(params.toBuilder().endingBefore(data().first().token()).build())
         } else {
-            Optional.of(
-                TransactionListParams.builder()
-                    .from(params)
-                    .startingAfter(data().last().token())
-                    .build()
-            )
+            Optional.of(params.toBuilder().startingAfter(data().last().token()).build())
         }
     }
 
