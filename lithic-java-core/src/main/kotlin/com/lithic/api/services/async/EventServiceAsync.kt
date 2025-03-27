@@ -5,12 +5,12 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Event
-import com.lithic.api.models.EventListAttemptsPageAsync
-import com.lithic.api.models.EventListAttemptsParams
-import com.lithic.api.models.EventListPageAsync
-import com.lithic.api.models.EventListParams
-import com.lithic.api.models.EventRetrieveParams
+import com.lithic.api.models.events.Event
+import com.lithic.api.models.events.EventListAttemptsPageAsync
+import com.lithic.api.models.events.EventListAttemptsParams
+import com.lithic.api.models.events.EventListPageAsync
+import com.lithic.api.models.events.EventListParams
+import com.lithic.api.models.events.EventRetrieveParams
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import java.util.concurrent.CompletableFuture
 

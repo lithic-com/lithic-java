@@ -4,19 +4,19 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.CardConvertPhysicalParams
-import com.lithic.api.models.CardCreateParams
-import com.lithic.api.models.CardEmbedParams
-import com.lithic.api.models.CardProvisionParams
-import com.lithic.api.models.CardReissueParams
-import com.lithic.api.models.CardRenewParams
-import com.lithic.api.models.CardRetrieveParams
-import com.lithic.api.models.CardRetrieveSpendLimitsParams
-import com.lithic.api.models.CardSearchByPanParams
-import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.models.Carrier
 import com.lithic.api.models.ShippingAddress
-import com.lithic.api.models.SpendLimitDuration
+import com.lithic.api.models.cards.CardConvertPhysicalParams
+import com.lithic.api.models.cards.CardCreateParams
+import com.lithic.api.models.cards.CardEmbedParams
+import com.lithic.api.models.cards.CardProvisionParams
+import com.lithic.api.models.cards.CardReissueParams
+import com.lithic.api.models.cards.CardRenewParams
+import com.lithic.api.models.cards.CardRetrieveParams
+import com.lithic.api.models.cards.CardRetrieveSpendLimitsParams
+import com.lithic.api.models.cards.CardSearchByPanParams
+import com.lithic.api.models.cards.CardUpdateParams
+import com.lithic.api.models.cards.SpendLimitDuration
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

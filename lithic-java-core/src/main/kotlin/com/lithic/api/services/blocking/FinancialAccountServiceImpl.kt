@@ -15,23 +15,24 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.FinancialAccount
-import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountListPage
-import com.lithic.api.models.FinancialAccountListParams
-import com.lithic.api.models.FinancialAccountRetrieveParams
-import com.lithic.api.models.FinancialAccountUpdateParams
-import com.lithic.api.models.FinancialAccountUpdateStatusParams
-import com.lithic.api.services.blocking.financialAccounts.BalanceService
-import com.lithic.api.services.blocking.financialAccounts.BalanceServiceImpl
-import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationService
-import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationServiceImpl
-import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
-import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionServiceImpl
-import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
-import com.lithic.api.services.blocking.financialAccounts.LoanTapeServiceImpl
-import com.lithic.api.services.blocking.financialAccounts.StatementService
-import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
+import com.lithic.api.models.financialaccounts.FinancialAccount
+import com.lithic.api.models.financialaccounts.FinancialAccountChargeOffParams
+import com.lithic.api.models.financialaccounts.FinancialAccountCreateParams
+import com.lithic.api.models.financialaccounts.FinancialAccountListPage
+import com.lithic.api.models.financialaccounts.FinancialAccountListParams
+import com.lithic.api.models.financialaccounts.FinancialAccountRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialAccountUpdateParams
+import com.lithic.api.models.financialaccounts.creditconfiguration.FinancialAccountCreditConfig
+import com.lithic.api.services.blocking.financialaccounts.BalanceService
+import com.lithic.api.services.blocking.financialaccounts.BalanceServiceImpl
+import com.lithic.api.services.blocking.financialaccounts.CreditConfigurationService
+import com.lithic.api.services.blocking.financialaccounts.CreditConfigurationServiceImpl
+import com.lithic.api.services.blocking.financialaccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialaccounts.FinancialTransactionServiceImpl
+import com.lithic.api.services.blocking.financialaccounts.LoanTapeService
+import com.lithic.api.services.blocking.financialaccounts.LoanTapeServiceImpl
+import com.lithic.api.services.blocking.financialaccounts.StatementService
+import com.lithic.api.services.blocking.financialaccounts.StatementServiceImpl
 
 class FinancialAccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     FinancialAccountService {
@@ -94,12 +95,12 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         // get /v1/financial_accounts
         withRawResponse().list(params, requestOptions).parse()
 
-    override fun updateStatus(
-        params: FinancialAccountUpdateStatusParams,
+    override fun chargeOff(
+        params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions,
-    ): FinancialAccount =
-        // post /v1/financial_accounts/{financial_account_token}/update_status
-        withRawResponse().updateStatus(params, requestOptions).parse()
+    ): FinancialAccountCreditConfig =
+        // post /v1/financial_accounts/{financial_account_token}/charge_off
+        withRawResponse().chargeOff(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         FinancialAccountService.WithRawResponse {
@@ -252,22 +253,18 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             }
         }
 
-        private val updateStatusHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val chargeOffHandler: Handler<FinancialAccountCreditConfig> =
+            jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        override fun updateStatus(
-            params: FinancialAccountUpdateStatusParams,
+        override fun chargeOff(
+            params: FinancialAccountChargeOffParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<FinancialAccount> {
+        ): HttpResponseFor<FinancialAccountCreditConfig> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments(
-                        "v1",
-                        "financial_accounts",
-                        params._pathParam(0),
-                        "update_status",
-                    )
+                    .addPathSegments("v1", "financial_accounts", params._pathParam(0), "charge_off")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)
@@ -275,7 +272,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val response = clientOptions.httpClient.execute(request, requestOptions)
             return response.parseable {
                 response
-                    .use { updateStatusHandler.handle(it) }
+                    .use { chargeOffHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

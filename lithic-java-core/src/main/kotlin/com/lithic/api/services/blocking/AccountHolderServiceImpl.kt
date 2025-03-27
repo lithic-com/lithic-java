@@ -15,22 +15,22 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.AccountHolder
-import com.lithic.api.models.AccountHolderCreateParams
-import com.lithic.api.models.AccountHolderCreateResponse
-import com.lithic.api.models.AccountHolderListDocumentsParams
-import com.lithic.api.models.AccountHolderListDocumentsResponse
-import com.lithic.api.models.AccountHolderListPage
-import com.lithic.api.models.AccountHolderListParams
-import com.lithic.api.models.AccountHolderRetrieveDocumentParams
-import com.lithic.api.models.AccountHolderRetrieveParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
-import com.lithic.api.models.AccountHolderUpdateParams
-import com.lithic.api.models.AccountHolderUpdateResponse
-import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import com.lithic.api.models.accountholders.AccountHolder
+import com.lithic.api.models.accountholders.AccountHolderCreateParams
+import com.lithic.api.models.accountholders.AccountHolderCreateResponse
+import com.lithic.api.models.accountholders.AccountHolderListDocumentsParams
+import com.lithic.api.models.accountholders.AccountHolderListDocumentsResponse
+import com.lithic.api.models.accountholders.AccountHolderListPage
+import com.lithic.api.models.accountholders.AccountHolderListParams
+import com.lithic.api.models.accountholders.AccountHolderRetrieveDocumentParams
+import com.lithic.api.models.accountholders.AccountHolderRetrieveParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentDocumentReviewParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentReviewParams
+import com.lithic.api.models.accountholders.AccountHolderSimulateEnrollmentReviewResponse
+import com.lithic.api.models.accountholders.AccountHolderUpdateParams
+import com.lithic.api.models.accountholders.AccountHolderUpdateResponse
+import com.lithic.api.models.accountholders.AccountHolderUploadDocumentParams
 import java.time.Duration
 
 class AccountHolderServiceImpl internal constructor(private val clientOptions: ClientOptions) :

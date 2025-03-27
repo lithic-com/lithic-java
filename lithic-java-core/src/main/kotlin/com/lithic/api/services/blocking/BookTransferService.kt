@@ -5,12 +5,12 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.BookTransferCreateParams
-import com.lithic.api.models.BookTransferListPage
-import com.lithic.api.models.BookTransferListParams
-import com.lithic.api.models.BookTransferResponse
-import com.lithic.api.models.BookTransferRetrieveParams
-import com.lithic.api.models.BookTransferReverseParams
+import com.lithic.api.models.booktransfers.BookTransferCreateParams
+import com.lithic.api.models.booktransfers.BookTransferListPage
+import com.lithic.api.models.booktransfers.BookTransferListParams
+import com.lithic.api.models.booktransfers.BookTransferResponse
+import com.lithic.api.models.booktransfers.BookTransferRetrieveParams
+import com.lithic.api.models.booktransfers.BookTransferReverseParams
 
 interface BookTransferService {
 

@@ -5,13 +5,13 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Account
-import com.lithic.api.models.AccountListPageAsync
-import com.lithic.api.models.AccountListParams
-import com.lithic.api.models.AccountRetrieveParams
-import com.lithic.api.models.AccountRetrieveSpendLimitsParams
-import com.lithic.api.models.AccountSpendLimits
-import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.accounts.Account
+import com.lithic.api.models.accounts.AccountListPageAsync
+import com.lithic.api.models.accounts.AccountListParams
+import com.lithic.api.models.accounts.AccountRetrieveParams
+import com.lithic.api.models.accounts.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.accounts.AccountSpendLimits
+import com.lithic.api.models.accounts.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
 
 interface AccountServiceAsync {

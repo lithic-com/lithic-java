@@ -22,10 +22,10 @@ import com.lithic.api.errors.RateLimitException
 import com.lithic.api.errors.UnauthorizedException
 import com.lithic.api.errors.UnexpectedStatusCodeException
 import com.lithic.api.errors.UnprocessableEntityException
-import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.Carrier
 import com.lithic.api.models.ShippingAddress
-import com.lithic.api.models.SpendLimitDuration
+import com.lithic.api.models.cards.CardCreateParams
+import com.lithic.api.models.cards.SpendLimitDuration
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach

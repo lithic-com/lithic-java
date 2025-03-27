@@ -15,12 +15,12 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.ManagementOperationCreateParams
-import com.lithic.api.models.ManagementOperationListPageAsync
-import com.lithic.api.models.ManagementOperationListParams
-import com.lithic.api.models.ManagementOperationRetrieveParams
-import com.lithic.api.models.ManagementOperationReverseParams
-import com.lithic.api.models.ManagementOperationTransaction
+import com.lithic.api.models.managementoperations.ManagementOperationCreateParams
+import com.lithic.api.models.managementoperations.ManagementOperationListPageAsync
+import com.lithic.api.models.managementoperations.ManagementOperationListParams
+import com.lithic.api.models.managementoperations.ManagementOperationRetrieveParams
+import com.lithic.api.models.managementoperations.ManagementOperationReverseParams
+import com.lithic.api.models.managementoperations.ManagementOperationTransaction
 import java.util.concurrent.CompletableFuture
 
 class ManagementOperationServiceAsyncImpl

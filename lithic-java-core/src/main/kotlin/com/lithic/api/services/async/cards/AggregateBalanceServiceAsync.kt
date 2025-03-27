@@ -5,8 +5,8 @@ package com.lithic.api.services.async.cards
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardAggregateBalanceListPageAsync
-import com.lithic.api.models.CardAggregateBalanceListParams
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListPageAsync
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
 interface AggregateBalanceServiceAsync {
@@ -17,23 +17,23 @@ interface AggregateBalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the aggregated card balance across all end-user accounts. */
-    fun list(): CompletableFuture<CardAggregateBalanceListPageAsync> =
-        list(CardAggregateBalanceListParams.none())
+    fun list(): CompletableFuture<AggregateBalanceListPageAsync> =
+        list(AggregateBalanceListParams.none())
 
     /** @see [list] */
     fun list(
-        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<CardAggregateBalanceListPageAsync>
+    ): CompletableFuture<AggregateBalanceListPageAsync>
 
     /** @see [list] */
     fun list(
-        params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
-    ): CompletableFuture<CardAggregateBalanceListPageAsync> = list(params, RequestOptions.none())
+        params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+    ): CompletableFuture<AggregateBalanceListPageAsync> = list(params, RequestOptions.none())
 
     /** @see [list] */
-    fun list(requestOptions: RequestOptions): CompletableFuture<CardAggregateBalanceListPageAsync> =
-        list(CardAggregateBalanceListParams.none(), requestOptions)
+    fun list(requestOptions: RequestOptions): CompletableFuture<AggregateBalanceListPageAsync> =
+        list(AggregateBalanceListParams.none(), requestOptions)
 
     /**
      * A view of [AggregateBalanceServiceAsync] that provides access to raw HTTP responses for each
@@ -46,28 +46,28 @@ interface AggregateBalanceServiceAsync {
          * same as [AggregateBalanceServiceAsync.list].
          */
         @MustBeClosed
-        fun list(): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
-            list(CardAggregateBalanceListParams.none())
+        fun list(): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
+            list(AggregateBalanceListParams.none())
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>>
+        ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>>
 
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
-        ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
+            params: AggregateBalanceListParams = AggregateBalanceListParams.none()
+        ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
-            list(CardAggregateBalanceListParams.none(), requestOptions)
+        ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
+            list(AggregateBalanceListParams.none(), requestOptions)
     }
 }

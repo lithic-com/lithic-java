@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.CardBalanceListPage
-import com.lithic.api.models.CardBalanceListParams
+import com.lithic.api.models.cards.balances.BalanceListPage
+import com.lithic.api.models.cards.balances.BalanceListParams
 
 class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BalanceService {
@@ -26,10 +26,7 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
 
     override fun withRawResponse(): BalanceService.WithRawResponse = withRawResponse
 
-    override fun list(
-        params: CardBalanceListParams,
-        requestOptions: RequestOptions,
-    ): CardBalanceListPage =
+    override fun list(params: BalanceListParams, requestOptions: RequestOptions): BalanceListPage =
         // get /v1/cards/{card_token}/balances
         withRawResponse().list(params, requestOptions).parse()
 
@@ -38,14 +35,14 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardBalanceListPage.Response> =
-            jsonHandler<CardBalanceListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<BalanceListPage.Response> =
+            jsonHandler<BalanceListPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardBalanceListParams,
+            params: BalanceListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<CardBalanceListPage> {
+        ): HttpResponseFor<BalanceListPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -62,7 +59,7 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
                             it.validate()
                         }
                     }
-                    .let { CardBalanceListPage.of(BalanceServiceImpl(clientOptions), params, it) }
+                    .let { BalanceListPage.of(BalanceServiceImpl(clientOptions), params, it) }
             }
         }
     }

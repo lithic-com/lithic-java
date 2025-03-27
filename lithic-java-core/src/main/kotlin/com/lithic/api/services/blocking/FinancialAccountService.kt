@@ -5,18 +5,19 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.FinancialAccount
-import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountListPage
-import com.lithic.api.models.FinancialAccountListParams
-import com.lithic.api.models.FinancialAccountRetrieveParams
-import com.lithic.api.models.FinancialAccountUpdateParams
-import com.lithic.api.models.FinancialAccountUpdateStatusParams
-import com.lithic.api.services.blocking.financialAccounts.BalanceService
-import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationService
-import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
-import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
-import com.lithic.api.services.blocking.financialAccounts.StatementService
+import com.lithic.api.models.financialaccounts.FinancialAccount
+import com.lithic.api.models.financialaccounts.FinancialAccountChargeOffParams
+import com.lithic.api.models.financialaccounts.FinancialAccountCreateParams
+import com.lithic.api.models.financialaccounts.FinancialAccountListPage
+import com.lithic.api.models.financialaccounts.FinancialAccountListParams
+import com.lithic.api.models.financialaccounts.FinancialAccountRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialAccountUpdateParams
+import com.lithic.api.models.financialaccounts.creditconfiguration.FinancialAccountCreditConfig
+import com.lithic.api.services.blocking.financialaccounts.BalanceService
+import com.lithic.api.services.blocking.financialaccounts.CreditConfigurationService
+import com.lithic.api.services.blocking.financialaccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialaccounts.LoanTapeService
+import com.lithic.api.services.blocking.financialaccounts.StatementService
 
 interface FinancialAccountService {
 
@@ -83,15 +84,15 @@ interface FinancialAccountService {
     fun list(requestOptions: RequestOptions): FinancialAccountListPage =
         list(FinancialAccountListParams.none(), requestOptions)
 
-    /** Update financial account status */
-    fun updateStatus(params: FinancialAccountUpdateStatusParams): FinancialAccount =
-        updateStatus(params, RequestOptions.none())
+    /** Update issuing account state to charged off */
+    fun chargeOff(params: FinancialAccountChargeOffParams): FinancialAccountCreditConfig =
+        chargeOff(params, RequestOptions.none())
 
-    /** @see [updateStatus] */
-    fun updateStatus(
-        params: FinancialAccountUpdateStatusParams,
+    /** @see [chargeOff] */
+    fun chargeOff(
+        params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): FinancialAccount
+    ): FinancialAccountCreditConfig
 
     /**
      * A view of [FinancialAccountService] that provides access to raw HTTP responses for each
@@ -182,19 +183,19 @@ interface FinancialAccountService {
 
         /**
          * Returns a raw HTTP response for `post
-         * /v1/financial_accounts/{financial_account_token}/update_status`, but is otherwise the
-         * same as [FinancialAccountService.updateStatus].
+         * /v1/financial_accounts/{financial_account_token}/charge_off`, but is otherwise the same
+         * as [FinancialAccountService.chargeOff].
          */
         @MustBeClosed
-        fun updateStatus(
-            params: FinancialAccountUpdateStatusParams
-        ): HttpResponseFor<FinancialAccount> = updateStatus(params, RequestOptions.none())
+        fun chargeOff(
+            params: FinancialAccountChargeOffParams
+        ): HttpResponseFor<FinancialAccountCreditConfig> = chargeOff(params, RequestOptions.none())
 
-        /** @see [updateStatus] */
+        /** @see [chargeOff] */
         @MustBeClosed
-        fun updateStatus(
-            params: FinancialAccountUpdateStatusParams,
+        fun chargeOff(
+            params: FinancialAccountChargeOffParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<FinancialAccount>
+        ): HttpResponseFor<FinancialAccountCreditConfig>
     }
 }

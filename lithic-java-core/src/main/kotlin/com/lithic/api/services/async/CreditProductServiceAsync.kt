@@ -2,8 +2,8 @@
 
 package com.lithic.api.services.async
 
-import com.lithic.api.services.async.creditProducts.ExtendedCreditServiceAsync
-import com.lithic.api.services.async.creditProducts.PrimeRateServiceAsync
+import com.lithic.api.services.async.creditproducts.ExtendedCreditServiceAsync
+import com.lithic.api.services.async.creditproducts.PrimeRateServiceAsync
 
 interface CreditProductServiceAsync {
 

@@ -2,8 +2,8 @@
 
 package com.lithic.api.services.blocking
 
-import com.lithic.api.services.blocking.threeDS.AuthenticationService
-import com.lithic.api.services.blocking.threeDS.DecisioningService
+import com.lithic.api.services.blocking.threeds.AuthenticationService
+import com.lithic.api.services.blocking.threeds.DecisioningService
 
 interface ThreeDSService {
 

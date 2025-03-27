@@ -4,12 +4,12 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.ExternalPaymentCancelParams
-import com.lithic.api.models.ExternalPaymentCreateParams
-import com.lithic.api.models.ExternalPaymentReleaseParams
-import com.lithic.api.models.ExternalPaymentRetrieveParams
-import com.lithic.api.models.ExternalPaymentReverseParams
-import com.lithic.api.models.ExternalPaymentSettleParams
+import com.lithic.api.models.externalpayments.ExternalPaymentCancelParams
+import com.lithic.api.models.externalpayments.ExternalPaymentCreateParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReleaseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentRetrieveParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReverseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentSettleParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

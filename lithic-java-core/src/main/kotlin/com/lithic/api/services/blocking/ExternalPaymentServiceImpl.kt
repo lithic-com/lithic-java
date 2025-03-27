@@ -15,15 +15,15 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.ExternalPayment
-import com.lithic.api.models.ExternalPaymentCancelParams
-import com.lithic.api.models.ExternalPaymentCreateParams
-import com.lithic.api.models.ExternalPaymentListPage
-import com.lithic.api.models.ExternalPaymentListParams
-import com.lithic.api.models.ExternalPaymentReleaseParams
-import com.lithic.api.models.ExternalPaymentRetrieveParams
-import com.lithic.api.models.ExternalPaymentReverseParams
-import com.lithic.api.models.ExternalPaymentSettleParams
+import com.lithic.api.models.externalpayments.ExternalPayment
+import com.lithic.api.models.externalpayments.ExternalPaymentCancelParams
+import com.lithic.api.models.externalpayments.ExternalPaymentCreateParams
+import com.lithic.api.models.externalpayments.ExternalPaymentListPage
+import com.lithic.api.models.externalpayments.ExternalPaymentListParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReleaseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentRetrieveParams
+import com.lithic.api.models.externalpayments.ExternalPaymentReverseParams
+import com.lithic.api.models.externalpayments.ExternalPaymentSettleParams
 
 class ExternalPaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ExternalPaymentService {

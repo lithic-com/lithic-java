@@ -4,7 +4,7 @@ package com.lithic.api.services.blocking.transactions
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -22,7 +22,7 @@ internal class EnhancedCommercialDataServiceTest {
 
         val enhancedCommercialData =
             enhancedCommercialDataService.retrieve(
-                TransactionEnhancedCommercialDataRetrieveParams.builder()
+                EnhancedCommercialDataRetrieveParams.builder()
                     .transactionToken("00000000-0000-0000-0000-000000000000")
                     .build()
             )

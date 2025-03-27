@@ -4,7 +4,7 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.DigitalCardArtRetrieveParams
+import com.lithic.api.models.digitalcardart.DigitalCardArtRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

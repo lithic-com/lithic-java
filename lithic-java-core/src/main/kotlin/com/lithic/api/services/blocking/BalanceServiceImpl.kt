@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.BalanceListPage
-import com.lithic.api.models.BalanceListParams
+import com.lithic.api.models.balances.BalanceListPage
+import com.lithic.api.models.balances.BalanceListParams
 
 class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BalanceService {

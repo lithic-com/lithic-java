@@ -4,14 +4,14 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.ExternalBankAccountAddress
-import com.lithic.api.models.ExternalBankAccountCreateParams
-import com.lithic.api.models.ExternalBankAccountRetrieveParams
-import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
-import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
-import com.lithic.api.models.ExternalBankAccountUpdateParams
-import com.lithic.api.models.OwnerType
-import com.lithic.api.models.VerificationMethod
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountAddress
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountCreateParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetrieveParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryMicroDepositsParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountUpdateParams
+import com.lithic.api.models.externalbankaccounts.OwnerType
+import com.lithic.api.models.externalbankaccounts.VerificationMethod
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -121,7 +121,6 @@ internal class ExternalBankAccountServiceTest {
                     .name("name")
                     .owner("owner")
                     .ownerType(OwnerType.INDIVIDUAL)
-                    .type(ExternalBankAccountUpdateParams.AccountTypeExternal.CHECKING)
                     .userDefinedId("x")
                     .build()
             )

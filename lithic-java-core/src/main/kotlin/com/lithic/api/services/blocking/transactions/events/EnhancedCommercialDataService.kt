@@ -5,8 +5,8 @@ package com.lithic.api.services.blocking.transactions.events
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.EnhancedData
-import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedData
 
 interface EnhancedCommercialDataService {
 
@@ -19,12 +19,12 @@ interface EnhancedCommercialDataService {
      * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
      * sandbox.
      */
-    fun retrieve(params: TransactionEventEnhancedCommercialDataRetrieveParams): EnhancedData =
+    fun retrieve(params: EnhancedCommercialDataRetrieveParams): EnhancedData =
         retrieve(params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
-        params: TransactionEventEnhancedCommercialDataRetrieveParams,
+        params: EnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EnhancedData
 
@@ -40,14 +40,13 @@ interface EnhancedCommercialDataService {
          * same as [EnhancedCommercialDataService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams
-        ): HttpResponseFor<EnhancedData> = retrieve(params, RequestOptions.none())
+        fun retrieve(params: EnhancedCommercialDataRetrieveParams): HttpResponseFor<EnhancedData> =
+            retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams,
+            params: EnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<EnhancedData>
     }

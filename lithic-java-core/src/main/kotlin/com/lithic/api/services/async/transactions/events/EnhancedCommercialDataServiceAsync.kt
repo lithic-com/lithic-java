@@ -5,8 +5,8 @@ package com.lithic.api.services.async.transactions.events
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.EnhancedData
-import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.events.enhancedcommercialdata.EnhancedData
 import java.util.concurrent.CompletableFuture
 
 interface EnhancedCommercialDataServiceAsync {
@@ -20,13 +20,12 @@ interface EnhancedCommercialDataServiceAsync {
      * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
      * sandbox.
      */
-    fun retrieve(
-        params: TransactionEventEnhancedCommercialDataRetrieveParams
-    ): CompletableFuture<EnhancedData> = retrieve(params, RequestOptions.none())
+    fun retrieve(params: EnhancedCommercialDataRetrieveParams): CompletableFuture<EnhancedData> =
+        retrieve(params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
-        params: TransactionEventEnhancedCommercialDataRetrieveParams,
+        params: EnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedData>
 
@@ -43,14 +42,14 @@ interface EnhancedCommercialDataServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams
+            params: EnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams,
+            params: EnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedData>>
     }

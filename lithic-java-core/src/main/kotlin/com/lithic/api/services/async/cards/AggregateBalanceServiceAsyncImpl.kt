@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.CardAggregateBalanceListPageAsync
-import com.lithic.api.models.CardAggregateBalanceListParams
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListPageAsync
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
 class AggregateBalanceServiceAsyncImpl
@@ -28,9 +28,9 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
     override fun withRawResponse(): AggregateBalanceServiceAsync.WithRawResponse = withRawResponse
 
     override fun list(
-        params: CardAggregateBalanceListParams,
+        params: AggregateBalanceListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<CardAggregateBalanceListPageAsync> =
+    ): CompletableFuture<AggregateBalanceListPageAsync> =
         // get /v1/cards/aggregate_balances
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -39,14 +39,14 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardAggregateBalanceListPageAsync.Response> =
-            jsonHandler<CardAggregateBalanceListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AggregateBalanceListPageAsync.Response> =
+            jsonHandler<AggregateBalanceListPageAsync.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardAggregateBalanceListParams,
+            params: AggregateBalanceListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> {
+        ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -66,7 +66,7 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
                                 }
                             }
                             .let {
-                                CardAggregateBalanceListPageAsync.of(
+                                AggregateBalanceListPageAsync.of(
                                     AggregateBalanceServiceAsyncImpl(clientOptions),
                                     params,
                                     it,

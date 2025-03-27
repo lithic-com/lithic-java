@@ -5,8 +5,8 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Transfer
-import com.lithic.api.models.TransferCreateParams
+import com.lithic.api.models.transfers.Transfer
+import com.lithic.api.models.transfers.TransferCreateParams
 import java.util.concurrent.CompletableFuture
 
 interface TransferServiceAsync {

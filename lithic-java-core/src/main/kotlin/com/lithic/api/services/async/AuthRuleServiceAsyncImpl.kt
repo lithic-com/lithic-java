@@ -3,8 +3,8 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.services.async.authRules.V2ServiceAsync
-import com.lithic.api.services.async.authRules.V2ServiceAsyncImpl
+import com.lithic.api.services.async.authrules.V2ServiceAsync
+import com.lithic.api.services.async.authrules.V2ServiceAsyncImpl
 
 class AuthRuleServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AuthRuleServiceAsync {

@@ -5,8 +5,8 @@ package com.lithic.api.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AggregateBalanceListPage
-import com.lithic.api.models.AggregateBalanceListParams
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListPage
+import com.lithic.api.models.aggregatebalances.AggregateBalanceListParams
 
 interface AggregateBalanceService {
 

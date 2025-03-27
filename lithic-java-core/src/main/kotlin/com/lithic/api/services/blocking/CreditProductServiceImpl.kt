@@ -3,10 +3,10 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.services.blocking.creditProducts.ExtendedCreditService
-import com.lithic.api.services.blocking.creditProducts.ExtendedCreditServiceImpl
-import com.lithic.api.services.blocking.creditProducts.PrimeRateService
-import com.lithic.api.services.blocking.creditProducts.PrimeRateServiceImpl
+import com.lithic.api.services.blocking.creditproducts.ExtendedCreditService
+import com.lithic.api.services.blocking.creditproducts.ExtendedCreditServiceImpl
+import com.lithic.api.services.blocking.creditproducts.PrimeRateService
+import com.lithic.api.services.blocking.creditproducts.PrimeRateServiceImpl
 
 class CreditProductServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     CreditProductService {

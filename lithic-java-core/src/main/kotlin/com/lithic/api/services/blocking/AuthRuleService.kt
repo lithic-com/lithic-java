@@ -2,7 +2,7 @@
 
 package com.lithic.api.services.blocking
 
-import com.lithic.api.services.blocking.authRules.V2Service
+import com.lithic.api.services.blocking.authrules.V2Service
 
 interface AuthRuleService {
 

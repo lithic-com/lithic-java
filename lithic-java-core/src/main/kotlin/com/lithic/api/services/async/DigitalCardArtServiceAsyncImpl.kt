@@ -14,10 +14,10 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.DigitalCardArt
-import com.lithic.api.models.DigitalCardArtListPageAsync
-import com.lithic.api.models.DigitalCardArtListParams
-import com.lithic.api.models.DigitalCardArtRetrieveParams
+import com.lithic.api.models.digitalcardart.DigitalCardArt
+import com.lithic.api.models.digitalcardart.DigitalCardArtListPageAsync
+import com.lithic.api.models.digitalcardart.DigitalCardArtListParams
+import com.lithic.api.models.digitalcardart.DigitalCardArtRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 class DigitalCardArtServiceAsyncImpl

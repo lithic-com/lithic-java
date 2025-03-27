@@ -5,10 +5,10 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.CardProgram
-import com.lithic.api.models.CardProgramListPageAsync
-import com.lithic.api.models.CardProgramListParams
-import com.lithic.api.models.CardProgramRetrieveParams
+import com.lithic.api.models.cardprograms.CardProgram
+import com.lithic.api.models.cardprograms.CardProgramListPageAsync
+import com.lithic.api.models.cardprograms.CardProgramListParams
+import com.lithic.api.models.cardprograms.CardProgramRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 interface CardProgramServiceAsync {

@@ -5,8 +5,8 @@ package com.lithic.api.services.blocking.transactions
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.EnhancedCommercialDataRetrieveResponse
-import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.enhancedcommercialdata.EnhancedCommercialDataRetrieveParams
+import com.lithic.api.models.transactions.enhancedcommercialdata.EnhancedCommercialDataRetrieveResponse
 
 interface EnhancedCommercialDataService {
 
@@ -20,12 +20,12 @@ interface EnhancedCommercialDataService {
      * sandbox.
      */
     fun retrieve(
-        params: TransactionEnhancedCommercialDataRetrieveParams
+        params: EnhancedCommercialDataRetrieveParams
     ): EnhancedCommercialDataRetrieveResponse = retrieve(params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
-        params: TransactionEnhancedCommercialDataRetrieveParams,
+        params: EnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EnhancedCommercialDataRetrieveResponse
 
@@ -42,14 +42,14 @@ interface EnhancedCommercialDataService {
          */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEnhancedCommercialDataRetrieveParams
+            params: EnhancedCommercialDataRetrieveParams
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEnhancedCommercialDataRetrieveParams,
+            params: EnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse>
     }

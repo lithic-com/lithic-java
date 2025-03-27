@@ -14,12 +14,10 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.ReportSettlementListDetailsPage
-import com.lithic.api.models.ReportSettlementListDetailsParams
-import com.lithic.api.models.ReportSettlementSummaryParams
-import com.lithic.api.models.SettlementReport
-import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
-import com.lithic.api.services.blocking.reports.settlement.NetworkTotalServiceImpl
+import com.lithic.api.models.reports.SettlementReport
+import com.lithic.api.models.reports.settlement.SettlementListDetailsPage
+import com.lithic.api.models.reports.settlement.SettlementListDetailsParams
+import com.lithic.api.models.reports.settlement.SettlementSummaryParams
 
 class SettlementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SettlementService {
@@ -28,23 +26,17 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
         WithRawResponseImpl(clientOptions)
     }
 
-    private val networkTotals: NetworkTotalService by lazy {
-        NetworkTotalServiceImpl(clientOptions)
-    }
-
     override fun withRawResponse(): SettlementService.WithRawResponse = withRawResponse
 
-    override fun networkTotals(): NetworkTotalService = networkTotals
-
     override fun listDetails(
-        params: ReportSettlementListDetailsParams,
+        params: SettlementListDetailsParams,
         requestOptions: RequestOptions,
-    ): ReportSettlementListDetailsPage =
+    ): SettlementListDetailsPage =
         // get /v1/reports/settlement/details/{report_date}
         withRawResponse().listDetails(params, requestOptions).parse()
 
     override fun summary(
-        params: ReportSettlementSummaryParams,
+        params: SettlementSummaryParams,
         requestOptions: RequestOptions,
     ): SettlementReport =
         // get /v1/reports/settlement/summary/{report_date}
@@ -55,20 +47,14 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val networkTotals: NetworkTotalService.WithRawResponse by lazy {
-            NetworkTotalServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
-        override fun networkTotals(): NetworkTotalService.WithRawResponse = networkTotals
-
-        private val listDetailsHandler: Handler<ReportSettlementListDetailsPage.Response> =
-            jsonHandler<ReportSettlementListDetailsPage.Response>(clientOptions.jsonMapper)
+        private val listDetailsHandler: Handler<SettlementListDetailsPage.Response> =
+            jsonHandler<SettlementListDetailsPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listDetails(
-            params: ReportSettlementListDetailsParams,
+            params: SettlementListDetailsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<ReportSettlementListDetailsPage> {
+        ): HttpResponseFor<SettlementListDetailsPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -86,7 +72,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
                         }
                     }
                     .let {
-                        ReportSettlementListDetailsPage.of(
+                        SettlementListDetailsPage.of(
                             SettlementServiceImpl(clientOptions),
                             params,
                             it,
@@ -99,7 +85,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             jsonHandler<SettlementReport>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun summary(
-            params: ReportSettlementSummaryParams,
+            params: SettlementSummaryParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<SettlementReport> {
             val request =

@@ -15,23 +15,24 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.FinancialAccount
-import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountListPageAsync
-import com.lithic.api.models.FinancialAccountListParams
-import com.lithic.api.models.FinancialAccountRetrieveParams
-import com.lithic.api.models.FinancialAccountUpdateParams
-import com.lithic.api.models.FinancialAccountUpdateStatusParams
-import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
-import com.lithic.api.services.async.financialAccounts.BalanceServiceAsyncImpl
-import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsync
-import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsyncImpl
-import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
-import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsyncImpl
-import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsync
-import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsyncImpl
-import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
-import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
+import com.lithic.api.models.financialaccounts.FinancialAccount
+import com.lithic.api.models.financialaccounts.FinancialAccountChargeOffParams
+import com.lithic.api.models.financialaccounts.FinancialAccountCreateParams
+import com.lithic.api.models.financialaccounts.FinancialAccountListPageAsync
+import com.lithic.api.models.financialaccounts.FinancialAccountListParams
+import com.lithic.api.models.financialaccounts.FinancialAccountRetrieveParams
+import com.lithic.api.models.financialaccounts.FinancialAccountUpdateParams
+import com.lithic.api.models.financialaccounts.creditconfiguration.FinancialAccountCreditConfig
+import com.lithic.api.services.async.financialaccounts.BalanceServiceAsync
+import com.lithic.api.services.async.financialaccounts.BalanceServiceAsyncImpl
+import com.lithic.api.services.async.financialaccounts.CreditConfigurationServiceAsync
+import com.lithic.api.services.async.financialaccounts.CreditConfigurationServiceAsyncImpl
+import com.lithic.api.services.async.financialaccounts.FinancialTransactionServiceAsync
+import com.lithic.api.services.async.financialaccounts.FinancialTransactionServiceAsyncImpl
+import com.lithic.api.services.async.financialaccounts.LoanTapeServiceAsync
+import com.lithic.api.services.async.financialaccounts.LoanTapeServiceAsyncImpl
+import com.lithic.api.services.async.financialaccounts.StatementServiceAsync
+import com.lithic.api.services.async.financialaccounts.StatementServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class FinancialAccountServiceAsyncImpl
@@ -97,12 +98,12 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
         // get /v1/financial_accounts
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
-    override fun updateStatus(
-        params: FinancialAccountUpdateStatusParams,
+    override fun chargeOff(
+        params: FinancialAccountChargeOffParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<FinancialAccount> =
-        // post /v1/financial_accounts/{financial_account_token}/update_status
-        withRawResponse().updateStatus(params, requestOptions).thenApply { it.parse() }
+    ): CompletableFuture<FinancialAccountCreditConfig> =
+        // post /v1/financial_accounts/{financial_account_token}/charge_off
+        withRawResponse().chargeOff(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         FinancialAccountServiceAsync.WithRawResponse {
@@ -268,22 +269,18 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
                 }
         }
 
-        private val updateStatusHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val chargeOffHandler: Handler<FinancialAccountCreditConfig> =
+            jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        override fun updateStatus(
-            params: FinancialAccountUpdateStatusParams,
+        override fun chargeOff(
+            params: FinancialAccountChargeOffParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<FinancialAccount>> {
+        ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
-                    .addPathSegments(
-                        "v1",
-                        "financial_accounts",
-                        params._pathParam(0),
-                        "update_status",
-                    )
+                    .addPathSegments("v1", "financial_accounts", params._pathParam(0), "charge_off")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -293,7 +290,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
                 .thenApply { response ->
                     response.parseable {
                         response
-                            .use { updateStatusHandler.handle(it) }
+                            .use { chargeOffHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

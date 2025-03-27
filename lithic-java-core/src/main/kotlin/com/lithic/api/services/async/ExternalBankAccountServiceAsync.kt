@@ -5,19 +5,19 @@ package com.lithic.api.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.ExternalBankAccountCreateParams
-import com.lithic.api.models.ExternalBankAccountCreateResponse
-import com.lithic.api.models.ExternalBankAccountListPageAsync
-import com.lithic.api.models.ExternalBankAccountListParams
-import com.lithic.api.models.ExternalBankAccountRetrieveParams
-import com.lithic.api.models.ExternalBankAccountRetrieveResponse
-import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
-import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
-import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
-import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
-import com.lithic.api.models.ExternalBankAccountUpdateParams
-import com.lithic.api.models.ExternalBankAccountUpdateResponse
-import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountCreateParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountCreateResponse
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountListPageAsync
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountListParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetrieveParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetrieveResponse
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryMicroDepositsParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryMicroDepositsResponse
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountRetryPrenoteResponse
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountUpdateParams
+import com.lithic.api.models.externalbankaccounts.ExternalBankAccountUpdateResponse
+import com.lithic.api.services.async.externalbankaccounts.MicroDepositServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface ExternalBankAccountServiceAsync {

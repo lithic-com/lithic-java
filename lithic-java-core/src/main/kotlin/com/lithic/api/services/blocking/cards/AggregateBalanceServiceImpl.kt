@@ -14,8 +14,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.CardAggregateBalanceListPage
-import com.lithic.api.models.CardAggregateBalanceListParams
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListPage
+import com.lithic.api.models.cards.aggregatebalances.AggregateBalanceListParams
 
 class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AggregateBalanceService {
@@ -27,9 +27,9 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
     override fun withRawResponse(): AggregateBalanceService.WithRawResponse = withRawResponse
 
     override fun list(
-        params: CardAggregateBalanceListParams,
+        params: AggregateBalanceListParams,
         requestOptions: RequestOptions,
-    ): CardAggregateBalanceListPage =
+    ): AggregateBalanceListPage =
         // get /v1/cards/aggregate_balances
         withRawResponse().list(params, requestOptions).parse()
 
@@ -38,14 +38,14 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardAggregateBalanceListPage.Response> =
-            jsonHandler<CardAggregateBalanceListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AggregateBalanceListPage.Response> =
+            jsonHandler<AggregateBalanceListPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: CardAggregateBalanceListParams,
+            params: AggregateBalanceListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<CardAggregateBalanceListPage> {
+        ): HttpResponseFor<AggregateBalanceListPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -63,7 +63,7 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
                         }
                     }
                     .let {
-                        CardAggregateBalanceListPage.of(
+                        AggregateBalanceListPage.of(
                             AggregateBalanceServiceImpl(clientOptions),
                             params,
                             it,

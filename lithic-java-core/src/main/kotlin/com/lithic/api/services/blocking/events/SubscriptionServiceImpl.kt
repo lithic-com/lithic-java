@@ -17,21 +17,21 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventSubscriptionCreateParams
-import com.lithic.api.models.EventSubscriptionDeleteParams
-import com.lithic.api.models.EventSubscriptionListAttemptsPage
-import com.lithic.api.models.EventSubscriptionListAttemptsParams
-import com.lithic.api.models.EventSubscriptionListPage
-import com.lithic.api.models.EventSubscriptionListParams
-import com.lithic.api.models.EventSubscriptionRecoverParams
-import com.lithic.api.models.EventSubscriptionReplayMissingParams
-import com.lithic.api.models.EventSubscriptionRetrieveParams
-import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventSubscriptionRotateSecretParams
-import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
-import com.lithic.api.models.EventSubscriptionUpdateParams
-import com.lithic.api.models.SubscriptionRetrieveSecretResponse
+import com.lithic.api.models.events.EventSubscription
+import com.lithic.api.models.events.subscriptions.SubscriptionCreateParams
+import com.lithic.api.models.events.subscriptions.SubscriptionDeleteParams
+import com.lithic.api.models.events.subscriptions.SubscriptionListAttemptsPage
+import com.lithic.api.models.events.subscriptions.SubscriptionListAttemptsParams
+import com.lithic.api.models.events.subscriptions.SubscriptionListPage
+import com.lithic.api.models.events.subscriptions.SubscriptionListParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRecoverParams
+import com.lithic.api.models.events.subscriptions.SubscriptionReplayMissingParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionRetrieveSecretResponse
+import com.lithic.api.models.events.subscriptions.SubscriptionRotateSecretParams
+import com.lithic.api.models.events.subscriptions.SubscriptionSendSimulatedExampleParams
+import com.lithic.api.models.events.subscriptions.SubscriptionUpdateParams
 
 class SubscriptionServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SubscriptionService {
@@ -43,52 +43,52 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
     override fun withRawResponse(): SubscriptionService.WithRawResponse = withRawResponse
 
     override fun create(
-        params: EventSubscriptionCreateParams,
+        params: SubscriptionCreateParams,
         requestOptions: RequestOptions,
     ): EventSubscription =
         // post /v1/event_subscriptions
         withRawResponse().create(params, requestOptions).parse()
 
     override fun retrieve(
-        params: EventSubscriptionRetrieveParams,
+        params: SubscriptionRetrieveParams,
         requestOptions: RequestOptions,
     ): EventSubscription =
         // get /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().retrieve(params, requestOptions).parse()
 
     override fun update(
-        params: EventSubscriptionUpdateParams,
+        params: SubscriptionUpdateParams,
         requestOptions: RequestOptions,
     ): EventSubscription =
         // patch /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().update(params, requestOptions).parse()
 
     override fun list(
-        params: EventSubscriptionListParams,
+        params: SubscriptionListParams,
         requestOptions: RequestOptions,
-    ): EventSubscriptionListPage =
+    ): SubscriptionListPage =
         // get /v1/event_subscriptions
         withRawResponse().list(params, requestOptions).parse()
 
-    override fun delete(params: EventSubscriptionDeleteParams, requestOptions: RequestOptions) {
+    override fun delete(params: SubscriptionDeleteParams, requestOptions: RequestOptions) {
         // delete /v1/event_subscriptions/{event_subscription_token}
         withRawResponse().delete(params, requestOptions)
     }
 
     override fun listAttempts(
-        params: EventSubscriptionListAttemptsParams,
+        params: SubscriptionListAttemptsParams,
         requestOptions: RequestOptions,
-    ): EventSubscriptionListAttemptsPage =
+    ): SubscriptionListAttemptsPage =
         // get /v1/event_subscriptions/{event_subscription_token}/attempts
         withRawResponse().listAttempts(params, requestOptions).parse()
 
-    override fun recover(params: EventSubscriptionRecoverParams, requestOptions: RequestOptions) {
+    override fun recover(params: SubscriptionRecoverParams, requestOptions: RequestOptions) {
         // post /v1/event_subscriptions/{event_subscription_token}/recover
         withRawResponse().recover(params, requestOptions)
     }
 
     override fun replayMissing(
-        params: EventSubscriptionReplayMissingParams,
+        params: SubscriptionReplayMissingParams,
         requestOptions: RequestOptions,
     ) {
         // post /v1/event_subscriptions/{event_subscription_token}/replay_missing
@@ -96,14 +96,14 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun retrieveSecret(
-        params: EventSubscriptionRetrieveSecretParams,
+        params: SubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions,
     ): SubscriptionRetrieveSecretResponse =
         // get /v1/event_subscriptions/{event_subscription_token}/secret
         withRawResponse().retrieveSecret(params, requestOptions).parse()
 
     override fun rotateSecret(
-        params: EventSubscriptionRotateSecretParams,
+        params: SubscriptionRotateSecretParams,
         requestOptions: RequestOptions,
     ) {
         // post /v1/event_subscriptions/{event_subscription_token}/secret/rotate
@@ -111,7 +111,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun sendSimulatedExample(
-        params: EventSubscriptionSendSimulatedExampleParams,
+        params: SubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions,
     ) {
         // post /v1/simulate/event_subscriptions/{event_subscription_token}/send_example
@@ -127,7 +127,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun create(
-            params: EventSubscriptionCreateParams,
+            params: SubscriptionCreateParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EventSubscription> {
             val request =
@@ -154,7 +154,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun retrieve(
-            params: EventSubscriptionRetrieveParams,
+            params: SubscriptionRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EventSubscription> {
             val request =
@@ -180,7 +180,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun update(
-            params: EventSubscriptionUpdateParams,
+            params: SubscriptionUpdateParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EventSubscription> {
             val request =
@@ -203,14 +203,14 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
-        private val listHandler: Handler<EventSubscriptionListPage.Response> =
-            jsonHandler<EventSubscriptionListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<SubscriptionListPage.Response> =
+            jsonHandler<SubscriptionListPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
-            params: EventSubscriptionListParams,
+            params: SubscriptionListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EventSubscriptionListPage> {
+        ): HttpResponseFor<SubscriptionListPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -228,11 +228,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        EventSubscriptionListPage.of(
-                            SubscriptionServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        SubscriptionListPage.of(SubscriptionServiceImpl(clientOptions), params, it)
                     }
             }
         }
@@ -240,7 +236,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
         private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun delete(
-            params: EventSubscriptionDeleteParams,
+            params: SubscriptionDeleteParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
             val request =
@@ -255,14 +251,14 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             return response.parseable { response.use { deleteHandler.handle(it) } }
         }
 
-        private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPage.Response> =
-            jsonHandler<EventSubscriptionListAttemptsPage.Response>(clientOptions.jsonMapper)
+        private val listAttemptsHandler: Handler<SubscriptionListAttemptsPage.Response> =
+            jsonHandler<SubscriptionListAttemptsPage.Response>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listAttempts(
-            params: EventSubscriptionListAttemptsParams,
+            params: SubscriptionListAttemptsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EventSubscriptionListAttemptsPage> {
+        ): HttpResponseFor<SubscriptionListAttemptsPage> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -280,7 +276,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        EventSubscriptionListAttemptsPage.of(
+                        SubscriptionListAttemptsPage.of(
                             SubscriptionServiceImpl(clientOptions),
                             params,
                             it,
@@ -292,7 +288,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
         private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun recover(
-            params: EventSubscriptionRecoverParams,
+            params: SubscriptionRecoverParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
             val request =
@@ -311,7 +307,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun replayMissing(
-            params: EventSubscriptionReplayMissingParams,
+            params: SubscriptionReplayMissingParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
             val request =
@@ -336,7 +332,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                 .withErrorHandler(errorHandler)
 
         override fun retrieveSecret(
-            params: EventSubscriptionRetrieveSecretParams,
+            params: SubscriptionRetrieveSecretParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<SubscriptionRetrieveSecretResponse> {
             val request =
@@ -362,7 +358,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun rotateSecret(
-            params: EventSubscriptionRotateSecretParams,
+            params: SubscriptionRotateSecretParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
             val request =
@@ -387,7 +383,7 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             emptyHandler().withErrorHandler(errorHandler)
 
         override fun sendSimulatedExample(
-            params: EventSubscriptionSendSimulatedExampleParams,
+            params: SubscriptionSendSimulatedExampleParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
             val request =

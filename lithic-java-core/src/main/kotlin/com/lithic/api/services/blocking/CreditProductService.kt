@@ -2,8 +2,8 @@
 
 package com.lithic.api.services.blocking
 
-import com.lithic.api.services.blocking.creditProducts.ExtendedCreditService
-import com.lithic.api.services.blocking.creditProducts.PrimeRateService
+import com.lithic.api.services.blocking.creditproducts.ExtendedCreditService
+import com.lithic.api.services.blocking.creditproducts.PrimeRateService
 
 interface CreditProductService {
 

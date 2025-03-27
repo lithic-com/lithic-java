@@ -4,9 +4,9 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.ResponderEndpointCheckStatusParams
-import com.lithic.api.models.ResponderEndpointCreateParams
-import com.lithic.api.models.ResponderEndpointDeleteParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCheckStatusParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointCreateParams
+import com.lithic.api.models.responderendpoints.ResponderEndpointDeleteParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
