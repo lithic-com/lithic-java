@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.82.0 (2025-03-27)
+
+Full Changelog: [v0.81.0...v0.82.0](https://github.com/lithic-com/lithic-java/compare/v0.81.0...v0.82.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** rename `_3dsVersion` to `threeDSVersion` ([#562](https://github.com/lithic-com/lithic-java/issues/562))
+* **client:** refactor exception structure and methods ([#549](https://github.com/lithic-com/lithic-java/issues/549))
+
+### Features
+
+* **client:** support a lower jackson version ([#558](https://github.com/lithic-com/lithic-java/issues/558)) ([824e02d](https://github.com/lithic-com/lithic-java/commit/824e02deb38dae9d7c4400bce76d7d777b568398))
+* **client:** throw on incompatible jackson version ([824e02d](https://github.com/lithic-com/lithic-java/commit/824e02deb38dae9d7c4400bce76d7d777b568398))
+
+
+### Bug Fixes
+
+* **client:** map deserialization bug ([ff7984e](https://github.com/lithic-com/lithic-java/commit/ff7984e2dd090acb4cf6f478f9f6940190352535))
+
+
+### Chores
+
+* **api:** new attribute targets for Auth Rules and new Financial Account State schema ([#560](https://github.com/lithic-com/lithic-java/issues/560)) ([013733b](https://github.com/lithic-com/lithic-java/commit/013733ba921df4feca0fc65b0d7328c6eda8b816))
+* **client:** refactor exception structure and methods ([#549](https://github.com/lithic-com/lithic-java/issues/549)) ([43441d9](https://github.com/lithic-com/lithic-java/commit/43441d9475f9680f6f5fa5df1e26d7645febfaaa))
+* **client:** rename `_3dsVersion` to `threeDSVersion` ([#562](https://github.com/lithic-com/lithic-java/issues/562)) ([bc35d5f](https://github.com/lithic-com/lithic-java/commit/bc35d5f83548e089299fa241c6df87fbf3892374))
+* fix typos ([#561](https://github.com/lithic-com/lithic-java/issues/561)) ([07976b9](https://github.com/lithic-com/lithic-java/commit/07976b91b71526e1fe8afedbd3167ca519f578a5))
+* **internal:** add missing release please block ([#546](https://github.com/lithic-com/lithic-java/issues/546)) ([c524fd6](https://github.com/lithic-com/lithic-java/commit/c524fd6e417d4cbe694f0d1aa3ef3dc9259a3d59))
+* **internal:** delete unused methods and annotations ([#563](https://github.com/lithic-com/lithic-java/issues/563)) ([ff7984e](https://github.com/lithic-com/lithic-java/commit/ff7984e2dd090acb4cf6f478f9f6940190352535))
+* **internal:** fix example formatting ([#553](https://github.com/lithic-com/lithic-java/issues/553)) ([ee172e8](https://github.com/lithic-com/lithic-java/commit/ee172e811ae6f398708d4820757699dccb675fbd))
+* **internal:** make multipart assertions more robust ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* **internal:** remove unnecessary `assertNotNull` calls ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* **internal:** remove unnecessary import ([#554](https://github.com/lithic-com/lithic-java/issues/554)) ([2750ce7](https://github.com/lithic-com/lithic-java/commit/2750ce7c513ae7357f2778e3029635d871db50a9))
+* **internal:** remove workflow condition ([#567](https://github.com/lithic-com/lithic-java/issues/567)) ([dbbf4c7](https://github.com/lithic-com/lithic-java/commit/dbbf4c7748b331a1e18c313c86a4698ccb732ed0))
+* **internal:** swap from `Builder().from(...)` to `toBuilder()` ([#564](https://github.com/lithic-com/lithic-java/issues/564)) ([93c789c](https://github.com/lithic-com/lithic-java/commit/93c789cad690e2615a707f50d69f5deac7a05301))
+* **internal:** update .stats.yml ([#548](https://github.com/lithic-com/lithic-java/issues/548)) ([872c032](https://github.com/lithic-com/lithic-java/commit/872c032930dc2f0deda9b3f89f2c89d4580b8f8b))
+
+
+### Documentation
+
+* minor readme tweak ([#556](https://github.com/lithic-com/lithic-java/issues/556)) ([d3d2402](https://github.com/lithic-com/lithic-java/commit/d3d2402cde7af9f0990e4d9b3fe9f7572eec471e))
+* refine comments on multipart params ([#552](https://github.com/lithic-com/lithic-java/issues/552)) ([de6247c](https://github.com/lithic-com/lithic-java/commit/de6247cd188af2262affc44f0bfefbf75c6eeb2c))
+* update readme exception docs ([#555](https://github.com/lithic-com/lithic-java/issues/555)) ([4621a20](https://github.com/lithic-com/lithic-java/commit/4621a205f412d255d251f7f68ed4b0814aa90d74))
+
 ## 0.81.0 (2025-03-18)
 
 Full Changelog: [v0.80.0...v0.81.0](https://github.com/lithic-com/lithic-java/compare/v0.80.0...v0.81.0)
