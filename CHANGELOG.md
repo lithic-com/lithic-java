@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.82.1 (2025-03-28)
+
+Full Changelog: [v0.82.0...v0.82.1](https://github.com/lithic-com/lithic-java/compare/v0.82.0...v0.82.1)
+
+### Bug Fixes
+
+* **client:** don't call `validate()` during deserialization if we don't have to ([#569](https://github.com/lithic-com/lithic-java/issues/569)) ([690712c](https://github.com/lithic-com/lithic-java/commit/690712ce8862e3e35e2a6dbedc50811a75319657))
+
 ## 0.82.0 (2025-03-27)
 
 Full Changelog: [v0.81.0...v0.82.0](https://github.com/lithic-com/lithic-java/compare/v0.81.0...v0.82.0)
