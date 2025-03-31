@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "com.lithic.api"
-    version = "0.82.1" // x-release-please-version
+    version = "0.82.2" // x-release-please-version
 }
 
 subprojects {
