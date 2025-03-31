@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.82.2 (2025-03-31)
+
+Full Changelog: [v0.82.1...v0.82.2](https://github.com/lithic-com/lithic-java/compare/v0.82.1...v0.82.2)
+
+### Bug Fixes
+
+* **client:** limit json deserialization coercion ([#573](https://github.com/lithic-com/lithic-java/issues/573)) ([fadc8ae](https://github.com/lithic-com/lithic-java/commit/fadc8ae4a712cf442d047665f577fd3216115407))
+
+
+### Chores
+
+* internal codegen changes ([8ea3a81](https://github.com/lithic-com/lithic-java/commit/8ea3a812114bcda8bcff8b798870bf4169ddd026))
+* internal codegen changes ([306e5d9](https://github.com/lithic-com/lithic-java/commit/306e5d9d5d9b52afa77c0d7fd88644fcd80d0218))
+
 ## 0.82.1 (2025-03-28)
 
 Full Changelog: [v0.82.0...v0.82.1](https://github.com/lithic-com/lithic-java/compare/v0.82.0...v0.82.1)
