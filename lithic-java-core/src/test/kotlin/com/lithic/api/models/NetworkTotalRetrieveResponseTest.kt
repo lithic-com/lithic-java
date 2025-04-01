@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -57,5 +59,39 @@ internal class NetworkTotalRetrieveResponseTest {
         assertThat(networkTotalRetrieveResponse.updated())
             .isEqualTo(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
         assertThat(networkTotalRetrieveResponse.cycle()).contains(0L)
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val networkTotalRetrieveResponse =
+            NetworkTotalRetrieveResponse.builder()
+                .token("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
+                .amounts(
+                    NetworkTotalRetrieveResponse.Amounts.builder()
+                        .grossSettlement(100L)
+                        .interchangeFees(-25L)
+                        .netSettlement(85L)
+                        .visaCharges(10L)
+                        .build()
+                )
+                .created(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
+                .currency("CAD")
+                .institutionId("1000000000")
+                .network(NetworkTotalRetrieveResponse.Network.VISA)
+                .reportDate(LocalDate.parse("2025-02-25"))
+                .settlementInstitutionId("1000000001")
+                .settlementService("015")
+                .updated(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
+                .cycle(0L)
+                .build()
+
+        val roundtrippedNetworkTotalRetrieveResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(networkTotalRetrieveResponse),
+                jacksonTypeRef<NetworkTotalRetrieveResponse>(),
+            )
+
+        assertThat(roundtrippedNetworkTotalRetrieveResponse).isEqualTo(networkTotalRetrieveResponse)
     }
 }

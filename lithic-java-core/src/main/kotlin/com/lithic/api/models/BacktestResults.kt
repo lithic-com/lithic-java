@@ -222,6 +222,25 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (backtestToken.asKnown().isPresent) 1 else 0) +
+            (results.asKnown().getOrNull()?.validity() ?: 0) +
+            (simulationParameters.asKnown().getOrNull()?.validity() ?: 0)
+
     class Results
     private constructor(
         private val currentVersion: JsonField<RuleStats>,
@@ -380,6 +399,25 @@ private constructor(
             draftVersion().ifPresent { it.validate() }
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (currentVersion.asKnown().getOrNull()?.validity() ?: 0) +
+                (draftVersion.asKnown().getOrNull()?.validity() ?: 0)
 
         class RuleStats
         private constructor(
@@ -636,6 +674,27 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (approved.asKnown().isPresent) 1 else 0) +
+                    (if (declined.asKnown().isPresent) 1 else 0) +
+                    (examples.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (if (version.asKnown().isPresent) 1 else 0)
+
             class Example
             private constructor(
                 private val approved: JsonField<Boolean>,
@@ -836,6 +895,26 @@ private constructor(
                     timestamp()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (approved.asKnown().isPresent) 1 else 0) +
+                        (if (eventToken.asKnown().isPresent) 1 else 0) +
+                        (if (timestamp.asKnown().isPresent) 1 else 0)
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -1071,6 +1150,26 @@ private constructor(
             start()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (authRuleToken.asKnown().isPresent) 1 else 0) +
+                (if (end.asKnown().isPresent) 1 else 0) +
+                (if (start.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

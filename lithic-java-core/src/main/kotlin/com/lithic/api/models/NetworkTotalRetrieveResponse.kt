@@ -18,6 +18,7 @@ import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class NetworkTotalRetrieveResponse
 private constructor(
@@ -529,7 +530,7 @@ private constructor(
         created()
         currency()
         institutionId()
-        network()
+        network().validate()
         reportDate()
         settlementInstitutionId()
         settlementService()
@@ -537,6 +538,33 @@ private constructor(
         cycle()
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (token.asKnown().isPresent) 1 else 0) +
+            (amounts.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
+            (if (currency.asKnown().isPresent) 1 else 0) +
+            (if (institutionId.asKnown().isPresent) 1 else 0) +
+            (network.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (reportDate.asKnown().isPresent) 1 else 0) +
+            (if (settlementInstitutionId.asKnown().isPresent) 1 else 0) +
+            (if (settlementService.asKnown().isPresent) 1 else 0) +
+            (if (updated.asKnown().isPresent) 1 else 0) +
+            (if (cycle.asKnown().isPresent) 1 else 0)
 
     class Amounts
     private constructor(
@@ -797,6 +825,27 @@ private constructor(
             validated = true
         }
 
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (grossSettlement.asKnown().isPresent) 1 else 0) +
+                (if (interchangeFees.asKnown().isPresent) 1 else 0) +
+                (if (netSettlement.asKnown().isPresent) 1 else 0) +
+                (if (visaCharges.asKnown().isPresent) 1 else 0)
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -912,6 +961,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Network = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

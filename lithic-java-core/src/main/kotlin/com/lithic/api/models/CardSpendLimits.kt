@@ -15,6 +15,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class CardSpendLimits
 private constructor(
@@ -218,6 +219,25 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (availableSpendLimit.asKnown().getOrNull()?.validity() ?: 0) +
+            (spendLimit.asKnown().getOrNull()?.validity() ?: 0) +
+            (spendVelocity.asKnown().getOrNull()?.validity() ?: 0)
+
     class AvailableSpendLimit
     private constructor(
         private val annually: JsonField<Long>,
@@ -400,6 +420,26 @@ private constructor(
             monthly()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (annually.asKnown().isPresent) 1 else 0) +
+                (if (forever.asKnown().isPresent) 1 else 0) +
+                (if (monthly.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -589,6 +629,26 @@ private constructor(
             monthly()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (annually.asKnown().isPresent) 1 else 0) +
+                (if (forever.asKnown().isPresent) 1 else 0) +
+                (if (monthly.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -790,6 +850,26 @@ private constructor(
             monthly()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (annually.asKnown().isPresent) 1 else 0) +
+                (if (forever.asKnown().isPresent) 1 else 0) +
+                (if (monthly.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

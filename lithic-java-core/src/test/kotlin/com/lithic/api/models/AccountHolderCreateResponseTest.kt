@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
@@ -49,5 +51,36 @@ internal class AccountHolderCreateResponseTest {
                     .addValidDocument("string")
                     .build()
             )
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val accountHolderCreateResponse =
+            AccountHolderCreateResponse.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .status(AccountHolderCreateResponse.Status.ACCEPTED)
+                .addStatusReason(
+                    AccountHolderCreateResponse.StatusReasons.ADDRESS_VERIFICATION_FAILURE
+                )
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .externalId("external_id")
+                .addRequiredDocument(
+                    RequiredDocument.builder()
+                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addStatusReason("string")
+                        .addValidDocument("string")
+                        .build()
+                )
+                .build()
+
+        val roundtrippedAccountHolderCreateResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(accountHolderCreateResponse),
+                jacksonTypeRef<AccountHolderCreateResponse>(),
+            )
+
+        assertThat(roundtrippedAccountHolderCreateResponse).isEqualTo(accountHolderCreateResponse)
     }
 }
