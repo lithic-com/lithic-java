@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -34,5 +36,29 @@ internal class FinancialAccountCreditConfigTest {
             .isEqualTo(FinancialAccountCreditConfig.FinancialAccountState.PENDING)
         assertThat(financialAccountCreditConfig.isSpendBlocked()).isEqualTo(true)
         assertThat(financialAccountCreditConfig.tier()).contains("tier")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val financialAccountCreditConfig =
+            FinancialAccountCreditConfig.builder()
+                .accountToken("b68b7424-aa69-4cbc-a946-30d90181b621")
+                .chargedOffReason(FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT)
+                .creditLimit(0L)
+                .creditProductToken("credit_product_token")
+                .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .financialAccountState(FinancialAccountCreditConfig.FinancialAccountState.PENDING)
+                .isSpendBlocked(true)
+                .tier("tier")
+                .build()
+
+        val roundtrippedFinancialAccountCreditConfig =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(financialAccountCreditConfig),
+                jacksonTypeRef<FinancialAccountCreditConfig>(),
+            )
+
+        assertThat(roundtrippedFinancialAccountCreditConfig).isEqualTo(financialAccountCreditConfig)
     }
 }

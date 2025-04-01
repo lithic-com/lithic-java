@@ -480,6 +480,31 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (availableAmount.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
+            (if (currency.asKnown().isPresent) 1 else 0) +
+            (if (lastCardToken.asKnown().isPresent) 1 else 0) +
+            (if (lastTransactionEventToken.asKnown().isPresent) 1 else 0) +
+            (if (lastTransactionToken.asKnown().isPresent) 1 else 0) +
+            (if (pendingAmount.asKnown().isPresent) 1 else 0) +
+            (if (totalAmount.asKnown().isPresent) 1 else 0) +
+            (if (updated.asKnown().isPresent) 1 else 0)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true

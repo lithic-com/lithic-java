@@ -18,6 +18,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import kotlin.jvm.optionals.getOrNull
 
 /** Describes the document and the required document image uploads required to re-run KYC */
 class Document
@@ -328,11 +329,32 @@ private constructor(
 
         token()
         accountHolderToken()
-        documentType()
+        documentType().validate()
         entityToken()
         requiredDocumentUploads().forEach { it.validate() }
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (token.asKnown().isPresent) 1 else 0) +
+            (if (accountHolderToken.asKnown().isPresent) 1 else 0) +
+            (documentType.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (entityToken.asKnown().isPresent) 1 else 0) +
+            (requiredDocumentUploads.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     /** Type of documentation to be submitted for verification of an account holder */
     class DocumentType @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -524,6 +546,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): DocumentType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1052,14 +1101,40 @@ private constructor(
             token()
             acceptedEntityStatusReasons()
             created()
-            imageType()
+            imageType().validate()
             rejectedEntityStatusReasons()
-            status()
-            statusReasons()
+            status().validate()
+            statusReasons().forEach { it.validate() }
             updated()
             uploadUrl()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (token.asKnown().isPresent) 1 else 0) +
+                (acceptedEntityStatusReasons.asKnown().getOrNull()?.size ?: 0) +
+                (if (created.asKnown().isPresent) 1 else 0) +
+                (imageType.asKnown().getOrNull()?.validity() ?: 0) +
+                (rejectedEntityStatusReasons.asKnown().getOrNull()?.size ?: 0) +
+                (status.asKnown().getOrNull()?.validity() ?: 0) +
+                (statusReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (updated.asKnown().isPresent) 1 else 0) +
+                (if (uploadUrl.asKnown().isPresent) 1 else 0)
 
         /** Type of image to upload. */
         class ImageType @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1152,6 +1227,33 @@ private constructor(
                 _value().asString().orElseThrow {
                     LithicInvalidDataException("Value is not a String")
                 }
+
+            private var validated: Boolean = false
+
+            fun validate(): ImageType = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1278,6 +1380,33 @@ private constructor(
                 _value().asString().orElseThrow {
                     LithicInvalidDataException("Value is not a String")
                 }
+
+            private var validated: Boolean = false
+
+            fun validate(): DocumentUploadStatus = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1447,6 +1576,33 @@ private constructor(
                 _value().asString().orElseThrow {
                     LithicInvalidDataException("Value is not a String")
                 }
+
+            private var validated: Boolean = false
+
+            fun validate(): DocumentUploadStatusReasons = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
