@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -64,5 +66,42 @@ internal class SettlementDetailTest {
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
         assertThat(settlementDetail.feeDescription())
             .contains("INTERCHANGE COMPLIANCE ADJUSTMENT FOR : 11/12/24")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val settlementDetail =
+            SettlementDetail.builder()
+                .token("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .accountToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .cardProgramToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .cardToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
+                .currency("USD")
+                .disputesGrossAmount(0L)
+                .addEventToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .institution("00001")
+                .interchangeFeeExtendedPrecision(-70000L)
+                .interchangeGrossAmount(-7L)
+                .network(SettlementDetail.Network.INTERLINK)
+                .otherFeesDetails(SettlementDetail.OtherFeesDetails.builder().isa(0L).build())
+                .otherFeesGrossAmount(0L)
+                .reportDate("2023-06-01")
+                .settlementDate("2023-06-01")
+                .transactionToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
+                .transactionsGrossAmount(1900L)
+                .type(SettlementDetail.Type.ADJUSTMENT)
+                .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
+                .feeDescription("INTERCHANGE COMPLIANCE ADJUSTMENT FOR : 11/12/24")
+                .build()
+
+        val roundtrippedSettlementDetail =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(settlementDetail),
+                jacksonTypeRef<SettlementDetail>(),
+            )
+
+        assertThat(roundtrippedSettlementDetail).isEqualTo(settlementDetail)
     }
 }

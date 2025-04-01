@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only apply
@@ -1685,7 +1686,7 @@ private constructor(
                 return@apply
             }
 
-            type()
+            type().validate()
             accountToken()
             cardProgramToken()
             carrier().ifPresent { it.validate() }
@@ -1698,12 +1699,46 @@ private constructor(
             replacementAccountToken()
             replacementFor()
             shippingAddress().ifPresent { it.validate() }
-            shippingMethod()
+            shippingMethod().ifPresent { it.validate() }
             spendLimit()
-            spendLimitDuration()
-            state()
+            spendLimitDuration().ifPresent { it.validate() }
+            state().ifPresent { it.validate() }
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (type.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (accountToken.asKnown().isPresent) 1 else 0) +
+                (if (cardProgramToken.asKnown().isPresent) 1 else 0) +
+                (carrier.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (digitalCardArtToken.asKnown().isPresent) 1 else 0) +
+                (if (expMonth.asKnown().isPresent) 1 else 0) +
+                (if (expYear.asKnown().isPresent) 1 else 0) +
+                (if (memo.asKnown().isPresent) 1 else 0) +
+                (if (pin.asKnown().isPresent) 1 else 0) +
+                (if (productId.asKnown().isPresent) 1 else 0) +
+                (if (replacementAccountToken.asKnown().isPresent) 1 else 0) +
+                (if (replacementFor.asKnown().isPresent) 1 else 0) +
+                (shippingAddress.asKnown().getOrNull()?.validity() ?: 0) +
+                (shippingMethod.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (spendLimit.asKnown().isPresent) 1 else 0) +
+                (spendLimitDuration.asKnown().getOrNull()?.validity() ?: 0) +
+                (state.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1846,6 +1881,33 @@ private constructor(
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
+        private var validated: Boolean = false
+
+        fun validate(): Type = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1982,6 +2044,33 @@ private constructor(
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
+        private var validated: Boolean = false
+
+        fun validate(): ShippingMethod = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -2084,6 +2173,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): State = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

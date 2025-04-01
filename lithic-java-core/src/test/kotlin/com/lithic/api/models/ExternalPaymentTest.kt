@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -79,5 +81,50 @@ internal class ExternalPaymentTest {
         assertThat(externalPayment.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(externalPayment.userDefinedId()).contains("user_defined_id")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val externalPayment =
+            ExternalPayment.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .currency("currency")
+                .addEvent(
+                    ExternalPayment.ExternalPaymentEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .addDetailedResult(
+                            ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED
+                        )
+                        .effectiveDate(LocalDate.parse("2019-12-27"))
+                        .memo("memo")
+                        .result(ExternalPayment.ExternalPaymentEvent.TransactionResult.APPROVED)
+                        .type(
+                            ExternalPayment.ExternalPaymentEvent.ExternalPaymentEventType
+                                .EXTERNAL_WIRE_INITIATED
+                        )
+                        .build()
+                )
+                .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .paymentType(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
+                .pendingAmount(0L)
+                .result(ExternalPayment.TransactionResult.APPROVED)
+                .settledAmount(0L)
+                .status(ExternalPayment.TransactionStatus.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .userDefinedId("user_defined_id")
+                .build()
+
+        val roundtrippedExternalPayment =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(externalPayment),
+                jacksonTypeRef<ExternalPayment>(),
+            )
+
+        assertThat(roundtrippedExternalPayment).isEqualTo(externalPayment)
     }
 }

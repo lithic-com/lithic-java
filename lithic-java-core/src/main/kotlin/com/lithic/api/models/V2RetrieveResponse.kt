@@ -20,6 +20,7 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
+import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
@@ -555,11 +556,37 @@ private constructor(
         draftVersion().ifPresent { it.validate() }
         name()
         programLevel()
-        state()
-        type()
+        state().validate()
+        type().validate()
         excludedCardTokens()
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (token.asKnown().isPresent) 1 else 0) +
+            (accountTokens.asKnown().getOrNull()?.size ?: 0) +
+            (cardTokens.asKnown().getOrNull()?.size ?: 0) +
+            (currentVersion.asKnown().getOrNull()?.validity() ?: 0) +
+            (draftVersion.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (name.asKnown().isPresent) 1 else 0) +
+            (if (programLevel.asKnown().isPresent) 1 else 0) +
+            (state.asKnown().getOrNull()?.validity() ?: 0) +
+            (type.asKnown().getOrNull()?.validity() ?: 0) +
+            (excludedCardTokens.asKnown().getOrNull()?.size ?: 0)
 
     class CurrentVersion
     private constructor(
@@ -742,6 +769,25 @@ private constructor(
             validated = true
         }
 
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (version.asKnown().isPresent) 1 else 0)
+
         /** Parameters for the Auth Rule */
         @JsonDeserialize(using = Parameters.Deserializer::class)
         @JsonSerialize(using = Parameters.Serializer::class)
@@ -770,14 +816,13 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
-            fun <T> accept(visitor: Visitor<T>): T {
-                return when {
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
                     conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                     velocityLimitParams != null ->
                         visitor.visitVelocityLimitParams(velocityLimitParams)
                     else -> visitor.unknown(_json)
                 }
-            }
 
             private var validated: Boolean = false
 
@@ -803,6 +848,36 @@ private constructor(
                 )
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitConditionalBlock(
+                            conditionalBlock: ConditionalBlockParameters
+                        ) = conditionalBlock.validity()
+
+                        override fun visitVelocityLimitParams(
+                            velocityLimitParams: VelocityLimitParams
+                        ) = velocityLimitParams.validity()
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -864,18 +939,27 @@ private constructor(
                 override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
                     val json = JsonValue.fromJsonNode(node)
 
-                    tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>()) {
-                            it.validate()
-                        }
-                        ?.let {
-                            return Parameters(conditionalBlock = it, _json = json)
-                        }
-                    tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
-                        ?.let {
-                            return Parameters(velocityLimitParams = it, _json = json)
-                        }
-
-                    return Parameters(_json = json)
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
+                                    ?.let { Parameters(conditionalBlock = it, _json = json) },
+                                tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
+                                    Parameters(velocityLimitParams = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from boolean).
+                        0 -> Parameters(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
                 }
             }
 
@@ -1097,6 +1181,25 @@ private constructor(
             validated = true
         }
 
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (version.asKnown().isPresent) 1 else 0)
+
         /** Parameters for the Auth Rule */
         @JsonDeserialize(using = Parameters.Deserializer::class)
         @JsonSerialize(using = Parameters.Serializer::class)
@@ -1125,14 +1228,13 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
-            fun <T> accept(visitor: Visitor<T>): T {
-                return when {
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
                     conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                     velocityLimitParams != null ->
                         visitor.visitVelocityLimitParams(velocityLimitParams)
                     else -> visitor.unknown(_json)
                 }
-            }
 
             private var validated: Boolean = false
 
@@ -1158,6 +1260,36 @@ private constructor(
                 )
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitConditionalBlock(
+                            conditionalBlock: ConditionalBlockParameters
+                        ) = conditionalBlock.validity()
+
+                        override fun visitVelocityLimitParams(
+                            velocityLimitParams: VelocityLimitParams
+                        ) = velocityLimitParams.validity()
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1219,18 +1351,27 @@ private constructor(
                 override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
                     val json = JsonValue.fromJsonNode(node)
 
-                    tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>()) {
-                            it.validate()
-                        }
-                        ?.let {
-                            return Parameters(conditionalBlock = it, _json = json)
-                        }
-                    tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
-                        ?.let {
-                            return Parameters(velocityLimitParams = it, _json = json)
-                        }
-
-                    return Parameters(_json = json)
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
+                                    ?.let { Parameters(conditionalBlock = it, _json = json) },
+                                tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
+                                    Parameters(velocityLimitParams = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from boolean).
+                        0 -> Parameters(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
                 }
             }
 
@@ -1361,6 +1502,33 @@ private constructor(
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
+        private var validated: Boolean = false
+
+        fun validate(): AuthRuleState = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1462,6 +1630,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): AuthRuleType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

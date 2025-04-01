@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
@@ -873,13 +874,38 @@ private constructor(
             cvv()
             expirationDate()
             pan()
-            tokenizationSource()
+            tokenizationSource().validate()
             accountScore()
             deviceScore()
             entity()
-            walletRecommendedDecision()
+            walletRecommendedDecision().ifPresent { it.validate() }
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (cvv.asKnown().isPresent) 1 else 0) +
+                (if (expirationDate.asKnown().isPresent) 1 else 0) +
+                (if (pan.asKnown().isPresent) 1 else 0) +
+                (tokenizationSource.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (accountScore.asKnown().isPresent) 1 else 0) +
+                (if (deviceScore.asKnown().isPresent) 1 else 0) +
+                (if (entity.asKnown().isPresent) 1 else 0) +
+                (walletRecommendedDecision.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1002,6 +1028,33 @@ private constructor(
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
+        private var validated: Boolean = false
+
+        fun validate(): TokenizationSource = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1115,6 +1168,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): WalletRecommendedDecision = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

@@ -17,6 +17,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class KybBusinessEntity
 private constructor(
@@ -379,6 +380,28 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (address.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (governmentId.asKnown().isPresent) 1 else 0) +
+            (if (legalBusinessName.asKnown().isPresent) 1 else 0) +
+            (phoneNumbers.asKnown().getOrNull()?.size ?: 0) +
+            (if (dbaBusinessName.asKnown().isPresent) 1 else 0) +
+            (if (parentCompany.asKnown().isPresent) 1 else 0)
+
     /**
      * Business''s physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
@@ -697,6 +720,29 @@ private constructor(
             address2()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (address1.asKnown().isPresent) 1 else 0) +
+                (if (city.asKnown().isPresent) 1 else 0) +
+                (if (country.asKnown().isPresent) 1 else 0) +
+                (if (postalCode.asKnown().isPresent) 1 else 0) +
+                (if (state.asKnown().isPresent) 1 else 0) +
+                (if (address2.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

@@ -10,6 +10,7 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.services.blocking.cards.BalanceService
 import java.util.Collections
 import java.util.Objects
@@ -109,6 +110,14 @@ private constructor(
             hasMore()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
 
         fun toBuilder() = Builder().from(this)
 

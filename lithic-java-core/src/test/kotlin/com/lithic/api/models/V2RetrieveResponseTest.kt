@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -100,5 +102,61 @@ internal class V2RetrieveResponseTest {
             .isEqualTo(V2RetrieveResponse.AuthRuleType.CONDITIONAL_BLOCK)
         assertThat(v2RetrieveResponse.excludedCardTokens().getOrNull())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val v2RetrieveResponse =
+            V2RetrieveResponse.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .currentVersion(
+                    V2RetrieveResponse.CurrentVersion.builder()
+                        .parameters(
+                            ConditionalBlockParameters.builder()
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .version(0L)
+                        .build()
+                )
+                .draftVersion(
+                    V2RetrieveResponse.DraftVersion.builder()
+                        .parameters(
+                            ConditionalBlockParameters.builder()
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .version(0L)
+                        .build()
+                )
+                .name("name")
+                .programLevel(true)
+                .state(V2RetrieveResponse.AuthRuleState.ACTIVE)
+                .type(V2RetrieveResponse.AuthRuleType.CONDITIONAL_BLOCK)
+                .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val roundtrippedV2RetrieveResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(v2RetrieveResponse),
+                jacksonTypeRef<V2RetrieveResponse>(),
+            )
+
+        assertThat(roundtrippedV2RetrieveResponse).isEqualTo(v2RetrieveResponse)
     }
 }

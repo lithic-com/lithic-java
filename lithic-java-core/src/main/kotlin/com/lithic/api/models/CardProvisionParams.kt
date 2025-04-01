@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Allow your cardholders to directly add payment cards to the device's digital wallet (e.g. Apple
@@ -770,11 +771,34 @@ private constructor(
             certificate()
             clientDeviceId()
             clientWalletAccountId()
-            digitalWallet()
+            digitalWallet().ifPresent { it.validate() }
             nonce()
             nonceSignature()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (certificate.asKnown().isPresent) 1 else 0) +
+                (if (clientDeviceId.asKnown().isPresent) 1 else 0) +
+                (if (clientWalletAccountId.asKnown().isPresent) 1 else 0) +
+                (digitalWallet.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (nonce.asKnown().isPresent) 1 else 0) +
+                (if (nonceSignature.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -889,6 +913,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): DigitalWallet = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
