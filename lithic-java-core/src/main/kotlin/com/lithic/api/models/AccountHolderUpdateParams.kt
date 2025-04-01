@@ -20,6 +20,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
+import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
@@ -30,6 +31,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Update the information associated with a particular account holder (including business owners and
@@ -277,14 +279,13 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
-        fun <T> accept(visitor: Visitor<T>): T {
-            return when {
+        fun <T> accept(visitor: Visitor<T>): T =
+            when {
                 kybPatchRequest != null -> visitor.visitKybPatchRequest(kybPatchRequest)
                 kycPatchRequest != null -> visitor.visitKycPatchRequest(kycPatchRequest)
                 patchRequest != null -> visitor.visitPatchRequest(patchRequest)
                 else -> visitor.unknown(_json)
             }
-        }
 
         private var validated: Boolean = false
 
@@ -310,6 +311,37 @@ private constructor(
             )
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            accept(
+                object : Visitor<Int> {
+                    override fun visitKybPatchRequest(kybPatchRequest: KybPatchRequest) =
+                        kybPatchRequest.validity()
+
+                    override fun visitKycPatchRequest(kycPatchRequest: KycPatchRequest) =
+                        kycPatchRequest.validity()
+
+                    override fun visitPatchRequest(patchRequest: PatchRequest) =
+                        patchRequest.validity()
+
+                    override fun unknown(json: JsonValue?) = 0
+                }
+            )
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -378,20 +410,31 @@ private constructor(
             override fun ObjectCodec.deserialize(node: JsonNode): Body {
                 val json = JsonValue.fromJsonNode(node)
 
-                tryDeserialize(node, jacksonTypeRef<KybPatchRequest>()) { it.validate() }
-                    ?.let {
-                        return Body(kybPatchRequest = it, _json = json)
-                    }
-                tryDeserialize(node, jacksonTypeRef<KycPatchRequest>()) { it.validate() }
-                    ?.let {
-                        return Body(kycPatchRequest = it, _json = json)
-                    }
-                tryDeserialize(node, jacksonTypeRef<PatchRequest>()) { it.validate() }
-                    ?.let {
-                        return Body(patchRequest = it, _json = json)
-                    }
-
-                return Body(_json = json)
+                val bestMatches =
+                    sequenceOf(
+                            tryDeserialize(node, jacksonTypeRef<KybPatchRequest>())?.let {
+                                Body(kybPatchRequest = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<KycPatchRequest>())?.let {
+                                Body(kycPatchRequest = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<PatchRequest>())?.let {
+                                Body(patchRequest = it, _json = json)
+                            },
+                        )
+                        .filterNotNull()
+                        .allMaxBy { it.validity() }
+                        .toList()
+                return when (bestMatches.size) {
+                    // This can happen if what we're deserializing is completely incompatible with
+                    // all the possible variants (e.g. deserializing from boolean).
+                    0 -> Body(_json = json)
+                    1 -> bestMatches.single()
+                    // If there's more than one match with the highest validity, then use the first
+                    // completely valid match, or simply the first match if none are completely
+                    // valid.
+                    else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                }
             }
         }
 
@@ -892,6 +935,33 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
+                    ?: 0) +
+                    (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf {
+                        it.validity().toInt()
+                    } ?: 0) +
+                    (businessEntity.asKnown().getOrNull()?.validity() ?: 0) +
+                    (controlPerson.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (externalId.asKnown().isPresent) 1 else 0) +
+                    (if (natureOfBusiness.asKnown().isPresent) 1 else 0) +
+                    (if (websiteUrl.asKnown().isPresent) 1 else 0)
+
             class KybBusinessEntityPatch
             private constructor(
                 private val entityToken: JsonField<String>,
@@ -1318,6 +1388,30 @@ private constructor(
                     phoneNumbers()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (entityToken.asKnown().isPresent) 1 else 0) +
+                        (address.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (dbaBusinessName.asKnown().isPresent) 1 else 0) +
+                        (if (governmentId.asKnown().isPresent) 1 else 0) +
+                        (if (legalBusinessName.asKnown().isPresent) 1 else 0) +
+                        (if (parentCompany.asKnown().isPresent) 1 else 0) +
+                        (phoneNumbers.asKnown().getOrNull()?.size ?: 0)
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -1780,6 +1874,31 @@ private constructor(
                     validated = true
                 }
 
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (entityToken.asKnown().isPresent) 1 else 0) +
+                        (address.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (dob.asKnown().isPresent) 1 else 0) +
+                        (if (email.asKnown().isPresent) 1 else 0) +
+                        (if (firstName.asKnown().isPresent) 1 else 0) +
+                        (if (governmentId.asKnown().isPresent) 1 else 0) +
+                        (if (lastName.asKnown().isPresent) 1 else 0) +
+                        (if (phoneNumber.asKnown().isPresent) 1 else 0)
+
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -1981,6 +2100,25 @@ private constructor(
                 individual().ifPresent { it.validate() }
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (externalId.asKnown().isPresent) 1 else 0) +
+                    (individual.asKnown().getOrNull()?.validity() ?: 0)
 
             /**
              * Information on the individual for whom the account is being opened and KYC is being
@@ -2428,6 +2566,31 @@ private constructor(
                     validated = true
                 }
 
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (entityToken.asKnown().isPresent) 1 else 0) +
+                        (address.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (dob.asKnown().isPresent) 1 else 0) +
+                        (if (email.asKnown().isPresent) 1 else 0) +
+                        (if (firstName.asKnown().isPresent) 1 else 0) +
+                        (if (governmentId.asKnown().isPresent) 1 else 0) +
+                        (if (lastName.asKnown().isPresent) 1 else 0) +
+                        (if (phoneNumber.asKnown().isPresent) 1 else 0)
+
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -2841,6 +3004,30 @@ private constructor(
                 phoneNumber()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (address.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (businessAccountToken.asKnown().isPresent) 1 else 0) +
+                    (if (email.asKnown().isPresent) 1 else 0) +
+                    (if (firstName.asKnown().isPresent) 1 else 0) +
+                    (if (lastName.asKnown().isPresent) 1 else 0) +
+                    (if (legalBusinessName.asKnown().isPresent) 1 else 0) +
+                    (if (phoneNumber.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {

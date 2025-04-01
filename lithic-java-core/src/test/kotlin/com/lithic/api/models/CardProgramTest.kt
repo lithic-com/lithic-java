@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
@@ -31,5 +33,29 @@ internal class CardProgramTest {
         assertThat(cardProgram.panRangeStart()).isEqualTo("52304803")
         assertThat(cardProgram.cardholderCurrency()).contains("USD")
         assertThat(cardProgram.settlementCurrencies().getOrNull()).containsExactly("USD", "CAD")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val cardProgram =
+            CardProgram.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .name("My Prepaid Program")
+                .panRangeEnd("52304803")
+                .panRangeStart("52304803")
+                .cardholderCurrency("USD")
+                .addSettlementCurrency("USD")
+                .addSettlementCurrency("CAD")
+                .build()
+
+        val roundtrippedCardProgram =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(cardProgram),
+                jacksonTypeRef<CardProgram>(),
+            )
+
+        assertThat(roundtrippedCardProgram).isEqualTo(cardProgram)
     }
 }

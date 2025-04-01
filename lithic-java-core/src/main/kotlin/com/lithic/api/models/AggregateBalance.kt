@@ -16,6 +16,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import kotlin.jvm.optionals.getOrNull
 
 /** Aggregate Balance across all end-user accounts */
 class AggregateBalance
@@ -523,7 +524,7 @@ private constructor(
         availableAmount()
         created()
         currency()
-        financialAccountType()
+        financialAccountType().validate()
         lastFinancialAccountToken()
         lastTransactionEventToken()
         lastTransactionToken()
@@ -532,6 +533,32 @@ private constructor(
         updated()
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (availableAmount.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
+            (if (currency.asKnown().isPresent) 1 else 0) +
+            (financialAccountType.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (lastFinancialAccountToken.asKnown().isPresent) 1 else 0) +
+            (if (lastTransactionEventToken.asKnown().isPresent) 1 else 0) +
+            (if (lastTransactionToken.asKnown().isPresent) 1 else 0) +
+            (if (pendingAmount.asKnown().isPresent) 1 else 0) +
+            (if (totalAmount.asKnown().isPresent) 1 else 0) +
+            (if (updated.asKnown().isPresent) 1 else 0)
 
     /** Type of financial account */
     class FinancialAccountType
@@ -630,6 +657,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

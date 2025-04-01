@@ -17,6 +17,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import kotlin.jvm.optionals.getOrNull
 
 class SettlementReport
 private constructor(
@@ -630,6 +631,33 @@ private constructor(
         updated()
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (created.asKnown().isPresent) 1 else 0) +
+            (if (currency.asKnown().isPresent) 1 else 0) +
+            (details.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (if (disputesGrossAmount.asKnown().isPresent) 1 else 0) +
+            (if (interchangeGrossAmount.asKnown().isPresent) 1 else 0) +
+            (if (isComplete.asKnown().isPresent) 1 else 0) +
+            (if (otherFeesGrossAmount.asKnown().isPresent) 1 else 0) +
+            (if (reportDate.asKnown().isPresent) 1 else 0) +
+            (if (settledNetAmount.asKnown().isPresent) 1 else 0) +
+            (if (transactionsGrossAmount.asKnown().isPresent) 1 else 0) +
+            (if (updated.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

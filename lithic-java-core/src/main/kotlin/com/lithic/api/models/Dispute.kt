@@ -1067,16 +1067,51 @@ private constructor(
         networkReasonCode()
         prearbitrationDate()
         primaryClaimId()
-        reason()
+        reason().validate()
         representmentDate()
         resolutionAmount()
         resolutionDate()
         resolutionNote()
-        resolutionReason()
-        status()
+        resolutionReason().ifPresent { it.validate() }
+        status().validate()
         transactionToken()
         validated = true
     }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (if (token.asKnown().isPresent) 1 else 0) +
+            (if (amount.asKnown().isPresent) 1 else 0) +
+            (if (arbitrationDate.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
+            (if (customerFiledDate.asKnown().isPresent) 1 else 0) +
+            (if (customerNote.asKnown().isPresent) 1 else 0) +
+            (networkClaimIds.asKnown().getOrNull()?.size ?: 0) +
+            (if (networkFiledDate.asKnown().isPresent) 1 else 0) +
+            (if (networkReasonCode.asKnown().isPresent) 1 else 0) +
+            (if (prearbitrationDate.asKnown().isPresent) 1 else 0) +
+            (if (primaryClaimId.asKnown().isPresent) 1 else 0) +
+            (reason.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (representmentDate.asKnown().isPresent) 1 else 0) +
+            (if (resolutionAmount.asKnown().isPresent) 1 else 0) +
+            (if (resolutionDate.asKnown().isPresent) 1 else 0) +
+            (if (resolutionNote.asKnown().isPresent) 1 else 0) +
+            (resolutionReason.asKnown().getOrNull()?.validity() ?: 0) +
+            (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (transactionToken.asKnown().isPresent) 1 else 0)
 
     /**
      * Dispute reason:
@@ -1252,6 +1287,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Reason = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1467,6 +1529,33 @@ private constructor(
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
 
+        private var validated: Boolean = false
+
+        fun validate(): ResolutionReason = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1611,6 +1700,33 @@ private constructor(
          */
         fun asString(): String =
             _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Status = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

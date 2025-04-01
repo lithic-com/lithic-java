@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
@@ -59,5 +61,37 @@ internal class DisputeTest {
         assertThat(dispute.resolutionReason()).contains(Dispute.ResolutionReason.CASE_LOST)
         assertThat(dispute.status()).isEqualTo(Dispute.Status.ARBITRATION)
         assertThat(dispute.transactionToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val dispute =
+            Dispute.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .amount(0L)
+                .arbitrationDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .customerNote("customer_note")
+                .addNetworkClaimId("string")
+                .networkFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .networkReasonCode("network_reason_code")
+                .prearbitrationDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .primaryClaimId("primary_claim_id")
+                .reason(Dispute.Reason.ATM_CASH_MISDISPENSE)
+                .representmentDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .resolutionAmount(0L)
+                .resolutionDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .resolutionNote("resolution_note")
+                .resolutionReason(Dispute.ResolutionReason.CASE_LOST)
+                .status(Dispute.Status.ARBITRATION)
+                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val roundtrippedDispute =
+            jsonMapper.readValue(jsonMapper.writeValueAsString(dispute), jacksonTypeRef<Dispute>())
+
+        assertThat(roundtrippedDispute).isEqualTo(dispute)
     }
 }

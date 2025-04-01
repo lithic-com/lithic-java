@@ -2,6 +2,8 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.jsonMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -51,5 +53,39 @@ internal class KycExemptTest {
         assertThat(kycExempt.workflow()).isEqualTo(KycExempt.Workflow.KYC_EXEMPT)
         assertThat(kycExempt.businessAccountToken()).contains("business_account_token")
         assertThat(kycExempt.externalId()).contains("external_id")
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val kycExempt =
+            KycExempt.builder()
+                .address(
+                    Address.builder()
+                        .address1("123 Old Forest Way")
+                        .city("Omaha")
+                        .country("USA")
+                        .postalCode("68022")
+                        .state("NE")
+                        .address2("address2")
+                        .build()
+                )
+                .email("email")
+                .firstName("first_name")
+                .kycExemptionType(KycExempt.KycExemptionType.AUTHORIZED_USER)
+                .lastName("last_name")
+                .phoneNumber("phone_number")
+                .workflow(KycExempt.Workflow.KYC_EXEMPT)
+                .businessAccountToken("business_account_token")
+                .externalId("external_id")
+                .build()
+
+        val roundtrippedKycExempt =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(kycExempt),
+                jacksonTypeRef<KycExempt>(),
+            )
+
+        assertThat(roundtrippedKycExempt).isEqualTo(kycExempt)
     }
 }
