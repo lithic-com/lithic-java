@@ -123,6 +123,16 @@ private constructor(
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [end]
+         * - [start]
+         */
+        fun body(body: BacktestRequest) = apply { this.body = body.toBuilder() }
+
         /** The end time of the backtest. */
         fun end(end: OffsetDateTime) = apply { body.end(end) }
 
@@ -285,7 +295,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): BacktestRequest = body
+    fun _body(): BacktestRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

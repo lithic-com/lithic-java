@@ -94,6 +94,16 @@ private constructor(
             additionalQueryParams = paymentSimulateReturnParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [paymentToken]
+         * - [returnReasonCode]
+         */
+        fun body(body: SimulateOriginationReturnRequest) = apply { this.body = body.toBuilder() }
+
         /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
@@ -261,7 +271,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): SimulateOriginationReturnRequest = body
+    fun _body(): SimulateOriginationReturnRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 

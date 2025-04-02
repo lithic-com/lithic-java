@@ -131,6 +131,18 @@ private constructor(
                 threeDSAuthenticationSimulateParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [merchant]
+         * - [pan]
+         * - [transaction]
+         * - [cardExpiryCheck]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         fun merchant(merchant: Merchant) = apply { body.merchant(merchant) }
 
         /**
@@ -324,7 +336,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 

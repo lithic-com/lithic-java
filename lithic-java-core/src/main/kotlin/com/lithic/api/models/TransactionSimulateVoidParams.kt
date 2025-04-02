@@ -118,6 +118,17 @@ private constructor(
             additionalQueryParams = transactionSimulateVoidParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [token]
+         * - [amount]
+         * - [type]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { body.token(token) }
 
@@ -295,7 +306,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 

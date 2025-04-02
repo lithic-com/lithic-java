@@ -250,6 +250,20 @@ private constructor(
         }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [amount]
+         * - [descriptor]
+         * - [pan]
+         * - [mcc]
+         * - [merchantAcceptorId]
+         * - etc.
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * Amount (in cents) to authorize. For credit authorizations and financial credit
          * authorizations, any value entered will be converted into a negative amount in the
          * simulated transaction. For example, entering 100 in this field will result in a -100
@@ -549,7 +563,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 

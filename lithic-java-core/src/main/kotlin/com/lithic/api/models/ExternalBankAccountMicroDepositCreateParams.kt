@@ -94,6 +94,15 @@ private constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [microDeposits]
+         */
+        fun body(body: MicroDepositVerificationRequest) = apply { this.body = body.toBuilder() }
+
         fun microDeposits(microDeposits: List<Long>) = apply { body.microDeposits(microDeposits) }
 
         /**
@@ -253,7 +262,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): MicroDepositVerificationRequest = body
+    fun _body(): MicroDepositVerificationRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

@@ -203,6 +203,20 @@ private constructor(
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [digitalCardArtToken]
+         * - [memo]
+         * - [pin]
+         * - [pinStatus]
+         * - [spendLimit]
+         * - etc.
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
@@ -462,7 +476,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

@@ -118,6 +118,17 @@ private constructor(
 
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [eventType]
+         * - [declineReason]
+         * - [returnReasonCode]
+         */
+        fun body(body: SimulateActionRequest) = apply { this.body = body.toBuilder() }
+
         /** Event Type */
         fun eventType(eventType: SupportedSimulationTypes) = apply { body.eventType(eventType) }
 
@@ -303,7 +314,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): SimulateActionRequest = body
+    fun _body(): SimulateActionRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {
