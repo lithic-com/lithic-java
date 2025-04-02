@@ -145,6 +145,18 @@ private constructor(
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [carrier]
+         * - [productId]
+         * - [shippingAddress]
+         * - [shippingMethod]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** If omitted, the previous carrier will be used. */
         fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
@@ -352,7 +364,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

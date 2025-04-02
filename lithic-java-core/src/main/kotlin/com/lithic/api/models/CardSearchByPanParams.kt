@@ -81,6 +81,15 @@ private constructor(
             additionalQueryParams = cardSearchByPanParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [pan]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** The PAN for the card being retrieved. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
@@ -229,7 +238,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 

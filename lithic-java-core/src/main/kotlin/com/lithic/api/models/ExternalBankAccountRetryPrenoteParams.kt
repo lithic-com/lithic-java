@@ -91,6 +91,15 @@ private constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [financialAccountToken]
+         */
+        fun body(body: RetryPrenoteVerificationRequest) = apply { this.body = body.toBuilder() }
+
         fun financialAccountToken(financialAccountToken: String) = apply {
             body.financialAccountToken(financialAccountToken)
         }
@@ -244,7 +253,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): RetryPrenoteVerificationRequest = body
+    fun _body(): RetryPrenoteVerificationRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

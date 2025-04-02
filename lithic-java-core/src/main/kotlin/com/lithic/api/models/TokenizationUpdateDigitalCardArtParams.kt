@@ -103,6 +103,15 @@ private constructor(
         }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [digitalCardArtToken]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * Specifies the digital card art to be displayed in the user’s digital wallet for a
          * tokenization. This artwork must be approved by the network and configured by Lithic to
          * use. See
@@ -261,7 +270,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

@@ -112,6 +112,16 @@ private constructor(
             this.financialAccountToken = financialAccountToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [status]
+         * - [statusChangeReason]
+         */
+        fun body(body: UpdateFinancialAccountStatusRequest) = apply { this.body = body.toBuilder() }
+
         /** Status of the financial account */
         fun status(status: FinancialAccountStatus) = apply { body.status(status) }
 
@@ -288,7 +298,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): UpdateFinancialAccountStatusRequest = body
+    fun _body(): UpdateFinancialAccountStatusRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

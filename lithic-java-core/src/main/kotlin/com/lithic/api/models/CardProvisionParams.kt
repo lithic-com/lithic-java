@@ -176,6 +176,20 @@ private constructor(
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [certificate]
+         * - [clientDeviceId]
+         * - [clientWalletAccountId]
+         * - [digitalWallet]
+         * - [nonce]
+         * - etc.
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
@@ -413,7 +427,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

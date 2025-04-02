@@ -103,6 +103,16 @@ private constructor(
             this.managementOperationToken = managementOperationToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [effectiveDate]
+         * - [memo]
+         */
+        fun body(body: ManagementOperationActionRequest) = apply { this.body = body.toBuilder() }
+
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
         /**
@@ -265,7 +275,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): ManagementOperationActionRequest = body
+    fun _body(): ManagementOperationActionRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

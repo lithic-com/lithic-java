@@ -192,6 +192,20 @@ private constructor(
             additionalQueryParams = paymentCreateParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [amount]
+         * - [externalBankAccountToken]
+         * - [financialAccountToken]
+         * - [method]
+         * - [methodAttributes]
+         * - etc.
+         */
+        fun body(body: CreatePaymentRequest) = apply { this.body = body.toBuilder() }
+
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
@@ -446,7 +460,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): CreatePaymentRequest = body
+    fun _body(): CreatePaymentRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 

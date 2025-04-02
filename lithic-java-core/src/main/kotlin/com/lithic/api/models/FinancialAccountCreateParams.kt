@@ -129,6 +129,18 @@ private constructor(
         fun idempotencyKey(idempotencyKey: Optional<String>) =
             idempotencyKey(idempotencyKey.getOrNull())
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [nickname]
+         * - [type]
+         * - [accountToken]
+         * - [isForBenefitOf]
+         */
+        fun body(body: CreateFinancialAccountRequest) = apply { this.body = body.toBuilder() }
+
         fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
         /**
@@ -314,7 +326,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): CreateFinancialAccountRequest = body
+    fun _body(): CreateFinancialAccountRequest = body
 
     override fun _headers(): Headers =
         Headers.builder()
