@@ -105,6 +105,15 @@ private constructor(
         }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [activationMethodType]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * The communication method that the user has selected to use to receive the authentication
          * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
          * "EMAIL_TO_CARDHOLDER_ADDRESS"
@@ -262,7 +271,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

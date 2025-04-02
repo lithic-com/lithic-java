@@ -143,6 +143,20 @@ private constructor(
             additionalQueryParams = paymentSimulateReceiptParams.additionalQueryParams.toBuilder()
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [token]
+         * - [amount]
+         * - [financialAccountToken]
+         * - [receiptType]
+         * - [memo]
+         * - etc.
+         */
+        fun body(body: SimulateReceiptRequest) = apply { this.body = body.toBuilder() }
+
         /** Payment token */
         fun token(token: String) = apply { body.token(token) }
 
@@ -346,7 +360,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): SimulateReceiptRequest = body
+    fun _body(): SimulateReceiptRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 

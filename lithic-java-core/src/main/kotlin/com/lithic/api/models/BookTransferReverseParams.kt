@@ -86,6 +86,15 @@ private constructor(
             this.bookTransferToken = bookTransferToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [memo]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** Optional descriptor for the reversal. */
         fun memo(memo: String) = apply { body.memo(memo) }
 
@@ -235,7 +244,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {
