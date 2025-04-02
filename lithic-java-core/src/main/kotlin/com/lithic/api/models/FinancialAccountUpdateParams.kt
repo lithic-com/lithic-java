@@ -85,6 +85,15 @@ private constructor(
             this.financialAccountToken = financialAccountToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [nickname]
+         */
+        fun body(body: UpdateFinancialAccountRequest) = apply { this.body = body.toBuilder() }
+
         fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
         /**
@@ -233,7 +242,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): UpdateFinancialAccountRequest = body
+    fun _body(): UpdateFinancialAccountRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

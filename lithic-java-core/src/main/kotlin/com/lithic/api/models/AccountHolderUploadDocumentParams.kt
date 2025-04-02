@@ -124,6 +124,16 @@ private constructor(
             this.accountHolderToken = accountHolderToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [documentType]
+         * - [entityToken]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** The type of document to upload */
         fun documentType(documentType: DocumentType) = apply { body.documentType(documentType) }
 
@@ -290,7 +300,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

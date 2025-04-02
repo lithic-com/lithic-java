@@ -115,6 +115,19 @@ private constructor(
             this.externalPaymentToken = externalPaymentToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [effectiveDate]
+         * - [memo]
+         * - [progressTo]
+         */
+        fun body(body: ExternalPaymentActionWithProgressToRequest) = apply {
+            this.body = body.toBuilder()
+        }
+
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
         /**
@@ -292,7 +305,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): ExternalPaymentActionWithProgressToRequest = body
+    fun _body(): ExternalPaymentActionWithProgressToRequest = body
 
     fun _pathParam(index: Int): String =
         when (index) {

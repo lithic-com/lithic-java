@@ -94,6 +94,15 @@ private constructor(
             this.eventSubscriptionToken = eventSubscriptionToken
         }
 
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [eventType]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
         /** Event type to send example message for. */
         fun eventType(eventType: EventType) = apply { body.eventType(eventType) }
 
@@ -244,7 +253,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {

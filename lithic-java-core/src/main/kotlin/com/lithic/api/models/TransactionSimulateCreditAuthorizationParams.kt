@@ -154,6 +154,20 @@ private constructor(
         }
 
         /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [amount]
+         * - [descriptor]
+         * - [pan]
+         * - [mcc]
+         * - [merchantAcceptorId]
+         * - etc.
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
          * Amount (in cents). Any value entered will be converted into a negative amount in the
          * simulated transaction. For example, entering 100 in this field will appear as a -100
          * amount in the transaction.
@@ -361,7 +375,7 @@ private constructor(
             )
     }
 
-    @JvmSynthetic internal fun _body(): Body = body
+    fun _body(): Body = body
 
     override fun _headers(): Headers = additionalHeaders
 
