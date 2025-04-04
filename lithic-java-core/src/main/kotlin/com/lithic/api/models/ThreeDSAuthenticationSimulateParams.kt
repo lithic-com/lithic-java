@@ -393,7 +393,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun cardExpiryCheck(): Optional<CardExpiryCheck> =
-            Optional.ofNullable(cardExpiryCheck.getNullable("card_expiry_check"))
+            cardExpiryCheck.getOptional("card_expiry_check")
 
         /**
          * Returns the raw JSON value of [merchant].

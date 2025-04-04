@@ -99,8 +99,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun dbaBusinessName(): Optional<String> =
-        Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
+    fun dbaBusinessName(): Optional<String> = dbaBusinessName.getOptional("dba_business_name")
 
     /**
      * Parent company name (if applicable).
@@ -108,8 +107,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun parentCompany(): Optional<String> =
-        Optional.ofNullable(parentCompany.getNullable("parent_company"))
+    fun parentCompany(): Optional<String> = parentCompany.getOptional("parent_company")
 
     /**
      * Returns the raw JSON value of [address].
@@ -480,7 +478,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+        fun address2(): Optional<String> = address2.getOptional("address2")
 
         /**
          * Returns the raw JSON value of [address1].

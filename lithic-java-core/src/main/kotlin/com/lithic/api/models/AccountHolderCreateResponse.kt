@@ -104,7 +104,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): Optional<OffsetDateTime> = created.getOptional("created")
 
     /**
      * Customer-provided token that indicates a relationship with an object outside of the Lithic
@@ -113,7 +113,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
     /**
      * Only present for "KYB_BASIC" workflow. A list of documents required for the account holder to
@@ -123,7 +123,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun requiredDocuments(): Optional<List<RequiredDocument>> =
-        Optional.ofNullable(requiredDocuments.getNullable("required_documents"))
+        requiredDocuments.getOptional("required_documents")
 
     /**
      * Returns the raw JSON value of [token].

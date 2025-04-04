@@ -116,7 +116,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun isCardProgramDefault(): Optional<Boolean> =
-        Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
+        isCardProgramDefault.getOptional("is_card_program_default")
 
     /**
      * Returns the raw JSON value of [token].

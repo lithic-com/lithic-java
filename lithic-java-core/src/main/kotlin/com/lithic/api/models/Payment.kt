@@ -167,7 +167,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun externalBankAccountToken(): Optional<String> =
-        Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+        externalBankAccountToken.getOptional("external_bank_account_token")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -246,8 +246,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun userDefinedId(): Optional<String> =
-        Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+    fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1213,7 +1212,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun detailedResults(): Optional<List<DetailedResult>> =
-            Optional.ofNullable(detailedResults.getNullable("detailed_results"))
+            detailedResults.getOptional("detailed_results")
 
         /**
          * Returns the raw JSON value of [token].
@@ -2191,27 +2190,27 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
+        fun companyId(): Optional<String> = companyId.getOptional("company_id")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun receiptRoutingNumber(): Optional<String> =
-            Optional.ofNullable(receiptRoutingNumber.getNullable("receipt_routing_number"))
+            receiptRoutingNumber.getOptional("receipt_routing_number")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun retries(): Optional<Long> = Optional.ofNullable(retries.getNullable("retries"))
+        fun retries(): Optional<Long> = retries.getOptional("retries")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun returnReasonCode(): Optional<String> =
-            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+            returnReasonCode.getOptional("return_reason_code")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is

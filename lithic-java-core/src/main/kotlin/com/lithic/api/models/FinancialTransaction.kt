@@ -781,7 +781,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+        fun token(): Optional<String> = token.getOptional("token")
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -790,7 +790,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+        fun amount(): Optional<Long> = amount.getOptional("amount")
 
         /**
          * Date and time when the financial event occurred. UTC time zone.
@@ -798,8 +798,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun created(): Optional<OffsetDateTime> =
-            Optional.ofNullable(created.getNullable("created"))
+        fun created(): Optional<OffsetDateTime> = created.getOptional("created")
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
@@ -808,13 +807,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+        fun result(): Optional<Result> = result.getOptional("result")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<FinancialEventType> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<FinancialEventType> = type.getOptional("type")
 
         /**
          * Returns the raw JSON value of [token].

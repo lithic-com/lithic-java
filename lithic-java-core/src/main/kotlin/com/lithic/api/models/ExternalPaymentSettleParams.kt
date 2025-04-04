@@ -346,14 +346,14 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+        fun memo(): Optional<String> = memo.getOptional("memo")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun progressTo(): Optional<ExternalPaymentProgressTo> =
-            Optional.ofNullable(progressTo.getNullable("progress_to"))
+            progressTo.getOptional("progress_to")
 
         /**
          * Returns the raw JSON value of [effectiveDate].

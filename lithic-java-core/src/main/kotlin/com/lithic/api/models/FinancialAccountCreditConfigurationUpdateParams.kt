@@ -379,8 +379,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun creditLimit(): Optional<Long> =
-            Optional.ofNullable(creditLimit.getNullable("credit_limit"))
+        fun creditLimit(): Optional<Long> = creditLimit.getOptional("credit_limit")
 
         /**
          * Globally unique identifier for the credit product
@@ -389,14 +388,14 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun creditProductToken(): Optional<String> =
-            Optional.ofNullable(creditProductToken.getNullable("credit_product_token"))
+            creditProductToken.getOptional("credit_product_token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun externalBankAccountToken(): Optional<String> =
-            Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+            externalBankAccountToken.getOptional("external_bank_account_token")
 
         /**
          * Tier to assign to a financial account
@@ -404,7 +403,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
+        fun tier(): Optional<String> = tier.getOptional("tier")
 
         /**
          * Returns the raw JSON value of [creditLimit].

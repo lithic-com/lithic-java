@@ -362,14 +362,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
+        fun cardToken(): Optional<String> = cardToken.getOptional("card_token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun descriptor(): Optional<String> =
-            Optional.ofNullable(descriptor.getNullable("descriptor"))
+        fun descriptor(): Optional<String> = descriptor.getOptional("descriptor")
 
         /**
          * Returns the raw JSON value of [token].

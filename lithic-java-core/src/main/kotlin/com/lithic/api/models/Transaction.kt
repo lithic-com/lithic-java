@@ -163,7 +163,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun acquirerFee(): Optional<Long> = Optional.ofNullable(acquirerFee.getNullable("acquirer_fee"))
+    fun acquirerFee(): Optional<Long> = acquirerFee.getOptional("acquirer_fee")
 
     /**
      * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
@@ -174,7 +174,7 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun acquirerReferenceNumber(): Optional<String> =
-        Optional.ofNullable(acquirerReferenceNumber.getNullable("acquirer_reference_number"))
+        acquirerReferenceNumber.getOptional("acquirer_reference_number")
 
     /**
      * When the transaction is pending, this represents the authorization amount of the transaction
@@ -200,7 +200,7 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun authorizationAmount(): Optional<Long> =
-        Optional.ofNullable(authorizationAmount.getNullable("authorization_amount"))
+        authorizationAmount.getOptional("authorization_amount")
 
     /**
      * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
@@ -209,14 +209,13 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun authorizationCode(): Optional<String> =
-        Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
+    fun authorizationCode(): Optional<String> = authorizationCode.getOptional("authorization_code")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun avs(): Optional<Avs> = Optional.ofNullable(avs.getNullable("avs"))
+    fun avs(): Optional<Avs> = avs.getOptional("avs")
 
     /**
      * Token for the card used in this transaction.
@@ -231,7 +230,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun cardholderAuthentication(): Optional<CardholderAuthentication> =
-        Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
+        cardholderAuthentication.getOptional("cardholder_authentication")
 
     /**
      * Date and time when the transaction first occurred. UTC time zone.
@@ -254,8 +253,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
-    fun merchantAmount(): Optional<Long> =
-        Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
+    fun merchantAmount(): Optional<Long> = merchantAmount.getOptional("merchant_amount")
 
     /**
      * Analogous to the 'authorization_amount', but in the merchant currency.
@@ -265,9 +263,7 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun merchantAuthorizationAmount(): Optional<Long> =
-        Optional.ofNullable(
-            merchantAuthorizationAmount.getNullable("merchant_authorization_amount")
-        )
+        merchantAuthorizationAmount.getOptional("merchant_authorization_amount")
 
     /**
      * 3-character alphabetic ISO 4217 code for the local currency of the transaction.
@@ -286,7 +282,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun network(): Optional<Network> = Optional.ofNullable(network.getNullable("network"))
+    fun network(): Optional<Network> = network.getOptional("network")
 
     /**
      * Network-provided score assessing risk level associated with a given authorization. Scores are
@@ -297,8 +293,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun networkRiskScore(): Optional<Long> =
-        Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
+    fun networkRiskScore(): Optional<Long> = networkRiskScore.getOptional("network_risk_score")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -333,7 +328,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun tokenInfo(): Optional<TokenInfo> = Optional.ofNullable(tokenInfo.getNullable("token_info"))
+    fun tokenInfo(): Optional<TokenInfo> = tokenInfo.getOptional("token_info")
 
     /**
      * Date and time when the transaction last updated. UTC time zone.
@@ -347,8 +342,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun events(): Optional<List<TransactionEvent>> =
-        Optional.ofNullable(events.getNullable("events"))
+    fun events(): Optional<List<TransactionEvent>> = events.getOptional("events")
 
     /**
      * Returns the raw JSON value of [token].
@@ -2682,8 +2676,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun threeDSVersion(): Optional<String> =
-            Optional.ofNullable(threeDSVersion.getNullable("3ds_version"))
+        fun threeDSVersion(): Optional<String> = threeDSVersion.getOptional("3ds_version")
 
         /**
          * Whether an acquirer exemption applied to the transaction.
@@ -2736,9 +2729,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun threeDSAuthenticationToken(): Optional<String> =
-            Optional.ofNullable(
-                threeDSAuthenticationToken.getNullable("three_ds_authentication_token")
-            )
+            threeDSAuthenticationToken.getOptional("three_ds_authentication_token")
 
         /**
          * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
@@ -7518,8 +7509,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun networkInfo(): Optional<NetworkInfo> =
-            Optional.ofNullable(networkInfo.getNullable("network_info"))
+        fun networkInfo(): Optional<NetworkInfo> = networkInfo.getOptional("network_info")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -8000,8 +7990,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun settlement(): Optional<Settlement> =
-                Optional.ofNullable(settlement.getNullable("settlement"))
+            fun settlement(): Optional<Settlement> = settlement.getOptional("settlement")
 
             /**
              * Returns the raw JSON value of [cardholder].
@@ -9568,21 +9557,19 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun acquirer(): Optional<Acquirer> =
-                Optional.ofNullable(acquirer.getNullable("acquirer"))
+            fun acquirer(): Optional<Acquirer> = acquirer.getOptional("acquirer")
 
             /**
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun mastercard(): Optional<Mastercard> =
-                Optional.ofNullable(mastercard.getNullable("mastercard"))
+            fun mastercard(): Optional<Mastercard> = mastercard.getOptional("mastercard")
 
             /**
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun visa(): Optional<Visa> = Optional.ofNullable(visa.getNullable("visa"))
+            fun visa(): Optional<Visa> = visa.getOptional("visa")
 
             /**
              * Returns the raw JSON value of [acquirer].
@@ -9806,9 +9793,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun acquirerReferenceNumber(): Optional<String> =
-                    Optional.ofNullable(
-                        acquirerReferenceNumber.getNullable("acquirer_reference_number")
-                    )
+                    acquirerReferenceNumber.getOptional("acquirer_reference_number")
 
                 /**
                  * Identifier assigned by the acquirer.
@@ -9817,9 +9802,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun retrievalReferenceNumber(): Optional<String> =
-                    Optional.ofNullable(
-                        retrievalReferenceNumber.getNullable("retrieval_reference_number")
-                    )
+                    retrievalReferenceNumber.getOptional("retrieval_reference_number")
 
                 /**
                  * Returns the raw JSON value of [acquirerReferenceNumber].
@@ -10064,9 +10047,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun banknetReferenceNumber(): Optional<String> =
-                    Optional.ofNullable(
-                        banknetReferenceNumber.getNullable("banknet_reference_number")
-                    )
+                    banknetReferenceNumber.getOptional("banknet_reference_number")
 
                 /**
                  * Identifier assigned by Mastercard. Matches the `banknet_reference_number` of a
@@ -10085,11 +10066,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun originalBanknetReferenceNumber(): Optional<String> =
-                    Optional.ofNullable(
-                        originalBanknetReferenceNumber.getNullable(
-                            "original_banknet_reference_number"
-                        )
-                    )
+                    originalBanknetReferenceNumber.getOptional("original_banknet_reference_number")
 
                 /**
                  * Identifier assigned by Mastercard. Matches the `switch_serial_number` of a prior
@@ -10100,9 +10077,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun originalSwitchSerialNumber(): Optional<String> =
-                    Optional.ofNullable(
-                        originalSwitchSerialNumber.getNullable("original_switch_serial_number")
-                    )
+                    originalSwitchSerialNumber.getOptional("original_switch_serial_number")
 
                 /**
                  * Identifier assigned by Mastercard, applicable to single-message transactions
@@ -10112,7 +10087,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun switchSerialNumber(): Optional<String> =
-                    Optional.ofNullable(switchSerialNumber.getNullable("switch_serial_number"))
+                    switchSerialNumber.getOptional("switch_serial_number")
 
                 /**
                  * Returns the raw JSON value of [banknetReferenceNumber].
@@ -10447,9 +10422,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun originalTransactionId(): Optional<String> =
-                    Optional.ofNullable(
-                        originalTransactionId.getNullable("original_transaction_id")
-                    )
+                    originalTransactionId.getOptional("original_transaction_id")
 
                 /**
                  * Identifier assigned by Visa to link original messages to subsequent messages.
@@ -10459,8 +10432,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun transactionId(): Optional<String> =
-                    Optional.ofNullable(transactionId.getNullable("transaction_id"))
+                fun transactionId(): Optional<String> = transactionId.getOptional("transaction_id")
 
                 /**
                  * Returns the raw JSON value of [originalTransactionId].
@@ -10973,8 +10945,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun authRuleToken(): Optional<String> =
-                Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
+            fun authRuleToken(): Optional<String> = authRuleToken.getOptional("auth_rule_token")
 
             /**
              * A human-readable explanation outlining the motivation for the rule's decline.
@@ -10982,8 +10953,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun explanation(): Optional<String> =
-                Optional.ofNullable(explanation.getNullable("explanation"))
+            fun explanation(): Optional<String> = explanation.getOptional("explanation")
 
             /**
              * The name for the rule, if any was configured.
@@ -10991,7 +10961,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+            fun name(): Optional<String> = name.getOptional("name")
 
             /**
              * The detailed_result associated with this rule's decline.

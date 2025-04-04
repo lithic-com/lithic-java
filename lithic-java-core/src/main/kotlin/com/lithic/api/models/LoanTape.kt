@@ -230,7 +230,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun interestDetails(): Optional<InterestDetails> =
-        Optional.ofNullable(interestDetails.getNullable("interest_details"))
+        interestDetails.getOptional("interest_details")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -294,7 +294,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
+    fun tier(): Optional<String> = tier.getOptional("tier")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1519,7 +1519,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun statusChangeReason(): Optional<FinancialAccountStatusChangeReason> =
-                Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
+                statusChangeReason.getOptional("status_change_reason")
 
             /**
              * Returns the raw JSON value of [status].
@@ -3165,7 +3165,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun actualInterestCharged(): Optional<Long> =
-            Optional.ofNullable(actualInterestCharged.getNullable("actual_interest_charged"))
+            actualInterestCharged.getOptional("actual_interest_charged")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -3198,14 +3198,14 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun primeRate(): Optional<String> = Optional.ofNullable(primeRate.getNullable("prime_rate"))
+        fun primeRate(): Optional<String> = primeRate.getOptional("prime_rate")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun minimumInterestCharged(): Optional<Long> =
-            Optional.ofNullable(minimumInterestCharged.getNullable("minimum_interest_charged"))
+            minimumInterestCharged.getOptional("minimum_interest_charged")
 
         /**
          * Returns the raw JSON value of [actualInterestCharged].

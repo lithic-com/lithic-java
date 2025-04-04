@@ -538,7 +538,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun digitalCardArtToken(): Optional<String> =
-            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+            digitalCardArtToken.getOptional("digital_card_art_token")
 
         /**
          * Friendly name to identify the card.
@@ -546,7 +546,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+        fun memo(): Optional<String> = memo.getOptional("memo")
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
@@ -556,7 +556,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
+        fun pin(): Optional<String> = pin.getOptional("pin")
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
@@ -565,8 +565,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun pinStatus(): Optional<PinStatus> =
-            Optional.ofNullable(pinStatus.getNullable("pin_status"))
+        fun pinStatus(): Optional<PinStatus> = pinStatus.getOptional("pin_status")
 
         /**
          * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
@@ -578,8 +577,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun spendLimit(): Optional<Long> =
-            Optional.ofNullable(spendLimit.getNullable("spend_limit"))
+        fun spendLimit(): Optional<Long> = spendLimit.getOptional("spend_limit")
 
         /**
          * Spend limit duration values:
@@ -597,7 +595,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun spendLimitDuration(): Optional<SpendLimitDuration> =
-            Optional.ofNullable(spendLimitDuration.getNullable("spend_limit_duration"))
+            spendLimitDuration.getOptional("spend_limit_duration")
 
         /**
          * Card state values:
@@ -608,7 +606,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+        fun state(): Optional<State> = state.getOptional("state")
 
         /**
          * Returns the raw JSON value of [digitalCardArtToken].

@@ -309,7 +309,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun returnReasonCode(): Optional<String> =
-            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+            returnReasonCode.getOptional("return_reason_code")
 
         /**
          * Returns the raw JSON value of [paymentToken].

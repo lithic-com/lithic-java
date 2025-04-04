@@ -376,7 +376,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun customerReferenceNumber(): Optional<String> =
-            Optional.ofNullable(customerReferenceNumber.getNullable("customer_reference_number"))
+            customerReferenceNumber.getOptional("customer_reference_number")
 
         /**
          * A merchant identifier.
@@ -385,7 +385,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun merchantReferenceNumber(): Optional<String> =
-            Optional.ofNullable(merchantReferenceNumber.getNullable("merchant_reference_number"))
+            merchantReferenceNumber.getOptional("merchant_reference_number")
 
         /**
          * The date of the order.
@@ -393,8 +393,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun orderDate(): Optional<LocalDate> =
-            Optional.ofNullable(orderDate.getNullable("order_date"))
+        fun orderDate(): Optional<LocalDate> = orderDate.getOptional("order_date")
 
         /**
          * Returns the raw JSON value of [lineItems].
@@ -677,7 +676,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun amount(): Optional<Double> = Optional.ofNullable(amount.getNullable("amount"))
+            fun amount(): Optional<Double> = amount.getOptional("amount")
 
             /**
              * A human-readable description of the item.
@@ -685,8 +684,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun description(): Optional<String> =
-                Optional.ofNullable(description.getNullable("description"))
+            fun description(): Optional<String> = description.getOptional("description")
 
             /**
              * An identifier for the item purchased.
@@ -694,8 +692,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun productCode(): Optional<String> =
-                Optional.ofNullable(productCode.getNullable("product_code"))
+            fun productCode(): Optional<String> = productCode.getOptional("product_code")
 
             /**
              * The quantity of the item purchased.
@@ -703,7 +700,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun quantity(): Optional<Double> = Optional.ofNullable(quantity.getNullable("quantity"))
+            fun quantity(): Optional<Double> = quantity.getOptional("quantity")
 
             /**
              * Returns the raw JSON value of [amount].
@@ -943,7 +940,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+            fun amount(): Optional<Long> = amount.getOptional("amount")
 
             /**
              * A flag indicating whether the transaction is tax exempt or not.
@@ -951,8 +948,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun exempt(): Optional<TaxExemptIndicator> =
-                Optional.ofNullable(exempt.getNullable("exempt"))
+            fun exempt(): Optional<TaxExemptIndicator> = exempt.getOptional("exempt")
 
             /**
              * The tax ID of the merchant.
@@ -960,8 +956,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun merchantTaxId(): Optional<String> =
-                Optional.ofNullable(merchantTaxId.getNullable("merchant_tax_id"))
+            fun merchantTaxId(): Optional<String> = merchantTaxId.getOptional("merchant_tax_id")
 
             /**
              * Returns the raw JSON value of [amount].
@@ -1360,8 +1355,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun driverNumber(): Optional<String> =
-            Optional.ofNullable(driverNumber.getNullable("driver_number"))
+        fun driverNumber(): Optional<String> = driverNumber.getOptional("driver_number")
 
         /**
          * The odometer reading entered into the terminal at the time of sale.
@@ -1369,7 +1363,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun odometer(): Optional<Long> = Optional.ofNullable(odometer.getNullable("odometer"))
+        fun odometer(): Optional<Long> = odometer.getOptional("odometer")
 
         /**
          * The type of fuel service.
@@ -1377,8 +1371,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun serviceType(): Optional<ServiceType> =
-            Optional.ofNullable(serviceType.getNullable("service_type"))
+        fun serviceType(): Optional<ServiceType> = serviceType.getOptional("service_type")
 
         /**
          * The vehicle number entered into the terminal at the time of sale, with leading zeros
@@ -1387,8 +1380,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun vehicleNumber(): Optional<String> =
-            Optional.ofNullable(vehicleNumber.getNullable("vehicle_number"))
+        fun vehicleNumber(): Optional<String> = vehicleNumber.getOptional("vehicle_number")
 
         /**
          * Returns the raw JSON value of [amountTotals].
@@ -1685,7 +1677,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun discount(): Optional<Long> = Optional.ofNullable(discount.getNullable("discount"))
+            fun discount(): Optional<Long> = discount.getOptional("discount")
 
             /**
              * The gross sale amount.
@@ -1693,8 +1685,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun grossSale(): Optional<Long> =
-                Optional.ofNullable(grossSale.getNullable("gross_sale"))
+            fun grossSale(): Optional<Long> = grossSale.getOptional("gross_sale")
 
             /**
              * The amount after discount.
@@ -1702,7 +1693,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun netSale(): Optional<Long> = Optional.ofNullable(netSale.getNullable("net_sale"))
+            fun netSale(): Optional<Long> = netSale.getOptional("net_sale")
 
             /**
              * Returns the raw JSON value of [discount].
@@ -1910,7 +1901,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun quantity(): Optional<Double> = Optional.ofNullable(quantity.getNullable("quantity"))
+            fun quantity(): Optional<Double> = quantity.getOptional("quantity")
 
             /**
              * The type of fuel purchased.
@@ -1918,7 +1909,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun type(): Optional<FuelType> = Optional.ofNullable(type.getNullable("type"))
+            fun type(): Optional<FuelType> = type.getOptional("type")
 
             /**
              * Unit of measure for fuel disbursement.
@@ -1927,7 +1918,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun unitOfMeasure(): Optional<FuelUnitOfMeasure> =
-                Optional.ofNullable(unitOfMeasure.getNullable("unit_of_measure"))
+                unitOfMeasure.getOptional("unit_of_measure")
 
             /**
              * The price per unit of fuel.
@@ -1935,8 +1926,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun unitPrice(): Optional<Long> =
-                Optional.ofNullable(unitPrice.getNullable("unit_price"))
+            fun unitPrice(): Optional<Long> = unitPrice.getOptional("unit_price")
 
             /**
              * Returns the raw JSON value of [quantity].

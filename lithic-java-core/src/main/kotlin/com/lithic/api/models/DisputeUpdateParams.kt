@@ -374,7 +374,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+        fun amount(): Optional<Long> = amount.getOptional("amount")
 
         /**
          * Date the customer filed the dispute
@@ -383,7 +383,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun customerFiledDate(): Optional<OffsetDateTime> =
-            Optional.ofNullable(customerFiledDate.getNullable("customer_filed_date"))
+            customerFiledDate.getOptional("customer_filed_date")
 
         /**
          * Customer description of dispute
@@ -391,8 +391,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun customerNote(): Optional<String> =
-            Optional.ofNullable(customerNote.getNullable("customer_note"))
+        fun customerNote(): Optional<String> = customerNote.getOptional("customer_note")
 
         /**
          * Reason for dispute
@@ -400,7 +399,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun reason(): Optional<Reason> = Optional.ofNullable(reason.getNullable("reason"))
+        fun reason(): Optional<Reason> = reason.getOptional("reason")
 
         /**
          * Returns the raw JSON value of [amount].

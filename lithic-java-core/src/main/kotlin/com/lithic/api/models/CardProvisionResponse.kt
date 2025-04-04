@@ -33,7 +33,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun provisioningPayload(): Optional<String> =
-        Optional.ofNullable(provisioningPayload.getNullable("provisioning_payload"))
+        provisioningPayload.getOptional("provisioning_payload")
 
     /**
      * Returns the raw JSON value of [provisioningPayload].
