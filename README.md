@@ -442,6 +442,19 @@ JsonValue complexValue = JsonValue.from(Map.of(
 ));
 ```
 
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](lithic-java-core/src/main/kotlin/com/lithic/api/core/Values.kt):
+
+```java
+import com.lithic.api.core.JsonMissing;
+import com.lithic.api.models.CardCreateParams;
+
+CardCreateParams params = CardCreateParams.builder()
+    .type(JsonMissing.of())
+    .build();
+```
+
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
