@@ -298,8 +298,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun feeDescription(): Optional<String> =
-        Optional.ofNullable(feeDescription.getNullable("fee_description"))
+    fun feeDescription(): Optional<String> = feeDescription.getOptional("fee_description")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1186,7 +1185,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun isa(): Optional<Long> = Optional.ofNullable(isa.getNullable("ISA"))
+        fun isa(): Optional<Long> = isa.getOptional("ISA")
 
         /**
          * Returns the raw JSON value of [isa].

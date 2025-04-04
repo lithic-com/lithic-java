@@ -109,7 +109,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun cardholderCurrency(): Optional<String> =
-        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
+        cardholderCurrency.getOptional("cardholder_currency")
 
     /**
      * List of 3-character alphabetic ISO 4217 codes for the currencies that the card program
@@ -119,7 +119,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun settlementCurrencies(): Optional<List<String>> =
-        Optional.ofNullable(settlementCurrencies.getNullable("settlement_currencies"))
+        settlementCurrencies.getOptional("settlement_currencies")
 
     /**
      * Returns the raw JSON value of [token].

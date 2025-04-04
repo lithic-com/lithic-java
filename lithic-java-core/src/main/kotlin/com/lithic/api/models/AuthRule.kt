@@ -95,8 +95,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountTokens(): Optional<List<String>> =
-        Optional.ofNullable(accountTokens.getNullable("account_tokens"))
+    fun accountTokens(): Optional<List<String>> = accountTokens.getOptional("account_tokens")
 
     /**
      * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list of
@@ -107,7 +106,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun allowedCountries(): Optional<List<String>> =
-        Optional.ofNullable(allowedCountries.getNullable("allowed_countries"))
+        allowedCountries.getOptional("allowed_countries")
 
     /**
      * Merchant category codes for which the Auth Rule permits transactions.
@@ -115,8 +114,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun allowedMcc(): Optional<List<String>> =
-        Optional.ofNullable(allowedMcc.getNullable("allowed_mcc"))
+    fun allowedMcc(): Optional<List<String>> = allowedMcc.getOptional("allowed_mcc")
 
     /**
      * Countries in which the Auth Rule automatically declines transactions.
@@ -125,7 +123,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun blockedCountries(): Optional<List<String>> =
-        Optional.ofNullable(blockedCountries.getNullable("blocked_countries"))
+        blockedCountries.getOptional("blocked_countries")
 
     /**
      * Merchant category codes for which the Auth Rule automatically declines transactions.
@@ -133,8 +131,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun blockedMcc(): Optional<List<String>> =
-        Optional.ofNullable(blockedMcc.getNullable("blocked_mcc"))
+    fun blockedMcc(): Optional<List<String>> = blockedMcc.getOptional("blocked_mcc")
 
     /**
      * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that only
@@ -143,8 +140,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun cardTokens(): Optional<List<String>> =
-        Optional.ofNullable(cardTokens.getNullable("card_tokens"))
+    fun cardTokens(): Optional<List<String>> = cardTokens.getOptional("card_tokens")
 
     /**
      * Boolean indicating whether the Auth Rule is applied at the program level.
@@ -152,8 +148,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun programLevel(): Optional<Boolean> =
-        Optional.ofNullable(programLevel.getNullable("program_level"))
+    fun programLevel(): Optional<Boolean> = programLevel.getOptional("program_level")
 
     /**
      * Returns the raw JSON value of [token].

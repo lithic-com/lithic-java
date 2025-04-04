@@ -946,8 +946,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun accountToken(): Optional<String> =
-            Optional.ofNullable(accountToken.getNullable("account_token"))
+        fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -960,13 +959,13 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun cardProgramToken(): Optional<String> =
-            Optional.ofNullable(cardProgramToken.getNullable("card_program_token"))
+            cardProgramToken.getOptional("card_program_token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
+        fun carrier(): Optional<Carrier> = carrier.getOptional("carrier")
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -978,7 +977,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun digitalCardArtToken(): Optional<String> =
-            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+            digitalCardArtToken.getOptional("digital_card_art_token")
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
@@ -987,7 +986,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
+        fun expMonth(): Optional<String> = expMonth.getOptional("exp_month")
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
@@ -996,7 +995,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
+        fun expYear(): Optional<String> = expYear.getOptional("exp_year")
 
         /**
          * Friendly name to identify the card.
@@ -1004,7 +1003,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+        fun memo(): Optional<String> = memo.getOptional("memo")
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
@@ -1013,7 +1012,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
+        fun pin(): Optional<String> = pin.getOptional("pin")
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
@@ -1023,7 +1022,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+        fun productId(): Optional<String> = productId.getOptional("product_id")
 
         /**
          * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -1036,7 +1035,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun replacementAccountToken(): Optional<String> =
-            Optional.ofNullable(replacementAccountToken.getNullable("replacement_account_token"))
+            replacementAccountToken.getOptional("replacement_account_token")
 
         /**
          * Globally unique identifier for the card that this card will replace. If the card type is
@@ -1046,15 +1045,14 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun replacementFor(): Optional<String> =
-            Optional.ofNullable(replacementFor.getNullable("replacement_for"))
+        fun replacementFor(): Optional<String> = replacementFor.getOptional("replacement_for")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun shippingAddress(): Optional<ShippingAddress> =
-            Optional.ofNullable(shippingAddress.getNullable("shipping_address"))
+            shippingAddress.getOptional("shipping_address")
 
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
@@ -1071,7 +1069,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun shippingMethod(): Optional<ShippingMethod> =
-            Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
+            shippingMethod.getOptional("shipping_method")
 
         /**
          * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
@@ -1083,8 +1081,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun spendLimit(): Optional<Long> =
-            Optional.ofNullable(spendLimit.getNullable("spend_limit"))
+        fun spendLimit(): Optional<Long> = spendLimit.getOptional("spend_limit")
 
         /**
          * Spend limit duration values:
@@ -1102,7 +1099,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun spendLimitDuration(): Optional<SpendLimitDuration> =
-            Optional.ofNullable(spendLimitDuration.getNullable("spend_limit_duration"))
+            spendLimitDuration.getOptional("spend_limit_duration")
 
         /**
          * Card state values:
@@ -1112,7 +1109,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+        fun state(): Optional<State> = state.getOptional("state")
 
         /**
          * Returns the raw JSON value of [type].

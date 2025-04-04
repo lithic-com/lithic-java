@@ -92,7 +92,7 @@ private constructor(
         ) : this(data, hasMore, mutableMapOf())
 
         fun data(): List<StatementLineItems.StatementLineItemResponse> =
-            data.getNullable("data") ?: listOf()
+            data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

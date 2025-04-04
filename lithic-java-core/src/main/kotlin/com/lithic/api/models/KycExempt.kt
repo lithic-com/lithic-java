@@ -130,7 +130,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun businessAccountToken(): Optional<String> =
-        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
+        businessAccountToken.getOptional("business_account_token")
 
     /**
      * A user provided id that can be used to link an account holder with an external system
@@ -138,7 +138,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
     /**
      * Returns the raw JSON value of [address].

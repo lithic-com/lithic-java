@@ -342,7 +342,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+        fun amount(): Optional<Long> = amount.getOptional("amount")
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
@@ -352,7 +352,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<Type> = type.getOptional("type")
 
         /**
          * Returns the raw JSON value of [token].

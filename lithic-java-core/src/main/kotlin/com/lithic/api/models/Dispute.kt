@@ -143,7 +143,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun arbitrationDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(arbitrationDate.getNullable("arbitration_date"))
+        arbitrationDate.getOptional("arbitration_date")
 
     /**
      * Timestamp of when first Dispute was reported.
@@ -160,7 +160,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun customerFiledDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(customerFiledDate.getNullable("customer_filed_date"))
+        customerFiledDate.getOptional("customer_filed_date")
 
     /**
      * End customer description of the reason for the dispute.
@@ -168,8 +168,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun customerNote(): Optional<String> =
-        Optional.ofNullable(customerNote.getNullable("customer_note"))
+    fun customerNote(): Optional<String> = customerNote.getOptional("customer_note")
 
     /**
      * Unique identifiers for the dispute from the network.
@@ -177,8 +176,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun networkClaimIds(): Optional<List<String>> =
-        Optional.ofNullable(networkClaimIds.getNullable("network_claim_ids"))
+    fun networkClaimIds(): Optional<List<String>> = networkClaimIds.getOptional("network_claim_ids")
 
     /**
      * Date that the dispute was submitted to the network.
@@ -187,7 +185,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun networkFiledDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(networkFiledDate.getNullable("network_filed_date"))
+        networkFiledDate.getOptional("network_filed_date")
 
     /**
      * Network reason code used to file the dispute.
@@ -195,8 +193,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun networkReasonCode(): Optional<String> =
-        Optional.ofNullable(networkReasonCode.getNullable("network_reason_code"))
+    fun networkReasonCode(): Optional<String> = networkReasonCode.getOptional("network_reason_code")
 
     /**
      * Date dispute entered pre-arbitration.
@@ -205,7 +202,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun prearbitrationDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(prearbitrationDate.getNullable("prearbitration_date"))
+        prearbitrationDate.getOptional("prearbitration_date")
 
     /**
      * Unique identifier for the dispute from the network. If there are multiple, this will be the
@@ -214,8 +211,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun primaryClaimId(): Optional<String> =
-        Optional.ofNullable(primaryClaimId.getNullable("primary_claim_id"))
+    fun primaryClaimId(): Optional<String> = primaryClaimId.getOptional("primary_claim_id")
 
     /**
      * Dispute reason:
@@ -246,7 +242,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun representmentDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(representmentDate.getNullable("representment_date"))
+        representmentDate.getOptional("representment_date")
 
     /**
      * Resolution amount net of network fees.
@@ -254,8 +250,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun resolutionAmount(): Optional<Long> =
-        Optional.ofNullable(resolutionAmount.getNullable("resolution_amount"))
+    fun resolutionAmount(): Optional<Long> = resolutionAmount.getOptional("resolution_amount")
 
     /**
      * Date that the dispute was resolved.
@@ -263,8 +258,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun resolutionDate(): Optional<OffsetDateTime> =
-        Optional.ofNullable(resolutionDate.getNullable("resolution_date"))
+    fun resolutionDate(): Optional<OffsetDateTime> = resolutionDate.getOptional("resolution_date")
 
     /**
      * Note by Dispute team on the case resolution.
@@ -272,8 +266,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun resolutionNote(): Optional<String> =
-        Optional.ofNullable(resolutionNote.getNullable("resolution_note"))
+    fun resolutionNote(): Optional<String> = resolutionNote.getOptional("resolution_note")
 
     /**
      * Reason for the dispute resolution:
@@ -299,7 +292,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun resolutionReason(): Optional<ResolutionReason> =
-        Optional.ofNullable(resolutionReason.getNullable("resolution_reason"))
+        resolutionReason.getOptional("resolution_reason")
 
     /**
      * Status types:

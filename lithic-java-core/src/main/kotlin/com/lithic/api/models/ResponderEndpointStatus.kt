@@ -35,7 +35,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun enrolled(): Optional<Boolean> = Optional.ofNullable(enrolled.getNullable("enrolled"))
+    fun enrolled(): Optional<Boolean> = enrolled.getOptional("enrolled")
 
     /**
      * The URL of the currently enrolled endpoint or null.
@@ -43,7 +43,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
+    fun url(): Optional<String> = url.getOptional("url")
 
     /**
      * Returns the raw JSON value of [enrolled].

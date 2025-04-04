@@ -262,15 +262,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun currentVersion(): Optional<RuleStats> =
-            Optional.ofNullable(currentVersion.getNullable("current_version"))
+        fun currentVersion(): Optional<RuleStats> = currentVersion.getOptional("current_version")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun draftVersion(): Optional<RuleStats> =
-            Optional.ofNullable(draftVersion.getNullable("draft_version"))
+        fun draftVersion(): Optional<RuleStats> = draftVersion.getOptional("draft_version")
 
         /**
          * Returns the raw JSON value of [currentVersion].
@@ -450,7 +448,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun approved(): Optional<Long> = Optional.ofNullable(approved.getNullable("approved"))
+            fun approved(): Optional<Long> = approved.getOptional("approved")
 
             /**
              * The total number of historical transactions declined by this rule during the backtest
@@ -460,7 +458,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun declined(): Optional<Long> = Optional.ofNullable(declined.getNullable("declined"))
+            fun declined(): Optional<Long> = declined.getOptional("declined")
 
             /**
              * Example authorization request events that would have been approved or declined.
@@ -468,8 +466,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun examples(): Optional<List<Example>> =
-                Optional.ofNullable(examples.getNullable("examples"))
+            fun examples(): Optional<List<Example>> = examples.getOptional("examples")
 
             /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
@@ -477,7 +474,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun version(): Optional<Long> = Optional.ofNullable(version.getNullable("version"))
+            fun version(): Optional<Long> = version.getOptional("version")
 
             /**
              * Returns the raw JSON value of [approved].
@@ -722,8 +719,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun approved(): Optional<Boolean> =
-                    Optional.ofNullable(approved.getNullable("approved"))
+                fun approved(): Optional<Boolean> = approved.getOptional("approved")
 
                 /**
                  * The authorization request event token.
@@ -731,8 +727,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun eventToken(): Optional<String> =
-                    Optional.ofNullable(eventToken.getNullable("event_token"))
+                fun eventToken(): Optional<String> = eventToken.getOptional("event_token")
 
                 /**
                  * The timestamp of the authorization request event.
@@ -740,8 +735,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun timestamp(): Optional<OffsetDateTime> =
-                    Optional.ofNullable(timestamp.getNullable("timestamp"))
+                fun timestamp(): Optional<OffsetDateTime> = timestamp.getOptional("timestamp")
 
                 /**
                  * Returns the raw JSON value of [approved].
@@ -995,8 +989,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun authRuleToken(): Optional<String> =
-            Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
+        fun authRuleToken(): Optional<String> = authRuleToken.getOptional("auth_rule_token")
 
         /**
          * The end time of the simulation.
@@ -1004,7 +997,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end.getNullable("end"))
+        fun end(): Optional<OffsetDateTime> = end.getOptional("end")
 
         /**
          * The start time of the simulation.
@@ -1012,7 +1005,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
+        fun start(): Optional<OffsetDateTime> = start.getOptional("start")
 
         /**
          * Returns the raw JSON value of [authRuleToken].

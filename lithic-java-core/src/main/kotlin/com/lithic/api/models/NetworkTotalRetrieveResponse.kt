@@ -163,7 +163,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun cycle(): Optional<Long> = Optional.ofNullable(cycle.getNullable("cycle"))
+    fun cycle(): Optional<Long> = cycle.getOptional("cycle")
 
     /**
      * Returns the raw JSON value of [token].
@@ -622,8 +622,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun visaCharges(): Optional<Long> =
-            Optional.ofNullable(visaCharges.getNullable("visa_charges"))
+        fun visaCharges(): Optional<Long> = visaCharges.getOptional("visa_charges")
 
         /**
          * Returns the raw JSON value of [grossSettlement].

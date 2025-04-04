@@ -284,8 +284,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun eventType(): Optional<EventType> =
-            Optional.ofNullable(eventType.getNullable("event_type"))
+        fun eventType(): Optional<EventType> = eventType.getOptional("event_type")
 
         /**
          * Returns the raw JSON value of [eventType].

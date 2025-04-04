@@ -70,7 +70,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun currency(): Optional<String> = Optional.ofNullable(currency.getNullable("currency"))
+    fun currency(): Optional<String> = currency.getOptional("currency")
 
     /**
      * The total gross amount of disputes settlements.
@@ -79,7 +79,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun disputesGrossAmount(): Optional<Long> =
-        Optional.ofNullable(disputesGrossAmount.getNullable("disputes_gross_amount"))
+        disputesGrossAmount.getOptional("disputes_gross_amount")
 
     /**
      * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
@@ -87,8 +87,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun institution(): Optional<String> =
-        Optional.ofNullable(institution.getNullable("institution"))
+    fun institution(): Optional<String> = institution.getOptional("institution")
 
     /**
      * The total amount of interchange.
@@ -97,7 +96,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun interchangeGrossAmount(): Optional<Long> =
-        Optional.ofNullable(interchangeGrossAmount.getNullable("interchange_gross_amount"))
+        interchangeGrossAmount.getOptional("interchange_gross_amount")
 
     /**
      * Card network where the transaction took place
@@ -105,7 +104,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun network(): Optional<Network> = Optional.ofNullable(network.getNullable("network"))
+    fun network(): Optional<Network> = network.getOptional("network")
 
     /**
      * Total amount of gross other fees outside of interchange.
@@ -114,7 +113,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun otherFeesGrossAmount(): Optional<Long> =
-        Optional.ofNullable(otherFeesGrossAmount.getNullable("other_fees_gross_amount"))
+        otherFeesGrossAmount.getOptional("other_fees_gross_amount")
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
@@ -122,8 +121,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun settledNetAmount(): Optional<Long> =
-        Optional.ofNullable(settledNetAmount.getNullable("settled_net_amount"))
+    fun settledNetAmount(): Optional<Long> = settledNetAmount.getOptional("settled_net_amount")
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
@@ -133,7 +131,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun transactionsGrossAmount(): Optional<Long> =
-        Optional.ofNullable(transactionsGrossAmount.getNullable("transactions_gross_amount"))
+        transactionsGrossAmount.getOptional("transactions_gross_amount")
 
     /**
      * Returns the raw JSON value of [currency].

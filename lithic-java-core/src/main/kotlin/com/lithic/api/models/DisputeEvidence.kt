@@ -103,8 +103,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun downloadUrl(): Optional<String> =
-        Optional.ofNullable(downloadUrl.getNullable("download_url"))
+    fun downloadUrl(): Optional<String> = downloadUrl.getOptional("download_url")
 
     /**
      * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
@@ -112,7 +111,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
+    fun filename(): Optional<String> = filename.getOptional("filename")
 
     /**
      * URL to upload evidence. Only shown when `upload_status` is `PENDING`.
@@ -120,7 +119,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
+    fun uploadUrl(): Optional<String> = uploadUrl.getOptional("upload_url")
 
     /**
      * Returns the raw JSON value of [token].

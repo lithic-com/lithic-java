@@ -171,8 +171,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun userDefinedId(): Optional<String> =
-        Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+    fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1014,7 +1013,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun subtype(): Optional<String> = Optional.ofNullable(subtype.getNullable("subtype"))
+        fun subtype(): Optional<String> = subtype.getOptional("subtype")
 
         /**
          * Returns the raw JSON value of [token].

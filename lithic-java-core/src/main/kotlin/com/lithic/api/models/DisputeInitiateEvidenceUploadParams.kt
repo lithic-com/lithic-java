@@ -280,7 +280,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
+        fun filename(): Optional<String> = filename.getOptional("filename")
 
         /**
          * Returns the raw JSON value of [filename].

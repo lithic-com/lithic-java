@@ -112,15 +112,13 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun currentVersion(): Optional<CurrentVersion> =
-        Optional.ofNullable(currentVersion.getNullable("current_version"))
+    fun currentVersion(): Optional<CurrentVersion> = currentVersion.getOptional("current_version")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun draftVersion(): Optional<DraftVersion> =
-        Optional.ofNullable(draftVersion.getNullable("draft_version"))
+    fun draftVersion(): Optional<DraftVersion> = draftVersion.getOptional("draft_version")
 
     /**
      * Auth Rule Name
@@ -128,7 +126,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+    fun name(): Optional<String> = name.getOptional("name")
 
     /**
      * Whether the Auth Rule applies to all authorizations on the card program.
@@ -161,7 +159,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun excludedCardTokens(): Optional<List<String>> =
-        Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
+        excludedCardTokens.getOptional("excluded_card_tokens")
 
     /**
      * Returns the raw JSON value of [token].

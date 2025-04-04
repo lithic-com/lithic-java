@@ -18,6 +18,7 @@ import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
+import kotlin.jvm.optionals.getOrNull
 
 /** List the line items for a given statement within a given financial account. */
 class FinancialAccountStatementLineItemListPageAsync
@@ -94,7 +95,7 @@ private constructor(
         ) : this(data, hasMore, mutableMapOf())
 
         fun data(): List<StatementLineItems.StatementLineItemResponse> =
-            data.getNullable("data") ?: listOf()
+            data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

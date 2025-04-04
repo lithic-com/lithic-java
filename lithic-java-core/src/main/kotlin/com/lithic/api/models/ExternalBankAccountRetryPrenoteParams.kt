@@ -283,7 +283,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun financialAccountToken(): Optional<String> =
-            Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
+            financialAccountToken.getOptional("financial_account_token")
 
         /**
          * Returns the raw JSON value of [financialAccountToken].

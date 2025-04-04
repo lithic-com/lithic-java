@@ -32,7 +32,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun qrCodeUrl(): Optional<String> = Optional.ofNullable(qrCodeUrl.getNullable("qr_code_url"))
+    fun qrCodeUrl(): Optional<String> = qrCodeUrl.getOptional("qr_code_url")
 
     /**
      * Returns the raw JSON value of [qrCodeUrl].

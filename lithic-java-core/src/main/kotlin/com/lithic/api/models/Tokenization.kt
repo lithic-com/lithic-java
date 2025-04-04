@@ -127,7 +127,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun dpan(): Optional<String> = Optional.ofNullable(dpan.getNullable("dpan"))
+    fun dpan(): Optional<String> = dpan.getOptional("dpan")
 
     /**
      * The status of the tokenization request
@@ -180,7 +180,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun digitalCardArtToken(): Optional<String> =
-        Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+        digitalCardArtToken.getOptional("digital_card_art_token")
 
     /**
      * A list of events related to the tokenization.
@@ -188,8 +188,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun events(): Optional<List<TokenizationEvent>> =
-        Optional.ofNullable(events.getNullable("events"))
+    fun events(): Optional<List<TokenizationEvent>> = events.getOptional("events")
 
     /**
      * The network's unique reference for the card that is tokenized.
@@ -198,7 +197,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun paymentAccountReferenceId(): Optional<String> =
-        Optional.ofNullable(paymentAccountReferenceId.getNullable("payment_account_reference_id"))
+        paymentAccountReferenceId.getOptional("payment_account_reference_id")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1191,7 +1190,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+        fun token(): Optional<String> = token.getOptional("token")
 
         /**
          * Date and time when the tokenization event first occurred. UTC time zone.
@@ -1199,8 +1198,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun createdAt(): Optional<OffsetDateTime> =
-            Optional.ofNullable(createdAt.getNullable("created_at"))
+        fun createdAt(): Optional<OffsetDateTime> = createdAt.getOptional("created_at")
 
         /**
          * Enum representing the result of the tokenization event
@@ -1208,7 +1206,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+        fun result(): Optional<Result> = result.getOptional("result")
 
         /**
          * Enum representing the type of tokenization event that occurred
@@ -1216,7 +1214,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<Type> = type.getOptional("type")
 
         /**
          * Returns the raw JSON value of [token].

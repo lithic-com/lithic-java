@@ -96,8 +96,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountToken(): Optional<String> =
-        Optional.ofNullable(accountToken.getNullable("account_token"))
+    fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -110,7 +109,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun creditConfiguration(): Optional<FinancialAccountCreditConfig> =
-        Optional.ofNullable(creditConfiguration.getNullable("credit_configuration"))
+        creditConfiguration.getOptional("credit_configuration")
 
     /**
      * Whether financial account is for the benefit of another entity
@@ -124,7 +123,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+    fun nickname(): Optional<String> = nickname.getOptional("nickname")
 
     /**
      * Status of the financial account
@@ -150,15 +149,13 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountNumber(): Optional<String> =
-        Optional.ofNullable(accountNumber.getNullable("account_number"))
+    fun accountNumber(): Optional<String> = accountNumber.getOptional("account_number")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun routingNumber(): Optional<String> =
-        Optional.ofNullable(routingNumber.getNullable("routing_number"))
+    fun routingNumber(): Optional<String> = routingNumber.getOptional("routing_number")
 
     /**
      * Reason for the financial account status change
@@ -167,7 +164,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun statusChangeReason(): Optional<FinancialAccountStatusChangeReason> =
-        Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
+        statusChangeReason.getOptional("status_change_reason")
 
     /**
      * Returns the raw JSON value of [token].
@@ -672,14 +669,13 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun chargedOffReason(): Optional<ChargedOffReason> =
-            Optional.ofNullable(chargedOffReason.getNullable("charged_off_reason"))
+            chargedOffReason.getOptional("charged_off_reason")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun creditLimit(): Optional<Long> =
-            Optional.ofNullable(creditLimit.getNullable("credit_limit"))
+        fun creditLimit(): Optional<Long> = creditLimit.getOptional("credit_limit")
 
         /**
          * Globally unique identifier for the credit product
@@ -688,14 +684,14 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun creditProductToken(): Optional<String> =
-            Optional.ofNullable(creditProductToken.getNullable("credit_product_token"))
+            creditProductToken.getOptional("credit_product_token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun externalBankAccountToken(): Optional<String> =
-            Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+            externalBankAccountToken.getOptional("external_bank_account_token")
 
         /**
          * State of the financial account
@@ -704,7 +700,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun financialAccountState(): Optional<FinancialAccountState> =
-            Optional.ofNullable(financialAccountState.getNullable("financial_account_state"))
+            financialAccountState.getOptional("financial_account_state")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -718,7 +714,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
+        fun tier(): Optional<String> = tier.getOptional("tier")
 
         /**
          * Returns the raw JSON value of [chargedOffReason].

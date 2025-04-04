@@ -77,7 +77,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
@@ -89,7 +89,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun kycPassedTimestamp(): Optional<String> =
-        Optional.ofNullable(kycPassedTimestamp.getNullable("kyc_passed_timestamp"))
+        kycPassedTimestamp.getOptional("kyc_passed_timestamp")
 
     /**
      * Returns the raw JSON value of [individual].

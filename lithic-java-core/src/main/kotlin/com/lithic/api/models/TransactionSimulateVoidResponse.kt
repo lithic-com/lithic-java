@@ -35,7 +35,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun debuggingRequestId(): Optional<String> =
-        Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
+        debuggingRequestId.getOptional("debugging_request_id")
 
     /**
      * Returns the raw JSON value of [debuggingRequestId].

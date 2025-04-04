@@ -459,7 +459,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun accountTokens(): Optional<List<String>> =
-                Optional.ofNullable(accountTokens.getNullable("account_tokens"))
+                accountTokens.getOptional("account_tokens")
 
             /**
              * Auth Rule Name
@@ -467,7 +467,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+            fun name(): Optional<String> = name.getOptional("name")
 
             /**
              * The desired state of the Auth Rule.
@@ -479,7 +479,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+            fun state(): Optional<State> = state.getOptional("state")
 
             /**
              * Returns the raw JSON value of [accountTokens].
@@ -841,8 +841,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun cardTokens(): Optional<List<String>> =
-                Optional.ofNullable(cardTokens.getNullable("card_tokens"))
+            fun cardTokens(): Optional<List<String>> = cardTokens.getOptional("card_tokens")
 
             /**
              * Auth Rule Name
@@ -850,7 +849,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+            fun name(): Optional<String> = name.getOptional("name")
 
             /**
              * The desired state of the Auth Rule.
@@ -862,7 +861,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+            fun state(): Optional<State> = state.getOptional("state")
 
             /**
              * Returns the raw JSON value of [cardTokens].
@@ -1228,7 +1227,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun excludedCardTokens(): Optional<List<String>> =
-                Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
+                excludedCardTokens.getOptional("excluded_card_tokens")
 
             /**
              * Auth Rule Name
@@ -1236,7 +1235,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+            fun name(): Optional<String> = name.getOptional("name")
 
             /**
              * Whether the Auth Rule applies to all authorizations on the card program.
@@ -1244,8 +1243,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun programLevel(): Optional<Boolean> =
-                Optional.ofNullable(programLevel.getNullable("program_level"))
+            fun programLevel(): Optional<Boolean> = programLevel.getOptional("program_level")
 
             /**
              * The desired state of the Auth Rule.
@@ -1257,7 +1255,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+            fun state(): Optional<State> = state.getOptional("state")
 
             /**
              * Returns the raw JSON value of [excludedCardTokens].

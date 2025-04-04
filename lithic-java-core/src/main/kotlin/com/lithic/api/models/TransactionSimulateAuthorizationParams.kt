@@ -655,7 +655,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun mcc(): Optional<String> = Optional.ofNullable(mcc.getNullable("mcc"))
+        fun mcc(): Optional<String> = mcc.getOptional("mcc")
 
         /**
          * Unique identifier to identify the payment card acceptor.
@@ -664,7 +664,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun merchantAcceptorId(): Optional<String> =
-            Optional.ofNullable(merchantAcceptorId.getNullable("merchant_acceptor_id"))
+            merchantAcceptorId.getOptional("merchant_acceptor_id")
 
         /**
          * Amount of the transaction to be simulated in currency specified in merchant_currency,
@@ -673,8 +673,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun merchantAmount(): Optional<Long> =
-            Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
+        fun merchantAmount(): Optional<Long> = merchantAmount.getOptional("merchant_amount")
 
         /**
          * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
@@ -683,8 +682,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun merchantCurrency(): Optional<String> =
-            Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
+        fun merchantCurrency(): Optional<String> = merchantCurrency.getOptional("merchant_currency")
 
         /**
          * Set to true if the terminal is capable of partial approval otherwise false. Partial
@@ -695,7 +693,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun partialApprovalCapable(): Optional<Boolean> =
-            Optional.ofNullable(partialApprovalCapable.getNullable("partial_approval_capable"))
+            partialApprovalCapable.getOptional("partial_approval_capable")
 
         /**
          * Simulate entering a PIN. If omitted, PIN check will not be performed.
@@ -703,7 +701,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
+        fun pin(): Optional<String> = pin.getOptional("pin")
 
         /**
          * Type of event to simulate.
@@ -722,7 +720,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+        fun status(): Optional<Status> = status.getOptional("status")
 
         /**
          * Returns the raw JSON value of [amount].

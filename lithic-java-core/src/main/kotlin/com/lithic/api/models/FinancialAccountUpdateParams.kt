@@ -269,7 +269,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+        fun nickname(): Optional<String> = nickname.getOptional("nickname")
 
         /**
          * Returns the raw JSON value of [nickname].

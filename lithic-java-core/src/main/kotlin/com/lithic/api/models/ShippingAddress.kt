@@ -130,7 +130,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+    fun address2(): Optional<String> = address2.getOptional("address2")
 
     /**
      * Email address to be contacted for expedited shipping process purposes. Required if
@@ -139,7 +139,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+    fun email(): Optional<String> = email.getOptional("email")
 
     /**
      * Text to be printed on line two of the physical card. Use of this field requires additional
@@ -148,7 +148,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun line2Text(): Optional<String> = Optional.ofNullable(line2Text.getNullable("line2_text"))
+    fun line2Text(): Optional<String> = line2Text.getOptional("line2_text")
 
     /**
      * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
@@ -157,8 +157,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun phoneNumber(): Optional<String> =
-        Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+    fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
     /**
      * Returns the raw JSON value of [address1].

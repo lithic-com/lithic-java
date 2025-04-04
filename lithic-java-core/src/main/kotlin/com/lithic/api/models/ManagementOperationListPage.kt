@@ -91,7 +91,8 @@ private constructor(
             @JsonProperty("has_more") hasMore: JsonField<Boolean> = JsonMissing.of(),
         ) : this(data, hasMore, mutableMapOf())
 
-        fun data(): List<ManagementOperationTransaction> = data.getNullable("data") ?: listOf()
+        fun data(): List<ManagementOperationTransaction> =
+            data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

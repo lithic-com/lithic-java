@@ -889,7 +889,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun excludedCardTokens(): Optional<List<String>> =
-                Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
+                excludedCardTokens.getOptional("excluded_card_tokens")
 
             /**
              * Returns the raw JSON value of [programLevel].
