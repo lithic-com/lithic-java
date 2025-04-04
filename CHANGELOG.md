@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.83.0 (2025-04-04)
+
+Full Changelog: [v0.82.2...v0.83.0](https://github.com/lithic-com/lithic-java/compare/v0.82.2...v0.83.0)
+
+### Features
+
+* **client:** add enum validation method ([8669139](https://github.com/lithic-com/lithic-java/commit/8669139b95b9b4578911693006cabfdd6d75f942))
+* **client:** expose request body setter and getter ([#579](https://github.com/lithic-com/lithic-java/issues/579)) ([beb9c74](https://github.com/lithic-com/lithic-java/commit/beb9c74ab7b62d2f3bb196a66c01fd044178bcf4))
+* **client:** make union deserialization more robust ([#576](https://github.com/lithic-com/lithic-java/issues/576)) ([8669139](https://github.com/lithic-com/lithic-java/commit/8669139b95b9b4578911693006cabfdd6d75f942))
+
+
+### Bug Fixes
+
+* **client:** return `Optional&lt;T&gt;` instead of `Optional<? extends T>` ([#582](https://github.com/lithic-com/lithic-java/issues/582)) ([b750ff3](https://github.com/lithic-com/lithic-java/commit/b750ff39b4612e302d1827965005d6b7b3b11030))
+
+
+### Performance Improvements
+
+* **client:** cached parsed type in `HttpResponseFor` ([#580](https://github.com/lithic-com/lithic-java/issues/580)) ([bad2b44](https://github.com/lithic-com/lithic-java/commit/bad2b442647e739b77f433797db7c8e4032f630c))
+
+
+### Chores
+
+* **client:** remove unnecessary json state from some query param classes ([8669139](https://github.com/lithic-com/lithic-java/commit/8669139b95b9b4578911693006cabfdd6d75f942))
+* **internal:** add invalid json deserialization tests ([8669139](https://github.com/lithic-com/lithic-java/commit/8669139b95b9b4578911693006cabfdd6d75f942))
+* **internal:** add json roundtripping tests ([8669139](https://github.com/lithic-com/lithic-java/commit/8669139b95b9b4578911693006cabfdd6d75f942))
+* **internal:** codegen related update ([#578](https://github.com/lithic-com/lithic-java/issues/578)) ([55b33e8](https://github.com/lithic-com/lithic-java/commit/55b33e863f4506ee7ff79b39def81600f2b0276e))
+* **internal:** swap from `getNullable` to `getOptional` ([#581](https://github.com/lithic-com/lithic-java/issues/581)) ([9e37edb](https://github.com/lithic-com/lithic-java/commit/9e37edb58680b105585a9a71f06a61fc2eb6705c))
+
+
+### Documentation
+
+* add comments to `JsonField` classes ([b750ff3](https://github.com/lithic-com/lithic-java/commit/b750ff39b4612e302d1827965005d6b7b3b11030))
+
 ## 0.82.2 (2025-03-31)
 
 Full Changelog: [v0.82.1...v0.82.2](https://github.com/lithic-com/lithic-java/compare/v0.82.1...v0.82.2)
