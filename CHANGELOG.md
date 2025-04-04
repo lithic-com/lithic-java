@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.83.1 (2025-04-04)
+
+Full Changelog: [v0.83.0...v0.83.1](https://github.com/lithic-com/lithic-java/compare/v0.83.0...v0.83.1)
+
+### Documentation
+
+* document how to forcibly omit required field ([9d70cb6](https://github.com/lithic-com/lithic-java/commit/9d70cb6544fbac2145bbec78da38918b1de672fb))
+* swap examples used in readme ([#585](https://github.com/lithic-com/lithic-java/issues/585)) ([9d70cb6](https://github.com/lithic-com/lithic-java/commit/9d70cb6544fbac2145bbec78da38918b1de672fb))
+
 ## 0.83.0 (2025-04-04)
 
 Full Changelog: [v0.82.2...v0.83.0](https://github.com/lithic-com/lithic-java/compare/v0.82.2...v0.83.0)
