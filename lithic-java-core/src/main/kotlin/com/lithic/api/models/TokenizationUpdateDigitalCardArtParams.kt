@@ -305,7 +305,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun digitalCardArtToken(): Optional<String> =
-            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+            digitalCardArtToken.getOptional("digital_card_art_token")
 
         /**
          * Returns the raw JSON value of [digitalCardArtToken].

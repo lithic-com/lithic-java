@@ -89,7 +89,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+    fun address2(): Optional<String> = address2.getOptional("address2")
 
     /**
      * Returns the raw JSON value of [address1].

@@ -461,8 +461,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun dailySpendLimit(): Optional<Long> =
-            Optional.ofNullable(dailySpendLimit.getNullable("daily_spend_limit"))
+        fun dailySpendLimit(): Optional<Long> = dailySpendLimit.getOptional("daily_spend_limit")
 
         /**
          * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
@@ -476,7 +475,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun lifetimeSpendLimit(): Optional<Long> =
-            Optional.ofNullable(lifetimeSpendLimit.getNullable("lifetime_spend_limit"))
+            lifetimeSpendLimit.getOptional("lifetime_spend_limit")
 
         /**
          * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
@@ -486,7 +485,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun monthlySpendLimit(): Optional<Long> =
-            Optional.ofNullable(monthlySpendLimit.getNullable("monthly_spend_limit"))
+            monthlySpendLimit.getOptional("monthly_spend_limit")
 
         /**
          * Account states.
@@ -494,7 +493,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+        fun state(): Optional<State> = state.getOptional("state")
 
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
@@ -506,7 +505,7 @@ private constructor(
          */
         @Deprecated("deprecated")
         fun verificationAddress(): Optional<VerificationAddress> =
-            Optional.ofNullable(verificationAddress.getNullable("verification_address"))
+            verificationAddress.getOptional("verification_address")
 
         /**
          * Returns the raw JSON value of [dailySpendLimit].
@@ -940,38 +939,37 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun address1(): Optional<String> = Optional.ofNullable(address1.getNullable("address1"))
+        fun address1(): Optional<String> = address1.getOptional("address1")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+        fun address2(): Optional<String> = address2.getOptional("address2")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun city(): Optional<String> = Optional.ofNullable(city.getNullable("city"))
+        fun city(): Optional<String> = city.getOptional("city")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun country(): Optional<String> = Optional.ofNullable(country.getNullable("country"))
+        fun country(): Optional<String> = country.getOptional("country")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun postalCode(): Optional<String> =
-            Optional.ofNullable(postalCode.getNullable("postal_code"))
+        fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun state(): Optional<String> = Optional.ofNullable(state.getNullable("state"))
+        fun state(): Optional<String> = state.getOptional("state")
 
         /**
          * Returns the raw JSON value of [address1].

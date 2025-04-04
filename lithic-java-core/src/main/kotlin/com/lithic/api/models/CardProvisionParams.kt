@@ -487,8 +487,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun certificate(): Optional<String> =
-            Optional.ofNullable(certificate.getNullable("certificate"))
+        fun certificate(): Optional<String> = certificate.getOptional("certificate")
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
@@ -497,8 +496,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun clientDeviceId(): Optional<String> =
-            Optional.ofNullable(clientDeviceId.getNullable("client_device_id"))
+        fun clientDeviceId(): Optional<String> = clientDeviceId.getOptional("client_device_id")
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
@@ -508,7 +506,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun clientWalletAccountId(): Optional<String> =
-            Optional.ofNullable(clientWalletAccountId.getNullable("client_wallet_account_id"))
+            clientWalletAccountId.getOptional("client_wallet_account_id")
 
         /**
          * Name of digital wallet provider.
@@ -516,8 +514,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun digitalWallet(): Optional<DigitalWallet> =
-            Optional.ofNullable(digitalWallet.getNullable("digital_wallet"))
+        fun digitalWallet(): Optional<DigitalWallet> = digitalWallet.getOptional("digital_wallet")
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
@@ -526,7 +523,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun nonce(): Optional<String> = Optional.ofNullable(nonce.getNullable("nonce"))
+        fun nonce(): Optional<String> = nonce.getOptional("nonce")
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
@@ -535,8 +532,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun nonceSignature(): Optional<String> =
-            Optional.ofNullable(nonceSignature.getNullable("nonce_signature"))
+        fun nonceSignature(): Optional<String> = nonceSignature.getOptional("nonce_signature")
 
         /**
          * Returns the raw JSON value of [certificate].

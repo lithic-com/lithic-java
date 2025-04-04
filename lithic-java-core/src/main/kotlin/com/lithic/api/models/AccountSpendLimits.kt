@@ -49,15 +49,13 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun spendLimit(): Optional<SpendLimit> =
-        Optional.ofNullable(spendLimit.getNullable("spend_limit"))
+    fun spendLimit(): Optional<SpendLimit> = spendLimit.getOptional("spend_limit")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun spendVelocity(): Optional<SpendVelocity> =
-        Optional.ofNullable(spendVelocity.getNullable("spend_velocity"))
+    fun spendVelocity(): Optional<SpendVelocity> = spendVelocity.getOptional("spend_velocity")
 
     /**
      * Returns the raw JSON value of [availableSpendLimit].
@@ -260,7 +258,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
+        fun daily(): Optional<Long> = daily.getOptional("daily")
 
         /**
          * The available spend limit (in cents) relative to the lifetime limit configured on the
@@ -269,7 +267,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
+        fun lifetime(): Optional<Long> = lifetime.getOptional("lifetime")
 
         /**
          * The available spend limit (in cents) relative to the monthly limit configured on the
@@ -278,7 +276,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
+        fun monthly(): Optional<Long> = monthly.getOptional("monthly")
 
         /**
          * Returns the raw JSON value of [daily].
@@ -480,7 +478,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
+        fun daily(): Optional<Long> = daily.getOptional("daily")
 
         /**
          * The configured lifetime spend limit (in cents) on the Account.
@@ -488,7 +486,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
+        fun lifetime(): Optional<Long> = lifetime.getOptional("lifetime")
 
         /**
          * The configured monthly spend limit (in cents) on the Account.
@@ -496,7 +494,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
+        fun monthly(): Optional<Long> = monthly.getOptional("monthly")
 
         /**
          * Returns the raw JSON value of [daily].
@@ -690,7 +688,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
+        fun daily(): Optional<Long> = daily.getOptional("daily")
 
         /**
          * Current lifetime spend velocity (in cents) on the Account. Present if lifetime spend
@@ -699,7 +697,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun lifetime(): Optional<Long> = Optional.ofNullable(lifetime.getNullable("lifetime"))
+        fun lifetime(): Optional<Long> = lifetime.getOptional("lifetime")
 
         /**
          * Current monthly spend velocity (in cents) on the Account. Present if monthly spend limit
@@ -708,7 +706,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
+        fun monthly(): Optional<Long> = monthly.getOptional("monthly")
 
         /**
          * Returns the raw JSON value of [daily].

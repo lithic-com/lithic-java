@@ -419,7 +419,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
+        fun carrier(): Optional<Carrier> = carrier.getOptional("carrier")
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
@@ -429,7 +429,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+        fun productId(): Optional<String> = productId.getOptional("product_id")
 
         /**
          * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -446,7 +446,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun shippingMethod(): Optional<ShippingMethod> =
-            Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
+            shippingMethod.getOptional("shipping_method")
 
         /**
          * Returns the raw JSON value of [shippingAddress].

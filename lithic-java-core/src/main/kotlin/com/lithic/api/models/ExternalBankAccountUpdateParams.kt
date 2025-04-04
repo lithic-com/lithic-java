@@ -547,8 +547,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun address(): Optional<ExternalBankAccountAddress> =
-            Optional.ofNullable(address.getNullable("address"))
+        fun address(): Optional<ExternalBankAccountAddress> = address.getOptional("address")
 
         /**
          * Optional field that helps identify bank accounts in receipts
@@ -556,7 +555,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
+        fun companyId(): Optional<String> = companyId.getOptional("company_id")
 
         /**
          * Date of Birth of the Individual that owns the external bank account
@@ -564,7 +563,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun dob(): Optional<LocalDate> = Optional.ofNullable(dob.getNullable("dob"))
+        fun dob(): Optional<LocalDate> = dob.getOptional("dob")
 
         /**
          * Doing Business As
@@ -572,8 +571,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun doingBusinessAs(): Optional<String> =
-            Optional.ofNullable(doingBusinessAs.getNullable("doing_business_as"))
+        fun doingBusinessAs(): Optional<String> = doingBusinessAs.getOptional("doing_business_as")
 
         /**
          * The nickname for this External Bank Account
@@ -581,7 +579,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+        fun name(): Optional<String> = name.getOptional("name")
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
@@ -590,7 +588,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun owner(): Optional<String> = Optional.ofNullable(owner.getNullable("owner"))
+        fun owner(): Optional<String> = owner.getOptional("owner")
 
         /**
          * Owner Type
@@ -598,14 +596,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun ownerType(): Optional<OwnerType> =
-            Optional.ofNullable(ownerType.getNullable("owner_type"))
+        fun ownerType(): Optional<OwnerType> = ownerType.getOptional("owner_type")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<AccountTypeExternal> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<AccountTypeExternal> = type.getOptional("type")
 
         /**
          * User Defined ID
@@ -613,8 +610,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun userDefinedId(): Optional<String> =
-            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+        fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
         /**
          * Returns the raw JSON value of [address].

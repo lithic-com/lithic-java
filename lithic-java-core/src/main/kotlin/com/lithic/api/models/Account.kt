@@ -84,7 +84,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): Optional<OffsetDateTime> = created.getOptional("created")
 
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
@@ -116,8 +116,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountHolder(): Optional<AccountHolder> =
-        Optional.ofNullable(accountHolder.getNullable("account_holder"))
+    fun accountHolder(): Optional<AccountHolder> = accountHolder.getOptional("account_holder")
 
     /**
      * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
@@ -129,8 +128,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
-    fun authRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
+    fun authRuleTokens(): Optional<List<String>> = authRuleTokens.getOptional("auth_rule_tokens")
 
     /**
      * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
@@ -139,7 +137,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun cardholderCurrency(): Optional<String> =
-        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
+        cardholderCurrency.getOptional("cardholder_currency")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -147,7 +145,7 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun verificationAddress(): Optional<VerificationAddress> =
-        Optional.ofNullable(verificationAddress.getNullable("verification_address"))
+        verificationAddress.getOptional("verification_address")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1254,7 +1252,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+        fun address2(): Optional<String> = address2.getOptional("address2")
 
         /**
          * Returns the raw JSON value of [address1].

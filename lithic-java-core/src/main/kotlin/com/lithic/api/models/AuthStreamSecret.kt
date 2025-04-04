@@ -32,7 +32,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
+    fun secret(): Optional<String> = secret.getOptional("secret")
 
     /**
      * Returns the raw JSON value of [secret].

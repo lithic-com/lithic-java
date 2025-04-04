@@ -18,6 +18,7 @@ import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve information on your financial accounts including routing and account number. */
 class FinancialAccountListPageAsync
@@ -84,7 +85,7 @@ private constructor(
             @JsonProperty("has_more") hasMore: JsonField<Boolean> = JsonMissing.of(),
         ) : this(data, hasMore, mutableMapOf())
 
-        fun data(): List<FinancialAccount> = data.getNullable("data") ?: listOf()
+        fun data(): List<FinancialAccount> = data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

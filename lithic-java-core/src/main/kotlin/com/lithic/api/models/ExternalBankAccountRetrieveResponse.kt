@@ -237,8 +237,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountToken(): Optional<String> =
-        Optional.ofNullable(accountToken.getNullable("account_token"))
+    fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
     /**
      * Address
@@ -246,8 +245,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun address(): Optional<ExternalBankAccountAddress> =
-        Optional.ofNullable(address.getNullable("address"))
+    fun address(): Optional<ExternalBankAccountAddress> = address.getOptional("address")
 
     /**
      * Optional field that helps identify bank accounts in receipts
@@ -255,7 +253,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
+    fun companyId(): Optional<String> = companyId.getOptional("company_id")
 
     /**
      * Date of Birth of the Individual that owns the external bank account
@@ -263,7 +261,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun dob(): Optional<LocalDate> = Optional.ofNullable(dob.getNullable("dob"))
+    fun dob(): Optional<LocalDate> = dob.getOptional("dob")
 
     /**
      * Doing Business As
@@ -271,8 +269,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun doingBusinessAs(): Optional<String> =
-        Optional.ofNullable(doingBusinessAs.getNullable("doing_business_as"))
+    fun doingBusinessAs(): Optional<String> = doingBusinessAs.getOptional("doing_business_as")
 
     /**
      * The financial account token of the operating account to fund the micro deposits
@@ -281,7 +278,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun financialAccountToken(): Optional<String> =
-        Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
+        financialAccountToken.getOptional("financial_account_token")
 
     /**
      * The nickname for this External Bank Account
@@ -289,7 +286,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+    fun name(): Optional<String> = name.getOptional("name")
 
     /**
      * User Defined ID
@@ -297,8 +294,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun userDefinedId(): Optional<String> =
-        Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+    fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
     /**
      * Optional free text description of the reason for the failed verification. For ACH
@@ -309,7 +305,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun verificationFailedReason(): Optional<String> =
-        Optional.ofNullable(verificationFailedReason.getNullable("verification_failed_reason"))
+        verificationFailedReason.getOptional("verification_failed_reason")
 
     /**
      * Returns the raw JSON value of [token].

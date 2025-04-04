@@ -309,8 +309,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun parameters(): Optional<Parameters> =
-            Optional.ofNullable(parameters.getNullable("parameters"))
+        fun parameters(): Optional<Parameters> = parameters.getOptional("parameters")
 
         /**
          * Returns the raw JSON value of [parameters].

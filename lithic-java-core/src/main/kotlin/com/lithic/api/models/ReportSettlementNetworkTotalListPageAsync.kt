@@ -18,6 +18,7 @@ import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
+import kotlin.jvm.optionals.getOrNull
 
 /** List network total records with optional filters. Not available in sandbox. */
 class ReportSettlementNetworkTotalListPageAsync
@@ -93,7 +94,8 @@ private constructor(
             @JsonProperty("has_more") hasMore: JsonField<Boolean> = JsonMissing.of(),
         ) : this(data, hasMore, mutableMapOf())
 
-        fun data(): List<NetworkTotalListResponse> = data.getNullable("data") ?: listOf()
+        fun data(): List<NetworkTotalListResponse> =
+            data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

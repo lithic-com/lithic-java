@@ -44,7 +44,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun address1(): Optional<String> = Optional.ofNullable(address1.getNullable("address1"))
+    fun address1(): Optional<String> = address1.getOptional("address1")
 
     /**
      * Unit or apartment number (if applicable).
@@ -52,7 +52,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+    fun address2(): Optional<String> = address2.getOptional("address2")
 
     /**
      * Name of city.
@@ -60,7 +60,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun city(): Optional<String> = Optional.ofNullable(city.getNullable("city"))
+    fun city(): Optional<String> = city.getOptional("city")
 
     /**
      * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1 alpha-3
@@ -69,7 +69,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun country(): Optional<String> = Optional.ofNullable(country.getNullable("country"))
+    fun country(): Optional<String> = country.getOptional("country")
 
     /**
      * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit ZIP or
@@ -78,7 +78,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun postalCode(): Optional<String> = Optional.ofNullable(postalCode.getNullable("postal_code"))
+    fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
 
     /**
      * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
@@ -87,7 +87,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun state(): Optional<String> = Optional.ofNullable(state.getNullable("state"))
+    fun state(): Optional<String> = state.getOptional("state")
 
     /**
      * Returns the raw JSON value of [address1].

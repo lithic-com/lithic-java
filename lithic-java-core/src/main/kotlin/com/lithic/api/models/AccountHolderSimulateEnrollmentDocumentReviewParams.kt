@@ -421,9 +421,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun acceptedEntityStatusReasons(): Optional<List<String>> =
-            Optional.ofNullable(
-                acceptedEntityStatusReasons.getNullable("accepted_entity_status_reasons")
-            )
+            acceptedEntityStatusReasons.getOptional("accepted_entity_status_reasons")
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
@@ -433,7 +431,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun statusReason(): Optional<DocumentUploadStatusReasons> =
-            Optional.ofNullable(statusReason.getNullable("status_reason"))
+            statusReason.getOptional("status_reason")
 
         /**
          * Returns the raw JSON value of [documentUploadToken].

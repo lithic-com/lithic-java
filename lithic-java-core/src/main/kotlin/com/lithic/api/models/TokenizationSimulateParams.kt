@@ -555,8 +555,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun accountScore(): Optional<Long> =
-            Optional.ofNullable(accountScore.getNullable("account_score"))
+        fun accountScore(): Optional<Long> = accountScore.getOptional("account_score")
 
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
@@ -565,8 +564,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun deviceScore(): Optional<Long> =
-            Optional.ofNullable(deviceScore.getNullable("device_score"))
+        fun deviceScore(): Optional<Long> = deviceScore.getOptional("device_score")
 
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
@@ -575,7 +573,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun entity(): Optional<String> = Optional.ofNullable(entity.getNullable("entity"))
+        fun entity(): Optional<String> = entity.getOptional("entity")
 
         /**
          * The decision that the Digital Wallet's recommend
@@ -584,9 +582,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
-            Optional.ofNullable(
-                walletRecommendedDecision.getNullable("wallet_recommended_decision")
-            )
+            walletRecommendedDecision.getOptional("wallet_recommended_decision")
 
         /**
          * Returns the raw JSON value of [cvv].

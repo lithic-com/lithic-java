@@ -34,8 +34,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun backtestToken(): Optional<String> =
-        Optional.ofNullable(backtestToken.getNullable("backtest_token"))
+    fun backtestToken(): Optional<String> = backtestToken.getOptional("backtest_token")
 
     /**
      * Returns the raw JSON value of [backtestToken].

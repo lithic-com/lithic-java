@@ -362,7 +362,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
-            Optional.ofNullable(declineReason.getNullable("decline_reason"))
+            declineReason.getOptional("decline_reason")
 
         /**
          * Return Reason Code
@@ -371,7 +371,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun returnReasonCode(): Optional<String> =
-            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+            returnReasonCode.getOptional("return_reason_code")
 
         /**
          * Returns the raw JSON value of [eventType].

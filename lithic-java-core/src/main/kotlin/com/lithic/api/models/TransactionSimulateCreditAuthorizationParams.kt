@@ -438,7 +438,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun mcc(): Optional<String> = Optional.ofNullable(mcc.getNullable("mcc"))
+        fun mcc(): Optional<String> = mcc.getOptional("mcc")
 
         /**
          * Unique identifier to identify the payment card acceptor.
@@ -447,7 +447,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun merchantAcceptorId(): Optional<String> =
-            Optional.ofNullable(merchantAcceptorId.getNullable("merchant_acceptor_id"))
+            merchantAcceptorId.getOptional("merchant_acceptor_id")
 
         /**
          * Returns the raw JSON value of [amount].
