@@ -18,6 +18,7 @@ import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the aggregated card balance across all end-user accounts. */
 class CardAggregateBalanceListPageAsync
@@ -85,7 +86,8 @@ private constructor(
             @JsonProperty("has_more") hasMore: JsonField<Boolean> = JsonMissing.of(),
         ) : this(data, hasMore, mutableMapOf())
 
-        fun data(): List<AggregateBalanceListResponse> = data.getNullable("data") ?: listOf()
+        fun data(): List<AggregateBalanceListResponse> =
+            data.getOptional("data").getOrNull() ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 

@@ -305,7 +305,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun activationMethodType(): Optional<ActivationMethodType> =
-            Optional.ofNullable(activationMethodType.getNullable("activation_method_type"))
+            activationMethodType.getOptional("activation_method_type")
 
         /**
          * Returns the raw JSON value of [activationMethodType].

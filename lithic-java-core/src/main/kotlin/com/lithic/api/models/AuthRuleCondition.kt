@@ -90,8 +90,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun attribute(): Optional<ConditionalAttribute> =
-        Optional.ofNullable(attribute.getNullable("attribute"))
+    fun attribute(): Optional<ConditionalAttribute> = attribute.getOptional("attribute")
 
     /**
      * The operation to apply to the attribute
@@ -99,7 +98,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun operation(): Optional<Operation> = Optional.ofNullable(operation.getNullable("operation"))
+    fun operation(): Optional<Operation> = operation.getOptional("operation")
 
     /**
      * A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH`
@@ -107,7 +106,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun value(): Optional<Value> = Optional.ofNullable(value.getNullable("value"))
+    fun value(): Optional<Value> = value.getOptional("value")
 
     /**
      * Returns the raw JSON value of [attribute].

@@ -278,7 +278,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<Type> = type.getOptional("type")
 
         /**
          * The URL for the responder endpoint (must be http(s)).
@@ -286,7 +286,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
+        fun url(): Optional<String> = url.getOptional("url")
 
         /**
          * Returns the raw JSON value of [type].

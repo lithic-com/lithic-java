@@ -346,7 +346,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun accountHolderToken(): Optional<String> =
-            Optional.ofNullable(accountHolderToken.getNullable("account_holder_token"))
+            accountHolderToken.getOptional("account_holder_token")
 
         /**
          * An account holder's status for use within the simulation.
@@ -354,7 +354,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+        fun status(): Optional<Status> = status.getOptional("status")
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
@@ -364,7 +364,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun statusReasons(): Optional<List<StatusReason>> =
-            Optional.ofNullable(statusReasons.getNullable("status_reasons"))
+            statusReasons.getOptional("status_reasons")
 
         /**
          * Returns the raw JSON value of [accountHolderToken].

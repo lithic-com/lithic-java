@@ -343,7 +343,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun statusChangeReason(): Optional<UpdateFinancialAccountStatusChangeReason> =
-            Optional.ofNullable(statusChangeReason.getNullable("status_change_reason"))
+            statusChangeReason.getOptional("status_change_reason")
 
         /**
          * Returns the raw JSON value of [status].

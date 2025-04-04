@@ -377,15 +377,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun accountToken(): Optional<String> =
-            Optional.ofNullable(accountToken.getNullable("account_token"))
+        fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun isForBenefitOf(): Optional<Boolean> =
-            Optional.ofNullable(isForBenefitOf.getNullable("is_for_benefit_of"))
+        fun isForBenefitOf(): Optional<Boolean> = isForBenefitOf.getOptional("is_for_benefit_of")
 
         /**
          * Returns the raw JSON value of [nickname].

@@ -33,7 +33,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    fun token(): Optional<String> = token.getOptional("token")
 
     /**
      * Returns the raw JSON value of [token].

@@ -581,26 +581,25 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+        fun token(): Optional<String> = token.getOptional("token")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+        fun memo(): Optional<String> = memo.getOptional("memo")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun subtype(): Optional<String> = Optional.ofNullable(subtype.getNullable("subtype"))
+        fun subtype(): Optional<String> = subtype.getOptional("subtype")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun userDefinedId(): Optional<String> =
-            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+        fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
         /**
          * Returns the raw JSON value of [amount].

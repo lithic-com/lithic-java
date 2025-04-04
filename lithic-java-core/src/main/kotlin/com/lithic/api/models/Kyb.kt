@@ -163,7 +163,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
@@ -175,7 +175,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun kybPassedTimestamp(): Optional<String> =
-        Optional.ofNullable(kybPassedTimestamp.getNullable("kyb_passed_timestamp"))
+        kybPassedTimestamp.getOptional("kyb_passed_timestamp")
 
     /**
      * Company website URL.
@@ -183,7 +183,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
+    fun websiteUrl(): Optional<String> = websiteUrl.getOptional("website_url")
 
     /**
      * Returns the raw JSON value of [beneficialOwnerEntities].
@@ -720,8 +720,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun dbaBusinessName(): Optional<String> =
-            Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
+        fun dbaBusinessName(): Optional<String> = dbaBusinessName.getOptional("dba_business_name")
 
         /**
          * Parent company name (if applicable).
@@ -729,8 +728,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun parentCompany(): Optional<String> =
-            Optional.ofNullable(parentCompany.getNullable("parent_company"))
+        fun parentCompany(): Optional<String> = parentCompany.getOptional("parent_company")
 
         /**
          * Returns the raw JSON value of [address].
@@ -1147,8 +1145,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun phoneNumber(): Optional<String> =
-            Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+        fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
         /**
          * Returns the raw JSON value of [address].

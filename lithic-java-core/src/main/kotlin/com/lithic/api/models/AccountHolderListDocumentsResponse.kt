@@ -33,7 +33,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun data(): Optional<List<Document>> = Optional.ofNullable(data.getNullable("data"))
+    fun data(): Optional<List<Document>> = data.getOptional("data")
 
     /**
      * Returns the raw JSON value of [data].

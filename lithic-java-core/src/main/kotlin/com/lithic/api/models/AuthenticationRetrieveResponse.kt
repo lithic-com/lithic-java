@@ -134,8 +134,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun accountType(): Optional<AccountType> =
-        Optional.ofNullable(accountType.getNullable("account_type"))
+    fun accountType(): Optional<AccountType> = accountType.getOptional("account_type")
 
     /**
      * Indicates the outcome of the 3DS authentication process.
@@ -229,8 +228,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun additionalData(): Optional<AdditionalData> =
-        Optional.ofNullable(additionalData.getNullable("additional_data"))
+    fun additionalData(): Optional<AdditionalData> = additionalData.getOptional("additional_data")
 
     /**
      * Object containing data about the app used in the e-commerce transaction. Present if the
@@ -239,7 +237,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun app(): Optional<App> = Optional.ofNullable(app.getNullable("app"))
+    fun app(): Optional<App> = app.getOptional("app")
 
     /**
      * Type of authentication request - i.e., the type of transaction or interaction is causing the
@@ -250,7 +248,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun authenticationRequestType(): Optional<AuthenticationRequestType> =
-        Optional.ofNullable(authenticationRequestType.getNullable("authentication_request_type"))
+        authenticationRequestType.getOptional("authentication_request_type")
 
     /**
      * Object containing data about the browser used in the e-commerce transaction. Present if the
@@ -259,7 +257,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun browser(): Optional<Browser> = Optional.ofNullable(browser.getNullable("browser"))
+    fun browser(): Optional<Browser> = browser.getOptional("browser")
 
     /**
      * Metadata about the challenge method and delivery.
@@ -268,7 +266,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun challengeMetadata(): Optional<ChallengeMetadata> =
-        Optional.ofNullable(challengeMetadata.getNullable("challenge_metadata"))
+        challengeMetadata.getOptional("challenge_metadata")
 
     /**
      * Entity that orchestrates the challenge.
@@ -277,7 +275,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun challengeOrchestratedBy(): Optional<ChallengeOrchestratedBy> =
-        Optional.ofNullable(challengeOrchestratedBy.getNullable("challenge_orchestrated_by"))
+        challengeOrchestratedBy.getOptional("challenge_orchestrated_by")
 
     /**
      * Entity that made the authentication decision.
@@ -285,8 +283,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun decisionMadeBy(): Optional<DecisionMadeBy> =
-        Optional.ofNullable(decisionMadeBy.getNullable("decision_made_by"))
+    fun decisionMadeBy(): Optional<DecisionMadeBy> = decisionMadeBy.getOptional("decision_made_by")
 
     /**
      * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place at
@@ -298,7 +295,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun threeRiRequestType(): Optional<ThreeRiRequestType> =
-        Optional.ofNullable(threeRiRequestType.getNullable("three_ri_request_type"))
+        threeRiRequestType.getOptional("three_ri_request_type")
 
     /**
      * Object containing data about the e-commerce transaction for which the merchant is requesting
@@ -307,8 +304,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun transaction(): Optional<Transaction> =
-        Optional.ofNullable(transaction.getNullable("transaction"))
+    fun transaction(): Optional<Transaction> = transaction.getOptional("transaction")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1541,8 +1537,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun addressMatch(): Optional<Boolean> =
-            Optional.ofNullable(addressMatch.getNullable("address_match"))
+        fun addressMatch(): Optional<Boolean> = addressMatch.getOptional("address_match")
 
         /**
          * Object containing data on the billing address provided during the transaction.
@@ -1551,7 +1546,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun billingAddress(): Optional<ThreeDSAddress> =
-            Optional.ofNullable(billingAddress.getNullable("billing_address"))
+            billingAddress.getOptional("billing_address")
 
         /**
          * Email address that is either provided by the cardholder or is on file with the merchant
@@ -1560,7 +1555,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+        fun email(): Optional<String> = email.getOptional("email")
 
         /**
          * Name of the cardholder. Maps to EMV 3DS field cardholderName.
@@ -1568,7 +1563,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+        fun name(): Optional<String> = name.getOptional("name")
 
         /**
          * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
@@ -1577,8 +1572,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun phoneNumberHome(): Optional<String> =
-            Optional.ofNullable(phoneNumberHome.getNullable("phone_number_home"))
+        fun phoneNumberHome(): Optional<String> = phoneNumberHome.getOptional("phone_number_home")
 
         /**
          * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
@@ -1588,7 +1582,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun phoneNumberMobile(): Optional<String> =
-            Optional.ofNullable(phoneNumberMobile.getNullable("phone_number_mobile"))
+            phoneNumberMobile.getOptional("phone_number_mobile")
 
         /**
          * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
@@ -1597,8 +1591,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun phoneNumberWork(): Optional<String> =
-            Optional.ofNullable(phoneNumberWork.getNullable("phone_number_work"))
+        fun phoneNumberWork(): Optional<String> = phoneNumberWork.getOptional("phone_number_work")
 
         /**
          * Object containing data on the shipping address provided during the transaction.
@@ -1607,7 +1600,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun shippingAddress(): Optional<ThreeDSAddress> =
-            Optional.ofNullable(shippingAddress.getNullable("shipping_address"))
+            shippingAddress.getOptional("shipping_address")
 
         /**
          * Returns the raw JSON value of [addressMatch].
@@ -2008,7 +2001,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun address1(): Optional<String> = Optional.ofNullable(address1.getNullable("address1"))
+            fun address1(): Optional<String> = address1.getOptional("address1")
 
             /**
              * Second line of the street address provided by the cardholder.
@@ -2016,7 +2009,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+            fun address2(): Optional<String> = address2.getOptional("address2")
 
             /**
              * Third line of the street address provided by the cardholder.
@@ -2024,7 +2017,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun address3(): Optional<String> = Optional.ofNullable(address3.getNullable("address3"))
+            fun address3(): Optional<String> = address3.getOptional("address3")
 
             /**
              * City of the address provided by the cardholder.
@@ -2032,7 +2025,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun city(): Optional<String> = Optional.ofNullable(city.getNullable("city"))
+            fun city(): Optional<String> = city.getOptional("city")
 
             /**
              * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
@@ -2041,7 +2034,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun country(): Optional<String> = Optional.ofNullable(country.getNullable("country"))
+            fun country(): Optional<String> = country.getOptional("country")
 
             /**
              * Postal code (e.g., ZIP code) of the address provided by the cardholder
@@ -2049,8 +2042,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun postalCode(): Optional<String> =
-                Optional.ofNullable(postalCode.getNullable("postal_code"))
+            fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
 
             /**
              * Returns the raw JSON value of [address1].
@@ -2860,7 +2852,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun deliveryEmailAddress(): Optional<String> =
-                Optional.ofNullable(deliveryEmailAddress.getNullable("delivery_email_address"))
+                deliveryEmailAddress.getOptional("delivery_email_address")
 
             /**
              * The delivery time frame for the merchandise. Maps to EMV 3DS field deliveryTimeframe.
@@ -2869,7 +2861,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun deliveryTimeFrame(): Optional<DeliveryTimeFrame> =
-                Optional.ofNullable(deliveryTimeFrame.getNullable("delivery_time_frame"))
+                deliveryTimeFrame.getOptional("delivery_time_frame")
 
             /**
              * In prepaid or gift card purchase transactions, purchase amount total in major units
@@ -2878,8 +2870,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun giftCardAmount(): Optional<Long> =
-                Optional.ofNullable(giftCardAmount.getNullable("gift_card_amount"))
+            fun giftCardAmount(): Optional<Long> = giftCardAmount.getOptional("gift_card_amount")
 
             /**
              * In prepaid or gift card purchase transactions, count of individual prepaid or gift
@@ -2888,8 +2879,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun giftCardCount(): Optional<Long> =
-                Optional.ofNullable(giftCardCount.getNullable("gift_card_count"))
+            fun giftCardCount(): Optional<Long> = giftCardCount.getOptional("gift_card_count")
 
             /**
              * In prepaid or gift card purchase transactions, currency code of the gift card. Maps
@@ -2899,7 +2889,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun giftCardCurrency(): Optional<String> =
-                Optional.ofNullable(giftCardCurrency.getNullable("gift_card_currency"))
+                giftCardCurrency.getOptional("gift_card_currency")
 
             /**
              * Indicates whether the purchase is for merchandise that is available now or at a
@@ -2909,7 +2899,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun orderAvailability(): Optional<OrderAvailability> =
-                Optional.ofNullable(orderAvailability.getNullable("order_availability"))
+                orderAvailability.getOptional("order_availability")
 
             /**
              * In pre-order purchase transactions, the expected date that the merchandise will be
@@ -2919,7 +2909,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun preOrderAvailableDate(): Optional<OffsetDateTime> =
-                Optional.ofNullable(preOrderAvailableDate.getNullable("pre_order_available_date"))
+                preOrderAvailableDate.getOptional("pre_order_available_date")
 
             /**
              * Indicates whether the cardholder is reordering previously purchased merchandise. Maps
@@ -2928,8 +2918,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun reorderItems(): Optional<ReorderItems> =
-                Optional.ofNullable(reorderItems.getNullable("reorder_items"))
+            fun reorderItems(): Optional<ReorderItems> = reorderItems.getOptional("reorder_items")
 
             /**
              * Shipping method that the cardholder chose for the transaction. If purchase includes
@@ -2941,7 +2930,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun shippingMethod(): Optional<ShippingMethod> =
-                Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
+                shippingMethod.getOptional("shipping_method")
 
             /**
              * Returns the raw JSON value of [deliveryEmailAddress].
@@ -4387,7 +4376,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun networkDecision(): Optional<NetworkDecision> =
-            Optional.ofNullable(networkDecision.getNullable("network_decision"))
+            networkDecision.getOptional("network_decision")
 
         /**
          * Mastercard only: Assessment by the network of the authentication risk level, with a
@@ -4396,8 +4385,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun networkRiskScore(): Optional<Long> =
-            Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
+        fun networkRiskScore(): Optional<Long> = networkRiskScore.getOptional("network_risk_score")
 
         /**
          * Returns the raw JSON value of [networkDecision].
@@ -4748,8 +4736,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun deviceInfo(): Optional<String> =
-            Optional.ofNullable(deviceInfo.getNullable("device_info"))
+        fun deviceInfo(): Optional<String> = deviceInfo.getOptional("device_info")
 
         /**
          * External IP address used by the app generating the 3DS authentication request. Maps to
@@ -4758,7 +4745,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
+        fun ip(): Optional<String> = ip.getOptional("ip")
 
         /**
          * Returns the raw JSON value of [deviceInfo].
@@ -5145,7 +5132,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
+        fun ip(): Optional<String> = ip.getOptional("ip")
 
         /**
          * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
@@ -5154,8 +5141,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun javaEnabled(): Optional<Boolean> =
-            Optional.ofNullable(javaEnabled.getNullable("java_enabled"))
+        fun javaEnabled(): Optional<Boolean> = javaEnabled.getOptional("java_enabled")
 
         /**
          * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
@@ -5165,7 +5151,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun javascriptEnabled(): Optional<Boolean> =
-            Optional.ofNullable(javascriptEnabled.getNullable("javascript_enabled"))
+            javascriptEnabled.getOptional("javascript_enabled")
 
         /**
          * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
@@ -5174,7 +5160,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun language(): Optional<String> = Optional.ofNullable(language.getNullable("language"))
+        fun language(): Optional<String> = language.getOptional("language")
 
         /**
          * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
@@ -5184,7 +5170,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun timeZone(): Optional<String> = Optional.ofNullable(timeZone.getNullable("time_zone"))
+        fun timeZone(): Optional<String> = timeZone.getOptional("time_zone")
 
         /**
          * Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent.
@@ -5192,7 +5178,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun userAgent(): Optional<String> = Optional.ofNullable(userAgent.getNullable("user_agent"))
+        fun userAgent(): Optional<String> = userAgent.getOptional("user_agent")
 
         /**
          * Returns the raw JSON value of [ip].
@@ -5535,8 +5521,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun phoneNumber(): Optional<String> =
-            Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+        fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
         /**
          * Returns the raw JSON value of [methodType].
@@ -6424,7 +6409,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<Type> = type.getOptional("type")
 
         /**
          * Returns the raw JSON value of [amount].

@@ -397,8 +397,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun description(): Optional<String> =
-            Optional.ofNullable(description.getNullable("description"))
+        fun description(): Optional<String> = description.getOptional("description")
 
         /**
          * Whether the event subscription is active (false) or inactive (true).
@@ -406,7 +405,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled.getNullable("disabled"))
+        fun disabled(): Optional<Boolean> = disabled.getOptional("disabled")
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
@@ -415,8 +414,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun eventTypes(): Optional<List<EventType>> =
-            Optional.ofNullable(eventTypes.getNullable("event_types"))
+        fun eventTypes(): Optional<List<EventType>> = eventTypes.getOptional("event_types")
 
         /**
          * Returns the raw JSON value of [url].

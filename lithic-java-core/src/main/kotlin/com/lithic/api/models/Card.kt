@@ -256,8 +256,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     @Deprecated("deprecated")
-    fun authRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
+    fun authRuleTokens(): Optional<List<String>> = authRuleTokens.getOptional("auth_rule_tokens")
 
     /**
      * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
@@ -266,7 +265,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun cardholderCurrency(): Optional<String> =
-        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
+        cardholderCurrency.getOptional("cardholder_currency")
 
     /**
      * Three digit cvv printed on the back of the card.
@@ -274,7 +273,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun cvv(): Optional<String> = Optional.ofNullable(cvv.getNullable("cvv"))
+    fun cvv(): Optional<String> = cvv.getOptional("cvv")
 
     /**
      * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -286,7 +285,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun digitalCardArtToken(): Optional<String> =
-        Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+        digitalCardArtToken.getOptional("digital_card_art_token")
 
     /**
      * Two digit (MM) expiry month.
@@ -294,7 +293,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
+    fun expMonth(): Optional<String> = expMonth.getOptional("exp_month")
 
     /**
      * Four digit (yyyy) expiry year.
@@ -302,7 +301,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
+    fun expYear(): Optional<String> = expYear.getOptional("exp_year")
 
     /**
      * Hostname of card’s locked merchant (will be empty if not applicable).
@@ -310,7 +309,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun hostname(): Optional<String> = Optional.ofNullable(hostname.getNullable("hostname"))
+    fun hostname(): Optional<String> = hostname.getOptional("hostname")
 
     /**
      * Friendly name to identify the card.
@@ -318,7 +317,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+    fun memo(): Optional<String> = memo.getOptional("memo")
 
     /**
      * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
@@ -328,7 +327,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
+    fun pan(): Optional<String> = pan.getOptional("pan")
 
     /**
      * Indicates if there are offline PIN changes pending card interaction with an offline PIN
@@ -338,8 +337,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun pendingCommands(): Optional<List<String>> =
-        Optional.ofNullable(pendingCommands.getNullable("pending_commands"))
+    fun pendingCommands(): Optional<List<String>> = pendingCommands.getOptional("pending_commands")
 
     /**
      * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
@@ -349,7 +347,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+    fun productId(): Optional<String> = productId.getOptional("product_id")
 
     /**
      * If the card is a replacement for another card, the globally unique identifier for the card
@@ -358,8 +356,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun replacementFor(): Optional<String> =
-        Optional.ofNullable(replacementFor.getNullable("replacement_for"))
+    fun replacementFor(): Optional<String> = replacementFor.getOptional("replacement_for")
 
     /**
      * Returns the raw JSON value of [token].
@@ -1255,8 +1252,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun accountName(): Optional<String> =
-            Optional.ofNullable(accountName.getNullable("account_name"))
+        fun accountName(): Optional<String> = accountName.getOptional("account_name")
 
         /**
          * The nickname given to the `FundingAccount` or `null` if it has no nickname.
@@ -1264,7 +1260,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+        fun nickname(): Optional<String> = nickname.getOptional("nickname")
 
         /**
          * Returns the raw JSON value of [token].

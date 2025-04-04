@@ -201,7 +201,7 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun externalBankAccountToken(): Optional<String> =
-        Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+        externalBankAccountToken.getOptional("external_bank_account_token")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -280,8 +280,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun userDefinedId(): Optional<String> =
-        Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+    fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
 
     /**
      * Balance
@@ -289,7 +288,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun balance(): Optional<Balance> = Optional.ofNullable(balance.getNullable("balance"))
+    fun balance(): Optional<Balance> = balance.getOptional("balance")
 
     /**
      * Returns the raw JSON value of [token].

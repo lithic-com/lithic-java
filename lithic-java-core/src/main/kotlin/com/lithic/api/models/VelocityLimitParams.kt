@@ -80,7 +80,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun limitAmount(): Optional<Long> = Optional.ofNullable(limitAmount.getNullable("limit_amount"))
+    fun limitAmount(): Optional<Long> = limitAmount.getOptional("limit_amount")
 
     /**
      * The number of spend velocity impacting transactions may not exceed this limit in the period.
@@ -91,7 +91,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun limitCount(): Optional<Long> = Optional.ofNullable(limitCount.getNullable("limit_count"))
+    fun limitCount(): Optional<Long> = limitCount.getOptional("limit_count")
 
     /**
      * Returns the raw JSON value of [filters].
@@ -384,7 +384,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun excludeCountries(): Optional<List<String>> =
-            Optional.ofNullable(excludeCountries.getNullable("exclude_countries"))
+            excludeCountries.getOptional("exclude_countries")
 
         /**
          * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
@@ -393,8 +393,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun excludeMccs(): Optional<List<String>> =
-            Optional.ofNullable(excludeMccs.getNullable("exclude_mccs"))
+        fun excludeMccs(): Optional<List<String>> = excludeMccs.getOptional("exclude_mccs")
 
         /**
          * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
@@ -404,7 +403,7 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun includeCountries(): Optional<List<String>> =
-            Optional.ofNullable(includeCountries.getNullable("include_countries"))
+            includeCountries.getOptional("include_countries")
 
         /**
          * Merchant Category Codes to include in the velocity calculation. Transactions not matching
@@ -413,8 +412,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun includeMccs(): Optional<List<String>> =
-            Optional.ofNullable(includeMccs.getNullable("include_mccs"))
+        fun includeMccs(): Optional<List<String>> = includeMccs.getOptional("include_mccs")
 
         /**
          * Returns the raw JSON value of [excludeCountries].

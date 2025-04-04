@@ -515,9 +515,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun beneficialOwnerEntities(): Optional<List<KybBusinessEntityPatch>> =
-                Optional.ofNullable(
-                    beneficialOwnerEntities.getNullable("beneficial_owner_entities")
-                )
+                beneficialOwnerEntities.getOptional("beneficial_owner_entities")
 
             /**
              * List of all individuals with >25% ownership in the company. If no entity or
@@ -532,9 +530,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun beneficialOwnerIndividuals(): Optional<List<IndividualPatch>> =
-                Optional.ofNullable(
-                    beneficialOwnerIndividuals.getNullable("beneficial_owner_individuals")
-                )
+                beneficialOwnerIndividuals.getOptional("beneficial_owner_individuals")
 
             /**
              * Information for business for which the account is being opened and KYB is being run.
@@ -543,7 +539,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun businessEntity(): Optional<KybBusinessEntityPatch> =
-                Optional.ofNullable(businessEntity.getNullable("business_entity"))
+                businessEntity.getOptional("business_entity")
 
             /**
              * An individual with significant responsibility for managing the legal entity (e.g., a
@@ -559,7 +555,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun controlPerson(): Optional<IndividualPatch> =
-                Optional.ofNullable(controlPerson.getNullable("control_person"))
+                controlPerson.getOptional("control_person")
 
             /**
              * A user provided id that can be used to link an account holder with an external system
@@ -567,8 +563,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun externalId(): Optional<String> =
-                Optional.ofNullable(externalId.getNullable("external_id"))
+            fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
             /**
              * Short description of the company's line of business (i.e., what does the company
@@ -578,7 +573,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun natureOfBusiness(): Optional<String> =
-                Optional.ofNullable(natureOfBusiness.getNullable("nature_of_business"))
+                natureOfBusiness.getOptional("nature_of_business")
 
             /**
              * Company website URL.
@@ -586,8 +581,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun websiteUrl(): Optional<String> =
-                Optional.ofNullable(websiteUrl.getNullable("website_url"))
+            fun websiteUrl(): Optional<String> = websiteUrl.getOptional("website_url")
 
             /**
              * Returns the raw JSON value of [beneficialOwnerEntities].
@@ -1024,8 +1018,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun address(): Optional<AddressUpdate> =
-                    Optional.ofNullable(address.getNullable("address"))
+                fun address(): Optional<AddressUpdate> = address.getOptional("address")
 
                 /**
                  * Any name that the business operates under that is not its legal business name (if
@@ -1035,7 +1028,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun dbaBusinessName(): Optional<String> =
-                    Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
+                    dbaBusinessName.getOptional("dba_business_name")
 
                 /**
                  * Government-issued identification number. US Federal Employer Identification
@@ -1045,8 +1038,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun governmentId(): Optional<String> =
-                    Optional.ofNullable(governmentId.getNullable("government_id"))
+                fun governmentId(): Optional<String> = governmentId.getOptional("government_id")
 
                 /**
                  * Legal (formal) business name.
@@ -1055,7 +1047,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun legalBusinessName(): Optional<String> =
-                    Optional.ofNullable(legalBusinessName.getNullable("legal_business_name"))
+                    legalBusinessName.getOptional("legal_business_name")
 
                 /**
                  * Parent company name (if applicable).
@@ -1063,8 +1055,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun parentCompany(): Optional<String> =
-                    Optional.ofNullable(parentCompany.getNullable("parent_company"))
+                fun parentCompany(): Optional<String> = parentCompany.getOptional("parent_company")
 
                 /**
                  * One or more of the business's phone number(s), entered as a list in E.164 format.
@@ -1073,7 +1064,7 @@ private constructor(
                  *   if the server responded with an unexpected value).
                  */
                 fun phoneNumbers(): Optional<List<String>> =
-                    Optional.ofNullable(phoneNumbers.getNullable("phone_numbers"))
+                    phoneNumbers.getOptional("phone_numbers")
 
                 /**
                  * Returns the raw JSON value of [entityToken].
@@ -1497,8 +1488,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun address(): Optional<AddressUpdate> =
-                    Optional.ofNullable(address.getNullable("address"))
+                fun address(): Optional<AddressUpdate> = address.getOptional("address")
 
                 /**
                  * Individual's date of birth, as an RFC 3339 date.
@@ -1506,7 +1496,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun dob(): Optional<String> = Optional.ofNullable(dob.getNullable("dob"))
+                fun dob(): Optional<String> = dob.getOptional("dob")
 
                 /**
                  * Individual's email address. If utilizing Lithic for chargeback processing, this
@@ -1515,7 +1505,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+                fun email(): Optional<String> = email.getOptional("email")
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
@@ -1523,8 +1513,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun firstName(): Optional<String> =
-                    Optional.ofNullable(firstName.getNullable("first_name"))
+                fun firstName(): Optional<String> = firstName.getOptional("first_name")
 
                 /**
                  * Government-issued identification number (required for identity verification and
@@ -1535,8 +1524,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun governmentId(): Optional<String> =
-                    Optional.ofNullable(governmentId.getNullable("government_id"))
+                fun governmentId(): Optional<String> = governmentId.getOptional("government_id")
 
                 /**
                  * Individual's last name, as it appears on government-issued identity documents.
@@ -1544,8 +1532,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun lastName(): Optional<String> =
-                    Optional.ofNullable(lastName.getNullable("last_name"))
+                fun lastName(): Optional<String> = lastName.getOptional("last_name")
 
                 /**
                  * Individual's phone number, entered in E.164 format.
@@ -1553,8 +1540,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun phoneNumber(): Optional<String> =
-                    Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+                fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
                 /**
                  * Returns the raw JSON value of [entityToken].
@@ -1959,8 +1945,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun externalId(): Optional<String> =
-                Optional.ofNullable(externalId.getNullable("external_id"))
+            fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
             /**
              * Information on the individual for whom the account is being opened and KYC is being
@@ -1969,8 +1954,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun individual(): Optional<IndividualPatch> =
-                Optional.ofNullable(individual.getNullable("individual"))
+            fun individual(): Optional<IndividualPatch> = individual.getOptional("individual")
 
             /**
              * Returns the raw JSON value of [externalId].
@@ -2189,8 +2173,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun address(): Optional<AddressUpdate> =
-                    Optional.ofNullable(address.getNullable("address"))
+                fun address(): Optional<AddressUpdate> = address.getOptional("address")
 
                 /**
                  * Individual's date of birth, as an RFC 3339 date.
@@ -2198,7 +2181,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun dob(): Optional<String> = Optional.ofNullable(dob.getNullable("dob"))
+                fun dob(): Optional<String> = dob.getOptional("dob")
 
                 /**
                  * Individual's email address. If utilizing Lithic for chargeback processing, this
@@ -2207,7 +2190,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+                fun email(): Optional<String> = email.getOptional("email")
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
@@ -2215,8 +2198,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun firstName(): Optional<String> =
-                    Optional.ofNullable(firstName.getNullable("first_name"))
+                fun firstName(): Optional<String> = firstName.getOptional("first_name")
 
                 /**
                  * Government-issued identification number (required for identity verification and
@@ -2227,8 +2209,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun governmentId(): Optional<String> =
-                    Optional.ofNullable(governmentId.getNullable("government_id"))
+                fun governmentId(): Optional<String> = governmentId.getOptional("government_id")
 
                 /**
                  * Individual's last name, as it appears on government-issued identity documents.
@@ -2236,8 +2217,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun lastName(): Optional<String> =
-                    Optional.ofNullable(lastName.getNullable("last_name"))
+                fun lastName(): Optional<String> = lastName.getOptional("last_name")
 
                 /**
                  * Individual's phone number, entered in E.164 format.
@@ -2245,8 +2225,7 @@ private constructor(
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun phoneNumber(): Optional<String> =
-                    Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+                fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
                 /**
                  * Returns the raw JSON value of [entityToken].
@@ -2678,8 +2657,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun address(): Optional<AddressUpdate> =
-                Optional.ofNullable(address.getNullable("address"))
+            fun address(): Optional<AddressUpdate> = address.getOptional("address")
 
             /**
              * Allowed for: KYC-Exempt, BYO-KYC. The token of the business account to which the
@@ -2689,7 +2667,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun businessAccountToken(): Optional<String> =
-                Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
+                businessAccountToken.getOptional("business_account_token")
 
             /**
              * Allowed for all Account Holders. Account holder's email address. The primary purpose
@@ -2699,7 +2677,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+            fun email(): Optional<String> = email.getOptional("email")
 
             /**
              * Allowed for KYC-Exempt, BYO-KYC. Account holder's first name.
@@ -2707,8 +2685,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun firstName(): Optional<String> =
-                Optional.ofNullable(firstName.getNullable("first_name"))
+            fun firstName(): Optional<String> = firstName.getOptional("first_name")
 
             /**
              * Allowed for KYC-Exempt, BYO-KYC. Account holder's last name.
@@ -2716,8 +2693,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun lastName(): Optional<String> =
-                Optional.ofNullable(lastName.getNullable("last_name"))
+            fun lastName(): Optional<String> = lastName.getOptional("last_name")
 
             /**
              * Allowed for BYO-KYB. Legal business name of the account holder.
@@ -2726,7 +2702,7 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun legalBusinessName(): Optional<String> =
-                Optional.ofNullable(legalBusinessName.getNullable("legal_business_name"))
+                legalBusinessName.getOptional("legal_business_name")
 
             /**
              * Allowed for all Account Holders. Account holder's phone number, entered in E.164
@@ -2736,8 +2712,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun phoneNumber(): Optional<String> =
-                Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+            fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
             /**
              * Returns the raw JSON value of [address].

@@ -92,7 +92,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    fun token(): Optional<String> = token.getOptional("token")
 
     /**
      * Status types:
@@ -101,7 +101,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun category(): Optional<Category> = Optional.ofNullable(category.getNullable("category"))
+    fun category(): Optional<Category> = category.getOptional("category")
 
     /**
      * Date and time when the transfer occurred. UTC time zone.
@@ -109,7 +109,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): Optional<OffsetDateTime> = created.getOptional("created")
 
     /**
      * 3-character alphabetic ISO 4217 code for the settling currency of the transaction.
@@ -117,7 +117,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun currency(): Optional<String> = Optional.ofNullable(currency.getNullable("currency"))
+    fun currency(): Optional<String> = currency.getOptional("currency")
 
     /**
      * A string that provides a description of the transfer; may be useful to display to users.
@@ -125,7 +125,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun descriptor(): Optional<String> = Optional.ofNullable(descriptor.getNullable("descriptor"))
+    fun descriptor(): Optional<String> = descriptor.getOptional("descriptor")
 
     /**
      * A list of all financial events that have modified this trasnfer.
@@ -133,7 +133,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun events(): Optional<List<FinancialEvent>> = Optional.ofNullable(events.getNullable("events"))
+    fun events(): Optional<List<FinancialEvent>> = events.getOptional("events")
 
     /**
      * The updated balance of the sending financial account.
@@ -141,8 +141,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun fromBalance(): Optional<List<Balance>> =
-        Optional.ofNullable(fromBalance.getNullable("from_balance"))
+    fun fromBalance(): Optional<List<Balance>> = fromBalance.getOptional("from_balance")
 
     /**
      * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
@@ -152,8 +151,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun pendingAmount(): Optional<Long> =
-        Optional.ofNullable(pendingAmount.getNullable("pending_amount"))
+    fun pendingAmount(): Optional<Long> = pendingAmount.getOptional("pending_amount")
 
     /**
      * APPROVED transactions were successful while DECLINED transactions were declined by user,
@@ -162,7 +160,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+    fun result(): Optional<Result> = result.getOptional("result")
 
     /**
      * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
@@ -171,8 +169,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun settledAmount(): Optional<Long> =
-        Optional.ofNullable(settledAmount.getNullable("settled_amount"))
+    fun settledAmount(): Optional<Long> = settledAmount.getOptional("settled_amount")
 
     /**
      * Status types:
@@ -185,7 +182,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+    fun status(): Optional<Status> = status.getOptional("status")
 
     /**
      * The updated balance of the receiving financial account.
@@ -193,8 +190,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun toBalance(): Optional<List<Balance>> =
-        Optional.ofNullable(toBalance.getNullable("to_balance"))
+    fun toBalance(): Optional<List<Balance>> = toBalance.getOptional("to_balance")
 
     /**
      * Date and time when the financial transaction was last updated. UTC time zone.
@@ -202,7 +198,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun updated(): Optional<OffsetDateTime> = Optional.ofNullable(updated.getNullable("updated"))
+    fun updated(): Optional<OffsetDateTime> = updated.getOptional("updated")
 
     /**
      * Returns the raw JSON value of [token].
@@ -824,7 +820,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+        fun token(): Optional<String> = token.getOptional("token")
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -833,7 +829,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+        fun amount(): Optional<Long> = amount.getOptional("amount")
 
         /**
          * Date and time when the financial event occurred. UTC time zone.
@@ -841,8 +837,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun created(): Optional<OffsetDateTime> =
-            Optional.ofNullable(created.getNullable("created"))
+        fun created(): Optional<OffsetDateTime> = created.getOptional("created")
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
@@ -851,13 +846,13 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+        fun result(): Optional<Result> = result.getOptional("result")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun type(): Optional<FinancialEventType> = Optional.ofNullable(type.getNullable("type"))
+        fun type(): Optional<FinancialEventType> = type.getOptional("type")
 
         /**
          * Returns the raw JSON value of [token].

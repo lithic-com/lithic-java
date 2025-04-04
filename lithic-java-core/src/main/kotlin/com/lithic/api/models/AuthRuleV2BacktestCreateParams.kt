@@ -328,7 +328,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end.getNullable("end"))
+        fun end(): Optional<OffsetDateTime> = end.getOptional("end")
 
         /**
          * The start time of the backtest.
@@ -336,7 +336,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
+        fun start(): Optional<OffsetDateTime> = start.getOptional("start")
 
         /**
          * Returns the raw JSON value of [end].
