@@ -41,13 +41,12 @@ private constructor(
     fun status(): FinancialAccountStatus = body.status()
 
     /**
-     * Reason for the financial account status change
+     * Substatus for the financial account
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun statusChangeReason(): Optional<UpdateFinancialAccountStatusChangeReason> =
-        body.statusChangeReason()
+    fun substatus(): Optional<UpdateFinancialAccountSubstatus> = body.substatus()
 
     /**
      * Returns the raw JSON value of [status].
@@ -57,13 +56,11 @@ private constructor(
     fun _status(): JsonField<FinancialAccountStatus> = body._status()
 
     /**
-     * Returns the raw JSON value of [statusChangeReason].
+     * Returns the raw JSON value of [substatus].
      *
-     * Unlike [statusChangeReason], this method doesn't throw if the JSON field has an unexpected
-     * type.
+     * Unlike [substatus], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _statusChangeReason(): JsonField<UpdateFinancialAccountStatusChangeReason> =
-        body._statusChangeReason()
+    fun _substatus(): JsonField<UpdateFinancialAccountSubstatus> = body._substatus()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -83,7 +80,7 @@ private constructor(
          * ```java
          * .financialAccountToken()
          * .status()
-         * .statusChangeReason()
+         * .substatus()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -118,7 +115,7 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [status]
-         * - [statusChangeReason]
+         * - [substatus]
          */
         fun body(body: UpdateFinancialAccountStatusRequest) = apply { this.body = body.toBuilder() }
 
@@ -134,29 +131,25 @@ private constructor(
          */
         fun status(status: JsonField<FinancialAccountStatus>) = apply { body.status(status) }
 
-        /** Reason for the financial account status change */
-        fun statusChangeReason(statusChangeReason: UpdateFinancialAccountStatusChangeReason?) =
-            apply {
-                body.statusChangeReason(statusChangeReason)
-            }
+        /** Substatus for the financial account */
+        fun substatus(substatus: UpdateFinancialAccountSubstatus?) = apply {
+            body.substatus(substatus)
+        }
+
+        /** Alias for calling [Builder.substatus] with `substatus.orElse(null)`. */
+        fun substatus(substatus: Optional<UpdateFinancialAccountSubstatus>) =
+            substatus(substatus.getOrNull())
 
         /**
-         * Alias for calling [Builder.statusChangeReason] with `statusChangeReason.orElse(null)`.
-         */
-        fun statusChangeReason(
-            statusChangeReason: Optional<UpdateFinancialAccountStatusChangeReason>
-        ) = statusChangeReason(statusChangeReason.getOrNull())
-
-        /**
-         * Sets [Builder.statusChangeReason] to an arbitrary JSON value.
+         * Sets [Builder.substatus] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.statusChangeReason] with a well-typed
-         * [UpdateFinancialAccountStatusChangeReason] value instead. This method is primarily for
-         * setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.substatus] with a well-typed
+         * [UpdateFinancialAccountSubstatus] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
          */
-        fun statusChangeReason(
-            statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>
-        ) = apply { body.statusChangeReason(statusChangeReason) }
+        fun substatus(substatus: JsonField<UpdateFinancialAccountSubstatus>) = apply {
+            body.substatus(substatus)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -284,7 +277,7 @@ private constructor(
          * ```java
          * .financialAccountToken()
          * .status()
-         * .statusChangeReason()
+         * .substatus()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -313,7 +306,7 @@ private constructor(
     class UpdateFinancialAccountStatusRequest
     private constructor(
         private val status: JsonField<FinancialAccountStatus>,
-        private val statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>,
+        private val substatus: JsonField<UpdateFinancialAccountSubstatus>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -322,11 +315,10 @@ private constructor(
             @JsonProperty("status")
             @ExcludeMissing
             status: JsonField<FinancialAccountStatus> = JsonMissing.of(),
-            @JsonProperty("status_change_reason")
+            @JsonProperty("substatus")
             @ExcludeMissing
-            statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason> =
-                JsonMissing.of(),
-        ) : this(status, statusChangeReason, mutableMapOf())
+            substatus: JsonField<UpdateFinancialAccountSubstatus> = JsonMissing.of(),
+        ) : this(status, substatus, mutableMapOf())
 
         /**
          * Status of the financial account
@@ -337,13 +329,13 @@ private constructor(
         fun status(): FinancialAccountStatus = status.getRequired("status")
 
         /**
-         * Reason for the financial account status change
+         * Substatus for the financial account
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun statusChangeReason(): Optional<UpdateFinancialAccountStatusChangeReason> =
-            statusChangeReason.getOptional("status_change_reason")
+        fun substatus(): Optional<UpdateFinancialAccountSubstatus> =
+            substatus.getOptional("substatus")
 
         /**
          * Returns the raw JSON value of [status].
@@ -355,15 +347,13 @@ private constructor(
         fun _status(): JsonField<FinancialAccountStatus> = status
 
         /**
-         * Returns the raw JSON value of [statusChangeReason].
+         * Returns the raw JSON value of [substatus].
          *
-         * Unlike [statusChangeReason], this method doesn't throw if the JSON field has an
-         * unexpected type.
+         * Unlike [substatus], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("status_change_reason")
+        @JsonProperty("substatus")
         @ExcludeMissing
-        fun _statusChangeReason(): JsonField<UpdateFinancialAccountStatusChangeReason> =
-            statusChangeReason
+        fun _substatus(): JsonField<UpdateFinancialAccountSubstatus> = substatus
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -386,7 +376,7 @@ private constructor(
              * The following fields are required:
              * ```java
              * .status()
-             * .statusChangeReason()
+             * .substatus()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -396,8 +386,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var status: JsonField<FinancialAccountStatus>? = null
-            private var statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>? =
-                null
+            private var substatus: JsonField<UpdateFinancialAccountSubstatus>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -405,7 +394,7 @@ private constructor(
                 updateFinancialAccountStatusRequest: UpdateFinancialAccountStatusRequest
             ) = apply {
                 status = updateFinancialAccountStatusRequest.status
-                statusChangeReason = updateFinancialAccountStatusRequest.statusChangeReason
+                substatus = updateFinancialAccountStatusRequest.substatus
                 additionalProperties =
                     updateFinancialAccountStatusRequest.additionalProperties.toMutableMap()
             }
@@ -422,28 +411,24 @@ private constructor(
              */
             fun status(status: JsonField<FinancialAccountStatus>) = apply { this.status = status }
 
-            /** Reason for the financial account status change */
-            fun statusChangeReason(statusChangeReason: UpdateFinancialAccountStatusChangeReason?) =
-                statusChangeReason(JsonField.ofNullable(statusChangeReason))
+            /** Substatus for the financial account */
+            fun substatus(substatus: UpdateFinancialAccountSubstatus?) =
+                substatus(JsonField.ofNullable(substatus))
+
+            /** Alias for calling [Builder.substatus] with `substatus.orElse(null)`. */
+            fun substatus(substatus: Optional<UpdateFinancialAccountSubstatus>) =
+                substatus(substatus.getOrNull())
 
             /**
-             * Alias for calling [Builder.statusChangeReason] with
-             * `statusChangeReason.orElse(null)`.
-             */
-            fun statusChangeReason(
-                statusChangeReason: Optional<UpdateFinancialAccountStatusChangeReason>
-            ) = statusChangeReason(statusChangeReason.getOrNull())
-
-            /**
-             * Sets [Builder.statusChangeReason] to an arbitrary JSON value.
+             * Sets [Builder.substatus] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.statusChangeReason] with a well-typed
-             * [UpdateFinancialAccountStatusChangeReason] value instead. This method is primarily
-             * for setting the field to an undocumented or not yet supported value.
+             * You should usually call [Builder.substatus] with a well-typed
+             * [UpdateFinancialAccountSubstatus] value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
-            fun statusChangeReason(
-                statusChangeReason: JsonField<UpdateFinancialAccountStatusChangeReason>
-            ) = apply { this.statusChangeReason = statusChangeReason }
+            fun substatus(substatus: JsonField<UpdateFinancialAccountSubstatus>) = apply {
+                this.substatus = substatus
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -472,7 +457,7 @@ private constructor(
              * The following fields are required:
              * ```java
              * .status()
-             * .statusChangeReason()
+             * .substatus()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
@@ -480,7 +465,7 @@ private constructor(
             fun build(): UpdateFinancialAccountStatusRequest =
                 UpdateFinancialAccountStatusRequest(
                     checkRequired("status", status),
-                    checkRequired("statusChangeReason", statusChangeReason),
+                    checkRequired("substatus", substatus),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -493,7 +478,7 @@ private constructor(
             }
 
             status().validate()
-            statusChangeReason().ifPresent { it.validate() }
+            substatus().ifPresent { it.validate() }
             validated = true
         }
 
@@ -514,24 +499,24 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (status.asKnown().getOrNull()?.validity() ?: 0) +
-                (statusChangeReason.asKnown().getOrNull()?.validity() ?: 0)
+                (substatus.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is UpdateFinancialAccountStatusRequest && status == other.status && statusChangeReason == other.statusChangeReason && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is UpdateFinancialAccountStatusRequest && status == other.status && substatus == other.substatus && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(status, statusChangeReason, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(status, substatus, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "UpdateFinancialAccountStatusRequest{status=$status, statusChangeReason=$statusChangeReason, additionalProperties=$additionalProperties}"
+            "UpdateFinancialAccountStatusRequest{status=$status, substatus=$substatus, additionalProperties=$additionalProperties}"
     }
 
     /** Status of the financial account */
@@ -679,8 +664,8 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** Reason for the financial account status change */
-    class UpdateFinancialAccountStatusChangeReason
+    /** Substatus for the financial account */
+    class UpdateFinancialAccountSubstatus
     @JsonCreator
     private constructor(private val value: JsonField<String>) : Enum {
 
@@ -704,11 +689,10 @@ private constructor(
 
             @JvmField val CHARGED_OFF_DELINQUENT = of("CHARGED_OFF_DELINQUENT")
 
-            @JvmStatic
-            fun of(value: String) = UpdateFinancialAccountStatusChangeReason(JsonField.of(value))
+            @JvmStatic fun of(value: String) = UpdateFinancialAccountSubstatus(JsonField.of(value))
         }
 
-        /** An enum containing [UpdateFinancialAccountStatusChangeReason]'s known values. */
+        /** An enum containing [UpdateFinancialAccountSubstatus]'s known values. */
         enum class Known {
             CHARGED_OFF_FRAUD,
             END_USER_REQUEST,
@@ -717,11 +701,11 @@ private constructor(
         }
 
         /**
-         * An enum containing [UpdateFinancialAccountStatusChangeReason]'s known values, as well as
-         * an [_UNKNOWN] member.
+         * An enum containing [UpdateFinancialAccountSubstatus]'s known values, as well as an
+         * [_UNKNOWN] member.
          *
-         * An instance of [UpdateFinancialAccountStatusChangeReason] can contain an unknown value in
-         * a couple of cases:
+         * An instance of [UpdateFinancialAccountSubstatus] can contain an unknown value in a couple
+         * of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -733,8 +717,8 @@ private constructor(
             BANK_REQUEST,
             CHARGED_OFF_DELINQUENT,
             /**
-             * An enum member indicating that [UpdateFinancialAccountStatusChangeReason] was
-             * instantiated with an unknown value.
+             * An enum member indicating that [UpdateFinancialAccountSubstatus] was instantiated
+             * with an unknown value.
              */
             _UNKNOWN,
         }
@@ -772,7 +756,7 @@ private constructor(
                 CHARGED_OFF_DELINQUENT -> Known.CHARGED_OFF_DELINQUENT
                 else ->
                     throw LithicInvalidDataException(
-                        "Unknown UpdateFinancialAccountStatusChangeReason: $value"
+                        "Unknown UpdateFinancialAccountSubstatus: $value"
                     )
             }
 
@@ -790,7 +774,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): UpdateFinancialAccountStatusChangeReason = apply {
+        fun validate(): UpdateFinancialAccountSubstatus = apply {
             if (validated) {
                 return@apply
             }
@@ -820,7 +804,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is UpdateFinancialAccountStatusChangeReason && value == other.value /* spotless:on */
+            return /* spotless:off */ other is UpdateFinancialAccountSubstatus && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

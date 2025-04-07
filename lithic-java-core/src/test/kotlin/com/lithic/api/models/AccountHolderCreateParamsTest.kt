@@ -12,25 +12,6 @@ internal class AccountHolderCreateParamsTest {
         AccountHolderCreateParams.builder()
             .body(
                 Kyb.builder()
-                    .addBeneficialOwnerEntity(
-                        Kyb.BusinessEntity.builder()
-                            .address(
-                                Address.builder()
-                                    .address1("300 Normal Forest Way")
-                                    .city("Portland")
-                                    .country("USA")
-                                    .postalCode("90210")
-                                    .state("OR")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("98-7654321")
-                            .legalBusinessName("Majority Holdings LLC")
-                            .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
                     .addBeneficialOwnerIndividual(
                         Kyb.KybIndividual.builder()
                             .address(
@@ -95,6 +76,25 @@ internal class AccountHolderCreateParamsTest {
                     )
                     .tosTimestamp("2022-03-08T08:00:00Z")
                     .workflow(Kyb.Workflow.KYB_BASIC)
+                    .addBeneficialOwnerEntity(
+                        Kyb.BusinessEntity.builder()
+                            .address(
+                                Address.builder()
+                                    .address1("300 Normal Forest Way")
+                                    .city("Portland")
+                                    .country("USA")
+                                    .postalCode("90210")
+                                    .state("OR")
+                                    .address2("address2")
+                                    .build()
+                            )
+                            .governmentId("98-7654321")
+                            .legalBusinessName("Majority Holdings LLC")
+                            .addPhoneNumber("+15555555555")
+                            .dbaBusinessName("dba_business_name")
+                            .parentCompany("parent_company")
+                            .build()
+                    )
                     .externalId("external_id")
                     .kybPassedTimestamp("2022-03-08T08:00:00Z")
                     .websiteUrl("https://www.mybusiness.com")
@@ -109,25 +109,6 @@ internal class AccountHolderCreateParamsTest {
             AccountHolderCreateParams.builder()
                 .body(
                     Kyb.builder()
-                        .addBeneficialOwnerEntity(
-                            Kyb.BusinessEntity.builder()
-                                .address(
-                                    Address.builder()
-                                        .address1("300 Normal Forest Way")
-                                        .city("Portland")
-                                        .country("USA")
-                                        .postalCode("90210")
-                                        .state("OR")
-                                        .address2("address2")
-                                        .build()
-                                )
-                                .governmentId("98-7654321")
-                                .legalBusinessName("Majority Holdings LLC")
-                                .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
-                                .parentCompany("parent_company")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             Kyb.KybIndividual.builder()
                                 .address(
@@ -192,6 +173,25 @@ internal class AccountHolderCreateParamsTest {
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
                         .workflow(Kyb.Workflow.KYB_BASIC)
+                        .addBeneficialOwnerEntity(
+                            Kyb.BusinessEntity.builder()
+                                .address(
+                                    Address.builder()
+                                        .address1("300 Normal Forest Way")
+                                        .city("Portland")
+                                        .country("USA")
+                                        .postalCode("90210")
+                                        .state("OR")
+                                        .address2("address2")
+                                        .build()
+                                )
+                                .governmentId("98-7654321")
+                                .legalBusinessName("Majority Holdings LLC")
+                                .addPhoneNumber("+15555555555")
+                                .dbaBusinessName("dba_business_name")
+                                .parentCompany("parent_company")
+                                .build()
+                        )
                         .externalId("external_id")
                         .kybPassedTimestamp("2022-03-08T08:00:00Z")
                         .websiteUrl("https://www.mybusiness.com")
@@ -205,25 +205,6 @@ internal class AccountHolderCreateParamsTest {
             .isEqualTo(
                 AccountHolderCreateParams.Body.ofKyb(
                     Kyb.builder()
-                        .addBeneficialOwnerEntity(
-                            Kyb.BusinessEntity.builder()
-                                .address(
-                                    Address.builder()
-                                        .address1("300 Normal Forest Way")
-                                        .city("Portland")
-                                        .country("USA")
-                                        .postalCode("90210")
-                                        .state("OR")
-                                        .address2("address2")
-                                        .build()
-                                )
-                                .governmentId("98-7654321")
-                                .legalBusinessName("Majority Holdings LLC")
-                                .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
-                                .parentCompany("parent_company")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             Kyb.KybIndividual.builder()
                                 .address(
@@ -288,6 +269,25 @@ internal class AccountHolderCreateParamsTest {
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
                         .workflow(Kyb.Workflow.KYB_BASIC)
+                        .addBeneficialOwnerEntity(
+                            Kyb.BusinessEntity.builder()
+                                .address(
+                                    Address.builder()
+                                        .address1("300 Normal Forest Way")
+                                        .city("Portland")
+                                        .country("USA")
+                                        .postalCode("90210")
+                                        .state("OR")
+                                        .address2("address2")
+                                        .build()
+                                )
+                                .governmentId("98-7654321")
+                                .legalBusinessName("Majority Holdings LLC")
+                                .addPhoneNumber("+15555555555")
+                                .dbaBusinessName("dba_business_name")
+                                .parentCompany("parent_company")
+                                .build()
+                        )
                         .externalId("external_id")
                         .kybPassedTimestamp("2022-03-08T08:00:00Z")
                         .websiteUrl("https://www.mybusiness.com")
@@ -302,22 +302,6 @@ internal class AccountHolderCreateParamsTest {
             AccountHolderCreateParams.builder()
                 .body(
                     Kyb.builder()
-                        .addBeneficialOwnerEntity(
-                            Kyb.BusinessEntity.builder()
-                                .address(
-                                    Address.builder()
-                                        .address1("300 Normal Forest Way")
-                                        .city("Portland")
-                                        .country("USA")
-                                        .postalCode("90210")
-                                        .state("OR")
-                                        .build()
-                                )
-                                .governmentId("98-7654321")
-                                .legalBusinessName("Majority Holdings LLC")
-                                .addPhoneNumber("+15555555555")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             Kyb.KybIndividual.builder()
                                 .address(
@@ -385,22 +369,6 @@ internal class AccountHolderCreateParamsTest {
             .isEqualTo(
                 AccountHolderCreateParams.Body.ofKyb(
                     Kyb.builder()
-                        .addBeneficialOwnerEntity(
-                            Kyb.BusinessEntity.builder()
-                                .address(
-                                    Address.builder()
-                                        .address1("300 Normal Forest Way")
-                                        .city("Portland")
-                                        .country("USA")
-                                        .postalCode("90210")
-                                        .state("OR")
-                                        .build()
-                                )
-                                .governmentId("98-7654321")
-                                .legalBusinessName("Majority Holdings LLC")
-                                .addPhoneNumber("+15555555555")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             Kyb.KybIndividual.builder()
                                 .address(

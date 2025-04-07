@@ -22,11 +22,13 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Creates a new card with the same card token and PAN, but updated expiry and CVC2 code. The
- * original card will keep working for card-present transactions until the new card is activated.
- * For card-not-present transactions, the original card details (expiry, CVC2) will also keep
- * working until the new card is activated. Applies to card types `PHYSICAL` and `VIRTUAL`. A card
- * can be replaced or renewed a total of 8 times.
+ * Applies to card types `PHYSICAL` and `VIRTUAL`. For `PHYSICAL`, creates a new card with the same
+ * card token and PAN, but updated expiry and CVC2 code. The original card will keep working for
+ * card-present transactions until the new card is activated. For card-not-present transactions, the
+ * original card details (expiry, CVC2) will also keep working until the new card is activated. A
+ * `PHYSICAL` card can be replaced or renewed a total of 8 times. For `VIRTUAL`, the card will
+ * retain the same card token and PAN and receive an updated expiry and CVC2 code. `product_id`,
+ * `shipping_method`, `shipping_address`, `carrier` are only relevant for renewing `PHYSICAL` cards.
  */
 class CardRenewParams
 private constructor(
@@ -83,8 +85,8 @@ private constructor(
     fun productId(): Optional<String> = body.productId()
 
     /**
-     * Shipping method for the card. Use of options besides `STANDARD` require additional
-     * permissions.
+     * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
+     * `STANDARD` require additional permissions.
      * - `STANDARD` - USPS regular mail or similar international option, with no tracking
      * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
      * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
@@ -265,8 +267,8 @@ private constructor(
         fun productId(productId: JsonField<String>) = apply { body.productId(productId) }
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require additional
-         * permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
@@ -523,8 +525,8 @@ private constructor(
         fun productId(): Optional<String> = productId.getOptional("product_id")
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require additional
-         * permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
@@ -708,8 +710,8 @@ private constructor(
             fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
             /**
-             * Shipping method for the card. Use of options besides `STANDARD` require additional
-             * permissions.
+             * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+             * besides `STANDARD` require additional permissions.
              * - `STANDARD` - USPS regular mail or similar international option, with no tracking
              * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
              *   tracking
@@ -834,8 +836,8 @@ private constructor(
     }
 
     /**
-     * Shipping method for the card. Use of options besides `STANDARD` require additional
-     * permissions.
+     * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
+     * `STANDARD` require additional permissions.
      * - `STANDARD` - USPS regular mail or similar international option, with no tracking
      * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
      * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
@@ -858,7 +860,7 @@ private constructor(
 
         companion object {
 
-            @JvmField val _2_DAY = of("2-DAY")
+            @JvmField val _2_DAY = of("2_DAY")
 
             @JvmField val EXPEDITED = of("EXPEDITED")
 

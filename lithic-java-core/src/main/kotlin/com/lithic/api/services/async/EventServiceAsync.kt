@@ -12,6 +12,7 @@ import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListPageAsync
 import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
+import com.lithic.api.services.async.events.EventSubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import java.util.concurrent.CompletableFuture
 
@@ -23,6 +24,8 @@ interface EventServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     fun subscriptions(): SubscriptionServiceAsync
+
+    fun eventSubscriptions(): EventSubscriptionServiceAsync
 
     /** Get an event. */
     fun retrieve(params: EventRetrieveParams): CompletableFuture<Event> =
@@ -73,6 +76,8 @@ interface EventServiceAsync {
     interface WithRawResponse {
 
         fun subscriptions(): SubscriptionServiceAsync.WithRawResponse
+
+        fun eventSubscriptions(): EventSubscriptionServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/events/{event_token}`, but is otherwise the same
