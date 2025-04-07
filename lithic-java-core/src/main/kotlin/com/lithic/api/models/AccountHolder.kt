@@ -150,8 +150,7 @@ private constructor(
     fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
     /**
-     * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
-     * company.
+     * Deprecated. Only present when user_type == "BUSINESS".
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -613,10 +612,7 @@ private constructor(
             this.accountToken = accountToken
         }
 
-        /**
-         * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in
-         * the company.
-         */
+        /** Deprecated. Only present when user_type == "BUSINESS". */
         fun beneficialOwnerEntities(beneficialOwnerEntities: List<AccountHolderBusinessResponse>) =
             beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 

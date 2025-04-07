@@ -179,11 +179,14 @@ interface CardServiceAsync {
     ): CompletableFuture<Card>
 
     /**
-     * Creates a new card with the same card token and PAN, but updated expiry and CVC2 code. The
-     * original card will keep working for card-present transactions until the new card is
-     * activated. For card-not-present transactions, the original card details (expiry, CVC2) will
-     * also keep working until the new card is activated. Applies to card types `PHYSICAL` and
-     * `VIRTUAL`. A card can be replaced or renewed a total of 8 times.
+     * Applies to card types `PHYSICAL` and `VIRTUAL`. For `PHYSICAL`, creates a new card with the
+     * same card token and PAN, but updated expiry and CVC2 code. The original card will keep
+     * working for card-present transactions until the new card is activated. For card-not-present
+     * transactions, the original card details (expiry, CVC2) will also keep working until the new
+     * card is activated. A `PHYSICAL` card can be replaced or renewed a total of 8 times. For
+     * `VIRTUAL`, the card will retain the same card token and PAN and receive an updated expiry and
+     * CVC2 code. `product_id`, `shipping_method`, `shipping_address`, `carrier` are only relevant
+     * for renewing `PHYSICAL` cards.
      */
     fun renew(params: CardRenewParams): CompletableFuture<Card> =
         renew(params, RequestOptions.none())
