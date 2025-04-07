@@ -11,6 +11,7 @@ import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListPage
 import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
+import com.lithic.api.services.blocking.events.EventSubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionService
 
 interface EventService {
@@ -21,6 +22,8 @@ interface EventService {
     fun withRawResponse(): WithRawResponse
 
     fun subscriptions(): SubscriptionService
+
+    fun eventSubscriptions(): EventSubscriptionService
 
     /** Get an event. */
     fun retrieve(params: EventRetrieveParams): Event = retrieve(params, RequestOptions.none())
@@ -62,6 +65,8 @@ interface EventService {
     interface WithRawResponse {
 
         fun subscriptions(): SubscriptionService.WithRawResponse
+
+        fun eventSubscriptions(): EventSubscriptionService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/events/{event_token}`, but is otherwise the same

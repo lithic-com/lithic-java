@@ -29,9 +29,9 @@ internal class LoanTapeTest {
                                         .FinancialAccountStatus
                                         .OPEN
                                 )
-                                .statusChangeReason(
+                                .substatus(
                                     LoanTape.AccountStanding.FinancialAccountState
-                                        .FinancialAccountStatusChangeReason
+                                        .FinancialAccountSubstatus
                                         .CHARGED_OFF_DELINQUENT
                                 )
                                 .build()
@@ -175,9 +175,9 @@ internal class LoanTapeTest {
                                     .FinancialAccountStatus
                                     .OPEN
                             )
-                            .statusChangeReason(
+                            .substatus(
                                 LoanTape.AccountStanding.FinancialAccountState
-                                    .FinancialAccountStatusChangeReason
+                                    .FinancialAccountSubstatus
                                     .CHARGED_OFF_DELINQUENT
                             )
                             .build()
@@ -330,9 +330,9 @@ internal class LoanTapeTest {
                                         .FinancialAccountStatus
                                         .OPEN
                                 )
-                                .statusChangeReason(
+                                .substatus(
                                     LoanTape.AccountStanding.FinancialAccountState
-                                        .FinancialAccountStatusChangeReason
+                                        .FinancialAccountSubstatus
                                         .CHARGED_OFF_DELINQUENT
                                 )
                                 .build()

@@ -41,9 +41,7 @@ internal class FinancialAccountTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .accountNumber("account_number")
                 .routingNumber("routing_number")
-                .statusChangeReason(
-                    FinancialAccount.FinancialAccountStatusChangeReason.CHARGED_OFF_DELINQUENT
-                )
+                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .build()
 
         assertThat(financialAccount.token()).isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
@@ -75,8 +73,8 @@ internal class FinancialAccountTest {
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(financialAccount.accountNumber()).contains("account_number")
         assertThat(financialAccount.routingNumber()).contains("routing_number")
-        assertThat(financialAccount.statusChangeReason())
-            .contains(FinancialAccount.FinancialAccountStatusChangeReason.CHARGED_OFF_DELINQUENT)
+        assertThat(financialAccount.substatus())
+            .contains(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
     }
 
     @Test
@@ -111,9 +109,7 @@ internal class FinancialAccountTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .accountNumber("account_number")
                 .routingNumber("routing_number")
-                .statusChangeReason(
-                    FinancialAccount.FinancialAccountStatusChangeReason.CHARGED_OFF_DELINQUENT
-                )
+                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .build()
 
         val roundtrippedFinancialAccount =

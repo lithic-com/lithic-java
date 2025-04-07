@@ -12,9 +12,8 @@ internal class FinancialAccountUpdateStatusParamsTest {
         FinancialAccountUpdateStatusParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
-            .statusChangeReason(
-                FinancialAccountUpdateStatusParams.UpdateFinancialAccountStatusChangeReason
-                    .CHARGED_OFF_FRAUD
+            .substatus(
+                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.CHARGED_OFF_FRAUD
             )
             .build()
     }
@@ -25,8 +24,8 @@ internal class FinancialAccountUpdateStatusParamsTest {
             FinancialAccountUpdateStatusParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
-                .statusChangeReason(
-                    FinancialAccountUpdateStatusParams.UpdateFinancialAccountStatusChangeReason
+                .substatus(
+                    FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
                         .CHARGED_OFF_FRAUD
                 )
                 .build()
@@ -42,8 +41,8 @@ internal class FinancialAccountUpdateStatusParamsTest {
             FinancialAccountUpdateStatusParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
-                .statusChangeReason(
-                    FinancialAccountUpdateStatusParams.UpdateFinancialAccountStatusChangeReason
+                .substatus(
+                    FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
                         .CHARGED_OFF_FRAUD
                 )
                 .build()
@@ -52,10 +51,9 @@ internal class FinancialAccountUpdateStatusParamsTest {
 
         assertThat(body.status())
             .isEqualTo(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
-        assertThat(body.statusChangeReason())
+        assertThat(body.substatus())
             .contains(
-                FinancialAccountUpdateStatusParams.UpdateFinancialAccountStatusChangeReason
-                    .CHARGED_OFF_FRAUD
+                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.CHARGED_OFF_FRAUD
             )
     }
 }

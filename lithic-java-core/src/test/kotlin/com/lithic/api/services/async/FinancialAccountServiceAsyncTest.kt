@@ -108,8 +108,8 @@ internal class FinancialAccountServiceAsyncTest {
                 FinancialAccountUpdateStatusParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
-                    .statusChangeReason(
-                        FinancialAccountUpdateStatusParams.UpdateFinancialAccountStatusChangeReason
+                    .substatus(
+                        FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
                             .CHARGED_OFF_FRAUD
                     )
                     .build()
