@@ -22,13 +22,13 @@ import kotlin.jvm.optionals.getOrNull
 
 class Kyb
 private constructor(
-    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
     private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
     private val businessEntity: JsonField<BusinessEntity>,
     private val controlPerson: JsonField<KybIndividual>,
     private val natureOfBusiness: JsonField<String>,
     private val tosTimestamp: JsonField<String>,
     private val workflow: JsonField<Workflow>,
+    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
     private val externalId: JsonField<String>,
     private val kybPassedTimestamp: JsonField<String>,
     private val websiteUrl: JsonField<String>,
@@ -37,9 +37,6 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
-        beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of(),
         @JsonProperty("beneficial_owner_individuals")
         @ExcludeMissing
         beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of(),
@@ -56,6 +53,9 @@ private constructor(
         @ExcludeMissing
         tosTimestamp: JsonField<String> = JsonMissing.of(),
         @JsonProperty("workflow") @ExcludeMissing workflow: JsonField<Workflow> = JsonMissing.of(),
+        @JsonProperty("beneficial_owner_entities")
+        @ExcludeMissing
+        beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of(),
         @JsonProperty("external_id")
         @ExcludeMissing
         externalId: JsonField<String> = JsonMissing.of(),
@@ -66,13 +66,13 @@ private constructor(
         @ExcludeMissing
         websiteUrl: JsonField<String> = JsonMissing.of(),
     ) : this(
-        beneficialOwnerEntities,
         beneficialOwnerIndividuals,
         businessEntity,
         controlPerson,
         natureOfBusiness,
         tosTimestamp,
         workflow,
+        beneficialOwnerEntities,
         externalId,
         kybPassedTimestamp,
         websiteUrl,
@@ -80,28 +80,11 @@ private constructor(
     )
 
     /**
-     * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
-     * of the company, and the largest shareholder is an entity, please identify them in this field.
+     * List of all direct and indirect individuals with >25% ownership in the company. If no
+     * individual owns >25% of the company, please identify the largest shareholder in this field.
      * See
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-     * (Section I) for more background. If no business owner is an entity, pass in an empty list.
-     * However, either this parameter or `beneficial_owner_individuals` must be populated. on
-     * entities that should be included.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun beneficialOwnerEntities(): List<BusinessEntity> =
-        beneficialOwnerEntities.getRequired("beneficial_owner_entities")
-
-    /**
-     * List of all direct and indirect individuals with >25% ownership in the company. If no entity
-     * or individual owns >25% of the company, and the largest shareholder is an individual, please
-     * identify them in this field. See
-     * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-     * (Section I) for more background on individuals that should be included. If no individual is
-     * an entity, pass in an empty list. However, either this parameter or
-     * `beneficial_owner_entities` must be populated.
+     * (Section I) for more background on individuals that should be included.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -158,6 +141,15 @@ private constructor(
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
     /**
+     * Deprecated.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun beneficialOwnerEntities(): Optional<List<BusinessEntity>> =
+        beneficialOwnerEntities.getOptional("beneficial_owner_entities")
+
+    /**
      * A user provided id that can be used to link an account holder with an external system
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -184,16 +176,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun websiteUrl(): Optional<String> = websiteUrl.getOptional("website_url")
-
-    /**
-     * Returns the raw JSON value of [beneficialOwnerEntities].
-     *
-     * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @JsonProperty("beneficial_owner_entities")
-    @ExcludeMissing
-    fun _beneficialOwnerEntities(): JsonField<List<BusinessEntity>> = beneficialOwnerEntities
 
     /**
      * Returns the raw JSON value of [beneficialOwnerIndividuals].
@@ -250,6 +232,16 @@ private constructor(
     @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /**
+     * Returns the raw JSON value of [beneficialOwnerEntities].
+     *
+     * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("beneficial_owner_entities")
+    @ExcludeMissing
+    fun _beneficialOwnerEntities(): JsonField<List<BusinessEntity>> = beneficialOwnerEntities
+
+    /**
      * Returns the raw JSON value of [externalId].
      *
      * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
@@ -292,7 +284,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .beneficialOwnerEntities()
          * .beneficialOwnerIndividuals()
          * .businessEntity()
          * .controlPerson()
@@ -307,13 +298,13 @@ private constructor(
     /** A builder for [Kyb]. */
     class Builder internal constructor() {
 
-        private var beneficialOwnerEntities: JsonField<MutableList<BusinessEntity>>? = null
         private var beneficialOwnerIndividuals: JsonField<MutableList<KybIndividual>>? = null
         private var businessEntity: JsonField<BusinessEntity>? = null
         private var controlPerson: JsonField<KybIndividual>? = null
         private var natureOfBusiness: JsonField<String>? = null
         private var tosTimestamp: JsonField<String>? = null
         private var workflow: JsonField<Workflow>? = null
+        private var beneficialOwnerEntities: JsonField<MutableList<BusinessEntity>>? = null
         private var externalId: JsonField<String> = JsonMissing.of()
         private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var websiteUrl: JsonField<String> = JsonMissing.of()
@@ -321,13 +312,13 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(kyb: Kyb) = apply {
-            beneficialOwnerEntities = kyb.beneficialOwnerEntities.map { it.toMutableList() }
             beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals.map { it.toMutableList() }
             businessEntity = kyb.businessEntity
             controlPerson = kyb.controlPerson
             natureOfBusiness = kyb.natureOfBusiness
             tosTimestamp = kyb.tosTimestamp
             workflow = kyb.workflow
+            beneficialOwnerEntities = kyb.beneficialOwnerEntities.map { it.toMutableList() }
             externalId = kyb.externalId
             kybPassedTimestamp = kyb.kybPassedTimestamp
             websiteUrl = kyb.websiteUrl
@@ -335,49 +326,11 @@ private constructor(
         }
 
         /**
-         * List of all entities with >25% ownership in the company. If no entity or individual
-         * owns >25% of the company, and the largest shareholder is an entity, please identify them
-         * in this field. See
-         * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-         * (Section I) for more background. If no business owner is an entity, pass in an empty
-         * list. However, either this parameter or `beneficial_owner_individuals` must be populated.
-         * on entities that should be included.
-         */
-        fun beneficialOwnerEntities(beneficialOwnerEntities: List<BusinessEntity>) =
-            beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
-
-        /**
-         * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
-         * `List<BusinessEntity>` value instead. This method is primarily for setting the field to
-         * an undocumented or not yet supported value.
-         */
-        fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
-            apply {
-                this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
-            }
-
-        /**
-         * Adds a single [BusinessEntity] to [beneficialOwnerEntities].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        fun addBeneficialOwnerEntity(beneficialOwnerEntity: BusinessEntity) = apply {
-            beneficialOwnerEntities =
-                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
-                }
-        }
-
-        /**
          * List of all direct and indirect individuals with >25% ownership in the company. If no
-         * entity or individual owns >25% of the company, and the largest shareholder is an
-         * individual, please identify them in this field. See
+         * individual owns >25% of the company, please identify the largest shareholder in this
+         * field. See
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
-         * (Section I) for more background on individuals that should be included. If no individual
-         * is an entity, pass in an empty list. However, either this parameter or
-         * `beneficial_owner_entities` must be populated.
+         * (Section I) for more background on individuals that should be included.
          */
         fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: List<KybIndividual>) =
             beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
@@ -492,6 +445,34 @@ private constructor(
          */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
+        /** Deprecated. */
+        fun beneficialOwnerEntities(beneficialOwnerEntities: List<BusinessEntity>) =
+            beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
+
+        /**
+         * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
+         * `List<BusinessEntity>` value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
+         */
+        fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
+            apply {
+                this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
+            }
+
+        /**
+         * Adds a single [BusinessEntity] to [beneficialOwnerEntities].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addBeneficialOwnerEntity(beneficialOwnerEntity: BusinessEntity) = apply {
+            beneficialOwnerEntities =
+                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
+                }
+        }
+
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
@@ -562,7 +543,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .beneficialOwnerEntities()
          * .beneficialOwnerIndividuals()
          * .businessEntity()
          * .controlPerson()
@@ -575,9 +555,6 @@ private constructor(
          */
         fun build(): Kyb =
             Kyb(
-                checkRequired("beneficialOwnerEntities", beneficialOwnerEntities).map {
-                    it.toImmutable()
-                },
                 checkRequired("beneficialOwnerIndividuals", beneficialOwnerIndividuals).map {
                     it.toImmutable()
                 },
@@ -586,6 +563,7 @@ private constructor(
                 checkRequired("natureOfBusiness", natureOfBusiness),
                 checkRequired("tosTimestamp", tosTimestamp),
                 checkRequired("workflow", workflow),
+                (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                 externalId,
                 kybPassedTimestamp,
                 websiteUrl,
@@ -600,13 +578,13 @@ private constructor(
             return@apply
         }
 
-        beneficialOwnerEntities().forEach { it.validate() }
         beneficialOwnerIndividuals().forEach { it.validate() }
         businessEntity().validate()
         controlPerson().validate()
         natureOfBusiness()
         tosTimestamp()
         workflow().validate()
+        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
         externalId()
         kybPassedTimestamp()
         websiteUrl()
@@ -628,422 +606,16 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-            (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
-                ?: 0) +
+        (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (businessEntity.asKnown().getOrNull()?.validity() ?: 0) +
             (controlPerson.asKnown().getOrNull()?.validity() ?: 0) +
             (if (natureOfBusiness.asKnown().isPresent) 1 else 0) +
             (if (tosTimestamp.asKnown().isPresent) 1 else 0) +
             (workflow.asKnown().getOrNull()?.validity() ?: 0) +
+            (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (externalId.asKnown().isPresent) 1 else 0) +
             (if (kybPassedTimestamp.asKnown().isPresent) 1 else 0) +
             (if (websiteUrl.asKnown().isPresent) 1 else 0)
-
-    class BusinessEntity
-    private constructor(
-        private val address: JsonField<Address>,
-        private val governmentId: JsonField<String>,
-        private val legalBusinessName: JsonField<String>,
-        private val phoneNumbers: JsonField<List<String>>,
-        private val dbaBusinessName: JsonField<String>,
-        private val parentCompany: JsonField<String>,
-        private val additionalProperties: MutableMap<String, JsonValue>,
-    ) {
-
-        @JsonCreator
-        private constructor(
-            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
-            @JsonProperty("government_id")
-            @ExcludeMissing
-            governmentId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("legal_business_name")
-            @ExcludeMissing
-            legalBusinessName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("phone_numbers")
-            @ExcludeMissing
-            phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("dba_business_name")
-            @ExcludeMissing
-            dbaBusinessName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("parent_company")
-            @ExcludeMissing
-            parentCompany: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            address,
-            governmentId,
-            legalBusinessName,
-            phoneNumbers,
-            dbaBusinessName,
-            parentCompany,
-            mutableMapOf(),
-        )
-
-        /**
-         * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-         * APO/FPO are acceptable.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun address(): Address = address.getRequired("address")
-
-        /**
-         * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
-         * are currently supported, entered as full nine-digits, with or without hyphens.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun governmentId(): String = governmentId.getRequired("government_id")
-
-        /**
-         * Legal (formal) business name.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun legalBusinessName(): String = legalBusinessName.getRequired("legal_business_name")
-
-        /**
-         * One or more of the business's phone number(s), entered as a list in E.164 format.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
-
-        /**
-         * Any name that the business operates under that is not its legal business name (if
-         * applicable).
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun dbaBusinessName(): Optional<String> = dbaBusinessName.getOptional("dba_business_name")
-
-        /**
-         * Parent company name (if applicable).
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun parentCompany(): Optional<String> = parentCompany.getOptional("parent_company")
-
-        /**
-         * Returns the raw JSON value of [address].
-         *
-         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
-
-        /**
-         * Returns the raw JSON value of [governmentId].
-         *
-         * Unlike [governmentId], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("government_id")
-        @ExcludeMissing
-        fun _governmentId(): JsonField<String> = governmentId
-
-        /**
-         * Returns the raw JSON value of [legalBusinessName].
-         *
-         * Unlike [legalBusinessName], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("legal_business_name")
-        @ExcludeMissing
-        fun _legalBusinessName(): JsonField<String> = legalBusinessName
-
-        /**
-         * Returns the raw JSON value of [phoneNumbers].
-         *
-         * Unlike [phoneNumbers], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("phone_numbers")
-        @ExcludeMissing
-        fun _phoneNumbers(): JsonField<List<String>> = phoneNumbers
-
-        /**
-         * Returns the raw JSON value of [dbaBusinessName].
-         *
-         * Unlike [dbaBusinessName], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("dba_business_name")
-        @ExcludeMissing
-        fun _dbaBusinessName(): JsonField<String> = dbaBusinessName
-
-        /**
-         * Returns the raw JSON value of [parentCompany].
-         *
-         * Unlike [parentCompany], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("parent_company")
-        @ExcludeMissing
-        fun _parentCompany(): JsonField<String> = parentCompany
-
-        @JsonAnySetter
-        private fun putAdditionalProperty(key: String, value: JsonValue) {
-            additionalProperties.put(key, value)
-        }
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> =
-            Collections.unmodifiableMap(additionalProperties)
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [BusinessEntity].
-             *
-             * The following fields are required:
-             * ```java
-             * .address()
-             * .governmentId()
-             * .legalBusinessName()
-             * .phoneNumbers()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [BusinessEntity]. */
-        class Builder internal constructor() {
-
-            private var address: JsonField<Address>? = null
-            private var governmentId: JsonField<String>? = null
-            private var legalBusinessName: JsonField<String>? = null
-            private var phoneNumbers: JsonField<MutableList<String>>? = null
-            private var dbaBusinessName: JsonField<String> = JsonMissing.of()
-            private var parentCompany: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(businessEntity: BusinessEntity) = apply {
-                address = businessEntity.address
-                governmentId = businessEntity.governmentId
-                legalBusinessName = businessEntity.legalBusinessName
-                phoneNumbers = businessEntity.phoneNumbers.map { it.toMutableList() }
-                dbaBusinessName = businessEntity.dbaBusinessName
-                parentCompany = businessEntity.parentCompany
-                additionalProperties = businessEntity.additionalProperties.toMutableMap()
-            }
-
-            /**
-             * Business's physical address - PO boxes, UPS drops, and FedEx drops are not
-             * acceptable; APO/FPO are acceptable.
-             */
-            fun address(address: Address) = address(JsonField.of(address))
-
-            /**
-             * Sets [Builder.address] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.address] with a well-typed [Address] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun address(address: JsonField<Address>) = apply { this.address = address }
-
-            /**
-             * Government-issued identification number. US Federal Employer Identification Numbers
-             * (EIN) are currently supported, entered as full nine-digits, with or without hyphens.
-             */
-            fun governmentId(governmentId: String) = governmentId(JsonField.of(governmentId))
-
-            /**
-             * Sets [Builder.governmentId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.governmentId] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun governmentId(governmentId: JsonField<String>) = apply {
-                this.governmentId = governmentId
-            }
-
-            /** Legal (formal) business name. */
-            fun legalBusinessName(legalBusinessName: String) =
-                legalBusinessName(JsonField.of(legalBusinessName))
-
-            /**
-             * Sets [Builder.legalBusinessName] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.legalBusinessName] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
-                this.legalBusinessName = legalBusinessName
-            }
-
-            /** One or more of the business's phone number(s), entered as a list in E.164 format. */
-            fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
-
-            /**
-             * Sets [Builder.phoneNumbers] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.phoneNumbers] with a well-typed `List<String>` value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
-                this.phoneNumbers = phoneNumbers.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [String] to [phoneNumbers].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addPhoneNumber(phoneNumber: String) = apply {
-                phoneNumbers =
-                    (phoneNumbers ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("phoneNumbers", it).add(phoneNumber)
-                    }
-            }
-
-            /**
-             * Any name that the business operates under that is not its legal business name (if
-             * applicable).
-             */
-            fun dbaBusinessName(dbaBusinessName: String) =
-                dbaBusinessName(JsonField.of(dbaBusinessName))
-
-            /**
-             * Sets [Builder.dbaBusinessName] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.dbaBusinessName] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
-                this.dbaBusinessName = dbaBusinessName
-            }
-
-            /** Parent company name (if applicable). */
-            fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
-
-            /**
-             * Sets [Builder.parentCompany] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.parentCompany] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun parentCompany(parentCompany: JsonField<String>) = apply {
-                this.parentCompany = parentCompany
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [BusinessEntity].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .address()
-             * .governmentId()
-             * .legalBusinessName()
-             * .phoneNumbers()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): BusinessEntity =
-                BusinessEntity(
-                    checkRequired("address", address),
-                    checkRequired("governmentId", governmentId),
-                    checkRequired("legalBusinessName", legalBusinessName),
-                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
-                    dbaBusinessName,
-                    parentCompany,
-                    additionalProperties.toMutableMap(),
-                )
-        }
-
-        private var validated: Boolean = false
-
-        fun validate(): BusinessEntity = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address().validate()
-            governmentId()
-            legalBusinessName()
-            phoneNumbers()
-            dbaBusinessName()
-            parentCompany()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic
-        internal fun validity(): Int =
-            (address.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (governmentId.asKnown().isPresent) 1 else 0) +
-                (if (legalBusinessName.asKnown().isPresent) 1 else 0) +
-                (phoneNumbers.asKnown().getOrNull()?.size ?: 0) +
-                (if (dbaBusinessName.asKnown().isPresent) 1 else 0) +
-                (if (parentCompany.asKnown().isPresent) 1 else 0)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is BusinessEntity && address == other.address && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && phoneNumbers == other.phoneNumbers && dbaBusinessName == other.dbaBusinessName && parentCompany == other.parentCompany && additionalProperties == other.additionalProperties /* spotless:on */
-        }
-
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, governmentId, legalBusinessName, phoneNumbers, dbaBusinessName, parentCompany, additionalProperties) }
-        /* spotless:on */
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "BusinessEntity{address=$address, governmentId=$governmentId, legalBusinessName=$legalBusinessName, phoneNumbers=$phoneNumbers, dbaBusinessName=$dbaBusinessName, parentCompany=$parentCompany, additionalProperties=$additionalProperties}"
-    }
 
     /** Individuals associated with a KYB application. Phone number is optional. */
     class KybIndividual
@@ -1462,6 +1034,412 @@ private constructor(
             "KybIndividual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
+    /** Information for business for which the account is being opened and KYB is being run. */
+    class BusinessEntity
+    private constructor(
+        private val address: JsonField<Address>,
+        private val governmentId: JsonField<String>,
+        private val legalBusinessName: JsonField<String>,
+        private val phoneNumbers: JsonField<List<String>>,
+        private val dbaBusinessName: JsonField<String>,
+        private val parentCompany: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+            @JsonProperty("government_id")
+            @ExcludeMissing
+            governmentId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("legal_business_name")
+            @ExcludeMissing
+            legalBusinessName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_numbers")
+            @ExcludeMissing
+            phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("dba_business_name")
+            @ExcludeMissing
+            dbaBusinessName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("parent_company")
+            @ExcludeMissing
+            parentCompany: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            address,
+            governmentId,
+            legalBusinessName,
+            phoneNumbers,
+            dbaBusinessName,
+            parentCompany,
+            mutableMapOf(),
+        )
+
+        /**
+         * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
+         * APO/FPO are acceptable.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun address(): Address = address.getRequired("address")
+
+        /**
+         * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
+         * are currently supported, entered as full nine-digits, with or without hyphens.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun governmentId(): String = governmentId.getRequired("government_id")
+
+        /**
+         * Legal (formal) business name.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun legalBusinessName(): String = legalBusinessName.getRequired("legal_business_name")
+
+        /**
+         * One or more of the business's phone number(s), entered as a list in E.164 format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
+
+        /**
+         * Any name that the business operates under that is not its legal business name (if
+         * applicable).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun dbaBusinessName(): Optional<String> = dbaBusinessName.getOptional("dba_business_name")
+
+        /**
+         * Parent company name (if applicable).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun parentCompany(): Optional<String> = parentCompany.getOptional("parent_company")
+
+        /**
+         * Returns the raw JSON value of [address].
+         *
+         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
+
+        /**
+         * Returns the raw JSON value of [governmentId].
+         *
+         * Unlike [governmentId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        fun _governmentId(): JsonField<String> = governmentId
+
+        /**
+         * Returns the raw JSON value of [legalBusinessName].
+         *
+         * Unlike [legalBusinessName], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("legal_business_name")
+        @ExcludeMissing
+        fun _legalBusinessName(): JsonField<String> = legalBusinessName
+
+        /**
+         * Returns the raw JSON value of [phoneNumbers].
+         *
+         * Unlike [phoneNumbers], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("phone_numbers")
+        @ExcludeMissing
+        fun _phoneNumbers(): JsonField<List<String>> = phoneNumbers
+
+        /**
+         * Returns the raw JSON value of [dbaBusinessName].
+         *
+         * Unlike [dbaBusinessName], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        fun _dbaBusinessName(): JsonField<String> = dbaBusinessName
+
+        /**
+         * Returns the raw JSON value of [parentCompany].
+         *
+         * Unlike [parentCompany], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        fun _parentCompany(): JsonField<String> = parentCompany
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [BusinessEntity].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .governmentId()
+             * .legalBusinessName()
+             * .phoneNumbers()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [BusinessEntity]. */
+        class Builder internal constructor() {
+
+            private var address: JsonField<Address>? = null
+            private var governmentId: JsonField<String>? = null
+            private var legalBusinessName: JsonField<String>? = null
+            private var phoneNumbers: JsonField<MutableList<String>>? = null
+            private var dbaBusinessName: JsonField<String> = JsonMissing.of()
+            private var parentCompany: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(businessEntity: BusinessEntity) = apply {
+                address = businessEntity.address
+                governmentId = businessEntity.governmentId
+                legalBusinessName = businessEntity.legalBusinessName
+                phoneNumbers = businessEntity.phoneNumbers.map { it.toMutableList() }
+                dbaBusinessName = businessEntity.dbaBusinessName
+                parentCompany = businessEntity.parentCompany
+                additionalProperties = businessEntity.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Business's physical address - PO boxes, UPS drops, and FedEx drops are not
+             * acceptable; APO/FPO are acceptable.
+             */
+            fun address(address: Address) = address(JsonField.of(address))
+
+            /**
+             * Sets [Builder.address] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address] with a well-typed [Address] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun address(address: JsonField<Address>) = apply { this.address = address }
+
+            /**
+             * Government-issued identification number. US Federal Employer Identification Numbers
+             * (EIN) are currently supported, entered as full nine-digits, with or without hyphens.
+             */
+            fun governmentId(governmentId: String) = governmentId(JsonField.of(governmentId))
+
+            /**
+             * Sets [Builder.governmentId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.governmentId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun governmentId(governmentId: JsonField<String>) = apply {
+                this.governmentId = governmentId
+            }
+
+            /** Legal (formal) business name. */
+            fun legalBusinessName(legalBusinessName: String) =
+                legalBusinessName(JsonField.of(legalBusinessName))
+
+            /**
+             * Sets [Builder.legalBusinessName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.legalBusinessName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
+                this.legalBusinessName = legalBusinessName
+            }
+
+            /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+            fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
+
+            /**
+             * Sets [Builder.phoneNumbers] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phoneNumbers] with a well-typed `List<String>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
+                this.phoneNumbers = phoneNumbers.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [String] to [phoneNumbers].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addPhoneNumber(phoneNumber: String) = apply {
+                phoneNumbers =
+                    (phoneNumbers ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("phoneNumbers", it).add(phoneNumber)
+                    }
+            }
+
+            /**
+             * Any name that the business operates under that is not its legal business name (if
+             * applicable).
+             */
+            fun dbaBusinessName(dbaBusinessName: String) =
+                dbaBusinessName(JsonField.of(dbaBusinessName))
+
+            /**
+             * Sets [Builder.dbaBusinessName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dbaBusinessName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
+                this.dbaBusinessName = dbaBusinessName
+            }
+
+            /** Parent company name (if applicable). */
+            fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
+
+            /**
+             * Sets [Builder.parentCompany] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parentCompany] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun parentCompany(parentCompany: JsonField<String>) = apply {
+                this.parentCompany = parentCompany
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [BusinessEntity].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .governmentId()
+             * .legalBusinessName()
+             * .phoneNumbers()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): BusinessEntity =
+                BusinessEntity(
+                    checkRequired("address", address),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("legalBusinessName", legalBusinessName),
+                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
+                    dbaBusinessName,
+                    parentCompany,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): BusinessEntity = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address().validate()
+            governmentId()
+            legalBusinessName()
+            phoneNumbers()
+            dbaBusinessName()
+            parentCompany()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (address.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (governmentId.asKnown().isPresent) 1 else 0) +
+                (if (legalBusinessName.asKnown().isPresent) 1 else 0) +
+                (phoneNumbers.asKnown().getOrNull()?.size ?: 0) +
+                (if (dbaBusinessName.asKnown().isPresent) 1 else 0) +
+                (if (parentCompany.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is BusinessEntity && address == other.address && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && phoneNumbers == other.phoneNumbers && dbaBusinessName == other.dbaBusinessName && parentCompany == other.parentCompany && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address, governmentId, legalBusinessName, phoneNumbers, dbaBusinessName, parentCompany, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "BusinessEntity{address=$address, governmentId=$governmentId, legalBusinessName=$legalBusinessName, phoneNumbers=$phoneNumbers, dbaBusinessName=$dbaBusinessName, parentCompany=$parentCompany, additionalProperties=$additionalProperties}"
+    }
+
     /** Specifies the type of KYB workflow to run. */
     class Workflow @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1593,15 +1571,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyb && beneficialOwnerEntities == other.beneficialOwnerEntities && beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && businessEntity == other.businessEntity && controlPerson == other.controlPerson && natureOfBusiness == other.natureOfBusiness && tosTimestamp == other.tosTimestamp && workflow == other.workflow && externalId == other.externalId && kybPassedTimestamp == other.kybPassedTimestamp && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Kyb && beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && businessEntity == other.businessEntity && controlPerson == other.controlPerson && natureOfBusiness == other.natureOfBusiness && tosTimestamp == other.tosTimestamp && workflow == other.workflow && beneficialOwnerEntities == other.beneficialOwnerEntities && externalId == other.externalId && kybPassedTimestamp == other.kybPassedTimestamp && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(beneficialOwnerEntities, beneficialOwnerIndividuals, businessEntity, controlPerson, natureOfBusiness, tosTimestamp, workflow, externalId, kybPassedTimestamp, websiteUrl, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(beneficialOwnerIndividuals, businessEntity, controlPerson, natureOfBusiness, tosTimestamp, workflow, beneficialOwnerEntities, externalId, kybPassedTimestamp, websiteUrl, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, workflow=$workflow, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, workflow=$workflow, beneficialOwnerEntities=$beneficialOwnerEntities, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

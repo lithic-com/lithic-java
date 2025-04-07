@@ -31,9 +31,9 @@ internal class StatementsTest {
                                                 .FinancialAccountStatus
                                                 .OPEN
                                         )
-                                        .statusChangeReason(
+                                        .substatus(
                                             Statement.AccountStanding.FinancialAccountState
-                                                .FinancialAccountStatusChangeReason
+                                                .FinancialAccountSubstatus
                                                 .CHARGED_OFF_DELINQUENT
                                         )
                                         .build()
@@ -134,9 +134,9 @@ internal class StatementsTest {
                                             .FinancialAccountStatus
                                             .OPEN
                                     )
-                                    .statusChangeReason(
+                                    .substatus(
                                         Statement.AccountStanding.FinancialAccountState
-                                            .FinancialAccountStatusChangeReason
+                                            .FinancialAccountSubstatus
                                             .CHARGED_OFF_DELINQUENT
                                     )
                                     .build()
@@ -241,9 +241,9 @@ internal class StatementsTest {
                                                 .FinancialAccountStatus
                                                 .OPEN
                                         )
-                                        .statusChangeReason(
+                                        .substatus(
                                             Statement.AccountStanding.FinancialAccountState
-                                                .FinancialAccountStatusChangeReason
+                                                .FinancialAccountSubstatus
                                                 .CHARGED_OFF_DELINQUENT
                                         )
                                         .build()
