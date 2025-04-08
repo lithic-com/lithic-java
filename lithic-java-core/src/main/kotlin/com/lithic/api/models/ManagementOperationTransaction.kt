@@ -35,6 +35,7 @@ private constructor(
     private val result: JsonField<TransactionResult>,
     private val settledAmount: JsonField<Long>,
     private val status: JsonField<TransactionStatus>,
+    private val transactionSeries: JsonField<TransactionSeries>,
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -71,6 +72,9 @@ private constructor(
         @JsonProperty("status")
         @ExcludeMissing
         status: JsonField<TransactionStatus> = JsonMissing.of(),
+        @JsonProperty("transaction_series")
+        @ExcludeMissing
+        transactionSeries: JsonField<TransactionSeries> = JsonMissing.of(),
         @JsonProperty("updated")
         @ExcludeMissing
         updated: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -89,6 +93,7 @@ private constructor(
         result,
         settledAmount,
         status,
+        transactionSeries,
         updated,
         userDefinedId,
         mutableMapOf(),
@@ -160,6 +165,13 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): TransactionStatus = status.getRequired("status")
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun transactionSeries(): Optional<TransactionSeries> =
+        transactionSeries.getOptional("transaction_series")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -264,6 +276,16 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<TransactionStatus> = status
 
     /**
+     * Returns the raw JSON value of [transactionSeries].
+     *
+     * Unlike [transactionSeries], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("transaction_series")
+    @ExcludeMissing
+    fun _transactionSeries(): JsonField<TransactionSeries> = transactionSeries
+
+    /**
      * Returns the raw JSON value of [updated].
      *
      * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
@@ -310,6 +332,7 @@ private constructor(
          * .result()
          * .settledAmount()
          * .status()
+         * .transactionSeries()
          * .updated()
          * ```
          */
@@ -330,6 +353,7 @@ private constructor(
         private var result: JsonField<TransactionResult>? = null
         private var settledAmount: JsonField<Long>? = null
         private var status: JsonField<TransactionStatus>? = null
+        private var transactionSeries: JsonField<TransactionSeries>? = null
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -347,6 +371,7 @@ private constructor(
             result = managementOperationTransaction.result
             settledAmount = managementOperationTransaction.settledAmount
             status = managementOperationTransaction.status
+            transactionSeries = managementOperationTransaction.transactionSeries
             updated = managementOperationTransaction.updated
             userDefinedId = managementOperationTransaction.userDefinedId
             additionalProperties =
@@ -497,6 +522,24 @@ private constructor(
          */
         fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
 
+        fun transactionSeries(transactionSeries: TransactionSeries?) =
+            transactionSeries(JsonField.ofNullable(transactionSeries))
+
+        /** Alias for calling [Builder.transactionSeries] with `transactionSeries.orElse(null)`. */
+        fun transactionSeries(transactionSeries: Optional<TransactionSeries>) =
+            transactionSeries(transactionSeries.getOrNull())
+
+        /**
+         * Sets [Builder.transactionSeries] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.transactionSeries] with a well-typed [TransactionSeries]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun transactionSeries(transactionSeries: JsonField<TransactionSeries>) = apply {
+            this.transactionSeries = transactionSeries
+        }
+
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /**
@@ -558,6 +601,7 @@ private constructor(
          * .result()
          * .settledAmount()
          * .status()
+         * .transactionSeries()
          * .updated()
          * ```
          *
@@ -576,6 +620,7 @@ private constructor(
                 checkRequired("result", result),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("status", status),
+                checkRequired("transactionSeries", transactionSeries),
                 checkRequired("updated", updated),
                 userDefinedId,
                 additionalProperties.toMutableMap(),
@@ -600,6 +645,7 @@ private constructor(
         result().validate()
         settledAmount()
         status().validate()
+        transactionSeries().ifPresent { it.validate() }
         updated()
         userDefinedId()
         validated = true
@@ -631,6 +677,7 @@ private constructor(
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (transactionSeries.asKnown().getOrNull()?.validity() ?: 0) +
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedId.asKnown().isPresent) 1 else 0)
 
@@ -2129,20 +2176,276 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    class TransactionSeries
+    private constructor(
+        private val relatedTransactionEventToken: JsonField<String>,
+        private val relatedTransactionToken: JsonField<String>,
+        private val type: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("related_transaction_event_token")
+            @ExcludeMissing
+            relatedTransactionEventToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("related_transaction_token")
+            @ExcludeMissing
+            relatedTransactionToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<String> = JsonMissing.of(),
+        ) : this(relatedTransactionEventToken, relatedTransactionToken, type, mutableMapOf())
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun relatedTransactionEventToken(): Optional<String> =
+            relatedTransactionEventToken.getOptional("related_transaction_event_token")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun relatedTransactionToken(): Optional<String> =
+            relatedTransactionToken.getOptional("related_transaction_token")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun type(): String = type.getRequired("type")
+
+        /**
+         * Returns the raw JSON value of [relatedTransactionEventToken].
+         *
+         * Unlike [relatedTransactionEventToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("related_transaction_event_token")
+        @ExcludeMissing
+        fun _relatedTransactionEventToken(): JsonField<String> = relatedTransactionEventToken
+
+        /**
+         * Returns the raw JSON value of [relatedTransactionToken].
+         *
+         * Unlike [relatedTransactionToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("related_transaction_token")
+        @ExcludeMissing
+        fun _relatedTransactionToken(): JsonField<String> = relatedTransactionToken
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [TransactionSeries].
+             *
+             * The following fields are required:
+             * ```java
+             * .relatedTransactionEventToken()
+             * .relatedTransactionToken()
+             * .type()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [TransactionSeries]. */
+        class Builder internal constructor() {
+
+            private var relatedTransactionEventToken: JsonField<String>? = null
+            private var relatedTransactionToken: JsonField<String>? = null
+            private var type: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transactionSeries: TransactionSeries) = apply {
+                relatedTransactionEventToken = transactionSeries.relatedTransactionEventToken
+                relatedTransactionToken = transactionSeries.relatedTransactionToken
+                type = transactionSeries.type
+                additionalProperties = transactionSeries.additionalProperties.toMutableMap()
+            }
+
+            fun relatedTransactionEventToken(relatedTransactionEventToken: String?) =
+                relatedTransactionEventToken(JsonField.ofNullable(relatedTransactionEventToken))
+
+            /**
+             * Alias for calling [Builder.relatedTransactionEventToken] with
+             * `relatedTransactionEventToken.orElse(null)`.
+             */
+            fun relatedTransactionEventToken(relatedTransactionEventToken: Optional<String>) =
+                relatedTransactionEventToken(relatedTransactionEventToken.getOrNull())
+
+            /**
+             * Sets [Builder.relatedTransactionEventToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.relatedTransactionEventToken] with a well-typed
+             * [String] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun relatedTransactionEventToken(relatedTransactionEventToken: JsonField<String>) =
+                apply {
+                    this.relatedTransactionEventToken = relatedTransactionEventToken
+                }
+
+            fun relatedTransactionToken(relatedTransactionToken: String?) =
+                relatedTransactionToken(JsonField.ofNullable(relatedTransactionToken))
+
+            /**
+             * Alias for calling [Builder.relatedTransactionToken] with
+             * `relatedTransactionToken.orElse(null)`.
+             */
+            fun relatedTransactionToken(relatedTransactionToken: Optional<String>) =
+                relatedTransactionToken(relatedTransactionToken.getOrNull())
+
+            /**
+             * Sets [Builder.relatedTransactionToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.relatedTransactionToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun relatedTransactionToken(relatedTransactionToken: JsonField<String>) = apply {
+                this.relatedTransactionToken = relatedTransactionToken
+            }
+
+            fun type(type: String) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<String>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [TransactionSeries].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .relatedTransactionEventToken()
+             * .relatedTransactionToken()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): TransactionSeries =
+                TransactionSeries(
+                    checkRequired("relatedTransactionEventToken", relatedTransactionEventToken),
+                    checkRequired("relatedTransactionToken", relatedTransactionToken),
+                    checkRequired("type", type),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSeries = apply {
+            if (validated) {
+                return@apply
+            }
+
+            relatedTransactionEventToken()
+            relatedTransactionToken()
+            type()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (relatedTransactionEventToken.asKnown().isPresent) 1 else 0) +
+                (if (relatedTransactionToken.asKnown().isPresent) 1 else 0) +
+                (if (type.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is TransactionSeries && relatedTransactionEventToken == other.relatedTransactionEventToken && relatedTransactionToken == other.relatedTransactionToken && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(relatedTransactionEventToken, relatedTransactionToken, type, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "TransactionSeries{relatedTransactionEventToken=$relatedTransactionEventToken, relatedTransactionToken=$relatedTransactionToken, type=$type, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && category == other.category && created == other.created && currency == other.currency && direction == other.direction && events == other.events && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && category == other.category && created == other.created && currency == other.currency && direction == other.direction && events == other.events && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && transactionSeries == other.transactionSeries && updated == other.updated && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, direction, events, financialAccountToken, pendingAmount, result, settledAmount, status, updated, userDefinedId, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, direction, events, financialAccountToken, pendingAmount, result, settledAmount, status, transactionSeries, updated, userDefinedId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ManagementOperationTransaction{token=$token, category=$category, created=$created, currency=$currency, direction=$direction, events=$events, financialAccountToken=$financialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, updated=$updated, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "ManagementOperationTransaction{token=$token, category=$category, created=$created, currency=$currency, direction=$direction, events=$events, financialAccountToken=$financialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, transactionSeries=$transactionSeries, updated=$updated, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }
