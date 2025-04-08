@@ -80,8 +80,8 @@ private constructor(
     )
 
     /**
-     * List of all direct and indirect individuals with >25% ownership in the company. If no
-     * individual owns >25% of the company, please identify the largest shareholder in this field.
+     * List of all direct and indirect individuals with 25% or more ownership in the company. If no
+     * individual owns 25% of the company, please identify the largest shareholder in this field.
      * See
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
      * (Section I) for more background on individuals that should be included.
@@ -146,6 +146,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
+    @Deprecated("deprecated")
     fun beneficialOwnerEntities(): Optional<List<BusinessEntity>> =
         beneficialOwnerEntities.getOptional("beneficial_owner_entities")
 
@@ -237,6 +238,7 @@ private constructor(
      * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
      * unexpected type.
      */
+    @Deprecated("deprecated")
     @JsonProperty("beneficial_owner_entities")
     @ExcludeMissing
     fun _beneficialOwnerEntities(): JsonField<List<BusinessEntity>> = beneficialOwnerEntities
@@ -326,8 +328,8 @@ private constructor(
         }
 
         /**
-         * List of all direct and indirect individuals with >25% ownership in the company. If no
-         * individual owns >25% of the company, please identify the largest shareholder in this
+         * List of all direct and indirect individuals with 25% or more ownership in the company. If
+         * no individual owns 25% of the company, please identify the largest shareholder in this
          * field. See
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
          * (Section I) for more background on individuals that should be included.
@@ -446,6 +448,7 @@ private constructor(
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         /** Deprecated. */
+        @Deprecated("deprecated")
         fun beneficialOwnerEntities(beneficialOwnerEntities: List<BusinessEntity>) =
             beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 
@@ -456,6 +459,7 @@ private constructor(
          * `List<BusinessEntity>` value instead. This method is primarily for setting the field to
          * an undocumented or not yet supported value.
          */
+        @Deprecated("deprecated")
         fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
             apply {
                 this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
@@ -466,6 +470,7 @@ private constructor(
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
+        @Deprecated("deprecated")
         fun addBeneficialOwnerEntity(beneficialOwnerEntity: BusinessEntity) = apply {
             beneficialOwnerEntities =
                 (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
