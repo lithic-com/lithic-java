@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.85.0 (2025-04-08)
+
+Full Changelog: [v0.84.0...v0.85.0](https://github.com/lithic-com/lithic-java/compare/v0.84.0...v0.85.0)
+
+### Features
+
+* **api:** introduce TransactionSeries and update ShippingMethod fields ([#589](https://github.com/lithic-com/lithic-java/issues/589)) ([2a5587e](https://github.com/lithic-com/lithic-java/commit/2a5587e9164b0e85ce1e18a2f8cadae99aa4ae9e))
+
 ## 0.84.0 (2025-04-07)
 
 Full Changelog: [v0.83.0...v0.84.0](https://github.com/lithic-com/lithic-java/compare/v0.83.0...v0.84.0)
