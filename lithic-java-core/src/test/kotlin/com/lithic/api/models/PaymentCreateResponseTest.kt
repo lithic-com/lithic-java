@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.core.jsonMapper
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -50,6 +51,7 @@ internal class PaymentCreateResponseTest {
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
+                .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .balance(
                     Balance.builder()
                         .availableAmount(0L)
@@ -108,6 +110,8 @@ internal class PaymentCreateResponseTest {
         assertThat(paymentCreateResponse.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(paymentCreateResponse.userDefinedId()).contains("user_defined_id")
+        assertThat(paymentCreateResponse.expectedReleaseDate())
+            .contains(LocalDate.parse("2019-12-27"))
         assertThat(paymentCreateResponse.balance())
             .contains(
                 Balance.builder()
@@ -166,6 +170,7 @@ internal class PaymentCreateResponseTest {
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
+                .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .balance(
                     Balance.builder()
                         .availableAmount(0L)
