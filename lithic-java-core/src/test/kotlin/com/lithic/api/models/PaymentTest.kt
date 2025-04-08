@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.core.jsonMapper
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -50,6 +51,7 @@ internal class PaymentTest {
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
+                .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .build()
 
         assertThat(payment.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -92,6 +94,7 @@ internal class PaymentTest {
         assertThat(payment.status()).isEqualTo(Payment.Status.DECLINED)
         assertThat(payment.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(payment.userDefinedId()).contains("user_defined_id")
+        assertThat(payment.expectedReleaseDate()).contains(LocalDate.parse("2019-12-27"))
     }
 
     @Test
@@ -135,6 +138,7 @@ internal class PaymentTest {
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
+                .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .build()
 
         val roundtrippedPayment =

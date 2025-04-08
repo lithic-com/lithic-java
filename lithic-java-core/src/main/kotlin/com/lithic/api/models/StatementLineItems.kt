@@ -1124,6 +1124,8 @@ private constructor(
 
                 @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
+                @JvmField val LOSS_WRITE_OFF = of("LOSS_WRITE_OFF")
+
                 @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
                 @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
@@ -1201,6 +1203,7 @@ private constructor(
                 INTERNAL_ADJUSTMENT,
                 LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
+                LOSS_WRITE_OFF,
                 PROVISIONAL_CREDIT,
                 PROVISIONAL_CREDIT_REVERSAL,
                 RETURN,
@@ -1279,6 +1282,7 @@ private constructor(
                 INTERNAL_ADJUSTMENT,
                 LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
+                LOSS_WRITE_OFF,
                 PROVISIONAL_CREDIT,
                 PROVISIONAL_CREDIT_REVERSAL,
                 RETURN,
@@ -1359,6 +1363,7 @@ private constructor(
                     INTERNAL_ADJUSTMENT -> Value.INTERNAL_ADJUSTMENT
                     LATE_PAYMENT -> Value.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
+                    LOSS_WRITE_OFF -> Value.LOSS_WRITE_OFF
                     PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
                     PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
                     RETURN -> Value.RETURN
@@ -1437,6 +1442,7 @@ private constructor(
                     INTERNAL_ADJUSTMENT -> Known.INTERNAL_ADJUSTMENT
                     LATE_PAYMENT -> Known.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
+                    LOSS_WRITE_OFF -> Known.LOSS_WRITE_OFF
                     PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
                     PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
                     RETURN -> Known.RETURN
