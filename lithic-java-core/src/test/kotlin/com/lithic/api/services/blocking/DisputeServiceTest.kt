@@ -32,7 +32,7 @@ internal class DisputeServiceTest {
             disputeService.create(
                 DisputeCreateParams.builder()
                     .amount(10000L)
-                    .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
+                    .reason(DisputeCreateParams.Reason.FRAUD_CARD_PRESENT)
                     .transactionToken("12345624-aa69-4cbc-a946-30d90181b621")
                     .customerFiledDate(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                     .customerNote("customer_note")

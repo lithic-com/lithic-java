@@ -35,7 +35,7 @@ internal class CardServiceTest {
         val card =
             cardService.create(
                 CardCreateParams.builder()
-                    .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                    .type(CardCreateParams.Type.VIRTUAL)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -64,7 +64,7 @@ internal class CardServiceTest {
                     )
                     .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                     .spendLimit(1000L)
-                    .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                    .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                     .state(CardCreateParams.State.OPEN)
                     .build()
             )
@@ -109,8 +109,8 @@ internal class CardServiceTest {
                     .pin("pin")
                     .pinStatus(CardUpdateParams.PinStatus.OK)
                     .spendLimit(100L)
-                    .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                    .state(CardUpdateParams.State.CLOSED)
+                    .spendLimitDuration(SpendLimitDuration.FOREVER)
+                    .state(CardUpdateParams.State.OPEN)
                     .build()
             )
 
@@ -163,7 +163,7 @@ internal class CardServiceTest {
                         Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build()
                     )
                     .productId("100")
-                    .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+                    .shippingMethod(CardConvertPhysicalParams.ShippingMethod.STANDARD)
                     .build()
             )
 
@@ -200,7 +200,7 @@ internal class CardServiceTest {
                     .certificate("U3RhaW5sZXNzIHJvY2tz")
                     .clientDeviceId("client_device_id")
                     .clientWalletAccountId("client_wallet_account_id")
-                    .digitalWallet(CardProvisionParams.DigitalWallet.APPLE_PAY)
+                    .digitalWallet(CardProvisionParams.DigitalWallet.GOOGLE_PAY)
                     .nonce("U3RhaW5sZXNzIHJvY2tz")
                     .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
                     .build()
@@ -241,7 +241,7 @@ internal class CardServiceTest {
                             .phoneNumber("+15555555555")
                             .build()
                     )
-                    .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
+                    .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
                     .build()
             )
 
@@ -282,7 +282,7 @@ internal class CardServiceTest {
                     .expMonth("06")
                     .expYear("2027")
                     .productId("100")
-                    .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
+                    .shippingMethod(CardRenewParams.ShippingMethod.STANDARD)
                     .build()
             )
 

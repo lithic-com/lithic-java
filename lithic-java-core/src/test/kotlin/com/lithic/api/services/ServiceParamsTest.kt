@@ -43,7 +43,7 @@ internal class ServiceParamsTest {
 
         cardService.create(
             CardCreateParams.builder()
-                .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -72,7 +72,7 @@ internal class ServiceParamsTest {
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                 .spendLimit(1000L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                 .state(CardCreateParams.State.OPEN)
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")

@@ -16,8 +16,8 @@ internal class CardUpdateParamsTest {
             .pin("pin")
             .pinStatus(CardUpdateParams.PinStatus.OK)
             .spendLimit(100L)
-            .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-            .state(CardUpdateParams.State.CLOSED)
+            .spendLimitDuration(SpendLimitDuration.FOREVER)
+            .state(CardUpdateParams.State.OPEN)
             .build()
     }
 
@@ -41,8 +41,8 @@ internal class CardUpdateParamsTest {
                 .pin("pin")
                 .pinStatus(CardUpdateParams.PinStatus.OK)
                 .spendLimit(100L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardUpdateParams.State.CLOSED)
+                .spendLimitDuration(SpendLimitDuration.FOREVER)
+                .state(CardUpdateParams.State.OPEN)
                 .build()
 
         val body = params._body()
@@ -52,8 +52,8 @@ internal class CardUpdateParamsTest {
         assertThat(body.pin()).contains("pin")
         assertThat(body.pinStatus()).contains(CardUpdateParams.PinStatus.OK)
         assertThat(body.spendLimit()).contains(100L)
-        assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.ANNUALLY)
-        assertThat(body.state()).contains(CardUpdateParams.State.CLOSED)
+        assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.FOREVER)
+        assertThat(body.state()).contains(CardUpdateParams.State.OPEN)
     }
 
     @Test
