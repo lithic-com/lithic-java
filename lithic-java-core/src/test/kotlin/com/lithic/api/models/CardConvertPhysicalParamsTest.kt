@@ -28,7 +28,7 @@ internal class CardConvertPhysicalParamsTest {
             )
             .carrier(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
             .productId("100")
-            .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+            .shippingMethod(CardConvertPhysicalParams.ShippingMethod.STANDARD)
             .build()
     }
 
@@ -77,7 +77,7 @@ internal class CardConvertPhysicalParamsTest {
                 )
                 .carrier(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
                 .productId("100")
-                .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+                .shippingMethod(CardConvertPhysicalParams.ShippingMethod.STANDARD)
                 .build()
 
         val body = params._body()
@@ -101,7 +101,8 @@ internal class CardConvertPhysicalParamsTest {
         assertThat(body.carrier())
             .contains(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
         assertThat(body.productId()).contains("100")
-        assertThat(body.shippingMethod()).contains(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod())
+            .contains(CardConvertPhysicalParams.ShippingMethod.STANDARD)
     }
 
     @Test

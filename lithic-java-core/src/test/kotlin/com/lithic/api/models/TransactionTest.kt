@@ -57,14 +57,13 @@ internal class TransactionTest {
                     Transaction.CardholderAuthentication.builder()
                         .threeDSVersion("2")
                         .acquirerExemption(
-                            Transaction.CardholderAuthentication.AcquirerExemption
-                                .AUTHENTICATION_OUTAGE_EXCEPTION
+                            Transaction.CardholderAuthentication.AcquirerExemption.NONE
                         )
                         .authenticationResult(
-                            Transaction.CardholderAuthentication.AuthenticationResult.ATTEMPTS
+                            Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
                         )
                         .decisionMadeBy(
-                            Transaction.CardholderAuthentication.DecisionMadeBy.CUSTOMER_ENDPOINT
+                            Transaction.CardholderAuthentication.DecisionMadeBy.LITHIC_RULES
                         )
                         .liabilityShift(
                             Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
@@ -74,7 +73,7 @@ internal class TransactionTest {
                             Transaction.CardholderAuthentication.VerificationAttempted.NONE
                         )
                         .verificationResult(
-                            Transaction.CardholderAuthentication.VerificationResult.CANCELLED
+                            Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                         )
                         .build()
                 )
@@ -93,7 +92,7 @@ internal class TransactionTest {
                 .merchantAmount(1000L)
                 .merchantAuthorizationAmount(1000L)
                 .merchantCurrency("USD")
-                .network(Transaction.Network.INTERLINK)
+                .network(Transaction.Network.MASTERCARD)
                 .networkRiskScore(0L)
                 .pos(
                     Transaction.Pos.builder()
@@ -120,9 +119,9 @@ internal class TransactionTest {
                         )
                         .build()
                 )
-                .result(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
+                .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(1000L)
-                .status(Transaction.Status.DECLINED)
+                .status(Transaction.Status.SETTLED)
                 .tokenInfo(
                     Transaction.TokenInfo.builder()
                         .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
@@ -161,11 +160,8 @@ internal class TransactionTest {
                                 .build()
                         )
                         .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
-                        .addDetailedResult(
-                            Transaction.TransactionEvent.DetailedResult
-                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                        )
-                        .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
+                        .addDetailedResult(Transaction.TransactionEvent.DetailedResult.APPROVED)
+                        .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.DEBIT)
                         .networkInfo(
                             Transaction.TransactionEvent.NetworkInfo.builder()
                                 .acquirer(
@@ -192,22 +188,18 @@ internal class TransactionTest {
                                 )
                                 .build()
                         )
-                        .result(
-                            Transaction.TransactionEvent.DeclineResult
-                                .ACCOUNT_STATE_TRANSACTION_FAIL
-                        )
+                        .result(Transaction.TransactionEvent.DeclineResult.APPROVED)
                         .addRuleResult(
                             Transaction.TransactionEvent.RuleResult.builder()
                                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                 .explanation("explanation")
                                 .name("name")
                                 .result(
-                                    Transaction.TransactionEvent.RuleResult.DetailedResult
-                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                    Transaction.TransactionEvent.RuleResult.DetailedResult.APPROVED
                                 )
                                 .build()
                         )
-                        .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                        .type(Transaction.TransactionEvent.Type.CLEARING)
                         .build()
                 )
                 .build()
@@ -256,15 +248,12 @@ internal class TransactionTest {
             .contains(
                 Transaction.CardholderAuthentication.builder()
                     .threeDSVersion("2")
-                    .acquirerExemption(
-                        Transaction.CardholderAuthentication.AcquirerExemption
-                            .AUTHENTICATION_OUTAGE_EXCEPTION
-                    )
+                    .acquirerExemption(Transaction.CardholderAuthentication.AcquirerExemption.NONE)
                     .authenticationResult(
-                        Transaction.CardholderAuthentication.AuthenticationResult.ATTEMPTS
+                        Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
                     )
                     .decisionMadeBy(
-                        Transaction.CardholderAuthentication.DecisionMadeBy.CUSTOMER_ENDPOINT
+                        Transaction.CardholderAuthentication.DecisionMadeBy.LITHIC_RULES
                     )
                     .liabilityShift(
                         Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
@@ -274,7 +263,7 @@ internal class TransactionTest {
                         Transaction.CardholderAuthentication.VerificationAttempted.NONE
                     )
                     .verificationResult(
-                        Transaction.CardholderAuthentication.VerificationResult.CANCELLED
+                        Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                     )
                     .build()
             )
@@ -295,7 +284,7 @@ internal class TransactionTest {
         assertThat(transaction.merchantAmount()).contains(1000L)
         assertThat(transaction.merchantAuthorizationAmount()).contains(1000L)
         assertThat(transaction.merchantCurrency()).isEqualTo("USD")
-        assertThat(transaction.network()).contains(Transaction.Network.INTERLINK)
+        assertThat(transaction.network()).contains(Transaction.Network.MASTERCARD)
         assertThat(transaction.networkRiskScore()).contains(0L)
         assertThat(transaction.pos())
             .isEqualTo(
@@ -321,10 +310,9 @@ internal class TransactionTest {
                     )
                     .build()
             )
-        assertThat(transaction.result())
-            .isEqualTo(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
+        assertThat(transaction.result()).isEqualTo(Transaction.DeclineResult.APPROVED)
         assertThat(transaction.settledAmount()).isEqualTo(1000L)
-        assertThat(transaction.status()).isEqualTo(Transaction.Status.DECLINED)
+        assertThat(transaction.status()).isEqualTo(Transaction.Status.SETTLED)
         assertThat(transaction.tokenInfo())
             .contains(
                 Transaction.TokenInfo.builder()
@@ -366,11 +354,8 @@ internal class TransactionTest {
                             .build()
                     )
                     .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
-                    .addDetailedResult(
-                        Transaction.TransactionEvent.DetailedResult
-                            .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                    )
-                    .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
+                    .addDetailedResult(Transaction.TransactionEvent.DetailedResult.APPROVED)
+                    .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.DEBIT)
                     .networkInfo(
                         Transaction.TransactionEvent.NetworkInfo.builder()
                             .acquirer(
@@ -397,21 +382,16 @@ internal class TransactionTest {
                             )
                             .build()
                     )
-                    .result(
-                        Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
-                    )
+                    .result(Transaction.TransactionEvent.DeclineResult.APPROVED)
                     .addRuleResult(
                         Transaction.TransactionEvent.RuleResult.builder()
                             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .explanation("explanation")
                             .name("name")
-                            .result(
-                                Transaction.TransactionEvent.RuleResult.DetailedResult
-                                    .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                            )
+                            .result(Transaction.TransactionEvent.RuleResult.DetailedResult.APPROVED)
                             .build()
                     )
-                    .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                    .type(Transaction.TransactionEvent.Type.CLEARING)
                     .build()
             )
     }
@@ -463,14 +443,13 @@ internal class TransactionTest {
                     Transaction.CardholderAuthentication.builder()
                         .threeDSVersion("2")
                         .acquirerExemption(
-                            Transaction.CardholderAuthentication.AcquirerExemption
-                                .AUTHENTICATION_OUTAGE_EXCEPTION
+                            Transaction.CardholderAuthentication.AcquirerExemption.NONE
                         )
                         .authenticationResult(
-                            Transaction.CardholderAuthentication.AuthenticationResult.ATTEMPTS
+                            Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
                         )
                         .decisionMadeBy(
-                            Transaction.CardholderAuthentication.DecisionMadeBy.CUSTOMER_ENDPOINT
+                            Transaction.CardholderAuthentication.DecisionMadeBy.LITHIC_RULES
                         )
                         .liabilityShift(
                             Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
@@ -480,7 +459,7 @@ internal class TransactionTest {
                             Transaction.CardholderAuthentication.VerificationAttempted.NONE
                         )
                         .verificationResult(
-                            Transaction.CardholderAuthentication.VerificationResult.CANCELLED
+                            Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                         )
                         .build()
                 )
@@ -499,7 +478,7 @@ internal class TransactionTest {
                 .merchantAmount(1000L)
                 .merchantAuthorizationAmount(1000L)
                 .merchantCurrency("USD")
-                .network(Transaction.Network.INTERLINK)
+                .network(Transaction.Network.MASTERCARD)
                 .networkRiskScore(0L)
                 .pos(
                     Transaction.Pos.builder()
@@ -526,9 +505,9 @@ internal class TransactionTest {
                         )
                         .build()
                 )
-                .result(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
+                .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(1000L)
-                .status(Transaction.Status.DECLINED)
+                .status(Transaction.Status.SETTLED)
                 .tokenInfo(
                     Transaction.TokenInfo.builder()
                         .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
@@ -567,11 +546,8 @@ internal class TransactionTest {
                                 .build()
                         )
                         .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
-                        .addDetailedResult(
-                            Transaction.TransactionEvent.DetailedResult
-                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
-                        )
-                        .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
+                        .addDetailedResult(Transaction.TransactionEvent.DetailedResult.APPROVED)
+                        .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.DEBIT)
                         .networkInfo(
                             Transaction.TransactionEvent.NetworkInfo.builder()
                                 .acquirer(
@@ -598,22 +574,18 @@ internal class TransactionTest {
                                 )
                                 .build()
                         )
-                        .result(
-                            Transaction.TransactionEvent.DeclineResult
-                                .ACCOUNT_STATE_TRANSACTION_FAIL
-                        )
+                        .result(Transaction.TransactionEvent.DeclineResult.APPROVED)
                         .addRuleResult(
                             Transaction.TransactionEvent.RuleResult.builder()
                                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                 .explanation("explanation")
                                 .name("name")
                                 .result(
-                                    Transaction.TransactionEvent.RuleResult.DetailedResult
-                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                    Transaction.TransactionEvent.RuleResult.DetailedResult.APPROVED
                                 )
                                 .build()
                         )
-                        .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                        .type(Transaction.TransactionEvent.Type.CLEARING)
                         .build()
                 )
                 .build()
