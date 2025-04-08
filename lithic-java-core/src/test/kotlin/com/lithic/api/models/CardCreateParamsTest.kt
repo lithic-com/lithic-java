@@ -10,7 +10,7 @@ internal class CardCreateParamsTest {
     @Test
     fun create() {
         CardCreateParams.builder()
-            .type(CardCreateParams.Type.MERCHANT_LOCKED)
+            .type(CardCreateParams.Type.VIRTUAL)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -39,7 +39,7 @@ internal class CardCreateParamsTest {
             )
             .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
             .spendLimit(1000L)
-            .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+            .spendLimitDuration(SpendLimitDuration.TRANSACTION)
             .state(CardCreateParams.State.OPEN)
             .build()
     }
@@ -48,7 +48,7 @@ internal class CardCreateParamsTest {
     fun body() {
         val params =
             CardCreateParams.builder()
-                .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -77,13 +77,13 @@ internal class CardCreateParamsTest {
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                 .spendLimit(1000L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                 .state(CardCreateParams.State.OPEN)
                 .build()
 
         val body = params._body()
 
-        assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
+        assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
         assertThat(body.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.cardProgramToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -113,16 +113,16 @@ internal class CardCreateParamsTest {
             )
         assertThat(body.shippingMethod()).contains(CardCreateParams.ShippingMethod._2_DAY)
         assertThat(body.spendLimit()).contains(1000L)
-        assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.ANNUALLY)
+        assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.TRANSACTION)
         assertThat(body.state()).contains(CardCreateParams.State.OPEN)
     }
 
     @Test
     fun bodyWithoutOptionalFields() {
-        val params = CardCreateParams.builder().type(CardCreateParams.Type.MERCHANT_LOCKED).build()
+        val params = CardCreateParams.builder().type(CardCreateParams.Type.VIRTUAL).build()
 
         val body = params._body()
 
-        assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
+        assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
     }
 }

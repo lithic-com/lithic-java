@@ -73,7 +73,7 @@ internal class ErrorHandlingTest {
             assertThrows<BadRequestException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -102,7 +102,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -127,7 +127,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnauthorizedException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -156,7 +156,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -181,7 +181,7 @@ internal class ErrorHandlingTest {
             assertThrows<PermissionDeniedException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -210,7 +210,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -235,7 +235,7 @@ internal class ErrorHandlingTest {
             assertThrows<NotFoundException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -264,7 +264,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -289,7 +289,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnprocessableEntityException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -318,7 +318,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -343,7 +343,7 @@ internal class ErrorHandlingTest {
             assertThrows<RateLimitException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -372,7 +372,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -397,7 +397,7 @@ internal class ErrorHandlingTest {
             assertThrows<InternalServerException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -426,7 +426,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -451,7 +451,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnexpectedStatusCodeException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -480,7 +480,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )
@@ -503,7 +503,7 @@ internal class ErrorHandlingTest {
             assertThrows<LithicException> {
                 cardService.create(
                     CardCreateParams.builder()
-                        .type(CardCreateParams.Type.MERCHANT_LOCKED)
+                        .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
@@ -532,7 +532,7 @@ internal class ErrorHandlingTest {
                         )
                         .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                         .spendLimit(1000L)
-                        .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
                         .build()
                 )

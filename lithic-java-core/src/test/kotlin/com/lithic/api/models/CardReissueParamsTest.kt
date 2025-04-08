@@ -28,7 +28,7 @@ internal class CardReissueParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-            .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
+            .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
             .build()
     }
 
@@ -64,7 +64,7 @@ internal class CardReissueParamsTest {
                         .phoneNumber("+15555555555")
                         .build()
                 )
-                .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
+                .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
                 .build()
 
         val body = params._body()
@@ -88,7 +88,7 @@ internal class CardReissueParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-        assertThat(body.shippingMethod()).contains(CardReissueParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod()).contains(CardReissueParams.ShippingMethod.STANDARD)
     }
 
     @Test

@@ -30,7 +30,7 @@ internal class CardRenewParamsTest {
             .expMonth("06")
             .expYear("2027")
             .productId("100")
-            .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
+            .shippingMethod(CardRenewParams.ShippingMethod.STANDARD)
             .build()
     }
 
@@ -81,7 +81,7 @@ internal class CardRenewParamsTest {
                 .expMonth("06")
                 .expYear("2027")
                 .productId("100")
-                .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
+                .shippingMethod(CardRenewParams.ShippingMethod.STANDARD)
                 .build()
 
         val body = params._body()
@@ -107,7 +107,7 @@ internal class CardRenewParamsTest {
         assertThat(body.expMonth()).contains("06")
         assertThat(body.expYear()).contains("2027")
         assertThat(body.productId()).contains("100")
-        assertThat(body.shippingMethod()).contains(CardRenewParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod()).contains(CardRenewParams.ShippingMethod.STANDARD)
     }
 
     @Test
