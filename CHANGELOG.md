@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.87.1 (2025-04-09)
+
+Full Changelog: [v0.87.0...v0.87.1](https://github.com/lithic-com/lithic-java/compare/v0.87.0...v0.87.1)
+
+### Chores
+
+* **internal:** reduce CI branch coverage ([ad2f765](https://github.com/lithic-com/lithic-java/commit/ad2f765d18ab838f84b62b3d97d25ef51d0fbc84))
+
+
+### Refactors
+
+* **client:** migrate pages to builder pattern ([#598](https://github.com/lithic-com/lithic-java/issues/598)) ([ea86cf3](https://github.com/lithic-com/lithic-java/commit/ea86cf342e9a7e08b7def155cab677d1b97e296e))
+
 ## 0.87.0 (2025-04-09)
 
 Full Changelog: [v0.86.0...v0.87.0](https://github.com/lithic-com/lithic-java/compare/v0.86.0...v0.87.0)
