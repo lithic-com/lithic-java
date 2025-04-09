@@ -99,7 +99,11 @@ class CardProgramServiceImpl internal constructor(private val clientOptions: Cli
                         }
                     }
                     .let {
-                        CardProgramListPage.of(CardProgramServiceImpl(clientOptions), params, it)
+                        CardProgramListPage.builder()
+                            .service(CardProgramServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

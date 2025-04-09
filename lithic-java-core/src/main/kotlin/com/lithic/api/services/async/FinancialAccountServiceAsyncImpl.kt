@@ -259,11 +259,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
                                 }
                             }
                             .let {
-                                FinancialAccountListPageAsync.of(
-                                    FinancialAccountServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                FinancialAccountListPageAsync.builder()
+                                    .service(FinancialAccountServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

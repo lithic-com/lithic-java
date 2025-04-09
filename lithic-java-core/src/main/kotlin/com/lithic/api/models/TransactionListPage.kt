@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.TransactionService
 import java.util.Objects
 import java.util.Optional
@@ -9,19 +10,13 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * List card transactions. All amounts are in the smallest unit of their respective currency (e.g.,
- * cents for USD) and inclusive of any acquirer fees.
- */
+/** @see [TransactionService.list] */
 class TransactionListPage
 private constructor(
-    private val transactionsService: TransactionService,
+    private val service: TransactionService,
     private val params: TransactionListParams,
     private val response: TransactionListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): TransactionListPageResponse = response
 
     /**
      * Delegates to [TransactionListPageResponse], but gracefully handles missing data.
@@ -36,19 +31,6 @@ private constructor(
      * @see [TransactionListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionListPage && transactionsService == other.transactionsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "TransactionListPage{transactionsService=$transactionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -72,20 +54,75 @@ private constructor(
         )
     }
 
-    fun getNextPage(): Optional<TransactionListPage> {
-        return getNextPageParams().map { transactionsService.list(it) }
-    }
+    fun getNextPage(): Optional<TransactionListPage> = getNextPageParams().map { service.list(it) }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): TransactionListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): TransactionListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            transactionsService: TransactionService,
-            params: TransactionListParams,
-            response: TransactionListPageResponse,
-        ) = TransactionListPage(transactionsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [TransactionListPage].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [TransactionListPage]. */
+    class Builder internal constructor() {
+
+        private var service: TransactionService? = null
+        private var params: TransactionListParams? = null
+        private var response: TransactionListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(transactionListPage: TransactionListPage) = apply {
+            service = transactionListPage.service
+            params = transactionListPage.params
+            response = transactionListPage.response
+        }
+
+        fun service(service: TransactionService) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: TransactionListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: TransactionListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [TransactionListPage].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): TransactionListPage =
+            TransactionListPage(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: TransactionListPage) : Iterable<Transaction> {
@@ -106,4 +143,17 @@ private constructor(
             return StreamSupport.stream(spliterator(), false)
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionListPage && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "TransactionListPage{service=$service, params=$params, response=$response}"
 }

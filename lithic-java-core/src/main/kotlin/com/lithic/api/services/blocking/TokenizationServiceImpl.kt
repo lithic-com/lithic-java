@@ -154,7 +154,11 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        TokenizationListPage.of(TokenizationServiceImpl(clientOptions), params, it)
+                        TokenizationListPage.builder()
+                            .service(TokenizationServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

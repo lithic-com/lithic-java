@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List the statements for a given financial account. */
+/** @see [StatementServiceAsync.list] */
 class FinancialAccountStatementListPageAsync
 private constructor(
-    private val statementsService: StatementServiceAsync,
+    private val service: StatementServiceAsync,
     private val params: FinancialAccountStatementListParams,
     private val response: Statements,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): Statements = response
 
     /**
      * Delegates to [Statements], but gracefully handles missing data.
@@ -34,19 +32,6 @@ private constructor(
      * @see [Statements.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountStatementListPageAsync && statementsService == other.statementsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(statementsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "FinancialAccountStatementListPageAsync{statementsService=$statementsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -70,22 +55,81 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<FinancialAccountStatementListPageAsync>> {
-        return getNextPageParams()
-            .map { statementsService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<FinancialAccountStatementListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): FinancialAccountStatementListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): Statements = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            statementsService: StatementServiceAsync,
-            params: FinancialAccountStatementListParams,
-            response: Statements,
-        ) = FinancialAccountStatementListPageAsync(statementsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [FinancialAccountStatementListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [FinancialAccountStatementListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: StatementServiceAsync? = null
+        private var params: FinancialAccountStatementListParams? = null
+        private var response: Statements? = null
+
+        @JvmSynthetic
+        internal fun from(
+            financialAccountStatementListPageAsync: FinancialAccountStatementListPageAsync
+        ) = apply {
+            service = financialAccountStatementListPageAsync.service
+            params = financialAccountStatementListPageAsync.params
+            response = financialAccountStatementListPageAsync.response
+        }
+
+        fun service(service: StatementServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: FinancialAccountStatementListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: Statements) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [FinancialAccountStatementListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): FinancialAccountStatementListPageAsync =
+            FinancialAccountStatementListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: FinancialAccountStatementListPageAsync) {
@@ -113,4 +157,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountStatementListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountStatementListPageAsync{service=$service, params=$params, response=$response}"
 }

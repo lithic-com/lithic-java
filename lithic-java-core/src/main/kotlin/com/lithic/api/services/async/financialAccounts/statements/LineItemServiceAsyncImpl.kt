@@ -74,11 +74,11 @@ class LineItemServiceAsyncImpl internal constructor(private val clientOptions: C
                                 }
                             }
                             .let {
-                                FinancialAccountStatementLineItemListPageAsync.of(
-                                    LineItemServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                FinancialAccountStatementLineItemListPageAsync.builder()
+                                    .service(LineItemServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

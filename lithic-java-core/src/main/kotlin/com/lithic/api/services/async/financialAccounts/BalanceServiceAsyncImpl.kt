@@ -67,11 +67,11 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                 }
                             }
                             .let {
-                                FinancialAccountBalanceListPageAsync.of(
-                                    BalanceServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                FinancialAccountBalanceListPageAsync.builder()
+                                    .service(BalanceServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

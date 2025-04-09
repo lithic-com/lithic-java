@@ -64,11 +64,11 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
                         }
                     }
                     .let {
-                        AggregateBalanceListPage.of(
-                            AggregateBalanceServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        AggregateBalanceListPage.builder()
+                            .service(AggregateBalanceServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

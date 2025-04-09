@@ -167,11 +167,11 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                TokenizationListPageAsync.of(
-                                    TokenizationServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                TokenizationListPageAsync.builder()
+                                    .service(TokenizationServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

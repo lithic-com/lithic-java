@@ -155,11 +155,11 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                                 }
                             }
                             .let {
-                                ManagementOperationListPageAsync.of(
-                                    ManagementOperationServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                ManagementOperationListPageAsync.builder()
+                                    .service(ManagementOperationServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

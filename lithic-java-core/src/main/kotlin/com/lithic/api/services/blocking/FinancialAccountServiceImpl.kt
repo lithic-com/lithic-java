@@ -244,11 +244,11 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                         }
                     }
                     .let {
-                        FinancialAccountListPage.of(
-                            FinancialAccountServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialAccountListPage.builder()
+                            .service(FinancialAccountServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }
