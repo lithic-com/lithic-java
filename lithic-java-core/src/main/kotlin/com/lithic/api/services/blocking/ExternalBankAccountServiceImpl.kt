@@ -207,11 +207,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                         }
                     }
                     .let {
-                        ExternalBankAccountListPage.of(
-                            ExternalBankAccountServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        ExternalBankAccountListPage.builder()
+                            .service(ExternalBankAccountServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

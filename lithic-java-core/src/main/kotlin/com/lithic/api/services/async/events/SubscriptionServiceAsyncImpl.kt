@@ -243,11 +243,11 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                EventSubscriptionListPageAsync.of(
-                                    SubscriptionServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                EventSubscriptionListPageAsync.builder()
+                                    .service(SubscriptionServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }
@@ -301,11 +301,11 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                EventSubscriptionListAttemptsPageAsync.of(
-                                    SubscriptionServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                EventSubscriptionListAttemptsPageAsync.builder()
+                                    .service(SubscriptionServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

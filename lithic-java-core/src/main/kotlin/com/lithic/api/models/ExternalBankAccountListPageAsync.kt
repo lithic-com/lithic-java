@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.ExternalBankAccountServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List all the external bank accounts for the provided search criteria. */
+/** @see [ExternalBankAccountServiceAsync.list] */
 class ExternalBankAccountListPageAsync
 private constructor(
-    private val externalBankAccountsService: ExternalBankAccountServiceAsync,
+    private val service: ExternalBankAccountServiceAsync,
     private val params: ExternalBankAccountListParams,
     private val response: ExternalBankAccountListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): ExternalBankAccountListPageResponse = response
 
     /**
      * Delegates to [ExternalBankAccountListPageResponse], but gracefully handles missing data.
@@ -35,19 +33,6 @@ private constructor(
      * @see [ExternalBankAccountListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalBankAccountListPageAsync && externalBankAccountsService == other.externalBankAccountsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "ExternalBankAccountListPageAsync{externalBankAccountsService=$externalBankAccountsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -71,22 +56,82 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<ExternalBankAccountListPageAsync>> {
-        return getNextPageParams()
-            .map { externalBankAccountsService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<ExternalBankAccountListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): ExternalBankAccountListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): ExternalBankAccountListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            externalBankAccountsService: ExternalBankAccountServiceAsync,
-            params: ExternalBankAccountListParams,
-            response: ExternalBankAccountListPageResponse,
-        ) = ExternalBankAccountListPageAsync(externalBankAccountsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ExternalBankAccountListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [ExternalBankAccountListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: ExternalBankAccountServiceAsync? = null
+        private var params: ExternalBankAccountListParams? = null
+        private var response: ExternalBankAccountListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(externalBankAccountListPageAsync: ExternalBankAccountListPageAsync) =
+            apply {
+                service = externalBankAccountListPageAsync.service
+                params = externalBankAccountListPageAsync.params
+                response = externalBankAccountListPageAsync.response
+            }
+
+        fun service(service: ExternalBankAccountServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: ExternalBankAccountListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: ExternalBankAccountListPageResponse) = apply {
+            this.response = response
+        }
+
+        /**
+         * Returns an immutable instance of [ExternalBankAccountListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): ExternalBankAccountListPageAsync =
+            ExternalBankAccountListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: ExternalBankAccountListPageAsync) {
@@ -117,4 +162,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalBankAccountListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "ExternalBankAccountListPageAsync{service=$service, params=$params, response=$response}"
 }

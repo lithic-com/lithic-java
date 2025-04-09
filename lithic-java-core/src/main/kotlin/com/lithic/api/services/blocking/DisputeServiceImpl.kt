@@ -197,7 +197,13 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
                             it.validate()
                         }
                     }
-                    .let { DisputeListPage.of(DisputeServiceImpl(clientOptions), params, it) }
+                    .let {
+                        DisputeListPage.builder()
+                            .service(DisputeServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 
@@ -313,7 +319,11 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
                         }
                     }
                     .let {
-                        DisputeListEvidencesPage.of(DisputeServiceImpl(clientOptions), params, it)
+                        DisputeListEvidencesPage.builder()
+                            .service(DisputeServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

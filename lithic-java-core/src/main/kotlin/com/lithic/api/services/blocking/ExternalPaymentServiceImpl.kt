@@ -167,11 +167,11 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
                         }
                     }
                     .let {
-                        ExternalPaymentListPage.of(
-                            ExternalPaymentServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        ExternalPaymentListPage.builder()
+                            .service(ExternalPaymentServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

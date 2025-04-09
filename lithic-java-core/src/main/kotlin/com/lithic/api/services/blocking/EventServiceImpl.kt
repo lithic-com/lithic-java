@@ -131,7 +131,13 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                             it.validate()
                         }
                     }
-                    .let { EventListPage.of(EventServiceImpl(clientOptions), params, it) }
+                    .let {
+                        EventListPage.builder()
+                            .service(EventServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 
@@ -159,7 +165,13 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                             it.validate()
                         }
                     }
-                    .let { EventListAttemptsPage.of(EventServiceImpl(clientOptions), params, it) }
+                    .let {
+                        EventListAttemptsPage.builder()
+                            .service(EventServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
     }

@@ -242,11 +242,11 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                                 }
                             }
                             .let {
-                                AuthRuleV2ListPageAsync.of(
-                                    V2ServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                AuthRuleV2ListPageAsync.builder()
+                                    .service(V2ServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

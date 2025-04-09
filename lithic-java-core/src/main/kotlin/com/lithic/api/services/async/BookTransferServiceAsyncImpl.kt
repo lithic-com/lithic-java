@@ -154,11 +154,11 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                BookTransferListPageAsync.of(
-                                    BookTransferServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                BookTransferListPageAsync.builder()
+                                    .service(BookTransferServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

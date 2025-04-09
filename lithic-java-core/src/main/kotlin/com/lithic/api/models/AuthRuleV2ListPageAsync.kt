@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.authRules.V2ServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** Lists V2 authorization rules */
+/** @see [V2ServiceAsync.list] */
 class AuthRuleV2ListPageAsync
 private constructor(
-    private val v2Service: V2ServiceAsync,
+    private val service: V2ServiceAsync,
     private val params: AuthRuleV2ListParams,
     private val response: AuthRuleV2ListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): AuthRuleV2ListPageResponse = response
 
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
@@ -35,19 +33,6 @@ private constructor(
      * @see [AuthRuleV2ListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AuthRuleV2ListPageAsync && v2Service == other.v2Service && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(v2Service, params, response) /* spotless:on */
-
-    override fun toString() =
-        "AuthRuleV2ListPageAsync{v2Service=$v2Service, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -71,22 +56,78 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<AuthRuleV2ListPageAsync>> {
-        return getNextPageParams()
-            .map { v2Service.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<AuthRuleV2ListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): AuthRuleV2ListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): AuthRuleV2ListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            v2Service: V2ServiceAsync,
-            params: AuthRuleV2ListParams,
-            response: AuthRuleV2ListPageResponse,
-        ) = AuthRuleV2ListPageAsync(v2Service, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2ListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [AuthRuleV2ListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: V2ServiceAsync? = null
+        private var params: AuthRuleV2ListParams? = null
+        private var response: AuthRuleV2ListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(authRuleV2ListPageAsync: AuthRuleV2ListPageAsync) = apply {
+            service = authRuleV2ListPageAsync.service
+            params = authRuleV2ListPageAsync.params
+            response = authRuleV2ListPageAsync.response
+        }
+
+        fun service(service: V2ServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: AuthRuleV2ListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: AuthRuleV2ListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [AuthRuleV2ListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): AuthRuleV2ListPageAsync =
+            AuthRuleV2ListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: AuthRuleV2ListPageAsync) {
@@ -117,4 +158,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AuthRuleV2ListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "AuthRuleV2ListPageAsync{service=$service, params=$params, response=$response}"
 }

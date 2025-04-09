@@ -153,11 +153,11 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                 }
                             }
                             .let {
-                                AccountListPageAsync.of(
-                                    AccountServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                AccountListPageAsync.builder()
+                                    .service(AccountServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }
