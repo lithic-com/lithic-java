@@ -21,6 +21,7 @@ import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardListPage
+import com.lithic.api.models.CardListPageResponse
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardProvisionResponse
@@ -220,8 +221,8 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             }
         }
 
-        private val listHandler: Handler<CardListPage.Response> =
-            jsonHandler<CardListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardListPageResponse> =
+            jsonHandler<CardListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

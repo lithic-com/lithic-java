@@ -22,8 +22,10 @@ import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
 import com.lithic.api.models.DisputeListEvidencesPage
+import com.lithic.api.models.DisputeListEvidencesPageResponse
 import com.lithic.api.models.DisputeListEvidencesParams
 import com.lithic.api.models.DisputeListPage
+import com.lithic.api.models.DisputeListPageResponse
 import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
@@ -171,8 +173,8 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val listHandler: Handler<DisputeListPage.Response> =
-            jsonHandler<DisputeListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<DisputeListPageResponse> =
+            jsonHandler<DisputeListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
@@ -286,8 +288,8 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val listEvidencesHandler: Handler<DisputeListEvidencesPage.Response> =
-            jsonHandler<DisputeListEvidencesPage.Response>(clientOptions.jsonMapper)
+        private val listEvidencesHandler: Handler<DisputeListEvidencesPageResponse> =
+            jsonHandler<DisputeListEvidencesPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listEvidences(

@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.CardBalanceListPageAsync
+import com.lithic.api.models.CardBalanceListPageResponse
 import com.lithic.api.models.CardBalanceListParams
 import java.util.concurrent.CompletableFuture
 
@@ -39,8 +40,8 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardBalanceListPageAsync.Response> =
-            jsonHandler<CardBalanceListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardBalanceListPageResponse> =
+            jsonHandler<CardBalanceListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

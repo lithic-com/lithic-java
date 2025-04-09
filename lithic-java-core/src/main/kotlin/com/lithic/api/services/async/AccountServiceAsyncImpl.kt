@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPageAsync
+import com.lithic.api.models.AccountListPageResponse
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
@@ -125,8 +126,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val listHandler: Handler<AccountListPageAsync.Response> =
-            jsonHandler<AccountListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AccountListPageResponse> =
+            jsonHandler<AccountListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

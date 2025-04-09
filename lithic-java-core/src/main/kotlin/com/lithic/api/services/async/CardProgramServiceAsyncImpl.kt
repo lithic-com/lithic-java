@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.CardProgram
 import com.lithic.api.models.CardProgramListPageAsync
+import com.lithic.api.models.CardProgramListPageResponse
 import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 import java.util.concurrent.CompletableFuture
@@ -77,8 +78,8 @@ class CardProgramServiceAsyncImpl internal constructor(private val clientOptions
                 }
         }
 
-        private val listHandler: Handler<CardProgramListPageAsync.Response> =
-            jsonHandler<CardProgramListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardProgramListPageResponse> =
+            jsonHandler<CardProgramListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

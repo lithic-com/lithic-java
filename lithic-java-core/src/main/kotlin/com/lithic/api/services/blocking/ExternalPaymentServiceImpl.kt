@@ -19,6 +19,7 @@ import com.lithic.api.models.ExternalPayment
 import com.lithic.api.models.ExternalPaymentCancelParams
 import com.lithic.api.models.ExternalPaymentCreateParams
 import com.lithic.api.models.ExternalPaymentListPage
+import com.lithic.api.models.ExternalPaymentListPageResponse
 import com.lithic.api.models.ExternalPaymentListParams
 import com.lithic.api.models.ExternalPaymentReleaseParams
 import com.lithic.api.models.ExternalPaymentRetrieveParams
@@ -141,8 +142,8 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             }
         }
 
-        private val listHandler: Handler<ExternalPaymentListPage.Response> =
-            jsonHandler<ExternalPaymentListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<ExternalPaymentListPageResponse> =
+            jsonHandler<ExternalPaymentListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

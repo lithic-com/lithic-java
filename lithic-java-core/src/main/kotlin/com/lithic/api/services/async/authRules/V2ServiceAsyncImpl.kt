@@ -22,6 +22,7 @@ import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPageAsync
+import com.lithic.api.models.AuthRuleV2ListPageResponse
 import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2ReportParams
@@ -214,8 +215,8 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 }
         }
 
-        private val listHandler: Handler<AuthRuleV2ListPageAsync.Response> =
-            jsonHandler<AuthRuleV2ListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AuthRuleV2ListPageResponse> =
+            jsonHandler<AuthRuleV2ListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
