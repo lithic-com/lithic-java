@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.87.0 (2025-04-09)
+
+Full Changelog: [v0.86.0...v0.87.0](https://github.com/lithic-com/lithic-java/compare/v0.86.0...v0.87.0)
+
+### Features
+
+* **api:** manual updates ([841cf07](https://github.com/lithic-com/lithic-java/commit/841cf07b79d6577789bae8b82668504ea508a0f3))
+* **client:** make pagination robust to missing data ([44acc8e](https://github.com/lithic-com/lithic-java/commit/44acc8efd7511d741d27cdbc305732a406ddc489))
+
+
+### Documentation
+
+* add comments for page methods ([44acc8e](https://github.com/lithic-com/lithic-java/commit/44acc8efd7511d741d27cdbc305732a406ddc489))
+
+
+### Refactors
+
+* **client:** deduplicate page response classes ([#596](https://github.com/lithic-com/lithic-java/issues/596)) ([44acc8e](https://github.com/lithic-com/lithic-java/commit/44acc8efd7511d741d27cdbc305732a406ddc489))
+
 ## 0.86.0 (2025-04-09)
 
 Full Changelog: [v0.85.0...v0.86.0](https://github.com/lithic-com/lithic-java/compare/v0.85.0...v0.86.0)
