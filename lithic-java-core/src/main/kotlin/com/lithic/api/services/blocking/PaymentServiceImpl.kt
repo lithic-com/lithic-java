@@ -175,7 +175,13 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
                             it.validate()
                         }
                     }
-                    .let { PaymentListPage.of(PaymentServiceImpl(clientOptions), params, it) }
+                    .let {
+                        PaymentListPage.builder()
+                            .service(PaymentServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 

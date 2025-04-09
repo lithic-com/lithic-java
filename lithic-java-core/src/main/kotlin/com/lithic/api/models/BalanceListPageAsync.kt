@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.BalanceServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** Get the balances for a program, business, or a given end-user account */
+/** @see [BalanceServiceAsync.list] */
 class BalanceListPageAsync
 private constructor(
-    private val balancesService: BalanceServiceAsync,
+    private val service: BalanceServiceAsync,
     private val params: BalanceListParams,
     private val response: BalanceListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): BalanceListPageResponse = response
 
     /**
      * Delegates to [BalanceListPageResponse], but gracefully handles missing data.
@@ -35,39 +33,82 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is BalanceListPageAsync && balancesService == other.balancesService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(balancesService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "BalanceListPageAsync{balancesService=$balancesService, params=$params, response=$response}"
-
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
     fun getNextPageParams(): Optional<BalanceListParams> = Optional.empty()
 
-    fun getNextPage(): CompletableFuture<Optional<BalanceListPageAsync>> {
-        return getNextPageParams()
-            .map { balancesService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<BalanceListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): BalanceListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): BalanceListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            balancesService: BalanceServiceAsync,
-            params: BalanceListParams,
-            response: BalanceListPageResponse,
-        ) = BalanceListPageAsync(balancesService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [BalanceListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [BalanceListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: BalanceServiceAsync? = null
+        private var params: BalanceListParams? = null
+        private var response: BalanceListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(balanceListPageAsync: BalanceListPageAsync) = apply {
+            service = balanceListPageAsync.service
+            params = balanceListPageAsync.params
+            response = balanceListPageAsync.response
+        }
+
+        fun service(service: BalanceServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: BalanceListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: BalanceListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [BalanceListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): BalanceListPageAsync =
+            BalanceListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: BalanceListPageAsync) {
@@ -95,4 +136,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BalanceListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "BalanceListPageAsync{service=$service, params=$params, response=$response}"
 }

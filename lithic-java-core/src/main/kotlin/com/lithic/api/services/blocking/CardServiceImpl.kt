@@ -252,7 +252,13 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
                             it.validate()
                         }
                     }
-                    .let { CardListPage.of(CardServiceImpl(clientOptions), params, it) }
+                    .let {
+                        CardListPage.builder()
+                            .service(CardServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 

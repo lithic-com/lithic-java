@@ -235,11 +235,11 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
                                 }
                             }
                             .let {
-                                AccountHolderListPageAsync.of(
-                                    AccountHolderServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                AccountHolderListPageAsync.builder()
+                                    .service(AccountHolderServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

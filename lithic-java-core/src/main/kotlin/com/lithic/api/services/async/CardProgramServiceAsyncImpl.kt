@@ -105,11 +105,11 @@ class CardProgramServiceAsyncImpl internal constructor(private val clientOptions
                                 }
                             }
                             .let {
-                                CardProgramListPageAsync.of(
-                                    CardProgramServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                CardProgramListPageAsync.builder()
+                                    .service(CardProgramServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

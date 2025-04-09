@@ -99,11 +99,11 @@ class DigitalCardArtServiceImpl internal constructor(private val clientOptions: 
                         }
                     }
                     .let {
-                        DigitalCardArtListPage.of(
-                            DigitalCardArtServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        DigitalCardArtListPage.builder()
+                            .service(DigitalCardArtServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

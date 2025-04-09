@@ -229,11 +229,11 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                 }
                             }
                             .let {
-                                DisputeListPageAsync.of(
-                                    DisputeServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                DisputeListPageAsync.builder()
+                                    .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }
@@ -362,11 +362,11 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                 }
                             }
                             .let {
-                                DisputeListEvidencesPageAsync.of(
-                                    DisputeServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                DisputeListEvidencesPageAsync.builder()
+                                    .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

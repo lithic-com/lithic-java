@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.DigitalCardArtServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List digital card art. */
+/** @see [DigitalCardArtServiceAsync.list] */
 class DigitalCardArtListPageAsync
 private constructor(
-    private val digitalCardArtService: DigitalCardArtServiceAsync,
+    private val service: DigitalCardArtServiceAsync,
     private val params: DigitalCardArtListParams,
     private val response: DigitalCardArtListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): DigitalCardArtListPageResponse = response
 
     /**
      * Delegates to [DigitalCardArtListPageResponse], but gracefully handles missing data.
@@ -35,19 +33,6 @@ private constructor(
      * @see [DigitalCardArtListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is DigitalCardArtListPageAsync && digitalCardArtService == other.digitalCardArtService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(digitalCardArtService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "DigitalCardArtListPageAsync{digitalCardArtService=$digitalCardArtService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -71,22 +56,78 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<DigitalCardArtListPageAsync>> {
-        return getNextPageParams()
-            .map { digitalCardArtService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<DigitalCardArtListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): DigitalCardArtListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): DigitalCardArtListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            digitalCardArtService: DigitalCardArtServiceAsync,
-            params: DigitalCardArtListParams,
-            response: DigitalCardArtListPageResponse,
-        ) = DigitalCardArtListPageAsync(digitalCardArtService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [DigitalCardArtListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [DigitalCardArtListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: DigitalCardArtServiceAsync? = null
+        private var params: DigitalCardArtListParams? = null
+        private var response: DigitalCardArtListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(digitalCardArtListPageAsync: DigitalCardArtListPageAsync) = apply {
+            service = digitalCardArtListPageAsync.service
+            params = digitalCardArtListPageAsync.params
+            response = digitalCardArtListPageAsync.response
+        }
+
+        fun service(service: DigitalCardArtServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: DigitalCardArtListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: DigitalCardArtListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [DigitalCardArtListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): DigitalCardArtListPageAsync =
+            DigitalCardArtListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: DigitalCardArtListPageAsync) {
@@ -117,4 +158,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is DigitalCardArtListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "DigitalCardArtListPageAsync{service=$service, params=$params, response=$response}"
 }
