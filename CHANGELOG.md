@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.86.0 (2025-04-09)
+
+Full Changelog: [v0.85.0...v0.86.0](https://github.com/lithic-com/lithic-java/compare/v0.85.0...v0.86.0)
+
+### Features
+
+* **client:** support setting base URL via env var ([#593](https://github.com/lithic-com/lithic-java/issues/593)) ([74f4d86](https://github.com/lithic-com/lithic-java/commit/74f4d864d3cbe4bdec7f393fcd39c9bf93a0ad76))
+
+
+### Bug Fixes
+
+* **client:** bump to better jackson version ([#595](https://github.com/lithic-com/lithic-java/issues/595)) ([adf9bf0](https://github.com/lithic-com/lithic-java/commit/adf9bf06dc7d4fbd7630bc560f0478d23bc6305f))
+
+
+### Chores
+
+* configure new SDK language ([0548a32](https://github.com/lithic-com/lithic-java/commit/0548a32163306ed7eb1e16ac0a93afab3987dccb))
+* **internal:** expand CI branch coverage ([#594](https://github.com/lithic-com/lithic-java/issues/594)) ([0b97366](https://github.com/lithic-com/lithic-java/commit/0b9736695ef7ad3ca3c3c915e6b9058028f03a61))
+* **tests:** improve enum examples ([#591](https://github.com/lithic-com/lithic-java/issues/591)) ([f163256](https://github.com/lithic-com/lithic-java/commit/f16325694592ab5147403c711cc1d70551f37a7c))
+
 ## 0.85.0 (2025-04-08)
 
 Full Changelog: [v0.84.0...v0.85.0](https://github.com/lithic-com/lithic-java/compare/v0.84.0...v0.85.0)
