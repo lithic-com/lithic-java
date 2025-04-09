@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountStatementLineItemListPage
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
+import com.lithic.api.models.StatementLineItems
 
 class LineItemServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     LineItemService {
@@ -39,11 +40,8 @@ class LineItemServiceImpl internal constructor(private val clientOptions: Client
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<FinancialAccountStatementLineItemListPage.Response> =
-            jsonHandler<FinancialAccountStatementLineItemListPage.Response>(
-                    clientOptions.jsonMapper
-                )
-                .withErrorHandler(errorHandler)
+        private val listHandler: Handler<StatementLineItems> =
+            jsonHandler<StatementLineItems>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun list(
             params: FinancialAccountStatementLineItemListParams,

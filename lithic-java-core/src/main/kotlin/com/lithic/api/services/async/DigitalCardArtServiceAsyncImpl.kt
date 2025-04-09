@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.DigitalCardArt
 import com.lithic.api.models.DigitalCardArtListPageAsync
+import com.lithic.api.models.DigitalCardArtListPageResponse
 import com.lithic.api.models.DigitalCardArtListParams
 import com.lithic.api.models.DigitalCardArtRetrieveParams
 import java.util.concurrent.CompletableFuture
@@ -77,8 +78,8 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
                 }
         }
 
-        private val listHandler: Handler<DigitalCardArtListPageAsync.Response> =
-            jsonHandler<DigitalCardArtListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<DigitalCardArtListPageResponse> =
+            jsonHandler<DigitalCardArtListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

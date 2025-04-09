@@ -23,6 +23,7 @@ import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardGetEmbedHtmlParams
 import com.lithic.api.models.CardGetEmbedUrlParams
 import com.lithic.api.models.CardListPageAsync
+import com.lithic.api.models.CardListPageResponse
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardProvisionResponse
@@ -263,8 +264,8 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
                 }
         }
 
-        private val listHandler: Handler<CardListPageAsync.Response> =
-            jsonHandler<CardListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardListPageResponse> =
+            jsonHandler<CardListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

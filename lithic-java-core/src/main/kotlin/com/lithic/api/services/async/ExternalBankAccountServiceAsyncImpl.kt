@@ -18,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.ExternalBankAccountCreateParams
 import com.lithic.api.models.ExternalBankAccountCreateResponse
 import com.lithic.api.models.ExternalBankAccountListPageAsync
+import com.lithic.api.models.ExternalBankAccountListPageResponse
 import com.lithic.api.models.ExternalBankAccountListParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
@@ -192,8 +193,8 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                 }
         }
 
-        private val listHandler: Handler<ExternalBankAccountListPageAsync.Response> =
-            jsonHandler<ExternalBankAccountListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<ExternalBankAccountListPageResponse> =
+            jsonHandler<ExternalBankAccountListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

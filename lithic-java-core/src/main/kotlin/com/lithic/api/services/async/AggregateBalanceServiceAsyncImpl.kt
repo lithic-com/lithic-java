@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.AggregateBalanceListPageAsync
+import com.lithic.api.models.AggregateBalanceListPageResponse
 import com.lithic.api.models.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
 
@@ -39,8 +40,8 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<AggregateBalanceListPageAsync.Response> =
-            jsonHandler<AggregateBalanceListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AggregateBalanceListPageResponse> =
+            jsonHandler<AggregateBalanceListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

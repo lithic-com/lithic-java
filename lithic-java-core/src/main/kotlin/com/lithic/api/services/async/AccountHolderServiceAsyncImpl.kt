@@ -21,6 +21,7 @@ import com.lithic.api.models.AccountHolderCreateResponse
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
 import com.lithic.api.models.AccountHolderListPageAsync
+import com.lithic.api.models.AccountHolderListPageResponse
 import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
@@ -207,8 +208,8 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
                 }
         }
 
-        private val listHandler: Handler<AccountHolderListPageAsync.Response> =
-            jsonHandler<AccountHolderListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AccountHolderListPageResponse> =
+            jsonHandler<AccountHolderListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
