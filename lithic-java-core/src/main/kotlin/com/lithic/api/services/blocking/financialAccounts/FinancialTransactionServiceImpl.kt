@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialTransaction
 import com.lithic.api.models.FinancialTransactionListPage
+import com.lithic.api.models.FinancialTransactionListPageResponse
 import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
 
@@ -81,8 +82,8 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             }
         }
 
-        private val listHandler: Handler<FinancialTransactionListPage.Response> =
-            jsonHandler<FinancialTransactionListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<FinancialTransactionListPageResponse> =
+            jsonHandler<FinancialTransactionListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

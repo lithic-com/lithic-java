@@ -20,6 +20,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPageAsync
+import com.lithic.api.models.TokenizationListPageResponse
 import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
@@ -139,8 +140,8 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val listHandler: Handler<TokenizationListPageAsync.Response> =
-            jsonHandler<TokenizationListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<TokenizationListPageResponse> =
+            jsonHandler<TokenizationListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

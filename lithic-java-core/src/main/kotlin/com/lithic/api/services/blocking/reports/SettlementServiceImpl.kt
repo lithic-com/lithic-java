@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.ReportSettlementListDetailsPage
+import com.lithic.api.models.ReportSettlementListDetailsPageResponse
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
@@ -61,8 +62,8 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
 
         override fun networkTotals(): NetworkTotalService.WithRawResponse = networkTotals
 
-        private val listDetailsHandler: Handler<ReportSettlementListDetailsPage.Response> =
-            jsonHandler<ReportSettlementListDetailsPage.Response>(clientOptions.jsonMapper)
+        private val listDetailsHandler: Handler<ReportSettlementListDetailsPageResponse> =
+            jsonHandler<ReportSettlementListDetailsPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listDetails(

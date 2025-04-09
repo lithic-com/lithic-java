@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.ManagementOperationCreateParams
 import com.lithic.api.models.ManagementOperationListPage
+import com.lithic.api.models.ManagementOperationListPageResponse
 import com.lithic.api.models.ManagementOperationListParams
 import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
@@ -119,8 +120,8 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
             }
         }
 
-        private val listHandler: Handler<ManagementOperationListPage.Response> =
-            jsonHandler<ManagementOperationListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<ManagementOperationListPageResponse> =
+            jsonHandler<ManagementOperationListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
