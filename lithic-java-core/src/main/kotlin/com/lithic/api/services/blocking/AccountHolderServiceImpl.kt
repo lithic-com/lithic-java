@@ -221,11 +221,11 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                         }
                     }
                     .let {
-                        AccountHolderListPage.of(
-                            AccountHolderServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        AccountHolderListPage.builder()
+                            .service(AccountHolderServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

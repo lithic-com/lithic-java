@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.DisputeServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List evidence metadata for a dispute. */
+/** @see [DisputeServiceAsync.listEvidences] */
 class DisputeListEvidencesPageAsync
 private constructor(
-    private val disputesService: DisputeServiceAsync,
+    private val service: DisputeServiceAsync,
     private val params: DisputeListEvidencesParams,
     private val response: DisputeListEvidencesPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): DisputeListEvidencesPageResponse = response
 
     /**
      * Delegates to [DisputeListEvidencesPageResponse], but gracefully handles missing data.
@@ -35,19 +33,6 @@ private constructor(
      * @see [DisputeListEvidencesPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is DisputeListEvidencesPageAsync && disputesService == other.disputesService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputesService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "DisputeListEvidencesPageAsync{disputesService=$disputesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -71,22 +56,81 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<DisputeListEvidencesPageAsync>> {
-        return getNextPageParams()
-            .map { disputesService.listEvidences(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<DisputeListEvidencesPageAsync>> =
+        getNextPageParams()
+            .map { service.listEvidences(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): DisputeListEvidencesParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): DisputeListEvidencesPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            disputesService: DisputeServiceAsync,
-            params: DisputeListEvidencesParams,
-            response: DisputeListEvidencesPageResponse,
-        ) = DisputeListEvidencesPageAsync(disputesService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [DisputeListEvidencesPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [DisputeListEvidencesPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: DisputeServiceAsync? = null
+        private var params: DisputeListEvidencesParams? = null
+        private var response: DisputeListEvidencesPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(disputeListEvidencesPageAsync: DisputeListEvidencesPageAsync) = apply {
+            service = disputeListEvidencesPageAsync.service
+            params = disputeListEvidencesPageAsync.params
+            response = disputeListEvidencesPageAsync.response
+        }
+
+        fun service(service: DisputeServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: DisputeListEvidencesParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: DisputeListEvidencesPageResponse) = apply {
+            this.response = response
+        }
+
+        /**
+         * Returns an immutable instance of [DisputeListEvidencesPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): DisputeListEvidencesPageAsync =
+            DisputeListEvidencesPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: DisputeListEvidencesPageAsync) {
@@ -117,4 +161,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is DisputeListEvidencesPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "DisputeListEvidencesPageAsync{service=$service, params=$params, response=$response}"
 }

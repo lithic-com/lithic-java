@@ -113,11 +113,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                                 }
                             }
                             .let {
-                                CardFinancialTransactionListPageAsync.of(
-                                    FinancialTransactionServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                CardFinancialTransactionListPageAsync.builder()
+                                    .service(FinancialTransactionServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }
