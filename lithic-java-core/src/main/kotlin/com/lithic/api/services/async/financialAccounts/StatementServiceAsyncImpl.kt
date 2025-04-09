@@ -18,6 +18,7 @@ import com.lithic.api.models.FinancialAccountStatementListPageAsync
 import com.lithic.api.models.FinancialAccountStatementListParams
 import com.lithic.api.models.FinancialAccountStatementRetrieveParams
 import com.lithic.api.models.Statement
+import com.lithic.api.models.Statements
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsync
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
@@ -95,9 +96,8 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
                 }
         }
 
-        private val listHandler: Handler<FinancialAccountStatementListPageAsync.Response> =
-            jsonHandler<FinancialAccountStatementListPageAsync.Response>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val listHandler: Handler<Statements> =
+            jsonHandler<Statements>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun list(
             params: FinancialAccountStatementListParams,

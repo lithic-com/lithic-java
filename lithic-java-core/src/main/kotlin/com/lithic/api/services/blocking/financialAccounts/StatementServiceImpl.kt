@@ -18,6 +18,7 @@ import com.lithic.api.models.FinancialAccountStatementListPage
 import com.lithic.api.models.FinancialAccountStatementListParams
 import com.lithic.api.models.FinancialAccountStatementRetrieveParams
 import com.lithic.api.models.Statement
+import com.lithic.api.models.Statements
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemService
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemServiceImpl
 
@@ -91,9 +92,8 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
             }
         }
 
-        private val listHandler: Handler<FinancialAccountStatementListPage.Response> =
-            jsonHandler<FinancialAccountStatementListPage.Response>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val listHandler: Handler<Statements> =
+            jsonHandler<Statements>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
         override fun list(
             params: FinancialAccountStatementListParams,

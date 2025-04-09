@@ -19,6 +19,7 @@ import com.lithic.api.models.Payment
 import com.lithic.api.models.PaymentCreateParams
 import com.lithic.api.models.PaymentCreateResponse
 import com.lithic.api.models.PaymentListPage
+import com.lithic.api.models.PaymentListPageResponse
 import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
@@ -150,8 +151,8 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val listHandler: Handler<PaymentListPage.Response> =
-            jsonHandler<PaymentListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<PaymentListPageResponse> =
+            jsonHandler<PaymentListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

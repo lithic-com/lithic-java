@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.BookTransferCreateParams
 import com.lithic.api.models.BookTransferListPage
+import com.lithic.api.models.BookTransferListPageResponse
 import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
@@ -119,8 +120,8 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
-        private val listHandler: Handler<BookTransferListPage.Response> =
-            jsonHandler<BookTransferListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<BookTransferListPageResponse> =
+            jsonHandler<BookTransferListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountLoanTapeListPage
+import com.lithic.api.models.FinancialAccountLoanTapeListPageResponse
 import com.lithic.api.models.FinancialAccountLoanTapeListParams
 import com.lithic.api.models.FinancialAccountLoanTapeRetrieveParams
 import com.lithic.api.models.LoanTape
@@ -79,8 +80,8 @@ class LoanTapeServiceImpl internal constructor(private val clientOptions: Client
             }
         }
 
-        private val listHandler: Handler<FinancialAccountLoanTapeListPage.Response> =
-            jsonHandler<FinancialAccountLoanTapeListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<FinancialAccountLoanTapeListPageResponse> =
+            jsonHandler<FinancialAccountLoanTapeListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

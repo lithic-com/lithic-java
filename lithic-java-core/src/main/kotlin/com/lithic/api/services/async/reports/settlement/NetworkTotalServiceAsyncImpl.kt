@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.NetworkTotalRetrieveResponse
 import com.lithic.api.models.ReportSettlementNetworkTotalListPageAsync
+import com.lithic.api.models.ReportSettlementNetworkTotalListPageResponse
 import com.lithic.api.models.ReportSettlementNetworkTotalListParams
 import com.lithic.api.models.ReportSettlementNetworkTotalRetrieveParams
 import java.util.concurrent.CompletableFuture
@@ -84,10 +85,8 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val listHandler: Handler<ReportSettlementNetworkTotalListPageAsync.Response> =
-            jsonHandler<ReportSettlementNetworkTotalListPageAsync.Response>(
-                    clientOptions.jsonMapper
-                )
+        private val listHandler: Handler<ReportSettlementNetworkTotalListPageResponse> =
+            jsonHandler<ReportSettlementNetworkTotalListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

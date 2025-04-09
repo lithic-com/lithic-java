@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.CardAggregateBalanceListPage
+import com.lithic.api.models.CardAggregateBalanceListPageResponse
 import com.lithic.api.models.CardAggregateBalanceListParams
 
 class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -38,8 +39,8 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
-        private val listHandler: Handler<CardAggregateBalanceListPage.Response> =
-            jsonHandler<CardAggregateBalanceListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardAggregateBalanceListPageResponse> =
+            jsonHandler<CardAggregateBalanceListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

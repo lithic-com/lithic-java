@@ -20,6 +20,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionListPageAsync
+import com.lithic.api.models.TransactionListPageResponse
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
@@ -184,8 +185,8 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
                 }
         }
 
-        private val listHandler: Handler<TransactionListPageAsync.Response> =
-            jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<TransactionListPageResponse> =
+            jsonHandler<TransactionListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

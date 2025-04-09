@@ -16,6 +16,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.CardProgram
 import com.lithic.api.models.CardProgramListPage
+import com.lithic.api.models.CardProgramListPageResponse
 import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
 
@@ -73,8 +74,8 @@ class CardProgramServiceImpl internal constructor(private val clientOptions: Cli
             }
         }
 
-        private val listHandler: Handler<CardProgramListPage.Response> =
-            jsonHandler<CardProgramListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<CardProgramListPageResponse> =
+            jsonHandler<CardProgramListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

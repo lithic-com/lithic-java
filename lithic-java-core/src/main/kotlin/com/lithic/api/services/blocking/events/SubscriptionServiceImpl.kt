@@ -21,8 +21,10 @@ import com.lithic.api.models.EventSubscription
 import com.lithic.api.models.EventSubscriptionCreateParams
 import com.lithic.api.models.EventSubscriptionDeleteParams
 import com.lithic.api.models.EventSubscriptionListAttemptsPage
+import com.lithic.api.models.EventSubscriptionListAttemptsPageResponse
 import com.lithic.api.models.EventSubscriptionListAttemptsParams
 import com.lithic.api.models.EventSubscriptionListPage
+import com.lithic.api.models.EventSubscriptionListPageResponse
 import com.lithic.api.models.EventSubscriptionListParams
 import com.lithic.api.models.EventSubscriptionRecoverParams
 import com.lithic.api.models.EventSubscriptionReplayMissingParams
@@ -203,8 +205,8 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
-        private val listHandler: Handler<EventSubscriptionListPage.Response> =
-            jsonHandler<EventSubscriptionListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<EventSubscriptionListPageResponse> =
+            jsonHandler<EventSubscriptionListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
@@ -255,8 +257,8 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
             return response.parseable { response.use { deleteHandler.handle(it) } }
         }
 
-        private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPage.Response> =
-            jsonHandler<EventSubscriptionListAttemptsPage.Response>(clientOptions.jsonMapper)
+        private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageResponse> =
+            jsonHandler<EventSubscriptionListAttemptsPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listAttempts(

@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPage
+import com.lithic.api.models.AccountListPageResponse
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
@@ -109,8 +110,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val listHandler: Handler<AccountListPage.Response> =
-            jsonHandler<AccountListPage.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AccountListPageResponse> =
+            jsonHandler<AccountListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(

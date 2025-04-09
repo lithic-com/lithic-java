@@ -18,8 +18,10 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListAttemptsPageAsync
+import com.lithic.api.models.EventListAttemptsPageResponse
 import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListPageAsync
+import com.lithic.api.models.EventListPageResponse
 import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
 import com.lithic.api.services.async.events.EventSubscriptionServiceAsync
@@ -117,8 +119,8 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
-        private val listHandler: Handler<EventListPageAsync.Response> =
-            jsonHandler<EventListPageAsync.Response>(clientOptions.jsonMapper)
+        private val listHandler: Handler<EventListPageResponse> =
+            jsonHandler<EventListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun list(
@@ -154,8 +156,8 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
-        private val listAttemptsHandler: Handler<EventListAttemptsPageAsync.Response> =
-            jsonHandler<EventListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
+        private val listAttemptsHandler: Handler<EventListAttemptsPageResponse> =
+            jsonHandler<EventListAttemptsPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listAttempts(

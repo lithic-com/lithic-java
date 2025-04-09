@@ -15,6 +15,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.ReportSettlementListDetailsPageAsync
+import com.lithic.api.models.ReportSettlementListDetailsPageResponse
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
@@ -62,8 +63,8 @@ class SettlementServiceAsyncImpl internal constructor(private val clientOptions:
 
         override fun networkTotals(): NetworkTotalServiceAsync.WithRawResponse = networkTotals
 
-        private val listDetailsHandler: Handler<ReportSettlementListDetailsPageAsync.Response> =
-            jsonHandler<ReportSettlementListDetailsPageAsync.Response>(clientOptions.jsonMapper)
+        private val listDetailsHandler: Handler<ReportSettlementListDetailsPageResponse> =
+            jsonHandler<ReportSettlementListDetailsPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun listDetails(
