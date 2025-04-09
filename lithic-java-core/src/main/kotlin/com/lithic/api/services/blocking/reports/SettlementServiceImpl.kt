@@ -87,11 +87,11 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
                         }
                     }
                     .let {
-                        ReportSettlementListDetailsPage.of(
-                            SettlementServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        ReportSettlementListDetailsPage.builder()
+                            .service(SettlementServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

@@ -134,7 +134,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                             it.validate()
                         }
                     }
-                    .let { AccountListPage.of(AccountServiceImpl(clientOptions), params, it) }
+                    .let {
+                        AccountListPage.builder()
+                            .service(AccountServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 

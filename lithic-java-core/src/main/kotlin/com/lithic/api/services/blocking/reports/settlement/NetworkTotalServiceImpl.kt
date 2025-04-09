@@ -106,11 +106,11 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        ReportSettlementNetworkTotalListPage.of(
-                            NetworkTotalServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        ReportSettlementNetworkTotalListPage.builder()
+                            .service(NetworkTotalServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

@@ -220,11 +220,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                                 }
                             }
                             .let {
-                                ExternalBankAccountListPageAsync.of(
-                                    ExternalBankAccountServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                ExternalBankAccountListPageAsync.builder()
+                                    .service(ExternalBankAccountServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

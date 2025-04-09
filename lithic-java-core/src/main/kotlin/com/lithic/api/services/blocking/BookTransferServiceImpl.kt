@@ -145,7 +145,11 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        BookTransferListPage.of(BookTransferServiceImpl(clientOptions), params, it)
+                        BookTransferListPage.builder()
+                            .service(BookTransferServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

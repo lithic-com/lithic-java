@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.reports.SettlementService
 import java.util.Objects
 import java.util.Optional
@@ -9,16 +10,13 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
-/** List details. */
+/** @see [SettlementService.listDetails] */
 class ReportSettlementListDetailsPage
 private constructor(
-    private val settlementService: SettlementService,
+    private val service: SettlementService,
     private val params: ReportSettlementListDetailsParams,
     private val response: ReportSettlementListDetailsPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): ReportSettlementListDetailsPageResponse = response
 
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
@@ -34,19 +32,6 @@ private constructor(
      * @see [ReportSettlementListDetailsPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ReportSettlementListDetailsPage && settlementService == other.settlementService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(settlementService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "ReportSettlementListDetailsPage{settlementService=$settlementService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -70,20 +55,80 @@ private constructor(
         )
     }
 
-    fun getNextPage(): Optional<ReportSettlementListDetailsPage> {
-        return getNextPageParams().map { settlementService.listDetails(it) }
-    }
+    fun getNextPage(): Optional<ReportSettlementListDetailsPage> =
+        getNextPageParams().map { service.listDetails(it) }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): ReportSettlementListDetailsParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): ReportSettlementListDetailsPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            settlementService: SettlementService,
-            params: ReportSettlementListDetailsParams,
-            response: ReportSettlementListDetailsPageResponse,
-        ) = ReportSettlementListDetailsPage(settlementService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ReportSettlementListDetailsPage].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [ReportSettlementListDetailsPage]. */
+    class Builder internal constructor() {
+
+        private var service: SettlementService? = null
+        private var params: ReportSettlementListDetailsParams? = null
+        private var response: ReportSettlementListDetailsPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(reportSettlementListDetailsPage: ReportSettlementListDetailsPage) =
+            apply {
+                service = reportSettlementListDetailsPage.service
+                params = reportSettlementListDetailsPage.params
+                response = reportSettlementListDetailsPage.response
+            }
+
+        fun service(service: SettlementService) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: ReportSettlementListDetailsParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: ReportSettlementListDetailsPageResponse) = apply {
+            this.response = response
+        }
+
+        /**
+         * Returns an immutable instance of [ReportSettlementListDetailsPage].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): ReportSettlementListDetailsPage =
+            ReportSettlementListDetailsPage(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: ReportSettlementListDetailsPage) :
@@ -105,4 +150,17 @@ private constructor(
             return StreamSupport.stream(spliterator(), false)
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ReportSettlementListDetailsPage && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "ReportSettlementListDetailsPage{service=$service, params=$params, response=$response}"
 }

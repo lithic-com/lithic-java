@@ -64,11 +64,11 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
                         }
                     }
                     .let {
-                        FinancialAccountBalanceListPage.of(
-                            BalanceServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialAccountBalanceListPage.builder()
+                            .service(BalanceServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

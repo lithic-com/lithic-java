@@ -60,7 +60,13 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
                             it.validate()
                         }
                     }
-                    .let { BalanceListPage.of(BalanceServiceImpl(clientOptions), params, it) }
+                    .let {
+                        BalanceListPage.builder()
+                            .service(BalanceServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
     }

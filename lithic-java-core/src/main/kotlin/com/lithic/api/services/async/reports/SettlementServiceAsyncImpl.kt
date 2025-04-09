@@ -90,11 +90,11 @@ class SettlementServiceAsyncImpl internal constructor(private val clientOptions:
                                 }
                             }
                             .let {
-                                ReportSettlementListDetailsPageAsync.of(
-                                    SettlementServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                ReportSettlementListDetailsPageAsync.builder()
+                                    .service(SettlementServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

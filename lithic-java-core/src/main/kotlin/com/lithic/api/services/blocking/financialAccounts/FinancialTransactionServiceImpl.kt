@@ -112,11 +112,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                         }
                     }
                     .let {
-                        FinancialTransactionListPage.of(
-                            FinancialTransactionServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialTransactionListPage.builder()
+                            .service(FinancialTransactionServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }
