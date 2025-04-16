@@ -383,6 +383,42 @@ LithicClient client = LithicOkHttpClient.builder()
     .build();
 ```
 
+### Custom HTTP client
+
+The SDK consists of three artifacts:
+
+- `lithic-java-core`
+  - Contains core SDK logic
+  - Does not depend on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`LithicClient`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClient.kt), [`LithicClientAsync`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsync.kt), [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt), and [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), all of which can work with any HTTP client
+- `lithic-java-client-okhttp`
+  - Depends on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) and [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), which provide a way to construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) and [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), respectively, using OkHttp
+- `lithic-java`
+  - Depends on and exposes the APIs of both `lithic-java-core` and `lithic-java-client-okhttp`
+  - Does not have its own logic
+
+This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
+
+#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)
+
+> [!TIP]
+> Try the available [network options](#network-options) before replacing the default client.
+
+To use a customized `OkHttpClient`:
+
+1. Replace your [`lithic-java` dependency](#installation) with `lithic-java-core`
+2. Copy `lithic-java-client-okhttp`'s [`OkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) or [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), similarly to [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) or [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), using your customized client
+
+### Completely custom HTTP client
+
+To use a completely custom HTTP client:
+
+1. Replace your [`lithic-java` dependency](#installation) with `lithic-java-core`
+2. Write a class that implements the [`HttpClient`](lithic-java-core/src/main/kotlin/com/lithic/api/core/http/HttpClient.kt) interface
+3. Construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) or [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), similarly to [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) or [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), using your new client class
+
 ## Undocumented API functionality
 
 The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
