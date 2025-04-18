@@ -47,7 +47,7 @@ internal class ManagementOperationListPageResponseTest {
                                 .type(
                                     ManagementOperationTransaction.ManagementOperationEvent
                                         .ManagementOperationEventType
-                                        .CASH_BACK
+                                        .LOSS_WRITE_OFF
                                 )
                                 .subtype("subtype")
                                 .build()
@@ -103,7 +103,7 @@ internal class ManagementOperationListPageResponseTest {
                             .type(
                                 ManagementOperationTransaction.ManagementOperationEvent
                                     .ManagementOperationEventType
-                                    .CASH_BACK
+                                    .LOSS_WRITE_OFF
                             )
                             .subtype("subtype")
                             .build()
@@ -164,7 +164,7 @@ internal class ManagementOperationListPageResponseTest {
                                 .type(
                                     ManagementOperationTransaction.ManagementOperationEvent
                                         .ManagementOperationEventType
-                                        .CASH_BACK
+                                        .LOSS_WRITE_OFF
                                 )
                                 .subtype("subtype")
                                 .build()

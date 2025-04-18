@@ -1304,6 +1304,8 @@ private constructor(
 
                 @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
 
+                @JvmField val LITHIC_NETWORK_PAYMENT = of("LITHIC_NETWORK_PAYMENT")
+
                 @JvmStatic fun of(value: String) = FinancialEventType(JsonField.of(value))
             }
 
@@ -1374,6 +1376,7 @@ private constructor(
                 TRANSFER_INSUFFICIENT_FUNDS,
                 RETURNED_PAYMENT,
                 RETURNED_PAYMENT_REVERSAL,
+                LITHIC_NETWORK_PAYMENT,
             }
 
             /**
@@ -1453,6 +1456,7 @@ private constructor(
                 TRANSFER_INSUFFICIENT_FUNDS,
                 RETURNED_PAYMENT,
                 RETURNED_PAYMENT_REVERSAL,
+                LITHIC_NETWORK_PAYMENT,
                 /**
                  * An enum member indicating that [FinancialEventType] was instantiated with an
                  * unknown value.
@@ -1534,6 +1538,7 @@ private constructor(
                     TRANSFER_INSUFFICIENT_FUNDS -> Value.TRANSFER_INSUFFICIENT_FUNDS
                     RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
                     RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
+                    LITHIC_NETWORK_PAYMENT -> Value.LITHIC_NETWORK_PAYMENT
                     else -> Value._UNKNOWN
                 }
 
@@ -1613,6 +1618,7 @@ private constructor(
                     TRANSFER_INSUFFICIENT_FUNDS -> Known.TRANSFER_INSUFFICIENT_FUNDS
                     RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
                     RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
+                    LITHIC_NETWORK_PAYMENT -> Known.LITHIC_NETWORK_PAYMENT
                     else -> throw LithicInvalidDataException("Unknown FinancialEventType: $value")
                 }
 

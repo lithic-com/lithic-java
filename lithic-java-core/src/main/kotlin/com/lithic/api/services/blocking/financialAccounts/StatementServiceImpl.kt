@@ -116,11 +116,11 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
                         }
                     }
                     .let {
-                        FinancialAccountStatementListPage.of(
-                            StatementServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialAccountStatementListPage.builder()
+                            .service(StatementServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

@@ -112,11 +112,11 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
                                 }
                             }
                             .let {
-                                ReportSettlementNetworkTotalListPageAsync.of(
-                                    NetworkTotalServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                ReportSettlementNetworkTotalListPageAsync.builder()
+                                    .service(NetworkTotalServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

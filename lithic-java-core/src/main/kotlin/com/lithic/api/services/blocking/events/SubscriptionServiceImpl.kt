@@ -230,11 +230,11 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        EventSubscriptionListPage.of(
-                            SubscriptionServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        EventSubscriptionListPage.builder()
+                            .service(SubscriptionServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }
@@ -282,11 +282,11 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                         }
                     }
                     .let {
-                        EventSubscriptionListAttemptsPage.of(
-                            SubscriptionServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        EventSubscriptionListAttemptsPage.builder()
+                            .service(SubscriptionServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

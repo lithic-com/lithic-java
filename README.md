@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.87.0)
-[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.87.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.87.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.88.0)
+[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.88.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.88.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ The Lithic Java SDK is similar to the Lithic Kotlin SDK but with minor differenc
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com). Javadocs are also available on [javadoc.io](https://javadoc.io/doc/com.lithic.api/lithic-java/0.87.0).
+The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.lithic.api/lithic-java/0.88.0).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [docs.lithic.com](https://docs.lithic
 ### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.87.0")
+implementation("com.lithic.api:lithic-java:0.88.0")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.lithic.api:lithic-java:0.87.0")
 <dependency>
   <groupId>com.lithic.api</groupId>
   <artifactId>lithic-java</artifactId>
-  <version>0.87.0</version>
+  <version>0.88.0</version>
 </dependency>
 ```
 
@@ -48,8 +48,8 @@ This library requires Java 8 or later.
 ```java
 import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
 LithicClient client = LithicOkHttpClient.fromEnv();
@@ -57,7 +57,7 @@ LithicClient client = LithicOkHttpClient.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-Card card = client.cards().create(params);
+CardCreateResponse card = client.cards().create(params);
 ```
 
 ## Client configuration
@@ -112,7 +112,7 @@ See this table for the available options:
 
 To send a request to the Lithic API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.cards().create(...)` should be called with an instance of `CardCreateParams`, and it will return an instance of `Card`.
+For example, `client.cards().create(...)` should be called with an instance of `CardCreateParams`, and it will return an instance of `CardCreateResponse`.
 
 ## Immutability
 
@@ -129,8 +129,8 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```java
 import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
@@ -139,7 +139,7 @@ LithicClient client = LithicOkHttpClient.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-CompletableFuture<Card> card = client.async().cards().create(params);
+CompletableFuture<CardCreateResponse> card = client.async().cards().create(params);
 ```
 
 Or create an asynchronous client from the beginning:
@@ -147,8 +147,8 @@ Or create an asynchronous client from the beginning:
 ```java
 import com.lithic.api.client.LithicClientAsync;
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync;
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
@@ -157,7 +157,7 @@ LithicClientAsync client = LithicOkHttpClientAsync.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-CompletableFuture<Card> card = client.cards().create(params);
+CompletableFuture<CardCreateResponse> card = client.cards().create(params);
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -171,13 +171,13 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.lithic.api.core.http.Headers;
 import com.lithic.api.core.http.HttpResponseFor;
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-HttpResponseFor<Card> card = client.cards().withRawResponse().create(params);
+HttpResponseFor<CardCreateResponse> card = client.cards().withRawResponse().create(params);
 
 int statusCode = card.statusCode();
 Headers headers = card.headers();
@@ -186,9 +186,9 @@ Headers headers = card.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.lithic.api.models.Card;
+import com.lithic.api.models.CardCreateResponse;
 
-Card parsedCard = card.parse();
+CardCreateResponse parsedCard = card.parse();
 ```
 
 ## Error handling
@@ -225,12 +225,12 @@ To iterate through all results across all pages, you can use `autoPager`, which 
 ### Synchronous
 
 ```java
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardListPage;
+import com.lithic.api.models.CardListResponse;
 
 // As an Iterable:
 CardListPage page = client.cards().list(params);
-for (Card card : page.autoPager()) {
+for (CardListResponse card : page.autoPager()) {
     System.out.println(card);
 };
 
@@ -253,12 +253,12 @@ asyncClient.cards().list(params).autoPager()
 If none of the above helpers meet your needs, you can also manually request pages one-by-one. A page of results has a `data()` method to fetch the list of objects, as well as top-level `response` and other methods to fetch top-level data about the page. It also has methods `hasNextPage`, `getNextPage`, and `getNextPageParams` methods to help with pagination.
 
 ```java
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardListPage;
+import com.lithic.api.models.CardListResponse;
 
 CardListPage page = client.cards().list(params);
 while (page != null) {
-    for (Card card : page.data()) {
+    for (CardListResponse card : page.data()) {
         System.out.println(card);
     }
 
@@ -291,6 +291,17 @@ both of which will raise an error if the signature is invalid.
 
 Note that the "body" parameter must be the raw JSON string sent from the server (do not parse it first).
 The `.unwrap()` method can parse this JSON for you.
+
+## Jackson
+
+The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
+
+The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
+
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) or [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt).
+
+> [!CAUTION]
+> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
 
 ## Network options
 
@@ -327,10 +338,10 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 
-Card card = client.cards().create(
+CardCreateResponse card = client.cards().create(
   params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
 );
 ```
@@ -381,6 +392,42 @@ LithicClient client = LithicOkHttpClient.builder()
     .sandbox()
     .build();
 ```
+
+### Custom HTTP client
+
+The SDK consists of three artifacts:
+
+- `lithic-java-core`
+  - Contains core SDK logic
+  - Does not depend on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`LithicClient`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClient.kt), [`LithicClientAsync`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsync.kt), [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt), and [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), all of which can work with any HTTP client
+- `lithic-java-client-okhttp`
+  - Depends on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) and [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), which provide a way to construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) and [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), respectively, using OkHttp
+- `lithic-java`
+  - Depends on and exposes the APIs of both `lithic-java-core` and `lithic-java-client-okhttp`
+  - Does not have its own logic
+
+This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
+
+#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)
+
+> [!TIP]
+> Try the available [network options](#network-options) before replacing the default client.
+
+To use a customized `OkHttpClient`:
+
+1. Replace your [`lithic-java` dependency](#installation) with `lithic-java-core`
+2. Copy `lithic-java-client-okhttp`'s [`OkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) or [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), similarly to [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) or [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), using your customized client
+
+### Completely custom HTTP client
+
+To use a completely custom HTTP client:
+
+1. Replace your [`lithic-java` dependency](#installation) with `lithic-java-core`
+2. Write a class that implements the [`HttpClient`](lithic-java-core/src/main/kotlin/com/lithic/api/core/http/HttpClient.kt) interface
+3. Construct [`LithicClientImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientImpl.kt) or [`LithicClientAsyncImpl`](lithic-java-core/src/main/kotlin/com/lithic/api/client/LithicClientAsyncImpl.kt), similarly to [`LithicOkHttpClient`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClient.kt) or [`LithicOkHttpClientAsync`](lithic-java-client-okhttp/src/main/kotlin/com/lithic/api/client/okhttp/LithicOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -530,18 +577,18 @@ By default, the SDK will not throw an exception in this case. It will throw [`Li
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.lithic.api.models.Card;
+import com.lithic.api.models.CardCreateResponse;
 
-Card card = client.cards().create(params).validate();
+CardCreateResponse card = client.cards().create(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
+import com.lithic.api.models.CardCreateResponse;
 
-Card card = client.cards().create(
+CardCreateResponse card = client.cards().create(
   params, RequestOptions.builder().responseValidation(true).build()
 );
 ```

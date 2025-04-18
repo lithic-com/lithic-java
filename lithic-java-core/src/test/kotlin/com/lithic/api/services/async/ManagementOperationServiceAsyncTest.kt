@@ -33,7 +33,7 @@ internal class ManagementOperationServiceAsyncTest {
                     .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
                     .effectiveDate(LocalDate.parse("2019-12-27"))
                     .eventType(
-                        ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK
+                        ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF
                     )
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

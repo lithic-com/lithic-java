@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.PaymentServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List all the payments for the provided search criteria. */
+/** @see [PaymentServiceAsync.list] */
 class PaymentListPageAsync
 private constructor(
-    private val paymentsService: PaymentServiceAsync,
+    private val service: PaymentServiceAsync,
     private val params: PaymentListParams,
     private val response: PaymentListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): PaymentListPageResponse = response
 
     /**
      * Delegates to [PaymentListPageResponse], but gracefully handles missing data.
@@ -34,19 +32,6 @@ private constructor(
      * @see [PaymentListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is PaymentListPageAsync && paymentsService == other.paymentsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "PaymentListPageAsync{paymentsService=$paymentsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -70,22 +55,78 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<PaymentListPageAsync>> {
-        return getNextPageParams()
-            .map { paymentsService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<PaymentListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): PaymentListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): PaymentListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            paymentsService: PaymentServiceAsync,
-            params: PaymentListParams,
-            response: PaymentListPageResponse,
-        ) = PaymentListPageAsync(paymentsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [PaymentListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [PaymentListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: PaymentServiceAsync? = null
+        private var params: PaymentListParams? = null
+        private var response: PaymentListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(paymentListPageAsync: PaymentListPageAsync) = apply {
+            service = paymentListPageAsync.service
+            params = paymentListPageAsync.params
+            response = paymentListPageAsync.response
+        }
+
+        fun service(service: PaymentServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: PaymentListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: PaymentListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [PaymentListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): PaymentListPageAsync =
+            PaymentListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: PaymentListPageAsync) {
@@ -113,4 +154,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is PaymentListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "PaymentListPageAsync{service=$service, params=$params, response=$response}"
 }

@@ -145,11 +145,11 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                         }
                     }
                     .let {
-                        ManagementOperationListPage.of(
-                            ManagementOperationServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        ManagementOperationListPage.builder()
+                            .service(ManagementOperationServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

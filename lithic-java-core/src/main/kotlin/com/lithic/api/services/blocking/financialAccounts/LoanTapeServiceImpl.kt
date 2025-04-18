@@ -105,11 +105,11 @@ class LoanTapeServiceImpl internal constructor(private val clientOptions: Client
                         }
                     }
                     .let {
-                        FinancialAccountLoanTapeListPage.of(
-                            LoanTapeServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialAccountLoanTapeListPage.builder()
+                            .service(LoanTapeServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }

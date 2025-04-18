@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.AccountServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,16 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/** List account configurations. */
+/** @see [AccountServiceAsync.list] */
 class AccountListPageAsync
 private constructor(
-    private val accountsService: AccountServiceAsync,
+    private val service: AccountServiceAsync,
     private val params: AccountListParams,
     private val response: AccountListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): AccountListPageResponse = response
 
     /**
      * Delegates to [AccountListPageResponse], but gracefully handles missing data.
@@ -34,19 +32,6 @@ private constructor(
      * @see [AccountListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountListPageAsync && accountsService == other.accountsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "AccountListPageAsync{accountsService=$accountsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -70,22 +55,78 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<AccountListPageAsync>> {
-        return getNextPageParams()
-            .map { accountsService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<AccountListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): AccountListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): AccountListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            accountsService: AccountServiceAsync,
-            params: AccountListParams,
-            response: AccountListPageResponse,
-        ) = AccountListPageAsync(accountsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [AccountListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [AccountListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: AccountServiceAsync? = null
+        private var params: AccountListParams? = null
+        private var response: AccountListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(accountListPageAsync: AccountListPageAsync) = apply {
+            service = accountListPageAsync.service
+            params = accountListPageAsync.params
+            response = accountListPageAsync.response
+        }
+
+        fun service(service: AccountServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: AccountListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: AccountListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [AccountListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): AccountListPageAsync =
+            AccountListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: AccountListPageAsync) {
@@ -113,4 +154,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "AccountListPageAsync{service=$service, params=$params, response=$response}"
 }

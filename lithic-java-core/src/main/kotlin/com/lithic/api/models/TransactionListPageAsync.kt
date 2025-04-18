@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.TransactionServiceAsync
 import java.util.Objects
 import java.util.Optional
@@ -10,19 +11,13 @@ import java.util.concurrent.Executor
 import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * List card transactions. All amounts are in the smallest unit of their respective currency (e.g.,
- * cents for USD) and inclusive of any acquirer fees.
- */
+/** @see [TransactionServiceAsync.list] */
 class TransactionListPageAsync
 private constructor(
-    private val transactionsService: TransactionServiceAsync,
+    private val service: TransactionServiceAsync,
     private val params: TransactionListParams,
     private val response: TransactionListPageResponse,
 ) {
-
-    /** Returns the response that this page was parsed from. */
-    fun response(): TransactionListPageResponse = response
 
     /**
      * Delegates to [TransactionListPageResponse], but gracefully handles missing data.
@@ -37,19 +32,6 @@ private constructor(
      * @see [TransactionListPageResponse.hasMore]
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionListPageAsync && transactionsService == other.transactionsService && params == other.params && response == other.response /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionsService, params, response) /* spotless:on */
-
-    override fun toString() =
-        "TransactionListPageAsync{transactionsService=$transactionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = data().isNotEmpty()
 
@@ -73,22 +55,78 @@ private constructor(
         )
     }
 
-    fun getNextPage(): CompletableFuture<Optional<TransactionListPageAsync>> {
-        return getNextPageParams()
-            .map { transactionsService.list(it).thenApply { Optional.of(it) } }
+    fun getNextPage(): CompletableFuture<Optional<TransactionListPageAsync>> =
+        getNextPageParams()
+            .map { service.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-    }
 
     fun autoPager(): AutoPager = AutoPager(this)
 
+    /** The parameters that were used to request this page. */
+    fun params(): TransactionListParams = params
+
+    /** The response that this page was parsed from. */
+    fun response(): TransactionListPageResponse = response
+
+    fun toBuilder() = Builder().from(this)
+
     companion object {
 
-        @JvmStatic
-        fun of(
-            transactionsService: TransactionServiceAsync,
-            params: TransactionListParams,
-            response: TransactionListPageResponse,
-        ) = TransactionListPageAsync(transactionsService, params, response)
+        /**
+         * Returns a mutable builder for constructing an instance of [TransactionListPageAsync].
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [TransactionListPageAsync]. */
+    class Builder internal constructor() {
+
+        private var service: TransactionServiceAsync? = null
+        private var params: TransactionListParams? = null
+        private var response: TransactionListPageResponse? = null
+
+        @JvmSynthetic
+        internal fun from(transactionListPageAsync: TransactionListPageAsync) = apply {
+            service = transactionListPageAsync.service
+            params = transactionListPageAsync.params
+            response = transactionListPageAsync.response
+        }
+
+        fun service(service: TransactionServiceAsync) = apply { this.service = service }
+
+        /** The parameters that were used to request this page. */
+        fun params(params: TransactionListParams) = apply { this.params = params }
+
+        /** The response that this page was parsed from. */
+        fun response(response: TransactionListPageResponse) = apply { this.response = response }
+
+        /**
+         * Returns an immutable instance of [TransactionListPageAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .service()
+         * .params()
+         * .response()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
+        fun build(): TransactionListPageAsync =
+            TransactionListPageAsync(
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
+            )
     }
 
     class AutoPager(private val firstPage: TransactionListPageAsync) {
@@ -116,4 +154,17 @@ private constructor(
             return forEach(values::add, executor).thenApply { values }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+
+    override fun toString() =
+        "TransactionListPageAsync{service=$service, params=$params, response=$response}"
 }

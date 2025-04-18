@@ -226,7 +226,13 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                             it.validate()
                         }
                     }
-                    .let { AuthRuleV2ListPage.of(V2ServiceImpl(clientOptions), params, it) }
+                    .let {
+                        AuthRuleV2ListPage.builder()
+                            .service(V2ServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
+                    }
             }
         }
 

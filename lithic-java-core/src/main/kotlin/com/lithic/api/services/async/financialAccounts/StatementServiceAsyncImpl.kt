@@ -122,11 +122,11 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
                                 }
                             }
                             .let {
-                                FinancialAccountStatementListPageAsync.of(
-                                    StatementServiceAsyncImpl(clientOptions),
-                                    params,
-                                    it,
-                                )
+                                FinancialAccountStatementListPageAsync.builder()
+                                    .service(StatementServiceAsyncImpl(clientOptions))
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

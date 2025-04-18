@@ -25,10 +25,11 @@ import java.util.Optional
 /**
  * Create an account holder and initiate the appropriate onboarding workflow. Account holders and
  * accounts have a 1:1 relationship. When an account holder is successfully created an associated
- * account is also created. All calls to this endpoint will return an immediate response - though in
- * some cases, the response may indicate the enrollment is under review or further action will be
- * needed to complete the account enrollment process. This endpoint can only be used on accounts
- * that are part of the program that the calling API key manages.
+ * account is also created. All calls to this endpoint will return a synchronous response. The
+ * response time will depend on the workflow. In some cases, the response may indicate the workflow
+ * is under review or further action will be needed to complete the account creation process. This
+ * endpoint can only be used on accounts that are part of the program that the calling API key
+ * manages.
  */
 class AccountHolderCreateParams
 private constructor(

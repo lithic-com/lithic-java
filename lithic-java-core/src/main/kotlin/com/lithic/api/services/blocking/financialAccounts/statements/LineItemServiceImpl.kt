@@ -71,11 +71,11 @@ class LineItemServiceImpl internal constructor(private val clientOptions: Client
                         }
                     }
                     .let {
-                        FinancialAccountStatementLineItemListPage.of(
-                            LineItemServiceImpl(clientOptions),
-                            params,
-                            it,
-                        )
+                        FinancialAccountStatementLineItemListPage.builder()
+                            .service(LineItemServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }
