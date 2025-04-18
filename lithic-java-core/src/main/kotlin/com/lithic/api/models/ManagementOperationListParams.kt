@@ -370,6 +370,8 @@ private constructor(
 
             @JvmField val MANAGEMENT_ADJUSTMENT = of("MANAGEMENT_ADJUSTMENT")
 
+            @JvmField val MANAGEMENT_DISBURSEMENT = of("MANAGEMENT_DISBURSEMENT")
+
             @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
 
@@ -379,6 +381,7 @@ private constructor(
             MANAGEMENT_DISPUTE,
             MANAGEMENT_REWARD,
             MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISBURSEMENT,
         }
 
         /**
@@ -397,6 +400,7 @@ private constructor(
             MANAGEMENT_DISPUTE,
             MANAGEMENT_REWARD,
             MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISBURSEMENT,
             /**
              * An enum member indicating that [ManagementOperationCategory] was instantiated with an
              * unknown value.
@@ -417,6 +421,7 @@ private constructor(
                 MANAGEMENT_DISPUTE -> Value.MANAGEMENT_DISPUTE
                 MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                 MANAGEMENT_ADJUSTMENT -> Value.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISBURSEMENT -> Value.MANAGEMENT_DISBURSEMENT
                 else -> Value._UNKNOWN
             }
 
@@ -435,6 +440,7 @@ private constructor(
                 MANAGEMENT_DISPUTE -> Known.MANAGEMENT_DISPUTE
                 MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
                 MANAGEMENT_ADJUSTMENT -> Known.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISBURSEMENT -> Known.MANAGEMENT_DISBURSEMENT
                 else ->
                     throw LithicInvalidDataException("Unknown ManagementOperationCategory: $value")
             }

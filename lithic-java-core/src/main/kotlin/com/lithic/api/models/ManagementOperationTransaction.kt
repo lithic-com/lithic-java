@@ -705,6 +705,8 @@ private constructor(
 
             @JvmField val MANAGEMENT_ADJUSTMENT = of("MANAGEMENT_ADJUSTMENT")
 
+            @JvmField val MANAGEMENT_DISBURSEMENT = of("MANAGEMENT_DISBURSEMENT")
+
             @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
 
@@ -714,6 +716,7 @@ private constructor(
             MANAGEMENT_DISPUTE,
             MANAGEMENT_REWARD,
             MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISBURSEMENT,
         }
 
         /**
@@ -732,6 +735,7 @@ private constructor(
             MANAGEMENT_DISPUTE,
             MANAGEMENT_REWARD,
             MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISBURSEMENT,
             /**
              * An enum member indicating that [ManagementOperationCategory] was instantiated with an
              * unknown value.
@@ -752,6 +756,7 @@ private constructor(
                 MANAGEMENT_DISPUTE -> Value.MANAGEMENT_DISPUTE
                 MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                 MANAGEMENT_ADJUSTMENT -> Value.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISBURSEMENT -> Value.MANAGEMENT_DISBURSEMENT
                 else -> Value._UNKNOWN
             }
 
@@ -770,6 +775,7 @@ private constructor(
                 MANAGEMENT_DISPUTE -> Known.MANAGEMENT_DISPUTE
                 MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
                 MANAGEMENT_ADJUSTMENT -> Known.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISBURSEMENT -> Known.MANAGEMENT_DISBURSEMENT
                 else ->
                     throw LithicInvalidDataException("Unknown ManagementOperationCategory: $value")
             }
@@ -1683,29 +1689,29 @@ private constructor(
 
             companion object {
 
-                @JvmField val CASH_BACK = of("CASH_BACK")
-
-                @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
-
-                @JvmField val INTEREST = of("INTEREST")
-
-                @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
-
-                @JvmField val BILLING_ERROR = of("BILLING_ERROR")
-
-                @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
-
                 @JvmField val LOSS_WRITE_OFF = of("LOSS_WRITE_OFF")
+
+                @JvmField val CASH_BACK = of("CASH_BACK")
 
                 @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
+                @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
+
                 @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
+
+                @JvmField val INTEREST = of("INTEREST")
 
                 @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
 
+                @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
+
                 @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
+                @JvmField val BILLING_ERROR = of("BILLING_ERROR")
+
                 @JvmField val BILLING_ERROR_REVERSAL = of("BILLING_ERROR_REVERSAL")
+
+                @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
                 @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
 
@@ -1713,26 +1719,38 @@ private constructor(
 
                 @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
 
+                @JvmField val DISPUTE_WON = of("DISPUTE_WON")
+
+                @JvmField val DISPUTE_WON_REVERSAL = of("DISPUTE_WON_REVERSAL")
+
+                @JvmField val DISBURSE = of("DISBURSE")
+
+                @JvmField val DISBURSE_REVERSAL = of("DISBURSE_REVERSAL")
+
                 @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
             }
 
             /** An enum containing [ManagementOperationEventType]'s known values. */
             enum class Known {
-                CASH_BACK,
-                CURRENCY_CONVERSION,
-                INTEREST,
-                LATE_PAYMENT,
-                BILLING_ERROR,
-                PROVISIONAL_CREDIT,
                 LOSS_WRITE_OFF,
+                CASH_BACK,
                 CASH_BACK_REVERSAL,
+                CURRENCY_CONVERSION,
                 CURRENCY_CONVERSION_REVERSAL,
+                INTEREST,
                 INTEREST_REVERSAL,
+                LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
+                BILLING_ERROR,
                 BILLING_ERROR_REVERSAL,
+                PROVISIONAL_CREDIT,
                 PROVISIONAL_CREDIT_REVERSAL,
                 RETURNED_PAYMENT,
                 RETURNED_PAYMENT_REVERSAL,
+                DISPUTE_WON,
+                DISPUTE_WON_REVERSAL,
+                DISBURSE,
+                DISBURSE_REVERSAL,
             }
 
             /**
@@ -1747,21 +1765,25 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                CASH_BACK,
-                CURRENCY_CONVERSION,
-                INTEREST,
-                LATE_PAYMENT,
-                BILLING_ERROR,
-                PROVISIONAL_CREDIT,
                 LOSS_WRITE_OFF,
+                CASH_BACK,
                 CASH_BACK_REVERSAL,
+                CURRENCY_CONVERSION,
                 CURRENCY_CONVERSION_REVERSAL,
+                INTEREST,
                 INTEREST_REVERSAL,
+                LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
+                BILLING_ERROR,
                 BILLING_ERROR_REVERSAL,
+                PROVISIONAL_CREDIT,
                 PROVISIONAL_CREDIT_REVERSAL,
                 RETURNED_PAYMENT,
                 RETURNED_PAYMENT_REVERSAL,
+                DISPUTE_WON,
+                DISPUTE_WON_REVERSAL,
+                DISBURSE,
+                DISBURSE_REVERSAL,
                 /**
                  * An enum member indicating that [ManagementOperationEventType] was instantiated
                  * with an unknown value.
@@ -1778,21 +1800,25 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    CASH_BACK -> Value.CASH_BACK
-                    CURRENCY_CONVERSION -> Value.CURRENCY_CONVERSION
-                    INTEREST -> Value.INTEREST
-                    LATE_PAYMENT -> Value.LATE_PAYMENT
-                    BILLING_ERROR -> Value.BILLING_ERROR
-                    PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
                     LOSS_WRITE_OFF -> Value.LOSS_WRITE_OFF
+                    CASH_BACK -> Value.CASH_BACK
                     CASH_BACK_REVERSAL -> Value.CASH_BACK_REVERSAL
+                    CURRENCY_CONVERSION -> Value.CURRENCY_CONVERSION
                     CURRENCY_CONVERSION_REVERSAL -> Value.CURRENCY_CONVERSION_REVERSAL
+                    INTEREST -> Value.INTEREST
                     INTEREST_REVERSAL -> Value.INTEREST_REVERSAL
+                    LATE_PAYMENT -> Value.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
+                    BILLING_ERROR -> Value.BILLING_ERROR
                     BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
+                    PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
                     PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
                     RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
                     RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
+                    DISPUTE_WON -> Value.DISPUTE_WON
+                    DISPUTE_WON_REVERSAL -> Value.DISPUTE_WON_REVERSAL
+                    DISBURSE -> Value.DISBURSE
+                    DISBURSE_REVERSAL -> Value.DISBURSE_REVERSAL
                     else -> Value._UNKNOWN
                 }
 
@@ -1807,21 +1833,25 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    CASH_BACK -> Known.CASH_BACK
-                    CURRENCY_CONVERSION -> Known.CURRENCY_CONVERSION
-                    INTEREST -> Known.INTEREST
-                    LATE_PAYMENT -> Known.LATE_PAYMENT
-                    BILLING_ERROR -> Known.BILLING_ERROR
-                    PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
                     LOSS_WRITE_OFF -> Known.LOSS_WRITE_OFF
+                    CASH_BACK -> Known.CASH_BACK
                     CASH_BACK_REVERSAL -> Known.CASH_BACK_REVERSAL
+                    CURRENCY_CONVERSION -> Known.CURRENCY_CONVERSION
                     CURRENCY_CONVERSION_REVERSAL -> Known.CURRENCY_CONVERSION_REVERSAL
+                    INTEREST -> Known.INTEREST
                     INTEREST_REVERSAL -> Known.INTEREST_REVERSAL
+                    LATE_PAYMENT -> Known.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
+                    BILLING_ERROR -> Known.BILLING_ERROR
                     BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
+                    PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
                     PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
                     RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
                     RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
+                    DISPUTE_WON -> Known.DISPUTE_WON
+                    DISPUTE_WON_REVERSAL -> Known.DISPUTE_WON_REVERSAL
+                    DISBURSE -> Known.DISBURSE
+                    DISBURSE_REVERSAL -> Known.DISBURSE_REVERSAL
                     else ->
                         throw LithicInvalidDataException(
                             "Unknown ManagementOperationEventType: $value"

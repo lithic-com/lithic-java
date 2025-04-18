@@ -37,7 +37,6 @@ private constructor(
     private val primaryClaimId: JsonField<String>,
     private val reason: JsonField<Reason>,
     private val representmentDate: JsonField<OffsetDateTime>,
-    private val resolutionAmount: JsonField<Long>,
     private val resolutionDate: JsonField<OffsetDateTime>,
     private val resolutionNote: JsonField<String>,
     private val resolutionReason: JsonField<ResolutionReason>,
@@ -81,9 +80,6 @@ private constructor(
         @JsonProperty("representment_date")
         @ExcludeMissing
         representmentDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("resolution_amount")
-        @ExcludeMissing
-        resolutionAmount: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("resolution_date")
         @ExcludeMissing
         resolutionDate: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -111,7 +107,6 @@ private constructor(
         primaryClaimId,
         reason,
         representmentDate,
-        resolutionAmount,
         resolutionDate,
         resolutionNote,
         resolutionReason,
@@ -243,14 +238,6 @@ private constructor(
      */
     fun representmentDate(): Optional<OffsetDateTime> =
         representmentDate.getOptional("representment_date")
-
-    /**
-     * Resolution amount net of network fees.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun resolutionAmount(): Optional<Long> = resolutionAmount.getOptional("resolution_amount")
 
     /**
      * Date that the dispute was resolved.
@@ -434,16 +421,6 @@ private constructor(
     fun _representmentDate(): JsonField<OffsetDateTime> = representmentDate
 
     /**
-     * Returns the raw JSON value of [resolutionAmount].
-     *
-     * Unlike [resolutionAmount], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("resolution_amount")
-    @ExcludeMissing
-    fun _resolutionAmount(): JsonField<Long> = resolutionAmount
-
-    /**
      * Returns the raw JSON value of [resolutionDate].
      *
      * Unlike [resolutionDate], this method doesn't throw if the JSON field has an unexpected type.
@@ -520,7 +497,6 @@ private constructor(
          * .primaryClaimId()
          * .reason()
          * .representmentDate()
-         * .resolutionAmount()
          * .resolutionDate()
          * .resolutionNote()
          * .resolutionReason()
@@ -547,7 +523,6 @@ private constructor(
         private var primaryClaimId: JsonField<String>? = null
         private var reason: JsonField<Reason>? = null
         private var representmentDate: JsonField<OffsetDateTime>? = null
-        private var resolutionAmount: JsonField<Long>? = null
         private var resolutionDate: JsonField<OffsetDateTime>? = null
         private var resolutionNote: JsonField<String>? = null
         private var resolutionReason: JsonField<ResolutionReason>? = null
@@ -570,7 +545,6 @@ private constructor(
             primaryClaimId = dispute.primaryClaimId
             reason = dispute.reason
             representmentDate = dispute.representmentDate
-            resolutionAmount = dispute.resolutionAmount
             resolutionDate = dispute.resolutionDate
             resolutionNote = dispute.resolutionNote
             resolutionReason = dispute.resolutionReason
@@ -827,32 +801,6 @@ private constructor(
             this.representmentDate = representmentDate
         }
 
-        /** Resolution amount net of network fees. */
-        fun resolutionAmount(resolutionAmount: Long?) =
-            resolutionAmount(JsonField.ofNullable(resolutionAmount))
-
-        /**
-         * Alias for [Builder.resolutionAmount].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun resolutionAmount(resolutionAmount: Long) = resolutionAmount(resolutionAmount as Long?)
-
-        /** Alias for calling [Builder.resolutionAmount] with `resolutionAmount.orElse(null)`. */
-        fun resolutionAmount(resolutionAmount: Optional<Long>) =
-            resolutionAmount(resolutionAmount.getOrNull())
-
-        /**
-         * Sets [Builder.resolutionAmount] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.resolutionAmount] with a well-typed [Long] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun resolutionAmount(resolutionAmount: JsonField<Long>) = apply {
-            this.resolutionAmount = resolutionAmount
-        }
-
         /** Date that the dispute was resolved. */
         fun resolutionDate(resolutionDate: OffsetDateTime?) =
             resolutionDate(JsonField.ofNullable(resolutionDate))
@@ -1007,7 +955,6 @@ private constructor(
          * .primaryClaimId()
          * .reason()
          * .representmentDate()
-         * .resolutionAmount()
          * .resolutionDate()
          * .resolutionNote()
          * .resolutionReason()
@@ -1032,7 +979,6 @@ private constructor(
                 checkRequired("primaryClaimId", primaryClaimId),
                 checkRequired("reason", reason),
                 checkRequired("representmentDate", representmentDate),
-                checkRequired("resolutionAmount", resolutionAmount),
                 checkRequired("resolutionDate", resolutionDate),
                 checkRequired("resolutionNote", resolutionNote),
                 checkRequired("resolutionReason", resolutionReason),
@@ -1062,7 +1008,6 @@ private constructor(
         primaryClaimId()
         reason().validate()
         representmentDate()
-        resolutionAmount()
         resolutionDate()
         resolutionNote()
         resolutionReason().ifPresent { it.validate() }
@@ -1099,7 +1044,6 @@ private constructor(
             (if (primaryClaimId.asKnown().isPresent) 1 else 0) +
             (reason.asKnown().getOrNull()?.validity() ?: 0) +
             (if (representmentDate.asKnown().isPresent) 1 else 0) +
-            (if (resolutionAmount.asKnown().isPresent) 1 else 0) +
             (if (resolutionDate.asKnown().isPresent) 1 else 0) +
             (if (resolutionNote.asKnown().isPresent) 1 else 0) +
             (resolutionReason.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1739,15 +1683,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Dispute && token == other.token && amount == other.amount && arbitrationDate == other.arbitrationDate && created == other.created && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && networkClaimIds == other.networkClaimIds && networkFiledDate == other.networkFiledDate && networkReasonCode == other.networkReasonCode && prearbitrationDate == other.prearbitrationDate && primaryClaimId == other.primaryClaimId && reason == other.reason && representmentDate == other.representmentDate && resolutionAmount == other.resolutionAmount && resolutionDate == other.resolutionDate && resolutionNote == other.resolutionNote && resolutionReason == other.resolutionReason && status == other.status && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Dispute && token == other.token && amount == other.amount && arbitrationDate == other.arbitrationDate && created == other.created && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && networkClaimIds == other.networkClaimIds && networkFiledDate == other.networkFiledDate && networkReasonCode == other.networkReasonCode && prearbitrationDate == other.prearbitrationDate && primaryClaimId == other.primaryClaimId && reason == other.reason && representmentDate == other.representmentDate && resolutionDate == other.resolutionDate && resolutionNote == other.resolutionNote && resolutionReason == other.resolutionReason && status == other.status && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionAmount, resolutionDate, resolutionNote, resolutionReason, status, transactionToken, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionDate, resolutionNote, resolutionReason, status, transactionToken, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Dispute{token=$token, amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+        "Dispute{token=$token, amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
 }

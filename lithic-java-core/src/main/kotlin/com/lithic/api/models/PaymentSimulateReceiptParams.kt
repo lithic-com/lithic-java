@@ -30,7 +30,7 @@ private constructor(
 ) : Params {
 
     /**
-     * Payment token
+     * Customer-generated payment token used to uniquely identify the simulated payment
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -157,7 +157,7 @@ private constructor(
          */
         fun body(body: SimulateReceiptRequest) = apply { this.body = body.toBuilder() }
 
-        /** Payment token */
+        /** Customer-generated payment token used to uniquely identify the simulated payment */
         fun token(token: String) = apply { body.token(token) }
 
         /**
@@ -390,7 +390,7 @@ private constructor(
         ) : this(token, amount, financialAccountToken, receiptType, memo, mutableMapOf())
 
         /**
-         * Payment token
+         * Customer-generated payment token used to uniquely identify the simulated payment
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -518,7 +518,7 @@ private constructor(
                 additionalProperties = simulateReceiptRequest.additionalProperties.toMutableMap()
             }
 
-            /** Payment token */
+            /** Customer-generated payment token used to uniquely identify the simulated payment */
             fun token(token: String) = token(JsonField.of(token))
 
             /**

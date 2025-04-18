@@ -115,6 +115,7 @@ internal class TransactionTest {
                                 .partialApprovalCapable(true)
                                 .pinCapability(Transaction.Pos.PosTerminal.PinCapability.CAPABLE)
                                 .type(Transaction.Pos.PosTerminal.Type.ADMINISTRATIVE)
+                                .acceptorTerminalId("acceptor_terminal_id")
                                 .build()
                         )
                         .build()
@@ -200,6 +201,35 @@ internal class TransactionTest {
                                 .build()
                         )
                         .type(Transaction.TransactionEvent.Type.CLEARING)
+                        .networkSpecificData(
+                            Transaction.TransactionEvent.NetworkSpecificData.builder()
+                                .mastercard(
+                                    Transaction.TransactionEvent.NetworkSpecificData
+                                        .MastercardNetworkSpecificData
+                                        .builder()
+                                        .ecommerceSecurityLevelIndicator("xxx")
+                                        .addOnBehalfServiceResult(
+                                            Transaction.TransactionEvent.NetworkSpecificData
+                                                .MastercardNetworkSpecificData
+                                                .OnBehalfServiceResult
+                                                .builder()
+                                                .result1("x")
+                                                .result2("x")
+                                                .service("xx")
+                                                .build()
+                                        )
+                                        .transactionTypeIdentifier("xxx")
+                                        .build()
+                                )
+                                .visa(
+                                    Transaction.TransactionEvent.NetworkSpecificData
+                                        .VisaNetworkSpecificData
+                                        .builder()
+                                        .businessApplicationIdentifier("xx")
+                                        .build()
+                                )
+                                .build()
+                        )
                         .build()
                 )
                 .build()
@@ -306,6 +336,7 @@ internal class TransactionTest {
                             .partialApprovalCapable(true)
                             .pinCapability(Transaction.Pos.PosTerminal.PinCapability.CAPABLE)
                             .type(Transaction.Pos.PosTerminal.Type.ADMINISTRATIVE)
+                            .acceptorTerminalId("acceptor_terminal_id")
                             .build()
                     )
                     .build()
@@ -392,6 +423,35 @@ internal class TransactionTest {
                             .build()
                     )
                     .type(Transaction.TransactionEvent.Type.CLEARING)
+                    .networkSpecificData(
+                        Transaction.TransactionEvent.NetworkSpecificData.builder()
+                            .mastercard(
+                                Transaction.TransactionEvent.NetworkSpecificData
+                                    .MastercardNetworkSpecificData
+                                    .builder()
+                                    .ecommerceSecurityLevelIndicator("xxx")
+                                    .addOnBehalfServiceResult(
+                                        Transaction.TransactionEvent.NetworkSpecificData
+                                            .MastercardNetworkSpecificData
+                                            .OnBehalfServiceResult
+                                            .builder()
+                                            .result1("x")
+                                            .result2("x")
+                                            .service("xx")
+                                            .build()
+                                    )
+                                    .transactionTypeIdentifier("xxx")
+                                    .build()
+                            )
+                            .visa(
+                                Transaction.TransactionEvent.NetworkSpecificData
+                                    .VisaNetworkSpecificData
+                                    .builder()
+                                    .businessApplicationIdentifier("xx")
+                                    .build()
+                            )
+                            .build()
+                    )
                     .build()
             )
     }
@@ -501,6 +561,7 @@ internal class TransactionTest {
                                 .partialApprovalCapable(true)
                                 .pinCapability(Transaction.Pos.PosTerminal.PinCapability.CAPABLE)
                                 .type(Transaction.Pos.PosTerminal.Type.ADMINISTRATIVE)
+                                .acceptorTerminalId("acceptor_terminal_id")
                                 .build()
                         )
                         .build()
@@ -586,6 +647,35 @@ internal class TransactionTest {
                                 .build()
                         )
                         .type(Transaction.TransactionEvent.Type.CLEARING)
+                        .networkSpecificData(
+                            Transaction.TransactionEvent.NetworkSpecificData.builder()
+                                .mastercard(
+                                    Transaction.TransactionEvent.NetworkSpecificData
+                                        .MastercardNetworkSpecificData
+                                        .builder()
+                                        .ecommerceSecurityLevelIndicator("xxx")
+                                        .addOnBehalfServiceResult(
+                                            Transaction.TransactionEvent.NetworkSpecificData
+                                                .MastercardNetworkSpecificData
+                                                .OnBehalfServiceResult
+                                                .builder()
+                                                .result1("x")
+                                                .result2("x")
+                                                .service("xx")
+                                                .build()
+                                        )
+                                        .transactionTypeIdentifier("xxx")
+                                        .build()
+                                )
+                                .visa(
+                                    Transaction.TransactionEvent.NetworkSpecificData
+                                        .VisaNetworkSpecificData
+                                        .builder()
+                                        .businessApplicationIdentifier("xx")
+                                        .build()
+                                )
+                                .build()
+                        )
                         .build()
                 )
                 .build()
