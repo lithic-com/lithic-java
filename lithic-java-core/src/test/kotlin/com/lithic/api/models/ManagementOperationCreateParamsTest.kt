@@ -15,7 +15,7 @@ internal class ManagementOperationCreateParamsTest {
             .category(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
             .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
             .effectiveDate(LocalDate.parse("2019-12-27"))
-            .eventType(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
+            .eventType(ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF)
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .memo("memo")
@@ -34,7 +34,9 @@ internal class ManagementOperationCreateParamsTest {
                 )
                 .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
                 .effectiveDate(LocalDate.parse("2019-12-27"))
-                .eventType(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
+                .eventType(
+                    ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF
+                )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .memo("memo")
@@ -51,7 +53,7 @@ internal class ManagementOperationCreateParamsTest {
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.eventType())
-            .isEqualTo(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
+            .isEqualTo(ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF)
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.memo()).contains("memo")
@@ -69,7 +71,9 @@ internal class ManagementOperationCreateParamsTest {
                 )
                 .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
                 .effectiveDate(LocalDate.parse("2019-12-27"))
-                .eventType(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
+                .eventType(
+                    ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF
+                )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -82,7 +86,7 @@ internal class ManagementOperationCreateParamsTest {
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.eventType())
-            .isEqualTo(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
+            .isEqualTo(ManagementOperationCreateParams.ManagementOperationEventType.LOSS_WRITE_OFF)
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

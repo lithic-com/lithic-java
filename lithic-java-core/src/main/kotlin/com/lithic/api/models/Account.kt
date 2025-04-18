@@ -78,8 +78,7 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
-     * will be null.
+     * Timestamp of when the account was created.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -285,10 +284,7 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /**
-         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
-         * field will be null.
-         */
+        /** Timestamp of when the account was created. */
         fun created(created: OffsetDateTime?) = created(JsonField.ofNullable(created))
 
         /** Alias for calling [Builder.created] with `created.orElse(null)`. */

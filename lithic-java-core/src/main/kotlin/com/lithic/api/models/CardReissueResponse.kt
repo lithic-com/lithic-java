@@ -21,7 +21,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class Card
+/** Card details with potentially PCI sensitive information for Enterprise customers */
+class CardReissueResponse
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
@@ -189,15 +190,7 @@ private constructor(
     fun spendLimit(): Long = spendLimit.getRequired("spend_limit")
 
     /**
-     * Spend limit duration values:
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
-     *   support recurring monthly payments, which can occur on different day every month, the time
-     *   window we consider for monthly velocity starts 6 days after the current calendar date one
-     *   month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
-     *   under the spend limit.
+     * Spend limit duration
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -206,21 +199,18 @@ private constructor(
         spendLimitDuration.getRequired("spend_limit_duration")
 
     /**
-     * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-     *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
-     *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-     *   physical card itself is present.
-     * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
-     *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
-     *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
-     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
-     *
-     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     * Card state values: _ `CLOSED` - Card will no longer approve authorizations. Closing a card
+     * cannot be undone. _ `OPEN` - Card will approve authorizations (if they match card and account
+     * parameters). _ `PAUSED` - Card will decline authorizations, but can be resumed at a later
+     * time. _ `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
+     * provisioned pending manufacturing and fulfillment. Cards in this state can accept
+     * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
+     * physical card itself is present. \* `PENDING_ACTIVATION` - At regular intervals, cards of
+     * type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
+     * updated to state `PENDING_ACTIVATION`. Similar to `PENDING_FULFILLMENT`, cards in this state
+     * can be used for e-commerce transactions or can be added to mobile wallets. API clients should
+     * update the card's state to `OPEN` only after the cardholder confirms receipt of the card. In
+     * sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -228,18 +218,14 @@ private constructor(
     fun state(): State = state.getRequired("state")
 
     /**
-     * Card types:
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
-     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-     *   [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `SINGLE_USE` - Card is closed upon first successful authorization.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
-     *   authorizes the card.
-     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
-     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-     *   instead.
+     * Card types: _ `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+     * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled). _
+     * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding, credit,
+     * ATM, PIN debit, chip/EMV, NFC and magstripe functionality. _ `SINGLE_USE` - Card is closed
+     * upon first successful authorization. _ `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to
+     * the first merchant that successfully authorizes the card. _ `UNLOCKED` - _[Deprecated]_
+     * Similar behavior to VIRTUAL cards, please use VIRTUAL instead. _ `DIGITAL_WALLET` -
+     * _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -276,10 +262,8 @@ private constructor(
     fun cvv(): Optional<String> = cvv.getOptional("cvv")
 
     /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
+     * Specifies the digital card art to be displayed in the user's digital wallet after
      * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -304,7 +288,7 @@ private constructor(
     fun expYear(): Optional<String> = expYear.getOptional("exp_year")
 
     /**
-     * Hostname of card’s locked merchant (will be empty if not applicable).
+     * Hostname of card's locked merchant (will be empty if not applicable).
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -321,8 +305,7 @@ private constructor(
 
     /**
      * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
-     * PAN returned as a field in production. Please contact
-     * [support@lithic.com](mailto:support@lithic.com) for questions.
+     * PAN returned as a field in production. Please contact support@lithic.com for questions.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -555,7 +538,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [Card].
+         * Returns a mutable builder for constructing an instance of [CardReissueResponse].
          *
          * The following fields are required:
          * ```java
@@ -575,7 +558,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [Card]. */
+    /** A builder for [CardReissueResponse]. */
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
@@ -604,31 +587,31 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(card: Card) = apply {
-            token = card.token
-            accountToken = card.accountToken
-            cardProgramToken = card.cardProgramToken
-            created = card.created
-            funding = card.funding
-            lastFour = card.lastFour
-            pinStatus = card.pinStatus
-            spendLimit = card.spendLimit
-            spendLimitDuration = card.spendLimitDuration
-            state = card.state
-            type = card.type
-            authRuleTokens = card.authRuleTokens.map { it.toMutableList() }
-            cardholderCurrency = card.cardholderCurrency
-            cvv = card.cvv
-            digitalCardArtToken = card.digitalCardArtToken
-            expMonth = card.expMonth
-            expYear = card.expYear
-            hostname = card.hostname
-            memo = card.memo
-            pan = card.pan
-            pendingCommands = card.pendingCommands.map { it.toMutableList() }
-            productId = card.productId
-            replacementFor = card.replacementFor
-            additionalProperties = card.additionalProperties.toMutableMap()
+        internal fun from(cardReissueResponse: CardReissueResponse) = apply {
+            token = cardReissueResponse.token
+            accountToken = cardReissueResponse.accountToken
+            cardProgramToken = cardReissueResponse.cardProgramToken
+            created = cardReissueResponse.created
+            funding = cardReissueResponse.funding
+            lastFour = cardReissueResponse.lastFour
+            pinStatus = cardReissueResponse.pinStatus
+            spendLimit = cardReissueResponse.spendLimit
+            spendLimitDuration = cardReissueResponse.spendLimitDuration
+            state = cardReissueResponse.state
+            type = cardReissueResponse.type
+            authRuleTokens = cardReissueResponse.authRuleTokens.map { it.toMutableList() }
+            cardholderCurrency = cardReissueResponse.cardholderCurrency
+            cvv = cardReissueResponse.cvv
+            digitalCardArtToken = cardReissueResponse.digitalCardArtToken
+            expMonth = cardReissueResponse.expMonth
+            expYear = cardReissueResponse.expYear
+            hostname = cardReissueResponse.hostname
+            memo = cardReissueResponse.memo
+            pan = cardReissueResponse.pan
+            pendingCommands = cardReissueResponse.pendingCommands.map { it.toMutableList() }
+            productId = cardReissueResponse.productId
+            replacementFor = cardReissueResponse.replacementFor
+            additionalProperties = cardReissueResponse.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier. */
@@ -735,18 +718,7 @@ private constructor(
          */
         fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
-        /**
-         * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         *   To support recurring monthly payments, which can occur on different day every month,
-         *   the time window we consider for monthly velocity starts 6 days after the current
-         *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
-         */
+        /** Spend limit duration */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
             spendLimitDuration(JsonField.of(spendLimitDuration))
 
@@ -762,23 +734,19 @@ private constructor(
         }
 
         /**
-         * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-         *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
-         *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-         *   physical card itself is present.
-         * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
-         *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
-         *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
-         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
-         *   card.
-         *
-         * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
-         * manufactured.
+         * Card state values: _ `CLOSED` - Card will no longer approve authorizations. Closing a
+         * card cannot be undone. _ `OPEN` - Card will approve authorizations (if they match card
+         * and account parameters). _ `PAUSED` - Card will decline authorizations, but can be
+         * resumed at a later time. _ `PENDING_FULFILLMENT` - The initial state for cards of type
+         * `PHYSICAL`. The card is provisioned pending manufacturing and fulfillment. Cards in this
+         * state can accept authorizations for e-commerce purchases, but not for "Card Present"
+         * purchases where the physical card itself is present. \* `PENDING_ACTIVATION` - At regular
+         * intervals, cards of type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card
+         * production warehouse and updated to state `PENDING_ACTIVATION`. Similar to
+         * `PENDING_FULFILLMENT`, cards in this state can be used for e-commerce transactions or can
+         * be added to mobile wallets. API clients should update the card's state to `OPEN` only
+         * after the cardholder confirms receipt of the card. In sandbox, the same daily batch
+         * fulfillment occurs, but no cards are actually manufactured.
          */
         fun state(state: State) = state(JsonField.of(state))
 
@@ -791,19 +759,15 @@ private constructor(
         fun state(state: JsonField<State>) = apply { this.state = state }
 
         /**
-         * Card types:
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         *   [lithic.com/contact](https://lithic.com/contact) for more information.
-         * - `SINGLE_USE` - Card is closed upon first successful authorization.
-         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         *   successfully authorizes the card.
-         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-         *   instead.
-         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-         *   instead.
+         * Card types: _ `VIRTUAL` - Card will authorize at any merchant and can be added to a
+         * digital wallet like Apple Pay or Google Pay (if the card program is digital
+         * wallet-enabled). _ `PHYSICAL` - Manufactured and sent to the cardholder. We offer white
+         * label branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. _
+         * `SINGLE_USE` - Card is closed upon first successful authorization. _ `MERCHANT_LOCKED` -
+         * _[Deprecated]_ Card is locked to the first merchant that successfully authorizes the
+         * card. _ `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * instead. _ `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please
+         * use VIRTUAL instead.
          */
         fun type(type: Type) = type(JsonField.of(type))
 
@@ -877,10 +841,9 @@ private constructor(
         fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * Specifies the digital card art to be displayed in the user's digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * use.
          */
         fun digitalCardArtToken(digitalCardArtToken: String) =
             digitalCardArtToken(JsonField.of(digitalCardArtToken))
@@ -918,7 +881,7 @@ private constructor(
          */
         fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
-        /** Hostname of card’s locked merchant (will be empty if not applicable). */
+        /** Hostname of card's locked merchant (will be empty if not applicable). */
         fun hostname(hostname: String) = hostname(JsonField.of(hostname))
 
         /**
@@ -942,8 +905,8 @@ private constructor(
 
         /**
          * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
-         * [support@lithic.com](mailto:support@lithic.com) for questions.
+         * have PAN returned as a field in production. Please contact support@lithic.com for
+         * questions.
          */
         fun pan(pan: String) = pan(JsonField.of(pan))
 
@@ -1044,7 +1007,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [Card].
+         * Returns an immutable instance of [CardReissueResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -1065,8 +1028,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): Card =
-            Card(
+        fun build(): CardReissueResponse =
+            CardReissueResponse(
                 checkRequired("token", token),
                 checkRequired("accountToken", accountToken),
                 checkRequired("cardProgramToken", cardProgramToken),
@@ -1096,7 +1059,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): Card = apply {
+    fun validate(): CardReissueResponse = apply {
         if (validated) {
             return@apply
         }
@@ -1223,13 +1186,10 @@ private constructor(
         fun lastFour(): String = lastFour.getRequired("last_four")
 
         /**
-         * State of funding source.
-         *
-         * Funding source states:
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         *   verification.
-         * - `DELETED` - The founding account has been deleted.
+         * State of funding source. Funding source states: _ `ENABLED` - The funding account is
+         * available to use for card creation and transactions. _ `PENDING` - The funding account is
+         * still being verified e.g. bank micro-deposits verification. \* `DELETED` - The founding
+         * account has been deleted.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -1237,9 +1197,8 @@ private constructor(
         fun state(): State = state.getRequired("state")
 
         /**
-         * Types of funding source:
-         * - `DEPOSITORY_CHECKING` - Bank checking account.
-         * - `DEPOSITORY_SAVINGS` - Bank savings account.
+         * Types of funding source: _ `DEPOSITORY_CHECKING` - Bank checking account. _
+         * `DEPOSITORY_SAVINGS` - Bank savings account.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -1409,14 +1368,10 @@ private constructor(
             fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
             /**
-             * State of funding source.
-             *
-             * Funding source states:
-             * - `ENABLED` - The funding account is available to use for card creation and
-             *   transactions.
-             * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-             *   verification.
-             * - `DELETED` - The founding account has been deleted.
+             * State of funding source. Funding source states: _ `ENABLED` - The funding account is
+             * available to use for card creation and transactions. _ `PENDING` - The funding
+             * account is still being verified e.g. bank micro-deposits verification. \* `DELETED` -
+             * The founding account has been deleted.
              */
             fun state(state: State) = state(JsonField.of(state))
 
@@ -1430,9 +1385,8 @@ private constructor(
             fun state(state: JsonField<State>) = apply { this.state = state }
 
             /**
-             * Types of funding source:
-             * - `DEPOSITORY_CHECKING` - Bank checking account.
-             * - `DEPOSITORY_SAVINGS` - Bank savings account.
+             * Types of funding source: _ `DEPOSITORY_CHECKING` - Bank checking account. _
+             * `DEPOSITORY_SAVINGS` - Bank savings account.
              */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1561,13 +1515,10 @@ private constructor(
                 (if (nickname.asKnown().isPresent) 1 else 0)
 
         /**
-         * State of funding source.
-         *
-         * Funding source states:
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         *   verification.
-         * - `DELETED` - The founding account has been deleted.
+         * State of funding source. Funding source states: _ `ENABLED` - The funding account is
+         * available to use for card creation and transactions. _ `PENDING` - The funding account is
+         * still being verified e.g. bank micro-deposits verification. \* `DELETED` - The founding
+         * account has been deleted.
          */
         class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1705,9 +1656,8 @@ private constructor(
         }
 
         /**
-         * Types of funding source:
-         * - `DEPOSITORY_CHECKING` - Bank checking account.
-         * - `DEPOSITORY_SAVINGS` - Bank savings account.
+         * Types of funding source: _ `DEPOSITORY_CHECKING` - Bank checking account. _
+         * `DEPOSITORY_SAVINGS` - Bank savings account.
          */
         class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1990,22 +1940,168 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Spend limit duration */
+    class SpendLimitDuration
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ANNUALLY = of("ANNUALLY")
+
+            @JvmField val FOREVER = of("FOREVER")
+
+            @JvmField val MONTHLY = of("MONTHLY")
+
+            @JvmField val TRANSACTION = of("TRANSACTION")
+
+            @JvmField val DAILY = of("DAILY")
+
+            @JvmStatic fun of(value: String) = SpendLimitDuration(JsonField.of(value))
+        }
+
+        /** An enum containing [SpendLimitDuration]'s known values. */
+        enum class Known {
+            ANNUALLY,
+            FOREVER,
+            MONTHLY,
+            TRANSACTION,
+            DAILY,
+        }
+
+        /**
+         * An enum containing [SpendLimitDuration]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [SpendLimitDuration] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ANNUALLY,
+            FOREVER,
+            MONTHLY,
+            TRANSACTION,
+            DAILY,
+            /**
+             * An enum member indicating that [SpendLimitDuration] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ANNUALLY -> Value.ANNUALLY
+                FOREVER -> Value.FOREVER
+                MONTHLY -> Value.MONTHLY
+                TRANSACTION -> Value.TRANSACTION
+                DAILY -> Value.DAILY
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ANNUALLY -> Known.ANNUALLY
+                FOREVER -> Known.FOREVER
+                MONTHLY -> Known.MONTHLY
+                TRANSACTION -> Known.TRANSACTION
+                DAILY -> Known.DAILY
+                else -> throw LithicInvalidDataException("Unknown SpendLimitDuration: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): SpendLimitDuration = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is SpendLimitDuration && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     /**
-     * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-     *   provisioned pending manufacturing and fulfillment. Cards in this state can accept
-     *   authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-     *   physical card itself is present.
-     * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
-     *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
-     *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
-     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
-     *
-     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     * Card state values: _ `CLOSED` - Card will no longer approve authorizations. Closing a card
+     * cannot be undone. _ `OPEN` - Card will approve authorizations (if they match card and account
+     * parameters). _ `PAUSED` - Card will decline authorizations, but can be resumed at a later
+     * time. _ `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
+     * provisioned pending manufacturing and fulfillment. Cards in this state can accept
+     * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
+     * physical card itself is present. \* `PENDING_ACTIVATION` - At regular intervals, cards of
+     * type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
+     * updated to state `PENDING_ACTIVATION`. Similar to `PENDING_FULFILLMENT`, cards in this state
+     * can be used for e-commerce transactions or can be added to mobile wallets. API clients should
+     * update the card's state to `OPEN` only after the cardholder confirms receipt of the card. In
+     * sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
     class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -2151,18 +2247,14 @@ private constructor(
     }
 
     /**
-     * Card types:
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
-     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-     *   [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `SINGLE_USE` - Card is closed upon first successful authorization.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
-     *   authorizes the card.
-     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
-     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
-     *   instead.
+     * Card types: _ `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+     * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled). _
+     * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding, credit,
+     * ATM, PIN debit, chip/EMV, NFC and magstripe functionality. _ `SINGLE_USE` - Card is closed
+     * upon first successful authorization. _ `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to
+     * the first merchant that successfully authorizes the card. _ `UNLOCKED` - _[Deprecated]_
+     * Similar behavior to VIRTUAL cards, please use VIRTUAL instead. _ `DIGITAL_WALLET` -
+     * _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
      */
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -2318,7 +2410,7 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Card && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && cvv == other.cvv && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && pan == other.pan && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is CardReissueResponse && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && cvv == other.cvv && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && pan == other.pan && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
@@ -2328,5 +2420,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Card{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, additionalProperties=$additionalProperties}"
+        "CardReissueResponse{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, additionalProperties=$additionalProperties}"
 }
