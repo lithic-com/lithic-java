@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.88.0 (2025-04-18)
+
+Full Changelog: [v0.87.0...v0.88.0](https://github.com/lithic-com/lithic-java/compare/v0.87.0...v0.88.0)
+
+### Features
+
+* **api:** updates to Card definition for PCI clarity ([e0c802a](https://github.com/lithic-com/lithic-java/commit/e0c802afdb7febcb254332576e8d3308cc7f67db))
+
+
+### Performance Improvements
+
+* **internal:** improve compilation+test speed ([0be1be3](https://github.com/lithic-com/lithic-java/commit/0be1be3a832fc5412c4c1a82e7bcc37c9edab435))
+
+
+### Chores
+
+* **internal:** codegen related update ([b8d0664](https://github.com/lithic-com/lithic-java/commit/b8d0664a7ab6c346125e309c9f4d3bdb0960da50))
+* **internal:** codegen related update ([8bdb139](https://github.com/lithic-com/lithic-java/commit/8bdb139ca7a50c58c5cbc2b6fa380b0f9299e3cb))
+* **internal:** reduce CI branch coverage ([ad2f765](https://github.com/lithic-com/lithic-java/commit/ad2f765d18ab838f84b62b3d97d25ef51d0fbc84))
+
+
+### Documentation
+
+* **client:** update jackson compat error message ([73711ba](https://github.com/lithic-com/lithic-java/commit/73711bad431e057df9459fee4b0847a2c4b83060))
+* explain http client customization ([c820d2d](https://github.com/lithic-com/lithic-java/commit/c820d2df00f29d4e2d40c64401adc1ba77ea675d))
+* explain jackson compat in readme ([a0fb98a](https://github.com/lithic-com/lithic-java/commit/a0fb98ac89fe8e859b5b044015deb6a716120533))
+
+
+### Refactors
+
+* **client:** migrate pages to builder pattern ([#598](https://github.com/lithic-com/lithic-java/issues/598)) ([ea86cf3](https://github.com/lithic-com/lithic-java/commit/ea86cf342e9a7e08b7def155cab677d1b97e296e))
+
 ## 0.87.0 (2025-04-09)
 
 Full Changelog: [v0.86.0...v0.87.0](https://github.com/lithic-com/lithic-java/compare/v0.86.0...v0.87.0)
