@@ -23,7 +23,8 @@ private constructor(
      *
      * @see [CardListPageResponse.data]
      */
-    fun data(): List<Card> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<CardListResponse> =
+        response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [CardListPageResponse], but gracefully handles missing data.
@@ -125,9 +126,9 @@ private constructor(
             )
     }
 
-    class AutoPager(private val firstPage: CardListPage) : Iterable<Card> {
+    class AutoPager(private val firstPage: CardListPage) : Iterable<CardListResponse> {
 
-        override fun iterator(): Iterator<Card> = iterator {
+        override fun iterator(): Iterator<CardListResponse> = iterator {
             var page = firstPage
             var index = 0
             while (true) {
@@ -139,7 +140,7 @@ private constructor(
             }
         }
 
-        fun stream(): Stream<Card> {
+        fun stream(): Stream<CardListResponse> {
             return StreamSupport.stream(spliterator(), false)
         }
     }

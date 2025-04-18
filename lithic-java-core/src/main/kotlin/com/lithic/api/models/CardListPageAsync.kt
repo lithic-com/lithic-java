@@ -24,7 +24,8 @@ private constructor(
      *
      * @see [CardListPageResponse.data]
      */
-    fun data(): List<Card> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<CardListResponse> =
+        response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [CardListPageResponse], but gracefully handles missing data.
@@ -131,9 +132,12 @@ private constructor(
 
     class AutoPager(private val firstPage: CardListPageAsync) {
 
-        fun forEach(action: Predicate<Card>, executor: Executor): CompletableFuture<Void> {
+        fun forEach(
+            action: Predicate<CardListResponse>,
+            executor: Executor,
+        ): CompletableFuture<Void> {
             fun CompletableFuture<Optional<CardListPageAsync>>.forEach(
-                action: (Card) -> Boolean,
+                action: (CardListResponse) -> Boolean,
                 executor: Executor,
             ): CompletableFuture<Void> =
                 thenComposeAsync(
@@ -149,8 +153,8 @@ private constructor(
                 .forEach(action::test, executor)
         }
 
-        fun toList(executor: Executor): CompletableFuture<List<Card>> {
-            val values = mutableListOf<Card>()
+        fun toList(executor: Executor): CompletableFuture<List<CardListResponse>> {
+            val values = mutableListOf<CardListResponse>()
             return forEach(values::add, executor).thenApply { values }
         }
     }

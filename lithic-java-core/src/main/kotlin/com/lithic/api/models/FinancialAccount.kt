@@ -1532,6 +1532,10 @@ private constructor(
 
             @JvmField val CHARGED_OFF_PRINCIPAL = of("CHARGED_OFF_PRINCIPAL")
 
+            @JvmField val SECURITY = of("SECURITY")
+
+            @JvmField val PROGRAM_RECEIVABLES = of("PROGRAM_RECEIVABLES")
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
@@ -1543,6 +1547,8 @@ private constructor(
             CHARGED_OFF_FEES,
             CHARGED_OFF_INTEREST,
             CHARGED_OFF_PRINCIPAL,
+            SECURITY,
+            PROGRAM_RECEIVABLES,
         }
 
         /**
@@ -1561,6 +1567,8 @@ private constructor(
             CHARGED_OFF_FEES,
             CHARGED_OFF_INTEREST,
             CHARGED_OFF_PRINCIPAL,
+            SECURITY,
+            PROGRAM_RECEIVABLES,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1580,6 +1588,8 @@ private constructor(
                 CHARGED_OFF_FEES -> Value.CHARGED_OFF_FEES
                 CHARGED_OFF_INTEREST -> Value.CHARGED_OFF_INTEREST
                 CHARGED_OFF_PRINCIPAL -> Value.CHARGED_OFF_PRINCIPAL
+                SECURITY -> Value.SECURITY
+                PROGRAM_RECEIVABLES -> Value.PROGRAM_RECEIVABLES
                 else -> Value._UNKNOWN
             }
 
@@ -1600,6 +1610,8 @@ private constructor(
                 CHARGED_OFF_FEES -> Known.CHARGED_OFF_FEES
                 CHARGED_OFF_INTEREST -> Known.CHARGED_OFF_INTEREST
                 CHARGED_OFF_PRINCIPAL -> Known.CHARGED_OFF_PRINCIPAL
+                SECURITY -> Known.SECURITY
+                PROGRAM_RECEIVABLES -> Known.PROGRAM_RECEIVABLES
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
