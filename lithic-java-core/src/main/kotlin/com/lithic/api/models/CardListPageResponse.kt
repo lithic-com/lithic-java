@@ -20,16 +20,14 @@ import kotlin.jvm.optionals.getOrNull
 
 class CardListPageResponse
 private constructor(
-    private val data: JsonField<List<CardListResponse>>,
+    private val data: JsonField<List<NonPciCard>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("data")
-        @ExcludeMissing
-        data: JsonField<List<CardListResponse>> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<NonPciCard>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
@@ -37,7 +35,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): List<CardListResponse> = data.getRequired("data")
+    fun data(): List<NonPciCard> = data.getRequired("data")
 
     /**
      * More data exists.
@@ -52,7 +50,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<CardListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<NonPciCard>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -90,7 +88,7 @@ private constructor(
     /** A builder for [CardListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<CardListResponse>>? = null
+        private var data: JsonField<MutableList<NonPciCard>>? = null
         private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -101,25 +99,25 @@ private constructor(
             additionalProperties = cardListPageResponse.additionalProperties.toMutableMap()
         }
 
-        fun data(data: List<CardListResponse>) = data(JsonField.of(data))
+        fun data(data: List<NonPciCard>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<CardListResponse>` value
+         * You should usually call [Builder.data] with a well-typed `List<NonPciCard>` value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun data(data: JsonField<List<CardListResponse>>) = apply {
+        fun data(data: JsonField<List<NonPciCard>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [CardListResponse] to [Builder.data].
+         * Adds a single [NonPciCard] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: CardListResponse) = apply {
+        fun addData(data: NonPciCard) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)
