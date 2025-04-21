@@ -48,8 +48,8 @@ This library requires Java 8 or later.
 ```java
 import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
 LithicClient client = LithicOkHttpClient.fromEnv();
@@ -57,7 +57,7 @@ LithicClient client = LithicOkHttpClient.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-CardCreateResponse card = client.cards().create(params);
+Card card = client.cards().create(params);
 ```
 
 ## Client configuration
@@ -112,7 +112,7 @@ See this table for the available options:
 
 To send a request to the Lithic API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.cards().create(...)` should be called with an instance of `CardCreateParams`, and it will return an instance of `CardCreateResponse`.
+For example, `client.cards().create(...)` should be called with an instance of `CardCreateParams`, and it will return an instance of `Card`.
 
 ## Immutability
 
@@ -129,8 +129,8 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```java
 import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
@@ -139,7 +139,7 @@ LithicClient client = LithicOkHttpClient.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-CompletableFuture<CardCreateResponse> card = client.async().cards().create(params);
+CompletableFuture<Card> card = client.async().cards().create(params);
 ```
 
 Or create an asynchronous client from the beginning:
@@ -147,8 +147,8 @@ Or create an asynchronous client from the beginning:
 ```java
 import com.lithic.api.client.LithicClientAsync;
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync;
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
@@ -157,7 +157,7 @@ LithicClientAsync client = LithicOkHttpClientAsync.fromEnv();
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-CompletableFuture<CardCreateResponse> card = client.cards().create(params);
+CompletableFuture<Card> card = client.cards().create(params);
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -171,13 +171,13 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.lithic.api.core.http.Headers;
 import com.lithic.api.core.http.HttpResponseFor;
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 
 CardCreateParams params = CardCreateParams.builder()
     .type(CardCreateParams.Type.SINGLE_USE)
     .build();
-HttpResponseFor<CardCreateResponse> card = client.cards().withRawResponse().create(params);
+HttpResponseFor<Card> card = client.cards().withRawResponse().create(params);
 
 int statusCode = card.statusCode();
 Headers headers = card.headers();
@@ -186,9 +186,9 @@ Headers headers = card.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.lithic.api.models.CardCreateResponse;
+import com.lithic.api.models.Card;
 
-CardCreateResponse parsedCard = card.parse();
+Card parsedCard = card.parse();
 ```
 
 ## Error handling
@@ -226,11 +226,11 @@ To iterate through all results across all pages, you can use `autoPager`, which 
 
 ```java
 import com.lithic.api.models.CardListPage;
-import com.lithic.api.models.CardListResponse;
+import com.lithic.api.models.NonPciCard;
 
 // As an Iterable:
 CardListPage page = client.cards().list(params);
-for (CardListResponse card : page.autoPager()) {
+for (NonPciCard card : page.autoPager()) {
     System.out.println(card);
 };
 
@@ -254,11 +254,11 @@ If none of the above helpers meet your needs, you can also manually request page
 
 ```java
 import com.lithic.api.models.CardListPage;
-import com.lithic.api.models.CardListResponse;
+import com.lithic.api.models.NonPciCard;
 
 CardListPage page = client.cards().list(params);
 while (page != null) {
-    for (CardListResponse card : page.data()) {
+    for (NonPciCard card : page.data()) {
         System.out.println(card);
     }
 
@@ -328,10 +328,10 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 
-CardCreateResponse card = client.cards().create(
+Card card = client.cards().create(
   params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
 );
 ```
@@ -567,18 +567,18 @@ By default, the SDK will not throw an exception in this case. It will throw [`Li
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.lithic.api.models.CardCreateResponse;
+import com.lithic.api.models.Card;
 
-CardCreateResponse card = client.cards().create(params).validate();
+Card card = client.cards().create(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
+import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
-import com.lithic.api.models.CardCreateResponse;
 
-CardCreateResponse card = client.cards().create(
+Card card = client.cards().create(
   params, RequestOptions.builder().responseValidation(true).build()
 );
 ```
