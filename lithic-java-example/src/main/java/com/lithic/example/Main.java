@@ -57,7 +57,7 @@ public class Main {
                 .begin(OffsetDateTime.now(ZoneOffset.UTC).minusDays(7))
                 .build();
         Stream<NonPciCard> cardsCreatedLastWeek = client.cards().list(listParams).autoPager().stream();
-        Long totalSpendLimit = cardsCreatedLastWeek.mapToLong(Card::spendLimit).sum();
+        Long totalSpendLimit = cardsCreatedLastWeek.mapToLong(NonPciCard::spendLimit).sum();
         System.out.println("Spend limit of cards created within the last week: " + totalSpendLimit);
     }
 
