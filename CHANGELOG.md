@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.88.0 (2025-04-21)
+
+Full Changelog: [v0.87.0...v0.88.0](https://github.com/lithic-com/lithic-java/compare/v0.87.0...v0.88.0)
+
+### Features
+
+* **api:** updates to Card definition for PCI clarity ([e0c802a](https://github.com/lithic-com/lithic-java/commit/e0c802afdb7febcb254332576e8d3308cc7f67db))
+
+
+### Bug Fixes
+
+* **docs:** fix card import in example ([6f2fd98](https://github.com/lithic-com/lithic-java/commit/6f2fd98b2adb67e2b8b79949aaa100faa97ff2a1))
+* **docs:** format ([5a06ca4](https://github.com/lithic-com/lithic-java/commit/5a06ca437e7f95046356a675159ab2ed1143be63))
+* **example:** fix other import ([6e77f87](https://github.com/lithic-com/lithic-java/commit/6e77f8783a21c10d3ea5a4409e790c6312136d62))
+* **internal:** empty commit to copy over changes ([8464ccc](https://github.com/lithic-com/lithic-java/commit/8464ccc0629c3d25cf25027851e3e34509da32da))
+* **internal:** refresh schemas ([5c9ea2f](https://github.com/lithic-com/lithic-java/commit/5c9ea2f3d706602d315145a8fa60adc702da7482))
+* **internals:** fix Card schema definition ([be7c01a](https://github.com/lithic-com/lithic-java/commit/be7c01a99c629aeeef02e1091decc3ddb774cd54))
+
+
+### Performance Improvements
+
+* **internal:** improve compilation+test speed ([0be1be3](https://github.com/lithic-com/lithic-java/commit/0be1be3a832fc5412c4c1a82e7bcc37c9edab435))
+
+
+### Chores
+
+* **internal:** codegen related update ([b8d0664](https://github.com/lithic-com/lithic-java/commit/b8d0664a7ab6c346125e309c9f4d3bdb0960da50))
+* **internal:** codegen related update ([8bdb139](https://github.com/lithic-com/lithic-java/commit/8bdb139ca7a50c58c5cbc2b6fa380b0f9299e3cb))
+* **internal:** reduce CI branch coverage ([ad2f765](https://github.com/lithic-com/lithic-java/commit/ad2f765d18ab838f84b62b3d97d25ef51d0fbc84))
+
+
+### Documentation
+
+* **client:** update jackson compat error message ([73711ba](https://github.com/lithic-com/lithic-java/commit/73711bad431e057df9459fee4b0847a2c4b83060))
+* explain http client customization ([c820d2d](https://github.com/lithic-com/lithic-java/commit/c820d2df00f29d4e2d40c64401adc1ba77ea675d))
+* explain jackson compat in readme ([a0fb98a](https://github.com/lithic-com/lithic-java/commit/a0fb98ac89fe8e859b5b044015deb6a716120533))
+
+
+### Refactors
+
+* **client:** migrate pages to builder pattern ([#598](https://github.com/lithic-com/lithic-java/issues/598)) ([ea86cf3](https://github.com/lithic-com/lithic-java/commit/ea86cf342e9a7e08b7def155cab677d1b97e296e))
+
 ## 0.87.0 (2025-04-09)
 
 Full Changelog: [v0.86.0...v0.87.0](https://github.com/lithic-com/lithic-java/compare/v0.86.0...v0.87.0)
