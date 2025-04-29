@@ -15,6 +15,7 @@ internal class AuthRuleV2ListParamsTest {
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .endingBefore("ending_before")
             .pageSize(1L)
+            .scope(AuthRuleV2ListParams.Scope.PROGRAM)
             .startingAfter("starting_after")
             .build()
     }
@@ -27,6 +28,7 @@ internal class AuthRuleV2ListParamsTest {
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .endingBefore("ending_before")
                 .pageSize(1L)
+                .scope(AuthRuleV2ListParams.Scope.PROGRAM)
                 .startingAfter("starting_after")
                 .build()
 
@@ -39,6 +41,7 @@ internal class AuthRuleV2ListParamsTest {
                     .put("card_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("ending_before", "ending_before")
                     .put("page_size", "1")
+                    .put("scope", "PROGRAM")
                     .put("starting_after", "starting_after")
                     .build()
             )
