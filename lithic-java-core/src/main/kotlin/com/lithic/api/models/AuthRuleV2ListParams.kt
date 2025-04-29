@@ -2,9 +2,13 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.Enum
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -16,6 +20,7 @@ private constructor(
     private val cardToken: String?,
     private val endingBefore: String?,
     private val pageSize: Long?,
+    private val scope: Scope?,
     private val startingAfter: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -35,6 +40,9 @@ private constructor(
 
     /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    /** Only return Authorization Rules that are bound to the provided scope; */
+    fun scope(): Optional<Scope> = Optional.ofNullable(scope)
 
     /**
      * A cursor representing an item's token after which a page of results should begin. Used to
@@ -63,6 +71,7 @@ private constructor(
         private var cardToken: String? = null
         private var endingBefore: String? = null
         private var pageSize: Long? = null
+        private var scope: Scope? = null
         private var startingAfter: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -73,6 +82,7 @@ private constructor(
             cardToken = authRuleV2ListParams.cardToken
             endingBefore = authRuleV2ListParams.endingBefore
             pageSize = authRuleV2ListParams.pageSize
+            scope = authRuleV2ListParams.scope
             startingAfter = authRuleV2ListParams.startingAfter
             additionalHeaders = authRuleV2ListParams.additionalHeaders.toBuilder()
             additionalQueryParams = authRuleV2ListParams.additionalQueryParams.toBuilder()
@@ -111,6 +121,12 @@ private constructor(
 
         /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
+
+        /** Only return Authorization Rules that are bound to the provided scope; */
+        fun scope(scope: Scope?) = apply { this.scope = scope }
+
+        /** Alias for calling [Builder.scope] with `scope.orElse(null)`. */
+        fun scope(scope: Optional<Scope>) = scope(scope.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -231,6 +247,7 @@ private constructor(
                 cardToken,
                 endingBefore,
                 pageSize,
+                scope,
                 startingAfter,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -246,21 +263,154 @@ private constructor(
                 cardToken?.let { put("card_token", it) }
                 endingBefore?.let { put("ending_before", it) }
                 pageSize?.let { put("page_size", it.toString()) }
+                scope?.let { put("scope", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
                 putAll(additionalQueryParams)
             }
             .build()
+
+    /** Only return Authorization Rules that are bound to the provided scope; */
+    class Scope @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val PROGRAM = of("PROGRAM")
+
+            @JvmField val ACCOUNT = of("ACCOUNT")
+
+            @JvmField val CARD = of("CARD")
+
+            @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
+        }
+
+        /** An enum containing [Scope]'s known values. */
+        enum class Known {
+            PROGRAM,
+            ACCOUNT,
+            CARD,
+        }
+
+        /**
+         * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Scope] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            PROGRAM,
+            ACCOUNT,
+            CARD,
+            /** An enum member indicating that [Scope] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                PROGRAM -> Value.PROGRAM
+                ACCOUNT -> Value.ACCOUNT
+                CARD -> Value.CARD
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                PROGRAM -> Known.PROGRAM
+                ACCOUNT -> Known.ACCOUNT
+                CARD -> Known.CARD
+                else -> throw LithicInvalidDataException("Unknown Scope: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Scope = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2ListParams && accountToken == other.accountToken && cardToken == other.cardToken && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2ListParams && accountToken == other.accountToken && cardToken == other.cardToken && endingBefore == other.endingBefore && pageSize == other.pageSize && scope == other.scope && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, cardToken, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, cardToken, endingBefore, pageSize, scope, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AuthRuleV2ListParams{accountToken=$accountToken, cardToken=$cardToken, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AuthRuleV2ListParams{accountToken=$accountToken, cardToken=$cardToken, endingBefore=$endingBefore, pageSize=$pageSize, scope=$scope, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

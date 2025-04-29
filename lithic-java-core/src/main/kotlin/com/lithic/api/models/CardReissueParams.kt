@@ -24,7 +24,7 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged). The
  * PAN, expiry, and CVC2 will remain the same and the original card can continue to be used until
- * the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be replaced or
+ * the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be reissued or
  * renewed a total of 8 times.
  */
 class CardReissueParams
