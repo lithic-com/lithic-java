@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.89.0 (2025-04-29)
+
+Full Changelog: [v0.88.0...v0.89.0](https://github.com/lithic-com/lithic-java/compare/v0.88.0...v0.89.0)
+
+### Features
+
+* **api:** adds new merchant lock Auth Rule ([f1d019d](https://github.com/lithic-com/lithic-java/commit/f1d019d60c5a70f92b505fed515eb3a027d352ec))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([5d9cd67](https://github.com/lithic-com/lithic-java/commit/5d9cd67de9c40b00277f461a40e46c98d84517ae))
+* **ci:** only use depot for staging repos ([52117b4](https://github.com/lithic-com/lithic-java/commit/52117b47e97c15bd98e2d3ca45a33014056ca56d))
+* **ci:** run on more branches and use depot runners ([05be33d](https://github.com/lithic-com/lithic-java/commit/05be33d42a287e2a7b8e32c341d442d9a650d7c8))
+* **internal:** java 17 -&gt; 21 on ci ([4063f5f](https://github.com/lithic-com/lithic-java/commit/4063f5f55d47b8c4d0befbb5d3431de793568b11))
+
 ## 0.88.0 (2025-04-21)
 
 Full Changelog: [v0.87.0...v0.88.0](https://github.com/lithic-com/lithic-java/compare/v0.87.0...v0.88.0)
