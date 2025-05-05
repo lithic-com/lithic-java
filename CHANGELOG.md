@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.89.1 (2025-05-05)
+
+Full Changelog: [v0.89.0...v0.89.1](https://github.com/lithic-com/lithic-java/compare/v0.89.0...v0.89.1)
+
+### Bug Fixes
+
+* **internals:** fix servers entry for /v2/auth_rules.get ([936af6d](https://github.com/lithic-com/lithic-java/commit/936af6dc661fa52a6168d22ff4f0115b6967366f))
+
+
+### Chores
+
+* **internal:** update java toolchain ([6760afa](https://github.com/lithic-com/lithic-java/commit/6760afa56392f2a86099fd135b6357b94f1780df))
+
 ## 0.89.0 (2025-04-29)
 
 Full Changelog: [v0.88.0...v0.89.0](https://github.com/lithic-com/lithic-java/compare/v0.88.0...v0.89.0)
