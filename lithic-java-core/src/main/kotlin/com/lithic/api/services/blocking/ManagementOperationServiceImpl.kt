@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -22,6 +23,7 @@ import com.lithic.api.models.ManagementOperationListParams
 import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
+import kotlin.jvm.optionals.getOrNull
 
 class ManagementOperationServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : ManagementOperationService {
@@ -101,6 +103,9 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
             params: ManagementOperationRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ManagementOperationTransaction> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("managementOperationToken", params.managementOperationToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -162,6 +167,9 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
             params: ManagementOperationReverseParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ManagementOperationTransaction> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("managementOperationToken", params.managementOperationToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

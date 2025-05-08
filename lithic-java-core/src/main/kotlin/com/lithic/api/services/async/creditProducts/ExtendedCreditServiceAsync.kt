@@ -17,15 +17,47 @@ interface ExtendedCreditServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the extended credit for a given credit product under a program */
+    fun retrieve(creditProductToken: String): CompletableFuture<ExtendedCredit> =
+        retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
+
+    /** @see [retrieve] */
     fun retrieve(
-        params: CreditProductExtendedCreditRetrieveParams
-    ): CompletableFuture<ExtendedCredit> = retrieve(params, RequestOptions.none())
+        creditProductToken: String,
+        params: CreditProductExtendedCreditRetrieveParams =
+            CreditProductExtendedCreditRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExtendedCredit> =
+        retrieve(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        creditProductToken: String,
+        params: CreditProductExtendedCreditRetrieveParams =
+            CreditProductExtendedCreditRetrieveParams.none(),
+    ): CompletableFuture<ExtendedCredit> =
+        retrieve(creditProductToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExtendedCredit>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: CreditProductExtendedCreditRetrieveParams
+    ): CompletableFuture<ExtendedCredit> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        creditProductToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ExtendedCredit> =
+        retrieve(
+            creditProductToken,
+            CreditProductExtendedCreditRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [ExtendedCreditServiceAsync] that provides access to raw HTTP responses for each
@@ -40,9 +72,31 @@ interface ExtendedCreditServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: CreditProductExtendedCreditRetrieveParams
+            creditProductToken: String
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            creditProductToken: String,
+            params: CreditProductExtendedCreditRetrieveParams =
+                CreditProductExtendedCreditRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
+            retrieve(
+                params.toBuilder().creditProductToken(creditProductToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            creditProductToken: String,
+            params: CreditProductExtendedCreditRetrieveParams =
+                CreditProductExtendedCreditRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
+            retrieve(creditProductToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -50,5 +104,24 @@ interface ExtendedCreditServiceAsync {
             params: CreditProductExtendedCreditRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: CreditProductExtendedCreditRetrieveParams
+        ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            creditProductToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
+            retrieve(
+                creditProductToken,
+                CreditProductExtendedCreditRetrieveParams.none(),
+                requestOptions,
+            )
     }
 }

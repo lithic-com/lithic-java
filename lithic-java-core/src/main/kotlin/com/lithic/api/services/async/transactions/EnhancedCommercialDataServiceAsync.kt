@@ -21,15 +21,49 @@ interface EnhancedCommercialDataServiceAsync {
      * sandbox.
      */
     fun retrieve(
-        params: TransactionEnhancedCommercialDataRetrieveParams
+        transactionToken: String
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
-        retrieve(params, RequestOptions.none())
+        retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionEnhancedCommercialDataRetrieveParams =
+            TransactionEnhancedCommercialDataRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
+        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionEnhancedCommercialDataRetrieveParams =
+            TransactionEnhancedCommercialDataRetrieveParams.none(),
+    ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
+        retrieve(transactionToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: TransactionEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: TransactionEnhancedCommercialDataRetrieveParams
+    ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
+        retrieve(
+            transactionToken,
+            TransactionEnhancedCommercialDataRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [EnhancedCommercialDataServiceAsync] that provides access to raw HTTP responses for
@@ -44,9 +78,28 @@ interface EnhancedCommercialDataServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEnhancedCommercialDataRetrieveParams
+            transactionToken: String
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            params: TransactionEnhancedCommercialDataRetrieveParams =
+                TransactionEnhancedCommercialDataRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
+            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            params: TransactionEnhancedCommercialDataRetrieveParams =
+                TransactionEnhancedCommercialDataRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
+            retrieve(transactionToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -54,5 +107,24 @@ interface EnhancedCommercialDataServiceAsync {
             params: TransactionEnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionEnhancedCommercialDataRetrieveParams
+        ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
+            retrieve(
+                transactionToken,
+                TransactionEnhancedCommercialDataRetrieveParams.none(),
+                requestOptions,
+            )
     }
 }

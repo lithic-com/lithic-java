@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.stringHandler
@@ -39,6 +40,7 @@ import com.lithic.api.services.async.cards.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CardServiceAsync {
@@ -205,6 +207,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Card>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -234,6 +239,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardUpdateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Card>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -301,6 +309,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardConvertPhysicalParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Card>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -352,6 +363,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardProvisionParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -382,6 +396,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardReissueParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Card>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -412,6 +429,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardRenewParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Card>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -442,6 +462,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: CardRetrieveSpendLimitsParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

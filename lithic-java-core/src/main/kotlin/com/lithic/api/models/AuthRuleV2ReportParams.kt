@@ -4,12 +4,12 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Requests a performance report of an authorization rule to be asynchronously generated. Reports
@@ -57,13 +57,13 @@ import java.util.Optional
  */
 class AuthRuleV2ReportParams
 private constructor(
-    private val authRuleToken: String,
+    private val authRuleToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun authRuleToken(): String = authRuleToken
+    fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -75,14 +75,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [AuthRuleV2ReportParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .authRuleToken()
-         * ```
-         */
+        @JvmStatic fun none(): AuthRuleV2ReportParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [AuthRuleV2ReportParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -103,7 +98,11 @@ private constructor(
                 authRuleV2ReportParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
+
+        /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
+        fun authRuleToken(authRuleToken: Optional<String>) =
+            authRuleToken(authRuleToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -229,17 +228,10 @@ private constructor(
          * Returns an immutable instance of [AuthRuleV2ReportParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .authRuleToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): AuthRuleV2ReportParams =
             AuthRuleV2ReportParams(
-                checkRequired("authRuleToken", authRuleToken),
+                authRuleToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -251,7 +243,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> authRuleToken
+            0 -> authRuleToken ?: ""
             else -> ""
         }
 

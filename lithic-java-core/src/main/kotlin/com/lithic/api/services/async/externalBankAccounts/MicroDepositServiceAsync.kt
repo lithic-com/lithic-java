@@ -18,6 +18,24 @@ interface MicroDepositServiceAsync {
 
     /** Verify the external bank account by providing the micro deposit amounts. */
     fun create(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountMicroDepositCreateParams,
+    ): CompletableFuture<MicroDepositCreateResponse> =
+        create(externalBankAccountToken, params, RequestOptions.none())
+
+    /** @see [create] */
+    fun create(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountMicroDepositCreateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<MicroDepositCreateResponse> =
+        create(
+            params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [create] */
+    fun create(
         params: ExternalBankAccountMicroDepositCreateParams
     ): CompletableFuture<MicroDepositCreateResponse> = create(params, RequestOptions.none())
 
@@ -38,6 +56,26 @@ interface MicroDepositServiceAsync {
          * /v1/external_bank_accounts/{external_bank_account_token}/micro_deposits`, but is
          * otherwise the same as [MicroDepositServiceAsync.create].
          */
+        @MustBeClosed
+        fun create(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountMicroDepositCreateParams,
+        ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
+            create(externalBankAccountToken, params, RequestOptions.none())
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountMicroDepositCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
+            create(
+                params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [create] */
         @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams

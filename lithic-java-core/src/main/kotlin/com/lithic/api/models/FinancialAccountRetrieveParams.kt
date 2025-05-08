@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get a financial account */
 class FinancialAccountRetrieveParams
 private constructor(
-    private val financialAccountToken: String,
+    private val financialAccountToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +27,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): FinancialAccountRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [FinancialAccountRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -52,9 +50,16 @@ private constructor(
             additionalQueryParams = financialAccountRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -158,17 +163,10 @@ private constructor(
          * Returns an immutable instance of [FinancialAccountRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): FinancialAccountRetrieveParams =
             FinancialAccountRetrieveParams(
-                checkRequired("financialAccountToken", financialAccountToken),
+                financialAccountToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -176,7 +174,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> financialAccountToken
+            0 -> financialAccountToken ?: ""
             else -> ""
         }
 

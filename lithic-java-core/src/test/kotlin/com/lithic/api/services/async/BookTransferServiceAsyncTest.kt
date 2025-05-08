@@ -5,7 +5,6 @@ package com.lithic.api.services.async
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.BookTransferCreateParams
-import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -50,11 +49,7 @@ internal class BookTransferServiceAsyncTest {
         val bookTransferServiceAsync = client.bookTransfers()
 
         val bookTransferResponseFuture =
-            bookTransferServiceAsync.retrieve(
-                BookTransferRetrieveParams.builder()
-                    .bookTransferToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            bookTransferServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val bookTransferResponse = bookTransferResponseFuture.get()
         bookTransferResponse.validate()

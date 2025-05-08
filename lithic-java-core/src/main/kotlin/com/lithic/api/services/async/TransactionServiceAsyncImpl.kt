@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -42,6 +43,7 @@ import com.lithic.api.services.async.transactions.EnhancedCommercialDataServiceA
 import com.lithic.api.services.async.transactions.EventServiceAsync
 import com.lithic.api.services.async.transactions.EventServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class TransactionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TransactionServiceAsync {
@@ -163,6 +165,9 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Transaction>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("transactionToken", params.transactionToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -229,6 +234,9 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("transactionToken", params.transactionToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

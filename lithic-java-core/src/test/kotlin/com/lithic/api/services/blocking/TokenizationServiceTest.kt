@@ -4,13 +4,8 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.TokenizationActivateParams
-import com.lithic.api.models.TokenizationDeactivateParams
-import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
-import com.lithic.api.models.TokenizationRetrieveParams
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,12 +22,7 @@ internal class TokenizationServiceTest {
                 .build()
         val tokenizationService = client.tokenizations()
 
-        val tokenization =
-            tokenizationService.retrieve(
-                TokenizationRetrieveParams.builder()
-                    .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val tokenization = tokenizationService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         tokenization.validate()
     }
@@ -60,11 +50,7 @@ internal class TokenizationServiceTest {
                 .build()
         val tokenizationService = client.tokenizations()
 
-        tokenizationService.activate(
-            TokenizationActivateParams.builder()
-                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        tokenizationService.activate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -76,11 +62,7 @@ internal class TokenizationServiceTest {
                 .build()
         val tokenizationService = client.tokenizations()
 
-        tokenizationService.deactivate(
-            TokenizationDeactivateParams.builder()
-                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        tokenizationService.deactivate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -92,11 +74,7 @@ internal class TokenizationServiceTest {
                 .build()
         val tokenizationService = client.tokenizations()
 
-        tokenizationService.pause(
-            TokenizationPauseParams.builder()
-                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        tokenizationService.pause("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -156,11 +134,7 @@ internal class TokenizationServiceTest {
                 .build()
         val tokenizationService = client.tokenizations()
 
-        tokenizationService.unpause(
-            TokenizationUnpauseParams.builder()
-                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        tokenizationService.unpause("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test

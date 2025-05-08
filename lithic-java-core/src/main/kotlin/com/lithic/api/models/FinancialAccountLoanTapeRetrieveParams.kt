@@ -7,12 +7,14 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get a specific loan tape for a given financial account. */
 class FinancialAccountLoanTapeRetrieveParams
 private constructor(
     private val financialAccountToken: String,
-    private val loanTapeToken: String,
+    private val loanTapeToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -21,7 +23,7 @@ private constructor(
     fun financialAccountToken(): String = financialAccountToken
 
     /** Globally unique identifier for loan tape. */
-    fun loanTapeToken(): String = loanTapeToken
+    fun loanTapeToken(): Optional<String> = Optional.ofNullable(loanTapeToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -38,7 +40,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .loanTapeToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -69,7 +70,11 @@ private constructor(
         }
 
         /** Globally unique identifier for loan tape. */
-        fun loanTapeToken(loanTapeToken: String) = apply { this.loanTapeToken = loanTapeToken }
+        fun loanTapeToken(loanTapeToken: String?) = apply { this.loanTapeToken = loanTapeToken }
+
+        /** Alias for calling [Builder.loanTapeToken] with `loanTapeToken.orElse(null)`. */
+        fun loanTapeToken(loanTapeToken: Optional<String>) =
+            loanTapeToken(loanTapeToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -177,7 +182,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .loanTapeToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -185,7 +189,7 @@ private constructor(
         fun build(): FinancialAccountLoanTapeRetrieveParams =
             FinancialAccountLoanTapeRetrieveParams(
                 checkRequired("financialAccountToken", financialAccountToken),
-                checkRequired("loanTapeToken", loanTapeToken),
+                loanTapeToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -194,7 +198,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> financialAccountToken
-            1 -> loanTapeToken
+            1 -> loanTapeToken ?: ""
             else -> ""
         }
 

@@ -50,7 +50,18 @@ interface CardService {
     ): Card
 
     /** Get card configuration such as spend limit and state. */
-    fun retrieve(params: CardRetrieveParams): Card = retrieve(params, RequestOptions.none())
+    fun retrieve(cardToken: String): Card = retrieve(cardToken, CardRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardToken: String,
+        params: CardRetrieveParams = CardRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Card = retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(cardToken: String, params: CardRetrieveParams = CardRetrieveParams.none()): Card =
+        retrieve(cardToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
@@ -58,18 +69,43 @@ interface CardService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
 
+    /** @see [retrieve] */
+    fun retrieve(params: CardRetrieveParams): Card = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(cardToken: String, requestOptions: RequestOptions): Card =
+        retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
+
     /**
      * Update the specified properties of the card. Unsupplied properties will remain unchanged.
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
-    fun update(params: CardUpdateParams): Card = update(params, RequestOptions.none())
+    fun update(cardToken: String): Card = update(cardToken, CardUpdateParams.none())
+
+    /** @see [update] */
+    fun update(
+        cardToken: String,
+        params: CardUpdateParams = CardUpdateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Card = update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [update] */
+    fun update(cardToken: String, params: CardUpdateParams = CardUpdateParams.none()): Card =
+        update(cardToken, params, RequestOptions.none())
 
     /** @see [update] */
     fun update(
         params: CardUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
+
+    /** @see [update] */
+    fun update(params: CardUpdateParams): Card = update(params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(cardToken: String, requestOptions: RequestOptions): Card =
+        update(cardToken, CardUpdateParams.none(), requestOptions)
 
     /** List cards. */
     fun list(): CardListPage = list(CardListParams.none())
@@ -98,6 +134,17 @@ interface CardService {
      * be in an `OPEN` state to be converted. Only applies to cards of type `VIRTUAL` (or existing
      * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
+    fun convertPhysical(cardToken: String, params: CardConvertPhysicalParams): Card =
+        convertPhysical(cardToken, params, RequestOptions.none())
+
+    /** @see [convertPhysical] */
+    fun convertPhysical(
+        cardToken: String,
+        params: CardConvertPhysicalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Card = convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [convertPhysical] */
     fun convertPhysical(params: CardConvertPhysicalParams): Card =
         convertPhysical(params, RequestOptions.none())
 
@@ -149,8 +196,22 @@ interface CardService {
      * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
      * information.
      */
-    fun provision(params: CardProvisionParams): CardProvisionResponse =
-        provision(params, RequestOptions.none())
+    fun provision(cardToken: String): CardProvisionResponse =
+        provision(cardToken, CardProvisionParams.none())
+
+    /** @see [provision] */
+    fun provision(
+        cardToken: String,
+        params: CardProvisionParams = CardProvisionParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CardProvisionResponse =
+        provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [provision] */
+    fun provision(
+        cardToken: String,
+        params: CardProvisionParams = CardProvisionParams.none(),
+    ): CardProvisionResponse = provision(cardToken, params, RequestOptions.none())
 
     /** @see [provision] */
     fun provision(
@@ -158,19 +219,45 @@ interface CardService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProvisionResponse
 
+    /** @see [provision] */
+    fun provision(params: CardProvisionParams): CardProvisionResponse =
+        provision(params, RequestOptions.none())
+
+    /** @see [provision] */
+    fun provision(cardToken: String, requestOptions: RequestOptions): CardProvisionResponse =
+        provision(cardToken, CardProvisionParams.none(), requestOptions)
+
     /**
      * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged).
      * The PAN, expiry, and CVC2 will remain the same and the original card can continue to be used
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
      * reissued or renewed a total of 8 times.
      */
-    fun reissue(params: CardReissueParams): Card = reissue(params, RequestOptions.none())
+    fun reissue(cardToken: String): Card = reissue(cardToken, CardReissueParams.none())
+
+    /** @see [reissue] */
+    fun reissue(
+        cardToken: String,
+        params: CardReissueParams = CardReissueParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Card = reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [reissue] */
+    fun reissue(cardToken: String, params: CardReissueParams = CardReissueParams.none()): Card =
+        reissue(cardToken, params, RequestOptions.none())
 
     /** @see [reissue] */
     fun reissue(
         params: CardReissueParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Card
+
+    /** @see [reissue] */
+    fun reissue(params: CardReissueParams): Card = reissue(params, RequestOptions.none())
+
+    /** @see [reissue] */
+    fun reissue(cardToken: String, requestOptions: RequestOptions): Card =
+        reissue(cardToken, CardReissueParams.none(), requestOptions)
 
     /**
      * Applies to card types `PHYSICAL` and `VIRTUAL`. For `PHYSICAL`, creates a new card with the
@@ -182,6 +269,17 @@ interface CardService {
      * CVC2 code. `product_id`, `shipping_method`, `shipping_address`, `carrier` are only relevant
      * for renewing `PHYSICAL` cards.
      */
+    fun renew(cardToken: String, params: CardRenewParams): Card =
+        renew(cardToken, params, RequestOptions.none())
+
+    /** @see [renew] */
+    fun renew(
+        cardToken: String,
+        params: CardRenewParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Card = renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [renew] */
     fun renew(params: CardRenewParams): Card = renew(params, RequestOptions.none())
 
     /** @see [renew] */
@@ -193,14 +291,36 @@ interface CardService {
      * monthly spend limit of $1000 configured, and has spent $600 in the last month, the available
      * spend limit returned would be $400.
      */
-    fun retrieveSpendLimits(params: CardRetrieveSpendLimitsParams): CardSpendLimits =
-        retrieveSpendLimits(params, RequestOptions.none())
+    fun retrieveSpendLimits(cardToken: String): CardSpendLimits =
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        cardToken: String,
+        params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CardSpendLimits =
+        retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        cardToken: String,
+        params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+    ): CardSpendLimits = retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
     /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardSpendLimits
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(params: CardRetrieveSpendLimitsParams): CardSpendLimits =
+        retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(cardToken: String, requestOptions: RequestOptions): CardSpendLimits =
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
     /**
      * Get card configuration such as spend limit and state. Customers must be PCI compliant to use
@@ -246,8 +366,24 @@ interface CardService {
          * as [CardService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: CardRetrieveParams): HttpResponseFor<Card> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(cardToken: String): HttpResponseFor<Card> =
+            retrieve(cardToken, CardRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardToken: String,
+            params: CardRetrieveParams = CardRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card> =
+            retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardToken: String,
+            params: CardRetrieveParams = CardRetrieveParams.none(),
+        ): HttpResponseFor<Card> = retrieve(cardToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -256,13 +392,39 @@ interface CardService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card>
 
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: CardRetrieveParams): HttpResponseFor<Card> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
+            retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
          * as [CardService.update].
          */
         @MustBeClosed
-        fun update(params: CardUpdateParams): HttpResponseFor<Card> =
-            update(params, RequestOptions.none())
+        fun update(cardToken: String): HttpResponseFor<Card> =
+            update(cardToken, CardUpdateParams.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            cardToken: String,
+            params: CardUpdateParams = CardUpdateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card> =
+            update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            cardToken: String,
+            params: CardUpdateParams = CardUpdateParams.none(),
+        ): HttpResponseFor<Card> = update(cardToken, params, RequestOptions.none())
 
         /** @see [update] */
         @MustBeClosed
@@ -270,6 +432,16 @@ interface CardService {
             params: CardUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card>
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(params: CardUpdateParams): HttpResponseFor<Card> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
+            update(cardToken, CardUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
@@ -298,6 +470,22 @@ interface CardService {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
          * otherwise the same as [CardService.convertPhysical].
          */
+        @MustBeClosed
+        fun convertPhysical(
+            cardToken: String,
+            params: CardConvertPhysicalParams,
+        ): HttpResponseFor<Card> = convertPhysical(cardToken, params, RequestOptions.none())
+
+        /** @see [convertPhysical] */
+        @MustBeClosed
+        fun convertPhysical(
+            cardToken: String,
+            params: CardConvertPhysicalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card> =
+            convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [convertPhysical] */
         @MustBeClosed
         fun convertPhysical(params: CardConvertPhysicalParams): HttpResponseFor<Card> =
             convertPhysical(params, RequestOptions.none())
@@ -329,8 +517,25 @@ interface CardService {
          * the same as [CardService.provision].
          */
         @MustBeClosed
-        fun provision(params: CardProvisionParams): HttpResponseFor<CardProvisionResponse> =
-            provision(params, RequestOptions.none())
+        fun provision(cardToken: String): HttpResponseFor<CardProvisionResponse> =
+            provision(cardToken, CardProvisionParams.none())
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            params: CardProvisionParams = CardProvisionParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardProvisionResponse> =
+            provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            params: CardProvisionParams = CardProvisionParams.none(),
+        ): HttpResponseFor<CardProvisionResponse> =
+            provision(cardToken, params, RequestOptions.none())
 
         /** @see [provision] */
         @MustBeClosed
@@ -339,13 +544,42 @@ interface CardService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardProvisionResponse>
 
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(params: CardProvisionParams): HttpResponseFor<CardProvisionResponse> =
+            provision(params, RequestOptions.none())
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CardProvisionResponse> =
+            provision(cardToken, CardProvisionParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
          * the same as [CardService.reissue].
          */
         @MustBeClosed
-        fun reissue(params: CardReissueParams): HttpResponseFor<Card> =
-            reissue(params, RequestOptions.none())
+        fun reissue(cardToken: String): HttpResponseFor<Card> =
+            reissue(cardToken, CardReissueParams.none())
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(
+            cardToken: String,
+            params: CardReissueParams = CardReissueParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card> =
+            reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(
+            cardToken: String,
+            params: CardReissueParams = CardReissueParams.none(),
+        ): HttpResponseFor<Card> = reissue(cardToken, params, RequestOptions.none())
 
         /** @see [reissue] */
         @MustBeClosed
@@ -354,10 +588,34 @@ interface CardService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card>
 
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(params: CardReissueParams): HttpResponseFor<Card> =
+            reissue(params, RequestOptions.none())
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
+            reissue(cardToken, CardReissueParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
          * same as [CardService.renew].
          */
+        @MustBeClosed
+        fun renew(cardToken: String, params: CardRenewParams): HttpResponseFor<Card> =
+            renew(cardToken, params, RequestOptions.none())
+
+        /** @see [renew] */
+        @MustBeClosed
+        fun renew(
+            cardToken: String,
+            params: CardRenewParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Card> =
+            renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [renew] */
         @MustBeClosed
         fun renew(params: CardRenewParams): HttpResponseFor<Card> =
             renew(params, RequestOptions.none())
@@ -374,9 +632,25 @@ interface CardService {
          * otherwise the same as [CardService.retrieveSpendLimits].
          */
         @MustBeClosed
+        fun retrieveSpendLimits(cardToken: String): HttpResponseFor<CardSpendLimits> =
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
         fun retrieveSpendLimits(
-            params: CardRetrieveSpendLimitsParams
-        ): HttpResponseFor<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+            cardToken: String,
+            params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardSpendLimits> =
+            retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            cardToken: String,
+            params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+        ): HttpResponseFor<CardSpendLimits> =
+            retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
         /** @see [retrieveSpendLimits] */
         @MustBeClosed
@@ -384,6 +658,20 @@ interface CardService {
             params: CardRetrieveSpendLimitsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardSpendLimits>
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams
+        ): HttpResponseFor<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CardSpendLimits> =
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same

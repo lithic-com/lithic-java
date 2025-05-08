@@ -10,8 +10,6 @@ import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
-import com.lithic.api.models.CardRetrieveParams
-import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.models.Carrier
@@ -82,12 +80,7 @@ internal class CardServiceAsyncTest {
                 .build()
         val cardServiceAsync = client.cards()
 
-        val cardFuture =
-            cardServiceAsync.retrieve(
-                CardRetrieveParams.builder()
-                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val cardFuture = cardServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val card = cardFuture.get()
         card.validate()
@@ -310,11 +303,7 @@ internal class CardServiceAsyncTest {
         val cardServiceAsync = client.cards()
 
         val cardSpendLimitsFuture =
-            cardServiceAsync.retrieveSpendLimits(
-                CardRetrieveSpendLimitsParams.builder()
-                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            cardServiceAsync.retrieveSpendLimits("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val cardSpendLimits = cardSpendLimitsFuture.get()
         cardSpendLimits.validate()

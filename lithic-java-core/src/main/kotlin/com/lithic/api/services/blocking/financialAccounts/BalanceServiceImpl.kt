@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.financialAccounts
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -17,6 +18,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountBalanceListPage
 import com.lithic.api.models.FinancialAccountBalanceListPageResponse
 import com.lithic.api.models.FinancialAccountBalanceListParams
+import kotlin.jvm.optionals.getOrNull
 
 class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BalanceService {
@@ -47,6 +49,9 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
             params: FinancialAccountBalanceListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialAccountBalanceListPage> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("financialAccountToken", params.financialAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

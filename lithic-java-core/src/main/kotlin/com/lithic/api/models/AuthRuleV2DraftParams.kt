@@ -41,13 +41,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class AuthRuleV2DraftParams
 private constructor(
-    private val authRuleToken: String,
+    private val authRuleToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun authRuleToken(): String = authRuleToken
+    fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
 
     /**
      * Parameters for the Auth Rule
@@ -74,14 +74,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [AuthRuleV2DraftParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .authRuleToken()
-         * ```
-         */
+        @JvmStatic fun none(): AuthRuleV2DraftParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [AuthRuleV2DraftParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -101,7 +96,11 @@ private constructor(
             additionalQueryParams = authRuleV2DraftParams.additionalQueryParams.toBuilder()
         }
 
-        fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
+
+        /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
+        fun authRuleToken(authRuleToken: Optional<String>) =
+            authRuleToken(authRuleToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -268,17 +267,10 @@ private constructor(
          * Returns an immutable instance of [AuthRuleV2DraftParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .authRuleToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): AuthRuleV2DraftParams =
             AuthRuleV2DraftParams(
-                checkRequired("authRuleToken", authRuleToken),
+                authRuleToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -289,7 +281,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> authRuleToken
+            0 -> authRuleToken ?: ""
             else -> ""
         }
 

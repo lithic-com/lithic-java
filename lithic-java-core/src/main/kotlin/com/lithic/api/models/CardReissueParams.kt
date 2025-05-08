@@ -12,7 +12,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -29,13 +28,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class CardReissueParams
 private constructor(
-    private val cardToken: String,
+    private val cardToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun cardToken(): String = cardToken
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
     /**
      * If omitted, the previous carrier will be used.
@@ -116,14 +115,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [CardReissueParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
-         */
+        @JvmStatic fun none(): CardReissueParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [CardReissueParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -143,7 +137,10 @@ private constructor(
             additionalQueryParams = cardReissueParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
+
+        /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
+        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -347,17 +344,10 @@ private constructor(
          * Returns an immutable instance of [CardReissueParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CardReissueParams =
             CardReissueParams(
-                checkRequired("cardToken", cardToken),
+                cardToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -368,7 +358,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> cardToken
+            0 -> cardToken ?: ""
             else -> ""
         }
 

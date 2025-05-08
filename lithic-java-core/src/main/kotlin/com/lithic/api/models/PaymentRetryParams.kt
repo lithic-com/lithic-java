@@ -4,23 +4,23 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retry an origination which has been returned. */
 class PaymentRetryParams
 private constructor(
-    private val paymentToken: String,
+    private val paymentToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun paymentToken(): String = paymentToken
+    fun paymentToken(): Optional<String> = Optional.ofNullable(paymentToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -32,14 +32,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [PaymentRetryParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .paymentToken()
-         * ```
-         */
+        @JvmStatic fun none(): PaymentRetryParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [PaymentRetryParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -59,7 +54,10 @@ private constructor(
             additionalBodyProperties = paymentRetryParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+        fun paymentToken(paymentToken: String?) = apply { this.paymentToken = paymentToken }
+
+        /** Alias for calling [Builder.paymentToken] with `paymentToken.orElse(null)`. */
+        fun paymentToken(paymentToken: Optional<String>) = paymentToken(paymentToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -185,17 +183,10 @@ private constructor(
          * Returns an immutable instance of [PaymentRetryParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .paymentToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): PaymentRetryParams =
             PaymentRetryParams(
-                checkRequired("paymentToken", paymentToken),
+                paymentToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -207,7 +198,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> paymentToken
+            0 -> paymentToken ?: ""
             else -> ""
         }
 

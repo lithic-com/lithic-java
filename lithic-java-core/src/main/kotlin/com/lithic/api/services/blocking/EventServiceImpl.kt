@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -26,6 +27,7 @@ import com.lithic.api.services.blocking.events.EventSubscriptionService
 import com.lithic.api.services.blocking.events.EventSubscriptionServiceImpl
 import com.lithic.api.services.blocking.events.SubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionServiceImpl
+import kotlin.jvm.optionals.getOrNull
 
 class EventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     EventService {
@@ -88,6 +90,9 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: EventRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Event> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("eventToken", params.eventToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -149,6 +154,9 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: EventListAttemptsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EventListAttemptsPage> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("eventToken", params.eventToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

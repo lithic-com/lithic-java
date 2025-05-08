@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.OffsetDateTime
@@ -15,14 +14,14 @@ import kotlin.jvm.optionals.getOrNull
 /** Get the balances for a given card. */
 class CardBalanceListParams
 private constructor(
-    private val cardToken: String,
+    private val cardToken: String?,
     private val balanceDate: OffsetDateTime?,
     private val lastTransactionEventToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun cardToken(): String = cardToken
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
     /** UTC date of the balance to retrieve. Defaults to latest available balance */
     fun balanceDate(): Optional<OffsetDateTime> = Optional.ofNullable(balanceDate)
@@ -42,14 +41,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [CardBalanceListParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
-         */
+        @JvmStatic fun none(): CardBalanceListParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [CardBalanceListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -71,7 +65,10 @@ private constructor(
             additionalQueryParams = cardBalanceListParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
+
+        /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
+        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /** UTC date of the balance to retrieve. Defaults to latest available balance */
         fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
@@ -197,17 +194,10 @@ private constructor(
          * Returns an immutable instance of [CardBalanceListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CardBalanceListParams =
             CardBalanceListParams(
-                checkRequired("cardToken", cardToken),
+                cardToken,
                 balanceDate,
                 lastTransactionEventToken,
                 additionalHeaders.build(),
@@ -217,7 +207,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> cardToken
+            0 -> cardToken ?: ""
             else -> ""
         }
 

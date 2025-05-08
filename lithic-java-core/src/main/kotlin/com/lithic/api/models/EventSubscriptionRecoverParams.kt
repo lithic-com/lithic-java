@@ -4,7 +4,6 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -17,7 +16,7 @@ import kotlin.jvm.optionals.getOrNull
 /** Resend all failed messages since a given time. */
 class EventSubscriptionRecoverParams
 private constructor(
-    private val eventSubscriptionToken: String,
+    private val eventSubscriptionToken: String?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
     private val additionalHeaders: Headers,
@@ -25,7 +24,7 @@ private constructor(
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun eventSubscriptionToken(): String = eventSubscriptionToken
+    fun eventSubscriptionToken(): Optional<String> = Optional.ofNullable(eventSubscriptionToken)
 
     /**
      * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -49,14 +48,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): EventSubscriptionRecoverParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [EventSubscriptionRecoverParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -82,9 +78,16 @@ private constructor(
                 eventSubscriptionRecoverParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
+        fun eventSubscriptionToken(eventSubscriptionToken: String?) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
+
+        /**
+         * Alias for calling [Builder.eventSubscriptionToken] with
+         * `eventSubscriptionToken.orElse(null)`.
+         */
+        fun eventSubscriptionToken(eventSubscriptionToken: Optional<String>) =
+            eventSubscriptionToken(eventSubscriptionToken.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -228,17 +231,10 @@ private constructor(
          * Returns an immutable instance of [EventSubscriptionRecoverParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): EventSubscriptionRecoverParams =
             EventSubscriptionRecoverParams(
-                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                eventSubscriptionToken,
                 begin,
                 end,
                 additionalHeaders.build(),
@@ -252,7 +248,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> eventSubscriptionToken
+            0 -> eventSubscriptionToken ?: ""
             else -> ""
         }
 

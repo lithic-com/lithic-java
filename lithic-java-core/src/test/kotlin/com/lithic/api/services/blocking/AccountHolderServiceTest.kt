@@ -5,9 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AccountHolderCreateParams
-import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
-import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
 import com.lithic.api.models.AccountHolderUpdateParams
@@ -138,12 +136,7 @@ internal class AccountHolderServiceTest {
                 .build()
         val accountHolderService = client.accountHolders()
 
-        val accountHolder =
-            accountHolderService.retrieve(
-                AccountHolderRetrieveParams.builder()
-                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val accountHolder = accountHolderService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         accountHolder.validate()
     }
@@ -285,12 +278,7 @@ internal class AccountHolderServiceTest {
                 .build()
         val accountHolderService = client.accountHolders()
 
-        val response =
-            accountHolderService.listDocuments(
-                AccountHolderListDocumentsParams.builder()
-                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val response = accountHolderService.listDocuments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }

@@ -33,14 +33,40 @@ interface BookTransferServiceAsync {
     ): CompletableFuture<BookTransferResponse>
 
     /** Get book transfer by token */
-    fun retrieve(params: BookTransferRetrieveParams): CompletableFuture<BookTransferResponse> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(bookTransferToken: String): CompletableFuture<BookTransferResponse> =
+        retrieve(bookTransferToken, BookTransferRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        bookTransferToken: String,
+        params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BookTransferResponse> =
+        retrieve(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        bookTransferToken: String,
+        params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
+    ): CompletableFuture<BookTransferResponse> =
+        retrieve(bookTransferToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: BookTransferRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferResponse>
+
+    /** @see [retrieve] */
+    fun retrieve(params: BookTransferRetrieveParams): CompletableFuture<BookTransferResponse> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        bookTransferToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BookTransferResponse> =
+        retrieve(bookTransferToken, BookTransferRetrieveParams.none(), requestOptions)
 
     /** List book transfers */
     fun list(): CompletableFuture<BookTransferListPageAsync> = list(BookTransferListParams.none())
@@ -61,14 +87,40 @@ interface BookTransferServiceAsync {
         list(BookTransferListParams.none(), requestOptions)
 
     /** Reverse a book transfer */
-    fun reverse(params: BookTransferReverseParams): CompletableFuture<BookTransferResponse> =
-        reverse(params, RequestOptions.none())
+    fun reverse(bookTransferToken: String): CompletableFuture<BookTransferResponse> =
+        reverse(bookTransferToken, BookTransferReverseParams.none())
+
+    /** @see [reverse] */
+    fun reverse(
+        bookTransferToken: String,
+        params: BookTransferReverseParams = BookTransferReverseParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BookTransferResponse> =
+        reverse(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+
+    /** @see [reverse] */
+    fun reverse(
+        bookTransferToken: String,
+        params: BookTransferReverseParams = BookTransferReverseParams.none(),
+    ): CompletableFuture<BookTransferResponse> =
+        reverse(bookTransferToken, params, RequestOptions.none())
 
     /** @see [reverse] */
     fun reverse(
         params: BookTransferReverseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BookTransferResponse>
+
+    /** @see [reverse] */
+    fun reverse(params: BookTransferReverseParams): CompletableFuture<BookTransferResponse> =
+        reverse(params, RequestOptions.none())
+
+    /** @see [reverse] */
+    fun reverse(
+        bookTransferToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BookTransferResponse> =
+        reverse(bookTransferToken, BookTransferReverseParams.none(), requestOptions)
 
     /**
      * A view of [BookTransferServiceAsync] that provides access to raw HTTP responses for each
@@ -99,9 +151,29 @@ interface BookTransferServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: BookTransferRetrieveParams
+            bookTransferToken: String
         ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(bookTransferToken, BookTransferRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            bookTransferToken: String,
+            params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            retrieve(
+                params.toBuilder().bookTransferToken(bookTransferToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            bookTransferToken: String,
+            params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            retrieve(bookTransferToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -109,6 +181,21 @@ interface BookTransferServiceAsync {
             params: BookTransferRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BookTransferResponse>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: BookTransferRetrieveParams
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            bookTransferToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            retrieve(bookTransferToken, BookTransferRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/book_transfers`, but is otherwise the same as
@@ -145,9 +232,26 @@ interface BookTransferServiceAsync {
          */
         @MustBeClosed
         fun reverse(
-            params: BookTransferReverseParams
+            bookTransferToken: String
         ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
-            reverse(params, RequestOptions.none())
+            reverse(bookTransferToken, BookTransferReverseParams.none())
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            bookTransferToken: String,
+            params: BookTransferReverseParams = BookTransferReverseParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            reverse(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            bookTransferToken: String,
+            params: BookTransferReverseParams = BookTransferReverseParams.none(),
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            reverse(bookTransferToken, params, RequestOptions.none())
 
         /** @see [reverse] */
         @MustBeClosed
@@ -155,5 +259,20 @@ interface BookTransferServiceAsync {
             params: BookTransferReverseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BookTransferResponse>>
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            params: BookTransferReverseParams
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            reverse(params, RequestOptions.none())
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            bookTransferToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> =
+            reverse(bookTransferToken, BookTransferReverseParams.none(), requestOptions)
     }
 }

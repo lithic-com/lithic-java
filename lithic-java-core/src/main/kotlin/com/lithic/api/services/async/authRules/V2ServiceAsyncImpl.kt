@@ -5,6 +5,7 @@ package com.lithic.api.services.async.authRules
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -38,6 +39,7 @@ import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     V2ServiceAsync {
@@ -163,6 +165,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2RetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -192,6 +197,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2UpdateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2UpdateResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -258,6 +266,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2DeleteParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
@@ -280,6 +291,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2ApplyParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -310,6 +324,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2DraftParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2DraftResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -340,6 +357,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2PromoteParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2PromoteResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -370,6 +390,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             params: AuthRuleV2ReportParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get digital card art by token. */
 class DigitalCardArtRetrieveParams
 private constructor(
-    private val digitalCardArtToken: String,
+    private val digitalCardArtToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun digitalCardArtToken(): String = digitalCardArtToken
+    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,13 +27,10 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): DigitalCardArtRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [DigitalCardArtRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .digitalCardArtToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -51,9 +49,15 @@ private constructor(
             additionalQueryParams = digitalCardArtRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
             this.digitalCardArtToken = digitalCardArtToken
         }
+
+        /**
+         * Alias for calling [Builder.digitalCardArtToken] with `digitalCardArtToken.orElse(null)`.
+         */
+        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+            digitalCardArtToken(digitalCardArtToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -157,17 +161,10 @@ private constructor(
          * Returns an immutable instance of [DigitalCardArtRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .digitalCardArtToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): DigitalCardArtRetrieveParams =
             DigitalCardArtRetrieveParams(
-                checkRequired("digitalCardArtToken", digitalCardArtToken),
+                digitalCardArtToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -175,7 +172,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> digitalCardArtToken
+            0 -> digitalCardArtToken ?: ""
             else -> ""
         }
 

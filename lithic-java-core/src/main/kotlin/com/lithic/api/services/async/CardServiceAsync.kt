@@ -52,8 +52,22 @@ interface CardServiceAsync {
     ): CompletableFuture<Card>
 
     /** Get card configuration such as spend limit and state. */
-    fun retrieve(params: CardRetrieveParams): CompletableFuture<Card> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(cardToken: String): CompletableFuture<Card> =
+        retrieve(cardToken, CardRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardToken: String,
+        params: CardRetrieveParams = CardRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Card> =
+        retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardToken: String,
+        params: CardRetrieveParams = CardRetrieveParams.none(),
+    ): CompletableFuture<Card> = retrieve(cardToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
@@ -61,19 +75,49 @@ interface CardServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
 
+    /** @see [retrieve] */
+    fun retrieve(params: CardRetrieveParams): CompletableFuture<Card> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(cardToken: String, requestOptions: RequestOptions): CompletableFuture<Card> =
+        retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
+
     /**
      * Update the specified properties of the card. Unsupplied properties will remain unchanged.
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
-    fun update(params: CardUpdateParams): CompletableFuture<Card> =
-        update(params, RequestOptions.none())
+    fun update(cardToken: String): CompletableFuture<Card> =
+        update(cardToken, CardUpdateParams.none())
+
+    /** @see [update] */
+    fun update(
+        cardToken: String,
+        params: CardUpdateParams = CardUpdateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Card> =
+        update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [update] */
+    fun update(
+        cardToken: String,
+        params: CardUpdateParams = CardUpdateParams.none(),
+    ): CompletableFuture<Card> = update(cardToken, params, RequestOptions.none())
 
     /** @see [update] */
     fun update(
         params: CardUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
+
+    /** @see [update] */
+    fun update(params: CardUpdateParams): CompletableFuture<Card> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(cardToken: String, requestOptions: RequestOptions): CompletableFuture<Card> =
+        update(cardToken, CardUpdateParams.none(), requestOptions)
 
     /** List cards. */
     fun list(): CompletableFuture<CardListPageAsync> = list(CardListParams.none())
@@ -102,6 +146,20 @@ interface CardServiceAsync {
      * be in an `OPEN` state to be converted. Only applies to cards of type `VIRTUAL` (or existing
      * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
+    fun convertPhysical(
+        cardToken: String,
+        params: CardConvertPhysicalParams,
+    ): CompletableFuture<Card> = convertPhysical(cardToken, params, RequestOptions.none())
+
+    /** @see [convertPhysical] */
+    fun convertPhysical(
+        cardToken: String,
+        params: CardConvertPhysicalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Card> =
+        convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [convertPhysical] */
     fun convertPhysical(params: CardConvertPhysicalParams): CompletableFuture<Card> =
         convertPhysical(params, RequestOptions.none())
 
@@ -154,8 +212,23 @@ interface CardServiceAsync {
      * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
      * information.
      */
-    fun provision(params: CardProvisionParams): CompletableFuture<CardProvisionResponse> =
-        provision(params, RequestOptions.none())
+    fun provision(cardToken: String): CompletableFuture<CardProvisionResponse> =
+        provision(cardToken, CardProvisionParams.none())
+
+    /** @see [provision] */
+    fun provision(
+        cardToken: String,
+        params: CardProvisionParams = CardProvisionParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardProvisionResponse> =
+        provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [provision] */
+    fun provision(
+        cardToken: String,
+        params: CardProvisionParams = CardProvisionParams.none(),
+    ): CompletableFuture<CardProvisionResponse> =
+        provision(cardToken, params, RequestOptions.none())
 
     /** @see [provision] */
     fun provision(
@@ -163,20 +236,53 @@ interface CardServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProvisionResponse>
 
+    /** @see [provision] */
+    fun provision(params: CardProvisionParams): CompletableFuture<CardProvisionResponse> =
+        provision(params, RequestOptions.none())
+
+    /** @see [provision] */
+    fun provision(
+        cardToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardProvisionResponse> =
+        provision(cardToken, CardProvisionParams.none(), requestOptions)
+
     /**
      * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged).
      * The PAN, expiry, and CVC2 will remain the same and the original card can continue to be used
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
      * reissued or renewed a total of 8 times.
      */
-    fun reissue(params: CardReissueParams): CompletableFuture<Card> =
-        reissue(params, RequestOptions.none())
+    fun reissue(cardToken: String): CompletableFuture<Card> =
+        reissue(cardToken, CardReissueParams.none())
+
+    /** @see [reissue] */
+    fun reissue(
+        cardToken: String,
+        params: CardReissueParams = CardReissueParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Card> =
+        reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [reissue] */
+    fun reissue(
+        cardToken: String,
+        params: CardReissueParams = CardReissueParams.none(),
+    ): CompletableFuture<Card> = reissue(cardToken, params, RequestOptions.none())
 
     /** @see [reissue] */
     fun reissue(
         params: CardReissueParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
+
+    /** @see [reissue] */
+    fun reissue(params: CardReissueParams): CompletableFuture<Card> =
+        reissue(params, RequestOptions.none())
+
+    /** @see [reissue] */
+    fun reissue(cardToken: String, requestOptions: RequestOptions): CompletableFuture<Card> =
+        reissue(cardToken, CardReissueParams.none(), requestOptions)
 
     /**
      * Applies to card types `PHYSICAL` and `VIRTUAL`. For `PHYSICAL`, creates a new card with the
@@ -188,6 +294,18 @@ interface CardServiceAsync {
      * CVC2 code. `product_id`, `shipping_method`, `shipping_address`, `carrier` are only relevant
      * for renewing `PHYSICAL` cards.
      */
+    fun renew(cardToken: String, params: CardRenewParams): CompletableFuture<Card> =
+        renew(cardToken, params, RequestOptions.none())
+
+    /** @see [renew] */
+    fun renew(
+        cardToken: String,
+        params: CardRenewParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Card> =
+        renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [renew] */
     fun renew(params: CardRenewParams): CompletableFuture<Card> =
         renew(params, RequestOptions.none())
 
@@ -203,15 +321,41 @@ interface CardServiceAsync {
      * monthly spend limit of $1000 configured, and has spent $600 in the last month, the available
      * spend limit returned would be $400.
      */
+    fun retrieveSpendLimits(cardToken: String): CompletableFuture<CardSpendLimits> =
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
+
+    /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
-        params: CardRetrieveSpendLimitsParams
-    ): CompletableFuture<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+        cardToken: String,
+        params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardSpendLimits> =
+        retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        cardToken: String,
+        params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+    ): CompletableFuture<CardSpendLimits> =
+        retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
     /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardSpendLimits>
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        params: CardRetrieveSpendLimitsParams
+    ): CompletableFuture<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        cardToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardSpendLimits> =
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
     /**
      * Get card configuration such as spend limit and state. Customers must be PCI compliant to use
@@ -257,8 +401,25 @@ interface CardServiceAsync {
          * as [CardServiceAsync.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: CardRetrieveParams): CompletableFuture<HttpResponseFor<Card>> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(cardToken, CardRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardToken: String,
+            params: CardRetrieveParams = CardRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardToken: String,
+            params: CardRetrieveParams = CardRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(cardToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -267,13 +428,43 @@ interface CardServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
 
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: CardRetrieveParams): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
          * as [CardServiceAsync.update].
          */
         @MustBeClosed
-        fun update(params: CardUpdateParams): CompletableFuture<HttpResponseFor<Card>> =
-            update(params, RequestOptions.none())
+        fun update(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
+            update(cardToken, CardUpdateParams.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            cardToken: String,
+            params: CardUpdateParams = CardUpdateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            cardToken: String,
+            params: CardUpdateParams = CardUpdateParams.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            update(cardToken, params, RequestOptions.none())
 
         /** @see [update] */
         @MustBeClosed
@@ -281,6 +472,19 @@ interface CardServiceAsync {
             params: CardUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(params: CardUpdateParams): CompletableFuture<HttpResponseFor<Card>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            update(cardToken, CardUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
@@ -317,6 +521,23 @@ interface CardServiceAsync {
          */
         @MustBeClosed
         fun convertPhysical(
+            cardToken: String,
+            params: CardConvertPhysicalParams,
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            convertPhysical(cardToken, params, RequestOptions.none())
+
+        /** @see [convertPhysical] */
+        @MustBeClosed
+        fun convertPhysical(
+            cardToken: String,
+            params: CardConvertPhysicalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [convertPhysical] */
+        @MustBeClosed
+        fun convertPhysical(
             params: CardConvertPhysicalParams
         ): CompletableFuture<HttpResponseFor<Card>> = convertPhysical(params, RequestOptions.none())
 
@@ -348,9 +569,26 @@ interface CardServiceAsync {
          */
         @MustBeClosed
         fun provision(
-            params: CardProvisionParams
+            cardToken: String
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
-            provision(params, RequestOptions.none())
+            provision(cardToken, CardProvisionParams.none())
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            params: CardProvisionParams = CardProvisionParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
+            provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            params: CardProvisionParams = CardProvisionParams.none(),
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
+            provision(cardToken, params, RequestOptions.none())
 
         /** @see [provision] */
         @MustBeClosed
@@ -359,13 +597,45 @@ interface CardServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>>
 
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            params: CardProvisionParams
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
+            provision(params, RequestOptions.none())
+
+        /** @see [provision] */
+        @MustBeClosed
+        fun provision(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
+            provision(cardToken, CardProvisionParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
          * the same as [CardServiceAsync.reissue].
          */
         @MustBeClosed
-        fun reissue(params: CardReissueParams): CompletableFuture<HttpResponseFor<Card>> =
-            reissue(params, RequestOptions.none())
+        fun reissue(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(cardToken, CardReissueParams.none())
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(
+            cardToken: String,
+            params: CardReissueParams = CardReissueParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(
+            cardToken: String,
+            params: CardReissueParams = CardReissueParams.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(cardToken, params, RequestOptions.none())
 
         /** @see [reissue] */
         @MustBeClosed
@@ -374,10 +644,40 @@ interface CardServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
 
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(params: CardReissueParams): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(params, RequestOptions.none())
+
+        /** @see [reissue] */
+        @MustBeClosed
+        fun reissue(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            reissue(cardToken, CardReissueParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
          * same as [CardServiceAsync.renew].
          */
+        @MustBeClosed
+        fun renew(
+            cardToken: String,
+            params: CardRenewParams,
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            renew(cardToken, params, RequestOptions.none())
+
+        /** @see [renew] */
+        @MustBeClosed
+        fun renew(
+            cardToken: String,
+            params: CardRenewParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Card>> =
+            renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [renew] */
         @MustBeClosed
         fun renew(params: CardRenewParams): CompletableFuture<HttpResponseFor<Card>> =
             renew(params, RequestOptions.none())
@@ -395,9 +695,26 @@ interface CardServiceAsync {
          */
         @MustBeClosed
         fun retrieveSpendLimits(
-            params: CardRetrieveSpendLimitsParams
+            cardToken: String
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
-            retrieveSpendLimits(params, RequestOptions.none())
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            cardToken: String,
+            params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
+            retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            cardToken: String,
+            params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
+            retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
         /** @see [retrieveSpendLimits] */
         @MustBeClosed
@@ -405,6 +722,21 @@ interface CardServiceAsync {
             params: CardRetrieveSpendLimitsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>>
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: CardRetrieveSpendLimitsParams
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
+            retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same

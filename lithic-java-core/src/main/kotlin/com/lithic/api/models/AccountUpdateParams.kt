@@ -12,7 +12,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -28,13 +27,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class AccountUpdateParams
 private constructor(
-    private val accountToken: String,
+    private val accountToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountToken(): String = accountToken
+    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     /**
      * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000 limit).
@@ -135,14 +134,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [AccountUpdateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .accountToken()
-         * ```
-         */
+        @JvmStatic fun none(): AccountUpdateParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [AccountUpdateParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -162,7 +156,10 @@ private constructor(
             additionalQueryParams = accountUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -391,17 +388,10 @@ private constructor(
          * Returns an immutable instance of [AccountUpdateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .accountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): AccountUpdateParams =
             AccountUpdateParams(
-                checkRequired("accountToken", accountToken),
+                accountToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -412,7 +402,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountToken
+            0 -> accountToken ?: ""
             else -> ""
         }
 

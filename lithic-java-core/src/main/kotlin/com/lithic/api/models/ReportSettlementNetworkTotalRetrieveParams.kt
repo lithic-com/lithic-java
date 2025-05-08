@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieve a specific network total record by token. Not available in sandbox. */
 class ReportSettlementNetworkTotalRetrieveParams
 private constructor(
-    private val token: String,
+    private val token: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun token(): String = token
+    fun token(): Optional<String> = Optional.ofNullable(token)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +27,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ReportSettlementNetworkTotalRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ReportSettlementNetworkTotalRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .token()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -56,7 +54,10 @@ private constructor(
                 reportSettlementNetworkTotalRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String?) = apply { this.token = token }
+
+        /** Alias for calling [Builder.token] with `token.orElse(null)`. */
+        fun token(token: Optional<String>) = token(token.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -160,17 +161,10 @@ private constructor(
          * Returns an immutable instance of [ReportSettlementNetworkTotalRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .token()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams(
-                checkRequired("token", token),
+                token,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -178,7 +172,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> token
+            0 -> token ?: ""
             else -> ""
         }
 

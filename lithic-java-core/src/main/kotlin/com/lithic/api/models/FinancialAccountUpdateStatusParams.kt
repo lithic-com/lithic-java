@@ -24,13 +24,13 @@ import kotlin.jvm.optionals.getOrNull
 /** Update financial account status */
 class FinancialAccountUpdateStatusParams
 private constructor(
-    private val financialAccountToken: String,
+    private val financialAccountToken: String?,
     private val body: UpdateFinancialAccountStatusRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     /**
      * Status of the financial account
@@ -78,7 +78,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .financialAccountToken()
          * .status()
          * .substatus()
          * ```
@@ -105,9 +104,16 @@ private constructor(
                     financialAccountUpdateStatusParams.additionalQueryParams.toBuilder()
             }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -275,7 +281,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .financialAccountToken()
          * .status()
          * .substatus()
          * ```
@@ -284,7 +289,7 @@ private constructor(
          */
         fun build(): FinancialAccountUpdateStatusParams =
             FinancialAccountUpdateStatusParams(
-                checkRequired("financialAccountToken", financialAccountToken),
+                financialAccountToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -295,7 +300,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> financialAccountToken
+            0 -> financialAccountToken ?: ""
             else -> ""
         }
 

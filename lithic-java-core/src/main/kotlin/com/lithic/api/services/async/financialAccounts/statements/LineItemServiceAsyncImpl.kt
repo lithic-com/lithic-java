@@ -5,6 +5,7 @@ package com.lithic.api.services.async.financialAccounts.statements
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -18,6 +19,7 @@ import com.lithic.api.models.FinancialAccountStatementLineItemListPageAsync
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import com.lithic.api.models.StatementLineItems
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class LineItemServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     LineItemServiceAsync {
@@ -48,6 +50,9 @@ class LineItemServiceAsyncImpl internal constructor(private val clientOptions: C
             params: FinancialAccountStatementLineItemListParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("statementToken", params.statementToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

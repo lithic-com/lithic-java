@@ -6,7 +6,6 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.ExternalBankAccountAddress
 import com.lithic.api.models.ExternalBankAccountCreateParams
-import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
 import com.lithic.api.models.ExternalBankAccountUpdateParams
@@ -84,11 +83,7 @@ internal class ExternalBankAccountServiceAsyncTest {
         val externalBankAccountServiceAsync = client.externalBankAccounts()
 
         val externalBankAccountFuture =
-            externalBankAccountServiceAsync.retrieve(
-                ExternalBankAccountRetrieveParams.builder()
-                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            externalBankAccountServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val externalBankAccount = externalBankAccountFuture.get()
         externalBankAccount.validate()

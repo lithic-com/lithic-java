@@ -5,8 +5,6 @@ package com.lithic.api.services.async
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.PaymentCreateParams
-import com.lithic.api.models.PaymentRetrieveParams
-import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateReceiptParams
 import com.lithic.api.models.PaymentSimulateReleaseParams
@@ -58,12 +56,7 @@ internal class PaymentServiceAsyncTest {
                 .build()
         val paymentServiceAsync = client.payments()
 
-        val paymentFuture =
-            paymentServiceAsync.retrieve(
-                PaymentRetrieveParams.builder()
-                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val paymentFuture = paymentServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val payment = paymentFuture.get()
         payment.validate()
@@ -93,12 +86,7 @@ internal class PaymentServiceAsyncTest {
                 .build()
         val paymentServiceAsync = client.payments()
 
-        val responseFuture =
-            paymentServiceAsync.retry(
-                PaymentRetryParams.builder()
-                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val responseFuture = paymentServiceAsync.retry("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
         response.validate()
