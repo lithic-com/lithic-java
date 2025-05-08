@@ -2,12 +2,12 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPager
+import com.lithic.api.core.Page
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.cards.AggregateBalanceService
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [AggregateBalanceService.list] */
@@ -16,7 +16,7 @@ private constructor(
     private val service: AggregateBalanceService,
     private val params: CardAggregateBalanceListParams,
     private val response: CardAggregateBalanceListPageResponse,
-) {
+) : Page<AggregateBalanceListResponse> {
 
     /**
      * Delegates to [CardAggregateBalanceListPageResponse], but gracefully handles missing data.
@@ -33,14 +33,16 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<AggregateBalanceListResponse> = data()
 
-    fun getNextPageParams(): Optional<CardAggregateBalanceListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): Optional<CardAggregateBalanceListPage> =
-        getNextPageParams().map { service.list(it) }
+    fun nextPageParams(): CardAggregateBalanceListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CardAggregateBalanceListPage = service.list(nextPageParams())
+
+    fun autoPager(): AutoPager<AggregateBalanceListResponse> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): CardAggregateBalanceListParams = params
@@ -109,26 +111,6 @@ private constructor(
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: CardAggregateBalanceListPage) :
-        Iterable<AggregateBalanceListResponse> {
-
-        override fun iterator(): Iterator<AggregateBalanceListResponse> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().getOrNull() ?: break
-                index = 0
-            }
-        }
-
-        fun stream(): Stream<AggregateBalanceListResponse> {
-            return StreamSupport.stream(spliterator(), false)
-        }
     }
 
     override fun equals(other: Any?): Boolean {

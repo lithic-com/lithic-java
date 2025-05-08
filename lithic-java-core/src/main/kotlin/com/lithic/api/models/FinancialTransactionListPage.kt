@@ -2,12 +2,12 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPager
+import com.lithic.api.core.Page
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [FinancialTransactionService.list] */
@@ -16,7 +16,7 @@ private constructor(
     private val service: FinancialTransactionService,
     private val params: FinancialTransactionListParams,
     private val response: FinancialTransactionListPageResponse,
-) {
+) : Page<FinancialTransaction> {
 
     /**
      * Delegates to [FinancialTransactionListPageResponse], but gracefully handles missing data.
@@ -33,14 +33,16 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<FinancialTransaction> = data()
 
-    fun getNextPageParams(): Optional<FinancialTransactionListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): Optional<FinancialTransactionListPage> =
-        getNextPageParams().map { service.list(it) }
+    fun nextPageParams(): FinancialTransactionListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): FinancialTransactionListPage = service.list(nextPageParams())
+
+    fun autoPager(): AutoPager<FinancialTransaction> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialTransactionListParams = params
@@ -109,26 +111,6 @@ private constructor(
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: FinancialTransactionListPage) :
-        Iterable<FinancialTransaction> {
-
-        override fun iterator(): Iterator<FinancialTransaction> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().getOrNull() ?: break
-                index = 0
-            }
-        }
-
-        fun stream(): Stream<FinancialTransaction> {
-            return StreamSupport.stream(spliterator(), false)
-        }
     }
 
     override fun equals(other: Any?): Boolean {

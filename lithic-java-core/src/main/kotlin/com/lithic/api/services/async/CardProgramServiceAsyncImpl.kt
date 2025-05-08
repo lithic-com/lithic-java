@@ -112,6 +112,7 @@ class CardProgramServiceAsyncImpl internal constructor(private val clientOptions
                             .let {
                                 CardProgramListPageAsync.builder()
                                     .service(CardProgramServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

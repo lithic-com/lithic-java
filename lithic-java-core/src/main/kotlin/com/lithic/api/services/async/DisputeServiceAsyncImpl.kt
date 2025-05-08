@@ -235,6 +235,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .let {
                                 DisputeListPageAsync.builder()
                                     .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()
@@ -380,6 +381,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .let {
                                 DisputeListEvidencesPageAsync.builder()
                                     .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

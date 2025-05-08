@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.EventServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [EventServiceAsync.listAttempts] */
 class EventListAttemptsPageAsync
 private constructor(
     private val service: EventServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: EventListAttemptsParams,
     private val response: EventListAttemptsPageResponse,
-) {
+) : PageAsync<MessageAttempt> {
 
     /**
      * Delegates to [EventListAttemptsPageResponse], but gracefully handles missing data.
@@ -34,34 +36,22 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<MessageAttempt> = data()
 
-    fun getNextPageParams(): Optional<EventListAttemptsParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
+
+    fun nextPageParams(): EventListAttemptsParams =
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
         }
 
-        return Optional.of(
-            if (params.endingBefore().isPresent) {
-                params
-                    .toBuilder()
-                    .endingBefore(data().first()._token().getOptional("token"))
-                    .build()
-            } else {
-                params
-                    .toBuilder()
-                    .startingAfter(data().last()._token().getOptional("token"))
-                    .build()
-            }
-        )
-    }
+    override fun nextPage(): CompletableFuture<EventListAttemptsPageAsync> =
+        service.listAttempts(nextPageParams())
 
-    fun getNextPage(): CompletableFuture<Optional<EventListAttemptsPageAsync>> =
-        getNextPageParams()
-            .map { service.listAttempts(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-
-    fun autoPager(): AutoPager = AutoPager(this)
+    fun autoPager(): AutoPagerAsync<MessageAttempt> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): EventListAttemptsParams = params
@@ -79,6 +69,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -90,17 +81,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: EventServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: EventListAttemptsParams? = null
         private var response: EventListAttemptsPageResponse? = null
 
         @JvmSynthetic
         internal fun from(eventListAttemptsPageAsync: EventListAttemptsPageAsync) = apply {
             service = eventListAttemptsPageAsync.service
+            streamHandlerExecutor = eventListAttemptsPageAsync.streamHandlerExecutor
             params = eventListAttemptsPageAsync.params
             response = eventListAttemptsPageAsync.response
         }
 
         fun service(service: EventServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: EventListAttemptsParams) = apply { this.params = params }
@@ -116,6 +113,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -125,38 +123,10 @@ private constructor(
         fun build(): EventListAttemptsPageAsync =
             EventListAttemptsPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: EventListAttemptsPageAsync) {
-
-        fun forEach(
-            action: Predicate<MessageAttempt>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<EventListAttemptsPageAsync>>.forEach(
-                action: (MessageAttempt) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<MessageAttempt>> {
-            val values = mutableListOf<MessageAttempt>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -164,11 +134,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventListAttemptsPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is EventListAttemptsPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "EventListAttemptsPageAsync{service=$service, params=$params, response=$response}"
+        "EventListAttemptsPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

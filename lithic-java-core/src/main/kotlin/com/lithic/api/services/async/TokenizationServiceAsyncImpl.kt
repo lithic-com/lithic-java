@@ -174,6 +174,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                             .let {
                                 TokenizationListPageAsync.builder()
                                     .service(TokenizationServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

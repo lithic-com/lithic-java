@@ -81,6 +81,7 @@ class LineItemServiceAsyncImpl internal constructor(private val clientOptions: C
                             .let {
                                 FinancialAccountStatementLineItemListPageAsync.builder()
                                     .service(LineItemServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

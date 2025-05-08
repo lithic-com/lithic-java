@@ -162,6 +162,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                             .let {
                                 ManagementOperationListPageAsync.builder()
                                     .service(ManagementOperationServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

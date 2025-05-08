@@ -2,12 +2,12 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPager
+import com.lithic.api.core.Page
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.reports.SettlementService
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [SettlementService.listDetails] */
@@ -16,7 +16,7 @@ private constructor(
     private val service: SettlementService,
     private val params: ReportSettlementListDetailsParams,
     private val response: ReportSettlementListDetailsPageResponse,
-) {
+) : Page<SettlementDetail> {
 
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
@@ -33,32 +33,20 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<SettlementDetail> = data()
 
-    fun getNextPageParams(): Optional<ReportSettlementListDetailsParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
+
+    fun nextPageParams(): ReportSettlementListDetailsParams =
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
         }
 
-        return Optional.of(
-            if (params.endingBefore().isPresent) {
-                params
-                    .toBuilder()
-                    .endingBefore(data().first()._token().getOptional("token"))
-                    .build()
-            } else {
-                params
-                    .toBuilder()
-                    .startingAfter(data().last()._token().getOptional("token"))
-                    .build()
-            }
-        )
-    }
+    override fun nextPage(): ReportSettlementListDetailsPage = service.listDetails(nextPageParams())
 
-    fun getNextPage(): Optional<ReportSettlementListDetailsPage> =
-        getNextPageParams().map { service.listDetails(it) }
-
-    fun autoPager(): AutoPager = AutoPager(this)
+    fun autoPager(): AutoPager<SettlementDetail> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): ReportSettlementListDetailsParams = params
@@ -129,26 +117,6 @@ private constructor(
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: ReportSettlementListDetailsPage) :
-        Iterable<SettlementDetail> {
-
-        override fun iterator(): Iterator<SettlementDetail> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().getOrNull() ?: break
-                index = 0
-            }
-        }
-
-        fun stream(): Stream<SettlementDetail> {
-            return StreamSupport.stream(spliterator(), false)
-        }
     }
 
     override fun equals(other: Any?): Boolean {

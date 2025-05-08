@@ -69,6 +69,7 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
                             .let {
                                 AggregateBalanceListPageAsync.builder()
                                     .service(AggregateBalanceServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

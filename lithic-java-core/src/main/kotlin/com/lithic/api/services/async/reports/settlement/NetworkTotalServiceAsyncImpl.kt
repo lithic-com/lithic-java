@@ -119,6 +119,7 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
                             .let {
                                 ReportSettlementNetworkTotalListPageAsync.builder()
                                     .service(NetworkTotalServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

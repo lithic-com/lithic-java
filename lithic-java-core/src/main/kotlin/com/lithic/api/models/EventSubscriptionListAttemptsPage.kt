@@ -2,12 +2,12 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPager
+import com.lithic.api.core.Page
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.events.SubscriptionService
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [SubscriptionService.listAttempts] */
@@ -16,7 +16,7 @@ private constructor(
     private val service: SubscriptionService,
     private val params: EventSubscriptionListAttemptsParams,
     private val response: EventSubscriptionListAttemptsPageResponse,
-) {
+) : Page<MessageAttempt> {
 
     /**
      * Delegates to [EventSubscriptionListAttemptsPageResponse], but gracefully handles missing
@@ -35,32 +35,21 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<MessageAttempt> = data()
 
-    fun getNextPageParams(): Optional<EventSubscriptionListAttemptsParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
+
+    fun nextPageParams(): EventSubscriptionListAttemptsParams =
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
         }
 
-        return Optional.of(
-            if (params.endingBefore().isPresent) {
-                params
-                    .toBuilder()
-                    .endingBefore(data().first()._token().getOptional("token"))
-                    .build()
-            } else {
-                params
-                    .toBuilder()
-                    .startingAfter(data().last()._token().getOptional("token"))
-                    .build()
-            }
-        )
-    }
+    override fun nextPage(): EventSubscriptionListAttemptsPage =
+        service.listAttempts(nextPageParams())
 
-    fun getNextPage(): Optional<EventSubscriptionListAttemptsPage> =
-        getNextPageParams().map { service.listAttempts(it) }
-
-    fun autoPager(): AutoPager = AutoPager(this)
+    fun autoPager(): AutoPager<MessageAttempt> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): EventSubscriptionListAttemptsParams = params
@@ -131,26 +120,6 @@ private constructor(
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: EventSubscriptionListAttemptsPage) :
-        Iterable<MessageAttempt> {
-
-        override fun iterator(): Iterator<MessageAttempt> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().getOrNull() ?: break
-                index = 0
-            }
-        }
-
-        fun stream(): Stream<MessageAttempt> {
-            return StreamSupport.stream(spliterator(), false)
-        }
     }
 
     override fun equals(other: Any?): Boolean {
