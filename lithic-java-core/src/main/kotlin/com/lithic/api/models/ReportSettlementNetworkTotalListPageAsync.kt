@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.reports.settlement.NetworkTotalServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [NetworkTotalServiceAsync.list] */
 class ReportSettlementNetworkTotalListPageAsync
 private constructor(
     private val service: NetworkTotalServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: ReportSettlementNetworkTotalListParams,
     private val response: ReportSettlementNetworkTotalListPageResponse,
-) {
+) : PageAsync<NetworkTotalListResponse> {
 
     /**
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
@@ -36,34 +38,22 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<NetworkTotalListResponse> = data()
 
-    fun getNextPageParams(): Optional<ReportSettlementNetworkTotalListParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
+
+    fun nextPageParams(): ReportSettlementNetworkTotalListParams =
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
         }
 
-        return Optional.of(
-            if (params.endingBefore().isPresent) {
-                params
-                    .toBuilder()
-                    .endingBefore(data().first()._token().getOptional("token"))
-                    .build()
-            } else {
-                params
-                    .toBuilder()
-                    .startingAfter(data().last()._token().getOptional("token"))
-                    .build()
-            }
-        )
-    }
+    override fun nextPage(): CompletableFuture<ReportSettlementNetworkTotalListPageAsync> =
+        service.list(nextPageParams())
 
-    fun getNextPage(): CompletableFuture<Optional<ReportSettlementNetworkTotalListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-
-    fun autoPager(): AutoPager = AutoPager(this)
+    fun autoPager(): AutoPagerAsync<NetworkTotalListResponse> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): ReportSettlementNetworkTotalListParams = params
@@ -82,6 +72,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -93,6 +84,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: NetworkTotalServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: ReportSettlementNetworkTotalListParams? = null
         private var response: ReportSettlementNetworkTotalListPageResponse? = null
 
@@ -101,11 +93,16 @@ private constructor(
             reportSettlementNetworkTotalListPageAsync: ReportSettlementNetworkTotalListPageAsync
         ) = apply {
             service = reportSettlementNetworkTotalListPageAsync.service
+            streamHandlerExecutor = reportSettlementNetworkTotalListPageAsync.streamHandlerExecutor
             params = reportSettlementNetworkTotalListPageAsync.params
             response = reportSettlementNetworkTotalListPageAsync.response
         }
 
         fun service(service: NetworkTotalServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: ReportSettlementNetworkTotalListParams) = apply { this.params = params }
@@ -123,6 +120,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -132,38 +130,10 @@ private constructor(
         fun build(): ReportSettlementNetworkTotalListPageAsync =
             ReportSettlementNetworkTotalListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: ReportSettlementNetworkTotalListPageAsync) {
-
-        fun forEach(
-            action: Predicate<NetworkTotalListResponse>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<ReportSettlementNetworkTotalListPageAsync>>.forEach(
-                action: (NetworkTotalListResponse) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<NetworkTotalListResponse>> {
-            val values = mutableListOf<NetworkTotalListResponse>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -171,11 +141,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementNetworkTotalListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is ReportSettlementNetworkTotalListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "ReportSettlementNetworkTotalListPageAsync{service=$service, params=$params, response=$response}"
+        "ReportSettlementNetworkTotalListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

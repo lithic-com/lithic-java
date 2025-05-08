@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [AggregateBalanceServiceAsync.list] */
 class CardAggregateBalanceListPageAsync
 private constructor(
     private val service: AggregateBalanceServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: CardAggregateBalanceListParams,
     private val response: CardAggregateBalanceListPageResponse,
-) {
+) : PageAsync<AggregateBalanceListResponse> {
 
     /**
      * Delegates to [CardAggregateBalanceListPageResponse], but gracefully handles missing data.
@@ -34,16 +36,18 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<AggregateBalanceListResponse> = data()
 
-    fun getNextPageParams(): Optional<CardAggregateBalanceListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): CompletableFuture<Optional<CardAggregateBalanceListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun nextPageParams(): CardAggregateBalanceListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CompletableFuture<CardAggregateBalanceListPageAsync> =
+        service.list(nextPageParams())
+
+    fun autoPager(): AutoPagerAsync<AggregateBalanceListResponse> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): CardAggregateBalanceListParams = params
@@ -62,6 +66,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -73,6 +78,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: AggregateBalanceServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: CardAggregateBalanceListParams? = null
         private var response: CardAggregateBalanceListPageResponse? = null
 
@@ -80,11 +86,16 @@ private constructor(
         internal fun from(cardAggregateBalanceListPageAsync: CardAggregateBalanceListPageAsync) =
             apply {
                 service = cardAggregateBalanceListPageAsync.service
+                streamHandlerExecutor = cardAggregateBalanceListPageAsync.streamHandlerExecutor
                 params = cardAggregateBalanceListPageAsync.params
                 response = cardAggregateBalanceListPageAsync.response
             }
 
         fun service(service: AggregateBalanceServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: CardAggregateBalanceListParams) = apply { this.params = params }
@@ -102,6 +113,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -111,38 +123,10 @@ private constructor(
         fun build(): CardAggregateBalanceListPageAsync =
             CardAggregateBalanceListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: CardAggregateBalanceListPageAsync) {
-
-        fun forEach(
-            action: Predicate<AggregateBalanceListResponse>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<CardAggregateBalanceListPageAsync>>.forEach(
-                action: (AggregateBalanceListResponse) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<AggregateBalanceListResponse>> {
-            val values = mutableListOf<AggregateBalanceListResponse>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -150,11 +134,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardAggregateBalanceListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is CardAggregateBalanceListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "CardAggregateBalanceListPageAsync{service=$service, params=$params, response=$response}"
+        "CardAggregateBalanceListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

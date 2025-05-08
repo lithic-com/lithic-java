@@ -245,6 +245,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
                             .let {
                                 AccountHolderListPageAsync.builder()
                                     .service(AccountHolderServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

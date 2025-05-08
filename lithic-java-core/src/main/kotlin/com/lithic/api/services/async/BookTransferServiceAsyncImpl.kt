@@ -161,6 +161,7 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
                             .let {
                                 BookTransferListPageAsync.builder()
                                     .service(BookTransferServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

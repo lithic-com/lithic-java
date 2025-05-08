@@ -97,6 +97,7 @@ class SettlementServiceAsyncImpl internal constructor(private val clientOptions:
                             .let {
                                 ReportSettlementListDetailsPageAsync.builder()
                                     .service(SettlementServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

@@ -219,6 +219,7 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
                             .let {
                                 TransactionListPageAsync.builder()
                                     .service(TransactionServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

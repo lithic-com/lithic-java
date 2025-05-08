@@ -74,6 +74,7 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .let {
                                 CardBalanceListPageAsync.builder()
                                     .service(BalanceServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

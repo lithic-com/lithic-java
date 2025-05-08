@@ -216,53 +216,101 @@ The SDK throws custom unchecked exception types:
 
 ## Pagination
 
-For methods that return a paginated list of results, this library provides convenient ways access the results either one page at a time, or item-by-item across all pages.
+The SDK defines methods that return a paginated lists of results. It provides convenient ways to access the results either one page at a time or item-by-item across all pages.
 
 ### Auto-pagination
 
-To iterate through all results across all pages, you can use `autoPager`, which automatically handles fetching more pages for you:
+To iterate through all results across all pages, use the `autoPager()` method, which automatically fetches more pages as needed.
 
-### Synchronous
+When using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)
 
 ```java
 import com.lithic.api.models.CardListPage;
 import com.lithic.api.models.NonPciCard;
 
-// As an Iterable:
-CardListPage page = client.cards().list(params);
+CardListPage page = client.cards().list();
+
+// Process as an Iterable
 for (NonPciCard card : page.autoPager()) {
     System.out.println(card);
-};
+}
 
-// As a Stream:
-client.cards().list(params).autoPager().stream()
+// Process as a Stream
+page.autoPager()
+    .stream()
     .limit(50)
     .forEach(card -> System.out.println(card));
 ```
 
-### Asynchronous
+When using the asynchronous client, the method returns an [`AsyncStreamResponse`](lithic-java-core/src/main/kotlin/com/lithic/api/core/http/AsyncStreamResponse.kt):
 
 ```java
-// Using forEach, which returns CompletableFuture<Void>:
-asyncClient.cards().list(params).autoPager()
-    .forEach(card -> System.out.println(card), executor);
+import com.lithic.api.core.http.AsyncStreamResponse;
+import com.lithic.api.models.CardListPageAsync;
+import com.lithic.api.models.NonPciCard;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+CompletableFuture<CardListPageAsync> pageFuture = client.async().cards().list();
+
+pageFuture.thenRun(page -> page.autoPager().subscribe(card -> {
+    System.out.println(card);
+}));
+
+// If you need to handle errors or completion of the stream
+pageFuture.thenRun(page -> page.autoPager().subscribe(new AsyncStreamResponse.Handler<>() {
+    @Override
+    public void onNext(NonPciCard card) {
+        System.out.println(card);
+    }
+
+    @Override
+    public void onComplete(Optional<Throwable> error) {
+        if (error.isPresent()) {
+            System.out.println("Something went wrong!");
+            throw new RuntimeException(error.get());
+        } else {
+            System.out.println("No more!");
+        }
+    }
+}));
+
+// Or use futures
+pageFuture.thenRun(page -> page.autoPager()
+    .subscribe(card -> {
+        System.out.println(card);
+    })
+    .onCompleteFuture()
+    .whenComplete((unused, error) -> {
+        if (error != null) {
+            System.out.println("Something went wrong!");
+            throw new RuntimeException(error);
+        } else {
+            System.out.println("No more!");
+        }
+    }));
 ```
 
 ### Manual pagination
 
-If none of the above helpers meet your needs, you can also manually request pages one-by-one. A page of results has a `data()` method to fetch the list of objects, as well as top-level `response` and other methods to fetch top-level data about the page. It also has methods `hasNextPage`, `getNextPage`, and `getNextPageParams` methods to help with pagination.
+To access individual page items and manually request the next page, use the `items()`,
+`hasNextPage()`, and `nextPage()` methods:
 
 ```java
 import com.lithic.api.models.CardListPage;
 import com.lithic.api.models.NonPciCard;
 
-CardListPage page = client.cards().list(params);
-while (page != null) {
-    for (NonPciCard card : page.data()) {
+CardListPage page = client.cards().list();
+while (true) {
+    for (NonPciCard card : page.items()) {
         System.out.println(card);
     }
 
-    page = page.getNextPage().orElse(null);
+    if (!page.hasNextPage()) {
+        break;
+    }
+
+    page = page.nextPage();
 }
 ```
 
@@ -339,7 +387,6 @@ To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
 import com.lithic.api.models.Card;
-import com.lithic.api.models.CardCreateParams;
 
 Card card = client.cards().create(
   params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
@@ -586,7 +633,6 @@ Or configure the method call to validate the response using the `responseValidat
 
 ```java
 import com.lithic.api.models.Card;
-import com.lithic.api.models.CardCreateParams;
 
 Card card = client.cards().create(
   params, RequestOptions.builder().responseValidation(true).build()
