@@ -121,6 +121,7 @@ class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: C
                             .let {
                                 FinancialAccountLoanTapeListPageAsync.builder()
                                     .service(LoanTapeServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

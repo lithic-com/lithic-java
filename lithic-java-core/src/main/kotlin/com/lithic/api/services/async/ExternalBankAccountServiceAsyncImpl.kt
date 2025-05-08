@@ -230,6 +230,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                             .let {
                                 ExternalBankAccountListPageAsync.builder()
                                     .service(ExternalBankAccountServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.BalanceServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [BalanceServiceAsync.list] */
 class BalanceListPageAsync
 private constructor(
     private val service: BalanceServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: BalanceListParams,
     private val response: BalanceListPageResponse,
-) {
+) : PageAsync<Balance> {
 
     /**
      * Delegates to [BalanceListPageResponse], but gracefully handles missing data.
@@ -33,16 +35,17 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<Balance> = data()
 
-    fun getNextPageParams(): Optional<BalanceListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): CompletableFuture<Optional<BalanceListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun nextPageParams(): BalanceListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CompletableFuture<BalanceListPageAsync> =
+        service.list(nextPageParams())
+
+    fun autoPager(): AutoPagerAsync<Balance> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): BalanceListParams = params
@@ -60,6 +63,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -71,17 +75,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: BalanceServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: BalanceListParams? = null
         private var response: BalanceListPageResponse? = null
 
         @JvmSynthetic
         internal fun from(balanceListPageAsync: BalanceListPageAsync) = apply {
             service = balanceListPageAsync.service
+            streamHandlerExecutor = balanceListPageAsync.streamHandlerExecutor
             params = balanceListPageAsync.params
             response = balanceListPageAsync.response
         }
 
         fun service(service: BalanceServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: BalanceListParams) = apply { this.params = params }
@@ -97,6 +107,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -106,35 +117,10 @@ private constructor(
         fun build(): BalanceListPageAsync =
             BalanceListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: BalanceListPageAsync) {
-
-        fun forEach(action: Predicate<Balance>, executor: Executor): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<BalanceListPageAsync>>.forEach(
-                action: (Balance) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<Balance>> {
-            val values = mutableListOf<Balance>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -142,11 +128,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BalanceListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is BalanceListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "BalanceListPageAsync{service=$service, params=$params, response=$response}"
+        "BalanceListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

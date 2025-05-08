@@ -126,6 +126,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
                             .let {
                                 CardFinancialTransactionListPageAsync.builder()
                                     .service(FinancialTransactionServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.authRules.V2ServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [V2ServiceAsync.list] */
 class AuthRuleV2ListPageAsync
 private constructor(
     private val service: V2ServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: AuthRuleV2ListParams,
     private val response: AuthRuleV2ListPageResponse,
-) {
+) : PageAsync<V2ListResponse> {
 
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
@@ -34,34 +36,22 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<V2ListResponse> = data()
 
-    fun getNextPageParams(): Optional<AuthRuleV2ListParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
+
+    fun nextPageParams(): AuthRuleV2ListParams =
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
         }
 
-        return Optional.of(
-            if (params.endingBefore().isPresent) {
-                params
-                    .toBuilder()
-                    .endingBefore(data().first()._token().getOptional("token"))
-                    .build()
-            } else {
-                params
-                    .toBuilder()
-                    .startingAfter(data().last()._token().getOptional("token"))
-                    .build()
-            }
-        )
-    }
+    override fun nextPage(): CompletableFuture<AuthRuleV2ListPageAsync> =
+        service.list(nextPageParams())
 
-    fun getNextPage(): CompletableFuture<Optional<AuthRuleV2ListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
-
-    fun autoPager(): AutoPager = AutoPager(this)
+    fun autoPager(): AutoPagerAsync<V2ListResponse> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): AuthRuleV2ListParams = params
@@ -79,6 +69,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -90,17 +81,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: V2ServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: AuthRuleV2ListParams? = null
         private var response: AuthRuleV2ListPageResponse? = null
 
         @JvmSynthetic
         internal fun from(authRuleV2ListPageAsync: AuthRuleV2ListPageAsync) = apply {
             service = authRuleV2ListPageAsync.service
+            streamHandlerExecutor = authRuleV2ListPageAsync.streamHandlerExecutor
             params = authRuleV2ListPageAsync.params
             response = authRuleV2ListPageAsync.response
         }
 
         fun service(service: V2ServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: AuthRuleV2ListParams) = apply { this.params = params }
@@ -116,6 +113,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -125,38 +123,10 @@ private constructor(
         fun build(): AuthRuleV2ListPageAsync =
             AuthRuleV2ListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: AuthRuleV2ListPageAsync) {
-
-        fun forEach(
-            action: Predicate<V2ListResponse>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<AuthRuleV2ListPageAsync>>.forEach(
-                action: (V2ListResponse) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<V2ListResponse>> {
-            val values = mutableListOf<V2ListResponse>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -164,11 +134,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2ListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2ListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "AuthRuleV2ListPageAsync{service=$service, params=$params, response=$response}"
+        "AuthRuleV2ListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

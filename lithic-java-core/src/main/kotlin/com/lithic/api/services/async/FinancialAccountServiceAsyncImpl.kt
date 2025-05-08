@@ -269,6 +269,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
                             .let {
                                 FinancialAccountListPageAsync.builder()
                                     .service(FinancialAccountServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

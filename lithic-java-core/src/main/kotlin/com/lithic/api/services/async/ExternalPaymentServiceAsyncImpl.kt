@@ -183,6 +183,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalPayment
                             .let {
                                 ExternalPaymentListPageAsync.builder()
                                     .service(ExternalPaymentServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

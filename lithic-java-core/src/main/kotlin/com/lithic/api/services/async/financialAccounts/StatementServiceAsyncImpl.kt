@@ -132,6 +132,7 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
                             .let {
                                 FinancialAccountStatementListPageAsync.builder()
                                     .service(StatementServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()

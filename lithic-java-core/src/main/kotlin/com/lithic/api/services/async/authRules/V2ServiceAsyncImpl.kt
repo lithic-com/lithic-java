@@ -252,6 +252,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                             .let {
                                 AuthRuleV2ListPageAsync.builder()
                                     .service(V2ServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()
