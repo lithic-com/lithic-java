@@ -18,6 +18,7 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
@@ -40,13 +41,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class AccountHolderUploadDocumentParams
 private constructor(
-    private val accountHolderToken: String,
+    private val accountHolderToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountHolderToken(): String = accountHolderToken
+    fun accountHolderToken(): Optional<String> = Optional.ofNullable(accountHolderToken)
 
     /**
      * The type of document to upload
@@ -94,7 +95,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountHolderToken()
          * .documentType()
          * .entityToken()
          * ```
@@ -120,9 +120,15 @@ private constructor(
                     accountHolderUploadDocumentParams.additionalQueryParams.toBuilder()
             }
 
-        fun accountHolderToken(accountHolderToken: String) = apply {
+        fun accountHolderToken(accountHolderToken: String?) = apply {
             this.accountHolderToken = accountHolderToken
         }
+
+        /**
+         * Alias for calling [Builder.accountHolderToken] with `accountHolderToken.orElse(null)`.
+         */
+        fun accountHolderToken(accountHolderToken: Optional<String>) =
+            accountHolderToken(accountHolderToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -284,7 +290,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountHolderToken()
          * .documentType()
          * .entityToken()
          * ```
@@ -293,7 +298,7 @@ private constructor(
          */
         fun build(): AccountHolderUploadDocumentParams =
             AccountHolderUploadDocumentParams(
-                checkRequired("accountHolderToken", accountHolderToken),
+                accountHolderToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -304,7 +309,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountHolderToken
+            0 -> accountHolderToken ?: ""
             else -> ""
         }
 

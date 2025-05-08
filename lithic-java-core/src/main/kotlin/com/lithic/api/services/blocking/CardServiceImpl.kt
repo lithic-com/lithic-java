@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.stringHandler
@@ -45,6 +46,7 @@ import java.util.Base64
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import org.apache.hc.core5.net.URIBuilder
+import kotlin.jvm.optionals.getOrNull
 
 class CardServiceImpl internal constructor(private val clientOptions: ClientOptions) : CardService {
 
@@ -182,6 +184,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -208,6 +213,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardUpdateParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -269,6 +277,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardConvertPhysicalParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -314,6 +325,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardProvisionParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardProvisionResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -341,6 +355,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardReissueParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -368,6 +385,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardRenewParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -395,6 +415,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: CardRetrieveSpendLimitsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardSpendLimits> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

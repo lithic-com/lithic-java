@@ -22,8 +22,22 @@ interface AccountServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get account configuration such as spend limits. */
-    fun retrieve(params: AccountRetrieveParams): CompletableFuture<Account> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(accountToken: String): CompletableFuture<Account> =
+        retrieve(accountToken, AccountRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        accountToken: String,
+        params: AccountRetrieveParams = AccountRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Account> =
+        retrieve(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        accountToken: String,
+        params: AccountRetrieveParams = AccountRetrieveParams.none(),
+    ): CompletableFuture<Account> = retrieve(accountToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
@@ -31,19 +45,49 @@ interface AccountServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
+    /** @see [retrieve] */
+    fun retrieve(params: AccountRetrieveParams): CompletableFuture<Account> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(accountToken: String, requestOptions: RequestOptions): CompletableFuture<Account> =
+        retrieve(accountToken, AccountRetrieveParams.none(), requestOptions)
+
     /**
      * Update account configuration such as state or spend limits. Can only be run on accounts that
      * are part of the program managed by this API key. Accounts that are in the `PAUSED` state will
      * not be able to transact or create new cards.
      */
-    fun update(params: AccountUpdateParams): CompletableFuture<Account> =
-        update(params, RequestOptions.none())
+    fun update(accountToken: String): CompletableFuture<Account> =
+        update(accountToken, AccountUpdateParams.none())
+
+    /** @see [update] */
+    fun update(
+        accountToken: String,
+        params: AccountUpdateParams = AccountUpdateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Account> =
+        update(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+    /** @see [update] */
+    fun update(
+        accountToken: String,
+        params: AccountUpdateParams = AccountUpdateParams.none(),
+    ): CompletableFuture<Account> = update(accountToken, params, RequestOptions.none())
 
     /** @see [update] */
     fun update(
         params: AccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
+
+    /** @see [update] */
+    fun update(params: AccountUpdateParams): CompletableFuture<Account> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(accountToken: String, requestOptions: RequestOptions): CompletableFuture<Account> =
+        update(accountToken, AccountUpdateParams.none(), requestOptions)
 
     /** List account configurations. */
     fun list(): CompletableFuture<AccountListPageAsync> = list(AccountListParams.none())
@@ -69,15 +113,41 @@ interface AccountServiceAsync {
      * Account has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours,
      * the available spend limit returned would be $400.
      */
+    fun retrieveSpendLimits(accountToken: String): CompletableFuture<AccountSpendLimits> =
+        retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none())
+
+    /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
-        params: AccountRetrieveSpendLimitsParams
-    ): CompletableFuture<AccountSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+        accountToken: String,
+        params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountSpendLimits> =
+        retrieveSpendLimits(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        accountToken: String,
+        params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
+    ): CompletableFuture<AccountSpendLimits> =
+        retrieveSpendLimits(accountToken, params, RequestOptions.none())
 
     /** @see [retrieveSpendLimits] */
     fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountSpendLimits>
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        params: AccountRetrieveSpendLimitsParams
+    ): CompletableFuture<AccountSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
+
+    /** @see [retrieveSpendLimits] */
+    fun retrieveSpendLimits(
+        accountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AccountSpendLimits> =
+        retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none(), requestOptions)
 
     /**
      * A view of [AccountServiceAsync] that provides access to raw HTTP responses for each method.
@@ -89,8 +159,25 @@ interface AccountServiceAsync {
          * same as [AccountServiceAsync.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(accountToken: String): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(accountToken, AccountRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            accountToken: String,
+            params: AccountRetrieveParams = AccountRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            accountToken: String,
+            params: AccountRetrieveParams = AccountRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(accountToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -99,13 +186,43 @@ interface AccountServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            accountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            retrieve(accountToken, AccountRetrieveParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `patch /v1/accounts/{account_token}`, but is otherwise
          * the same as [AccountServiceAsync.update].
          */
         @MustBeClosed
-        fun update(params: AccountUpdateParams): CompletableFuture<HttpResponseFor<Account>> =
-            update(params, RequestOptions.none())
+        fun update(accountToken: String): CompletableFuture<HttpResponseFor<Account>> =
+            update(accountToken, AccountUpdateParams.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            accountToken: String,
+            params: AccountUpdateParams = AccountUpdateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            update(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            accountToken: String,
+            params: AccountUpdateParams = AccountUpdateParams.none(),
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            update(accountToken, params, RequestOptions.none())
 
         /** @see [update] */
         @MustBeClosed
@@ -113,6 +230,19 @@ interface AccountServiceAsync {
             params: AccountUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(params: AccountUpdateParams): CompletableFuture<HttpResponseFor<Account>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            accountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Account>> =
+            update(accountToken, AccountUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/accounts`, but is otherwise the same as
@@ -149,9 +279,29 @@ interface AccountServiceAsync {
          */
         @MustBeClosed
         fun retrieveSpendLimits(
-            params: AccountRetrieveSpendLimitsParams
+            accountToken: String
         ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
-            retrieveSpendLimits(params, RequestOptions.none())
+            retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            accountToken: String,
+            params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
+            retrieveSpendLimits(
+                params.toBuilder().accountToken(accountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            accountToken: String,
+            params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
+        ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
+            retrieveSpendLimits(accountToken, params, RequestOptions.none())
 
         /** @see [retrieveSpendLimits] */
         @MustBeClosed
@@ -159,5 +309,24 @@ interface AccountServiceAsync {
             params: AccountRetrieveSpendLimitsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountSpendLimits>>
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            params: AccountRetrieveSpendLimitsParams
+        ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
+            retrieveSpendLimits(params, RequestOptions.none())
+
+        /** @see [retrieveSpendLimits] */
+        @MustBeClosed
+        fun retrieveSpendLimits(
+            accountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AccountSpendLimits>> =
+            retrieveSpendLimits(
+                accountToken,
+                AccountRetrieveSpendLimitsParams.none(),
+                requestOptions,
+            )
     }
 }

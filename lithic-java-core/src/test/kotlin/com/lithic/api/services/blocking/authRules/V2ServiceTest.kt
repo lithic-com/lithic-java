@@ -7,11 +7,7 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AuthRuleCondition
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
-import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
-import com.lithic.api.models.AuthRuleV2PromoteParams
-import com.lithic.api.models.AuthRuleV2ReportParams
-import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.ConditionalAttribute
 import com.lithic.api.models.ConditionalBlockParameters
@@ -70,12 +66,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val v2 =
-            v2Service.retrieve(
-                AuthRuleV2RetrieveParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val v2 = v2Service.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         v2.validate()
     }
@@ -129,11 +120,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        v2Service.delete(
-            AuthRuleV2DeleteParams.builder()
-                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .build()
-        )
+        v2Service.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -199,12 +186,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val response =
-            v2Service.promote(
-                AuthRuleV2PromoteParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val response = v2Service.promote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }
@@ -218,12 +200,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val response =
-            v2Service.report(
-                AuthRuleV2ReportParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val response = v2Service.report("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }

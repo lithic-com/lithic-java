@@ -4,7 +4,6 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import org.junit.jupiter.api.Test
@@ -22,12 +21,7 @@ internal class AuthenticationServiceTest {
                 .build()
         val authenticationService = client.threeDS().authentication()
 
-        val authentication =
-            authenticationService.retrieve(
-                ThreeDSAuthenticationRetrieveParams.builder()
-                    .threeDSAuthenticationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val authentication = authenticationService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         authentication.validate()
     }

@@ -18,14 +18,39 @@ interface DigitalCardArtService {
     fun withRawResponse(): WithRawResponse
 
     /** Get digital card art by token. */
-    fun retrieve(params: DigitalCardArtRetrieveParams): DigitalCardArt =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(digitalCardArtToken: String): DigitalCardArt =
+        retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        digitalCardArtToken: String,
+        params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): DigitalCardArt =
+        retrieve(
+            params.toBuilder().digitalCardArtToken(digitalCardArtToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
+        digitalCardArtToken: String,
+        params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+    ): DigitalCardArt = retrieve(digitalCardArtToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArt
+
+    /** @see [retrieve] */
+    fun retrieve(params: DigitalCardArtRetrieveParams): DigitalCardArt =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(digitalCardArtToken: String, requestOptions: RequestOptions): DigitalCardArt =
+        retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none(), requestOptions)
 
     /** List digital card art. */
     fun list(): DigitalCardArtListPage = list(DigitalCardArtListParams.none())
@@ -55,8 +80,28 @@ interface DigitalCardArtService {
          * is otherwise the same as [DigitalCardArtService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: DigitalCardArtRetrieveParams): HttpResponseFor<DigitalCardArt> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(digitalCardArtToken: String): HttpResponseFor<DigitalCardArt> =
+            retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DigitalCardArt> =
+            retrieve(
+                params.toBuilder().digitalCardArtToken(digitalCardArtToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+        ): HttpResponseFor<DigitalCardArt> =
+            retrieve(digitalCardArtToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -64,6 +109,19 @@ interface DigitalCardArtService {
             params: DigitalCardArtRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DigitalCardArt>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: DigitalCardArtRetrieveParams): HttpResponseFor<DigitalCardArt> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DigitalCardArt> =
+            retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as

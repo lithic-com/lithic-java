@@ -6,11 +6,8 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.DisputeCreateParams
 import com.lithic.api.models.DisputeDeleteEvidenceParams
-import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
-import com.lithic.api.models.DisputeListEvidencesParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
-import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Test
@@ -52,12 +49,7 @@ internal class DisputeServiceAsyncTest {
                 .build()
         val disputeServiceAsync = client.disputes()
 
-        val disputeFuture =
-            disputeServiceAsync.retrieve(
-                DisputeRetrieveParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val disputeFuture = disputeServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val dispute = disputeFuture.get()
         dispute.validate()
@@ -111,12 +103,7 @@ internal class DisputeServiceAsyncTest {
                 .build()
         val disputeServiceAsync = client.disputes()
 
-        val disputeFuture =
-            disputeServiceAsync.delete(
-                DisputeDeleteParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val disputeFuture = disputeServiceAsync.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val dispute = disputeFuture.get()
         dispute.validate()
@@ -173,12 +160,7 @@ internal class DisputeServiceAsyncTest {
                 .build()
         val disputeServiceAsync = client.disputes()
 
-        val pageFuture =
-            disputeServiceAsync.listEvidences(
-                DisputeListEvidencesParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val pageFuture = disputeServiceAsync.listEvidences("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val page = pageFuture.get()
         page.response().validate()

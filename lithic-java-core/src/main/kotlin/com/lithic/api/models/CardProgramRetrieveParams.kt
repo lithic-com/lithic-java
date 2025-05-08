@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get card program. */
 class CardProgramRetrieveParams
 private constructor(
-    private val cardProgramToken: String,
+    private val cardProgramToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun cardProgramToken(): String = cardProgramToken
+    fun cardProgramToken(): Optional<String> = Optional.ofNullable(cardProgramToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,13 +27,10 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): CardProgramRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [CardProgramRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .cardProgramToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -51,9 +49,13 @@ private constructor(
             additionalQueryParams = cardProgramRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardProgramToken(cardProgramToken: String) = apply {
+        fun cardProgramToken(cardProgramToken: String?) = apply {
             this.cardProgramToken = cardProgramToken
         }
+
+        /** Alias for calling [Builder.cardProgramToken] with `cardProgramToken.orElse(null)`. */
+        fun cardProgramToken(cardProgramToken: Optional<String>) =
+            cardProgramToken(cardProgramToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -157,17 +159,10 @@ private constructor(
          * Returns an immutable instance of [CardProgramRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .cardProgramToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CardProgramRetrieveParams =
             CardProgramRetrieveParams(
-                checkRequired("cardProgramToken", cardProgramToken),
+                cardProgramToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -175,7 +170,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> cardProgramToken
+            0 -> cardProgramToken ?: ""
             else -> ""
         }
 

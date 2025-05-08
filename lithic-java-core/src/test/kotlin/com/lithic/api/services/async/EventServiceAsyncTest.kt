@@ -4,8 +4,6 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.EventListAttemptsParams
-import com.lithic.api.models.EventRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -21,10 +19,7 @@ internal class EventServiceAsyncTest {
                 .build()
         val eventServiceAsync = client.events()
 
-        val eventFuture =
-            eventServiceAsync.retrieve(
-                EventRetrieveParams.builder().eventToken("event_token").build()
-            )
+        val eventFuture = eventServiceAsync.retrieve("event_token")
 
         val event = eventFuture.get()
         event.validate()
@@ -54,10 +49,7 @@ internal class EventServiceAsyncTest {
                 .build()
         val eventServiceAsync = client.events()
 
-        val pageFuture =
-            eventServiceAsync.listAttempts(
-                EventListAttemptsParams.builder().eventToken("event_token").build()
-            )
+        val pageFuture = eventServiceAsync.listAttempts("event_token")
 
         val page = pageFuture.get()
         page.response().validate()

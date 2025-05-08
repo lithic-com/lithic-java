@@ -33,14 +33,39 @@ interface ExternalPaymentService {
     ): ExternalPayment
 
     /** Get external payment */
-    fun retrieve(params: ExternalPaymentRetrieveParams): ExternalPayment =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(externalPaymentToken: String): ExternalPayment =
+        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        externalPaymentToken: String,
+        params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalPayment =
+        retrieve(
+            params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
+        externalPaymentToken: String,
+        params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
+    ): ExternalPayment = retrieve(externalPaymentToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: ExternalPaymentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalPayment
+
+    /** @see [retrieve] */
+    fun retrieve(params: ExternalPaymentRetrieveParams): ExternalPayment =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(externalPaymentToken: String, requestOptions: RequestOptions): ExternalPayment =
+        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
 
     /** List external payments */
     fun list(): ExternalPaymentListPage = list(ExternalPaymentListParams.none())
@@ -61,6 +86,21 @@ interface ExternalPaymentService {
         list(ExternalPaymentListParams.none(), requestOptions)
 
     /** Cancel external payment */
+    fun cancel(externalPaymentToken: String, params: ExternalPaymentCancelParams): ExternalPayment =
+        cancel(externalPaymentToken, params, RequestOptions.none())
+
+    /** @see [cancel] */
+    fun cancel(
+        externalPaymentToken: String,
+        params: ExternalPaymentCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalPayment =
+        cancel(
+            params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+            requestOptions,
+        )
+
+    /** @see [cancel] */
     fun cancel(params: ExternalPaymentCancelParams): ExternalPayment =
         cancel(params, RequestOptions.none())
 
@@ -71,6 +111,23 @@ interface ExternalPaymentService {
     ): ExternalPayment
 
     /** Release external payment */
+    fun release(
+        externalPaymentToken: String,
+        params: ExternalPaymentReleaseParams,
+    ): ExternalPayment = release(externalPaymentToken, params, RequestOptions.none())
+
+    /** @see [release] */
+    fun release(
+        externalPaymentToken: String,
+        params: ExternalPaymentReleaseParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalPayment =
+        release(
+            params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+            requestOptions,
+        )
+
+    /** @see [release] */
     fun release(params: ExternalPaymentReleaseParams): ExternalPayment =
         release(params, RequestOptions.none())
 
@@ -81,6 +138,23 @@ interface ExternalPaymentService {
     ): ExternalPayment
 
     /** Reverse external payment */
+    fun reverse(
+        externalPaymentToken: String,
+        params: ExternalPaymentReverseParams,
+    ): ExternalPayment = reverse(externalPaymentToken, params, RequestOptions.none())
+
+    /** @see [reverse] */
+    fun reverse(
+        externalPaymentToken: String,
+        params: ExternalPaymentReverseParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalPayment =
+        reverse(
+            params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+            requestOptions,
+        )
+
+    /** @see [reverse] */
     fun reverse(params: ExternalPaymentReverseParams): ExternalPayment =
         reverse(params, RequestOptions.none())
 
@@ -91,6 +165,21 @@ interface ExternalPaymentService {
     ): ExternalPayment
 
     /** Settle external payment */
+    fun settle(externalPaymentToken: String, params: ExternalPaymentSettleParams): ExternalPayment =
+        settle(externalPaymentToken, params, RequestOptions.none())
+
+    /** @see [settle] */
+    fun settle(
+        externalPaymentToken: String,
+        params: ExternalPaymentSettleParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalPayment =
+        settle(
+            params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+            requestOptions,
+        )
+
+    /** @see [settle] */
     fun settle(params: ExternalPaymentSettleParams): ExternalPayment =
         settle(params, RequestOptions.none())
 
@@ -126,8 +215,28 @@ interface ExternalPaymentService {
          * is otherwise the same as [ExternalPaymentService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: ExternalPaymentRetrieveParams): HttpResponseFor<ExternalPayment> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(externalPaymentToken: String): HttpResponseFor<ExternalPayment> =
+            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            externalPaymentToken: String,
+            params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            retrieve(
+                params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            externalPaymentToken: String,
+            params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            retrieve(externalPaymentToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -135,6 +244,19 @@ interface ExternalPaymentService {
             params: ExternalPaymentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExternalPayment>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: ExternalPaymentRetrieveParams): HttpResponseFor<ExternalPayment> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            externalPaymentToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ExternalPayment> =
+            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/external_payments`, but is otherwise the same as
@@ -168,6 +290,26 @@ interface ExternalPaymentService {
          * [ExternalPaymentService.cancel].
          */
         @MustBeClosed
+        fun cancel(
+            externalPaymentToken: String,
+            params: ExternalPaymentCancelParams,
+        ): HttpResponseFor<ExternalPayment> =
+            cancel(externalPaymentToken, params, RequestOptions.none())
+
+        /** @see [cancel] */
+        @MustBeClosed
+        fun cancel(
+            externalPaymentToken: String,
+            params: ExternalPaymentCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            cancel(
+                params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+                requestOptions,
+            )
+
+        /** @see [cancel] */
+        @MustBeClosed
         fun cancel(params: ExternalPaymentCancelParams): HttpResponseFor<ExternalPayment> =
             cancel(params, RequestOptions.none())
 
@@ -183,6 +325,26 @@ interface ExternalPaymentService {
          * /v1/external_payments/{external_payment_token}/release`, but is otherwise the same as
          * [ExternalPaymentService.release].
          */
+        @MustBeClosed
+        fun release(
+            externalPaymentToken: String,
+            params: ExternalPaymentReleaseParams,
+        ): HttpResponseFor<ExternalPayment> =
+            release(externalPaymentToken, params, RequestOptions.none())
+
+        /** @see [release] */
+        @MustBeClosed
+        fun release(
+            externalPaymentToken: String,
+            params: ExternalPaymentReleaseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            release(
+                params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+                requestOptions,
+            )
+
+        /** @see [release] */
         @MustBeClosed
         fun release(params: ExternalPaymentReleaseParams): HttpResponseFor<ExternalPayment> =
             release(params, RequestOptions.none())
@@ -200,6 +362,26 @@ interface ExternalPaymentService {
          * [ExternalPaymentService.reverse].
          */
         @MustBeClosed
+        fun reverse(
+            externalPaymentToken: String,
+            params: ExternalPaymentReverseParams,
+        ): HttpResponseFor<ExternalPayment> =
+            reverse(externalPaymentToken, params, RequestOptions.none())
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            externalPaymentToken: String,
+            params: ExternalPaymentReverseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            reverse(
+                params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+                requestOptions,
+            )
+
+        /** @see [reverse] */
+        @MustBeClosed
         fun reverse(params: ExternalPaymentReverseParams): HttpResponseFor<ExternalPayment> =
             reverse(params, RequestOptions.none())
 
@@ -215,6 +397,26 @@ interface ExternalPaymentService {
          * /v1/external_payments/{external_payment_token}/settle`, but is otherwise the same as
          * [ExternalPaymentService.settle].
          */
+        @MustBeClosed
+        fun settle(
+            externalPaymentToken: String,
+            params: ExternalPaymentSettleParams,
+        ): HttpResponseFor<ExternalPayment> =
+            settle(externalPaymentToken, params, RequestOptions.none())
+
+        /** @see [settle] */
+        @MustBeClosed
+        fun settle(
+            externalPaymentToken: String,
+            params: ExternalPaymentSettleParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalPayment> =
+            settle(
+                params.toBuilder().externalPaymentToken(externalPaymentToken).build(),
+                requestOptions,
+            )
+
+        /** @see [settle] */
         @MustBeClosed
         fun settle(params: ExternalPaymentSettleParams): HttpResponseFor<ExternalPayment> =
             settle(params, RequestOptions.none())

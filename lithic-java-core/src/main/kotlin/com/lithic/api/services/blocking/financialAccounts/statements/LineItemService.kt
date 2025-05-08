@@ -17,6 +17,21 @@ interface LineItemService {
 
     /** List the line items for a given statement within a given financial account. */
     fun list(
+        statementToken: String,
+        params: FinancialAccountStatementLineItemListParams,
+    ): FinancialAccountStatementLineItemListPage =
+        list(statementToken, params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        statementToken: String,
+        params: FinancialAccountStatementLineItemListParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FinancialAccountStatementLineItemListPage =
+        list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
         params: FinancialAccountStatementLineItemListParams
     ): FinancialAccountStatementLineItemListPage = list(params, RequestOptions.none())
 
@@ -34,6 +49,23 @@ interface LineItemService {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}/line_items`,
          * but is otherwise the same as [LineItemService.list].
          */
+        @MustBeClosed
+        fun list(
+            statementToken: String,
+            params: FinancialAccountStatementLineItemListParams,
+        ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
+            list(statementToken, params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            statementToken: String,
+            params: FinancialAccountStatementLineItemListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
+            list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams

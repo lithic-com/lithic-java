@@ -12,7 +12,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -33,13 +32,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class TokenizationResendActivationCodeParams
 private constructor(
-    private val tokenizationToken: String,
+    private val tokenizationToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun tokenizationToken(): String = tokenizationToken
+    fun tokenizationToken(): Optional<String> = Optional.ofNullable(tokenizationToken)
 
     /**
      * The communication method that the user has selected to use to receive the authentication
@@ -69,14 +68,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): TokenizationResendActivationCodeParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [TokenizationResendActivationCodeParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .tokenizationToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -100,9 +96,13 @@ private constructor(
                 tokenizationResendActivationCodeParams.additionalQueryParams.toBuilder()
         }
 
-        fun tokenizationToken(tokenizationToken: String) = apply {
+        fun tokenizationToken(tokenizationToken: String?) = apply {
             this.tokenizationToken = tokenizationToken
         }
+
+        /** Alias for calling [Builder.tokenizationToken] with `tokenizationToken.orElse(null)`. */
+        fun tokenizationToken(tokenizationToken: Optional<String>) =
+            tokenizationToken(tokenizationToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -254,17 +254,10 @@ private constructor(
          * Returns an immutable instance of [TokenizationResendActivationCodeParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .tokenizationToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): TokenizationResendActivationCodeParams =
             TokenizationResendActivationCodeParams(
-                checkRequired("tokenizationToken", tokenizationToken),
+                tokenizationToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -275,7 +268,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> tokenizationToken
+            0 -> tokenizationToken ?: ""
             else -> ""
         }
 

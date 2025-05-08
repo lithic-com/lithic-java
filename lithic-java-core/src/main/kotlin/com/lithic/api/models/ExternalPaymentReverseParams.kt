@@ -19,17 +19,18 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Reverse external payment */
 class ExternalPaymentReverseParams
 private constructor(
-    private val externalPaymentToken: String,
+    private val externalPaymentToken: String?,
     private val body: ExternalPaymentActionRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun externalPaymentToken(): String = externalPaymentToken
+    fun externalPaymentToken(): Optional<String> = Optional.ofNullable(externalPaymentToken)
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -72,7 +73,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .externalPaymentToken()
          * .effectiveDate()
          * ```
          */
@@ -96,9 +96,16 @@ private constructor(
             additionalQueryParams = externalPaymentReverseParams.additionalQueryParams.toBuilder()
         }
 
-        fun externalPaymentToken(externalPaymentToken: String) = apply {
+        fun externalPaymentToken(externalPaymentToken: String?) = apply {
             this.externalPaymentToken = externalPaymentToken
         }
+
+        /**
+         * Alias for calling [Builder.externalPaymentToken] with
+         * `externalPaymentToken.orElse(null)`.
+         */
+        fun externalPaymentToken(externalPaymentToken: Optional<String>) =
+            externalPaymentToken(externalPaymentToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -257,7 +264,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .externalPaymentToken()
          * .effectiveDate()
          * ```
          *
@@ -265,7 +271,7 @@ private constructor(
          */
         fun build(): ExternalPaymentReverseParams =
             ExternalPaymentReverseParams(
-                checkRequired("externalPaymentToken", externalPaymentToken),
+                externalPaymentToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -276,7 +282,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> externalPaymentToken
+            0 -> externalPaymentToken ?: ""
             else -> ""
         }
 

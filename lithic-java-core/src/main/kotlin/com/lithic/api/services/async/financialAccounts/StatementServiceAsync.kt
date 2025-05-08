@@ -22,6 +22,20 @@ interface StatementServiceAsync {
     fun lineItems(): LineItemServiceAsync
 
     /** Get a specific statement for a given financial account. */
+    fun retrieve(
+        statementToken: String,
+        params: FinancialAccountStatementRetrieveParams,
+    ): CompletableFuture<Statement> = retrieve(statementToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        statementToken: String,
+        params: FinancialAccountStatementRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Statement> =
+        retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+    /** @see [retrieve] */
     fun retrieve(params: FinancialAccountStatementRetrieveParams): CompletableFuture<Statement> =
         retrieve(params, RequestOptions.none())
 
@@ -33,15 +47,46 @@ interface StatementServiceAsync {
 
     /** List the statements for a given financial account. */
     fun list(
-        params: FinancialAccountStatementListParams
+        financialAccountToken: String
     ): CompletableFuture<FinancialAccountStatementListPageAsync> =
-        list(params, RequestOptions.none())
+        list(financialAccountToken, FinancialAccountStatementListParams.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FinancialAccountStatementListPageAsync> =
+        list(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
+    ): CompletableFuture<FinancialAccountStatementListPageAsync> =
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: FinancialAccountStatementListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountStatementListPageAsync>
+
+    /** @see [list] */
+    fun list(
+        params: FinancialAccountStatementListParams
+    ): CompletableFuture<FinancialAccountStatementListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<FinancialAccountStatementListPageAsync> =
+        list(financialAccountToken, FinancialAccountStatementListParams.none(), requestOptions)
 
     /**
      * A view of [StatementServiceAsync] that provides access to raw HTTP responses for each method.
@@ -55,6 +100,23 @@ interface StatementServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}`, but is
          * otherwise the same as [StatementServiceAsync.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            statementToken: String,
+            params: FinancialAccountStatementRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<Statement>> =
+            retrieve(statementToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            statementToken: String,
+            params: FinancialAccountStatementRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Statement>> =
+            retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams
@@ -74,9 +136,30 @@ interface StatementServiceAsync {
          */
         @MustBeClosed
         fun list(
-            params: FinancialAccountStatementListParams
+            financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(financialAccountToken, FinancialAccountStatementListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialAccountStatementListParams =
+                FinancialAccountStatementListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
+            list(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -84,5 +167,20 @@ interface StatementServiceAsync {
             params: FinancialAccountStatementListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountStatementListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
+            list(financialAccountToken, FinancialAccountStatementListParams.none(), requestOptions)
     }
 }

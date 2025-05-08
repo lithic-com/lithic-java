@@ -12,7 +12,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -25,13 +24,13 @@ import kotlin.jvm.optionals.getOrNull
 /** Update the external bank account by token. */
 class ExternalBankAccountUpdateParams
 private constructor(
-    private val externalBankAccountToken: String,
+    private val externalBankAccountToken: String?,
     private val body: UpdateBankAccountApiRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun externalBankAccountToken(): String = externalBankAccountToken
+    fun externalBankAccountToken(): Optional<String> = Optional.ofNullable(externalBankAccountToken)
 
     /**
      * Address
@@ -177,14 +176,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ExternalBankAccountUpdateParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ExternalBankAccountUpdateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .externalBankAccountToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -208,9 +204,16 @@ private constructor(
                     externalBankAccountUpdateParams.additionalQueryParams.toBuilder()
             }
 
-        fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+        fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
             this.externalBankAccountToken = externalBankAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.externalBankAccountToken] with
+         * `externalBankAccountToken.orElse(null)`.
+         */
+        fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
+            externalBankAccountToken(externalBankAccountToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -462,17 +465,10 @@ private constructor(
          * Returns an immutable instance of [ExternalBankAccountUpdateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .externalBankAccountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ExternalBankAccountUpdateParams =
             ExternalBankAccountUpdateParams(
-                checkRequired("externalBankAccountToken", externalBankAccountToken),
+                externalBankAccountToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -483,7 +479,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> externalBankAccountToken
+            0 -> externalBankAccountToken ?: ""
             else -> ""
         }
 

@@ -20,6 +20,24 @@ interface FinancialTransactionServiceAsync {
 
     /** Get the financial transaction for the provided token. */
     fun retrieve(
+        financialTransactionToken: String,
+        params: FinancialTransactionRetrieveParams,
+    ): CompletableFuture<FinancialTransaction> =
+        retrieve(financialTransactionToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        financialTransactionToken: String,
+        params: FinancialTransactionRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FinancialTransaction> =
+        retrieve(
+            params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: FinancialTransactionRetrieveParams
     ): CompletableFuture<FinancialTransaction> = retrieve(params, RequestOptions.none())
 
@@ -30,15 +48,44 @@ interface FinancialTransactionServiceAsync {
     ): CompletableFuture<FinancialTransaction>
 
     /** List the financial transactions for a given financial account. */
+    fun list(financialAccountToken: String): CompletableFuture<FinancialTransactionListPageAsync> =
+        list(financialAccountToken, FinancialTransactionListParams.none())
+
+    /** @see [list] */
     fun list(
-        params: FinancialTransactionListParams
-    ): CompletableFuture<FinancialTransactionListPageAsync> = list(params, RequestOptions.none())
+        financialAccountToken: String,
+        params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FinancialTransactionListPageAsync> =
+        list(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+    ): CompletableFuture<FinancialTransactionListPageAsync> =
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialTransactionListPageAsync>
+
+    /** @see [list] */
+    fun list(
+        params: FinancialTransactionListParams
+    ): CompletableFuture<FinancialTransactionListPageAsync> = list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<FinancialTransactionListPageAsync> =
+        list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
 
     /**
      * A view of [FinancialTransactionServiceAsync] that provides access to raw HTTP responses for
@@ -51,6 +98,26 @@ interface FinancialTransactionServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/financial_transactions/{financial_transaction_token}`,
          * but is otherwise the same as [FinancialTransactionServiceAsync.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: FinancialTransactionRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
+            retrieve(financialTransactionToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: FinancialTransactionRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
+            retrieve(
+                params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialTransactionRetrieveParams
@@ -71,9 +138,29 @@ interface FinancialTransactionServiceAsync {
          */
         @MustBeClosed
         fun list(
-            params: FinancialTransactionListParams
+            financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(financialAccountToken, FinancialTransactionListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
+            list(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -81,5 +168,20 @@ interface FinancialTransactionServiceAsync {
             params: FinancialTransactionListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialTransactionListParams
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
+            list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
     }
 }

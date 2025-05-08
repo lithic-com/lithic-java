@@ -44,14 +44,39 @@ interface TransactionServiceAsync {
      * Get a specific card transaction. All amounts are in the smallest unit of their respective
      * currency (e.g., cents for USD).
      */
-    fun retrieve(params: TransactionRetrieveParams): CompletableFuture<Transaction> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(transactionToken: String): CompletableFuture<Transaction> =
+        retrieve(transactionToken, TransactionRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Transaction> =
+        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+    ): CompletableFuture<Transaction> = retrieve(transactionToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Transaction>
+
+    /** @see [retrieve] */
+    fun retrieve(params: TransactionRetrieveParams): CompletableFuture<Transaction> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Transaction> =
+        retrieve(transactionToken, TransactionRetrieveParams.none(), requestOptions)
 
     /**
      * List card transactions. All amounts are in the smallest unit of their respective currency
@@ -75,15 +100,48 @@ interface TransactionServiceAsync {
         list(TransactionListParams.none(), requestOptions)
 
     /** Expire authorization */
+    fun expireAuthorization(transactionToken: String): CompletableFuture<Void?> =
+        expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
+
+    /** @see [expireAuthorization] */
     fun expireAuthorization(
-        params: TransactionExpireAuthorizationParams
-    ): CompletableFuture<Void?> = expireAuthorization(params, RequestOptions.none())
+        transactionToken: String,
+        params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        expireAuthorization(
+            params.toBuilder().transactionToken(transactionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        transactionToken: String,
+        params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
+    ): CompletableFuture<Void?> =
+        expireAuthorization(transactionToken, params, RequestOptions.none())
 
     /** @see [expireAuthorization] */
     fun expireAuthorization(
         params: TransactionExpireAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        params: TransactionExpireAuthorizationParams
+    ): CompletableFuture<Void?> = expireAuthorization(params, RequestOptions.none())
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        transactionToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        expireAuthorization(
+            transactionToken,
+            TransactionExpireAuthorizationParams.none(),
+            requestOptions,
+        )
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -214,9 +272,25 @@ interface TransactionServiceAsync {
          * otherwise the same as [TransactionServiceAsync.retrieve].
          */
         @MustBeClosed
+        fun retrieve(transactionToken: String): CompletableFuture<HttpResponseFor<Transaction>> =
+            retrieve(transactionToken, TransactionRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
         fun retrieve(
-            params: TransactionRetrieveParams
-        ): CompletableFuture<HttpResponseFor<Transaction>> = retrieve(params, RequestOptions.none())
+            transactionToken: String,
+            params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Transaction>> =
+            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<Transaction>> =
+            retrieve(transactionToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -224,6 +298,20 @@ interface TransactionServiceAsync {
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Transaction>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionRetrieveParams
+        ): CompletableFuture<HttpResponseFor<Transaction>> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Transaction>> =
+            retrieve(transactionToken, TransactionRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
@@ -260,9 +348,30 @@ interface TransactionServiceAsync {
          * [TransactionServiceAsync.expireAuthorization].
          */
         @MustBeClosed
+        fun expireAuthorization(transactionToken: String): CompletableFuture<HttpResponse> =
+            expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
         fun expireAuthorization(
-            params: TransactionExpireAuthorizationParams
-        ): CompletableFuture<HttpResponse> = expireAuthorization(params, RequestOptions.none())
+            transactionToken: String,
+            params: TransactionExpireAuthorizationParams =
+                TransactionExpireAuthorizationParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            expireAuthorization(
+                params.toBuilder().transactionToken(transactionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            transactionToken: String,
+            params: TransactionExpireAuthorizationParams =
+                TransactionExpireAuthorizationParams.none(),
+        ): CompletableFuture<HttpResponse> =
+            expireAuthorization(transactionToken, params, RequestOptions.none())
 
         /** @see [expireAuthorization] */
         @MustBeClosed
@@ -270,6 +379,24 @@ interface TransactionServiceAsync {
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            params: TransactionExpireAuthorizationParams
+        ): CompletableFuture<HttpResponse> = expireAuthorization(params, RequestOptions.none())
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            transactionToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            expireAuthorization(
+                transactionToken,
+                TransactionExpireAuthorizationParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same

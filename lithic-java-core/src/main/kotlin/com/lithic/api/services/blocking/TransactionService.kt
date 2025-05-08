@@ -43,14 +43,36 @@ interface TransactionService {
      * Get a specific card transaction. All amounts are in the smallest unit of their respective
      * currency (e.g., cents for USD).
      */
-    fun retrieve(params: TransactionRetrieveParams): Transaction =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(transactionToken: String): Transaction =
+        retrieve(transactionToken, TransactionRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Transaction =
+        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        transactionToken: String,
+        params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+    ): Transaction = retrieve(transactionToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Transaction
+
+    /** @see [retrieve] */
+    fun retrieve(params: TransactionRetrieveParams): Transaction =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(transactionToken: String, requestOptions: RequestOptions): Transaction =
+        retrieve(transactionToken, TransactionRetrieveParams.none(), requestOptions)
 
     /**
      * List card transactions. All amounts are in the smallest unit of their respective currency
@@ -73,14 +95,43 @@ interface TransactionService {
         list(TransactionListParams.none(), requestOptions)
 
     /** Expire authorization */
-    fun expireAuthorization(params: TransactionExpireAuthorizationParams) =
-        expireAuthorization(params, RequestOptions.none())
+    fun expireAuthorization(transactionToken: String) =
+        expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        transactionToken: String,
+        params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ) =
+        expireAuthorization(
+            params.toBuilder().transactionToken(transactionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(
+        transactionToken: String,
+        params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
+    ) = expireAuthorization(transactionToken, params, RequestOptions.none())
 
     /** @see [expireAuthorization] */
     fun expireAuthorization(
         params: TransactionExpireAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(params: TransactionExpireAuthorizationParams) =
+        expireAuthorization(params, RequestOptions.none())
+
+    /** @see [expireAuthorization] */
+    fun expireAuthorization(transactionToken: String, requestOptions: RequestOptions) =
+        expireAuthorization(
+            transactionToken,
+            TransactionExpireAuthorizationParams.none(),
+            requestOptions,
+        )
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -205,8 +256,24 @@ interface TransactionService {
          * otherwise the same as [TransactionService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: TransactionRetrieveParams): HttpResponseFor<Transaction> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(transactionToken: String): HttpResponseFor<Transaction> =
+            retrieve(transactionToken, TransactionRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Transaction> =
+            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
+        ): HttpResponseFor<Transaction> = retrieve(transactionToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -214,6 +281,19 @@ interface TransactionService {
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Transaction>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: TransactionRetrieveParams): HttpResponseFor<Transaction> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            transactionToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Transaction> =
+            retrieve(transactionToken, TransactionRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/transactions`, but is otherwise the same as
@@ -246,8 +326,29 @@ interface TransactionService {
          * [TransactionService.expireAuthorization].
          */
         @MustBeClosed
-        fun expireAuthorization(params: TransactionExpireAuthorizationParams): HttpResponse =
-            expireAuthorization(params, RequestOptions.none())
+        fun expireAuthorization(transactionToken: String): HttpResponse =
+            expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            transactionToken: String,
+            params: TransactionExpireAuthorizationParams =
+                TransactionExpireAuthorizationParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse =
+            expireAuthorization(
+                params.toBuilder().transactionToken(transactionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            transactionToken: String,
+            params: TransactionExpireAuthorizationParams =
+                TransactionExpireAuthorizationParams.none(),
+        ): HttpResponse = expireAuthorization(transactionToken, params, RequestOptions.none())
 
         /** @see [expireAuthorization] */
         @MustBeClosed
@@ -255,6 +356,23 @@ interface TransactionService {
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(params: TransactionExpireAuthorizationParams): HttpResponse =
+            expireAuthorization(params, RequestOptions.none())
+
+        /** @see [expireAuthorization] */
+        @MustBeClosed
+        fun expireAuthorization(
+            transactionToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponse =
+            expireAuthorization(
+                transactionToken,
+                TransactionExpireAuthorizationParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same

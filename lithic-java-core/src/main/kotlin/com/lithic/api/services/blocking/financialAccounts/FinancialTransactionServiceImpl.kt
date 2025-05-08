@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.financialAccounts
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -19,6 +20,7 @@ import com.lithic.api.models.FinancialTransactionListPage
 import com.lithic.api.models.FinancialTransactionListPageResponse
 import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
+import kotlin.jvm.optionals.getOrNull
 
 class FinancialTransactionServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : FinancialTransactionService {
@@ -57,6 +59,12 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             params: FinancialTransactionRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialTransaction> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired(
+                "financialTransactionToken",
+                params.financialTransactionToken().getOrNull(),
+            )
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -90,6 +98,9 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             params: FinancialTransactionListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialTransactionListPage> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("financialAccountToken", params.financialAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
