@@ -5,6 +5,7 @@ package com.lithic.api.services.async.financialAccounts
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -22,6 +23,7 @@ import com.lithic.api.models.Statements
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsync
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class StatementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     StatementServiceAsync {
@@ -68,6 +70,9 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
             params: FinancialAccountStatementRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Statement>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("statementToken", params.statementToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -103,6 +108,9 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
             params: FinancialAccountStatementListParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("financialAccountToken", params.financialAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

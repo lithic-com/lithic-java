@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -19,6 +20,7 @@ import com.lithic.api.models.CardProgramListPage
 import com.lithic.api.models.CardProgramListPageResponse
 import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
+import kotlin.jvm.optionals.getOrNull
 
 class CardProgramServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     CardProgramService {
@@ -55,6 +57,9 @@ class CardProgramServiceImpl internal constructor(private val clientOptions: Cli
             params: CardProgramRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardProgram> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardProgramToken", params.cardProgramToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

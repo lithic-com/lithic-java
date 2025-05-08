@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -33,6 +34,7 @@ import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
 import java.time.Duration
+import kotlin.jvm.optionals.getOrNull
 
 class AccountHolderServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountHolderService {
@@ -149,6 +151,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             params: AccountHolderRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AccountHolder> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountHolderToken", params.accountHolderToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -176,6 +181,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             params: AccountHolderUpdateParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AccountHolderUpdateResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountHolderToken", params.accountHolderToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -238,6 +246,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             params: AccountHolderListDocumentsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AccountHolderListDocumentsResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountHolderToken", params.accountHolderToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -264,6 +275,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             params: AccountHolderRetrieveDocumentParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Document> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentToken", params.documentToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -357,6 +371,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             params: AccountHolderUploadDocumentParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Document> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountHolderToken", params.accountHolderToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

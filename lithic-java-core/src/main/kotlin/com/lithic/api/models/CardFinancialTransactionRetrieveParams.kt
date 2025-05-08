@@ -7,19 +7,22 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the card financial transaction for the provided token. */
 class CardFinancialTransactionRetrieveParams
 private constructor(
     private val cardToken: String,
-    private val financialTransactionToken: String,
+    private val financialTransactionToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun cardToken(): String = cardToken
 
-    fun financialTransactionToken(): String = financialTransactionToken
+    fun financialTransactionToken(): Optional<String> =
+        Optional.ofNullable(financialTransactionToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -36,7 +39,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .cardToken()
-         * .financialTransactionToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -64,9 +66,16 @@ private constructor(
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
-        fun financialTransactionToken(financialTransactionToken: String) = apply {
+        fun financialTransactionToken(financialTransactionToken: String?) = apply {
             this.financialTransactionToken = financialTransactionToken
         }
+
+        /**
+         * Alias for calling [Builder.financialTransactionToken] with
+         * `financialTransactionToken.orElse(null)`.
+         */
+        fun financialTransactionToken(financialTransactionToken: Optional<String>) =
+            financialTransactionToken(financialTransactionToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -174,7 +183,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .cardToken()
-         * .financialTransactionToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -182,7 +190,7 @@ private constructor(
         fun build(): CardFinancialTransactionRetrieveParams =
             CardFinancialTransactionRetrieveParams(
                 checkRequired("cardToken", cardToken),
-                checkRequired("financialTransactionToken", financialTransactionToken),
+                financialTransactionToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -191,7 +199,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> cardToken
-            1 -> financialTransactionToken
+            1 -> financialTransactionToken ?: ""
             else -> ""
         }
 

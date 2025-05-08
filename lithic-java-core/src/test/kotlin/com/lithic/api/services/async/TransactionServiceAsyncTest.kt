@@ -4,8 +4,6 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.TransactionExpireAuthorizationParams
-import com.lithic.api.models.TransactionRetrieveParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateClearingParams
@@ -29,11 +27,7 @@ internal class TransactionServiceAsyncTest {
         val transactionServiceAsync = client.transactions()
 
         val transactionFuture =
-            transactionServiceAsync.retrieve(
-                TransactionRetrieveParams.builder()
-                    .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            transactionServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val transaction = transactionFuture.get()
         transaction.validate()
@@ -64,11 +58,7 @@ internal class TransactionServiceAsyncTest {
         val transactionServiceAsync = client.transactions()
 
         val future =
-            transactionServiceAsync.expireAuthorization(
-                TransactionExpireAuthorizationParams.builder()
-                    .transactionToken("00000000-0000-0000-0000-000000000000")
-                    .build()
-            )
+            transactionServiceAsync.expireAuthorization("00000000-0000-0000-0000-000000000000")
 
         val response = future.get()
     }

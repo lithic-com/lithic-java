@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get external payment */
 class ExternalPaymentRetrieveParams
 private constructor(
-    private val externalPaymentToken: String,
+    private val externalPaymentToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun externalPaymentToken(): String = externalPaymentToken
+    fun externalPaymentToken(): Optional<String> = Optional.ofNullable(externalPaymentToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +27,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ExternalPaymentRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ExternalPaymentRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .externalPaymentToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -52,9 +50,16 @@ private constructor(
             additionalQueryParams = externalPaymentRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun externalPaymentToken(externalPaymentToken: String) = apply {
+        fun externalPaymentToken(externalPaymentToken: String?) = apply {
             this.externalPaymentToken = externalPaymentToken
         }
+
+        /**
+         * Alias for calling [Builder.externalPaymentToken] with
+         * `externalPaymentToken.orElse(null)`.
+         */
+        fun externalPaymentToken(externalPaymentToken: Optional<String>) =
+            externalPaymentToken(externalPaymentToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -158,17 +163,10 @@ private constructor(
          * Returns an immutable instance of [ExternalPaymentRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .externalPaymentToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ExternalPaymentRetrieveParams =
             ExternalPaymentRetrieveParams(
-                checkRequired("externalPaymentToken", externalPaymentToken),
+                externalPaymentToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -176,7 +174,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> externalPaymentToken
+            0 -> externalPaymentToken ?: ""
             else -> ""
         }
 

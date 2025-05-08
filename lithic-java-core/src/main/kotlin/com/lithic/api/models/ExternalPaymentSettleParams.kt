@@ -25,13 +25,13 @@ import kotlin.jvm.optionals.getOrNull
 /** Settle external payment */
 class ExternalPaymentSettleParams
 private constructor(
-    private val externalPaymentToken: String,
+    private val externalPaymentToken: String?,
     private val body: ExternalPaymentActionWithProgressToRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun externalPaymentToken(): String = externalPaymentToken
+    fun externalPaymentToken(): Optional<String> = Optional.ofNullable(externalPaymentToken)
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -87,7 +87,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .externalPaymentToken()
          * .effectiveDate()
          * ```
          */
@@ -111,9 +110,16 @@ private constructor(
             additionalQueryParams = externalPaymentSettleParams.additionalQueryParams.toBuilder()
         }
 
-        fun externalPaymentToken(externalPaymentToken: String) = apply {
+        fun externalPaymentToken(externalPaymentToken: String?) = apply {
             this.externalPaymentToken = externalPaymentToken
         }
+
+        /**
+         * Alias for calling [Builder.externalPaymentToken] with
+         * `externalPaymentToken.orElse(null)`.
+         */
+        fun externalPaymentToken(externalPaymentToken: Optional<String>) =
+            externalPaymentToken(externalPaymentToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -290,7 +296,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .externalPaymentToken()
          * .effectiveDate()
          * ```
          *
@@ -298,7 +303,7 @@ private constructor(
          */
         fun build(): ExternalPaymentSettleParams =
             ExternalPaymentSettleParams(
-                checkRequired("externalPaymentToken", externalPaymentToken),
+                externalPaymentToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -309,7 +314,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> externalPaymentToken
+            0 -> externalPaymentToken ?: ""
             else -> ""
         }
 

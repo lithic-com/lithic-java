@@ -19,14 +19,39 @@ interface CardProgramServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get card program. */
-    fun retrieve(params: CardProgramRetrieveParams): CompletableFuture<CardProgram> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(cardProgramToken: String): CompletableFuture<CardProgram> =
+        retrieve(cardProgramToken, CardProgramRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardProgramToken: String,
+        params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardProgram> =
+        retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardProgramToken: String,
+        params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
+    ): CompletableFuture<CardProgram> = retrieve(cardProgramToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: CardProgramRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgram>
+
+    /** @see [retrieve] */
+    fun retrieve(params: CardProgramRetrieveParams): CompletableFuture<CardProgram> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        cardProgramToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardProgram> =
+        retrieve(cardProgramToken, CardProgramRetrieveParams.none(), requestOptions)
 
     /** List card programs. */
     fun list(): CompletableFuture<CardProgramListPageAsync> = list(CardProgramListParams.none())
@@ -57,9 +82,25 @@ interface CardProgramServiceAsync {
          * otherwise the same as [CardProgramServiceAsync.retrieve].
          */
         @MustBeClosed
+        fun retrieve(cardProgramToken: String): CompletableFuture<HttpResponseFor<CardProgram>> =
+            retrieve(cardProgramToken, CardProgramRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
         fun retrieve(
-            params: CardProgramRetrieveParams
-        ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
+            cardProgramToken: String,
+            params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardProgram>> =
+            retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardProgramToken: String,
+            params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<CardProgram>> =
+            retrieve(cardProgramToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -67,6 +108,20 @@ interface CardProgramServiceAsync {
             params: CardProgramRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: CardProgramRetrieveParams
+        ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            cardProgramToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardProgram>> =
+            retrieve(cardProgramToken, CardProgramRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/card_programs`, but is otherwise the same as

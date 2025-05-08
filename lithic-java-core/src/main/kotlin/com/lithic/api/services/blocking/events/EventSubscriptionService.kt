@@ -15,6 +15,21 @@ interface EventSubscriptionService {
     fun withRawResponse(): WithRawResponse
 
     /** Resend an event to an event subscription. */
+    fun resend(eventSubscriptionToken: String, params: EventEventSubscriptionResendParams) =
+        resend(eventSubscriptionToken, params, RequestOptions.none())
+
+    /** @see [resend] */
+    fun resend(
+        eventSubscriptionToken: String,
+        params: EventEventSubscriptionResendParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ) =
+        resend(
+            params.toBuilder().eventSubscriptionToken(eventSubscriptionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [resend] */
     fun resend(params: EventEventSubscriptionResendParams) = resend(params, RequestOptions.none())
 
     /** @see [resend] */
@@ -34,6 +49,25 @@ interface EventSubscriptionService {
          * /v1/events/{event_token}/event_subscriptions/{event_subscription_token}/resend`, but is
          * otherwise the same as [EventSubscriptionService.resend].
          */
+        @MustBeClosed
+        fun resend(
+            eventSubscriptionToken: String,
+            params: EventEventSubscriptionResendParams,
+        ): HttpResponse = resend(eventSubscriptionToken, params, RequestOptions.none())
+
+        /** @see [resend] */
+        @MustBeClosed
+        fun resend(
+            eventSubscriptionToken: String,
+            params: EventEventSubscriptionResendParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse =
+            resend(
+                params.toBuilder().eventSubscriptionToken(eventSubscriptionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [resend] */
         @MustBeClosed
         fun resend(params: EventEventSubscriptionResendParams): HttpResponse =
             resend(params, RequestOptions.none())

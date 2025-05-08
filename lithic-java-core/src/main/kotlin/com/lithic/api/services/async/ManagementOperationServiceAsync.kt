@@ -33,14 +33,45 @@ interface ManagementOperationServiceAsync {
 
     /** Get management operation */
     fun retrieve(
-        params: ManagementOperationRetrieveParams
-    ): CompletableFuture<ManagementOperationTransaction> = retrieve(params, RequestOptions.none())
+        managementOperationToken: String
+    ): CompletableFuture<ManagementOperationTransaction> =
+        retrieve(managementOperationToken, ManagementOperationRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        managementOperationToken: String,
+        params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ManagementOperationTransaction> =
+        retrieve(
+            params.toBuilder().managementOperationToken(managementOperationToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
+        managementOperationToken: String,
+        params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
+    ): CompletableFuture<ManagementOperationTransaction> =
+        retrieve(managementOperationToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: ManagementOperationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ManagementOperationTransaction>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: ManagementOperationRetrieveParams
+    ): CompletableFuture<ManagementOperationTransaction> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        managementOperationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ManagementOperationTransaction> =
+        retrieve(managementOperationToken, ManagementOperationRetrieveParams.none(), requestOptions)
 
     /** List management operations */
     fun list(): CompletableFuture<ManagementOperationListPageAsync> =
@@ -62,6 +93,24 @@ interface ManagementOperationServiceAsync {
         list(ManagementOperationListParams.none(), requestOptions)
 
     /** Reverse a management operation */
+    fun reverse(
+        managementOperationToken: String,
+        params: ManagementOperationReverseParams,
+    ): CompletableFuture<ManagementOperationTransaction> =
+        reverse(managementOperationToken, params, RequestOptions.none())
+
+    /** @see [reverse] */
+    fun reverse(
+        managementOperationToken: String,
+        params: ManagementOperationReverseParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ManagementOperationTransaction> =
+        reverse(
+            params.toBuilder().managementOperationToken(managementOperationToken).build(),
+            requestOptions,
+        )
+
+    /** @see [reverse] */
     fun reverse(
         params: ManagementOperationReverseParams
     ): CompletableFuture<ManagementOperationTransaction> = reverse(params, RequestOptions.none())
@@ -102,9 +151,29 @@ interface ManagementOperationServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: ManagementOperationRetrieveParams
+            managementOperationToken: String
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(managementOperationToken, ManagementOperationRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            managementOperationToken: String,
+            params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            retrieve(
+                params.toBuilder().managementOperationToken(managementOperationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            managementOperationToken: String,
+            params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            retrieve(managementOperationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -112,6 +181,25 @@ interface ManagementOperationServiceAsync {
             params: ManagementOperationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: ManagementOperationRetrieveParams
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            managementOperationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            retrieve(
+                managementOperationToken,
+                ManagementOperationRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
@@ -147,6 +235,26 @@ interface ManagementOperationServiceAsync {
          * /v1/management_operations/{management_operation_token}/reverse`, but is otherwise the
          * same as [ManagementOperationServiceAsync.reverse].
          */
+        @MustBeClosed
+        fun reverse(
+            managementOperationToken: String,
+            params: ManagementOperationReverseParams,
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            reverse(managementOperationToken, params, RequestOptions.none())
+
+        /** @see [reverse] */
+        @MustBeClosed
+        fun reverse(
+            managementOperationToken: String,
+            params: ManagementOperationReverseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
+            reverse(
+                params.toBuilder().managementOperationToken(managementOperationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [reverse] */
         @MustBeClosed
         fun reverse(
             params: ManagementOperationReverseParams

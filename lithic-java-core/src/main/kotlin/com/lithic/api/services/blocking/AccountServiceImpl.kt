@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -23,6 +24,7 @@ import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
+import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountService {
@@ -64,6 +66,9 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             params: AccountRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Account> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountToken", params.accountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -90,6 +95,9 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             params: AccountUpdateParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Account> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountToken", params.accountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -151,6 +159,9 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             params: AccountRetrieveSpendLimitsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AccountSpendLimits> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountToken", params.accountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

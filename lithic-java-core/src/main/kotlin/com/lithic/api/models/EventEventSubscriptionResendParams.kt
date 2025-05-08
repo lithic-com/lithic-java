@@ -10,12 +10,13 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Resend an event to an event subscription. */
 class EventEventSubscriptionResendParams
 private constructor(
     private val eventToken: String,
-    private val eventSubscriptionToken: String,
+    private val eventSubscriptionToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -23,7 +24,7 @@ private constructor(
 
     fun eventToken(): String = eventToken
 
-    fun eventSubscriptionToken(): String = eventSubscriptionToken
+    fun eventSubscriptionToken(): Optional<String> = Optional.ofNullable(eventSubscriptionToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -42,7 +43,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .eventToken()
-         * .eventSubscriptionToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -71,9 +71,16 @@ private constructor(
 
         fun eventToken(eventToken: String) = apply { this.eventToken = eventToken }
 
-        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
+        fun eventSubscriptionToken(eventSubscriptionToken: String?) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
+
+        /**
+         * Alias for calling [Builder.eventSubscriptionToken] with
+         * `eventSubscriptionToken.orElse(null)`.
+         */
+        fun eventSubscriptionToken(eventSubscriptionToken: Optional<String>) =
+            eventSubscriptionToken(eventSubscriptionToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -203,7 +210,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .eventToken()
-         * .eventSubscriptionToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -211,7 +217,7 @@ private constructor(
         fun build(): EventEventSubscriptionResendParams =
             EventEventSubscriptionResendParams(
                 checkRequired("eventToken", eventToken),
-                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                eventSubscriptionToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -224,7 +230,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> eventToken
-            1 -> eventSubscriptionToken
+            1 -> eventSubscriptionToken ?: ""
             else -> ""
         }
 

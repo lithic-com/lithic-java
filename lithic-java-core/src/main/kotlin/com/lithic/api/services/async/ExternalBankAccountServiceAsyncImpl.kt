@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -31,6 +32,7 @@ import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ExternalBankAccountServiceAsync {
@@ -140,6 +142,9 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             params: ExternalBankAccountRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -170,6 +175,9 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             params: ExternalBankAccountUpdateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -239,6 +247,9 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             params: ExternalBankAccountRetryMicroDepositsParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -275,6 +286,9 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             params: ExternalBankAccountRetryPrenoteParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryPrenoteResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

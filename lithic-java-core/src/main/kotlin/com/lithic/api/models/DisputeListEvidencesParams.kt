@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.OffsetDateTime
@@ -15,7 +14,7 @@ import kotlin.jvm.optionals.getOrNull
 /** List evidence metadata for a dispute. */
 class DisputeListEvidencesParams
 private constructor(
-    private val disputeToken: String,
+    private val disputeToken: String?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
@@ -25,7 +24,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun disputeToken(): String = disputeToken
+    fun disputeToken(): Optional<String> = Optional.ofNullable(disputeToken)
 
     /**
      * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -62,13 +61,10 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): DisputeListEvidencesParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [DisputeListEvidencesParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .disputeToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -97,7 +93,10 @@ private constructor(
             additionalQueryParams = disputeListEvidencesParams.additionalQueryParams.toBuilder()
         }
 
-        fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
+        fun disputeToken(disputeToken: String?) = apply { this.disputeToken = disputeToken }
+
+        /** Alias for calling [Builder.disputeToken] with `disputeToken.orElse(null)`. */
+        fun disputeToken(disputeToken: Optional<String>) = disputeToken(disputeToken.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -251,17 +250,10 @@ private constructor(
          * Returns an immutable instance of [DisputeListEvidencesParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .disputeToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): DisputeListEvidencesParams =
             DisputeListEvidencesParams(
-                checkRequired("disputeToken", disputeToken),
+                disputeToken,
                 begin,
                 end,
                 endingBefore,
@@ -274,7 +266,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> disputeToken
+            0 -> disputeToken ?: ""
             else -> ""
         }
 
