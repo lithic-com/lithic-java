@@ -5,7 +5,6 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.ManagementOperationCreateParams
-import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
@@ -56,11 +55,7 @@ internal class ManagementOperationServiceTest {
         val managementOperationService = client.managementOperations()
 
         val managementOperationTransaction =
-            managementOperationService.retrieve(
-                ManagementOperationRetrieveParams.builder()
-                    .managementOperationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            managementOperationService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         managementOperationTransaction.validate()
     }

@@ -45,13 +45,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class AccountHolderUpdateParams
 private constructor(
-    private val accountHolderToken: String,
+    private val accountHolderToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountHolderToken(): String = accountHolderToken
+    fun accountHolderToken(): Optional<String> = Optional.ofNullable(accountHolderToken)
 
     /** The KYB request payload for updating a business. */
     fun body(): Body = body
@@ -69,7 +69,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountHolderToken()
          * .body()
          * ```
          */
@@ -92,9 +91,15 @@ private constructor(
             additionalQueryParams = accountHolderUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountHolderToken(accountHolderToken: String) = apply {
+        fun accountHolderToken(accountHolderToken: String?) = apply {
             this.accountHolderToken = accountHolderToken
         }
+
+        /**
+         * Alias for calling [Builder.accountHolderToken] with `accountHolderToken.orElse(null)`.
+         */
+        fun accountHolderToken(accountHolderToken: Optional<String>) =
+            accountHolderToken(accountHolderToken.getOrNull())
 
         /** The KYB request payload for updating a business. */
         fun body(body: Body) = apply { this.body = body }
@@ -215,7 +220,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountHolderToken()
          * .body()
          * ```
          *
@@ -223,7 +227,7 @@ private constructor(
          */
         fun build(): AccountHolderUpdateParams =
             AccountHolderUpdateParams(
-                checkRequired("accountHolderToken", accountHolderToken),
+                accountHolderToken,
                 checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -234,7 +238,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountHolderToken
+            0 -> accountHolderToken ?: ""
             else -> ""
         }
 

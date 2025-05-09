@@ -18,18 +18,20 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Post Credit Product Prime Rate */
 class CreditProductPrimeRateCreateParams
 private constructor(
-    private val creditProductToken: String,
+    private val creditProductToken: String?,
     private val body: InterestRate,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /** Globally unique identifier for credit products. */
-    fun creditProductToken(): String = creditProductToken
+    fun creditProductToken(): Optional<String> = Optional.ofNullable(creditProductToken)
 
     /**
      * Date the rate goes into effect
@@ -77,7 +79,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .creditProductToken()
          * .effectiveDate()
          * .rate()
          * ```
@@ -104,9 +105,15 @@ private constructor(
             }
 
         /** Globally unique identifier for credit products. */
-        fun creditProductToken(creditProductToken: String) = apply {
+        fun creditProductToken(creditProductToken: String?) = apply {
             this.creditProductToken = creditProductToken
         }
+
+        /**
+         * Alias for calling [Builder.creditProductToken] with `creditProductToken.orElse(null)`.
+         */
+        fun creditProductToken(creditProductToken: Optional<String>) =
+            creditProductToken(creditProductToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -267,7 +274,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .creditProductToken()
          * .effectiveDate()
          * .rate()
          * ```
@@ -276,7 +282,7 @@ private constructor(
          */
         fun build(): CreditProductPrimeRateCreateParams =
             CreditProductPrimeRateCreateParams(
-                checkRequired("creditProductToken", creditProductToken),
+                creditProductToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -287,7 +293,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> creditProductToken
+            0 -> creditProductToken ?: ""
             else -> ""
         }
 

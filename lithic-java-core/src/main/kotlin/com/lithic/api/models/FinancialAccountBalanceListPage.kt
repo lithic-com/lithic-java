@@ -2,12 +2,12 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPager
+import com.lithic.api.core.Page
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [BalanceService.list] */
@@ -16,7 +16,7 @@ private constructor(
     private val service: BalanceService,
     private val params: FinancialAccountBalanceListParams,
     private val response: FinancialAccountBalanceListPageResponse,
-) {
+) : Page<BalanceListResponse> {
 
     /**
      * Delegates to [FinancialAccountBalanceListPageResponse], but gracefully handles missing data.
@@ -33,14 +33,16 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<BalanceListResponse> = data()
 
-    fun getNextPageParams(): Optional<FinancialAccountBalanceListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): Optional<FinancialAccountBalanceListPage> =
-        getNextPageParams().map { service.list(it) }
+    fun nextPageParams(): FinancialAccountBalanceListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): FinancialAccountBalanceListPage = service.list(nextPageParams())
+
+    fun autoPager(): AutoPager<BalanceListResponse> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialAccountBalanceListParams = params
@@ -111,26 +113,6 @@ private constructor(
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: FinancialAccountBalanceListPage) :
-        Iterable<BalanceListResponse> {
-
-        override fun iterator(): Iterator<BalanceListResponse> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().getOrNull() ?: break
-                index = 0
-            }
-        }
-
-        fun stream(): Stream<BalanceListResponse> {
-            return StreamSupport.stream(spliterator(), false)
-        }
     }
 
     override fun equals(other: Any?): Boolean {

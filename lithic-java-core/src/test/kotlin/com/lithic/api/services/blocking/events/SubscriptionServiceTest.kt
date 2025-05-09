@@ -5,13 +5,8 @@ package com.lithic.api.services.blocking.events
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.EventSubscriptionCreateParams
-import com.lithic.api.models.EventSubscriptionDeleteParams
-import com.lithic.api.models.EventSubscriptionListAttemptsParams
 import com.lithic.api.models.EventSubscriptionRecoverParams
 import com.lithic.api.models.EventSubscriptionReplayMissingParams
-import com.lithic.api.models.EventSubscriptionRetrieveParams
-import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventSubscriptionRotateSecretParams
 import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
 import com.lithic.api.models.EventSubscriptionUpdateParams
 import java.time.OffsetDateTime
@@ -53,12 +48,7 @@ internal class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
 
-        val eventSubscription =
-            subscriptionService.retrieve(
-                EventSubscriptionRetrieveParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val eventSubscription = subscriptionService.retrieve("event_subscription_token")
 
         eventSubscription.validate()
     }
@@ -110,11 +100,7 @@ internal class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
 
-        subscriptionService.delete(
-            EventSubscriptionDeleteParams.builder()
-                .eventSubscriptionToken("event_subscription_token")
-                .build()
-        )
+        subscriptionService.delete("event_subscription_token")
     }
 
     @Test
@@ -126,12 +112,7 @@ internal class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
 
-        val page =
-            subscriptionService.listAttempts(
-                EventSubscriptionListAttemptsParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val page = subscriptionService.listAttempts("event_subscription_token")
 
         page.response().validate()
     }
@@ -183,12 +164,7 @@ internal class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
 
-        val response =
-            subscriptionService.retrieveSecret(
-                EventSubscriptionRetrieveSecretParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val response = subscriptionService.retrieveSecret("event_subscription_token")
 
         response.validate()
     }
@@ -203,11 +179,7 @@ internal class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
 
-        subscriptionService.rotateSecret(
-            EventSubscriptionRotateSecretParams.builder()
-                .eventSubscriptionToken("event_subscription_token")
-                .build()
-        )
+        subscriptionService.rotateSecret("event_subscription_token")
     }
 
     @Test

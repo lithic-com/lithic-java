@@ -16,6 +16,23 @@ interface EventSubscriptionServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Resend an event to an event subscription. */
+    fun resend(
+        eventSubscriptionToken: String,
+        params: EventEventSubscriptionResendParams,
+    ): CompletableFuture<Void?> = resend(eventSubscriptionToken, params, RequestOptions.none())
+
+    /** @see [resend] */
+    fun resend(
+        eventSubscriptionToken: String,
+        params: EventEventSubscriptionResendParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        resend(
+            params.toBuilder().eventSubscriptionToken(eventSubscriptionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [resend] */
     fun resend(params: EventEventSubscriptionResendParams): CompletableFuture<Void?> =
         resend(params, RequestOptions.none())
 
@@ -36,6 +53,26 @@ interface EventSubscriptionServiceAsync {
          * /v1/events/{event_token}/event_subscriptions/{event_subscription_token}/resend`, but is
          * otherwise the same as [EventSubscriptionServiceAsync.resend].
          */
+        @MustBeClosed
+        fun resend(
+            eventSubscriptionToken: String,
+            params: EventEventSubscriptionResendParams,
+        ): CompletableFuture<HttpResponse> =
+            resend(eventSubscriptionToken, params, RequestOptions.none())
+
+        /** @see [resend] */
+        @MustBeClosed
+        fun resend(
+            eventSubscriptionToken: String,
+            params: EventEventSubscriptionResendParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            resend(
+                params.toBuilder().eventSubscriptionToken(eventSubscriptionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [resend] */
         @MustBeClosed
         fun resend(params: EventEventSubscriptionResendParams): CompletableFuture<HttpResponse> =
             resend(params, RequestOptions.none())

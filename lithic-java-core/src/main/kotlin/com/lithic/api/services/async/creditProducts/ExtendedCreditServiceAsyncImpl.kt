@@ -5,6 +5,7 @@ package com.lithic.api.services.async.creditProducts
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -17,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import com.lithic.api.models.ExtendedCredit
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class ExtendedCreditServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditServiceAsync {
@@ -46,6 +48,9 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
             params: CreditProductExtendedCreditRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("creditProductToken", params.creditProductToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

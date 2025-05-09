@@ -42,14 +42,40 @@ interface BacktestServiceAsync {
      * the required inputs to evaluate the rule, then it will not be included in the final backtest
      * report.
      */
-    fun create(params: AuthRuleV2BacktestCreateParams): CompletableFuture<BacktestCreateResponse> =
-        create(params, RequestOptions.none())
+    fun create(authRuleToken: String): CompletableFuture<BacktestCreateResponse> =
+        create(authRuleToken, AuthRuleV2BacktestCreateParams.none())
+
+    /** @see [create] */
+    fun create(
+        authRuleToken: String,
+        params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BacktestCreateResponse> =
+        create(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+    /** @see [create] */
+    fun create(
+        authRuleToken: String,
+        params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
+    ): CompletableFuture<BacktestCreateResponse> =
+        create(authRuleToken, params, RequestOptions.none())
 
     /** @see [create] */
     fun create(
         params: AuthRuleV2BacktestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BacktestCreateResponse>
+
+    /** @see [create] */
+    fun create(params: AuthRuleV2BacktestCreateParams): CompletableFuture<BacktestCreateResponse> =
+        create(params, RequestOptions.none())
+
+    /** @see [create] */
+    fun create(
+        authRuleToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BacktestCreateResponse> =
+        create(authRuleToken, AuthRuleV2BacktestCreateParams.none(), requestOptions)
 
     /**
      * Returns the backtest results of an authorization rule (if available).
@@ -69,6 +95,24 @@ interface BacktestServiceAsync {
      * version of the rule is currently activated in the Auth Stream, regardless of which version of
      * the rule was active in the Auth Stream at the time a backtest is requested.
      */
+    fun retrieve(
+        authRuleBacktestToken: String,
+        params: AuthRuleV2BacktestRetrieveParams,
+    ): CompletableFuture<BacktestResults> =
+        retrieve(authRuleBacktestToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        authRuleBacktestToken: String,
+        params: AuthRuleV2BacktestRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BacktestResults> =
+        retrieve(
+            params.toBuilder().authRuleBacktestToken(authRuleBacktestToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
     fun retrieve(params: AuthRuleV2BacktestRetrieveParams): CompletableFuture<BacktestResults> =
         retrieve(params, RequestOptions.none())
 
@@ -89,9 +133,26 @@ interface BacktestServiceAsync {
          */
         @MustBeClosed
         fun create(
-            params: AuthRuleV2BacktestCreateParams
+            authRuleToken: String
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
-            create(params, RequestOptions.none())
+            create(authRuleToken, AuthRuleV2BacktestCreateParams.none())
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            authRuleToken: String,
+            params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
+            create(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            authRuleToken: String,
+            params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
+        ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
+            create(authRuleToken, params, RequestOptions.none())
 
         /** @see [create] */
         @MustBeClosed
@@ -100,11 +161,46 @@ interface BacktestServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>>
 
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            params: AuthRuleV2BacktestCreateParams
+        ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
+            create(params, RequestOptions.none())
+
+        /** @see [create] */
+        @MustBeClosed
+        fun create(
+            authRuleToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
+            create(authRuleToken, AuthRuleV2BacktestCreateParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `get
          * /v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}`, but is otherwise
          * the same as [BacktestServiceAsync.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            authRuleBacktestToken: String,
+            params: AuthRuleV2BacktestRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<BacktestResults>> =
+            retrieve(authRuleBacktestToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            authRuleBacktestToken: String,
+            params: AuthRuleV2BacktestRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BacktestResults>> =
+            retrieve(
+                params.toBuilder().authRuleBacktestToken(authRuleBacktestToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams

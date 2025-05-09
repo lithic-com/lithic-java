@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -41,6 +42,7 @@ import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataServi
 import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataServiceImpl
 import com.lithic.api.services.blocking.transactions.EventService
 import com.lithic.api.services.blocking.transactions.EventServiceImpl
+import kotlin.jvm.optionals.getOrNull
 
 class TransactionServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     TransactionService {
@@ -157,6 +159,9 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Transaction> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("transactionToken", params.transactionToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -217,6 +222,9 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions,
         ): HttpResponse {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("transactionToken", params.transactionToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

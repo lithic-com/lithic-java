@@ -7,6 +7,8 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Check the status of an account holder document upload, or retrieve the upload URLs to process
@@ -26,14 +28,14 @@ import java.util.Objects
 class AccountHolderRetrieveDocumentParams
 private constructor(
     private val accountHolderToken: String,
-    private val documentToken: String,
+    private val documentToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountHolderToken(): String = accountHolderToken
 
-    fun documentToken(): String = documentToken
+    fun documentToken(): Optional<String> = Optional.ofNullable(documentToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -50,7 +52,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountHolderToken()
-         * .documentToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -79,7 +80,11 @@ private constructor(
             this.accountHolderToken = accountHolderToken
         }
 
-        fun documentToken(documentToken: String) = apply { this.documentToken = documentToken }
+        fun documentToken(documentToken: String?) = apply { this.documentToken = documentToken }
+
+        /** Alias for calling [Builder.documentToken] with `documentToken.orElse(null)`. */
+        fun documentToken(documentToken: Optional<String>) =
+            documentToken(documentToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -187,7 +192,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountHolderToken()
-         * .documentToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -195,7 +199,7 @@ private constructor(
         fun build(): AccountHolderRetrieveDocumentParams =
             AccountHolderRetrieveDocumentParams(
                 checkRequired("accountHolderToken", accountHolderToken),
-                checkRequired("documentToken", documentToken),
+                documentToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -204,7 +208,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> accountHolderToken
-            1 -> documentToken
+            1 -> documentToken ?: ""
             else -> ""
         }
 

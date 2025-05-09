@@ -29,15 +29,41 @@ interface TokenizationServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get tokenization */
+    fun retrieve(tokenizationToken: String): CompletableFuture<TokenizationRetrieveResponse> =
+        retrieve(tokenizationToken, TokenizationRetrieveParams.none())
+
+    /** @see [retrieve] */
     fun retrieve(
-        params: TokenizationRetrieveParams
-    ): CompletableFuture<TokenizationRetrieveResponse> = retrieve(params, RequestOptions.none())
+        tokenizationToken: String,
+        params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<TokenizationRetrieveResponse> =
+        retrieve(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        tokenizationToken: String,
+        params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
+    ): CompletableFuture<TokenizationRetrieveResponse> =
+        retrieve(tokenizationToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: TokenizationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationRetrieveResponse>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: TokenizationRetrieveParams
+    ): CompletableFuture<TokenizationRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<TokenizationRetrieveResponse> =
+        retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
     /** List card tokenizations */
     fun list(): CompletableFuture<TokenizationListPageAsync> = list(TokenizationListParams.none())
@@ -66,14 +92,39 @@ interface TokenizationServiceAsync {
      * active state, and transactions will be allowed. Reach out at
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
-    fun activate(params: TokenizationActivateParams): CompletableFuture<Void?> =
-        activate(params, RequestOptions.none())
+    fun activate(tokenizationToken: String): CompletableFuture<Void?> =
+        activate(tokenizationToken, TokenizationActivateParams.none())
+
+    /** @see [activate] */
+    fun activate(
+        tokenizationToken: String,
+        params: TokenizationActivateParams = TokenizationActivateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        activate(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+    /** @see [activate] */
+    fun activate(
+        tokenizationToken: String,
+        params: TokenizationActivateParams = TokenizationActivateParams.none(),
+    ): CompletableFuture<Void?> = activate(tokenizationToken, params, RequestOptions.none())
 
     /** @see [activate] */
     fun activate(
         params: TokenizationActivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [activate] */
+    fun activate(params: TokenizationActivateParams): CompletableFuture<Void?> =
+        activate(params, RequestOptions.none())
+
+    /** @see [activate] */
+    fun activate(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
 
     /**
      * This endpoint is used to ask the card network to deactivate a tokenization. A successful
@@ -85,14 +136,39 @@ interface TokenizationServiceAsync {
      * tokenization, it will be removed from its device. Reach out at
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
-    fun deactivate(params: TokenizationDeactivateParams): CompletableFuture<Void?> =
-        deactivate(params, RequestOptions.none())
+    fun deactivate(tokenizationToken: String): CompletableFuture<Void?> =
+        deactivate(tokenizationToken, TokenizationDeactivateParams.none())
+
+    /** @see [deactivate] */
+    fun deactivate(
+        tokenizationToken: String,
+        params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        deactivate(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+    /** @see [deactivate] */
+    fun deactivate(
+        tokenizationToken: String,
+        params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
+    ): CompletableFuture<Void?> = deactivate(tokenizationToken, params, RequestOptions.none())
 
     /** @see [deactivate] */
     fun deactivate(
         params: TokenizationDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [deactivate] */
+    fun deactivate(params: TokenizationDeactivateParams): CompletableFuture<Void?> =
+        deactivate(params, RequestOptions.none())
+
+    /** @see [deactivate] */
+    fun deactivate(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        deactivate(tokenizationToken, TokenizationDeactivateParams.none(), requestOptions)
 
     /**
      * This endpoint is used to ask the card network to pause a tokenization. A successful response
@@ -103,14 +179,36 @@ interface TokenizationServiceAsync {
      * be changed. Reach out at [lithic.com/contact](https://lithic.com/contact) for more
      * information.
      */
-    fun pause(params: TokenizationPauseParams): CompletableFuture<Void?> =
-        pause(params, RequestOptions.none())
+    fun pause(tokenizationToken: String): CompletableFuture<Void?> =
+        pause(tokenizationToken, TokenizationPauseParams.none())
+
+    /** @see [pause] */
+    fun pause(
+        tokenizationToken: String,
+        params: TokenizationPauseParams = TokenizationPauseParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        pause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+    /** @see [pause] */
+    fun pause(
+        tokenizationToken: String,
+        params: TokenizationPauseParams = TokenizationPauseParams.none(),
+    ): CompletableFuture<Void?> = pause(tokenizationToken, params, RequestOptions.none())
 
     /** @see [pause] */
     fun pause(
         params: TokenizationPauseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [pause] */
+    fun pause(params: TokenizationPauseParams): CompletableFuture<Void?> =
+        pause(params, RequestOptions.none())
+
+    /** @see [pause] */
+    fun pause(tokenizationToken: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
+        pause(tokenizationToken, TokenizationPauseParams.none(), requestOptions)
 
     /**
      * This endpoint is used to ask the card network to send another activation code to a cardholder
@@ -123,15 +221,50 @@ interface TokenizationServiceAsync {
      * restart the provision process. Reach out at [lithic.com/contact](https://lithic.com/contact)
      * for more information.
      */
+    fun resendActivationCode(tokenizationToken: String): CompletableFuture<Void?> =
+        resendActivationCode(tokenizationToken, TokenizationResendActivationCodeParams.none())
+
+    /** @see [resendActivationCode] */
     fun resendActivationCode(
-        params: TokenizationResendActivationCodeParams
-    ): CompletableFuture<Void?> = resendActivationCode(params, RequestOptions.none())
+        tokenizationToken: String,
+        params: TokenizationResendActivationCodeParams =
+            TokenizationResendActivationCodeParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        resendActivationCode(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
+
+    /** @see [resendActivationCode] */
+    fun resendActivationCode(
+        tokenizationToken: String,
+        params: TokenizationResendActivationCodeParams =
+            TokenizationResendActivationCodeParams.none(),
+    ): CompletableFuture<Void?> =
+        resendActivationCode(tokenizationToken, params, RequestOptions.none())
 
     /** @see [resendActivationCode] */
     fun resendActivationCode(
         params: TokenizationResendActivationCodeParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [resendActivationCode] */
+    fun resendActivationCode(
+        params: TokenizationResendActivationCodeParams
+    ): CompletableFuture<Void?> = resendActivationCode(params, RequestOptions.none())
+
+    /** @see [resendActivationCode] */
+    fun resendActivationCode(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        resendActivationCode(
+            tokenizationToken,
+            TokenizationResendActivationCodeParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
@@ -155,14 +288,39 @@ interface TokenizationServiceAsync {
      * will put the tokenization in an active state, and transactions may resume. Reach out at
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
-    fun unpause(params: TokenizationUnpauseParams): CompletableFuture<Void?> =
-        unpause(params, RequestOptions.none())
+    fun unpause(tokenizationToken: String): CompletableFuture<Void?> =
+        unpause(tokenizationToken, TokenizationUnpauseParams.none())
+
+    /** @see [unpause] */
+    fun unpause(
+        tokenizationToken: String,
+        params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        unpause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+    /** @see [unpause] */
+    fun unpause(
+        tokenizationToken: String,
+        params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
+    ): CompletableFuture<Void?> = unpause(tokenizationToken, params, RequestOptions.none())
 
     /** @see [unpause] */
     fun unpause(
         params: TokenizationUnpauseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see [unpause] */
+    fun unpause(params: TokenizationUnpauseParams): CompletableFuture<Void?> =
+        unpause(params, RequestOptions.none())
+
+    /** @see [unpause] */
+    fun unpause(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Void?> =
+        unpause(tokenizationToken, TokenizationUnpauseParams.none(), requestOptions)
 
     /**
      * This endpoint is used update the digital card art for a digital wallet tokenization. A
@@ -174,15 +332,52 @@ interface TokenizationServiceAsync {
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
     fun updateDigitalCardArt(
-        params: TokenizationUpdateDigitalCardArtParams
+        tokenizationToken: String
     ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
-        updateDigitalCardArt(params, RequestOptions.none())
+        updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
+
+    /** @see [updateDigitalCardArt] */
+    fun updateDigitalCardArt(
+        tokenizationToken: String,
+        params: TokenizationUpdateDigitalCardArtParams =
+            TokenizationUpdateDigitalCardArtParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+        updateDigitalCardArt(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
+
+    /** @see [updateDigitalCardArt] */
+    fun updateDigitalCardArt(
+        tokenizationToken: String,
+        params: TokenizationUpdateDigitalCardArtParams =
+            TokenizationUpdateDigitalCardArtParams.none(),
+    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+        updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
     /** @see [updateDigitalCardArt] */
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse>
+
+    /** @see [updateDigitalCardArt] */
+    fun updateDigitalCardArt(
+        params: TokenizationUpdateDigitalCardArtParams
+    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+        updateDigitalCardArt(params, RequestOptions.none())
+
+    /** @see [updateDigitalCardArt] */
+    fun updateDigitalCardArt(
+        tokenizationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+        updateDigitalCardArt(
+            tokenizationToken,
+            TokenizationUpdateDigitalCardArtParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [TokenizationServiceAsync] that provides access to raw HTTP responses for each
@@ -196,9 +391,29 @@ interface TokenizationServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: TokenizationRetrieveParams
+            tokenizationToken: String
         ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(tokenizationToken, TokenizationRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tokenizationToken: String,
+            params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+            retrieve(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tokenizationToken: String,
+            params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+            retrieve(tokenizationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -206,6 +421,21 @@ interface TokenizationServiceAsync {
             params: TokenizationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: TokenizationRetrieveParams
+        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+            retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/tokenizations`, but is otherwise the same as
@@ -241,8 +471,28 @@ interface TokenizationServiceAsync {
          * but is otherwise the same as [TokenizationServiceAsync.activate].
          */
         @MustBeClosed
-        fun activate(params: TokenizationActivateParams): CompletableFuture<HttpResponse> =
-            activate(params, RequestOptions.none())
+        fun activate(tokenizationToken: String): CompletableFuture<HttpResponse> =
+            activate(tokenizationToken, TokenizationActivateParams.none())
+
+        /** @see [activate] */
+        @MustBeClosed
+        fun activate(
+            tokenizationToken: String,
+            params: TokenizationActivateParams = TokenizationActivateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            activate(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [activate] */
+        @MustBeClosed
+        fun activate(
+            tokenizationToken: String,
+            params: TokenizationActivateParams = TokenizationActivateParams.none(),
+        ): CompletableFuture<HttpResponse> =
+            activate(tokenizationToken, params, RequestOptions.none())
 
         /** @see [activate] */
         @MustBeClosed
@@ -251,13 +501,46 @@ interface TokenizationServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
+        /** @see [activate] */
+        @MustBeClosed
+        fun activate(params: TokenizationActivateParams): CompletableFuture<HttpResponse> =
+            activate(params, RequestOptions.none())
+
+        /** @see [activate] */
+        @MustBeClosed
+        fun activate(
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
          * but is otherwise the same as [TokenizationServiceAsync.deactivate].
          */
         @MustBeClosed
-        fun deactivate(params: TokenizationDeactivateParams): CompletableFuture<HttpResponse> =
-            deactivate(params, RequestOptions.none())
+        fun deactivate(tokenizationToken: String): CompletableFuture<HttpResponse> =
+            deactivate(tokenizationToken, TokenizationDeactivateParams.none())
+
+        /** @see [deactivate] */
+        @MustBeClosed
+        fun deactivate(
+            tokenizationToken: String,
+            params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            deactivate(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [deactivate] */
+        @MustBeClosed
+        fun deactivate(
+            tokenizationToken: String,
+            params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
+        ): CompletableFuture<HttpResponse> =
+            deactivate(tokenizationToken, params, RequestOptions.none())
 
         /** @see [deactivate] */
         @MustBeClosed
@@ -266,13 +549,42 @@ interface TokenizationServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
+        /** @see [deactivate] */
+        @MustBeClosed
+        fun deactivate(params: TokenizationDeactivateParams): CompletableFuture<HttpResponse> =
+            deactivate(params, RequestOptions.none())
+
+        /** @see [deactivate] */
+        @MustBeClosed
+        fun deactivate(
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            deactivate(tokenizationToken, TokenizationDeactivateParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/pause`, but
          * is otherwise the same as [TokenizationServiceAsync.pause].
          */
         @MustBeClosed
-        fun pause(params: TokenizationPauseParams): CompletableFuture<HttpResponse> =
-            pause(params, RequestOptions.none())
+        fun pause(tokenizationToken: String): CompletableFuture<HttpResponse> =
+            pause(tokenizationToken, TokenizationPauseParams.none())
+
+        /** @see [pause] */
+        @MustBeClosed
+        fun pause(
+            tokenizationToken: String,
+            params: TokenizationPauseParams = TokenizationPauseParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            pause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+        /** @see [pause] */
+        @MustBeClosed
+        fun pause(
+            tokenizationToken: String,
+            params: TokenizationPauseParams = TokenizationPauseParams.none(),
+        ): CompletableFuture<HttpResponse> = pause(tokenizationToken, params, RequestOptions.none())
 
         /** @see [pause] */
         @MustBeClosed
@@ -281,11 +593,58 @@ interface TokenizationServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
+        /** @see [pause] */
+        @MustBeClosed
+        fun pause(params: TokenizationPauseParams): CompletableFuture<HttpResponse> =
+            pause(params, RequestOptions.none())
+
+        /** @see [pause] */
+        @MustBeClosed
+        fun pause(
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            pause(tokenizationToken, TokenizationPauseParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post
          * /v1/tokenizations/{tokenization_token}/resend_activation_code`, but is otherwise the same
          * as [TokenizationServiceAsync.resendActivationCode].
          */
+        @MustBeClosed
+        fun resendActivationCode(tokenizationToken: String): CompletableFuture<HttpResponse> =
+            resendActivationCode(tokenizationToken, TokenizationResendActivationCodeParams.none())
+
+        /** @see [resendActivationCode] */
+        @MustBeClosed
+        fun resendActivationCode(
+            tokenizationToken: String,
+            params: TokenizationResendActivationCodeParams =
+                TokenizationResendActivationCodeParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            resendActivationCode(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [resendActivationCode] */
+        @MustBeClosed
+        fun resendActivationCode(
+            tokenizationToken: String,
+            params: TokenizationResendActivationCodeParams =
+                TokenizationResendActivationCodeParams.none(),
+        ): CompletableFuture<HttpResponse> =
+            resendActivationCode(tokenizationToken, params, RequestOptions.none())
+
+        /** @see [resendActivationCode] */
+        @MustBeClosed
+        fun resendActivationCode(
+            params: TokenizationResendActivationCodeParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
+
+        /** @see [resendActivationCode] */
         @MustBeClosed
         fun resendActivationCode(
             params: TokenizationResendActivationCodeParams
@@ -294,9 +653,14 @@ interface TokenizationServiceAsync {
         /** @see [resendActivationCode] */
         @MustBeClosed
         fun resendActivationCode(
-            params: TokenizationResendActivationCodeParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponse>
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            resendActivationCode(
+                tokenizationToken,
+                TokenizationResendActivationCodeParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/tokenizations`, but is otherwise the
@@ -320,8 +684,25 @@ interface TokenizationServiceAsync {
          * but is otherwise the same as [TokenizationServiceAsync.unpause].
          */
         @MustBeClosed
-        fun unpause(params: TokenizationUnpauseParams): CompletableFuture<HttpResponse> =
-            unpause(params, RequestOptions.none())
+        fun unpause(tokenizationToken: String): CompletableFuture<HttpResponse> =
+            unpause(tokenizationToken, TokenizationUnpauseParams.none())
+
+        /** @see [unpause] */
+        @MustBeClosed
+        fun unpause(
+            tokenizationToken: String,
+            params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            unpause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+
+        /** @see [unpause] */
+        @MustBeClosed
+        fun unpause(
+            tokenizationToken: String,
+            params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
+        ): CompletableFuture<HttpResponse> =
+            unpause(tokenizationToken, params, RequestOptions.none())
 
         /** @see [unpause] */
         @MustBeClosed
@@ -330,11 +711,60 @@ interface TokenizationServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
+        /** @see [unpause] */
+        @MustBeClosed
+        fun unpause(params: TokenizationUnpauseParams): CompletableFuture<HttpResponse> =
+            unpause(params, RequestOptions.none())
+
+        /** @see [unpause] */
+        @MustBeClosed
+        fun unpause(
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> =
+            unpause(tokenizationToken, TokenizationUnpauseParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post
          * /v1/tokenizations/{tokenization_token}/update_digital_card_art`, but is otherwise the
          * same as [TokenizationServiceAsync.updateDigitalCardArt].
          */
+        @MustBeClosed
+        fun updateDigitalCardArt(
+            tokenizationToken: String
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+            updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
+
+        /** @see [updateDigitalCardArt] */
+        @MustBeClosed
+        fun updateDigitalCardArt(
+            tokenizationToken: String,
+            params: TokenizationUpdateDigitalCardArtParams =
+                TokenizationUpdateDigitalCardArtParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+            updateDigitalCardArt(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [updateDigitalCardArt] */
+        @MustBeClosed
+        fun updateDigitalCardArt(
+            tokenizationToken: String,
+            params: TokenizationUpdateDigitalCardArtParams =
+                TokenizationUpdateDigitalCardArtParams.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+            updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
+
+        /** @see [updateDigitalCardArt] */
+        @MustBeClosed
+        fun updateDigitalCardArt(
+            params: TokenizationUpdateDigitalCardArtParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>>
+
+        /** @see [updateDigitalCardArt] */
         @MustBeClosed
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams
@@ -344,8 +774,13 @@ interface TokenizationServiceAsync {
         /** @see [updateDigitalCardArt] */
         @MustBeClosed
         fun updateDigitalCardArt(
-            params: TokenizationUpdateDigitalCardArtParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>>
+            tokenizationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+            updateDigitalCardArt(
+                tokenizationToken,
+                TokenizationUpdateDigitalCardArtParams.none(),
+                requestOptions,
+            )
     }
 }

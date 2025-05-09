@@ -3,20 +3,21 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get the extended credit for a given credit product under a program */
 class CreditProductExtendedCreditRetrieveParams
 private constructor(
-    private val creditProductToken: String,
+    private val creditProductToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun creditProductToken(): String = creditProductToken
+    fun creditProductToken(): Optional<String> = Optional.ofNullable(creditProductToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +27,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): CreditProductExtendedCreditRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [CreditProductExtendedCreditRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .creditProductToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -56,9 +54,15 @@ private constructor(
                 creditProductExtendedCreditRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun creditProductToken(creditProductToken: String) = apply {
+        fun creditProductToken(creditProductToken: String?) = apply {
             this.creditProductToken = creditProductToken
         }
+
+        /**
+         * Alias for calling [Builder.creditProductToken] with `creditProductToken.orElse(null)`.
+         */
+        fun creditProductToken(creditProductToken: Optional<String>) =
+            creditProductToken(creditProductToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -162,17 +166,10 @@ private constructor(
          * Returns an immutable instance of [CreditProductExtendedCreditRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .creditProductToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CreditProductExtendedCreditRetrieveParams =
             CreditProductExtendedCreditRetrieveParams(
-                checkRequired("creditProductToken", creditProductToken),
+                creditProductToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -180,7 +177,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> creditProductToken
+            0 -> creditProductToken ?: ""
             else -> ""
         }
 

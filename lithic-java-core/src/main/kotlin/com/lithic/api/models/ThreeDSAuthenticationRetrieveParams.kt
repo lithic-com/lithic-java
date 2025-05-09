@@ -3,20 +3,22 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get 3DS Authentication by token */
 class ThreeDSAuthenticationRetrieveParams
 private constructor(
-    private val threeDSAuthenticationToken: String,
+    private val threeDSAuthenticationToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun threeDSAuthenticationToken(): String = threeDSAuthenticationToken
+    fun threeDSAuthenticationToken(): Optional<String> =
+        Optional.ofNullable(threeDSAuthenticationToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +28,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ThreeDSAuthenticationRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ThreeDSAuthenticationRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .threeDSAuthenticationToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -56,9 +55,16 @@ private constructor(
                 threeDSAuthenticationRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun threeDSAuthenticationToken(threeDSAuthenticationToken: String) = apply {
+        fun threeDSAuthenticationToken(threeDSAuthenticationToken: String?) = apply {
             this.threeDSAuthenticationToken = threeDSAuthenticationToken
         }
+
+        /**
+         * Alias for calling [Builder.threeDSAuthenticationToken] with
+         * `threeDSAuthenticationToken.orElse(null)`.
+         */
+        fun threeDSAuthenticationToken(threeDSAuthenticationToken: Optional<String>) =
+            threeDSAuthenticationToken(threeDSAuthenticationToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -162,17 +168,10 @@ private constructor(
          * Returns an immutable instance of [ThreeDSAuthenticationRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .threeDSAuthenticationToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ThreeDSAuthenticationRetrieveParams =
             ThreeDSAuthenticationRetrieveParams(
-                checkRequired("threeDSAuthenticationToken", threeDSAuthenticationToken),
+                threeDSAuthenticationToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -180,7 +179,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> threeDSAuthenticationToken
+            0 -> threeDSAuthenticationToken ?: ""
             else -> ""
         }
 

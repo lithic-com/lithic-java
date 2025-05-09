@@ -11,13 +11,13 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
@@ -27,13 +27,13 @@ import java.util.Optional
  */
 class DisputeInitiateEvidenceUploadParams
 private constructor(
-    private val disputeToken: String,
+    private val disputeToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun disputeToken(): String = disputeToken
+    fun disputeToken(): Optional<String> = Optional.ofNullable(disputeToken)
 
     /**
      * Filename of the evidence.
@@ -60,14 +60,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): DisputeInitiateEvidenceUploadParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [DisputeInitiateEvidenceUploadParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .disputeToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -91,7 +88,10 @@ private constructor(
                 disputeInitiateEvidenceUploadParams.additionalQueryParams.toBuilder()
         }
 
-        fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
+        fun disputeToken(disputeToken: String?) = apply { this.disputeToken = disputeToken }
+
+        /** Alias for calling [Builder.disputeToken] with `disputeToken.orElse(null)`. */
+        fun disputeToken(disputeToken: Optional<String>) = disputeToken(disputeToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -234,17 +234,10 @@ private constructor(
          * Returns an immutable instance of [DisputeInitiateEvidenceUploadParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .disputeToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): DisputeInitiateEvidenceUploadParams =
             DisputeInitiateEvidenceUploadParams(
-                checkRequired("disputeToken", disputeToken),
+                disputeToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -255,7 +248,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> disputeToken
+            0 -> disputeToken ?: ""
             else -> ""
         }
 

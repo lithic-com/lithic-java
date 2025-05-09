@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.cards.BalanceServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [BalanceServiceAsync.list] */
 class CardBalanceListPageAsync
 private constructor(
     private val service: BalanceServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: CardBalanceListParams,
     private val response: CardBalanceListPageResponse,
-) {
+) : PageAsync<BalanceListResponse> {
 
     /**
      * Delegates to [CardBalanceListPageResponse], but gracefully handles missing data.
@@ -34,16 +36,18 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<BalanceListResponse> = data()
 
-    fun getNextPageParams(): Optional<CardBalanceListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): CompletableFuture<Optional<CardBalanceListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun nextPageParams(): CardBalanceListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CompletableFuture<CardBalanceListPageAsync> =
+        service.list(nextPageParams())
+
+    fun autoPager(): AutoPagerAsync<BalanceListResponse> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): CardBalanceListParams = params
@@ -61,6 +65,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -72,17 +77,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: BalanceServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: CardBalanceListParams? = null
         private var response: CardBalanceListPageResponse? = null
 
         @JvmSynthetic
         internal fun from(cardBalanceListPageAsync: CardBalanceListPageAsync) = apply {
             service = cardBalanceListPageAsync.service
+            streamHandlerExecutor = cardBalanceListPageAsync.streamHandlerExecutor
             params = cardBalanceListPageAsync.params
             response = cardBalanceListPageAsync.response
         }
 
         fun service(service: BalanceServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: CardBalanceListParams) = apply { this.params = params }
@@ -98,6 +109,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -107,38 +119,10 @@ private constructor(
         fun build(): CardBalanceListPageAsync =
             CardBalanceListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: CardBalanceListPageAsync) {
-
-        fun forEach(
-            action: Predicate<BalanceListResponse>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<CardBalanceListPageAsync>>.forEach(
-                action: (BalanceListResponse) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<BalanceListResponse>> {
-            val values = mutableListOf<BalanceListResponse>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -146,11 +130,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardBalanceListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is CardBalanceListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "CardBalanceListPageAsync{service=$service, params=$params, response=$response}"
+        "CardBalanceListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

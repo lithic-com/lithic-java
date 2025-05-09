@@ -18,6 +18,23 @@ interface FinancialTransactionService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the financial transaction for the provided token. */
+    fun retrieve(
+        financialTransactionToken: String,
+        params: FinancialTransactionRetrieveParams,
+    ): FinancialTransaction = retrieve(financialTransactionToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        financialTransactionToken: String,
+        params: FinancialTransactionRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FinancialTransaction =
+        retrieve(
+            params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
     fun retrieve(params: FinancialTransactionRetrieveParams): FinancialTransaction =
         retrieve(params, RequestOptions.none())
 
@@ -28,14 +45,42 @@ interface FinancialTransactionService {
     ): FinancialTransaction
 
     /** List the financial transactions for a given financial account. */
-    fun list(params: FinancialTransactionListParams): FinancialTransactionListPage =
-        list(params, RequestOptions.none())
+    fun list(financialAccountToken: String): FinancialTransactionListPage =
+        list(financialAccountToken, FinancialTransactionListParams.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FinancialTransactionListPage =
+        list(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+    ): FinancialTransactionListPage = list(financialAccountToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialTransactionListPage
+
+    /** @see [list] */
+    fun list(params: FinancialTransactionListParams): FinancialTransactionListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        requestOptions: RequestOptions,
+    ): FinancialTransactionListPage =
+        list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
 
     /**
      * A view of [FinancialTransactionService] that provides access to raw HTTP responses for each
@@ -48,6 +93,26 @@ interface FinancialTransactionService {
          * /v1/financial_accounts/{financial_account_token}/financial_transactions/{financial_transaction_token}`,
          * but is otherwise the same as [FinancialTransactionService.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: FinancialTransactionRetrieveParams,
+        ): HttpResponseFor<FinancialTransaction> =
+            retrieve(financialTransactionToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: FinancialTransactionRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FinancialTransaction> =
+            retrieve(
+                params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialTransactionRetrieveParams
@@ -66,9 +131,28 @@ interface FinancialTransactionService {
          * otherwise the same as [FinancialTransactionService.list].
          */
         @MustBeClosed
+        fun list(financialAccountToken: String): HttpResponseFor<FinancialTransactionListPage> =
+            list(financialAccountToken, FinancialTransactionListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
         fun list(
-            params: FinancialTransactionListParams
-        ): HttpResponseFor<FinancialTransactionListPage> = list(params, RequestOptions.none())
+            financialAccountToken: String,
+            params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FinancialTransactionListPage> =
+            list(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
+        ): HttpResponseFor<FinancialTransactionListPage> =
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -76,5 +160,19 @@ interface FinancialTransactionService {
             params: FinancialTransactionListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialTransactionListPage>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialTransactionListParams
+        ): HttpResponseFor<FinancialTransactionListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<FinancialTransactionListPage> =
+            list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
     }
 }

@@ -19,6 +19,20 @@ interface LoanTapeServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get a specific loan tape for a given financial account. */
+    fun retrieve(
+        loanTapeToken: String,
+        params: FinancialAccountLoanTapeRetrieveParams,
+    ): CompletableFuture<LoanTape> = retrieve(loanTapeToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        loanTapeToken: String,
+        params: FinancialAccountLoanTapeRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<LoanTape> =
+        retrieve(params.toBuilder().loanTapeToken(loanTapeToken).build(), requestOptions)
+
+    /** @see [retrieve] */
     fun retrieve(params: FinancialAccountLoanTapeRetrieveParams): CompletableFuture<LoanTape> =
         retrieve(params, RequestOptions.none())
 
@@ -30,15 +44,46 @@ interface LoanTapeServiceAsync {
 
     /** List the loan tapes for a given financial account. */
     fun list(
-        params: FinancialAccountLoanTapeListParams
+        financialAccountToken: String
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
-        list(params, RequestOptions.none())
+        list(financialAccountToken, FinancialAccountLoanTapeListParams.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
+        list(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
+    ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: FinancialAccountLoanTapeListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync>
+
+    /** @see [list] */
+    fun list(
+        params: FinancialAccountLoanTapeListParams
+    ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        financialAccountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
+        list(financialAccountToken, FinancialAccountLoanTapeListParams.none(), requestOptions)
 
     /**
      * A view of [LoanTapeServiceAsync] that provides access to raw HTTP responses for each method.
@@ -50,6 +95,23 @@ interface LoanTapeServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes/{loan_tape_token}`, but is
          * otherwise the same as [LoanTapeServiceAsync.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            loanTapeToken: String,
+            params: FinancialAccountLoanTapeRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<LoanTape>> =
+            retrieve(loanTapeToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            loanTapeToken: String,
+            params: FinancialAccountLoanTapeRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<LoanTape>> =
+            retrieve(params.toBuilder().loanTapeToken(loanTapeToken).build(), requestOptions)
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams
@@ -69,9 +131,29 @@ interface LoanTapeServiceAsync {
          */
         @MustBeClosed
         fun list(
-            params: FinancialAccountLoanTapeListParams
+            financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(financialAccountToken, FinancialAccountLoanTapeListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
+            list(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -79,5 +161,20 @@ interface LoanTapeServiceAsync {
             params: FinancialAccountLoanTapeListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: FinancialAccountLoanTapeListParams
+        ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            financialAccountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
+            list(financialAccountToken, FinancialAccountLoanTapeListParams.none(), requestOptions)
     }
 }

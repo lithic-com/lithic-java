@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -19,7 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 /** List the financial transactions for a given card. */
 class CardFinancialTransactionListParams
 private constructor(
-    private val cardToken: String,
+    private val cardToken: String?,
     private val begin: OffsetDateTime?,
     private val category: Category?,
     private val end: OffsetDateTime?,
@@ -31,7 +30,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun cardToken(): String = cardToken
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
     /**
      * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -74,14 +73,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): CardFinancialTransactionListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [CardFinancialTransactionListParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -116,7 +112,10 @@ private constructor(
                     cardFinancialTransactionListParams.additionalQueryParams.toBuilder()
             }
 
-        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
+
+        /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
+        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -275,17 +274,10 @@ private constructor(
          * Returns an immutable instance of [CardFinancialTransactionListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .cardToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CardFinancialTransactionListParams =
             CardFinancialTransactionListParams(
-                checkRequired("cardToken", cardToken),
+                cardToken,
                 begin,
                 category,
                 end,
@@ -300,7 +292,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> cardToken
+            0 -> cardToken ?: ""
             else -> ""
         }
 

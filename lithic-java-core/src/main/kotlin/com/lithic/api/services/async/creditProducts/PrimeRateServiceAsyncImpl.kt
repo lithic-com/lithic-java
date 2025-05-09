@@ -5,6 +5,7 @@ package com.lithic.api.services.async.creditProducts
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -21,6 +22,7 @@ import com.lithic.api.models.CreditProductPrimeRateCreateParams
 import com.lithic.api.models.CreditProductPrimeRateRetrieveParams
 import com.lithic.api.models.PrimeRateRetrieveResponse
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class PrimeRateServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     PrimeRateServiceAsync {
@@ -56,6 +58,9 @@ class PrimeRateServiceAsyncImpl internal constructor(private val clientOptions: 
             params: CreditProductPrimeRateCreateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("creditProductToken", params.creditProductToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -79,6 +84,9 @@ class PrimeRateServiceAsyncImpl internal constructor(private val clientOptions: 
             params: CreditProductPrimeRateRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<PrimeRateRetrieveResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("creditProductToken", params.creditProductToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

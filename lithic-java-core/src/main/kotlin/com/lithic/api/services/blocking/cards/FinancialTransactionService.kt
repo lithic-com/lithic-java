@@ -18,6 +18,23 @@ interface FinancialTransactionService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the card financial transaction for the provided token. */
+    fun retrieve(
+        financialTransactionToken: String,
+        params: CardFinancialTransactionRetrieveParams,
+    ): FinancialTransaction = retrieve(financialTransactionToken, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        financialTransactionToken: String,
+        params: CardFinancialTransactionRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): FinancialTransaction =
+        retrieve(
+            params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
     fun retrieve(params: CardFinancialTransactionRetrieveParams): FinancialTransaction =
         retrieve(params, RequestOptions.none())
 
@@ -28,14 +45,36 @@ interface FinancialTransactionService {
     ): FinancialTransaction
 
     /** List the financial transactions for a given card. */
-    fun list(params: CardFinancialTransactionListParams): CardFinancialTransactionListPage =
-        list(params, RequestOptions.none())
+    fun list(cardToken: String): CardFinancialTransactionListPage =
+        list(cardToken, CardFinancialTransactionListParams.none())
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CardFinancialTransactionListPage =
+        list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
+    ): CardFinancialTransactionListPage = list(cardToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: CardFinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardFinancialTransactionListPage
+
+    /** @see [list] */
+    fun list(params: CardFinancialTransactionListParams): CardFinancialTransactionListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(cardToken: String, requestOptions: RequestOptions): CardFinancialTransactionListPage =
+        list(cardToken, CardFinancialTransactionListParams.none(), requestOptions)
 
     /**
      * A view of [FinancialTransactionService] that provides access to raw HTTP responses for each
@@ -48,6 +87,26 @@ interface FinancialTransactionService {
          * /v1/cards/{card_token}/financial_transactions/{financial_transaction_token}`, but is
          * otherwise the same as [FinancialTransactionService.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: CardFinancialTransactionRetrieveParams,
+        ): HttpResponseFor<FinancialTransaction> =
+            retrieve(financialTransactionToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            financialTransactionToken: String,
+            params: CardFinancialTransactionRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<FinancialTransaction> =
+            retrieve(
+                params.toBuilder().financialTransactionToken(financialTransactionToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: CardFinancialTransactionRetrieveParams
@@ -65,9 +124,25 @@ interface FinancialTransactionService {
          * is otherwise the same as [FinancialTransactionService.list].
          */
         @MustBeClosed
+        fun list(cardToken: String): HttpResponseFor<CardFinancialTransactionListPage> =
+            list(cardToken, CardFinancialTransactionListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
         fun list(
-            params: CardFinancialTransactionListParams
-        ): HttpResponseFor<CardFinancialTransactionListPage> = list(params, RequestOptions.none())
+            cardToken: String,
+            params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardFinancialTransactionListPage> =
+            list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
+        ): HttpResponseFor<CardFinancialTransactionListPage> =
+            list(cardToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -75,5 +150,19 @@ interface FinancialTransactionService {
             params: CardFinancialTransactionListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardFinancialTransactionListPage>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardFinancialTransactionListParams
+        ): HttpResponseFor<CardFinancialTransactionListPage> = list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CardFinancialTransactionListPage> =
+            list(cardToken, CardFinancialTransactionListParams.none(), requestOptions)
     }
 }

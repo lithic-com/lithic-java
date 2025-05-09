@@ -16,14 +16,34 @@ interface BalanceService {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given card. */
-    fun list(params: CardBalanceListParams): CardBalanceListPage =
-        list(params, RequestOptions.none())
+    fun list(cardToken: String): CardBalanceListPage = list(cardToken, CardBalanceListParams.none())
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardBalanceListParams = CardBalanceListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CardBalanceListPage = list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardBalanceListParams = CardBalanceListParams.none(),
+    ): CardBalanceListPage = list(cardToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: CardBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardBalanceListPage
+
+    /** @see [list] */
+    fun list(params: CardBalanceListParams): CardBalanceListPage =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(cardToken: String, requestOptions: RequestOptions): CardBalanceListPage =
+        list(cardToken, CardBalanceListParams.none(), requestOptions)
 
     /** A view of [BalanceService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -33,8 +53,24 @@ interface BalanceService {
          * the same as [BalanceService.list].
          */
         @MustBeClosed
-        fun list(params: CardBalanceListParams): HttpResponseFor<CardBalanceListPage> =
-            list(params, RequestOptions.none())
+        fun list(cardToken: String): HttpResponseFor<CardBalanceListPage> =
+            list(cardToken, CardBalanceListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            params: CardBalanceListParams = CardBalanceListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<CardBalanceListPage> =
+            list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            params: CardBalanceListParams = CardBalanceListParams.none(),
+        ): HttpResponseFor<CardBalanceListPage> = list(cardToken, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -42,5 +78,18 @@ interface BalanceService {
             params: CardBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardBalanceListPage>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(params: CardBalanceListParams): HttpResponseFor<CardBalanceListPage> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CardBalanceListPage> =
+            list(cardToken, CardBalanceListParams.none(), requestOptions)
     }
 }

@@ -4,8 +4,6 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.AccountRetrieveParams
-import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -23,12 +21,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.accounts()
 
-        val account =
-            accountService.retrieve(
-                AccountRetrieveParams.builder()
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val account = accountService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         account.validate()
     }
@@ -91,11 +84,7 @@ internal class AccountServiceTest {
         val accountService = client.accounts()
 
         val accountSpendLimits =
-            accountService.retrieveSpendLimits(
-                AccountRetrieveSpendLimitsParams.builder()
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountService.retrieveSpendLimits("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         accountSpendLimits.validate()
     }

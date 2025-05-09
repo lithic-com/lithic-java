@@ -33,13 +33,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class CardConvertPhysicalParams
 private constructor(
-    private val cardToken: String,
+    private val cardToken: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun cardToken(): String = cardToken
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
     /**
      * The shipping address this card will be sent to.
@@ -125,7 +125,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .cardToken()
          * .shippingAddress()
          * ```
          */
@@ -148,7 +147,10 @@ private constructor(
             additionalQueryParams = cardConvertPhysicalParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
+
+        /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
+        fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -355,7 +357,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .cardToken()
          * .shippingAddress()
          * ```
          *
@@ -363,7 +364,7 @@ private constructor(
          */
         fun build(): CardConvertPhysicalParams =
             CardConvertPhysicalParams(
-                checkRequired("cardToken", cardToken),
+                cardToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -374,7 +375,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> cardToken
+            0 -> cardToken ?: ""
             else -> ""
         }
 

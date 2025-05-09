@@ -4,7 +4,6 @@ package com.lithic.api.services.async.creditProducts
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -20,12 +19,7 @@ internal class ExtendedCreditServiceAsyncTest {
                 .build()
         val extendedCreditServiceAsync = client.creditProducts().extendedCredit()
 
-        val extendedCreditFuture =
-            extendedCreditServiceAsync.retrieve(
-                CreditProductExtendedCreditRetrieveParams.builder()
-                    .creditProductToken("credit_product_token")
-                    .build()
-            )
+        val extendedCreditFuture = extendedCreditServiceAsync.retrieve("credit_product_token")
 
         val extendedCredit = extendedCreditFuture.get()
         extendedCredit.validate()

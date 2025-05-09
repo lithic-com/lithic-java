@@ -6,11 +6,8 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.DisputeCreateParams
 import com.lithic.api.models.DisputeDeleteEvidenceParams
-import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
-import com.lithic.api.models.DisputeListEvidencesParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
-import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Test
@@ -51,12 +48,7 @@ internal class DisputeServiceTest {
                 .build()
         val disputeService = client.disputes()
 
-        val dispute =
-            disputeService.retrieve(
-                DisputeRetrieveParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val dispute = disputeService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         dispute.validate()
     }
@@ -107,12 +99,7 @@ internal class DisputeServiceTest {
                 .build()
         val disputeService = client.disputes()
 
-        val dispute =
-            disputeService.delete(
-                DisputeDeleteParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val dispute = disputeService.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         dispute.validate()
     }
@@ -166,12 +153,7 @@ internal class DisputeServiceTest {
                 .build()
         val disputeService = client.disputes()
 
-        val page =
-            disputeService.listEvidences(
-                DisputeListEvidencesParams.builder()
-                    .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val page = disputeService.listEvidences("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         page.response().validate()
     }

@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.FinancialAccountServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [FinancialAccountServiceAsync.list] */
 class FinancialAccountListPageAsync
 private constructor(
     private val service: FinancialAccountServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: FinancialAccountListParams,
     private val response: FinancialAccountListPageResponse,
-) {
+) : PageAsync<FinancialAccount> {
 
     /**
      * Delegates to [FinancialAccountListPageResponse], but gracefully handles missing data.
@@ -34,16 +36,18 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<FinancialAccount> = data()
 
-    fun getNextPageParams(): Optional<FinancialAccountListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): CompletableFuture<Optional<FinancialAccountListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun nextPageParams(): FinancialAccountListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CompletableFuture<FinancialAccountListPageAsync> =
+        service.list(nextPageParams())
+
+    fun autoPager(): AutoPagerAsync<FinancialAccount> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialAccountListParams = params
@@ -62,6 +66,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -73,17 +78,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: FinancialAccountServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: FinancialAccountListParams? = null
         private var response: FinancialAccountListPageResponse? = null
 
         @JvmSynthetic
         internal fun from(financialAccountListPageAsync: FinancialAccountListPageAsync) = apply {
             service = financialAccountListPageAsync.service
+            streamHandlerExecutor = financialAccountListPageAsync.streamHandlerExecutor
             params = financialAccountListPageAsync.params
             response = financialAccountListPageAsync.response
         }
 
         fun service(service: FinancialAccountServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: FinancialAccountListParams) = apply { this.params = params }
@@ -101,6 +112,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -110,38 +122,10 @@ private constructor(
         fun build(): FinancialAccountListPageAsync =
             FinancialAccountListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: FinancialAccountListPageAsync) {
-
-        fun forEach(
-            action: Predicate<FinancialAccount>,
-            executor: Executor,
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<FinancialAccountListPageAsync>>.forEach(
-                action: (FinancialAccount) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<FinancialAccount>> {
-            val values = mutableListOf<FinancialAccount>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -149,11 +133,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is FinancialAccountListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "FinancialAccountListPageAsync{service=$service, params=$params, response=$response}"
+        "FinancialAccountListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

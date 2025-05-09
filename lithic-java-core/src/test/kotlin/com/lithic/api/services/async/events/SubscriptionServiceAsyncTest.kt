@@ -5,13 +5,8 @@ package com.lithic.api.services.async.events
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.EventSubscriptionCreateParams
-import com.lithic.api.models.EventSubscriptionDeleteParams
-import com.lithic.api.models.EventSubscriptionListAttemptsParams
 import com.lithic.api.models.EventSubscriptionRecoverParams
 import com.lithic.api.models.EventSubscriptionReplayMissingParams
-import com.lithic.api.models.EventSubscriptionRetrieveParams
-import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventSubscriptionRotateSecretParams
 import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
 import com.lithic.api.models.EventSubscriptionUpdateParams
 import java.time.OffsetDateTime
@@ -54,12 +49,7 @@ internal class SubscriptionServiceAsyncTest {
                 .build()
         val subscriptionServiceAsync = client.events().subscriptions()
 
-        val eventSubscriptionFuture =
-            subscriptionServiceAsync.retrieve(
-                EventSubscriptionRetrieveParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val eventSubscriptionFuture = subscriptionServiceAsync.retrieve("event_subscription_token")
 
         val eventSubscription = eventSubscriptionFuture.get()
         eventSubscription.validate()
@@ -114,12 +104,7 @@ internal class SubscriptionServiceAsyncTest {
                 .build()
         val subscriptionServiceAsync = client.events().subscriptions()
 
-        val future =
-            subscriptionServiceAsync.delete(
-                EventSubscriptionDeleteParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val future = subscriptionServiceAsync.delete("event_subscription_token")
 
         val response = future.get()
     }
@@ -133,12 +118,7 @@ internal class SubscriptionServiceAsyncTest {
                 .build()
         val subscriptionServiceAsync = client.events().subscriptions()
 
-        val pageFuture =
-            subscriptionServiceAsync.listAttempts(
-                EventSubscriptionListAttemptsParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val pageFuture = subscriptionServiceAsync.listAttempts("event_subscription_token")
 
         val page = pageFuture.get()
         page.response().validate()
@@ -197,12 +177,7 @@ internal class SubscriptionServiceAsyncTest {
                 .build()
         val subscriptionServiceAsync = client.events().subscriptions()
 
-        val responseFuture =
-            subscriptionServiceAsync.retrieveSecret(
-                EventSubscriptionRetrieveSecretParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val responseFuture = subscriptionServiceAsync.retrieveSecret("event_subscription_token")
 
         val response = responseFuture.get()
         response.validate()
@@ -218,12 +193,7 @@ internal class SubscriptionServiceAsyncTest {
                 .build()
         val subscriptionServiceAsync = client.events().subscriptions()
 
-        val future =
-            subscriptionServiceAsync.rotateSecret(
-                EventSubscriptionRotateSecretParams.builder()
-                    .eventSubscriptionToken("event_subscription_token")
-                    .build()
-            )
+        val future = subscriptionServiceAsync.rotateSecret("event_subscription_token")
 
         val response = future.get()
     }

@@ -4,23 +4,23 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Delete an event subscription. */
 class EventSubscriptionDeleteParams
 private constructor(
-    private val eventSubscriptionToken: String,
+    private val eventSubscriptionToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun eventSubscriptionToken(): String = eventSubscriptionToken
+    fun eventSubscriptionToken(): Optional<String> = Optional.ofNullable(eventSubscriptionToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -32,14 +32,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): EventSubscriptionDeleteParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [EventSubscriptionDeleteParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -61,9 +58,16 @@ private constructor(
                 eventSubscriptionDeleteParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
+        fun eventSubscriptionToken(eventSubscriptionToken: String?) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
+
+        /**
+         * Alias for calling [Builder.eventSubscriptionToken] with
+         * `eventSubscriptionToken.orElse(null)`.
+         */
+        fun eventSubscriptionToken(eventSubscriptionToken: Optional<String>) =
+            eventSubscriptionToken(eventSubscriptionToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -189,17 +193,10 @@ private constructor(
          * Returns an immutable instance of [EventSubscriptionDeleteParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): EventSubscriptionDeleteParams =
             EventSubscriptionDeleteParams(
-                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                eventSubscriptionToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -211,7 +208,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> eventSubscriptionToken
+            0 -> eventSubscriptionToken ?: ""
             else -> ""
         }
 

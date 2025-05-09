@@ -17,14 +17,39 @@ interface BalanceServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get the balances for a given card. */
-    fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
-        list(params, RequestOptions.none())
+    fun list(cardToken: String): CompletableFuture<CardBalanceListPageAsync> =
+        list(cardToken, CardBalanceListParams.none())
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardBalanceListParams = CardBalanceListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardBalanceListPageAsync> =
+        list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        params: CardBalanceListParams = CardBalanceListParams.none(),
+    ): CompletableFuture<CardBalanceListPageAsync> = list(cardToken, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
         params: CardBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBalanceListPageAsync>
+
+    /** @see [list] */
+    fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
+        list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        cardToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardBalanceListPageAsync> =
+        list(cardToken, CardBalanceListParams.none(), requestOptions)
 
     /**
      * A view of [BalanceServiceAsync] that provides access to raw HTTP responses for each method.
@@ -36,6 +61,35 @@ interface BalanceServiceAsync {
          * the same as [BalanceServiceAsync.list].
          */
         @MustBeClosed
+        fun list(cardToken: String): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            list(cardToken, CardBalanceListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            params: CardBalanceListParams = CardBalanceListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            cardToken: String,
+            params: CardBalanceListParams = CardBalanceListParams.none(),
+        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            list(cardToken, params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: CardBalanceListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>>
+
+        /** @see [list] */
+        @MustBeClosed
         fun list(
             params: CardBalanceListParams
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
@@ -44,8 +98,9 @@ interface BalanceServiceAsync {
         /** @see [list] */
         @MustBeClosed
         fun list(
-            params: CardBalanceListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>>
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
+            list(cardToken, CardBalanceListParams.none(), requestOptions)
     }
 }

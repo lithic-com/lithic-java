@@ -2,22 +2,24 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.AutoPagerAsync
+import com.lithic.api.core.PageAsync
 import com.lithic.api.core.checkRequired
 import com.lithic.api.services.async.AccountHolderServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
-import java.util.function.Predicate
 import kotlin.jvm.optionals.getOrNull
 
 /** @see [AccountHolderServiceAsync.list] */
 class AccountHolderListPageAsync
 private constructor(
     private val service: AccountHolderServiceAsync,
+    private val streamHandlerExecutor: Executor,
     private val params: AccountHolderListParams,
     private val response: AccountHolderListPageResponse,
-) {
+) : PageAsync<AccountHolder> {
 
     /**
      * Delegates to [AccountHolderListPageResponse], but gracefully handles missing data.
@@ -34,16 +36,18 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    fun hasNextPage(): Boolean = data().isNotEmpty()
+    override fun items(): List<AccountHolder> = data()
 
-    fun getNextPageParams(): Optional<AccountHolderListParams> = Optional.empty()
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
-    fun getNextPage(): CompletableFuture<Optional<AccountHolderListPageAsync>> =
-        getNextPageParams()
-            .map { service.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun nextPageParams(): AccountHolderListParams =
+        throw IllegalStateException("Cannot construct next page params")
 
-    fun autoPager(): AutoPager = AutoPager(this)
+    override fun nextPage(): CompletableFuture<AccountHolderListPageAsync> =
+        service.list(nextPageParams())
+
+    fun autoPager(): AutoPagerAsync<AccountHolder> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): AccountHolderListParams = params
@@ -61,6 +65,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -72,17 +77,23 @@ private constructor(
     class Builder internal constructor() {
 
         private var service: AccountHolderServiceAsync? = null
+        private var streamHandlerExecutor: Executor? = null
         private var params: AccountHolderListParams? = null
         private var response: AccountHolderListPageResponse? = null
 
         @JvmSynthetic
         internal fun from(accountHolderListPageAsync: AccountHolderListPageAsync) = apply {
             service = accountHolderListPageAsync.service
+            streamHandlerExecutor = accountHolderListPageAsync.streamHandlerExecutor
             params = accountHolderListPageAsync.params
             response = accountHolderListPageAsync.response
         }
 
         fun service(service: AccountHolderServiceAsync) = apply { this.service = service }
+
+        fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
+            this.streamHandlerExecutor = streamHandlerExecutor
+        }
 
         /** The parameters that were used to request this page. */
         fun params(params: AccountHolderListParams) = apply { this.params = params }
@@ -98,6 +109,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .service()
+         * .streamHandlerExecutor()
          * .params()
          * .response()
          * ```
@@ -107,35 +119,10 @@ private constructor(
         fun build(): AccountHolderListPageAsync =
             AccountHolderListPageAsync(
                 checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
                 checkRequired("params", params),
                 checkRequired("response", response),
             )
-    }
-
-    class AutoPager(private val firstPage: AccountHolderListPageAsync) {
-
-        fun forEach(action: Predicate<AccountHolder>, executor: Executor): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<AccountHolderListPageAsync>>.forEach(
-                action: (AccountHolder) -> Boolean,
-                executor: Executor,
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor,
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
-        }
-
-        fun toList(executor: Executor): CompletableFuture<List<AccountHolder>> {
-            val values = mutableListOf<AccountHolder>()
-            return forEach(values::add, executor).thenApply { values }
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -143,11 +130,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderListPageAsync && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return /* spotless:off */ other is AccountHolderListPageAsync && service == other.service && streamHandlerExecutor == other.streamHandlerExecutor && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, streamHandlerExecutor, params, response) /* spotless:on */
 
     override fun toString() =
-        "AccountHolderListPageAsync{service=$service, params=$params, response=$response}"
+        "AccountHolderListPageAsync{service=$service, streamHandlerExecutor=$streamHandlerExecutor, params=$params, response=$response}"
 }

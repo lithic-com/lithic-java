@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
@@ -19,7 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 /** List the financial transactions for a given financial account. */
 class FinancialTransactionListParams
 private constructor(
-    private val financialAccountToken: String,
+    private val financialAccountToken: String?,
     private val begin: OffsetDateTime?,
     private val category: Category?,
     private val end: OffsetDateTime?,
@@ -31,7 +30,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     /**
      * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -74,14 +73,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): FinancialTransactionListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [FinancialTransactionListParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -114,9 +110,16 @@ private constructor(
             additionalQueryParams = financialTransactionListParams.additionalQueryParams.toBuilder()
         }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -275,17 +278,10 @@ private constructor(
          * Returns an immutable instance of [FinancialTransactionListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): FinancialTransactionListParams =
             FinancialTransactionListParams(
-                checkRequired("financialAccountToken", financialAccountToken),
+                financialAccountToken,
                 begin,
                 category,
                 end,
@@ -300,7 +296,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> financialAccountToken
+            0 -> financialAccountToken ?: ""
             else -> ""
         }
 

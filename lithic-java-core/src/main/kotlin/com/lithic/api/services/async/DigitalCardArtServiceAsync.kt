@@ -19,14 +19,43 @@ interface DigitalCardArtServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Get digital card art by token. */
-    fun retrieve(params: DigitalCardArtRetrieveParams): CompletableFuture<DigitalCardArt> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(digitalCardArtToken: String): CompletableFuture<DigitalCardArt> =
+        retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        digitalCardArtToken: String,
+        params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DigitalCardArt> =
+        retrieve(
+            params.toBuilder().digitalCardArtToken(digitalCardArtToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
+        digitalCardArtToken: String,
+        params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+    ): CompletableFuture<DigitalCardArt> =
+        retrieve(digitalCardArtToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArt>
+
+    /** @see [retrieve] */
+    fun retrieve(params: DigitalCardArtRetrieveParams): CompletableFuture<DigitalCardArt> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        digitalCardArtToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DigitalCardArt> =
+        retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none(), requestOptions)
 
     /** List digital card art. */
     fun list(): CompletableFuture<DigitalCardArtListPageAsync> =
@@ -59,9 +88,29 @@ interface DigitalCardArtServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: DigitalCardArtRetrieveParams
+            digitalCardArtToken: String
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
+            retrieve(
+                params.toBuilder().digitalCardArtToken(digitalCardArtToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
+            retrieve(digitalCardArtToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -69,6 +118,21 @@ interface DigitalCardArtServiceAsync {
             params: DigitalCardArtRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: DigitalCardArtRetrieveParams
+        ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            digitalCardArtToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
+            retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/digital_card_art`, but is otherwise the same as

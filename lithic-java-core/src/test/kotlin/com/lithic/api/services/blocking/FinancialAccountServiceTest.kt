@@ -5,7 +5,6 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.FinancialAccountCreateParams
-import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.models.FinancialAccountUpdateStatusParams
 import org.junit.jupiter.api.Test
@@ -47,11 +46,7 @@ internal class FinancialAccountServiceTest {
         val financialAccountService = client.financialAccounts()
 
         val financialAccount =
-            financialAccountService.retrieve(
-                FinancialAccountRetrieveParams.builder()
-                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            financialAccountService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         financialAccount.validate()
     }

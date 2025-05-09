@@ -18,6 +18,21 @@ interface LineItemServiceAsync {
 
     /** List the line items for a given statement within a given financial account. */
     fun list(
+        statementToken: String,
+        params: FinancialAccountStatementLineItemListParams,
+    ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
+        list(statementToken, params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        statementToken: String,
+        params: FinancialAccountStatementLineItemListParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
+        list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
         params: FinancialAccountStatementLineItemListParams
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
         list(params, RequestOptions.none())
@@ -38,6 +53,23 @@ interface LineItemServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}/line_items`,
          * but is otherwise the same as [LineItemServiceAsync.list].
          */
+        @MustBeClosed
+        fun list(
+            statementToken: String,
+            params: FinancialAccountStatementLineItemListParams,
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
+            list(statementToken, params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            statementToken: String,
+            params: FinancialAccountStatementLineItemListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
+            list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+
+        /** @see [list] */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams

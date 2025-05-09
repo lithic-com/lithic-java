@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
@@ -14,7 +13,7 @@ import kotlin.jvm.optionals.getOrNull
 /** Get Credit Product Prime Rates */
 class CreditProductPrimeRateRetrieveParams
 private constructor(
-    private val creditProductToken: String,
+    private val creditProductToken: String?,
     private val endingBefore: LocalDate?,
     private val startingAfter: LocalDate?,
     private val additionalHeaders: Headers,
@@ -22,7 +21,7 @@ private constructor(
 ) : Params {
 
     /** Globally unique identifier for credit products. */
-    fun creditProductToken(): String = creditProductToken
+    fun creditProductToken(): Optional<String> = Optional.ofNullable(creditProductToken)
 
     /** The effective date that the prime rates ends before */
     fun endingBefore(): Optional<LocalDate> = Optional.ofNullable(endingBefore)
@@ -38,14 +37,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): CreditProductPrimeRateRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [CreditProductPrimeRateRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .creditProductToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -72,9 +68,15 @@ private constructor(
         }
 
         /** Globally unique identifier for credit products. */
-        fun creditProductToken(creditProductToken: String) = apply {
+        fun creditProductToken(creditProductToken: String?) = apply {
             this.creditProductToken = creditProductToken
         }
+
+        /**
+         * Alias for calling [Builder.creditProductToken] with `creditProductToken.orElse(null)`.
+         */
+        fun creditProductToken(creditProductToken: Optional<String>) =
+            creditProductToken(creditProductToken.getOrNull())
 
         /** The effective date that the prime rates ends before */
         fun endingBefore(endingBefore: LocalDate?) = apply { this.endingBefore = endingBefore }
@@ -191,17 +193,10 @@ private constructor(
          * Returns an immutable instance of [CreditProductPrimeRateRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .creditProductToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CreditProductPrimeRateRetrieveParams =
             CreditProductPrimeRateRetrieveParams(
-                checkRequired("creditProductToken", creditProductToken),
+                creditProductToken,
                 endingBefore,
                 startingAfter,
                 additionalHeaders.build(),
@@ -211,7 +206,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> creditProductToken
+            0 -> creditProductToken ?: ""
             else -> ""
         }
 

@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.reports
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -21,6 +22,7 @@ import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
 import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
 import com.lithic.api.services.blocking.reports.settlement.NetworkTotalServiceImpl
+import kotlin.jvm.optionals.getOrNull
 
 class SettlementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SettlementService {
@@ -70,6 +72,9 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             params: ReportSettlementListDetailsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ReportSettlementListDetailsPage> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("reportDate", params.reportDate().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -103,6 +108,9 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             params: ReportSettlementSummaryParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<SettlementReport> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("reportDate", params.reportDate().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

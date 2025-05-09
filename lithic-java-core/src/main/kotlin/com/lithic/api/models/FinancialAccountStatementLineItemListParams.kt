@@ -14,7 +14,7 @@ import kotlin.jvm.optionals.getOrNull
 class FinancialAccountStatementLineItemListParams
 private constructor(
     private val financialAccountToken: String,
-    private val statementToken: String,
+    private val statementToken: String?,
     private val endingBefore: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
@@ -26,7 +26,7 @@ private constructor(
     fun financialAccountToken(): String = financialAccountToken
 
     /** Globally unique identifier for statements. */
-    fun statementToken(): String = statementToken
+    fun statementToken(): Optional<String> = Optional.ofNullable(statementToken)
 
     /**
      * A cursor representing an item's token before which a page of results should end. Used to
@@ -58,7 +58,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .statementToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -97,7 +96,11 @@ private constructor(
         }
 
         /** Globally unique identifier for statements. */
-        fun statementToken(statementToken: String) = apply { this.statementToken = statementToken }
+        fun statementToken(statementToken: String?) = apply { this.statementToken = statementToken }
+
+        /** Alias for calling [Builder.statementToken] with `statementToken.orElse(null)`. */
+        fun statementToken(statementToken: Optional<String>) =
+            statementToken(statementToken.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -237,7 +240,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .statementToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -245,7 +247,7 @@ private constructor(
         fun build(): FinancialAccountStatementLineItemListParams =
             FinancialAccountStatementLineItemListParams(
                 checkRequired("financialAccountToken", financialAccountToken),
-                checkRequired("statementToken", statementToken),
+                statementToken,
                 endingBefore,
                 pageSize,
                 startingAfter,
@@ -257,7 +259,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> financialAccountToken
-            1 -> statementToken
+            1 -> statementToken ?: ""
             else -> ""
         }
 

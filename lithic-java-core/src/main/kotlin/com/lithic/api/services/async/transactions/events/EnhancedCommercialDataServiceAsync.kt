@@ -20,15 +20,46 @@ interface EnhancedCommercialDataServiceAsync {
      * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
      * sandbox.
      */
+    fun retrieve(eventToken: String): CompletableFuture<EnhancedData> =
+        retrieve(eventToken, TransactionEventEnhancedCommercialDataRetrieveParams.none())
+
+    /** @see [retrieve] */
     fun retrieve(
-        params: TransactionEventEnhancedCommercialDataRetrieveParams
-    ): CompletableFuture<EnhancedData> = retrieve(params, RequestOptions.none())
+        eventToken: String,
+        params: TransactionEventEnhancedCommercialDataRetrieveParams =
+            TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<EnhancedData> =
+        retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        eventToken: String,
+        params: TransactionEventEnhancedCommercialDataRetrieveParams =
+            TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+    ): CompletableFuture<EnhancedData> = retrieve(eventToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedData>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: TransactionEventEnhancedCommercialDataRetrieveParams
+    ): CompletableFuture<EnhancedData> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        eventToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<EnhancedData> =
+        retrieve(
+            eventToken,
+            TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [EnhancedCommercialDataServiceAsync] that provides access to raw HTTP responses for
@@ -42,6 +73,37 @@ interface EnhancedCommercialDataServiceAsync {
          * same as [EnhancedCommercialDataServiceAsync.retrieve].
          */
         @MustBeClosed
+        fun retrieve(eventToken: String): CompletableFuture<HttpResponseFor<EnhancedData>> =
+            retrieve(eventToken, TransactionEventEnhancedCommercialDataRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            eventToken: String,
+            params: TransactionEventEnhancedCommercialDataRetrieveParams =
+                TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedData>> =
+            retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            eventToken: String,
+            params: TransactionEventEnhancedCommercialDataRetrieveParams =
+                TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedData>> =
+            retrieve(eventToken, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: TransactionEventEnhancedCommercialDataRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<EnhancedData>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
         fun retrieve(
             params: TransactionEventEnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
@@ -50,8 +112,13 @@ interface EnhancedCommercialDataServiceAsync {
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: TransactionEventEnhancedCommercialDataRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EnhancedData>>
+            eventToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<EnhancedData>> =
+            retrieve(
+                eventToken,
+                TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+                requestOptions,
+            )
     }
 }

@@ -22,14 +22,49 @@ interface AuthenticationServiceAsync {
 
     /** Get 3DS Authentication by token */
     fun retrieve(
-        params: ThreeDSAuthenticationRetrieveParams
-    ): CompletableFuture<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
+        threeDSAuthenticationToken: String
+    ): CompletableFuture<AuthenticationRetrieveResponse> =
+        retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        threeDSAuthenticationToken: String,
+        params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AuthenticationRetrieveResponse> =
+        retrieve(
+            params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
+            requestOptions,
+        )
+
+    /** @see [retrieve] */
+    fun retrieve(
+        threeDSAuthenticationToken: String,
+        params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
+    ): CompletableFuture<AuthenticationRetrieveResponse> =
+        retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthenticationRetrieveResponse>
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: ThreeDSAuthenticationRetrieveParams
+    ): CompletableFuture<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        threeDSAuthenticationToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AuthenticationRetrieveResponse> =
+        retrieve(
+            threeDSAuthenticationToken,
+            ThreeDSAuthenticationRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * Simulates a 3DS authentication request from the payment network as if it came from an ACS. If
@@ -75,9 +110,30 @@ interface AuthenticationServiceAsync {
          */
         @MustBeClosed
         fun retrieve(
-            params: ThreeDSAuthenticationRetrieveParams
+            threeDSAuthenticationToken: String
         ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            threeDSAuthenticationToken: String,
+            params: ThreeDSAuthenticationRetrieveParams =
+                ThreeDSAuthenticationRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+            retrieve(
+                params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
+                requestOptions,
+            )
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            threeDSAuthenticationToken: String,
+            params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+            retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -85,6 +141,25 @@ interface AuthenticationServiceAsync {
             params: ThreeDSAuthenticationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: ThreeDSAuthenticationRetrieveParams
+        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            threeDSAuthenticationToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+            retrieve(
+                threeDSAuthenticationToken,
+                ThreeDSAuthenticationRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/three_ds_authentication/simulate`, but is

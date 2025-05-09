@@ -11,24 +11,24 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retry external bank account prenote verification. */
 class ExternalBankAccountRetryPrenoteParams
 private constructor(
-    private val externalBankAccountToken: String,
+    private val externalBankAccountToken: String?,
     private val body: RetryPrenoteVerificationRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun externalBankAccountToken(): String = externalBankAccountToken
+    fun externalBankAccountToken(): Optional<String> = Optional.ofNullable(externalBankAccountToken)
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -54,14 +54,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ExternalBankAccountRetryPrenoteParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ExternalBankAccountRetryPrenoteParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .externalBankAccountToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -87,9 +84,16 @@ private constructor(
                 externalBankAccountRetryPrenoteParams.additionalQueryParams.toBuilder()
         }
 
-        fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+        fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
             this.externalBankAccountToken = externalBankAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.externalBankAccountToken] with
+         * `externalBankAccountToken.orElse(null)`.
+         */
+        fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
+            externalBankAccountToken(externalBankAccountToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -236,17 +240,10 @@ private constructor(
          * Returns an immutable instance of [ExternalBankAccountRetryPrenoteParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .externalBankAccountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ExternalBankAccountRetryPrenoteParams =
             ExternalBankAccountRetryPrenoteParams(
-                checkRequired("externalBankAccountToken", externalBankAccountToken),
+                externalBankAccountToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -257,7 +254,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> externalBankAccountToken
+            0 -> externalBankAccountToken ?: ""
             else -> ""
         }
 

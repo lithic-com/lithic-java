@@ -24,13 +24,13 @@ import kotlin.jvm.optionals.getOrNull
 /** Simulate payment lifecycle event */
 class PaymentSimulateActionParams
 private constructor(
-    private val paymentToken: String,
+    private val paymentToken: String?,
     private val body: SimulateActionRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun paymentToken(): String = paymentToken
+    fun paymentToken(): Optional<String> = Optional.ofNullable(paymentToken)
 
     /**
      * Event Type
@@ -93,7 +93,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .paymentToken()
          * .eventType()
          * ```
          */
@@ -116,7 +115,10 @@ private constructor(
             additionalQueryParams = paymentSimulateActionParams.additionalQueryParams.toBuilder()
         }
 
-        fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+        fun paymentToken(paymentToken: String?) = apply { this.paymentToken = paymentToken }
+
+        /** Alias for calling [Builder.paymentToken] with `paymentToken.orElse(null)`. */
+        fun paymentToken(paymentToken: Optional<String>) = paymentToken(paymentToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -299,7 +301,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .paymentToken()
          * .eventType()
          * ```
          *
@@ -307,7 +308,7 @@ private constructor(
          */
         fun build(): PaymentSimulateActionParams =
             PaymentSimulateActionParams(
-                checkRequired("paymentToken", paymentToken),
+                paymentToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -318,7 +319,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> paymentToken
+            0 -> paymentToken ?: ""
             else -> ""
         }
 

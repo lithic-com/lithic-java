@@ -7,19 +7,21 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get a dispute's evidence metadata. */
 class DisputeRetrieveEvidenceParams
 private constructor(
     private val disputeToken: String,
-    private val evidenceToken: String,
+    private val evidenceToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun disputeToken(): String = disputeToken
 
-    fun evidenceToken(): String = evidenceToken
+    fun evidenceToken(): Optional<String> = Optional.ofNullable(evidenceToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -36,7 +38,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .disputeToken()
-         * .evidenceToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -60,7 +61,11 @@ private constructor(
 
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
-        fun evidenceToken(evidenceToken: String) = apply { this.evidenceToken = evidenceToken }
+        fun evidenceToken(evidenceToken: String?) = apply { this.evidenceToken = evidenceToken }
+
+        /** Alias for calling [Builder.evidenceToken] with `evidenceToken.orElse(null)`. */
+        fun evidenceToken(evidenceToken: Optional<String>) =
+            evidenceToken(evidenceToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -168,7 +173,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .disputeToken()
-         * .evidenceToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -176,7 +180,7 @@ private constructor(
         fun build(): DisputeRetrieveEvidenceParams =
             DisputeRetrieveEvidenceParams(
                 checkRequired("disputeToken", disputeToken),
-                checkRequired("evidenceToken", evidenceToken),
+                evidenceToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -185,7 +189,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> disputeToken
-            1 -> evidenceToken
+            1 -> evidenceToken ?: ""
             else -> ""
         }
 

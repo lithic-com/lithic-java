@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.financialAccounts.statements
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -17,6 +18,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountStatementLineItemListPage
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import com.lithic.api.models.StatementLineItems
+import kotlin.jvm.optionals.getOrNull
 
 class LineItemServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     LineItemService {
@@ -47,6 +49,9 @@ class LineItemServiceImpl internal constructor(private val clientOptions: Client
             params: FinancialAccountStatementLineItemListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("statementToken", params.statementToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

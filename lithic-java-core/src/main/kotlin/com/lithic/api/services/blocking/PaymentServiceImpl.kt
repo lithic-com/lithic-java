@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -32,6 +33,7 @@ import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
+import kotlin.jvm.optionals.getOrNull
 
 class PaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     PaymentService {
@@ -132,6 +134,9 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
             params: PaymentRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Payment> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("paymentToken", params.paymentToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -193,6 +198,9 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
             params: PaymentRetryParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<PaymentRetryResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("paymentToken", params.paymentToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -221,6 +229,9 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
             params: PaymentSimulateActionParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<PaymentSimulateActionResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("paymentToken", params.paymentToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

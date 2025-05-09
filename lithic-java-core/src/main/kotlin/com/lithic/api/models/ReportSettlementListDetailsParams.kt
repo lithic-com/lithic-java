@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
@@ -14,7 +13,7 @@ import kotlin.jvm.optionals.getOrNull
 /** List details. */
 class ReportSettlementListDetailsParams
 private constructor(
-    private val reportDate: LocalDate,
+    private val reportDate: LocalDate?,
     private val endingBefore: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
@@ -22,7 +21,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun reportDate(): LocalDate = reportDate
+    fun reportDate(): Optional<LocalDate> = Optional.ofNullable(reportDate)
 
     /**
      * A cursor representing an item's token before which a page of results should end. Used to
@@ -47,14 +46,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ReportSettlementListDetailsParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ReportSettlementListDetailsParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .reportDate()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -81,7 +77,10 @@ private constructor(
                     reportSettlementListDetailsParams.additionalQueryParams.toBuilder()
             }
 
-        fun reportDate(reportDate: LocalDate) = apply { this.reportDate = reportDate }
+        fun reportDate(reportDate: LocalDate?) = apply { this.reportDate = reportDate }
+
+        /** Alias for calling [Builder.reportDate] with `reportDate.orElse(null)`. */
+        fun reportDate(reportDate: Optional<LocalDate>) = reportDate(reportDate.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -217,17 +216,10 @@ private constructor(
          * Returns an immutable instance of [ReportSettlementListDetailsParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .reportDate()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ReportSettlementListDetailsParams =
             ReportSettlementListDetailsParams(
-                checkRequired("reportDate", reportDate),
+                reportDate,
                 endingBefore,
                 pageSize,
                 startingAfter,
@@ -238,7 +230,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> reportDate.toString()
+            0 -> reportDate?.toString() ?: ""
             else -> ""
         }
 

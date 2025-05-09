@@ -6,6 +6,7 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.MultipartField
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
@@ -35,6 +36,7 @@ import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class DisputeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     DisputeServiceAsync {
@@ -150,6 +152,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("disputeToken", params.disputeToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -179,6 +184,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeUpdateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("disputeToken", params.disputeToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
@@ -231,6 +239,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .let {
                                 DisputeListPageAsync.builder()
                                     .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()
@@ -246,6 +255,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeDeleteParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("disputeToken", params.disputeToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
@@ -276,6 +288,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeDeleteEvidenceParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("evidenceToken", params.evidenceToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
@@ -312,6 +327,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeInitiateEvidenceUploadParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("disputeToken", params.disputeToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -343,6 +361,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeListEvidencesParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("disputeToken", params.disputeToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -364,6 +385,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .let {
                                 DisputeListEvidencesPageAsync.builder()
                                     .service(DisputeServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)
                                     .build()
@@ -379,6 +401,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: DisputeRetrieveEvidenceParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("evidenceToken", params.evidenceToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

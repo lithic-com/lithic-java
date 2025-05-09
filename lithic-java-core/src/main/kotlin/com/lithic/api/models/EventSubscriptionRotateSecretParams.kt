@@ -4,12 +4,12 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Rotate the secret for an event subscription. The previous secret will be valid for the next 24
@@ -17,13 +17,13 @@ import java.util.Optional
  */
 class EventSubscriptionRotateSecretParams
 private constructor(
-    private val eventSubscriptionToken: String,
+    private val eventSubscriptionToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun eventSubscriptionToken(): String = eventSubscriptionToken
+    fun eventSubscriptionToken(): Optional<String> = Optional.ofNullable(eventSubscriptionToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -35,14 +35,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): EventSubscriptionRotateSecretParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [EventSubscriptionRotateSecretParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -67,9 +64,16 @@ private constructor(
                 eventSubscriptionRotateSecretParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
+        fun eventSubscriptionToken(eventSubscriptionToken: String?) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
+
+        /**
+         * Alias for calling [Builder.eventSubscriptionToken] with
+         * `eventSubscriptionToken.orElse(null)`.
+         */
+        fun eventSubscriptionToken(eventSubscriptionToken: Optional<String>) =
+            eventSubscriptionToken(eventSubscriptionToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -195,17 +199,10 @@ private constructor(
          * Returns an immutable instance of [EventSubscriptionRotateSecretParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .eventSubscriptionToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): EventSubscriptionRotateSecretParams =
             EventSubscriptionRotateSecretParams(
-                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                eventSubscriptionToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -217,7 +214,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> eventSubscriptionToken
+            0 -> eventSubscriptionToken ?: ""
             else -> ""
         }
 

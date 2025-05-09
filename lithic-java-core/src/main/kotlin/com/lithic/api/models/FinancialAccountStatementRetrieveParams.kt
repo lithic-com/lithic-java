@@ -7,12 +7,14 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Get a specific statement for a given financial account. */
 class FinancialAccountStatementRetrieveParams
 private constructor(
     private val financialAccountToken: String,
-    private val statementToken: String,
+    private val statementToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -21,7 +23,7 @@ private constructor(
     fun financialAccountToken(): String = financialAccountToken
 
     /** Globally unique identifier for statements. */
-    fun statementToken(): String = statementToken
+    fun statementToken(): Optional<String> = Optional.ofNullable(statementToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -38,7 +40,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .statementToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -70,7 +71,11 @@ private constructor(
         }
 
         /** Globally unique identifier for statements. */
-        fun statementToken(statementToken: String) = apply { this.statementToken = statementToken }
+        fun statementToken(statementToken: String?) = apply { this.statementToken = statementToken }
+
+        /** Alias for calling [Builder.statementToken] with `statementToken.orElse(null)`. */
+        fun statementToken(statementToken: Optional<String>) =
+            statementToken(statementToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -178,7 +183,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .financialAccountToken()
-         * .statementToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -186,7 +190,7 @@ private constructor(
         fun build(): FinancialAccountStatementRetrieveParams =
             FinancialAccountStatementRetrieveParams(
                 checkRequired("financialAccountToken", financialAccountToken),
-                checkRequired("statementToken", statementToken),
+                statementToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -195,7 +199,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> financialAccountToken
-            1 -> statementToken
+            1 -> statementToken ?: ""
             else -> ""
         }
 

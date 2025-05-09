@@ -7,6 +7,8 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Returns the backtest results of an authorization rule (if available).
@@ -28,14 +30,14 @@ import java.util.Objects
 class AuthRuleV2BacktestRetrieveParams
 private constructor(
     private val authRuleToken: String,
-    private val authRuleBacktestToken: String,
+    private val authRuleBacktestToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun authRuleToken(): String = authRuleToken
 
-    fun authRuleBacktestToken(): String = authRuleBacktestToken
+    fun authRuleBacktestToken(): Optional<String> = Optional.ofNullable(authRuleBacktestToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -52,7 +54,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .authRuleToken()
-         * .authRuleBacktestToken()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -78,9 +79,16 @@ private constructor(
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
-        fun authRuleBacktestToken(authRuleBacktestToken: String) = apply {
+        fun authRuleBacktestToken(authRuleBacktestToken: String?) = apply {
             this.authRuleBacktestToken = authRuleBacktestToken
         }
+
+        /**
+         * Alias for calling [Builder.authRuleBacktestToken] with
+         * `authRuleBacktestToken.orElse(null)`.
+         */
+        fun authRuleBacktestToken(authRuleBacktestToken: Optional<String>) =
+            authRuleBacktestToken(authRuleBacktestToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -188,7 +196,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .authRuleToken()
-         * .authRuleBacktestToken()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -196,7 +203,7 @@ private constructor(
         fun build(): AuthRuleV2BacktestRetrieveParams =
             AuthRuleV2BacktestRetrieveParams(
                 checkRequired("authRuleToken", authRuleToken),
-                checkRequired("authRuleBacktestToken", authRuleBacktestToken),
+                authRuleBacktestToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -205,7 +212,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> authRuleToken
-            1 -> authRuleBacktestToken
+            1 -> authRuleBacktestToken ?: ""
             else -> ""
         }
 

@@ -4,12 +4,12 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * This endpoint is used to ask the card network to deactivate a tokenization. A successful response
@@ -22,13 +22,13 @@ import java.util.Optional
  */
 class TokenizationDeactivateParams
 private constructor(
-    private val tokenizationToken: String,
+    private val tokenizationToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun tokenizationToken(): String = tokenizationToken
+    fun tokenizationToken(): Optional<String> = Optional.ofNullable(tokenizationToken)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -40,13 +40,10 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): TokenizationDeactivateParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [TokenizationDeactivateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .tokenizationToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -68,9 +65,13 @@ private constructor(
                 tokenizationDeactivateParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun tokenizationToken(tokenizationToken: String) = apply {
+        fun tokenizationToken(tokenizationToken: String?) = apply {
             this.tokenizationToken = tokenizationToken
         }
+
+        /** Alias for calling [Builder.tokenizationToken] with `tokenizationToken.orElse(null)`. */
+        fun tokenizationToken(tokenizationToken: Optional<String>) =
+            tokenizationToken(tokenizationToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -196,17 +197,10 @@ private constructor(
          * Returns an immutable instance of [TokenizationDeactivateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .tokenizationToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): TokenizationDeactivateParams =
             TokenizationDeactivateParams(
-                checkRequired("tokenizationToken", tokenizationToken),
+                tokenizationToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -218,7 +212,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> tokenizationToken
+            0 -> tokenizationToken ?: ""
             else -> ""
         }
 

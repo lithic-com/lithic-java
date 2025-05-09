@@ -7,7 +7,6 @@ import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.ExternalPaymentCancelParams
 import com.lithic.api.models.ExternalPaymentCreateParams
 import com.lithic.api.models.ExternalPaymentReleaseParams
-import com.lithic.api.models.ExternalPaymentRetrieveParams
 import com.lithic.api.models.ExternalPaymentReverseParams
 import com.lithic.api.models.ExternalPaymentSettleParams
 import java.time.LocalDate
@@ -55,11 +54,7 @@ internal class ExternalPaymentServiceAsyncTest {
         val externalPaymentServiceAsync = client.externalPayments()
 
         val externalPaymentFuture =
-            externalPaymentServiceAsync.retrieve(
-                ExternalPaymentRetrieveParams.builder()
-                    .externalPaymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            externalPaymentServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val externalPayment = externalPaymentFuture.get()
         externalPayment.validate()

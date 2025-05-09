@@ -11,24 +11,24 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Update an account's credit configuration */
 class FinancialAccountCreditConfigurationUpdateParams
 private constructor(
-    private val financialAccountToken: String,
+    private val financialAccountToken: String?,
     private val body: FinancialAccountCreditConfigRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -98,14 +98,11 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): FinancialAccountCreditConfigurationUpdateParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [FinancialAccountCreditConfigurationUpdateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
@@ -133,9 +130,16 @@ private constructor(
                 financialAccountCreditConfigurationUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
+
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -323,17 +327,10 @@ private constructor(
          * Returns an immutable instance of [FinancialAccountCreditConfigurationUpdateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .financialAccountToken()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): FinancialAccountCreditConfigurationUpdateParams =
             FinancialAccountCreditConfigurationUpdateParams(
-                checkRequired("financialAccountToken", financialAccountToken),
+                financialAccountToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -344,7 +341,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> financialAccountToken
+            0 -> financialAccountToken ?: ""
             else -> ""
         }
 

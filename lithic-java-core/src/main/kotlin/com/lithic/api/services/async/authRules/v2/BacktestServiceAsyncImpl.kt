@@ -5,6 +5,7 @@ package com.lithic.api.services.async.authRules.v2
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -20,6 +21,7 @@ import com.lithic.api.models.AuthRuleV2BacktestRetrieveParams
 import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class BacktestServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     BacktestServiceAsync {
@@ -57,6 +59,9 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
             params: AuthRuleV2BacktestCreateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -87,6 +92,9 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
             params: AuthRuleV2BacktestRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<BacktestResults>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleBacktestToken", params.authRuleBacktestToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

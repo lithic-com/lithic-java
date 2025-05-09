@@ -4,8 +4,6 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.AccountRetrieveParams
-import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -23,12 +21,7 @@ internal class AccountServiceAsyncTest {
                 .build()
         val accountServiceAsync = client.accounts()
 
-        val accountFuture =
-            accountServiceAsync.retrieve(
-                AccountRetrieveParams.builder()
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val accountFuture = accountServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val account = accountFuture.get()
         account.validate()
@@ -94,11 +87,7 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.accounts()
 
         val accountSpendLimitsFuture =
-            accountServiceAsync.retrieveSpendLimits(
-                AccountRetrieveSpendLimitsParams.builder()
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountServiceAsync.retrieveSpendLimits("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val accountSpendLimits = accountSpendLimitsFuture.get()
         accountSpendLimits.validate()

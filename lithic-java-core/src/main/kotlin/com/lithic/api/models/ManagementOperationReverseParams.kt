@@ -19,17 +19,18 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Reverse a management operation */
 class ManagementOperationReverseParams
 private constructor(
-    private val managementOperationToken: String,
+    private val managementOperationToken: String?,
     private val body: ManagementOperationActionRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun managementOperationToken(): String = managementOperationToken
+    fun managementOperationToken(): Optional<String> = Optional.ofNullable(managementOperationToken)
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -73,7 +74,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .managementOperationToken()
          * .effectiveDate()
          * ```
          */
@@ -99,9 +99,16 @@ private constructor(
                     managementOperationReverseParams.additionalQueryParams.toBuilder()
             }
 
-        fun managementOperationToken(managementOperationToken: String) = apply {
+        fun managementOperationToken(managementOperationToken: String?) = apply {
             this.managementOperationToken = managementOperationToken
         }
+
+        /**
+         * Alias for calling [Builder.managementOperationToken] with
+         * `managementOperationToken.orElse(null)`.
+         */
+        fun managementOperationToken(managementOperationToken: Optional<String>) =
+            managementOperationToken(managementOperationToken.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -260,7 +267,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .managementOperationToken()
          * .effectiveDate()
          * ```
          *
@@ -268,7 +274,7 @@ private constructor(
          */
         fun build(): ManagementOperationReverseParams =
             ManagementOperationReverseParams(
-                checkRequired("managementOperationToken", managementOperationToken),
+                managementOperationToken,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -279,7 +285,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> managementOperationToken
+            0 -> managementOperationToken ?: ""
             else -> ""
         }
 
