@@ -101,19 +101,9 @@ private constructor(
         fun body(plaidCreateBankAccountApiRequest: Body.PlaidCreateBankAccountApiRequest) =
             body(Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest))
 
-        /**
-         * Alias for calling [body] with
-         * `Body.ofExternallyVerifiedCreateBankAccountApiRequest(externallyVerifiedCreateBankAccountApiRequest)`.
-         */
-        fun body(
-            externallyVerifiedCreateBankAccountApiRequest:
-                Body.ExternallyVerifiedCreateBankAccountApiRequest
-        ) =
-            body(
-                Body.ofExternallyVerifiedCreateBankAccountApiRequest(
-                    externallyVerifiedCreateBankAccountApiRequest
-                )
-            )
+        /** Alias for calling [body] with `Body.ofExternallyVerified(externallyVerified)`. */
+        fun body(externallyVerified: Body.ExternallyVerifiedCreateBankAccountApiRequest) =
+            body(Body.ofExternallyVerified(externallyVerified))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -240,9 +230,7 @@ private constructor(
             BankVerifiedCreateBankAccountApiRequest? =
             null,
         private val plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest? = null,
-        private val externallyVerifiedCreateBankAccountApiRequest:
-            ExternallyVerifiedCreateBankAccountApiRequest? =
-            null,
+        private val externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest? = null,
         private val _json: JsonValue? = null,
     ) {
 
@@ -253,17 +241,15 @@ private constructor(
         fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
             Optional.ofNullable(plaidCreateBankAccountApiRequest)
 
-        fun externallyVerifiedCreateBankAccountApiRequest():
-            Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
-            Optional.ofNullable(externallyVerifiedCreateBankAccountApiRequest)
+        fun externallyVerified(): Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
+            Optional.ofNullable(externallyVerified)
 
         fun isBankVerifiedCreateBankAccountApiRequest(): Boolean =
             bankVerifiedCreateBankAccountApiRequest != null
 
         fun isPlaidCreateBankAccountApiRequest(): Boolean = plaidCreateBankAccountApiRequest != null
 
-        fun isExternallyVerifiedCreateBankAccountApiRequest(): Boolean =
-            externallyVerifiedCreateBankAccountApiRequest != null
+        fun isExternallyVerified(): Boolean = externallyVerified != null
 
         fun asBankVerifiedCreateBankAccountApiRequest(): BankVerifiedCreateBankAccountApiRequest =
             bankVerifiedCreateBankAccountApiRequest.getOrThrow(
@@ -273,11 +259,8 @@ private constructor(
         fun asPlaidCreateBankAccountApiRequest(): PlaidCreateBankAccountApiRequest =
             plaidCreateBankAccountApiRequest.getOrThrow("plaidCreateBankAccountApiRequest")
 
-        fun asExternallyVerifiedCreateBankAccountApiRequest():
-            ExternallyVerifiedCreateBankAccountApiRequest =
-            externallyVerifiedCreateBankAccountApiRequest.getOrThrow(
-                "externallyVerifiedCreateBankAccountApiRequest"
-            )
+        fun asExternallyVerified(): ExternallyVerifiedCreateBankAccountApiRequest =
+            externallyVerified.getOrThrow("externallyVerified")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -289,10 +272,7 @@ private constructor(
                     )
                 plaidCreateBankAccountApiRequest != null ->
                     visitor.visitPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)
-                externallyVerifiedCreateBankAccountApiRequest != null ->
-                    visitor.visitExternallyVerifiedCreateBankAccountApiRequest(
-                        externallyVerifiedCreateBankAccountApiRequest
-                    )
+                externallyVerified != null -> visitor.visitExternallyVerified(externallyVerified)
                 else -> visitor.unknown(_json)
             }
 
@@ -318,11 +298,10 @@ private constructor(
                         plaidCreateBankAccountApiRequest.validate()
                     }
 
-                    override fun visitExternallyVerifiedCreateBankAccountApiRequest(
-                        externallyVerifiedCreateBankAccountApiRequest:
-                            ExternallyVerifiedCreateBankAccountApiRequest
+                    override fun visitExternallyVerified(
+                        externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
                     ) {
-                        externallyVerifiedCreateBankAccountApiRequest.validate()
+                        externallyVerified.validate()
                     }
                 }
             )
@@ -356,10 +335,9 @@ private constructor(
                         plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
                     ) = plaidCreateBankAccountApiRequest.validity()
 
-                    override fun visitExternallyVerifiedCreateBankAccountApiRequest(
-                        externallyVerifiedCreateBankAccountApiRequest:
-                            ExternallyVerifiedCreateBankAccountApiRequest
-                    ) = externallyVerifiedCreateBankAccountApiRequest.validity()
+                    override fun visitExternallyVerified(
+                        externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
+                    ) = externallyVerified.validity()
 
                     override fun unknown(json: JsonValue?) = 0
                 }
@@ -370,10 +348,10 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest /* spotless:on */
+            return /* spotless:off */ other is Body && bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && externallyVerified == other.externallyVerified /* spotless:on */
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest) /* spotless:on */
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerified) /* spotless:on */
 
         override fun toString(): String =
             when {
@@ -381,8 +359,7 @@ private constructor(
                     "Body{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest}"
                 plaidCreateBankAccountApiRequest != null ->
                     "Body{plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest}"
-                externallyVerifiedCreateBankAccountApiRequest != null ->
-                    "Body{externallyVerifiedCreateBankAccountApiRequest=$externallyVerifiedCreateBankAccountApiRequest}"
+                externallyVerified != null -> "Body{externallyVerified=$externallyVerified}"
                 _json != null -> "Body{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Body")
             }
@@ -404,14 +381,9 @@ private constructor(
             ) = Body(plaidCreateBankAccountApiRequest = plaidCreateBankAccountApiRequest)
 
             @JvmStatic
-            fun ofExternallyVerifiedCreateBankAccountApiRequest(
-                externallyVerifiedCreateBankAccountApiRequest:
-                    ExternallyVerifiedCreateBankAccountApiRequest
-            ) =
-                Body(
-                    externallyVerifiedCreateBankAccountApiRequest =
-                        externallyVerifiedCreateBankAccountApiRequest
-                )
+            fun ofExternallyVerified(
+                externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
+            ) = Body(externallyVerified = externallyVerified)
         }
 
         /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
@@ -425,9 +397,8 @@ private constructor(
                 plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
             ): T
 
-            fun visitExternallyVerifiedCreateBankAccountApiRequest(
-                externallyVerifiedCreateBankAccountApiRequest:
-                    ExternallyVerifiedCreateBankAccountApiRequest
+            fun visitExternallyVerified(
+                externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
             ): T
 
             /**
@@ -456,9 +427,7 @@ private constructor(
                             node,
                             jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>(),
                         )
-                        ?.let {
-                            Body(externallyVerifiedCreateBankAccountApiRequest = it, _json = json)
-                        } ?: Body(_json = json)
+                        ?.let { Body(externallyVerified = it, _json = json) } ?: Body(_json = json)
                 }
 
                 val bestMatches =
@@ -501,8 +470,8 @@ private constructor(
                         generator.writeObject(value.bankVerifiedCreateBankAccountApiRequest)
                     value.plaidCreateBankAccountApiRequest != null ->
                         generator.writeObject(value.plaidCreateBankAccountApiRequest)
-                    value.externallyVerifiedCreateBankAccountApiRequest != null ->
-                        generator.writeObject(value.externallyVerifiedCreateBankAccountApiRequest)
+                    value.externallyVerified != null ->
+                        generator.writeObject(value.externallyVerified)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Body")
                 }
