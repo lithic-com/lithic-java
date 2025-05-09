@@ -45,8 +45,8 @@ import java.net.URI
 import java.util.Base64
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import org.apache.hc.core5.net.URIBuilder
 import kotlin.jvm.optionals.getOrNull
+import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceImpl internal constructor(private val clientOptions: ClientOptions) : CardService {
 
