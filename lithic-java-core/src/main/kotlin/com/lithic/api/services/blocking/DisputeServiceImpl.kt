@@ -6,9 +6,8 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.MultipartField
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.core.handlers.emptyHandler
-
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler

@@ -46,8 +46,8 @@ import java.util.Base64
 import java.util.concurrent.CompletableFuture
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import org.apache.hc.core5.net.URIBuilder
 import kotlin.jvm.optionals.getOrNull
+import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CardServiceAsync {
