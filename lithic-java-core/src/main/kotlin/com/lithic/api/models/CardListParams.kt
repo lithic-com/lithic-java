@@ -22,6 +22,7 @@ private constructor(
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
+    private val memo: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
     private val state: State?,
@@ -49,6 +50,9 @@ private constructor(
      * retrieve the previous page of results before this item.
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    /** Returns cards containing the specified partial or full memo text. */
+    fun memo(): Optional<String> = Optional.ofNullable(memo)
 
     /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
@@ -83,6 +87,7 @@ private constructor(
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
+        private var memo: String? = null
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var state: State? = null
@@ -95,6 +100,7 @@ private constructor(
             begin = cardListParams.begin
             end = cardListParams.end
             endingBefore = cardListParams.endingBefore
+            memo = cardListParams.memo
             pageSize = cardListParams.pageSize
             startingAfter = cardListParams.startingAfter
             state = cardListParams.state
@@ -134,6 +140,12 @@ private constructor(
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
+
+        /** Returns cards containing the specified partial or full memo text. */
+        fun memo(memo: String?) = apply { this.memo = memo }
+
+        /** Alias for calling [Builder.memo] with `memo.orElse(null)`. */
+        fun memo(memo: Optional<String>) = memo(memo.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -273,6 +285,7 @@ private constructor(
                 begin,
                 end,
                 endingBefore,
+                memo,
                 pageSize,
                 startingAfter,
                 state,
@@ -290,6 +303,7 @@ private constructor(
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
+                memo?.let { put("memo", it) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
                 state?.let { put("state", it.toString()) }
@@ -446,11 +460,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardListParams && accountToken == other.accountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CardListParams && accountToken == other.accountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && memo == other.memo && pageSize == other.pageSize && startingAfter == other.startingAfter && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, pageSize, startingAfter, state, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, memo, pageSize, startingAfter, state, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "CardListParams{accountToken=$accountToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "CardListParams{accountToken=$accountToken, begin=$begin, end=$end, endingBefore=$endingBefore, memo=$memo, pageSize=$pageSize, startingAfter=$startingAfter, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

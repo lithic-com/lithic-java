@@ -141,6 +141,7 @@ internal class AuthenticationRetrieveResponseTest {
                 .transaction(
                     AuthenticationRetrieveResponse.Transaction.builder()
                         .amount(0.0)
+                        .cardholderAmount(0.0)
                         .currency("xxx")
                         .currencyExponent(0.0)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -282,6 +283,7 @@ internal class AuthenticationRetrieveResponseTest {
             .contains(
                 AuthenticationRetrieveResponse.Transaction.builder()
                     .amount(0.0)
+                    .cardholderAmount(0.0)
                     .currency("xxx")
                     .currencyExponent(0.0)
                     .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -422,6 +424,7 @@ internal class AuthenticationRetrieveResponseTest {
                 .transaction(
                     AuthenticationRetrieveResponse.Transaction.builder()
                         .amount(0.0)
+                        .cardholderAmount(0.0)
                         .currency("xxx")
                         .currencyExponent(0.0)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
