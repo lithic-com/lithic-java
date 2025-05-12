@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.90.0 (2025-05-12)
+
+Full Changelog: [v0.89.1...v0.90.0](https://github.com/lithic-com/lithic-java/compare/v0.89.1...v0.90.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** improve some class names
+* **client:** extract auto pagination to shared classes
+* **client:** **Migration:** - If you were referencing the `AutoPager` class on a specific `*Page` or `*PageAsync` type, then you should instead reference the shared `AutoPager` and `AutoPagerAsync` types, under the `core` package
+    - `AutoPagerAsync` now has different usage. You can call `.subscribe(...)` on the returned object instead to get called back each page item. You can also call `onCompleteFuture()` to get a future that completes when all items have been processed. Finally, you can call `.close()` on the returned object to stop auto-paginating early
+    - If you were referencing `getNextPage` or `getNextPageParams`:
+       - Swap to `nextPage()` and `nextPageParams()`
+       - Note that these both now return non-optional types (use `hasNextPage()` before calling these, since they will throw if it's impossible to get another page)
+
+### Features
+
+* **api:** manual updates ([cda7a4a](https://github.com/lithic-com/lithic-java/commit/cda7a4a07cc2cf1cda724725d61b27f8d93ecb58))
+* **client:** allow providing some params positionally ([0da037e](https://github.com/lithic-com/lithic-java/commit/0da037e5204ef3a5ebb551340cfb58f243816433))
+* **client:** extract auto pagination to shared classes ([b2a1763](https://github.com/lithic-com/lithic-java/commit/b2a176395cb7ad9330701ad457385110806d10a2))
+
+
+### Chores
+
+* **internal:** fix custom code ([a94fb16](https://github.com/lithic-com/lithic-java/commit/a94fb16e4f3be0d6097c82aac6ac658e2fc2a18e))
+* **internal:** fix custom code ([5dabc27](https://github.com/lithic-com/lithic-java/commit/5dabc2712902b6baafb68febc89cec93bab43176))
+* **internal:** remove flaky `-Xbackend-threads=0` option ([3ac784c](https://github.com/lithic-com/lithic-java/commit/3ac784c0990f518f1d687d80e7aa73e1c8a2ae5d))
+
+
+### Refactors
+
+* **client:** improve some class names ([0a90771](https://github.com/lithic-com/lithic-java/commit/0a907716362cfbaee0d2ba983dd217eed3a0633e))
+
 ## 0.89.1 (2025-05-05)
 
 Full Changelog: [v0.89.0...v0.89.1](https://github.com/lithic-com/lithic-java/compare/v0.89.0...v0.89.1)
