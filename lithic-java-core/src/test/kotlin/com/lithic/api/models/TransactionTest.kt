@@ -75,6 +75,9 @@ internal class TransactionTest {
                         .verificationResult(
                             Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                         )
+                        .authenticationMethod(
+                            Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
+                        )
                         .build()
                 )
                 .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
@@ -169,6 +172,12 @@ internal class TransactionTest {
                                     Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
                                         .acquirerReferenceNumber("acquirer_reference_number")
                                         .retrievalReferenceNumber("retrieval_reference_number")
+                                        .build()
+                                )
+                                .amex(
+                                    Transaction.TransactionEvent.NetworkInfo.Amex.builder()
+                                        .originalTransactionId("original_transaction_id")
+                                        .transactionId("transaction_id")
                                         .build()
                                 )
                                 .mastercard(
@@ -295,6 +304,9 @@ internal class TransactionTest {
                     .verificationResult(
                         Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                     )
+                    .authenticationMethod(
+                        Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
+                    )
                     .build()
             )
         assertThat(transaction.created())
@@ -393,6 +405,12 @@ internal class TransactionTest {
                                 Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
                                     .acquirerReferenceNumber("acquirer_reference_number")
                                     .retrievalReferenceNumber("retrieval_reference_number")
+                                    .build()
+                            )
+                            .amex(
+                                Transaction.TransactionEvent.NetworkInfo.Amex.builder()
+                                    .originalTransactionId("original_transaction_id")
+                                    .transactionId("transaction_id")
                                     .build()
                             )
                             .mastercard(
@@ -521,6 +539,9 @@ internal class TransactionTest {
                         .verificationResult(
                             Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
                         )
+                        .authenticationMethod(
+                            Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
+                        )
                         .build()
                 )
                 .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
@@ -615,6 +636,12 @@ internal class TransactionTest {
                                     Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
                                         .acquirerReferenceNumber("acquirer_reference_number")
                                         .retrievalReferenceNumber("retrieval_reference_number")
+                                        .build()
+                                )
+                                .amex(
+                                    Transaction.TransactionEvent.NetworkInfo.Amex.builder()
+                                        .originalTransactionId("original_transaction_id")
+                                        .transactionId("transaction_id")
                                         .build()
                                 )
                                 .mastercard(
