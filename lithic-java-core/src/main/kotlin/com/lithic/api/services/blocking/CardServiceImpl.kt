@@ -33,6 +33,8 @@ import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.models.CardWebProvisionParams
+import com.lithic.api.models.CardWebProvisionResponse
 import com.lithic.api.services.blocking.cards.AggregateBalanceService
 import com.lithic.api.services.blocking.cards.AggregateBalanceServiceImpl
 import com.lithic.api.services.blocking.cards.BalanceService
@@ -117,6 +119,13 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
     override fun searchByPan(params: CardSearchByPanParams, requestOptions: RequestOptions): Card =
         // post /v1/cards/search_by_pan
         withRawResponse().searchByPan(params, requestOptions).parse()
+
+    override fun webProvision(
+        params: CardWebProvisionParams,
+        requestOptions: RequestOptions,
+    ): CardWebProvisionResponse =
+        // post /v1/cards/{card_token}/web_provision
+        withRawResponse().webProvision(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         CardService.WithRawResponse {
@@ -449,6 +458,37 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             return response.parseable {
                 response
                     .use { searchByPanHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val webProvisionHandler: Handler<CardWebProvisionResponse> =
+            jsonHandler<CardWebProvisionResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun webProvision(
+            params: CardWebProvisionParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CardWebProvisionResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "cards", params._pathParam(0), "web_provision")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { webProvisionHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

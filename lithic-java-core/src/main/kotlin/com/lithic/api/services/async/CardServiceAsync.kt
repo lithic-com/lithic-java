@@ -20,6 +20,8 @@ import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.models.CardWebProvisionParams
+import com.lithic.api.models.CardWebProvisionResponse
 import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
 import com.lithic.api.services.async.cards.BalanceServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
@@ -371,6 +373,49 @@ interface CardServiceAsync {
         params: CardSearchByPanParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
+
+    /**
+     * Allow your cardholders to directly add payment cards to the device's digital wallet from a
+     * browser on the web. Currently only suported for Apple Pay.
+     *
+     * This requires some additional setup and configuration. Please
+     * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
+     * information.
+     */
+    fun webProvision(cardToken: String): CompletableFuture<CardWebProvisionResponse> =
+        webProvision(cardToken, CardWebProvisionParams.none())
+
+    /** @see [webProvision] */
+    fun webProvision(
+        cardToken: String,
+        params: CardWebProvisionParams = CardWebProvisionParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardWebProvisionResponse> =
+        webProvision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see [webProvision] */
+    fun webProvision(
+        cardToken: String,
+        params: CardWebProvisionParams = CardWebProvisionParams.none(),
+    ): CompletableFuture<CardWebProvisionResponse> =
+        webProvision(cardToken, params, RequestOptions.none())
+
+    /** @see [webProvision] */
+    fun webProvision(
+        params: CardWebProvisionParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<CardWebProvisionResponse>
+
+    /** @see [webProvision] */
+    fun webProvision(params: CardWebProvisionParams): CompletableFuture<CardWebProvisionResponse> =
+        webProvision(params, RequestOptions.none())
+
+    /** @see [webProvision] */
+    fun webProvision(
+        cardToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardWebProvisionResponse> =
+        webProvision(cardToken, CardWebProvisionParams.none(), requestOptions)
 
     /** A view of [CardServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -752,5 +797,54 @@ interface CardServiceAsync {
             params: CardSearchByPanParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/cards/{card_token}/web_provision`, but is
+         * otherwise the same as [CardServiceAsync.webProvision].
+         */
+        @MustBeClosed
+        fun webProvision(
+            cardToken: String
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
+            webProvision(cardToken, CardWebProvisionParams.none())
+
+        /** @see [webProvision] */
+        @MustBeClosed
+        fun webProvision(
+            cardToken: String,
+            params: CardWebProvisionParams = CardWebProvisionParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
+            webProvision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see [webProvision] */
+        @MustBeClosed
+        fun webProvision(
+            cardToken: String,
+            params: CardWebProvisionParams = CardWebProvisionParams.none(),
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
+            webProvision(cardToken, params, RequestOptions.none())
+
+        /** @see [webProvision] */
+        @MustBeClosed
+        fun webProvision(
+            params: CardWebProvisionParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>>
+
+        /** @see [webProvision] */
+        @MustBeClosed
+        fun webProvision(
+            params: CardWebProvisionParams
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
+            webProvision(params, RequestOptions.none())
+
+        /** @see [webProvision] */
+        @MustBeClosed
+        fun webProvision(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
+            webProvision(cardToken, CardWebProvisionParams.none(), requestOptions)
     }
 }
