@@ -35,6 +35,8 @@ import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.models.CardWebProvisionParams
+import com.lithic.api.models.CardWebProvisionResponse
 import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
 import com.lithic.api.services.async.cards.AggregateBalanceServiceAsyncImpl
 import com.lithic.api.services.async.cards.BalanceServiceAsync
@@ -150,6 +152,13 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
     ): CompletableFuture<Card> =
         // post /v1/cards/search_by_pan
         withRawResponse().searchByPan(params, requestOptions).thenApply { it.parse() }
+
+    override fun webProvision(
+        params: CardWebProvisionParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<CardWebProvisionResponse> =
+        // post /v1/cards/{card_token}/web_provision
+        withRawResponse().webProvision(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         CardServiceAsync.WithRawResponse {
@@ -516,6 +525,40 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
                     response.parseable {
                         response
                             .use { searchByPanHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val webProvisionHandler: Handler<CardWebProvisionResponse> =
+            jsonHandler<CardWebProvisionResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun webProvision(
+            params: CardWebProvisionParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments("v1", "cards", params._pathParam(0), "web_provision")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { webProvisionHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
