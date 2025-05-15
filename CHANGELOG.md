@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.91.0 (2025-05-15)
+
+Full Changelog: [v0.90.0...v0.91.0](https://github.com/lithic-com/lithic-java/compare/v0.90.0...v0.91.0)
+
+### Features
+
+* **api:** new Funding Events and Card Web Provision API's ([212c346](https://github.com/lithic-com/lithic-java/commit/212c346cf56106ea9edad578edb5472d515aca11))
+
+
+### Chores
+
+* **internal:** fix custom code ([287063b](https://github.com/lithic-com/lithic-java/commit/287063b3f7f33f575ccef0dd4d79c6f23386912c))
+
 ## 0.90.0 (2025-05-12)
 
 Full Changelog: [v0.89.1...v0.90.0](https://github.com/lithic-com/lithic-java/compare/v0.89.1...v0.90.0)
