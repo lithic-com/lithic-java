@@ -12,6 +12,7 @@ import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.models.CardWebProvisionParams
 import com.lithic.api.models.Carrier
 import com.lithic.api.models.ShippingAddress
 import com.lithic.api.models.SpendLimitDuration
@@ -310,5 +311,25 @@ internal class CardServiceTest {
             cardService.searchByPan(CardSearchByPanParams.builder().pan("4111111289144142").build())
 
         card.validate()
+    }
+
+    @Test
+    fun webProvision() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+
+        val response =
+            cardService.webProvision(
+                CardWebProvisionParams.builder()
+                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .digitalWallet(CardWebProvisionParams.DigitalWallet.APPLE_PAY)
+                    .build()
+            )
+
+        response.validate()
     }
 }
