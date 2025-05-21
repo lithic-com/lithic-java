@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.91.1 (2025-05-21)
+
+Full Changelog: [v0.91.0...v0.91.1](https://github.com/lithic-com/lithic-java/compare/v0.91.0...v0.91.1)
+
+### Chores
+
+* **docs:** grammar improvements ([98b0222](https://github.com/lithic-com/lithic-java/commit/98b0222eacd1e93d864112fc64ed832625955d53))
+
 ## 0.91.0 (2025-05-15)
 
 Full Changelog: [v0.90.0...v0.91.0](https://github.com/lithic-com/lithic-java/compare/v0.90.0...v0.91.0)
