@@ -28,6 +28,7 @@ class TransferServiceAsyncImpl internal constructor(private val clientOptions: C
 
     override fun withRawResponse(): TransferServiceAsync.WithRawResponse = withRawResponse
 
+    @Deprecated("deprecated")
     override fun create(
         params: TransferCreateParams,
         requestOptions: RequestOptions,
@@ -43,6 +44,7 @@ class TransferServiceAsyncImpl internal constructor(private val clientOptions: C
         private val createHandler: Handler<Transfer> =
             jsonHandler<Transfer>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
+        @Deprecated("deprecated")
         override fun create(
             params: TransferCreateParams,
             requestOptions: RequestOptions,
