@@ -165,12 +165,14 @@ interface V2ServiceAsync {
      *
      * Prefer using the `PATCH` method for this operation.
      */
+    @Deprecated("deprecated")
     fun apply(
         authRuleToken: String,
         params: AuthRuleV2ApplyParams,
     ): CompletableFuture<V2ApplyResponse> = apply(authRuleToken, params, RequestOptions.none())
 
     /** @see [apply] */
+    @Deprecated("deprecated")
     fun apply(
         authRuleToken: String,
         params: AuthRuleV2ApplyParams,
@@ -179,10 +181,12 @@ interface V2ServiceAsync {
         apply(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
     /** @see [apply] */
+    @Deprecated("deprecated")
     fun apply(params: AuthRuleV2ApplyParams): CompletableFuture<V2ApplyResponse> =
         apply(params, RequestOptions.none())
 
     /** @see [apply] */
+    @Deprecated("deprecated")
     fun apply(
         params: AuthRuleV2ApplyParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -528,6 +532,7 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/apply`, but is
          * otherwise the same as [V2ServiceAsync.apply].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun apply(
             authRuleToken: String,
@@ -536,6 +541,7 @@ interface V2ServiceAsync {
             apply(authRuleToken, params, RequestOptions.none())
 
         /** @see [apply] */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun apply(
             authRuleToken: String,
@@ -545,6 +551,7 @@ interface V2ServiceAsync {
             apply(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [apply] */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun apply(
             params: AuthRuleV2ApplyParams
@@ -552,6 +559,7 @@ interface V2ServiceAsync {
             apply(params, RequestOptions.none())
 
         /** @see [apply] */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun apply(
             params: AuthRuleV2ApplyParams,
