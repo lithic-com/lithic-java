@@ -2,7 +2,6 @@
 
 package com.lithic.api.client
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ApiStatus
@@ -209,25 +208,21 @@ interface LithicClientAsync {
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
          * [LithicClientAsync.apiStatus].
          */
-        @MustBeClosed
         fun apiStatus(): CompletableFuture<HttpResponseFor<ApiStatus>> =
             apiStatus(ClientApiStatusParams.none())
 
         /** @see [apiStatus] */
-        @MustBeClosed
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ApiStatus>>
 
         /** @see [apiStatus] */
-        @MustBeClosed
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none()
         ): CompletableFuture<HttpResponseFor<ApiStatus>> = apiStatus(params, RequestOptions.none())
 
         /** @see [apiStatus] */
-        @MustBeClosed
         fun apiStatus(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ApiStatus>> =

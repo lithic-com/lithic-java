@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Transfer
@@ -17,10 +16,12 @@ interface TransferServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Transfer funds between two financial accounts or between a financial account and card */
+    @Deprecated("deprecated")
     fun create(params: TransferCreateParams): CompletableFuture<Transfer> =
         create(params, RequestOptions.none())
 
     /** @see [create] */
+    @Deprecated("deprecated")
     fun create(
         params: TransferCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -35,12 +36,12 @@ interface TransferServiceAsync {
          * Returns a raw HTTP response for `post /v1/transfer`, but is otherwise the same as
          * [TransferServiceAsync.create].
          */
-        @MustBeClosed
+        @Deprecated("deprecated")
         fun create(params: TransferCreateParams): CompletableFuture<HttpResponseFor<Transfer>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
+        @Deprecated("deprecated")
         fun create(
             params: TransferCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),

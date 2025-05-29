@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.cards
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.CardAggregateBalanceListPageAsync
@@ -45,26 +44,22 @@ interface AggregateBalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/aggregate_balances`, but is otherwise the
          * same as [AggregateBalanceServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
             list(CardAggregateBalanceListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =

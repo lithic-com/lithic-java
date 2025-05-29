@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.CardProgram
@@ -81,12 +80,10 @@ interface CardProgramServiceAsync {
          * Returns a raw HTTP response for `get /v1/card_programs/{card_program_token}`, but is
          * otherwise the same as [CardProgramServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(cardProgramToken: String): CompletableFuture<HttpResponseFor<CardProgram>> =
             retrieve(cardProgramToken, CardProgramRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
@@ -95,7 +92,6 @@ interface CardProgramServiceAsync {
             retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
@@ -103,20 +99,17 @@ interface CardProgramServiceAsync {
             retrieve(cardProgramToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CardProgramRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CardProgramRetrieveParams
         ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
             requestOptions: RequestOptions,
@@ -127,26 +120,22 @@ interface CardProgramServiceAsync {
          * Returns a raw HTTP response for `get /v1/card_programs`, but is otherwise the same as
          * [CardProgramServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
             list(CardProgramListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardProgramListParams = CardProgramListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardProgramListParams = CardProgramListParams.none()
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =

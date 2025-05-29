@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.creditProducts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
@@ -70,14 +69,12 @@ interface ExtendedCreditServiceAsync {
          * /v1/credit_products/{credit_product_token}/extended_credit`, but is otherwise the same as
          * [ExtendedCreditServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             creditProductToken: String
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
             retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             creditProductToken: String,
             params: CreditProductExtendedCreditRetrieveParams =
@@ -90,7 +87,6 @@ interface ExtendedCreditServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             creditProductToken: String,
             params: CreditProductExtendedCreditRetrieveParams =
@@ -99,21 +95,18 @@ interface ExtendedCreditServiceAsync {
             retrieve(creditProductToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             creditProductToken: String,
             requestOptions: RequestOptions,

@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -70,26 +69,22 @@ interface ResponderEndpointServiceAsync {
          * Returns a raw HTTP response for `post /v1/responder_endpoints`, but is otherwise the same
          * as [ResponderEndpointServiceAsync.create].
          */
-        @MustBeClosed
         fun create(): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
             create(ResponderEndpointCreateParams.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>>
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
@@ -99,12 +94,10 @@ interface ResponderEndpointServiceAsync {
          * Returns a raw HTTP response for `delete /v1/responder_endpoints`, but is otherwise the
          * same as [ResponderEndpointServiceAsync.delete].
          */
-        @MustBeClosed
         fun delete(params: ResponderEndpointDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             params: ResponderEndpointDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -114,14 +107,12 @@ interface ResponderEndpointServiceAsync {
          * Returns a raw HTTP response for `get /v1/responder_endpoints`, but is otherwise the same
          * as [ResponderEndpointServiceAsync.checkStatus].
          */
-        @MustBeClosed
         fun checkStatus(
             params: ResponderEndpointCheckStatusParams
         ): CompletableFuture<HttpResponseFor<ResponderEndpointStatus>> =
             checkStatus(params, RequestOptions.none())
 
         /** @see [checkStatus] */
-        @MustBeClosed
         fun checkStatus(
             params: ResponderEndpointCheckStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),

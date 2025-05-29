@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.reports.settlement
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.NetworkTotalRetrieveResponse
@@ -91,14 +90,12 @@ interface NetworkTotalServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals/{token}`, but
          * is otherwise the same as [NetworkTotalServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             token: String
         ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
             retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             token: String,
             params: ReportSettlementNetworkTotalRetrieveParams =
@@ -108,7 +105,6 @@ interface NetworkTotalServiceAsync {
             retrieve(params.toBuilder().token(token).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             token: String,
             params: ReportSettlementNetworkTotalRetrieveParams =
@@ -117,21 +113,18 @@ interface NetworkTotalServiceAsync {
             retrieve(token, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams
         ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             token: String,
             requestOptions: RequestOptions,
@@ -142,12 +135,10 @@ interface NetworkTotalServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
          * otherwise the same as [NetworkTotalServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>> =
             list(ReportSettlementNetworkTotalListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
                 ReportSettlementNetworkTotalListParams.none(),
@@ -155,7 +146,6 @@ interface NetworkTotalServiceAsync {
         ): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
                 ReportSettlementNetworkTotalListParams.none()
@@ -163,7 +153,6 @@ interface NetworkTotalServiceAsync {
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ReportSettlementNetworkTotalListPageAsync>> =

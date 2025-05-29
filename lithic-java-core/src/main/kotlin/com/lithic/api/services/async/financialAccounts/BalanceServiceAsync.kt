@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.financialAccounts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountBalanceListPageAsync
@@ -68,14 +67,12 @@ interface BalanceServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/balances`, but is otherwise the same as
          * [BalanceServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
             list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
@@ -87,7 +84,6 @@ interface BalanceServiceAsync {
             )
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
@@ -95,21 +91,18 @@ interface BalanceServiceAsync {
             list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,

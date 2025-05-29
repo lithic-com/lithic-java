@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.financialAccounts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountCreditConfig
@@ -120,7 +119,6 @@ interface CreditConfigurationServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/credit_configuration`, but is otherwise
          * the same as [CreditConfigurationServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
@@ -130,7 +128,6 @@ interface CreditConfigurationServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountCreditConfigurationRetrieveParams =
@@ -143,7 +140,6 @@ interface CreditConfigurationServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountCreditConfigurationRetrieveParams =
@@ -152,21 +148,18 @@ interface CreditConfigurationServiceAsync {
             retrieve(financialAccountToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             requestOptions: RequestOptions,
@@ -182,14 +175,12 @@ interface CreditConfigurationServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/credit_configuration`, but is otherwise
          * the same as [CreditConfigurationServiceAsync.update].
          */
-        @MustBeClosed
         fun update(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
             update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             params: FinancialAccountCreditConfigurationUpdateParams =
@@ -202,7 +193,6 @@ interface CreditConfigurationServiceAsync {
             )
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             params: FinancialAccountCreditConfigurationUpdateParams =
@@ -211,21 +201,18 @@ interface CreditConfigurationServiceAsync {
             update(financialAccountToken, params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>>
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
             update(params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             requestOptions: RequestOptions,

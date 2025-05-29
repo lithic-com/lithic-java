@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AggregateBalanceListPageAsync
@@ -45,26 +44,22 @@ interface AggregateBalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/aggregate_balances`, but is otherwise the same
          * as [AggregateBalanceServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
             list(AggregateBalanceListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AggregateBalanceListParams = AggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AggregateBalanceListParams = AggregateBalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AggregateBalanceListPageAsync>> =

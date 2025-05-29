@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.events
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.models.EventEventSubscriptionResendParams
@@ -53,7 +52,6 @@ interface EventSubscriptionServiceAsync {
          * /v1/events/{event_token}/event_subscriptions/{event_subscription_token}/resend`, but is
          * otherwise the same as [EventSubscriptionServiceAsync.resend].
          */
-        @MustBeClosed
         fun resend(
             eventSubscriptionToken: String,
             params: EventEventSubscriptionResendParams,
@@ -61,7 +59,6 @@ interface EventSubscriptionServiceAsync {
             resend(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see [resend] */
-        @MustBeClosed
         fun resend(
             eventSubscriptionToken: String,
             params: EventEventSubscriptionResendParams,
@@ -73,12 +70,10 @@ interface EventSubscriptionServiceAsync {
             )
 
         /** @see [resend] */
-        @MustBeClosed
         fun resend(params: EventEventSubscriptionResendParams): CompletableFuture<HttpResponse> =
             resend(params, RequestOptions.none())
 
         /** @see [resend] */
-        @MustBeClosed
         fun resend(
             params: EventEventSubscriptionResendParams,
             requestOptions: RequestOptions = RequestOptions.none(),

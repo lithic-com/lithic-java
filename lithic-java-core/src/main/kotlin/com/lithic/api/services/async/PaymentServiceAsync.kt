@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Payment
@@ -197,14 +196,12 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/payments`, but is otherwise the same as
          * [PaymentServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             params: PaymentCreateParams
         ): CompletableFuture<HttpResponseFor<PaymentCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: PaymentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -214,12 +211,10 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/payments/{payment_token}`, but is otherwise the
          * same as [PaymentServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(paymentToken: String): CompletableFuture<HttpResponseFor<Payment>> =
             retrieve(paymentToken, PaymentRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             paymentToken: String,
             params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
@@ -228,7 +223,6 @@ interface PaymentServiceAsync {
             retrieve(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             paymentToken: String,
             params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
@@ -236,19 +230,16 @@ interface PaymentServiceAsync {
             retrieve(paymentToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: PaymentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Payment>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: PaymentRetrieveParams): CompletableFuture<HttpResponseFor<Payment>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             paymentToken: String,
             requestOptions: RequestOptions,
@@ -259,26 +250,22 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
          * [PaymentServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<PaymentListPageAsync>> =
             list(PaymentListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<PaymentListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none()
         ): CompletableFuture<HttpResponseFor<PaymentListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<PaymentListPageAsync>> =
@@ -288,12 +275,10 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/payments/{payment_token}/retry`, but is
          * otherwise the same as [PaymentServiceAsync.retry].
          */
-        @MustBeClosed
         fun retry(paymentToken: String): CompletableFuture<HttpResponseFor<PaymentRetryResponse>> =
             retry(paymentToken, PaymentRetryParams.none())
 
         /** @see [retry] */
-        @MustBeClosed
         fun retry(
             paymentToken: String,
             params: PaymentRetryParams = PaymentRetryParams.none(),
@@ -302,7 +287,6 @@ interface PaymentServiceAsync {
             retry(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
         /** @see [retry] */
-        @MustBeClosed
         fun retry(
             paymentToken: String,
             params: PaymentRetryParams = PaymentRetryParams.none(),
@@ -310,21 +294,18 @@ interface PaymentServiceAsync {
             retry(paymentToken, params, RequestOptions.none())
 
         /** @see [retry] */
-        @MustBeClosed
         fun retry(
             params: PaymentRetryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<PaymentRetryResponse>>
 
         /** @see [retry] */
-        @MustBeClosed
         fun retry(
             params: PaymentRetryParams
         ): CompletableFuture<HttpResponseFor<PaymentRetryResponse>> =
             retry(params, RequestOptions.none())
 
         /** @see [retry] */
-        @MustBeClosed
         fun retry(
             paymentToken: String,
             requestOptions: RequestOptions,
@@ -335,7 +316,6 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but
          * is otherwise the same as [PaymentServiceAsync.simulateAction].
          */
-        @MustBeClosed
         fun simulateAction(
             paymentToken: String,
             params: PaymentSimulateActionParams,
@@ -343,7 +323,6 @@ interface PaymentServiceAsync {
             simulateAction(paymentToken, params, RequestOptions.none())
 
         /** @see [simulateAction] */
-        @MustBeClosed
         fun simulateAction(
             paymentToken: String,
             params: PaymentSimulateActionParams,
@@ -352,14 +331,12 @@ interface PaymentServiceAsync {
             simulateAction(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
         /** @see [simulateAction] */
-        @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams
         ): CompletableFuture<HttpResponseFor<PaymentSimulateActionResponse>> =
             simulateAction(params, RequestOptions.none())
 
         /** @see [simulateAction] */
-        @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -369,14 +346,12 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/receipt`, but is otherwise
          * the same as [PaymentServiceAsync.simulateReceipt].
          */
-        @MustBeClosed
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams
         ): CompletableFuture<HttpResponseFor<PaymentSimulateReceiptResponse>> =
             simulateReceipt(params, RequestOptions.none())
 
         /** @see [simulateReceipt] */
-        @MustBeClosed
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -386,14 +361,12 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/release`, but is otherwise
          * the same as [PaymentServiceAsync.simulateRelease].
          */
-        @MustBeClosed
         fun simulateRelease(
             params: PaymentSimulateReleaseParams
         ): CompletableFuture<HttpResponseFor<PaymentSimulateReleaseResponse>> =
             simulateRelease(params, RequestOptions.none())
 
         /** @see [simulateRelease] */
-        @MustBeClosed
         fun simulateRelease(
             params: PaymentSimulateReleaseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -403,14 +376,12 @@ interface PaymentServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/payments/return`, but is otherwise the
          * same as [PaymentServiceAsync.simulateReturn].
          */
-        @MustBeClosed
         fun simulateReturn(
             params: PaymentSimulateReturnParams
         ): CompletableFuture<HttpResponseFor<PaymentSimulateReturnResponse>> =
             simulateReturn(params, RequestOptions.none())
 
         /** @see [simulateReturn] */
-        @MustBeClosed
         fun simulateReturn(
             params: PaymentSimulateReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),

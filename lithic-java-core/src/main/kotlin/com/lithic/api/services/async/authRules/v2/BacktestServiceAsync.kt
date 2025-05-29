@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.authRules.v2
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthRuleV2BacktestCreateParams
@@ -131,14 +130,12 @@ interface BacktestServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/backtests`, but is
          * otherwise the same as [BacktestServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             authRuleToken: String
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(authRuleToken, AuthRuleV2BacktestCreateParams.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             authRuleToken: String,
             params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
@@ -147,7 +144,6 @@ interface BacktestServiceAsync {
             create(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             authRuleToken: String,
             params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
@@ -155,21 +151,18 @@ interface BacktestServiceAsync {
             create(authRuleToken, params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: AuthRuleV2BacktestCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>>
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: AuthRuleV2BacktestCreateParams
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -181,7 +174,6 @@ interface BacktestServiceAsync {
          * /v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}`, but is otherwise
          * the same as [BacktestServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             authRuleBacktestToken: String,
             params: AuthRuleV2BacktestRetrieveParams,
@@ -189,7 +181,6 @@ interface BacktestServiceAsync {
             retrieve(authRuleBacktestToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             authRuleBacktestToken: String,
             params: AuthRuleV2BacktestRetrieveParams,
@@ -201,14 +192,12 @@ interface BacktestServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams
         ): CompletableFuture<HttpResponseFor<BacktestResults>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),

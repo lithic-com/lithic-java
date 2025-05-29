@@ -89,6 +89,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
         // delete /v2/auth_rules/{auth_rule_token}
         withRawResponse().delete(params, requestOptions).thenAccept {}
 
+    @Deprecated("deprecated")
     override fun apply(
         params: AuthRuleV2ApplyParams,
         requestOptions: RequestOptions,
@@ -288,6 +289,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
         private val applyHandler: Handler<V2ApplyResponse> =
             jsonHandler<V2ApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
+        @Deprecated("deprecated")
         override fun apply(
             params: AuthRuleV2ApplyParams,
             requestOptions: RequestOptions,

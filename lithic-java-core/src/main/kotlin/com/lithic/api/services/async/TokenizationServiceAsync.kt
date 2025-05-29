@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -389,14 +388,12 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `get /v1/tokenizations/{tokenization_token}`, but is
          * otherwise the same as [TokenizationServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             tokenizationToken: String
         ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
             retrieve(tokenizationToken, TokenizationRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
@@ -408,7 +405,6 @@ interface TokenizationServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
@@ -416,21 +412,18 @@ interface TokenizationServiceAsync {
             retrieve(tokenizationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TokenizationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TokenizationRetrieveParams
         ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -441,26 +434,22 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `get /v1/tokenizations`, but is otherwise the same as
          * [TokenizationServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>> =
             list(TokenizationListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: TokenizationListParams = TokenizationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: TokenizationListParams = TokenizationListParams.none()
         ): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TokenizationListPageAsync>> =
@@ -470,12 +459,10 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/activate`,
          * but is otherwise the same as [TokenizationServiceAsync.activate].
          */
-        @MustBeClosed
         fun activate(tokenizationToken: String): CompletableFuture<HttpResponse> =
             activate(tokenizationToken, TokenizationActivateParams.none())
 
         /** @see [activate] */
-        @MustBeClosed
         fun activate(
             tokenizationToken: String,
             params: TokenizationActivateParams = TokenizationActivateParams.none(),
@@ -487,7 +474,6 @@ interface TokenizationServiceAsync {
             )
 
         /** @see [activate] */
-        @MustBeClosed
         fun activate(
             tokenizationToken: String,
             params: TokenizationActivateParams = TokenizationActivateParams.none(),
@@ -495,19 +481,16 @@ interface TokenizationServiceAsync {
             activate(tokenizationToken, params, RequestOptions.none())
 
         /** @see [activate] */
-        @MustBeClosed
         fun activate(
             params: TokenizationActivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [activate] */
-        @MustBeClosed
         fun activate(params: TokenizationActivateParams): CompletableFuture<HttpResponse> =
             activate(params, RequestOptions.none())
 
         /** @see [activate] */
-        @MustBeClosed
         fun activate(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -518,12 +501,10 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
          * but is otherwise the same as [TokenizationServiceAsync.deactivate].
          */
-        @MustBeClosed
         fun deactivate(tokenizationToken: String): CompletableFuture<HttpResponse> =
             deactivate(tokenizationToken, TokenizationDeactivateParams.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             tokenizationToken: String,
             params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
@@ -535,7 +516,6 @@ interface TokenizationServiceAsync {
             )
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             tokenizationToken: String,
             params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
@@ -543,19 +523,16 @@ interface TokenizationServiceAsync {
             deactivate(tokenizationToken, params, RequestOptions.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             params: TokenizationDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(params: TokenizationDeactivateParams): CompletableFuture<HttpResponse> =
             deactivate(params, RequestOptions.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -566,12 +543,10 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/pause`, but
          * is otherwise the same as [TokenizationServiceAsync.pause].
          */
-        @MustBeClosed
         fun pause(tokenizationToken: String): CompletableFuture<HttpResponse> =
             pause(tokenizationToken, TokenizationPauseParams.none())
 
         /** @see [pause] */
-        @MustBeClosed
         fun pause(
             tokenizationToken: String,
             params: TokenizationPauseParams = TokenizationPauseParams.none(),
@@ -580,26 +555,22 @@ interface TokenizationServiceAsync {
             pause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
 
         /** @see [pause] */
-        @MustBeClosed
         fun pause(
             tokenizationToken: String,
             params: TokenizationPauseParams = TokenizationPauseParams.none(),
         ): CompletableFuture<HttpResponse> = pause(tokenizationToken, params, RequestOptions.none())
 
         /** @see [pause] */
-        @MustBeClosed
         fun pause(
             params: TokenizationPauseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [pause] */
-        @MustBeClosed
         fun pause(params: TokenizationPauseParams): CompletableFuture<HttpResponse> =
             pause(params, RequestOptions.none())
 
         /** @see [pause] */
-        @MustBeClosed
         fun pause(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -611,12 +582,10 @@ interface TokenizationServiceAsync {
          * /v1/tokenizations/{tokenization_token}/resend_activation_code`, but is otherwise the same
          * as [TokenizationServiceAsync.resendActivationCode].
          */
-        @MustBeClosed
         fun resendActivationCode(tokenizationToken: String): CompletableFuture<HttpResponse> =
             resendActivationCode(tokenizationToken, TokenizationResendActivationCodeParams.none())
 
         /** @see [resendActivationCode] */
-        @MustBeClosed
         fun resendActivationCode(
             tokenizationToken: String,
             params: TokenizationResendActivationCodeParams =
@@ -629,7 +598,6 @@ interface TokenizationServiceAsync {
             )
 
         /** @see [resendActivationCode] */
-        @MustBeClosed
         fun resendActivationCode(
             tokenizationToken: String,
             params: TokenizationResendActivationCodeParams =
@@ -638,20 +606,17 @@ interface TokenizationServiceAsync {
             resendActivationCode(tokenizationToken, params, RequestOptions.none())
 
         /** @see [resendActivationCode] */
-        @MustBeClosed
         fun resendActivationCode(
             params: TokenizationResendActivationCodeParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [resendActivationCode] */
-        @MustBeClosed
         fun resendActivationCode(
             params: TokenizationResendActivationCodeParams
         ): CompletableFuture<HttpResponse> = resendActivationCode(params, RequestOptions.none())
 
         /** @see [resendActivationCode] */
-        @MustBeClosed
         fun resendActivationCode(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -666,14 +631,12 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/tokenizations`, but is otherwise the
          * same as [TokenizationServiceAsync.simulate].
          */
-        @MustBeClosed
         fun simulate(
             params: TokenizationSimulateParams
         ): CompletableFuture<HttpResponseFor<TokenizationSimulateResponse>> =
             simulate(params, RequestOptions.none())
 
         /** @see [simulate] */
-        @MustBeClosed
         fun simulate(
             params: TokenizationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -683,12 +646,10 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,
          * but is otherwise the same as [TokenizationServiceAsync.unpause].
          */
-        @MustBeClosed
         fun unpause(tokenizationToken: String): CompletableFuture<HttpResponse> =
             unpause(tokenizationToken, TokenizationUnpauseParams.none())
 
         /** @see [unpause] */
-        @MustBeClosed
         fun unpause(
             tokenizationToken: String,
             params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
@@ -697,7 +658,6 @@ interface TokenizationServiceAsync {
             unpause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
 
         /** @see [unpause] */
-        @MustBeClosed
         fun unpause(
             tokenizationToken: String,
             params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
@@ -705,19 +665,16 @@ interface TokenizationServiceAsync {
             unpause(tokenizationToken, params, RequestOptions.none())
 
         /** @see [unpause] */
-        @MustBeClosed
         fun unpause(
             params: TokenizationUnpauseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [unpause] */
-        @MustBeClosed
         fun unpause(params: TokenizationUnpauseParams): CompletableFuture<HttpResponse> =
             unpause(params, RequestOptions.none())
 
         /** @see [unpause] */
-        @MustBeClosed
         fun unpause(
             tokenizationToken: String,
             requestOptions: RequestOptions,
@@ -729,14 +686,12 @@ interface TokenizationServiceAsync {
          * /v1/tokenizations/{tokenization_token}/update_digital_card_art`, but is otherwise the
          * same as [TokenizationServiceAsync.updateDigitalCardArt].
          */
-        @MustBeClosed
         fun updateDigitalCardArt(
             tokenizationToken: String
         ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
             updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
 
         /** @see [updateDigitalCardArt] */
-        @MustBeClosed
         fun updateDigitalCardArt(
             tokenizationToken: String,
             params: TokenizationUpdateDigitalCardArtParams =
@@ -749,7 +704,6 @@ interface TokenizationServiceAsync {
             )
 
         /** @see [updateDigitalCardArt] */
-        @MustBeClosed
         fun updateDigitalCardArt(
             tokenizationToken: String,
             params: TokenizationUpdateDigitalCardArtParams =
@@ -758,21 +712,18 @@ interface TokenizationServiceAsync {
             updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
         /** @see [updateDigitalCardArt] */
-        @MustBeClosed
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>>
 
         /** @see [updateDigitalCardArt] */
-        @MustBeClosed
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams
         ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
             updateDigitalCardArt(params, RequestOptions.none())
 
         /** @see [updateDigitalCardArt] */
-        @MustBeClosed
         fun updateDigitalCardArt(
             tokenizationToken: String,
             requestOptions: RequestOptions,
