@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccount
@@ -192,14 +191,12 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `post /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             params: FinancialAccountCreateParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: FinancialAccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -209,14 +206,12 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             retrieve(financialAccountToken, FinancialAccountRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
@@ -228,7 +223,6 @@ interface FinancialAccountServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
@@ -236,21 +230,18 @@ interface FinancialAccountServiceAsync {
             retrieve(financialAccountToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
             requestOptions: RequestOptions,
@@ -261,14 +252,12 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `patch /v1/financial_accounts/{financial_account_token}`,
          * but is otherwise the same as [FinancialAccountServiceAsync.update].
          */
-        @MustBeClosed
         fun update(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             update(financialAccountToken, FinancialAccountUpdateParams.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
@@ -280,7 +269,6 @@ interface FinancialAccountServiceAsync {
             )
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
@@ -288,21 +276,18 @@ interface FinancialAccountServiceAsync {
             update(financialAccountToken, params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: FinancialAccountUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>>
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: FinancialAccountUpdateParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             update(params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             financialAccountToken: String,
             requestOptions: RequestOptions,
@@ -313,26 +298,22 @@ interface FinancialAccountServiceAsync {
          * Returns a raw HTTP response for `get /v1/financial_accounts`, but is otherwise the same
          * as [FinancialAccountServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
             list(FinancialAccountListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none()
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
@@ -343,7 +324,6 @@ interface FinancialAccountServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/update_status`, but is otherwise the
          * same as [FinancialAccountServiceAsync.updateStatus].
          */
-        @MustBeClosed
         fun updateStatus(
             financialAccountToken: String,
             params: FinancialAccountUpdateStatusParams,
@@ -351,7 +331,6 @@ interface FinancialAccountServiceAsync {
             updateStatus(financialAccountToken, params, RequestOptions.none())
 
         /** @see [updateStatus] */
-        @MustBeClosed
         fun updateStatus(
             financialAccountToken: String,
             params: FinancialAccountUpdateStatusParams,
@@ -363,14 +342,12 @@ interface FinancialAccountServiceAsync {
             )
 
         /** @see [updateStatus] */
-        @MustBeClosed
         fun updateStatus(
             params: FinancialAccountUpdateStatusParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             updateStatus(params, RequestOptions.none())
 
         /** @see [updateStatus] */
-        @MustBeClosed
         fun updateStatus(
             params: FinancialAccountUpdateStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),

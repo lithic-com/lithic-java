@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.threeDS
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -108,14 +107,12 @@ interface AuthenticationServiceAsync {
          * /v1/three_ds_authentication/{three_ds_authentication_token}`, but is otherwise the same
          * as [AuthenticationServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String
         ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
             retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
             params: ThreeDSAuthenticationRetrieveParams =
@@ -128,7 +125,6 @@ interface AuthenticationServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
             params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
@@ -136,21 +132,18 @@ interface AuthenticationServiceAsync {
             retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams
         ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
             requestOptions: RequestOptions,
@@ -165,14 +158,12 @@ interface AuthenticationServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_authentication/simulate`, but is
          * otherwise the same as [AuthenticationServiceAsync.simulate].
          */
-        @MustBeClosed
         fun simulate(
             params: ThreeDSAuthenticationSimulateParams
         ): CompletableFuture<HttpResponseFor<AuthenticationSimulateResponse>> =
             simulate(params, RequestOptions.none())
 
         /** @see [simulate] */
-        @MustBeClosed
         fun simulate(
             params: ThreeDSAuthenticationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -182,13 +173,11 @@ interface AuthenticationServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/simulate/enter_otp`, but
          * is otherwise the same as [AuthenticationServiceAsync.simulateOtpEntry].
          */
-        @MustBeClosed
         fun simulateOtpEntry(
             params: ThreeDSAuthenticationSimulateOtpEntryParams
         ): CompletableFuture<HttpResponse> = simulateOtpEntry(params, RequestOptions.none())
 
         /** @see [simulateOtpEntry] */
-        @MustBeClosed
         fun simulateOtpEntry(
             params: ThreeDSAuthenticationSimulateOtpEntryParams,
             requestOptions: RequestOptions = RequestOptions.none(),

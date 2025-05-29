@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.threeDS
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -95,13 +94,11 @@ interface DecisioningServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/challenge_response`, but
          * is otherwise the same as [DecisioningServiceAsync.challengeResponse].
          */
-        @MustBeClosed
         fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams
         ): CompletableFuture<HttpResponse> = challengeResponse(params, RequestOptions.none())
 
         /** @see [challengeResponse] */
-        @MustBeClosed
         fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -111,13 +108,11 @@ interface DecisioningServiceAsync {
          * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
          * the same as [DecisioningServiceAsync.retrieveSecret].
          */
-        @MustBeClosed
         fun retrieveSecret():
             CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
             retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none(),
@@ -125,7 +120,6 @@ interface DecisioningServiceAsync {
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>>
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none()
@@ -133,7 +127,6 @@ interface DecisioningServiceAsync {
             retrieveSecret(params, RequestOptions.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
@@ -143,12 +136,10 @@ interface DecisioningServiceAsync {
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/secret/rotate`, but is
          * otherwise the same as [DecisioningServiceAsync.rotateSecret].
          */
-        @MustBeClosed
         fun rotateSecret(): CompletableFuture<HttpResponse> =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none(),
@@ -156,14 +147,12 @@ interface DecisioningServiceAsync {
         ): CompletableFuture<HttpResponse>
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none()
         ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
     }

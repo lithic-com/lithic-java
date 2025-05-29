@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.financialAccounts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountLoanTapeListPageAsync
@@ -95,7 +94,6 @@ interface LoanTapeServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes/{loan_tape_token}`, but is
          * otherwise the same as [LoanTapeServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             loanTapeToken: String,
             params: FinancialAccountLoanTapeRetrieveParams,
@@ -103,7 +101,6 @@ interface LoanTapeServiceAsync {
             retrieve(loanTapeToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             loanTapeToken: String,
             params: FinancialAccountLoanTapeRetrieveParams,
@@ -112,13 +109,11 @@ interface LoanTapeServiceAsync {
             retrieve(params.toBuilder().loanTapeToken(loanTapeToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams
         ): CompletableFuture<HttpResponseFor<LoanTape>> = retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -129,14 +124,12 @@ interface LoanTapeServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/loan_tapes`, but is otherwise the same
          * as [LoanTapeServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
             list(financialAccountToken, FinancialAccountLoanTapeListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
@@ -148,7 +141,6 @@ interface LoanTapeServiceAsync {
             )
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
@@ -156,21 +148,18 @@ interface LoanTapeServiceAsync {
             list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountLoanTapeListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountLoanTapeListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,
