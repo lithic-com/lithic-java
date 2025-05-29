@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.authRules
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -359,14 +358,12 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules`, but is otherwise the same as
          * [V2ServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             params: AuthRuleV2CreateParams
         ): CompletableFuture<HttpResponseFor<V2CreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: AuthRuleV2CreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -376,14 +373,12 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}`, but is otherwise
          * the same as [V2ServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             authRuleToken: String
         ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>> =
             retrieve(authRuleToken, AuthRuleV2RetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             authRuleToken: String,
             params: AuthRuleV2RetrieveParams = AuthRuleV2RetrieveParams.none(),
@@ -392,7 +387,6 @@ interface V2ServiceAsync {
             retrieve(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             authRuleToken: String,
             params: AuthRuleV2RetrieveParams = AuthRuleV2RetrieveParams.none(),
@@ -400,21 +394,18 @@ interface V2ServiceAsync {
             retrieve(authRuleToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AuthRuleV2RetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AuthRuleV2RetrieveParams
         ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -425,7 +416,6 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `patch /v2/auth_rules/{auth_rule_token}`, but is
          * otherwise the same as [V2ServiceAsync.update].
          */
-        @MustBeClosed
         fun update(
             authRuleToken: String,
             params: AuthRuleV2UpdateParams,
@@ -433,7 +423,6 @@ interface V2ServiceAsync {
             update(authRuleToken, params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             authRuleToken: String,
             params: AuthRuleV2UpdateParams,
@@ -442,14 +431,12 @@ interface V2ServiceAsync {
             update(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: AuthRuleV2UpdateParams
         ): CompletableFuture<HttpResponseFor<V2UpdateResponse>> =
             update(params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: AuthRuleV2UpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -459,26 +446,22 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `get /v2/auth_rules`, but is otherwise the same as
          * [V2ServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>> =
             list(AuthRuleV2ListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AuthRuleV2ListParams = AuthRuleV2ListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AuthRuleV2ListParams = AuthRuleV2ListParams.none()
         ): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AuthRuleV2ListPageAsync>> =
@@ -488,12 +471,10 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `delete /v2/auth_rules/{auth_rule_token}`, but is
          * otherwise the same as [V2ServiceAsync.delete].
          */
-        @MustBeClosed
         fun delete(authRuleToken: String): CompletableFuture<HttpResponse> =
             delete(authRuleToken, AuthRuleV2DeleteParams.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             authRuleToken: String,
             params: AuthRuleV2DeleteParams = AuthRuleV2DeleteParams.none(),
@@ -502,26 +483,22 @@ interface V2ServiceAsync {
             delete(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             authRuleToken: String,
             params: AuthRuleV2DeleteParams = AuthRuleV2DeleteParams.none(),
         ): CompletableFuture<HttpResponse> = delete(authRuleToken, params, RequestOptions.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             params: AuthRuleV2DeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(params: AuthRuleV2DeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -533,7 +510,6 @@ interface V2ServiceAsync {
          * otherwise the same as [V2ServiceAsync.apply].
          */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun apply(
             authRuleToken: String,
             params: AuthRuleV2ApplyParams,
@@ -542,7 +518,6 @@ interface V2ServiceAsync {
 
         /** @see [apply] */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun apply(
             authRuleToken: String,
             params: AuthRuleV2ApplyParams,
@@ -552,7 +527,6 @@ interface V2ServiceAsync {
 
         /** @see [apply] */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun apply(
             params: AuthRuleV2ApplyParams
         ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> =
@@ -560,7 +534,6 @@ interface V2ServiceAsync {
 
         /** @see [apply] */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun apply(
             params: AuthRuleV2ApplyParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -570,12 +543,10 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/draft`, but is
          * otherwise the same as [V2ServiceAsync.draft].
          */
-        @MustBeClosed
         fun draft(authRuleToken: String): CompletableFuture<HttpResponseFor<V2DraftResponse>> =
             draft(authRuleToken, AuthRuleV2DraftParams.none())
 
         /** @see [draft] */
-        @MustBeClosed
         fun draft(
             authRuleToken: String,
             params: AuthRuleV2DraftParams = AuthRuleV2DraftParams.none(),
@@ -584,7 +555,6 @@ interface V2ServiceAsync {
             draft(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [draft] */
-        @MustBeClosed
         fun draft(
             authRuleToken: String,
             params: AuthRuleV2DraftParams = AuthRuleV2DraftParams.none(),
@@ -592,21 +562,18 @@ interface V2ServiceAsync {
             draft(authRuleToken, params, RequestOptions.none())
 
         /** @see [draft] */
-        @MustBeClosed
         fun draft(
             params: AuthRuleV2DraftParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2DraftResponse>>
 
         /** @see [draft] */
-        @MustBeClosed
         fun draft(
             params: AuthRuleV2DraftParams
         ): CompletableFuture<HttpResponseFor<V2DraftResponse>> =
             draft(params, RequestOptions.none())
 
         /** @see [draft] */
-        @MustBeClosed
         fun draft(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -617,12 +584,10 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/promote`, but is
          * otherwise the same as [V2ServiceAsync.promote].
          */
-        @MustBeClosed
         fun promote(authRuleToken: String): CompletableFuture<HttpResponseFor<V2PromoteResponse>> =
             promote(authRuleToken, AuthRuleV2PromoteParams.none())
 
         /** @see [promote] */
-        @MustBeClosed
         fun promote(
             authRuleToken: String,
             params: AuthRuleV2PromoteParams = AuthRuleV2PromoteParams.none(),
@@ -631,7 +596,6 @@ interface V2ServiceAsync {
             promote(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [promote] */
-        @MustBeClosed
         fun promote(
             authRuleToken: String,
             params: AuthRuleV2PromoteParams = AuthRuleV2PromoteParams.none(),
@@ -639,21 +603,18 @@ interface V2ServiceAsync {
             promote(authRuleToken, params, RequestOptions.none())
 
         /** @see [promote] */
-        @MustBeClosed
         fun promote(
             params: AuthRuleV2PromoteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2PromoteResponse>>
 
         /** @see [promote] */
-        @MustBeClosed
         fun promote(
             params: AuthRuleV2PromoteParams
         ): CompletableFuture<HttpResponseFor<V2PromoteResponse>> =
             promote(params, RequestOptions.none())
 
         /** @see [promote] */
-        @MustBeClosed
         fun promote(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -664,12 +625,10 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/report`, but is
          * otherwise the same as [V2ServiceAsync.report].
          */
-        @MustBeClosed
         fun report(authRuleToken: String): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(authRuleToken, AuthRuleV2ReportParams.none())
 
         /** @see [report] */
-        @MustBeClosed
         fun report(
             authRuleToken: String,
             params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
@@ -678,7 +637,6 @@ interface V2ServiceAsync {
             report(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [report] */
-        @MustBeClosed
         fun report(
             authRuleToken: String,
             params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
@@ -686,21 +644,18 @@ interface V2ServiceAsync {
             report(authRuleToken, params, RequestOptions.none())
 
         /** @see [report] */
-        @MustBeClosed
         fun report(
             params: AuthRuleV2ReportParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>>
 
         /** @see [report] */
-        @MustBeClosed
         fun report(
             params: AuthRuleV2ReportParams
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(params, RequestOptions.none())
 
         /** @see [report] */
-        @MustBeClosed
         fun report(
             authRuleToken: String,
             requestOptions: RequestOptions,

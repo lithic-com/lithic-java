@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Event
@@ -124,12 +123,10 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events/{event_token}`, but is otherwise the same
          * as [EventServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(eventToken: String): CompletableFuture<HttpResponseFor<Event>> =
             retrieve(eventToken, EventRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             params: EventRetrieveParams = EventRetrieveParams.none(),
@@ -138,7 +135,6 @@ interface EventServiceAsync {
             retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             params: EventRetrieveParams = EventRetrieveParams.none(),
@@ -146,19 +142,16 @@ interface EventServiceAsync {
             retrieve(eventToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: EventRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Event>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: EventRetrieveParams): CompletableFuture<HttpResponseFor<Event>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             requestOptions: RequestOptions,
@@ -169,26 +162,22 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events`, but is otherwise the same as
          * [EventServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
             list(EventListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: EventListParams = EventListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: EventListParams = EventListParams.none()
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
@@ -198,14 +187,12 @@ interface EventServiceAsync {
          * Returns a raw HTTP response for `get /v1/events/{event_token}/attempts`, but is otherwise
          * the same as [EventServiceAsync.listAttempts].
          */
-        @MustBeClosed
         fun listAttempts(
             eventToken: String
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
             listAttempts(eventToken, EventListAttemptsParams.none())
 
         /** @see [listAttempts] */
-        @MustBeClosed
         fun listAttempts(
             eventToken: String,
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
@@ -214,7 +201,6 @@ interface EventServiceAsync {
             listAttempts(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
         /** @see [listAttempts] */
-        @MustBeClosed
         fun listAttempts(
             eventToken: String,
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
@@ -222,21 +208,18 @@ interface EventServiceAsync {
             listAttempts(eventToken, params, RequestOptions.none())
 
         /** @see [listAttempts] */
-        @MustBeClosed
         fun listAttempts(
             params: EventListAttemptsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>>
 
         /** @see [listAttempts] */
-        @MustBeClosed
         fun listAttempts(
             params: EventListAttemptsParams
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
             listAttempts(params, RequestOptions.none())
 
         /** @see [listAttempts] */
-        @MustBeClosed
         fun listAttempts(
             eventToken: String,
             requestOptions: RequestOptions,

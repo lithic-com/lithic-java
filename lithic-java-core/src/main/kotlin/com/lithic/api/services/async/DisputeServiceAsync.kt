@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Dispute
@@ -302,12 +301,10 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `post /v1/disputes`, but is otherwise the same as
          * [DisputeServiceAsync.create].
          */
-        @MustBeClosed
         fun create(params: DisputeCreateParams): CompletableFuture<HttpResponseFor<Dispute>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: DisputeCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -317,12 +314,10 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}`, but is otherwise the
          * same as [DisputeServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
             retrieve(disputeToken, DisputeRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             disputeToken: String,
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
@@ -331,7 +326,6 @@ interface DisputeServiceAsync {
             retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             disputeToken: String,
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
@@ -339,19 +333,16 @@ interface DisputeServiceAsync {
             retrieve(disputeToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: DisputeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: DisputeRetrieveParams): CompletableFuture<HttpResponseFor<Dispute>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             disputeToken: String,
             requestOptions: RequestOptions,
@@ -362,12 +353,10 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `patch /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeServiceAsync.update].
          */
-        @MustBeClosed
         fun update(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
             update(disputeToken, DisputeUpdateParams.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             disputeToken: String,
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
@@ -376,7 +365,6 @@ interface DisputeServiceAsync {
             update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             disputeToken: String,
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
@@ -384,19 +372,16 @@ interface DisputeServiceAsync {
             update(disputeToken, params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: DisputeUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>>
 
         /** @see [update] */
-        @MustBeClosed
         fun update(params: DisputeUpdateParams): CompletableFuture<HttpResponseFor<Dispute>> =
             update(params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             disputeToken: String,
             requestOptions: RequestOptions,
@@ -407,26 +392,22 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
          * [DisputeServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
             list(DisputeListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: DisputeListParams = DisputeListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: DisputeListParams = DisputeListParams.none()
         ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
@@ -436,12 +417,10 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `delete /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeServiceAsync.delete].
          */
-        @MustBeClosed
         fun delete(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
             delete(disputeToken, DisputeDeleteParams.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             disputeToken: String,
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
@@ -450,7 +429,6 @@ interface DisputeServiceAsync {
             delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             disputeToken: String,
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
@@ -458,19 +436,16 @@ interface DisputeServiceAsync {
             delete(disputeToken, params, RequestOptions.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             params: DisputeDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>>
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(params: DisputeDeleteParams): CompletableFuture<HttpResponseFor<Dispute>> =
             delete(params, RequestOptions.none())
 
         /** @see [delete] */
-        @MustBeClosed
         fun delete(
             disputeToken: String,
             requestOptions: RequestOptions,
@@ -482,7 +457,6 @@ interface DisputeServiceAsync {
          * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
          * [DisputeServiceAsync.deleteEvidence].
          */
-        @MustBeClosed
         fun deleteEvidence(
             evidenceToken: String,
             params: DisputeDeleteEvidenceParams,
@@ -490,7 +464,6 @@ interface DisputeServiceAsync {
             deleteEvidence(evidenceToken, params, RequestOptions.none())
 
         /** @see [deleteEvidence] */
-        @MustBeClosed
         fun deleteEvidence(
             evidenceToken: String,
             params: DisputeDeleteEvidenceParams,
@@ -499,14 +472,12 @@ interface DisputeServiceAsync {
             deleteEvidence(params.toBuilder().evidenceToken(evidenceToken).build(), requestOptions)
 
         /** @see [deleteEvidence] */
-        @MustBeClosed
         fun deleteEvidence(
             params: DisputeDeleteEvidenceParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
             deleteEvidence(params, RequestOptions.none())
 
         /** @see [deleteEvidence] */
-        @MustBeClosed
         fun deleteEvidence(
             params: DisputeDeleteEvidenceParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -516,14 +487,12 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `post /v1/disputes/{dispute_token}/evidences`, but is
          * otherwise the same as [DisputeServiceAsync.initiateEvidenceUpload].
          */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             disputeToken: String
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
             initiateEvidenceUpload(disputeToken, DisputeInitiateEvidenceUploadParams.none())
 
         /** @see [initiateEvidenceUpload] */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             disputeToken: String,
             params: DisputeInitiateEvidenceUploadParams =
@@ -536,7 +505,6 @@ interface DisputeServiceAsync {
             )
 
         /** @see [initiateEvidenceUpload] */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             disputeToken: String,
             params: DisputeInitiateEvidenceUploadParams = DisputeInitiateEvidenceUploadParams.none(),
@@ -544,21 +512,18 @@ interface DisputeServiceAsync {
             initiateEvidenceUpload(disputeToken, params, RequestOptions.none())
 
         /** @see [initiateEvidenceUpload] */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             params: DisputeInitiateEvidenceUploadParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>>
 
         /** @see [initiateEvidenceUpload] */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             params: DisputeInitiateEvidenceUploadParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
             initiateEvidenceUpload(params, RequestOptions.none())
 
         /** @see [initiateEvidenceUpload] */
-        @MustBeClosed
         fun initiateEvidenceUpload(
             disputeToken: String,
             requestOptions: RequestOptions,
@@ -573,14 +538,12 @@ interface DisputeServiceAsync {
          * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}/evidences`, but is
          * otherwise the same as [DisputeServiceAsync.listEvidences].
          */
-        @MustBeClosed
         fun listEvidences(
             disputeToken: String
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
             listEvidences(disputeToken, DisputeListEvidencesParams.none())
 
         /** @see [listEvidences] */
-        @MustBeClosed
         fun listEvidences(
             disputeToken: String,
             params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
@@ -589,7 +552,6 @@ interface DisputeServiceAsync {
             listEvidences(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see [listEvidences] */
-        @MustBeClosed
         fun listEvidences(
             disputeToken: String,
             params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
@@ -597,21 +559,18 @@ interface DisputeServiceAsync {
             listEvidences(disputeToken, params, RequestOptions.none())
 
         /** @see [listEvidences] */
-        @MustBeClosed
         fun listEvidences(
             params: DisputeListEvidencesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>>
 
         /** @see [listEvidences] */
-        @MustBeClosed
         fun listEvidences(
             params: DisputeListEvidencesParams
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
             listEvidences(params, RequestOptions.none())
 
         /** @see [listEvidences] */
-        @MustBeClosed
         fun listEvidences(
             disputeToken: String,
             requestOptions: RequestOptions,
@@ -623,7 +582,6 @@ interface DisputeServiceAsync {
          * /v1/disputes/{dispute_token}/evidences/{evidence_token}`, but is otherwise the same as
          * [DisputeServiceAsync.retrieveEvidence].
          */
-        @MustBeClosed
         fun retrieveEvidence(
             evidenceToken: String,
             params: DisputeRetrieveEvidenceParams,
@@ -631,7 +589,6 @@ interface DisputeServiceAsync {
             retrieveEvidence(evidenceToken, params, RequestOptions.none())
 
         /** @see [retrieveEvidence] */
-        @MustBeClosed
         fun retrieveEvidence(
             evidenceToken: String,
             params: DisputeRetrieveEvidenceParams,
@@ -643,14 +600,12 @@ interface DisputeServiceAsync {
             )
 
         /** @see [retrieveEvidence] */
-        @MustBeClosed
         fun retrieveEvidence(
             params: DisputeRetrieveEvidenceParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
             retrieveEvidence(params, RequestOptions.none())
 
         /** @see [retrieveEvidence] */
-        @MustBeClosed
         fun retrieveEvidence(
             params: DisputeRetrieveEvidenceParams,
             requestOptions: RequestOptions = RequestOptions.none(),

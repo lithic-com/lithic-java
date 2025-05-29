@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.financialAccounts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountStatementListPageAsync
@@ -100,7 +99,6 @@ interface StatementServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements/{statement_token}`, but is
          * otherwise the same as [StatementServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             statementToken: String,
             params: FinancialAccountStatementRetrieveParams,
@@ -108,7 +106,6 @@ interface StatementServiceAsync {
             retrieve(statementToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             statementToken: String,
             params: FinancialAccountStatementRetrieveParams,
@@ -117,13 +114,11 @@ interface StatementServiceAsync {
             retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams
         ): CompletableFuture<HttpResponseFor<Statement>> = retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -134,14 +129,12 @@ interface StatementServiceAsync {
          * /v1/financial_accounts/{financial_account_token}/statements`, but is otherwise the same
          * as [StatementServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
             list(financialAccountToken, FinancialAccountStatementListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountStatementListParams =
@@ -154,7 +147,6 @@ interface StatementServiceAsync {
             )
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
@@ -162,21 +154,18 @@ interface StatementServiceAsync {
             list(financialAccountToken, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountStatementListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: FinancialAccountStatementListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,

@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.transactions
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.EnhancedCommercialDataRetrieveResponse
@@ -76,14 +75,12 @@ interface EnhancedCommercialDataServiceAsync {
          * /v1/transactions/{transaction_token}/enhanced_commercial_data`, but is otherwise the same
          * as [EnhancedCommercialDataServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             transactionToken: String
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
             retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             transactionToken: String,
             params: TransactionEnhancedCommercialDataRetrieveParams =
@@ -93,7 +90,6 @@ interface EnhancedCommercialDataServiceAsync {
             retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             transactionToken: String,
             params: TransactionEnhancedCommercialDataRetrieveParams =
@@ -102,21 +98,18 @@ interface EnhancedCommercialDataServiceAsync {
             retrieve(transactionToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TransactionEnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TransactionEnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             transactionToken: String,
             requestOptions: RequestOptions,
