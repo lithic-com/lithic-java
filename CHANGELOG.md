@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.91.1 (2025-05-29)
+
+Full Changelog: [v0.91.0...v0.91.1](https://github.com/lithic-com/lithic-java/compare/v0.91.0...v0.91.1)
+
+### Bug Fixes
+
+* **client:** remove `@MustBeClosed` for future returning methods ([055aca8](https://github.com/lithic-com/lithic-java/commit/055aca8c0f07417ec410fd8a6b93bc23d9f8edad))
+
+
+### Chores
+
+* **api:** mark some methods as deprecated ([6245c1b](https://github.com/lithic-com/lithic-java/commit/6245c1beb2e16e8921cd85c17a6d5d144d302ba3))
+* **docs:** grammar improvements ([98b0222](https://github.com/lithic-com/lithic-java/commit/98b0222eacd1e93d864112fc64ed832625955d53))
+
 ## 0.91.0 (2025-05-15)
 
 Full Changelog: [v0.90.0...v0.91.0](https://github.com/lithic-com/lithic-java/compare/v0.90.0...v0.91.0)
