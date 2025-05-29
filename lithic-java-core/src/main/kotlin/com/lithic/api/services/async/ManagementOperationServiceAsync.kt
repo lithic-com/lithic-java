@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ManagementOperationCreateParams
@@ -131,14 +130,12 @@ interface ManagementOperationServiceAsync {
          * Returns a raw HTTP response for `post /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             params: ManagementOperationCreateParams
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: ManagementOperationCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -149,14 +146,12 @@ interface ManagementOperationServiceAsync {
          * /v1/management_operations/{management_operation_token}`, but is otherwise the same as
          * [ManagementOperationServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             managementOperationToken: String
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
             retrieve(managementOperationToken, ManagementOperationRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             managementOperationToken: String,
             params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
@@ -168,7 +163,6 @@ interface ManagementOperationServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             managementOperationToken: String,
             params: ManagementOperationRetrieveParams = ManagementOperationRetrieveParams.none(),
@@ -176,21 +170,18 @@ interface ManagementOperationServiceAsync {
             retrieve(managementOperationToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ManagementOperationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ManagementOperationRetrieveParams
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             managementOperationToken: String,
             requestOptions: RequestOptions,
@@ -205,26 +196,22 @@ interface ManagementOperationServiceAsync {
          * Returns a raw HTTP response for `get /v1/management_operations`, but is otherwise the
          * same as [ManagementOperationServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>> =
             list(ManagementOperationListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: ManagementOperationListParams = ManagementOperationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: ManagementOperationListParams = ManagementOperationListParams.none()
         ): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ManagementOperationListPageAsync>> =
@@ -235,7 +222,6 @@ interface ManagementOperationServiceAsync {
          * /v1/management_operations/{management_operation_token}/reverse`, but is otherwise the
          * same as [ManagementOperationServiceAsync.reverse].
          */
-        @MustBeClosed
         fun reverse(
             managementOperationToken: String,
             params: ManagementOperationReverseParams,
@@ -243,7 +229,6 @@ interface ManagementOperationServiceAsync {
             reverse(managementOperationToken, params, RequestOptions.none())
 
         /** @see [reverse] */
-        @MustBeClosed
         fun reverse(
             managementOperationToken: String,
             params: ManagementOperationReverseParams,
@@ -255,14 +240,12 @@ interface ManagementOperationServiceAsync {
             )
 
         /** @see [reverse] */
-        @MustBeClosed
         fun reverse(
             params: ManagementOperationReverseParams
         ): CompletableFuture<HttpResponseFor<ManagementOperationTransaction>> =
             reverse(params, RequestOptions.none())
 
         /** @see [reverse] */
-        @MustBeClosed
         fun reverse(
             params: ManagementOperationReverseParams,
             requestOptions: RequestOptions = RequestOptions.none(),

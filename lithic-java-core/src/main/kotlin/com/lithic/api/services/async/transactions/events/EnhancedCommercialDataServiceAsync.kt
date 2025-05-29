@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.transactions.events
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.EnhancedData
@@ -72,12 +71,10 @@ interface EnhancedCommercialDataServiceAsync {
          * /v1/transactions/events/{event_token}/enhanced_commercial_data`, but is otherwise the
          * same as [EnhancedCommercialDataServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(eventToken: String): CompletableFuture<HttpResponseFor<EnhancedData>> =
             retrieve(eventToken, TransactionEventEnhancedCommercialDataRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             params: TransactionEventEnhancedCommercialDataRetrieveParams =
@@ -87,7 +84,6 @@ interface EnhancedCommercialDataServiceAsync {
             retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             params: TransactionEventEnhancedCommercialDataRetrieveParams =
@@ -96,21 +92,18 @@ interface EnhancedCommercialDataServiceAsync {
             retrieve(eventToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TransactionEventEnhancedCommercialDataRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedData>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TransactionEventEnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             eventToken: String,
             requestOptions: RequestOptions,

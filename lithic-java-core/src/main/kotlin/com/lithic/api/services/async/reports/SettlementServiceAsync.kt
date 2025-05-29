@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.reports
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ReportSettlementListDetailsPageAsync
@@ -109,14 +108,12 @@ interface SettlementServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/details/{report_date}`, but
          * is otherwise the same as [SettlementServiceAsync.listDetails].
          */
-        @MustBeClosed
         fun listDetails(
             reportDate: LocalDate
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(reportDate, ReportSettlementListDetailsParams.none())
 
         /** @see [listDetails] */
-        @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
             params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
@@ -125,7 +122,6 @@ interface SettlementServiceAsync {
             listDetails(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
         /** @see [listDetails] */
-        @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
             params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
@@ -133,21 +129,18 @@ interface SettlementServiceAsync {
             listDetails(reportDate, params, RequestOptions.none())
 
         /** @see [listDetails] */
-        @MustBeClosed
         fun listDetails(
             params: ReportSettlementListDetailsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>>
 
         /** @see [listDetails] */
-        @MustBeClosed
         fun listDetails(
             params: ReportSettlementListDetailsParams
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(params, RequestOptions.none())
 
         /** @see [listDetails] */
-        @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
             requestOptions: RequestOptions,
@@ -158,12 +151,10 @@ interface SettlementServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/summary/{report_date}`, but
          * is otherwise the same as [SettlementServiceAsync.summary].
          */
-        @MustBeClosed
         fun summary(reportDate: LocalDate): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(reportDate, ReportSettlementSummaryParams.none())
 
         /** @see [summary] */
-        @MustBeClosed
         fun summary(
             reportDate: LocalDate,
             params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
@@ -172,7 +163,6 @@ interface SettlementServiceAsync {
             summary(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
         /** @see [summary] */
-        @MustBeClosed
         fun summary(
             reportDate: LocalDate,
             params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
@@ -180,21 +170,18 @@ interface SettlementServiceAsync {
             summary(reportDate, params, RequestOptions.none())
 
         /** @see [summary] */
-        @MustBeClosed
         fun summary(
             params: ReportSettlementSummaryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SettlementReport>>
 
         /** @see [summary] */
-        @MustBeClosed
         fun summary(
             params: ReportSettlementSummaryParams
         ): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(params, RequestOptions.none())
 
         /** @see [summary] */
-        @MustBeClosed
         fun summary(
             reportDate: LocalDate,
             requestOptions: RequestOptions,

@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Transfer
@@ -38,13 +37,11 @@ interface TransferServiceAsync {
          * [TransferServiceAsync.create].
          */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun create(params: TransferCreateParams): CompletableFuture<HttpResponseFor<Transfer>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
         @Deprecated("deprecated")
-        @MustBeClosed
         fun create(
             params: TransferCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),

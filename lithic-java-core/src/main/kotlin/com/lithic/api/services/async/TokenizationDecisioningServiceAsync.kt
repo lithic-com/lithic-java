@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.TokenizationDecisioningRetrieveSecretParams
@@ -82,12 +81,10 @@ interface TokenizationDecisioningServiceAsync {
          * Returns a raw HTTP response for `get /v1/tokenization_decisioning/secret`, but is
          * otherwise the same as [TokenizationDecisioningServiceAsync.retrieveSecret].
          */
-        @MustBeClosed
         fun retrieveSecret(): CompletableFuture<HttpResponseFor<TokenizationSecret>> =
             retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: TokenizationDecisioningRetrieveSecretParams =
                 TokenizationDecisioningRetrieveSecretParams.none(),
@@ -95,7 +92,6 @@ interface TokenizationDecisioningServiceAsync {
         ): CompletableFuture<HttpResponseFor<TokenizationSecret>>
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: TokenizationDecisioningRetrieveSecretParams =
                 TokenizationDecisioningRetrieveSecretParams.none()
@@ -103,7 +99,6 @@ interface TokenizationDecisioningServiceAsync {
             retrieveSecret(params, RequestOptions.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TokenizationSecret>> =
@@ -113,13 +108,11 @@ interface TokenizationDecisioningServiceAsync {
          * Returns a raw HTTP response for `post /v1/tokenization_decisioning/secret/rotate`, but is
          * otherwise the same as [TokenizationDecisioningServiceAsync.rotateSecret].
          */
-        @MustBeClosed
         fun rotateSecret():
             CompletableFuture<HttpResponseFor<TokenizationDecisioningRotateSecretResponse>> =
             rotateSecret(TokenizationDecisioningRotateSecretParams.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: TokenizationDecisioningRotateSecretParams =
                 TokenizationDecisioningRotateSecretParams.none(),
@@ -127,7 +120,6 @@ interface TokenizationDecisioningServiceAsync {
         ): CompletableFuture<HttpResponseFor<TokenizationDecisioningRotateSecretResponse>>
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: TokenizationDecisioningRotateSecretParams =
                 TokenizationDecisioningRotateSecretParams.none()
@@ -135,7 +127,6 @@ interface TokenizationDecisioningServiceAsync {
             rotateSecret(params, RequestOptions.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TokenizationDecisioningRotateSecretResponse>> =

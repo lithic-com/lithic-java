@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -81,12 +80,10 @@ interface AuthStreamEnrollmentServiceAsync {
          * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same
          * as [AuthStreamEnrollmentServiceAsync.retrieveSecret].
          */
-        @MustBeClosed
         fun retrieveSecret(): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
             retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none(),
@@ -94,7 +91,6 @@ interface AuthStreamEnrollmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>>
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none()
@@ -102,7 +98,6 @@ interface AuthStreamEnrollmentServiceAsync {
             retrieveSecret(params, RequestOptions.none())
 
         /** @see [retrieveSecret] */
-        @MustBeClosed
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
@@ -112,12 +107,10 @@ interface AuthStreamEnrollmentServiceAsync {
          * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
          * the same as [AuthStreamEnrollmentServiceAsync.rotateSecret].
          */
-        @MustBeClosed
         fun rotateSecret(): CompletableFuture<HttpResponse> =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none(),
@@ -125,14 +118,12 @@ interface AuthStreamEnrollmentServiceAsync {
         ): CompletableFuture<HttpResponse>
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none()
         ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
         /** @see [rotateSecret] */
-        @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
     }

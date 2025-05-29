@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.externalBankAccounts
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ExternalBankAccountMicroDepositCreateParams
@@ -56,7 +55,6 @@ interface MicroDepositServiceAsync {
          * /v1/external_bank_accounts/{external_bank_account_token}/micro_deposits`, but is
          * otherwise the same as [MicroDepositServiceAsync.create].
          */
-        @MustBeClosed
         fun create(
             externalBankAccountToken: String,
             params: ExternalBankAccountMicroDepositCreateParams,
@@ -64,7 +62,6 @@ interface MicroDepositServiceAsync {
             create(externalBankAccountToken, params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             externalBankAccountToken: String,
             params: ExternalBankAccountMicroDepositCreateParams,
@@ -76,14 +73,12 @@ interface MicroDepositServiceAsync {
             )
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams
         ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),

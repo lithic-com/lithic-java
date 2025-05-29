@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.BalanceListPageAsync
@@ -43,26 +42,22 @@ interface BalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/balances`, but is otherwise the same as
          * [BalanceServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
             list(BalanceListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =

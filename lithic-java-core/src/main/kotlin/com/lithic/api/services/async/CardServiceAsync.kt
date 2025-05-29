@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Card
@@ -442,12 +441,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards`, but is otherwise the same as
          * [CardServiceAsync.create].
          */
-        @MustBeClosed
         fun create(params: CardCreateParams): CompletableFuture<HttpResponseFor<Card>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: CardCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -457,12 +454,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}`, but is otherwise the same
          * as [CardServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
             retrieve(cardToken, CardRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardToken: String,
             params: CardRetrieveParams = CardRetrieveParams.none(),
@@ -471,7 +466,6 @@ interface CardServiceAsync {
             retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardToken: String,
             params: CardRetrieveParams = CardRetrieveParams.none(),
@@ -479,19 +473,16 @@ interface CardServiceAsync {
             retrieve(cardToken, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CardRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: CardRetrieveParams): CompletableFuture<HttpResponseFor<Card>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             cardToken: String,
             requestOptions: RequestOptions,
@@ -502,12 +493,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
          * as [CardServiceAsync.update].
          */
-        @MustBeClosed
         fun update(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
             update(cardToken, CardUpdateParams.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             cardToken: String,
             params: CardUpdateParams = CardUpdateParams.none(),
@@ -516,7 +505,6 @@ interface CardServiceAsync {
             update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             cardToken: String,
             params: CardUpdateParams = CardUpdateParams.none(),
@@ -524,19 +512,16 @@ interface CardServiceAsync {
             update(cardToken, params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             params: CardUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
 
         /** @see [update] */
-        @MustBeClosed
         fun update(params: CardUpdateParams): CompletableFuture<HttpResponseFor<Card>> =
             update(params, RequestOptions.none())
 
         /** @see [update] */
-        @MustBeClosed
         fun update(
             cardToken: String,
             requestOptions: RequestOptions,
@@ -547,26 +532,22 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
          * [CardServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
             list(CardListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardListParams = CardListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardListParams = CardListParams.none()
         ): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardListPageAsync>> =
@@ -576,7 +557,6 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
          * otherwise the same as [CardServiceAsync.convertPhysical].
          */
-        @MustBeClosed
         fun convertPhysical(
             cardToken: String,
             params: CardConvertPhysicalParams,
@@ -584,7 +564,6 @@ interface CardServiceAsync {
             convertPhysical(cardToken, params, RequestOptions.none())
 
         /** @see [convertPhysical] */
-        @MustBeClosed
         fun convertPhysical(
             cardToken: String,
             params: CardConvertPhysicalParams,
@@ -593,13 +572,11 @@ interface CardServiceAsync {
             convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [convertPhysical] */
-        @MustBeClosed
         fun convertPhysical(
             params: CardConvertPhysicalParams
         ): CompletableFuture<HttpResponseFor<Card>> = convertPhysical(params, RequestOptions.none())
 
         /** @see [convertPhysical] */
-        @MustBeClosed
         fun convertPhysical(
             params: CardConvertPhysicalParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -609,12 +586,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
          * [CardServiceAsync.embed].
          */
-        @MustBeClosed
         fun embed(params: CardEmbedParams): CompletableFuture<HttpResponseFor<String>> =
             embed(params, RequestOptions.none())
 
         /** @see [embed] */
-        @MustBeClosed
         fun embed(
             params: CardEmbedParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -624,14 +599,12 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/provision`, but is otherwise
          * the same as [CardServiceAsync.provision].
          */
-        @MustBeClosed
         fun provision(
             cardToken: String
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
             provision(cardToken, CardProvisionParams.none())
 
         /** @see [provision] */
-        @MustBeClosed
         fun provision(
             cardToken: String,
             params: CardProvisionParams = CardProvisionParams.none(),
@@ -640,7 +613,6 @@ interface CardServiceAsync {
             provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [provision] */
-        @MustBeClosed
         fun provision(
             cardToken: String,
             params: CardProvisionParams = CardProvisionParams.none(),
@@ -648,21 +620,18 @@ interface CardServiceAsync {
             provision(cardToken, params, RequestOptions.none())
 
         /** @see [provision] */
-        @MustBeClosed
         fun provision(
             params: CardProvisionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>>
 
         /** @see [provision] */
-        @MustBeClosed
         fun provision(
             params: CardProvisionParams
         ): CompletableFuture<HttpResponseFor<CardProvisionResponse>> =
             provision(params, RequestOptions.none())
 
         /** @see [provision] */
-        @MustBeClosed
         fun provision(
             cardToken: String,
             requestOptions: RequestOptions,
@@ -673,12 +642,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
          * the same as [CardServiceAsync.reissue].
          */
-        @MustBeClosed
         fun reissue(cardToken: String): CompletableFuture<HttpResponseFor<Card>> =
             reissue(cardToken, CardReissueParams.none())
 
         /** @see [reissue] */
-        @MustBeClosed
         fun reissue(
             cardToken: String,
             params: CardReissueParams = CardReissueParams.none(),
@@ -687,7 +654,6 @@ interface CardServiceAsync {
             reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [reissue] */
-        @MustBeClosed
         fun reissue(
             cardToken: String,
             params: CardReissueParams = CardReissueParams.none(),
@@ -695,19 +661,16 @@ interface CardServiceAsync {
             reissue(cardToken, params, RequestOptions.none())
 
         /** @see [reissue] */
-        @MustBeClosed
         fun reissue(
             params: CardReissueParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
 
         /** @see [reissue] */
-        @MustBeClosed
         fun reissue(params: CardReissueParams): CompletableFuture<HttpResponseFor<Card>> =
             reissue(params, RequestOptions.none())
 
         /** @see [reissue] */
-        @MustBeClosed
         fun reissue(
             cardToken: String,
             requestOptions: RequestOptions,
@@ -718,7 +681,6 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
          * same as [CardServiceAsync.renew].
          */
-        @MustBeClosed
         fun renew(
             cardToken: String,
             params: CardRenewParams,
@@ -726,7 +688,6 @@ interface CardServiceAsync {
             renew(cardToken, params, RequestOptions.none())
 
         /** @see [renew] */
-        @MustBeClosed
         fun renew(
             cardToken: String,
             params: CardRenewParams,
@@ -735,12 +696,10 @@ interface CardServiceAsync {
             renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [renew] */
-        @MustBeClosed
         fun renew(params: CardRenewParams): CompletableFuture<HttpResponseFor<Card>> =
             renew(params, RequestOptions.none())
 
         /** @see [renew] */
-        @MustBeClosed
         fun renew(
             params: CardRenewParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -750,14 +709,12 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
          * otherwise the same as [CardServiceAsync.retrieveSpendLimits].
          */
-        @MustBeClosed
         fun retrieveSpendLimits(
             cardToken: String
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
             retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
 
         /** @see [retrieveSpendLimits] */
-        @MustBeClosed
         fun retrieveSpendLimits(
             cardToken: String,
             params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
@@ -766,7 +723,6 @@ interface CardServiceAsync {
             retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [retrieveSpendLimits] */
-        @MustBeClosed
         fun retrieveSpendLimits(
             cardToken: String,
             params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
@@ -774,21 +730,18 @@ interface CardServiceAsync {
             retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
         /** @see [retrieveSpendLimits] */
-        @MustBeClosed
         fun retrieveSpendLimits(
             params: CardRetrieveSpendLimitsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>>
 
         /** @see [retrieveSpendLimits] */
-        @MustBeClosed
         fun retrieveSpendLimits(
             params: CardRetrieveSpendLimitsParams
         ): CompletableFuture<HttpResponseFor<CardSpendLimits>> =
             retrieveSpendLimits(params, RequestOptions.none())
 
         /** @see [retrieveSpendLimits] */
-        @MustBeClosed
         fun retrieveSpendLimits(
             cardToken: String,
             requestOptions: RequestOptions,
@@ -799,12 +752,10 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
          * as [CardServiceAsync.searchByPan].
          */
-        @MustBeClosed
         fun searchByPan(params: CardSearchByPanParams): CompletableFuture<HttpResponseFor<Card>> =
             searchByPan(params, RequestOptions.none())
 
         /** @see [searchByPan] */
-        @MustBeClosed
         fun searchByPan(
             params: CardSearchByPanParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -814,14 +765,12 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/web_provision`, but is
          * otherwise the same as [CardServiceAsync.webProvision].
          */
-        @MustBeClosed
         fun webProvision(
             cardToken: String
         ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
             webProvision(cardToken, CardWebProvisionParams.none())
 
         /** @see [webProvision] */
-        @MustBeClosed
         fun webProvision(
             cardToken: String,
             params: CardWebProvisionParams = CardWebProvisionParams.none(),
@@ -830,7 +779,6 @@ interface CardServiceAsync {
             webProvision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [webProvision] */
-        @MustBeClosed
         fun webProvision(
             cardToken: String,
             params: CardWebProvisionParams = CardWebProvisionParams.none(),
@@ -838,21 +786,18 @@ interface CardServiceAsync {
             webProvision(cardToken, params, RequestOptions.none())
 
         /** @see [webProvision] */
-        @MustBeClosed
         fun webProvision(
             params: CardWebProvisionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>>
 
         /** @see [webProvision] */
-        @MustBeClosed
         fun webProvision(
             params: CardWebProvisionParams
         ): CompletableFuture<HttpResponseFor<CardWebProvisionResponse>> =
             webProvision(params, RequestOptions.none())
 
         /** @see [webProvision] */
-        @MustBeClosed
         fun webProvision(
             cardToken: String,
             requestOptions: RequestOptions,

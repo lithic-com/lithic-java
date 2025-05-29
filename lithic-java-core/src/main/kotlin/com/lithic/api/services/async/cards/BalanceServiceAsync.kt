@@ -2,7 +2,6 @@
 
 package com.lithic.api.services.async.cards
 
-import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.CardBalanceListPageAsync
@@ -60,12 +59,10 @@ interface BalanceServiceAsync {
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/balances`, but is otherwise
          * the same as [BalanceServiceAsync.list].
          */
-        @MustBeClosed
         fun list(cardToken: String): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(cardToken, CardBalanceListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
@@ -74,7 +71,6 @@ interface BalanceServiceAsync {
             list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
@@ -82,21 +78,18 @@ interface BalanceServiceAsync {
             list(cardToken, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: CardBalanceListParams
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             cardToken: String,
             requestOptions: RequestOptions,
