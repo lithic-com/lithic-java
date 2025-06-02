@@ -38,7 +38,7 @@ private constructor(
 
     override fun items(): List<AccountHolder> = data()
 
-    override fun hasNextPage(): Boolean = items().isNotEmpty()
+    override fun hasNextPage(): Boolean = false
 
     fun nextPageParams(): AccountHolderListParams =
         throw IllegalStateException("Cannot construct next page params")
