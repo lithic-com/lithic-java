@@ -37,7 +37,7 @@ private constructor(
 
     override fun items(): List<Balance> = data()
 
-    override fun hasNextPage(): Boolean = items().isNotEmpty()
+    override fun hasNextPage(): Boolean = false
 
     fun nextPageParams(): BalanceListParams =
         throw IllegalStateException("Cannot construct next page params")
