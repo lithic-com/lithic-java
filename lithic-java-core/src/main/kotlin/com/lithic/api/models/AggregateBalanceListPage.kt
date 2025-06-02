@@ -35,7 +35,7 @@ private constructor(
 
     override fun items(): List<AggregateBalance> = data()
 
-    override fun hasNextPage(): Boolean = items().isNotEmpty()
+    override fun hasNextPage(): Boolean = false
 
     fun nextPageParams(): AggregateBalanceListParams =
         throw IllegalStateException("Cannot construct next page params")
