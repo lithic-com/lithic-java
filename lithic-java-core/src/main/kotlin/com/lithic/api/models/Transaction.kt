@@ -167,7 +167,8 @@ private constructor(
 
     /**
      * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
-     * chargeback filing.
+     * chargeback filing. This field has been deprecated in favor of the `acquirer_reference_number`
+     * that resides in the event-level `network_info`.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -717,7 +718,8 @@ private constructor(
 
         /**
          * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
-         * and chargeback filing.
+         * and chargeback filing. This field has been deprecated in favor of the
+         * `acquirer_reference_number` that resides in the event-level `network_info`.
          */
         @Deprecated("deprecated")
         fun acquirerReferenceNumber(acquirerReferenceNumber: String?) =

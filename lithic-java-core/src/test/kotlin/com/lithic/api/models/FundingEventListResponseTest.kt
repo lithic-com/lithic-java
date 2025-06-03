@@ -20,13 +20,13 @@ internal class FundingEventListResponseTest {
                 .addCollectionToken("b68b7424-aa69-4cbc-a946-30d90181b621")
                 .created(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .highWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-                .previousHighWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-                .addSettlementBreakdown(
+                .addNetworkSettlementSummary(
                     FundingEventListResponse.FundingEventSettlement.builder()
-                        .amount(0L)
-                        .settlementDate(LocalDate.parse("2024-01-01"))
+                        .networkSettlementDate(LocalDate.parse("2024-01-01"))
+                        .settledGrossAmount(0L)
                         .build()
                 )
+                .previousHighWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .updated(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .build()
 
@@ -40,15 +40,15 @@ internal class FundingEventListResponseTest {
             .isEqualTo(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
         assertThat(fundingEventListResponse.highWatermark())
             .isEqualTo(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-        assertThat(fundingEventListResponse.previousHighWatermark())
-            .isEqualTo(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-        assertThat(fundingEventListResponse.settlementBreakdowns())
+        assertThat(fundingEventListResponse.networkSettlementSummary())
             .containsExactly(
                 FundingEventListResponse.FundingEventSettlement.builder()
-                    .amount(0L)
-                    .settlementDate(LocalDate.parse("2024-01-01"))
+                    .networkSettlementDate(LocalDate.parse("2024-01-01"))
+                    .settledGrossAmount(0L)
                     .build()
             )
+        assertThat(fundingEventListResponse.previousHighWatermark())
+            .isEqualTo(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
         assertThat(fundingEventListResponse.updated())
             .isEqualTo(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
     }
@@ -63,13 +63,13 @@ internal class FundingEventListResponseTest {
                 .addCollectionToken("b68b7424-aa69-4cbc-a946-30d90181b621")
                 .created(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .highWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-                .previousHighWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
-                .addSettlementBreakdown(
+                .addNetworkSettlementSummary(
                     FundingEventListResponse.FundingEventSettlement.builder()
-                        .amount(0L)
-                        .settlementDate(LocalDate.parse("2024-01-01"))
+                        .networkSettlementDate(LocalDate.parse("2024-01-01"))
+                        .settledGrossAmount(0L)
                         .build()
                 )
+                .previousHighWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .updated(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                 .build()
 

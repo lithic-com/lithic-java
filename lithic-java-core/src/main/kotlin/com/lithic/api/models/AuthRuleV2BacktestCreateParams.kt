@@ -21,14 +21,14 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Initiates a request to asynchronously generate a backtest for an authorization rule. During
- * backtesting, both the active version (if one exists) and the draft version of the Authorization
- * Rule are evaluated by replaying historical transaction data against the rule's conditions. This
- * process allows customers to simulate and understand the effects of proposed rule changes before
- * deployment. The generated backtest report provides detailed results showing whether the draft
- * version of the Auth Rule would have approved or declined historical transactions which were
- * processed during the backtest period. These reports help evaluate how changes to rule
- * configurations might affect overall transaction approval rates.
+ * Initiates a request to asynchronously generate a backtest for an Auth rule. During backtesting,
+ * both the active version (if one exists) and the draft version of the Auth Rule are evaluated by
+ * replaying historical transaction data against the rule's conditions. This process allows
+ * customers to simulate and understand the effects of proposed rule changes before deployment. The
+ * generated backtest report provides detailed results showing whether the draft version of the Auth
+ * Rule would have approved or declined historical transactions which were processed during the
+ * backtest period. These reports help evaluate how changes to rule configurations might affect
+ * overall transaction approval rates.
  *
  * The generated backtest report will be delivered asynchronously through a webhook with
  * `event_type` = `auth_rules.backtest_report.created`. See the docs on setting up

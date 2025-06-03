@@ -48,7 +48,7 @@ private constructor(
     fun entityToken(): String = entityToken.getRequired("entity_token")
 
     /**
-     * rovides the status reasons that will be satisfied by providing one of the valid documents.
+     * Provides the status reasons that will be satisfied by providing one of the valid documents.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -146,7 +146,7 @@ private constructor(
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
 
         /**
-         * rovides the status reasons that will be satisfied by providing one of the valid
+         * Provides the status reasons that will be satisfied by providing one of the valid
          * documents.
          */
         fun statusReasons(statusReasons: List<String>) = statusReasons(JsonField.of(statusReasons))

@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Fetches a V2 authorization rule by its token */
+/** Fetches a V2 Auth rule by its token */
 class AuthRuleV2RetrieveParams
 private constructor(
     private val authRuleToken: String?,

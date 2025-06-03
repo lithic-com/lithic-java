@@ -35,7 +35,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Updates a V2 authorization rule's properties
+ * Updates a V2 Auth rule's properties
  *
  * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided, this
  * will replace existing associations with the provided list of entities.

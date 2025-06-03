@@ -11,7 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Returns the backtest results of an authorization rule (if available).
+ * Returns the backtest results of an Auth rule (if available).
  *
  * Backtesting is an asynchronous process that requires time to complete. If a customer retrieves
  * the backtest results using this endpoint before the report is fully generated, the response will
@@ -24,8 +24,8 @@ import kotlin.jvm.optionals.getOrNull
  * contain `null`. The entries in `results` will also always represent the configuration of the rule
  * at the time requests are made to this endpoint. For example, the results for `current_version` in
  * the served backtest report will be consistent with which version of the rule is currently
- * activated in the Auth Stream, regardless of which version of the rule was active in the Auth
- * Stream at the time a backtest is requested.
+ * activated in the respective event stream, regardless of which version of the rule was active in
+ * the event stream at the time a backtest is requested.
  */
 class AuthRuleV2BacktestRetrieveParams
 private constructor(
