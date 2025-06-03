@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Deletes a V2 authorization rule */
+/** Deletes a V2 Auth rule */
 class AuthRuleV2DeleteParams
 private constructor(
     private val authRuleToken: String?,
