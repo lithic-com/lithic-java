@@ -18,14 +18,14 @@ interface BacktestServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /**
-     * Initiates a request to asynchronously generate a backtest for an authorization rule. During
-     * backtesting, both the active version (if one exists) and the draft version of the
-     * Authorization Rule are evaluated by replaying historical transaction data against the rule's
-     * conditions. This process allows customers to simulate and understand the effects of proposed
-     * rule changes before deployment. The generated backtest report provides detailed results
-     * showing whether the draft version of the Auth Rule would have approved or declined historical
-     * transactions which were processed during the backtest period. These reports help evaluate how
-     * changes to rule configurations might affect overall transaction approval rates.
+     * Initiates a request to asynchronously generate a backtest for an Auth rule. During
+     * backtesting, both the active version (if one exists) and the draft version of the Auth Rule
+     * are evaluated by replaying historical transaction data against the rule's conditions. This
+     * process allows customers to simulate and understand the effects of proposed rule changes
+     * before deployment. The generated backtest report provides detailed results showing whether
+     * the draft version of the Auth Rule would have approved or declined historical transactions
+     * which were processed during the backtest period. These reports help evaluate how changes to
+     * rule configurations might affect overall transaction approval rates.
      *
      * The generated backtest report will be delivered asynchronously through a webhook with
      * `event_type` = `auth_rules.backtest_report.created`. See the docs on setting up
@@ -77,7 +77,7 @@ interface BacktestServiceAsync {
         create(authRuleToken, AuthRuleV2BacktestCreateParams.none(), requestOptions)
 
     /**
-     * Returns the backtest results of an authorization rule (if available).
+     * Returns the backtest results of an Auth rule (if available).
      *
      * Backtesting is an asynchronous process that requires time to complete. If a customer
      * retrieves the backtest results using this endpoint before the report is fully generated, the
@@ -91,8 +91,8 @@ interface BacktestServiceAsync {
      * objects to contain `null`. The entries in `results` will also always represent the
      * configuration of the rule at the time requests are made to this endpoint. For example, the
      * results for `current_version` in the served backtest report will be consistent with which
-     * version of the rule is currently activated in the Auth Stream, regardless of which version of
-     * the rule was active in the Auth Stream at the time a backtest is requested.
+     * version of the rule is currently activated in the respective event stream, regardless of
+     * which version of the rule was active in the event stream at the time a backtest is requested.
      */
     fun retrieve(
         authRuleBacktestToken: String,
