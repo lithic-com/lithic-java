@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.92.0 (2025-06-04)
+
+Full Changelog: [v0.91.0...v0.92.0](https://github.com/lithic-com/lithic-java/compare/v0.91.0...v0.92.0)
+
+### Features
+
+* **client:** adds support for 3DS to Auth Rules ([a520d8b](https://github.com/lithic-com/lithic-java/commit/a520d8b6072f09e811611a56aacc9cbb836efb39))
+
+
+### Bug Fixes
+
+* **client:** `hasNextPage` impl for some classes ([9ce1477](https://github.com/lithic-com/lithic-java/commit/9ce1477e1b817c4f32d1648b046eb6ebf36db9fc))
+* **client:** format ([8787841](https://github.com/lithic-com/lithic-java/commit/87878414070db140c974472573d96a218ad2cf43))
+* **client:** remove `@MustBeClosed` for future returning methods ([055aca8](https://github.com/lithic-com/lithic-java/commit/055aca8c0f07417ec410fd8a6b93bc23d9f8edad))
+
+
+### Chores
+
+* **api:** mark some methods as deprecated ([6245c1b](https://github.com/lithic-com/lithic-java/commit/6245c1beb2e16e8921cd85c17a6d5d144d302ba3))
+* **docs:** grammar improvements ([98b0222](https://github.com/lithic-com/lithic-java/commit/98b0222eacd1e93d864112fc64ed832625955d53))
+
 ## 0.91.0 (2025-05-15)
 
 Full Changelog: [v0.90.0...v0.91.0](https://github.com/lithic-com/lithic-java/compare/v0.90.0...v0.91.0)
