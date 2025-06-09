@@ -3,11 +3,13 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccount
 import com.lithic.api.models.FinancialAccountCreateParams
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
+import com.lithic.api.models.FinancialAccountRegisterAccountNumberParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.models.FinancialAccountUpdateStatusParams
@@ -141,6 +143,35 @@ interface FinancialAccountServiceAsync {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<FinancialAccountListPageAsync> =
         list(FinancialAccountListParams.none(), requestOptions)
+
+    /** Register account number */
+    fun registerAccountNumber(
+        financialAccountToken: String,
+        params: FinancialAccountRegisterAccountNumberParams,
+    ): CompletableFuture<Void?> =
+        registerAccountNumber(financialAccountToken, params, RequestOptions.none())
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(
+        financialAccountToken: String,
+        params: FinancialAccountRegisterAccountNumberParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        registerAccountNumber(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(
+        params: FinancialAccountRegisterAccountNumberParams
+    ): CompletableFuture<Void?> = registerAccountNumber(params, RequestOptions.none())
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(
+        params: FinancialAccountRegisterAccountNumberParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?>
 
     /** Update financial account status */
     fun updateStatus(
@@ -318,6 +349,39 @@ interface FinancialAccountServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
             list(FinancialAccountListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/financial_accounts/{financial_account_token}/register_account_number`, but is
+         * otherwise the same as [FinancialAccountServiceAsync.registerAccountNumber].
+         */
+        fun registerAccountNumber(
+            financialAccountToken: String,
+            params: FinancialAccountRegisterAccountNumberParams,
+        ): CompletableFuture<HttpResponse> =
+            registerAccountNumber(financialAccountToken, params, RequestOptions.none())
+
+        /** @see [registerAccountNumber] */
+        fun registerAccountNumber(
+            financialAccountToken: String,
+            params: FinancialAccountRegisterAccountNumberParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            registerAccountNumber(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [registerAccountNumber] */
+        fun registerAccountNumber(
+            params: FinancialAccountRegisterAccountNumberParams
+        ): CompletableFuture<HttpResponse> = registerAccountNumber(params, RequestOptions.none())
+
+        /** @see [registerAccountNumber] */
+        fun registerAccountNumber(
+            params: FinancialAccountRegisterAccountNumberParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
 
         /**
          * Returns a raw HTTP response for `post
