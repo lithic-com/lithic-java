@@ -251,7 +251,9 @@ private constructor(
     fun reportDate(): String = reportDate.getRequired("report_date")
 
     /**
-     * Date of when money movement is triggered for the transaction.
+     * Date of when money movement is triggered for the transaction. One exception applies - for
+     * Mastercard dual message settlement, this is the settlement advisement date, which is distinct
+     * from the date of money movement.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -796,7 +798,11 @@ private constructor(
          */
         fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
-        /** Date of when money movement is triggered for the transaction. */
+        /**
+         * Date of when money movement is triggered for the transaction. One exception applies - for
+         * Mastercard dual message settlement, this is the settlement advisement date, which is
+         * distinct from the date of money movement.
+         */
         fun settlementDate(settlementDate: String) = settlementDate(JsonField.of(settlementDate))
 
         /**
