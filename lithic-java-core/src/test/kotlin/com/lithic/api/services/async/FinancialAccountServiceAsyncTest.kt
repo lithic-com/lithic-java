@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.FinancialAccountCreateParams
+import com.lithic.api.models.FinancialAccountRegisterAccountNumberParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.models.FinancialAccountUpdateStatusParams
 import org.junit.jupiter.api.Test
@@ -87,6 +88,26 @@ internal class FinancialAccountServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Test
+    fun registerAccountNumber() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val financialAccountServiceAsync = client.financialAccounts()
+
+        val future =
+            financialAccountServiceAsync.registerAccountNumber(
+                FinancialAccountRegisterAccountNumberParams.builder()
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountNumber("account_number")
+                    .build()
+            )
+
+        val response = future.get()
     }
 
     @Test

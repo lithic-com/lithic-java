@@ -1536,6 +1536,8 @@ private constructor(
 
             @JvmField val PROGRAM_RECEIVABLES = of("PROGRAM_RECEIVABLES")
 
+            @JvmField val COLLECTION = of("COLLECTION")
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
@@ -1549,6 +1551,7 @@ private constructor(
             CHARGED_OFF_PRINCIPAL,
             SECURITY,
             PROGRAM_RECEIVABLES,
+            COLLECTION,
         }
 
         /**
@@ -1569,6 +1572,7 @@ private constructor(
             CHARGED_OFF_PRINCIPAL,
             SECURITY,
             PROGRAM_RECEIVABLES,
+            COLLECTION,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -1590,6 +1594,7 @@ private constructor(
                 CHARGED_OFF_PRINCIPAL -> Value.CHARGED_OFF_PRINCIPAL
                 SECURITY -> Value.SECURITY
                 PROGRAM_RECEIVABLES -> Value.PROGRAM_RECEIVABLES
+                COLLECTION -> Value.COLLECTION
                 else -> Value._UNKNOWN
             }
 
@@ -1612,6 +1617,7 @@ private constructor(
                 CHARGED_OFF_PRINCIPAL -> Known.CHARGED_OFF_PRINCIPAL
                 SECURITY -> Known.SECURITY
                 PROGRAM_RECEIVABLES -> Known.PROGRAM_RECEIVABLES
+                COLLECTION -> Known.COLLECTION
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 

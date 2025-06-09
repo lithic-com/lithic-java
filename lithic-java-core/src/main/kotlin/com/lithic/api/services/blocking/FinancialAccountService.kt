@@ -4,11 +4,13 @@ package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccount
 import com.lithic.api.models.FinancialAccountCreateParams
 import com.lithic.api.models.FinancialAccountListPage
 import com.lithic.api.models.FinancialAccountListParams
+import com.lithic.api.models.FinancialAccountRegisterAccountNumberParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.models.FinancialAccountUpdateStatusParams
@@ -132,6 +134,33 @@ interface FinancialAccountService {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): FinancialAccountListPage =
         list(FinancialAccountListParams.none(), requestOptions)
+
+    /** Register account number */
+    fun registerAccountNumber(
+        financialAccountToken: String,
+        params: FinancialAccountRegisterAccountNumberParams,
+    ) = registerAccountNumber(financialAccountToken, params, RequestOptions.none())
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(
+        financialAccountToken: String,
+        params: FinancialAccountRegisterAccountNumberParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ) =
+        registerAccountNumber(
+            params.toBuilder().financialAccountToken(financialAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(params: FinancialAccountRegisterAccountNumberParams) =
+        registerAccountNumber(params, RequestOptions.none())
+
+    /** @see [registerAccountNumber] */
+    fun registerAccountNumber(
+        params: FinancialAccountRegisterAccountNumberParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    )
 
     /** Update financial account status */
     fun updateStatus(
@@ -312,6 +341,43 @@ interface FinancialAccountService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<FinancialAccountListPage> =
             list(FinancialAccountListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/financial_accounts/{financial_account_token}/register_account_number`, but is
+         * otherwise the same as [FinancialAccountService.registerAccountNumber].
+         */
+        @MustBeClosed
+        fun registerAccountNumber(
+            financialAccountToken: String,
+            params: FinancialAccountRegisterAccountNumberParams,
+        ): HttpResponse =
+            registerAccountNumber(financialAccountToken, params, RequestOptions.none())
+
+        /** @see [registerAccountNumber] */
+        @MustBeClosed
+        fun registerAccountNumber(
+            financialAccountToken: String,
+            params: FinancialAccountRegisterAccountNumberParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse =
+            registerAccountNumber(
+                params.toBuilder().financialAccountToken(financialAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see [registerAccountNumber] */
+        @MustBeClosed
+        fun registerAccountNumber(
+            params: FinancialAccountRegisterAccountNumberParams
+        ): HttpResponse = registerAccountNumber(params, RequestOptions.none())
+
+        /** @see [registerAccountNumber] */
+        @MustBeClosed
+        fun registerAccountNumber(
+            params: FinancialAccountRegisterAccountNumberParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
 
         /**
          * Returns a raw HTTP response for `post
