@@ -55,6 +55,7 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "cards", params._pathParam(0), "balances")
                     .build()
                     .prepare(clientOptions, params)

@@ -65,6 +65,7 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "reports",
@@ -101,6 +102,7 @@ class NetworkTotalServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "network_totals")
                     .build()
                     .prepareAsync(clientOptions, params)

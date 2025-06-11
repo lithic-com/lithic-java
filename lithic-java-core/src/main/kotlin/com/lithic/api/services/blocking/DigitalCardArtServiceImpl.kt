@@ -63,6 +63,7 @@ class DigitalCardArtServiceImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -90,6 +91,7 @@ class DigitalCardArtServiceImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art")
                     .build()
                     .prepare(clientOptions, params)
