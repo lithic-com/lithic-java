@@ -51,6 +51,7 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "aggregate_balances")
                     .build()
                     .prepareAsync(clientOptions, params)

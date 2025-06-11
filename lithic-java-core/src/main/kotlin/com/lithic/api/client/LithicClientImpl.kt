@@ -419,6 +419,7 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "status")
                     .build()
                     .prepare(clientOptions, params)

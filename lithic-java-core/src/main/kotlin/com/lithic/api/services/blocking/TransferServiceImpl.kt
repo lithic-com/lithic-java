@@ -48,6 +48,7 @@ class TransferServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "transfer")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

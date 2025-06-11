@@ -60,6 +60,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "auth_stream", "secret")
                     .build()
                     .prepare(clientOptions, params)
@@ -86,6 +87,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "auth_stream", "secret", "rotate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
