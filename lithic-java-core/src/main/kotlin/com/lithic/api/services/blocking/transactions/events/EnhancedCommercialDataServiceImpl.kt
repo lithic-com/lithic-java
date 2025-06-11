@@ -53,6 +53,7 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "transactions",

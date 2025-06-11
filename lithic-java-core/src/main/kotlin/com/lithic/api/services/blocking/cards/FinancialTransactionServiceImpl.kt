@@ -67,6 +67,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "cards",
@@ -103,6 +104,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "cards", params._pathParam(0), "financial_transactions")
                     .build()
                     .prepare(clientOptions, params)

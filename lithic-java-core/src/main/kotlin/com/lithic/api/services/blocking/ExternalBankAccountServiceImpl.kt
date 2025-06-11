@@ -112,6 +112,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -143,6 +144,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -173,6 +175,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -201,6 +204,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .build()
                     .prepare(clientOptions, params)
@@ -239,6 +243,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
@@ -275,6 +280,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",

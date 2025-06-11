@@ -78,6 +78,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "details", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -114,6 +115,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "summary", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)

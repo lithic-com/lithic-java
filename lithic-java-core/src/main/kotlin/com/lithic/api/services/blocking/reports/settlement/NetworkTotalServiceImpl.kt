@@ -64,6 +64,7 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "reports",
@@ -97,6 +98,7 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "network_totals")
                     .build()
                     .prepare(clientOptions, params)

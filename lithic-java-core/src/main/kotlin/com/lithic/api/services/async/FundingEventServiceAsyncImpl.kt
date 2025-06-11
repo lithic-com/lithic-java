@@ -74,6 +74,7 @@ class FundingEventServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -104,6 +105,7 @@ class FundingEventServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -145,6 +147,7 @@ class FundingEventServiceAsyncImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0), "details")
                     .build()
                     .prepareAsync(clientOptions, params)

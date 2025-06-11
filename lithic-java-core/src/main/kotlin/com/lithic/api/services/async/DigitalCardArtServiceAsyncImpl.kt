@@ -64,6 +64,7 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -94,6 +95,7 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art")
                     .build()
                     .prepareAsync(clientOptions, params)

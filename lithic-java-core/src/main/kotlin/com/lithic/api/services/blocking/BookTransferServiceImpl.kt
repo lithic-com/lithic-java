@@ -78,6 +78,7 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "book_transfers")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -109,6 +110,7 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "book_transfers", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -136,6 +138,7 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "book_transfers")
                     .build()
                     .prepare(clientOptions, params)
@@ -173,6 +176,7 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "book_transfers", params._pathParam(0), "reverse")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

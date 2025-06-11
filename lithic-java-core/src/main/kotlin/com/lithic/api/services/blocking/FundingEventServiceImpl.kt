@@ -73,6 +73,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -100,6 +101,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events")
                     .build()
                     .prepare(clientOptions, params)
@@ -137,6 +139,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0), "details")
                     .build()
                     .prepare(clientOptions, params)
