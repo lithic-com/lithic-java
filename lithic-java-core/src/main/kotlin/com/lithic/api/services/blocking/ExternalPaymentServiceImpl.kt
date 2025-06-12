@@ -26,6 +26,7 @@ import com.lithic.api.models.ExternalPaymentReleaseParams
 import com.lithic.api.models.ExternalPaymentRetrieveParams
 import com.lithic.api.models.ExternalPaymentReverseParams
 import com.lithic.api.models.ExternalPaymentSettleParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalPaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -36,6 +37,9 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
     }
 
     override fun withRawResponse(): ExternalPaymentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExternalPaymentService =
+        ExternalPaymentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ExternalPaymentCreateParams,
@@ -91,6 +95,13 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalPaymentService.WithRawResponse =
+            ExternalPaymentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<ExternalPayment> =
             jsonHandler<ExternalPayment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -101,6 +112,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -131,6 +143,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -158,6 +171,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments")
                     .build()
                     .prepare(clientOptions, params)
@@ -194,6 +208,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments", params._pathParam(0), "cancel")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -224,6 +239,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments", params._pathParam(0), "release")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -254,6 +270,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments", params._pathParam(0), "reverse")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -284,6 +301,7 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_payments", params._pathParam(0), "settle")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

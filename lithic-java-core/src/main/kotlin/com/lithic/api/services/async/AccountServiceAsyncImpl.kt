@@ -25,6 +25,7 @@ import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -35,6 +36,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): AccountServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountServiceAsync =
+        AccountServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: AccountRetrieveParams,
@@ -69,6 +73,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountServiceAsync.WithRawResponse =
+            AccountServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -82,6 +93,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -114,6 +126,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -145,6 +158,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -185,6 +199,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0), "spend_limits")
                     .build()
                     .prepareAsync(clientOptions, params)

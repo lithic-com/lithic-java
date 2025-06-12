@@ -741,6 +741,8 @@ private constructor(
          * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
          * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
          *   in Eastern Time.
+         * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
+         *   Time.
          */
         fun velocityLimitParamsPeriodWindow(): Optional<VelocityLimitParamsPeriodWindow> =
             Optional.ofNullable(velocityLimitParamsPeriodWindow)
@@ -761,6 +763,8 @@ private constructor(
          * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
          * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
          *   in Eastern Time.
+         * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
+         *   Time.
          */
         fun asVelocityLimitParamsPeriodWindow(): VelocityLimitParamsPeriodWindow =
             velocityLimitParamsPeriodWindow.getOrThrow("velocityLimitParamsPeriodWindow")
@@ -859,6 +863,8 @@ private constructor(
              *   Time.
              * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
              *   month in Eastern Time.
+             * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in
+             *   Eastern Time.
              */
             @JvmStatic
             fun ofVelocityLimitParamsPeriodWindow(
@@ -882,6 +888,8 @@ private constructor(
              *   Time.
              * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
              *   month in Eastern Time.
+             * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in
+             *   Eastern Time.
              */
             fun visitVelocityLimitParamsPeriodWindow(
                 velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow

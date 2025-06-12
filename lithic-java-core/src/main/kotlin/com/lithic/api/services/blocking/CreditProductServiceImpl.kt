@@ -7,6 +7,7 @@ import com.lithic.api.services.blocking.creditProducts.ExtendedCreditService
 import com.lithic.api.services.blocking.creditProducts.ExtendedCreditServiceImpl
 import com.lithic.api.services.blocking.creditProducts.PrimeRateService
 import com.lithic.api.services.blocking.creditProducts.PrimeRateServiceImpl
+import java.util.function.Consumer
 
 class CreditProductServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     CreditProductService {
@@ -23,6 +24,9 @@ class CreditProductServiceImpl internal constructor(private val clientOptions: C
 
     override fun withRawResponse(): CreditProductService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CreditProductService =
+        CreditProductServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun extendedCredit(): ExtendedCreditService = extendedCredit
 
     override fun primeRates(): PrimeRateService = primeRates
@@ -37,6 +41,13 @@ class CreditProductServiceImpl internal constructor(private val clientOptions: C
         private val primeRates: PrimeRateService.WithRawResponse by lazy {
             PrimeRateServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CreditProductService.WithRawResponse =
+            CreditProductServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun extendedCredit(): ExtendedCreditService.WithRawResponse = extendedCredit
 

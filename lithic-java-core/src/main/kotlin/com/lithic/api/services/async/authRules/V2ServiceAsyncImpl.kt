@@ -39,6 +39,7 @@ import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -51,6 +52,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     private val backtests: BacktestServiceAsync by lazy { BacktestServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): V2ServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync =
+        V2ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun backtests(): BacktestServiceAsync = backtests
 
@@ -127,6 +131,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             BacktestServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): V2ServiceAsync.WithRawResponse =
+            V2ServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun backtests(): BacktestServiceAsync.WithRawResponse = backtests
 
         private val createHandler: Handler<V2CreateResponse> =
@@ -139,6 +150,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -172,6 +184,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -204,6 +217,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -235,6 +249,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -274,6 +289,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -300,6 +316,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "apply")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -333,6 +350,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "draft")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -366,6 +384,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "promote")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -399,6 +418,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "report")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

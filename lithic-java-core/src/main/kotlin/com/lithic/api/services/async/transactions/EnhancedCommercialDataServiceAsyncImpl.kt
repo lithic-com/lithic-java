@@ -18,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.EnhancedCommercialDataRetrieveResponse
 import com.lithic.api.models.TransactionEnhancedCommercialDataRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EnhancedCommercialDataServiceAsyncImpl
@@ -31,6 +32,13 @@ internal constructor(private val clientOptions: ClientOptions) :
     override fun withRawResponse(): EnhancedCommercialDataServiceAsync.WithRawResponse =
         withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): EnhancedCommercialDataServiceAsync =
+        EnhancedCommercialDataServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
+
     override fun retrieve(
         params: TransactionEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions,
@@ -42,6 +50,13 @@ internal constructor(private val clientOptions: ClientOptions) :
         EnhancedCommercialDataServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EnhancedCommercialDataServiceAsync.WithRawResponse =
+            EnhancedCommercialDataServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<EnhancedCommercialDataRetrieveResponse> =
             jsonHandler<EnhancedCommercialDataRetrieveResponse>(clientOptions.jsonMapper)
@@ -57,6 +72,7 @@ internal constructor(private val clientOptions: ClientOptions) :
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "transactions",

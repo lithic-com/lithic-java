@@ -22,6 +22,7 @@ import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
 import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
 import com.lithic.api.services.blocking.reports.settlement.NetworkTotalServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SettlementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -36,6 +37,9 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): SettlementService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SettlementService =
+        SettlementServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun networkTotals(): NetworkTotalService = networkTotals
 
@@ -62,6 +66,13 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             NetworkTotalServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SettlementService.WithRawResponse =
+            SettlementServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun networkTotals(): NetworkTotalService.WithRawResponse = networkTotals
 
         private val listDetailsHandler: Handler<ReportSettlementListDetailsPageResponse> =
@@ -78,6 +89,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "details", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -114,6 +126,7 @@ class SettlementServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "reports", "settlement", "summary", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)

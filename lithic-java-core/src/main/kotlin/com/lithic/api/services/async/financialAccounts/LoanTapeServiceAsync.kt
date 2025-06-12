@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.financialAccounts
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountLoanTapeListPageAsync
@@ -9,6 +10,7 @@ import com.lithic.api.models.FinancialAccountLoanTapeListParams
 import com.lithic.api.models.FinancialAccountLoanTapeRetrieveParams
 import com.lithic.api.models.LoanTape
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface LoanTapeServiceAsync {
 
@@ -16,6 +18,13 @@ interface LoanTapeServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): LoanTapeServiceAsync
 
     /** Get a specific loan tape for a given financial account. */
     fun retrieve(
@@ -88,6 +97,15 @@ interface LoanTapeServiceAsync {
      * A view of [LoanTapeServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LoanTapeServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

@@ -20,6 +20,7 @@ import com.lithic.api.models.TokenizationDecisioningRotateSecretParams
 import com.lithic.api.models.TokenizationDecisioningRotateSecretResponse
 import com.lithic.api.models.TokenizationSecret
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class TokenizationDecisioningServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,13 @@ internal constructor(private val clientOptions: ClientOptions) :
 
     override fun withRawResponse(): TokenizationDecisioningServiceAsync.WithRawResponse =
         withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): TokenizationDecisioningServiceAsync =
+        TokenizationDecisioningServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams,
@@ -51,6 +59,13 @@ internal constructor(private val clientOptions: ClientOptions) :
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TokenizationDecisioningServiceAsync.WithRawResponse =
+            TokenizationDecisioningServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveSecretHandler: Handler<TokenizationSecret> =
             jsonHandler<TokenizationSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -61,6 +76,7 @@ internal constructor(private val clientOptions: ClientOptions) :
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "tokenization_decisioning", "secret")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -91,6 +107,7 @@ internal constructor(private val clientOptions: ClientOptions) :
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "tokenization_decisioning", "secret", "rotate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

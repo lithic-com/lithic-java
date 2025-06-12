@@ -22,6 +22,7 @@ import com.lithic.api.models.Statement
 import com.lithic.api.models.Statements
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemService
 import com.lithic.api.services.blocking.financialAccounts.statements.LineItemServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class StatementServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -34,6 +35,9 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
     private val lineItems: LineItemService by lazy { LineItemServiceImpl(clientOptions) }
 
     override fun withRawResponse(): StatementService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StatementService =
+        StatementServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun lineItems(): LineItemService = lineItems
 
@@ -60,6 +64,13 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
             LineItemServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StatementService.WithRawResponse =
+            StatementServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun lineItems(): LineItemService.WithRawResponse = lineItems
 
         private val retrieveHandler: Handler<Statement> =
@@ -75,6 +86,7 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
@@ -110,6 +122,7 @@ class StatementServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "financial_accounts", params._pathParam(0), "statements")
                     .build()
                     .prepare(clientOptions, params)

@@ -35,6 +35,7 @@ import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DisputeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -45,6 +46,9 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
     }
 
     override fun withRawResponse(): DisputeService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DisputeService =
+        DisputeServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(params: DisputeCreateParams, requestOptions: RequestOptions): Dispute =
         // post /v1/disputes
@@ -99,6 +103,13 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DisputeService.WithRawResponse =
+            DisputeServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<Dispute> =
             jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -109,6 +120,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -139,6 +151,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -168,6 +181,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -196,6 +210,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes")
                     .build()
                     .prepare(clientOptions, params)
@@ -232,6 +247,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -262,6 +278,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "disputes",
@@ -298,6 +315,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes", params._pathParam(0), "evidences")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -329,6 +347,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "disputes", params._pathParam(0), "evidences")
                     .build()
                     .prepare(clientOptions, params)
@@ -365,6 +384,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "disputes",
@@ -402,7 +422,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
         val uploadRequest =
             HttpRequest.builder()
                 .method(HttpMethod.PUT)
-                .url(uploadUrl)
+                .baseUrl(uploadUrl)
                 .body(multipartFormData(clientOptions.jsonMapper, mapOf("file" to fileParams)))
                 .build()
         clientOptions.httpClient.execute(uploadRequest).let { response ->

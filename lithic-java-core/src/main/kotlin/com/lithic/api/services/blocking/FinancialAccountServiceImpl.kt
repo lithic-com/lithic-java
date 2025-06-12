@@ -6,11 +6,13 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.emptyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -21,6 +23,7 @@ import com.lithic.api.models.FinancialAccountCreateParams
 import com.lithic.api.models.FinancialAccountListPage
 import com.lithic.api.models.FinancialAccountListPageResponse
 import com.lithic.api.models.FinancialAccountListParams
+import com.lithic.api.models.FinancialAccountRegisterAccountNumberParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.models.FinancialAccountUpdateStatusParams
@@ -34,6 +37,7 @@ import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
 import com.lithic.api.services.blocking.financialAccounts.LoanTapeServiceImpl
 import com.lithic.api.services.blocking.financialAccounts.StatementService
 import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialAccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -58,6 +62,9 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
     private val loanTapes: LoanTapeService by lazy { LoanTapeServiceImpl(clientOptions) }
 
     override fun withRawResponse(): FinancialAccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): FinancialAccountService =
+        FinancialAccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun balances(): BalanceService = balances
 
@@ -97,6 +104,14 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         // get /v1/financial_accounts
         withRawResponse().list(params, requestOptions).parse()
 
+    override fun registerAccountNumber(
+        params: FinancialAccountRegisterAccountNumberParams,
+        requestOptions: RequestOptions,
+    ) {
+        // post /v1/financial_accounts/{financial_account_token}/register_account_number
+        withRawResponse().registerAccountNumber(params, requestOptions)
+    }
+
     override fun updateStatus(
         params: FinancialAccountUpdateStatusParams,
         requestOptions: RequestOptions,
@@ -129,6 +144,13 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             LoanTapeServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialAccountService.WithRawResponse =
+            FinancialAccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun balances(): BalanceService.WithRawResponse = balances
 
         override fun financialTransactions(): FinancialTransactionService.WithRawResponse =
@@ -151,6 +173,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "financial_accounts")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -181,6 +204,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "financial_accounts", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -210,6 +234,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "financial_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -238,6 +263,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "financial_accounts")
                     .build()
                     .prepare(clientOptions, params)
@@ -261,6 +287,34 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             }
         }
 
+        private val registerAccountNumberHandler: Handler<Void?> =
+            emptyHandler().withErrorHandler(errorHandler)
+
+        override fun registerAccountNumber(
+            params: FinancialAccountRegisterAccountNumberParams,
+            requestOptions: RequestOptions,
+        ): HttpResponse {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("financialAccountToken", params.financialAccountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "v1",
+                        "financial_accounts",
+                        params._pathParam(0),
+                        "register_account_number",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable { response.use { registerAccountNumberHandler.handle(it) } }
+        }
+
         private val updateStatusHandler: Handler<FinancialAccount> =
             jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -274,6 +328,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",

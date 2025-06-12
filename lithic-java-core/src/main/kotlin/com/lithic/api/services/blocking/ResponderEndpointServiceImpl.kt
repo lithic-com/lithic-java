@@ -22,6 +22,7 @@ import com.lithic.api.models.ResponderEndpointCreateParams
 import com.lithic.api.models.ResponderEndpointCreateResponse
 import com.lithic.api.models.ResponderEndpointDeleteParams
 import com.lithic.api.models.ResponderEndpointStatus
+import java.util.function.Consumer
 
 class ResponderEndpointServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ResponderEndpointService {
@@ -31,6 +32,9 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): ResponderEndpointService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ResponderEndpointService =
+        ResponderEndpointServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ResponderEndpointCreateParams,
@@ -56,6 +60,13 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ResponderEndpointService.WithRawResponse =
+            ResponderEndpointServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<ResponderEndpointCreateResponse> =
             jsonHandler<ResponderEndpointCreateResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -67,6 +78,7 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "responder_endpoints")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -93,6 +105,7 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "responder_endpoints")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -113,6 +126,7 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "responder_endpoints")
                     .build()
                     .prepare(clientOptions, params)

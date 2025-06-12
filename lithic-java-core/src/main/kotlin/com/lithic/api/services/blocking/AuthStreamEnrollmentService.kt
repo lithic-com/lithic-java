@@ -3,12 +3,14 @@
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
 import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
 import com.lithic.api.models.AuthStreamSecret
+import java.util.function.Consumer
 
 interface AuthStreamEnrollmentService {
 
@@ -16,6 +18,13 @@ interface AuthStreamEnrollmentService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthStreamEnrollmentService
 
     /**
      * Retrieve the ASA HMAC secret key. If one does not exist for your program yet, calling this
@@ -74,6 +83,15 @@ interface AuthStreamEnrollmentService {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthStreamEnrollmentService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/auth_stream/secret`, but is otherwise the same

@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.events
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -21,6 +22,7 @@ import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
 import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface SubscriptionServiceAsync {
 
@@ -28,6 +30,13 @@ interface SubscriptionServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): SubscriptionServiceAsync
 
     /** Create a new event subscription. */
     fun create(params: EventSubscriptionCreateParams): CompletableFuture<EventSubscription> =
@@ -444,6 +453,15 @@ interface SubscriptionServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SubscriptionServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/event_subscriptions`, but is otherwise the same

@@ -21,6 +21,7 @@ import com.lithic.api.models.DecisioningRetrieveSecretResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
+import java.util.function.Consumer
 
 class DecisioningServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     DecisioningService {
@@ -30,6 +31,9 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): DecisioningService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DecisioningService =
+        DecisioningServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
@@ -59,6 +63,13 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DecisioningService.WithRawResponse =
+            DecisioningServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val challengeResponseHandler: Handler<Void?> =
             emptyHandler().withErrorHandler(errorHandler)
 
@@ -69,6 +80,7 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "challenge_response")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -89,6 +101,7 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "secret")
                     .build()
                     .prepare(clientOptions, params)
@@ -115,6 +128,7 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "secret", "rotate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

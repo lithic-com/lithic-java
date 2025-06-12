@@ -3,10 +3,12 @@
 package com.lithic.api.services.blocking.externalBankAccounts
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ExternalBankAccountMicroDepositCreateParams
 import com.lithic.api.models.MicroDepositCreateResponse
+import java.util.function.Consumer
 
 interface MicroDepositService {
 
@@ -14,6 +16,13 @@ interface MicroDepositService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): MicroDepositService
 
     /** Verify the external bank account by providing the micro deposit amounts. */
     fun create(
@@ -46,6 +55,15 @@ interface MicroDepositService {
      * A view of [MicroDepositService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): MicroDepositService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post

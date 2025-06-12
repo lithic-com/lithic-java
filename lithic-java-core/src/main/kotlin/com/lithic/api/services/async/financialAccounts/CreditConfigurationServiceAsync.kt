@@ -2,12 +2,14 @@
 
 package com.lithic.api.services.async.financialAccounts
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountCreditConfig
 import com.lithic.api.models.FinancialAccountCreditConfigurationRetrieveParams
 import com.lithic.api.models.FinancialAccountCreditConfigurationUpdateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface CreditConfigurationServiceAsync {
 
@@ -15,6 +17,13 @@ interface CreditConfigurationServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): CreditConfigurationServiceAsync
 
     /** Get an Account's credit configuration */
     fun retrieve(financialAccountToken: String): CompletableFuture<FinancialAccountCreditConfig> =
@@ -113,6 +122,15 @@ interface CreditConfigurationServiceAsync {
      * each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CreditConfigurationServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

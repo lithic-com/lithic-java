@@ -42,6 +42,7 @@ import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataServi
 import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataServiceImpl
 import com.lithic.api.services.blocking.transactions.EventService
 import com.lithic.api.services.blocking.transactions.EventServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class TransactionServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -58,6 +59,9 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
     private val events: EventService by lazy { EventServiceImpl(clientOptions) }
 
     override fun withRawResponse(): TransactionService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TransactionService =
+        TransactionServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun enhancedCommercialData(): EnhancedCommercialDataService = enhancedCommercialData
 
@@ -147,6 +151,13 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             EventServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TransactionService.WithRawResponse =
+            TransactionServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun enhancedCommercialData(): EnhancedCommercialDataService.WithRawResponse =
             enhancedCommercialData
 
@@ -165,6 +176,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "transactions", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -192,6 +204,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "transactions")
                     .build()
                     .prepare(clientOptions, params)
@@ -228,6 +241,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "transactions",
@@ -254,6 +268,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "authorize")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -283,6 +298,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "authorization_advice")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -311,6 +327,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "clearing")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -340,6 +357,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "credit_authorization_advice")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -368,6 +386,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "return")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -397,6 +416,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "return_reversal")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -425,6 +445,7 @@ class TransactionServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "void")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

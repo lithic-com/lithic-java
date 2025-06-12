@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AccountHolder
@@ -21,6 +22,7 @@ import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface AccountHolderServiceAsync {
 
@@ -28,6 +30,13 @@ interface AccountHolderServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderServiceAsync
 
     /**
      * Create an account holder and initiate the appropriate onboarding workflow. Account holders
@@ -322,6 +331,15 @@ interface AccountHolderServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountHolderServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/account_holders`, but is otherwise the same as

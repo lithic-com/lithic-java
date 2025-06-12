@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AccountHolder
@@ -21,6 +22,7 @@ import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import java.util.function.Consumer
 
 interface AccountHolderService {
 
@@ -28,6 +30,13 @@ interface AccountHolderService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderService
 
     /**
      * Create an account holder and initiate the appropriate onboarding workflow. Account holders
@@ -311,6 +320,15 @@ interface AccountHolderService {
      * A view of [AccountHolderService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountHolderService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/account_holders`, but is otherwise the same as

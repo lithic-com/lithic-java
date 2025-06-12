@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking.reports
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ReportSettlementListDetailsPage
@@ -11,6 +12,7 @@ import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
 import com.lithic.api.services.blocking.reports.settlement.NetworkTotalService
 import java.time.LocalDate
+import java.util.function.Consumer
 
 interface SettlementService {
 
@@ -18,6 +20,13 @@ interface SettlementService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): SettlementService
 
     fun networkTotals(): NetworkTotalService
 
@@ -89,6 +98,15 @@ interface SettlementService {
 
     /** A view of [SettlementService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SettlementService.WithRawResponse
 
         fun networkTotals(): NetworkTotalService.WithRawResponse
 

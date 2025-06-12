@@ -71,6 +71,7 @@ import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
 import com.lithic.api.services.blocking.WebhookService
 import com.lithic.api.services.blocking.WebhookServiceImpl
+import java.util.function.Consumer
 
 class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient {
 
@@ -182,6 +183,9 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LithicClient =
+        LithicClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun accounts(): AccountService = accounts
 
@@ -356,6 +360,13 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             FundingEventServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LithicClient.WithRawResponse =
+            LithicClientImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun accounts(): AccountService.WithRawResponse = accounts
 
         override fun accountHolders(): AccountHolderService.WithRawResponse = accountHolders
@@ -425,6 +436,7 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "status")
                     .build()
                     .prepare(clientOptions, params)

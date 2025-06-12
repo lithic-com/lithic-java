@@ -17,6 +17,7 @@ import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.EventEventSubscriptionResendParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EventSubscriptionServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -27,6 +28,9 @@ class EventSubscriptionServiceImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): EventSubscriptionService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EventSubscriptionService =
+        EventSubscriptionServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun resend(
         params: EventEventSubscriptionResendParams,
@@ -41,6 +45,13 @@ class EventSubscriptionServiceImpl internal constructor(private val clientOption
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EventSubscriptionService.WithRawResponse =
+            EventSubscriptionServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val resendHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun resend(
@@ -53,6 +64,7 @@ class EventSubscriptionServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "events",
