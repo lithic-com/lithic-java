@@ -18,6 +18,7 @@ import com.lithic.api.models.BalanceListPageAsync
 import com.lithic.api.models.BalanceListPageResponse
 import com.lithic.api.models.BalanceListParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class BalanceServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     BalanceServiceAsync {
@@ -27,6 +28,9 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): BalanceServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BalanceServiceAsync =
+        BalanceServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: BalanceListParams,
@@ -39,6 +43,13 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
         BalanceServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BalanceServiceAsync.WithRawResponse =
+            BalanceServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<BalanceListPageResponse> =
             jsonHandler<BalanceListPageResponse>(clientOptions.jsonMapper)

@@ -18,6 +18,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountStatementLineItemListPage
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import com.lithic.api.models.StatementLineItems
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class LineItemServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,6 +29,9 @@ class LineItemServiceImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): LineItemService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LineItemService =
+        LineItemServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: FinancialAccountStatementLineItemListParams,
@@ -41,6 +45,13 @@ class LineItemServiceImpl internal constructor(private val clientOptions: Client
         LineItemService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LineItemService.WithRawResponse =
+            LineItemServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<StatementLineItems> =
             jsonHandler<StatementLineItems>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

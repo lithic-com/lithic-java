@@ -23,6 +23,7 @@ import com.lithic.api.models.FundingEventRetrieveDetailsResponse
 import com.lithic.api.models.FundingEventRetrieveParams
 import com.lithic.api.models.FundingEventRetrieveResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FundingEventServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -33,6 +34,9 @@ class FundingEventServiceAsyncImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): FundingEventServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): FundingEventServiceAsync =
+        FundingEventServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: FundingEventRetrieveParams,
@@ -59,6 +63,13 @@ class FundingEventServiceAsyncImpl internal constructor(private val clientOption
         FundingEventServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FundingEventServiceAsync.WithRawResponse =
+            FundingEventServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<FundingEventRetrieveResponse> =
             jsonHandler<FundingEventRetrieveResponse>(clientOptions.jsonMapper)

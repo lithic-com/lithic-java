@@ -31,6 +31,7 @@ import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountServiceImpl
@@ -45,6 +46,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     }
 
     override fun withRawResponse(): ExternalBankAccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ExternalBankAccountService =
+        ExternalBankAccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun microDeposits(): MicroDepositService = microDeposits
 
@@ -98,6 +104,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
         private val microDeposits: MicroDepositService.WithRawResponse by lazy {
             MicroDepositServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalBankAccountService.WithRawResponse =
+            ExternalBankAccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun microDeposits(): MicroDepositService.WithRawResponse = microDeposits
 

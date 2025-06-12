@@ -19,6 +19,7 @@ import com.lithic.api.models.TokenizationDecisioningRetrieveSecretParams
 import com.lithic.api.models.TokenizationDecisioningRotateSecretParams
 import com.lithic.api.models.TokenizationDecisioningRotateSecretResponse
 import com.lithic.api.models.TokenizationSecret
+import java.util.function.Consumer
 
 class TokenizationDecisioningServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : TokenizationDecisioningService {
@@ -28,6 +29,13 @@ internal constructor(private val clientOptions: ClientOptions) : TokenizationDec
     }
 
     override fun withRawResponse(): TokenizationDecisioningService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): TokenizationDecisioningService =
+        TokenizationDecisioningServiceImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams,
@@ -47,6 +55,13 @@ internal constructor(private val clientOptions: ClientOptions) : TokenizationDec
         TokenizationDecisioningService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TokenizationDecisioningService.WithRawResponse =
+            TokenizationDecisioningServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveSecretHandler: Handler<TokenizationSecret> =
             jsonHandler<TokenizationSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

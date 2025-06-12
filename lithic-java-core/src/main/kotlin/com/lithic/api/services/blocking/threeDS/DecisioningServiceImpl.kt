@@ -21,6 +21,7 @@ import com.lithic.api.models.DecisioningRetrieveSecretResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
+import java.util.function.Consumer
 
 class DecisioningServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     DecisioningService {
@@ -30,6 +31,9 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): DecisioningService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DecisioningService =
+        DecisioningServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
@@ -58,6 +62,13 @@ class DecisioningServiceImpl internal constructor(private val clientOptions: Cli
         DecisioningService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DecisioningService.WithRawResponse =
+            DecisioningServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val challengeResponseHandler: Handler<Void?> =
             emptyHandler().withErrorHandler(errorHandler)

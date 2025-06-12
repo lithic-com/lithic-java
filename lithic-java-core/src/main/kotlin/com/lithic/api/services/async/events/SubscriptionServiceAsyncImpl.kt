@@ -36,6 +36,7 @@ import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
 import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SubscriptionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -46,6 +47,9 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): SubscriptionServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SubscriptionServiceAsync =
+        SubscriptionServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: EventSubscriptionCreateParams,
@@ -128,6 +132,13 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
         SubscriptionServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SubscriptionServiceAsync.WithRawResponse =
+            SubscriptionServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<EventSubscription> =
             jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

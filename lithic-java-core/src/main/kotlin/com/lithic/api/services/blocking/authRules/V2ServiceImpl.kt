@@ -38,6 +38,7 @@ import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.blocking.authRules.v2.BacktestService
 import com.lithic.api.services.blocking.authRules.v2.BacktestServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class V2ServiceImpl internal constructor(private val clientOptions: ClientOptions) : V2Service {
@@ -49,6 +50,9 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
     private val backtests: BacktestService by lazy { BacktestServiceImpl(clientOptions) }
 
     override fun withRawResponse(): V2Service.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2Service =
+        V2ServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun backtests(): BacktestService = backtests
 
@@ -122,6 +126,13 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         private val backtests: BacktestService.WithRawResponse by lazy {
             BacktestServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): V2Service.WithRawResponse =
+            V2ServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun backtests(): BacktestService.WithRawResponse = backtests
 

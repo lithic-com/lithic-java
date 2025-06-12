@@ -7,6 +7,7 @@ import com.lithic.api.services.blocking.threeDS.AuthenticationService
 import com.lithic.api.services.blocking.threeDS.AuthenticationServiceImpl
 import com.lithic.api.services.blocking.threeDS.DecisioningService
 import com.lithic.api.services.blocking.threeDS.DecisioningServiceImpl
+import java.util.function.Consumer
 
 class ThreeDSServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ThreeDSService {
@@ -23,6 +24,9 @@ class ThreeDSServiceImpl internal constructor(private val clientOptions: ClientO
 
     override fun withRawResponse(): ThreeDSService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ThreeDSService =
+        ThreeDSServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun authentication(): AuthenticationService = authentication
 
     override fun decisioning(): DecisioningService = decisioning
@@ -37,6 +41,13 @@ class ThreeDSServiceImpl internal constructor(private val clientOptions: ClientO
         private val decisioning: DecisioningService.WithRawResponse by lazy {
             DecisioningServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ThreeDSService.WithRawResponse =
+            ThreeDSServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun authentication(): AuthenticationService.WithRawResponse = authentication
 

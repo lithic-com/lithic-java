@@ -27,6 +27,7 @@ import com.lithic.api.models.ExternalPaymentRetrieveParams
 import com.lithic.api.models.ExternalPaymentReverseParams
 import com.lithic.api.models.ExternalPaymentSettleParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalPaymentServiceAsyncImpl
@@ -37,6 +38,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalPayment
     }
 
     override fun withRawResponse(): ExternalPaymentServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ExternalPaymentServiceAsync =
+        ExternalPaymentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ExternalPaymentCreateParams,
@@ -91,6 +97,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalPayment
         ExternalPaymentServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalPaymentServiceAsync.WithRawResponse =
+            ExternalPaymentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<ExternalPayment> =
             jsonHandler<ExternalPayment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

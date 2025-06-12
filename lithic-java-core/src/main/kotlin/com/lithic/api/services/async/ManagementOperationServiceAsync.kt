@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ManagementOperationCreateParams
@@ -11,6 +12,7 @@ import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface ManagementOperationServiceAsync {
 
@@ -18,6 +20,13 @@ interface ManagementOperationServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ManagementOperationServiceAsync
 
     /** Create management operation */
     fun create(
@@ -125,6 +134,15 @@ interface ManagementOperationServiceAsync {
      * each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ManagementOperationServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/management_operations`, but is otherwise the

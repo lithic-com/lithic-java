@@ -19,6 +19,7 @@ import com.lithic.api.models.FinancialAccountBalanceListPageAsync
 import com.lithic.api.models.FinancialAccountBalanceListPageResponse
 import com.lithic.api.models.FinancialAccountBalanceListParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class BalanceServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -29,6 +30,9 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): BalanceServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BalanceServiceAsync =
+        BalanceServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: FinancialAccountBalanceListParams,
@@ -41,6 +45,13 @@ class BalanceServiceAsyncImpl internal constructor(private val clientOptions: Cl
         BalanceServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BalanceServiceAsync.WithRawResponse =
+            BalanceServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<FinancialAccountBalanceListPageResponse> =
             jsonHandler<FinancialAccountBalanceListPageResponse>(clientOptions.jsonMapper)

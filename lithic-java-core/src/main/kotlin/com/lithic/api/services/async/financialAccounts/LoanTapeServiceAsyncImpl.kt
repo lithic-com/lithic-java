@@ -21,6 +21,7 @@ import com.lithic.api.models.FinancialAccountLoanTapeListParams
 import com.lithic.api.models.FinancialAccountLoanTapeRetrieveParams
 import com.lithic.api.models.LoanTape
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,9 @@ class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): LoanTapeServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LoanTapeServiceAsync =
+        LoanTapeServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
@@ -50,6 +54,13 @@ class LoanTapeServiceAsyncImpl internal constructor(private val clientOptions: C
         LoanTapeServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LoanTapeServiceAsync.WithRawResponse =
+            LoanTapeServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<LoanTape> =
             jsonHandler<LoanTape>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

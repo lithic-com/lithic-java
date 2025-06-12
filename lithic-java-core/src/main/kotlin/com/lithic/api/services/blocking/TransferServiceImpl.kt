@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.Transfer
 import com.lithic.api.models.TransferCreateParams
+import java.util.function.Consumer
 
 class TransferServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     TransferService {
@@ -27,6 +28,9 @@ class TransferServiceImpl internal constructor(private val clientOptions: Client
 
     override fun withRawResponse(): TransferService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TransferService =
+        TransferServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     @Deprecated("deprecated")
     override fun create(params: TransferCreateParams, requestOptions: RequestOptions): Transfer =
         // post /v1/transfer
@@ -36,6 +40,13 @@ class TransferServiceImpl internal constructor(private val clientOptions: Client
         TransferService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TransferService.WithRawResponse =
+            TransferServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<Transfer> =
             jsonHandler<Transfer>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

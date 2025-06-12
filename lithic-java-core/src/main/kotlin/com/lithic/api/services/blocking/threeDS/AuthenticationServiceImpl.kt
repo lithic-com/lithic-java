@@ -23,6 +23,7 @@ import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AuthenticationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -33,6 +34,9 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
     }
 
     override fun withRawResponse(): AuthenticationService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthenticationService =
+        AuthenticationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
@@ -60,6 +64,13 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
         AuthenticationService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthenticationService.WithRawResponse =
+            AuthenticationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<AuthenticationRetrieveResponse> =
             jsonHandler<AuthenticationRetrieveResponse>(clientOptions.jsonMapper)
