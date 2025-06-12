@@ -32,6 +32,7 @@ import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class TokenizationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -42,6 +43,9 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): TokenizationService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationService =
+        TokenizationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: TokenizationRetrieveParams,
@@ -103,6 +107,13 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
         TokenizationService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TokenizationService.WithRawResponse =
+            TokenizationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<TokenizationRetrieveResponse> =
             jsonHandler<TokenizationRetrieveResponse>(clientOptions.jsonMapper)

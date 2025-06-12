@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -19,6 +20,7 @@ import com.lithic.api.services.async.financialAccounts.FinancialTransactionServi
 import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface FinancialAccountServiceAsync {
 
@@ -26,6 +28,13 @@ interface FinancialAccountServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): FinancialAccountServiceAsync
 
     fun balances(): BalanceServiceAsync
 
@@ -207,6 +216,15 @@ interface FinancialAccountServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialAccountServiceAsync.WithRawResponse
 
         fun balances(): BalanceServiceAsync.WithRawResponse
 

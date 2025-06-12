@@ -48,6 +48,7 @@ import java.util.Base64
 import java.util.concurrent.CompletableFuture
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.apache.hc.core5.net.URIBuilder
 
@@ -69,6 +70,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
     }
 
     override fun withRawResponse(): CardServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CardServiceAsync =
+        CardServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
 
@@ -177,6 +181,13 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             FinancialTransactionServiceAsync.WithRawResponse by lazy {
             FinancialTransactionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CardServiceAsync.WithRawResponse =
+            CardServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun aggregateBalances(): AggregateBalanceServiceAsync.WithRawResponse =
             aggregateBalances

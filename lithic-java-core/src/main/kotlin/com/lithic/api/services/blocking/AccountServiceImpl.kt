@@ -24,6 +24,7 @@ import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -34,6 +35,9 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     }
 
     override fun withRawResponse(): AccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService =
+        AccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(params: AccountRetrieveParams, requestOptions: RequestOptions): Account =
         // get /v1/accounts/{account_token}
@@ -58,6 +62,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
         AccountService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountService.WithRawResponse =
+            AccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

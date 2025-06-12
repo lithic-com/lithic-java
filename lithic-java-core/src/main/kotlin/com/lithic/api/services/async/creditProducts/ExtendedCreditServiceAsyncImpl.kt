@@ -18,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import com.lithic.api.models.ExtendedCredit
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExtendedCreditServiceAsyncImpl
@@ -28,6 +29,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
     }
 
     override fun withRawResponse(): ExtendedCreditServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ExtendedCreditServiceAsync =
+        ExtendedCreditServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
@@ -40,6 +46,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
         ExtendedCreditServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExtendedCreditServiceAsync.WithRawResponse =
+            ExtendedCreditServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<ExtendedCredit> =
             jsonHandler<ExtendedCredit>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

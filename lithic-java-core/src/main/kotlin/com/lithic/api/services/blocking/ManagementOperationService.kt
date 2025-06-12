@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ManagementOperationCreateParams
@@ -11,6 +12,7 @@ import com.lithic.api.models.ManagementOperationListParams
 import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
+import java.util.function.Consumer
 
 interface ManagementOperationService {
 
@@ -18,6 +20,13 @@ interface ManagementOperationService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ManagementOperationService
 
     /** Create management operation */
     fun create(params: ManagementOperationCreateParams): ManagementOperationTransaction =
@@ -119,6 +128,15 @@ interface ManagementOperationService {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ManagementOperationService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/management_operations`, but is otherwise the

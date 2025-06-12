@@ -18,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.EnhancedData
 import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EnhancedCommercialDataServiceAsyncImpl
@@ -31,6 +32,13 @@ internal constructor(private val clientOptions: ClientOptions) :
     override fun withRawResponse(): EnhancedCommercialDataServiceAsync.WithRawResponse =
         withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): EnhancedCommercialDataServiceAsync =
+        EnhancedCommercialDataServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
+
     override fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions,
@@ -42,6 +50,13 @@ internal constructor(private val clientOptions: ClientOptions) :
         EnhancedCommercialDataServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EnhancedCommercialDataServiceAsync.WithRawResponse =
+            EnhancedCommercialDataServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<EnhancedData> =
             jsonHandler<EnhancedData>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

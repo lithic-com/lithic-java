@@ -24,6 +24,7 @@ import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class BookTransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -34,6 +35,9 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): BookTransferServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BookTransferServiceAsync =
+        BookTransferServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: BookTransferCreateParams,
@@ -67,6 +71,13 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
         BookTransferServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BookTransferServiceAsync.WithRawResponse =
+            BookTransferServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<BookTransferResponse> =
             jsonHandler<BookTransferResponse>(clientOptions.jsonMapper)

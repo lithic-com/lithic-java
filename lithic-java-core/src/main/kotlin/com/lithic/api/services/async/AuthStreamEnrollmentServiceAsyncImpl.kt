@@ -21,6 +21,7 @@ import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
 import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
 import com.lithic.api.models.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class AuthStreamEnrollmentServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrollmentServiceAsync {
@@ -31,6 +32,13 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
 
     override fun withRawResponse(): AuthStreamEnrollmentServiceAsync.WithRawResponse =
         withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): AuthStreamEnrollmentServiceAsync =
+        AuthStreamEnrollmentServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams,
@@ -50,6 +58,13 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
         AuthStreamEnrollmentServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthStreamEnrollmentServiceAsync.WithRawResponse =
+            AuthStreamEnrollmentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveSecretHandler: Handler<AuthStreamSecret> =
             jsonHandler<AuthStreamSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

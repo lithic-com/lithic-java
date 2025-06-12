@@ -23,6 +23,7 @@ import com.lithic.api.models.Statements
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsync
 import com.lithic.api.services.async.financialAccounts.statements.LineItemServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class StatementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -35,6 +36,9 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
     private val lineItems: LineItemServiceAsync by lazy { LineItemServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): StatementServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StatementServiceAsync =
+        StatementServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun lineItems(): LineItemServiceAsync = lineItems
 
@@ -60,6 +64,13 @@ class StatementServiceAsyncImpl internal constructor(private val clientOptions: 
         private val lineItems: LineItemServiceAsync.WithRawResponse by lazy {
             LineItemServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StatementServiceAsync.WithRawResponse =
+            StatementServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun lineItems(): LineItemServiceAsync.WithRawResponse = lineItems
 

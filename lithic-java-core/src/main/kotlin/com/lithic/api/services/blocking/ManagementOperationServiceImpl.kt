@@ -23,6 +23,7 @@ import com.lithic.api.models.ManagementOperationListParams
 import com.lithic.api.models.ManagementOperationRetrieveParams
 import com.lithic.api.models.ManagementOperationReverseParams
 import com.lithic.api.models.ManagementOperationTransaction
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ManagementOperationServiceImpl
@@ -33,6 +34,11 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
     }
 
     override fun withRawResponse(): ManagementOperationService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ManagementOperationService =
+        ManagementOperationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ManagementOperationCreateParams,
@@ -66,6 +72,13 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
         ManagementOperationService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ManagementOperationService.WithRawResponse =
+            ManagementOperationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<ManagementOperationTransaction> =
             jsonHandler<ManagementOperationTransaction>(clientOptions.jsonMapper)

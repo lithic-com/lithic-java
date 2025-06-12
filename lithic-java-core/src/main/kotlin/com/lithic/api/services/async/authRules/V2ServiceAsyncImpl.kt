@@ -39,6 +39,7 @@ import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -51,6 +52,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     private val backtests: BacktestServiceAsync by lazy { BacktestServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): V2ServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync =
+        V2ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun backtests(): BacktestServiceAsync = backtests
 
@@ -126,6 +130,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
         private val backtests: BacktestServiceAsync.WithRawResponse by lazy {
             BacktestServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): V2ServiceAsync.WithRawResponse =
+            V2ServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun backtests(): BacktestServiceAsync.WithRawResponse = backtests
 

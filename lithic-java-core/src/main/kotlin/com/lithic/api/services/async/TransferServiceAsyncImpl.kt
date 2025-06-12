@@ -18,6 +18,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.Transfer
 import com.lithic.api.models.TransferCreateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class TransferServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TransferServiceAsync {
@@ -27,6 +28,9 @@ class TransferServiceAsyncImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): TransferServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TransferServiceAsync =
+        TransferServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     @Deprecated("deprecated")
     override fun create(
@@ -40,6 +44,13 @@ class TransferServiceAsyncImpl internal constructor(private val clientOptions: C
         TransferServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TransferServiceAsync.WithRawResponse =
+            TransferServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<Transfer> =
             jsonHandler<Transfer>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

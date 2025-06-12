@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Payment
@@ -21,6 +22,7 @@ import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface PaymentServiceAsync {
 
@@ -28,6 +30,13 @@ interface PaymentServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): PaymentServiceAsync
 
     /** Initiates a payment between a financial account and an external bank account. */
     fun create(params: PaymentCreateParams): CompletableFuture<PaymentCreateResponse> =
@@ -191,6 +200,15 @@ interface PaymentServiceAsync {
      * A view of [PaymentServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): PaymentServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/payments`, but is otherwise the same as

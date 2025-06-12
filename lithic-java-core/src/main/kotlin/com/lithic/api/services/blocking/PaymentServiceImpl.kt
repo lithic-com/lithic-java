@@ -33,6 +33,7 @@ import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
 import com.lithic.api.models.PaymentSimulateReturnResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class PaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -43,6 +44,9 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
     }
 
     override fun withRawResponse(): PaymentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): PaymentService =
+        PaymentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: PaymentCreateParams,
@@ -98,6 +102,13 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
         PaymentService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): PaymentService.WithRawResponse =
+            PaymentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<PaymentCreateResponse> =
             jsonHandler<PaymentCreateResponse>(clientOptions.jsonMapper)

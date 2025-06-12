@@ -38,6 +38,7 @@ import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialAccountServiceAsyncImpl
@@ -64,6 +65,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
     private val loanTapes: LoanTapeServiceAsync by lazy { LoanTapeServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): FinancialAccountServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): FinancialAccountServiceAsync =
+        FinancialAccountServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun balances(): BalanceServiceAsync = balances
 
@@ -142,6 +148,13 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
         private val loanTapes: LoanTapeServiceAsync.WithRawResponse by lazy {
             LoanTapeServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialAccountServiceAsync.WithRawResponse =
+            FinancialAccountServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun balances(): BalanceServiceAsync.WithRawResponse = balances
 

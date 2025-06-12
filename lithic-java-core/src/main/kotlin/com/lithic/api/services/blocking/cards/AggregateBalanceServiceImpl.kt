@@ -17,6 +17,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.CardAggregateBalanceListPage
 import com.lithic.api.models.CardAggregateBalanceListPageResponse
 import com.lithic.api.models.CardAggregateBalanceListParams
+import java.util.function.Consumer
 
 class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AggregateBalanceService {
@@ -26,6 +27,9 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
     }
 
     override fun withRawResponse(): AggregateBalanceService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AggregateBalanceService =
+        AggregateBalanceServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: CardAggregateBalanceListParams,
@@ -38,6 +42,13 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
         AggregateBalanceService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AggregateBalanceService.WithRawResponse =
+            AggregateBalanceServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<CardAggregateBalanceListPageResponse> =
             jsonHandler<CardAggregateBalanceListPageResponse>(clientOptions.jsonMapper)

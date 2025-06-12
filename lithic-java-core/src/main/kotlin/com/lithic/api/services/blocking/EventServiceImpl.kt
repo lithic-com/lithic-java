@@ -29,6 +29,7 @@ import com.lithic.api.services.blocking.events.EventSubscriptionService
 import com.lithic.api.services.blocking.events.EventSubscriptionServiceImpl
 import com.lithic.api.services.blocking.events.SubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -47,6 +48,9 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
     }
 
     override fun withRawResponse(): EventService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EventService =
+        EventServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun subscriptions(): SubscriptionService = subscriptions
 
@@ -79,6 +83,13 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val eventSubscriptions: EventSubscriptionService.WithRawResponse by lazy {
             EventSubscriptionServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EventService.WithRawResponse =
+            EventServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun subscriptions(): SubscriptionService.WithRawResponse = subscriptions
 

@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.services.blocking.authRules.V2Service
 import com.lithic.api.services.blocking.authRules.V2ServiceImpl
+import java.util.function.Consumer
 
 class AuthRuleServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AuthRuleService {
@@ -17,6 +18,9 @@ class AuthRuleServiceImpl internal constructor(private val clientOptions: Client
 
     override fun withRawResponse(): AuthRuleService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthRuleService =
+        AuthRuleServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun v2(): V2Service = v2
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -25,6 +29,13 @@ class AuthRuleServiceImpl internal constructor(private val clientOptions: Client
         private val v2: V2Service.WithRawResponse by lazy {
             V2ServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthRuleService.WithRawResponse =
+            AuthRuleServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun v2(): V2Service.WithRawResponse = v2
     }

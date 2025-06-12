@@ -30,6 +30,7 @@ import com.lithic.api.services.async.events.EventSubscriptionServiceAsyncImpl
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EventServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -48,6 +49,9 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): EventServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EventServiceAsync =
+        EventServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun subscriptions(): SubscriptionServiceAsync = subscriptions
 
@@ -86,6 +90,13 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val eventSubscriptions: EventSubscriptionServiceAsync.WithRawResponse by lazy {
             EventSubscriptionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EventServiceAsync.WithRawResponse =
+            EventServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun subscriptions(): SubscriptionServiceAsync.WithRawResponse = subscriptions
 

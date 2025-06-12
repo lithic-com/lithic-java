@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.services.async.reports.SettlementServiceAsync
 import com.lithic.api.services.async.reports.SettlementServiceAsyncImpl
+import java.util.function.Consumer
 
 class ReportServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     ReportServiceAsync {
@@ -19,6 +20,9 @@ class ReportServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): ReportServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ReportServiceAsync =
+        ReportServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun settlement(): SettlementServiceAsync = settlement
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -27,6 +31,13 @@ class ReportServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val settlement: SettlementServiceAsync.WithRawResponse by lazy {
             SettlementServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ReportServiceAsync.WithRawResponse =
+            ReportServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun settlement(): SettlementServiceAsync.WithRawResponse = settlement
     }

@@ -3,12 +3,14 @@
 package com.lithic.api.services.blocking.reports.settlement
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.NetworkTotalRetrieveResponse
 import com.lithic.api.models.ReportSettlementNetworkTotalListPage
 import com.lithic.api.models.ReportSettlementNetworkTotalListParams
 import com.lithic.api.models.ReportSettlementNetworkTotalRetrieveParams
+import java.util.function.Consumer
 
 interface NetworkTotalService {
 
@@ -16,6 +18,13 @@ interface NetworkTotalService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): NetworkTotalService
 
     /** Retrieve a specific network total record by token. Not available in sandbox. */
     fun retrieve(token: String): NetworkTotalRetrieveResponse =
@@ -76,6 +85,15 @@ interface NetworkTotalService {
      * A view of [NetworkTotalService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): NetworkTotalService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals/{token}`, but
