@@ -22,6 +22,7 @@ import com.lithic.api.models.ResponderEndpointCreateParams
 import com.lithic.api.models.ResponderEndpointCreateResponse
 import com.lithic.api.models.ResponderEndpointDeleteParams
 import com.lithic.api.models.ResponderEndpointStatus
+import java.util.function.Consumer
 
 class ResponderEndpointServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ResponderEndpointService {
@@ -31,6 +32,9 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): ResponderEndpointService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ResponderEndpointService =
+        ResponderEndpointServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ResponderEndpointCreateParams,
@@ -55,6 +59,13 @@ class ResponderEndpointServiceImpl internal constructor(private val clientOption
         ResponderEndpointService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ResponderEndpointService.WithRawResponse =
+            ResponderEndpointServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<ResponderEndpointCreateResponse> =
             jsonHandler<ResponderEndpointCreateResponse>(clientOptions.jsonMapper)

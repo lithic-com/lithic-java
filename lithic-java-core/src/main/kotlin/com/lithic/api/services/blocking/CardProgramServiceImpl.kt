@@ -20,6 +20,7 @@ import com.lithic.api.models.CardProgramListPage
 import com.lithic.api.models.CardProgramListPageResponse
 import com.lithic.api.models.CardProgramListParams
 import com.lithic.api.models.CardProgramRetrieveParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class CardProgramServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -30,6 +31,9 @@ class CardProgramServiceImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): CardProgramService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CardProgramService =
+        CardProgramServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: CardProgramRetrieveParams,
@@ -49,6 +53,13 @@ class CardProgramServiceImpl internal constructor(private val clientOptions: Cli
         CardProgramService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CardProgramService.WithRawResponse =
+            CardProgramServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<CardProgram> =
             jsonHandler<CardProgram>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

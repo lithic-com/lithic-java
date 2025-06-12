@@ -26,6 +26,7 @@ import com.lithic.api.models.ExternalPaymentReleaseParams
 import com.lithic.api.models.ExternalPaymentRetrieveParams
 import com.lithic.api.models.ExternalPaymentReverseParams
 import com.lithic.api.models.ExternalPaymentSettleParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalPaymentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -36,6 +37,9 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
     }
 
     override fun withRawResponse(): ExternalPaymentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExternalPaymentService =
+        ExternalPaymentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ExternalPaymentCreateParams,
@@ -90,6 +94,13 @@ class ExternalPaymentServiceImpl internal constructor(private val clientOptions:
         ExternalPaymentService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalPaymentService.WithRawResponse =
+            ExternalPaymentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<ExternalPayment> =
             jsonHandler<ExternalPayment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

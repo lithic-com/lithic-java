@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking.threeDS
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -10,6 +11,7 @@ import com.lithic.api.models.DecisioningRetrieveSecretResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
+import java.util.function.Consumer
 
 interface DecisioningService {
 
@@ -17,6 +19,13 @@ interface DecisioningService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): DecisioningService
 
     /** Card program's response to a 3DS Challenge Request (CReq) */
     fun challengeResponse(params: ThreeDSDecisioningChallengeResponseParams) =
@@ -83,6 +92,15 @@ interface DecisioningService {
      * A view of [DecisioningService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DecisioningService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/challenge_response`, but

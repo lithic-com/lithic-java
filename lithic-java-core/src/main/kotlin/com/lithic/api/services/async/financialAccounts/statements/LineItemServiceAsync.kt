@@ -2,11 +2,13 @@
 
 package com.lithic.api.services.async.financialAccounts.statements
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialAccountStatementLineItemListPageAsync
 import com.lithic.api.models.FinancialAccountStatementLineItemListParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface LineItemServiceAsync {
 
@@ -14,6 +16,13 @@ interface LineItemServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): LineItemServiceAsync
 
     /** List the line items for a given statement within a given financial account. */
     fun list(
@@ -46,6 +55,15 @@ interface LineItemServiceAsync {
      * A view of [LineItemServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LineItemServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

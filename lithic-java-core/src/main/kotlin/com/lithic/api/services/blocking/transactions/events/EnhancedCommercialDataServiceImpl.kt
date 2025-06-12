@@ -17,6 +17,7 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.EnhancedData
 import com.lithic.api.models.TransactionEventEnhancedCommercialDataRetrieveParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EnhancedCommercialDataServiceImpl
@@ -27,6 +28,11 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
     }
 
     override fun withRawResponse(): EnhancedCommercialDataService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): EnhancedCommercialDataService =
+        EnhancedCommercialDataServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
@@ -39,6 +45,13 @@ internal constructor(private val clientOptions: ClientOptions) : EnhancedCommerc
         EnhancedCommercialDataService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EnhancedCommercialDataService.WithRawResponse =
+            EnhancedCommercialDataServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<EnhancedData> =
             jsonHandler<EnhancedData>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

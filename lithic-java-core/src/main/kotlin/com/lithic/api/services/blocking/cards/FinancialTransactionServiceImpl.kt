@@ -20,6 +20,7 @@ import com.lithic.api.models.CardFinancialTransactionListPageResponse
 import com.lithic.api.models.CardFinancialTransactionListParams
 import com.lithic.api.models.CardFinancialTransactionRetrieveParams
 import com.lithic.api.models.FinancialTransaction
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialTransactionServiceImpl
@@ -30,6 +31,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
     }
 
     override fun withRawResponse(): FinancialTransactionService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): FinancialTransactionService =
+        FinancialTransactionServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: CardFinancialTransactionRetrieveParams,
@@ -49,6 +55,13 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
         FinancialTransactionService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialTransactionService.WithRawResponse =
+            FinancialTransactionServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<FinancialTransaction> =
             jsonHandler<FinancialTransaction>(clientOptions.jsonMapper)

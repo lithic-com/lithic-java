@@ -70,6 +70,7 @@ import com.lithic.api.services.async.TransactionServiceAsyncImpl
 import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.TransferServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicClientAsync {
 
@@ -193,6 +194,9 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     override fun sync(): LithicClient = sync
 
     override fun withRawResponse(): LithicClientAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LithicClientAsync =
+        LithicClientAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun accounts(): AccountServiceAsync = accounts
 
@@ -365,6 +369,13 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         private val fundingEvents: FundingEventServiceAsync.WithRawResponse by lazy {
             FundingEventServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LithicClientAsync.WithRawResponse =
+            LithicClientAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun accounts(): AccountServiceAsync.WithRawResponse = accounts
 

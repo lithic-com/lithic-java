@@ -42,6 +42,7 @@ import com.lithic.api.services.async.cards.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -62,6 +63,9 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
     }
 
     override fun withRawResponse(): CardServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CardServiceAsync =
+        CardServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
 
@@ -170,6 +174,13 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
             FinancialTransactionServiceAsync.WithRawResponse by lazy {
             FinancialTransactionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CardServiceAsync.WithRawResponse =
+            CardServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun aggregateBalances(): AggregateBalanceServiceAsync.WithRawResponse =
             aggregateBalances

@@ -7,6 +7,7 @@ import com.lithic.api.services.async.threeDS.AuthenticationServiceAsync
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsyncImpl
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsyncImpl
+import java.util.function.Consumer
 
 class ThreeDSServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     ThreeDSServiceAsync {
@@ -25,6 +26,9 @@ class ThreeDSServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
     override fun withRawResponse(): ThreeDSServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ThreeDSServiceAsync =
+        ThreeDSServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun authentication(): AuthenticationServiceAsync = authentication
 
     override fun decisioning(): DecisioningServiceAsync = decisioning
@@ -39,6 +43,13 @@ class ThreeDSServiceAsyncImpl internal constructor(private val clientOptions: Cl
         private val decisioning: DecisioningServiceAsync.WithRawResponse by lazy {
             DecisioningServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ThreeDSServiceAsync.WithRawResponse =
+            ThreeDSServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun authentication(): AuthenticationServiceAsync.WithRawResponse = authentication
 

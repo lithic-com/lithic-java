@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.threeDS
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -11,6 +12,7 @@ import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface AuthenticationServiceAsync {
 
@@ -18,6 +20,13 @@ interface AuthenticationServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthenticationServiceAsync
 
     /** Get 3DS Authentication by token */
     fun retrieve(
@@ -103,6 +112,15 @@ interface AuthenticationServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthenticationServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

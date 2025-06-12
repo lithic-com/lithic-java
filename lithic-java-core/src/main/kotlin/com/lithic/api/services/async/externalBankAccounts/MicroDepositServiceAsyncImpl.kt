@@ -19,6 +19,7 @@ import com.lithic.api.core.prepareAsync
 import com.lithic.api.models.ExternalBankAccountMicroDepositCreateParams
 import com.lithic.api.models.MicroDepositCreateResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class MicroDepositServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -29,6 +30,9 @@ class MicroDepositServiceAsyncImpl internal constructor(private val clientOption
     }
 
     override fun withRawResponse(): MicroDepositServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MicroDepositServiceAsync =
+        MicroDepositServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: ExternalBankAccountMicroDepositCreateParams,
@@ -41,6 +45,13 @@ class MicroDepositServiceAsyncImpl internal constructor(private val clientOption
         MicroDepositServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): MicroDepositServiceAsync.WithRawResponse =
+            MicroDepositServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<MicroDepositCreateResponse> =
             jsonHandler<MicroDepositCreateResponse>(clientOptions.jsonMapper)

@@ -43,6 +43,7 @@ import com.lithic.api.services.async.transactions.EnhancedCommercialDataServiceA
 import com.lithic.api.services.async.transactions.EventServiceAsync
 import com.lithic.api.services.async.transactions.EventServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class TransactionServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -59,6 +60,9 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
     private val events: EventServiceAsync by lazy { EventServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): TransactionServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TransactionServiceAsync =
+        TransactionServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync =
         enhancedCommercialData
@@ -152,6 +156,13 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
         private val events: EventServiceAsync.WithRawResponse by lazy {
             EventServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TransactionServiceAsync.WithRawResponse =
+            TransactionServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync.WithRawResponse =
             enhancedCommercialData

@@ -69,6 +69,7 @@ import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
+import java.util.function.Consumer
 
 class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient {
 
@@ -178,6 +179,9 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LithicClient =
+        LithicClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun accounts(): AccountService = accounts
 
@@ -349,6 +353,13 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         private val fundingEvents: FundingEventService.WithRawResponse by lazy {
             FundingEventServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LithicClient.WithRawResponse =
+            LithicClientImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun accounts(): AccountService.WithRawResponse = accounts
 

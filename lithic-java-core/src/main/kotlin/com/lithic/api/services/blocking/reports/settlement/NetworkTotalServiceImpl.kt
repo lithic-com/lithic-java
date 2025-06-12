@@ -20,6 +20,7 @@ import com.lithic.api.models.ReportSettlementNetworkTotalListPage
 import com.lithic.api.models.ReportSettlementNetworkTotalListPageResponse
 import com.lithic.api.models.ReportSettlementNetworkTotalListParams
 import com.lithic.api.models.ReportSettlementNetworkTotalRetrieveParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class NetworkTotalServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -30,6 +31,9 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): NetworkTotalService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): NetworkTotalService =
+        NetworkTotalServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
@@ -49,6 +53,13 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
         NetworkTotalService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): NetworkTotalService.WithRawResponse =
+            NetworkTotalServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<NetworkTotalRetrieveResponse> =
             jsonHandler<NetworkTotalRetrieveResponse>(clientOptions.jsonMapper)

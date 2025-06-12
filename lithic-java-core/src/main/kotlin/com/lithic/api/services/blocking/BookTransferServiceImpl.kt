@@ -23,6 +23,7 @@ import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
 import com.lithic.api.models.BookTransferReverseParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class BookTransferServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -33,6 +34,9 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): BookTransferService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BookTransferService =
+        BookTransferServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: BookTransferCreateParams,
@@ -66,6 +70,13 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
         BookTransferService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BookTransferService.WithRawResponse =
+            BookTransferServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<BookTransferResponse> =
             jsonHandler<BookTransferResponse>(clientOptions.jsonMapper)

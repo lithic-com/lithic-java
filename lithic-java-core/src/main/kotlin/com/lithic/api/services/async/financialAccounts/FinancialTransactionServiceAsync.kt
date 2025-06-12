@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.financialAccounts
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.FinancialTransaction
@@ -9,6 +10,7 @@ import com.lithic.api.models.FinancialTransactionListPageAsync
 import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface FinancialTransactionServiceAsync {
 
@@ -16,6 +18,13 @@ interface FinancialTransactionServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): FinancialTransactionServiceAsync
 
     /** Get the financial transaction for the provided token. */
     fun retrieve(
@@ -91,6 +100,15 @@ interface FinancialTransactionServiceAsync {
      * each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialTransactionServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

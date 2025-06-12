@@ -34,6 +34,7 @@ import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
 import java.time.Duration
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountHolderServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -44,6 +45,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): AccountHolderService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderService =
+        AccountHolderServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: AccountHolderCreateParams,
@@ -112,6 +116,13 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         AccountHolderService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountHolderService.WithRawResponse =
+            AccountHolderServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<AccountHolderCreateResponse> =
             jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)

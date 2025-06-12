@@ -20,6 +20,7 @@ import com.lithic.api.models.FinancialAccountLoanTapeListPageResponse
 import com.lithic.api.models.FinancialAccountLoanTapeListParams
 import com.lithic.api.models.FinancialAccountLoanTapeRetrieveParams
 import com.lithic.api.models.LoanTape
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class LoanTapeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -30,6 +31,9 @@ class LoanTapeServiceImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): LoanTapeService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LoanTapeService =
+        LoanTapeServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
@@ -49,6 +53,13 @@ class LoanTapeServiceImpl internal constructor(private val clientOptions: Client
         LoanTapeService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LoanTapeService.WithRawResponse =
+            LoanTapeServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<LoanTape> =
             jsonHandler<LoanTape>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

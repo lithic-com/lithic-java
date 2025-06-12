@@ -41,6 +41,7 @@ import com.lithic.api.services.blocking.cards.BalanceService
 import com.lithic.api.services.blocking.cards.BalanceServiceImpl
 import com.lithic.api.services.blocking.cards.FinancialTransactionService
 import com.lithic.api.services.blocking.cards.FinancialTransactionServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class CardServiceImpl internal constructor(private val clientOptions: ClientOptions) : CardService {
@@ -60,6 +61,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
     }
 
     override fun withRawResponse(): CardService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CardService =
+        CardServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun aggregateBalances(): AggregateBalanceService = aggregateBalances
 
@@ -143,6 +147,13 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         private val financialTransactions: FinancialTransactionService.WithRawResponse by lazy {
             FinancialTransactionServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CardService.WithRawResponse =
+            CardServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun aggregateBalances(): AggregateBalanceService.WithRawResponse =
             aggregateBalances

@@ -23,6 +23,7 @@ import com.lithic.api.models.SettlementReport
 import com.lithic.api.services.async.reports.settlement.NetworkTotalServiceAsync
 import com.lithic.api.services.async.reports.settlement.NetworkTotalServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SettlementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -37,6 +38,9 @@ class SettlementServiceAsyncImpl internal constructor(private val clientOptions:
     }
 
     override fun withRawResponse(): SettlementServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SettlementServiceAsync =
+        SettlementServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun networkTotals(): NetworkTotalServiceAsync = networkTotals
 
@@ -62,6 +66,13 @@ class SettlementServiceAsyncImpl internal constructor(private val clientOptions:
         private val networkTotals: NetworkTotalServiceAsync.WithRawResponse by lazy {
             NetworkTotalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SettlementServiceAsync.WithRawResponse =
+            SettlementServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun networkTotals(): NetworkTotalServiceAsync.WithRawResponse = networkTotals
 

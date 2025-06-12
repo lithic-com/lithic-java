@@ -37,6 +37,7 @@ import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
 import com.lithic.api.services.blocking.financialAccounts.LoanTapeServiceImpl
 import com.lithic.api.services.blocking.financialAccounts.StatementService
 import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialAccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -61,6 +62,9 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
     private val loanTapes: LoanTapeService by lazy { LoanTapeServiceImpl(clientOptions) }
 
     override fun withRawResponse(): FinancialAccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): FinancialAccountService =
+        FinancialAccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun balances(): BalanceService = balances
 
@@ -139,6 +143,13 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         private val loanTapes: LoanTapeService.WithRawResponse by lazy {
             LoanTapeServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialAccountService.WithRawResponse =
+            FinancialAccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun balances(): BalanceService.WithRawResponse = balances
 

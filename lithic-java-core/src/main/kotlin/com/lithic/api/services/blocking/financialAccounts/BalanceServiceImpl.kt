@@ -18,6 +18,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.FinancialAccountBalanceListPage
 import com.lithic.api.models.FinancialAccountBalanceListPageResponse
 import com.lithic.api.models.FinancialAccountBalanceListParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class BalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,6 +29,9 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
     }
 
     override fun withRawResponse(): BalanceService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BalanceService =
+        BalanceServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: FinancialAccountBalanceListParams,
@@ -40,6 +44,13 @@ class BalanceServiceImpl internal constructor(private val clientOptions: ClientO
         BalanceService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BalanceService.WithRawResponse =
+            BalanceServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<FinancialAccountBalanceListPageResponse> =
             jsonHandler<FinancialAccountBalanceListPageResponse>(clientOptions.jsonMapper)

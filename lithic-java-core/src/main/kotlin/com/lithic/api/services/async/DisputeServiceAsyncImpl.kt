@@ -32,6 +32,7 @@ import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DisputeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -42,6 +43,9 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): DisputeServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DisputeServiceAsync =
+        DisputeServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: DisputeCreateParams,
@@ -110,6 +114,13 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
         DisputeServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DisputeServiceAsync.WithRawResponse =
+            DisputeServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<Dispute> =
             jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
