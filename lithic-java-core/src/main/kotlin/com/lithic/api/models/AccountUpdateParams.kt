@@ -785,6 +785,8 @@ private constructor(
 
             @JvmField val PAUSED = of("PAUSED")
 
+            @JvmField val CLOSED = of("CLOSED")
+
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }
 
@@ -792,6 +794,7 @@ private constructor(
         enum class Known {
             ACTIVE,
             PAUSED,
+            CLOSED,
         }
 
         /**
@@ -806,6 +809,7 @@ private constructor(
         enum class Value {
             ACTIVE,
             PAUSED,
+            CLOSED,
             /** An enum member indicating that [State] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -821,6 +825,7 @@ private constructor(
             when (this) {
                 ACTIVE -> Value.ACTIVE
                 PAUSED -> Value.PAUSED
+                CLOSED -> Value.CLOSED
                 else -> Value._UNKNOWN
             }
 
@@ -837,6 +842,7 @@ private constructor(
             when (this) {
                 ACTIVE -> Known.ACTIVE
                 PAUSED -> Known.PAUSED
+                CLOSED -> Known.CLOSED
                 else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
