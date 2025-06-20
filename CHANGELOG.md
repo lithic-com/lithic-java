@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.93.0 (2025-06-20)
+
+Full Changelog: [v0.92.0...v0.93.0](https://github.com/lithic-com/lithic-java/compare/v0.92.0...v0.93.0)
+
+### Features
+
+* **api:** add CLOSED account state option and UNVERIFIED verification method ([b89c4a8](https://github.com/lithic-com/lithic-java/commit/b89c4a83bccb4e33601f8f08c8f3a21f19b029e2))
+* **client:** add a `withOptions` method ([cce70a4](https://github.com/lithic-com/lithic-java/commit/cce70a466c964877d59a5ec26d94d90f416119f9))
+* **client:** adds endpoint to register an account number on a Financial Account ([7da29e6](https://github.com/lithic-com/lithic-java/commit/7da29e68ef62952c7f3fdf786bba34e4a858e86e))
+* **client:** implement per-endpoint base URL support ([67852c2](https://github.com/lithic-com/lithic-java/commit/67852c275c87ceaf4e63a931c4d35e9d256bb442))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([662e792](https://github.com/lithic-com/lithic-java/commit/662e79211ec54ba395beba6f39a11078949326da))
+
 ## 0.92.0 (2025-06-04)
 
 Full Changelog: [v0.91.0...v0.92.0](https://github.com/lithic-com/lithic-java/compare/v0.91.0...v0.92.0)
