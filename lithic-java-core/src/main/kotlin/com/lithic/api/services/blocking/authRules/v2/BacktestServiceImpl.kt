@@ -20,6 +20,7 @@ import com.lithic.api.models.AuthRuleV2BacktestCreateParams
 import com.lithic.api.models.AuthRuleV2BacktestRetrieveParams
 import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class BacktestServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -30,6 +31,9 @@ class BacktestServiceImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): BacktestService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BacktestService =
+        BacktestServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: AuthRuleV2BacktestCreateParams,
@@ -50,6 +54,13 @@ class BacktestServiceImpl internal constructor(private val clientOptions: Client
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BacktestService.WithRawResponse =
+            BacktestServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<BacktestCreateResponse> =
             jsonHandler<BacktestCreateResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -64,6 +75,7 @@ class BacktestServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "backtests")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -94,6 +106,7 @@ class BacktestServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v2",
                         "auth_rules",

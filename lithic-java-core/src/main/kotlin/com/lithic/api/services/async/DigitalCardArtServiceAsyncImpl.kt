@@ -21,6 +21,7 @@ import com.lithic.api.models.DigitalCardArtListPageResponse
 import com.lithic.api.models.DigitalCardArtListParams
 import com.lithic.api.models.DigitalCardArtRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DigitalCardArtServiceAsyncImpl
@@ -31,6 +32,11 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
     }
 
     override fun withRawResponse(): DigitalCardArtServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): DigitalCardArtServiceAsync =
+        DigitalCardArtServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: DigitalCardArtRetrieveParams,
@@ -51,6 +57,13 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DigitalCardArtServiceAsync.WithRawResponse =
+            DigitalCardArtServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<DigitalCardArt> =
             jsonHandler<DigitalCardArt>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -64,6 +77,7 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -94,6 +108,7 @@ internal constructor(private val clientOptions: ClientOptions) : DigitalCardArtS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "digital_card_art")
                     .build()
                     .prepareAsync(clientOptions, params)

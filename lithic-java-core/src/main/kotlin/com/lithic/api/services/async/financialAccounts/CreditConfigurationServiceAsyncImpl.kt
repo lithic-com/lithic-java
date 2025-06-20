@@ -20,6 +20,7 @@ import com.lithic.api.models.FinancialAccountCreditConfig
 import com.lithic.api.models.FinancialAccountCreditConfigurationRetrieveParams
 import com.lithic.api.models.FinancialAccountCreditConfigurationUpdateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class CreditConfigurationServiceAsyncImpl
@@ -31,6 +32,13 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
 
     override fun withRawResponse(): CreditConfigurationServiceAsync.WithRawResponse =
         withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): CreditConfigurationServiceAsync =
+        CreditConfigurationServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun retrieve(
         params: FinancialAccountCreditConfigurationRetrieveParams,
@@ -51,6 +59,13 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CreditConfigurationServiceAsync.WithRawResponse =
+            CreditConfigurationServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<FinancialAccountCreditConfig> =
             jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -65,6 +80,7 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
@@ -103,6 +119,7 @@ internal constructor(private val clientOptions: ClientOptions) : CreditConfigura
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",

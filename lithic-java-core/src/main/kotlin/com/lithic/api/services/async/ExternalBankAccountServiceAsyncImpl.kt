@@ -32,6 +32,7 @@ import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountServiceAsyncImpl
@@ -47,6 +48,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
 
     override fun withRawResponse(): ExternalBankAccountServiceAsync.WithRawResponse =
         withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ExternalBankAccountServiceAsync =
+        ExternalBankAccountServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun microDeposits(): MicroDepositServiceAsync = microDeposits
 
@@ -101,6 +109,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             MicroDepositServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalBankAccountServiceAsync.WithRawResponse =
+            ExternalBankAccountServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun microDeposits(): MicroDepositServiceAsync.WithRawResponse = microDeposits
 
         private val createHandler: Handler<ExternalBankAccountCreateResponse> =
@@ -114,6 +129,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -148,6 +164,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -181,6 +198,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -212,6 +230,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -254,6 +273,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
@@ -293,6 +313,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",

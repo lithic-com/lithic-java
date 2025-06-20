@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking.transactions
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDataService
 import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDataServiceImpl
+import java.util.function.Consumer
 
 class EventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     EventService {
@@ -19,6 +20,9 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
 
     override fun withRawResponse(): EventService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EventService =
+        EventServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun enhancedCommercialData(): EnhancedCommercialDataService = enhancedCommercialData
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -27,6 +31,13 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val enhancedCommercialData: EnhancedCommercialDataService.WithRawResponse by lazy {
             EnhancedCommercialDataServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EventService.WithRawResponse =
+            EventServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun enhancedCommercialData(): EnhancedCommercialDataService.WithRawResponse =
             enhancedCommercialData

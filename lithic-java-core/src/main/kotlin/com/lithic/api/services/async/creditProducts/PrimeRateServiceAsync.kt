@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.creditProducts
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -9,6 +10,7 @@ import com.lithic.api.models.CreditProductPrimeRateCreateParams
 import com.lithic.api.models.CreditProductPrimeRateRetrieveParams
 import com.lithic.api.models.PrimeRateRetrieveResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface PrimeRateServiceAsync {
 
@@ -16,6 +18,13 @@ interface PrimeRateServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): PrimeRateServiceAsync
 
     /** Post Credit Product Prime Rate */
     fun create(
@@ -82,6 +91,15 @@ interface PrimeRateServiceAsync {
      * A view of [PrimeRateServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): PrimeRateServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post

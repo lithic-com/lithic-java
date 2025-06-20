@@ -34,6 +34,7 @@ import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
 import java.time.Duration
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountHolderServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -44,6 +45,9 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): AccountHolderService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderService =
+        AccountHolderServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: AccountHolderCreateParams,
@@ -113,6 +117,13 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountHolderService.WithRawResponse =
+            AccountHolderServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<AccountHolderCreateResponse> =
             jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -124,6 +135,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -157,6 +169,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -187,6 +200,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -215,6 +229,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders")
                     .build()
                     .prepare(clientOptions, params)
@@ -252,6 +267,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .build()
                     .prepare(clientOptions, params)
@@ -281,6 +297,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "account_holders",
@@ -313,6 +330,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "simulate",
@@ -347,6 +365,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "simulate", "account_holders", "enrollment_review")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -377,6 +396,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

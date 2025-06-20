@@ -31,6 +31,8 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
 
         @JvmField val EXTERNALLY_VERIFIED = of("EXTERNALLY_VERIFIED")
 
+        @JvmField val UNVERIFIED = of("UNVERIFIED")
+
         @JvmStatic fun of(value: String) = VerificationMethod(JsonField.of(value))
     }
 
@@ -41,6 +43,7 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
         PLAID,
         PRENOTE,
         EXTERNALLY_VERIFIED,
+        UNVERIFIED,
     }
 
     /**
@@ -58,6 +61,7 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
         PLAID,
         PRENOTE,
         EXTERNALLY_VERIFIED,
+        UNVERIFIED,
         /**
          * An enum member indicating that [VerificationMethod] was instantiated with an unknown
          * value.
@@ -79,6 +83,7 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
             PLAID -> Value.PLAID
             PRENOTE -> Value.PRENOTE
             EXTERNALLY_VERIFIED -> Value.EXTERNALLY_VERIFIED
+            UNVERIFIED -> Value.UNVERIFIED
             else -> Value._UNKNOWN
         }
 
@@ -97,6 +102,7 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
             PLAID -> Known.PLAID
             PRENOTE -> Known.PRENOTE
             EXTERNALLY_VERIFIED -> Known.EXTERNALLY_VERIFIED
+            UNVERIFIED -> Known.UNVERIFIED
             else -> throw LithicInvalidDataException("Unknown VerificationMethod: $value")
         }
 

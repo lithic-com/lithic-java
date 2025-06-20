@@ -21,6 +21,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.CreditProductPrimeRateCreateParams
 import com.lithic.api.models.CreditProductPrimeRateRetrieveParams
 import com.lithic.api.models.PrimeRateRetrieveResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class PrimeRateServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,9 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
     }
 
     override fun withRawResponse(): PrimeRateService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): PrimeRateService =
+        PrimeRateServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: CreditProductPrimeRateCreateParams,
@@ -52,6 +56,13 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): PrimeRateService.WithRawResponse =
+            PrimeRateServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
         override fun create(
@@ -64,6 +75,7 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -87,6 +99,7 @@ class PrimeRateServiceImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "credit_products", params._pathParam(0), "prime_rates")
                     .build()
                     .prepare(clientOptions, params)

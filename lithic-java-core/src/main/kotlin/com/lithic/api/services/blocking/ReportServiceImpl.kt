@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.services.blocking.reports.SettlementService
 import com.lithic.api.services.blocking.reports.SettlementServiceImpl
+import java.util.function.Consumer
 
 class ReportServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ReportService {
@@ -17,6 +18,9 @@ class ReportServiceImpl internal constructor(private val clientOptions: ClientOp
 
     override fun withRawResponse(): ReportService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ReportService =
+        ReportServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun settlement(): SettlementService = settlement
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -25,6 +29,13 @@ class ReportServiceImpl internal constructor(private val clientOptions: ClientOp
         private val settlement: SettlementService.WithRawResponse by lazy {
             SettlementServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ReportService.WithRawResponse =
+            ReportServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun settlement(): SettlementService.WithRawResponse = settlement
     }

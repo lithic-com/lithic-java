@@ -20,6 +20,7 @@ import com.lithic.api.models.FinancialTransactionListPage
 import com.lithic.api.models.FinancialTransactionListPageResponse
 import com.lithic.api.models.FinancialTransactionListParams
 import com.lithic.api.models.FinancialTransactionRetrieveParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialTransactionServiceImpl
@@ -30,6 +31,11 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
     }
 
     override fun withRawResponse(): FinancialTransactionService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): FinancialTransactionService =
+        FinancialTransactionServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: FinancialTransactionRetrieveParams,
@@ -51,6 +57,13 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialTransactionService.WithRawResponse =
+            FinancialTransactionServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<FinancialTransaction> =
             jsonHandler<FinancialTransaction>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -68,6 +81,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",
@@ -104,6 +118,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "financial_accounts",

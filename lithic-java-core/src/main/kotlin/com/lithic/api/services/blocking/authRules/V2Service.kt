@@ -3,6 +3,7 @@
 package com.lithic.api.services.blocking.authRules
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
@@ -24,6 +25,7 @@ import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.blocking.authRules.v2.BacktestService
+import java.util.function.Consumer
 
 interface V2Service {
 
@@ -31,6 +33,13 @@ interface V2Service {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2Service
 
     fun backtests(): BacktestService
 
@@ -327,6 +336,13 @@ interface V2Service {
 
     /** A view of [V2Service] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2Service.WithRawResponse
 
         fun backtests(): BacktestService.WithRawResponse
 

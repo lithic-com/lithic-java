@@ -18,6 +18,7 @@ import com.lithic.api.models.AggregateBalanceListPageAsync
 import com.lithic.api.models.AggregateBalanceListPageResponse
 import com.lithic.api.models.AggregateBalanceListParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class AggregateBalanceServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : AggregateBalanceServiceAsync {
@@ -27,6 +28,11 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
     }
 
     override fun withRawResponse(): AggregateBalanceServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): AggregateBalanceServiceAsync =
+        AggregateBalanceServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: AggregateBalanceListParams,
@@ -40,6 +46,13 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AggregateBalanceServiceAsync.WithRawResponse =
+            AggregateBalanceServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<AggregateBalanceListPageResponse> =
             jsonHandler<AggregateBalanceListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -51,6 +64,7 @@ internal constructor(private val clientOptions: ClientOptions) : AggregateBalanc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "aggregate_balances")
                     .build()
                     .prepareAsync(clientOptions, params)

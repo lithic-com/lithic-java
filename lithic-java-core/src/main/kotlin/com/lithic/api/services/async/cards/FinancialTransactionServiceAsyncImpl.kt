@@ -21,6 +21,7 @@ import com.lithic.api.models.CardFinancialTransactionListParams
 import com.lithic.api.models.CardFinancialTransactionRetrieveParams
 import com.lithic.api.models.FinancialTransaction
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialTransactionServiceAsyncImpl
@@ -32,6 +33,13 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
 
     override fun withRawResponse(): FinancialTransactionServiceAsync.WithRawResponse =
         withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): FinancialTransactionServiceAsync =
+        FinancialTransactionServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
 
     override fun retrieve(
         params: CardFinancialTransactionRetrieveParams,
@@ -52,6 +60,13 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FinancialTransactionServiceAsync.WithRawResponse =
+            FinancialTransactionServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<FinancialTransaction> =
             jsonHandler<FinancialTransaction>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -69,6 +84,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "cards",
@@ -108,6 +124,7 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialTransa
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "cards", params._pathParam(0), "financial_transactions")
                     .build()
                     .prepareAsync(clientOptions, params)

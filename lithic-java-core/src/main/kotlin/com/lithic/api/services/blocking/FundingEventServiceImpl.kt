@@ -22,6 +22,7 @@ import com.lithic.api.models.FundingEventRetrieveDetailsParams
 import com.lithic.api.models.FundingEventRetrieveDetailsResponse
 import com.lithic.api.models.FundingEventRetrieveParams
 import com.lithic.api.models.FundingEventRetrieveResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class FundingEventServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -32,6 +33,9 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): FundingEventService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): FundingEventService =
+        FundingEventServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: FundingEventRetrieveParams,
@@ -59,6 +63,13 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): FundingEventService.WithRawResponse =
+            FundingEventServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<FundingEventRetrieveResponse> =
             jsonHandler<FundingEventRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -73,6 +84,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -100,6 +112,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events")
                     .build()
                     .prepare(clientOptions, params)
@@ -137,6 +150,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "funding_events", params._pathParam(0), "details")
                     .build()
                     .prepare(clientOptions, params)

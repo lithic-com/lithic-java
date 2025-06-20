@@ -31,6 +31,7 @@ import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountServiceImpl
@@ -45,6 +46,11 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     }
 
     override fun withRawResponse(): ExternalBankAccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ExternalBankAccountService =
+        ExternalBankAccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun microDeposits(): MicroDepositService = microDeposits
 
@@ -99,6 +105,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             MicroDepositServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalBankAccountService.WithRawResponse =
+            ExternalBankAccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun microDeposits(): MicroDepositService.WithRawResponse = microDeposits
 
         private val createHandler: Handler<ExternalBankAccountCreateResponse> =
@@ -112,6 +125,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -143,6 +157,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -173,6 +188,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -201,6 +217,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .build()
                     .prepare(clientOptions, params)
@@ -239,6 +256,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",
@@ -275,6 +293,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "v1",
                         "external_bank_accounts",

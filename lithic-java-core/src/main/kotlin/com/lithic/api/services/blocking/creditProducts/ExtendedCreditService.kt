@@ -3,10 +3,12 @@
 package com.lithic.api.services.blocking.creditProducts
 
 import com.google.errorprone.annotations.MustBeClosed
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import com.lithic.api.models.ExtendedCredit
+import java.util.function.Consumer
 
 interface ExtendedCreditService {
 
@@ -14,6 +16,13 @@ interface ExtendedCreditService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExtendedCreditService
 
     /** Get the extended credit for a given credit product under a program */
     fun retrieve(creditProductToken: String): ExtendedCredit =
@@ -57,6 +66,15 @@ interface ExtendedCreditService {
      * A view of [ExtendedCreditService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExtendedCreditService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

@@ -30,6 +30,7 @@ import com.lithic.api.services.async.events.EventSubscriptionServiceAsyncImpl
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EventServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -48,6 +49,9 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): EventServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EventServiceAsync =
+        EventServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun subscriptions(): SubscriptionServiceAsync = subscriptions
 
@@ -87,6 +91,13 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
             EventSubscriptionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EventServiceAsync.WithRawResponse =
+            EventServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun subscriptions(): SubscriptionServiceAsync.WithRawResponse = subscriptions
 
         override fun eventSubscriptions(): EventSubscriptionServiceAsync.WithRawResponse =
@@ -105,6 +116,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "events", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -135,6 +147,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "events")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -176,6 +189,7 @@ class EventServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "events", params._pathParam(0), "attempts")
                     .build()
                     .prepareAsync(clientOptions, params)

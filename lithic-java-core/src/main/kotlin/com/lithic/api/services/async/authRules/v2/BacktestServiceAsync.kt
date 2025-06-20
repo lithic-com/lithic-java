@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.async.authRules.v2
 
+import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.AuthRuleV2BacktestCreateParams
@@ -9,6 +10,7 @@ import com.lithic.api.models.AuthRuleV2BacktestRetrieveParams
 import com.lithic.api.models.BacktestCreateResponse
 import com.lithic.api.models.BacktestResults
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface BacktestServiceAsync {
 
@@ -16,6 +18,13 @@ interface BacktestServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): BacktestServiceAsync
 
     /**
      * Initiates a request to asynchronously generate a backtest for an Auth rule. During
@@ -125,6 +134,15 @@ interface BacktestServiceAsync {
      * A view of [BacktestServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BacktestServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/backtests`, but is

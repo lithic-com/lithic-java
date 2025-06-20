@@ -20,6 +20,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
 import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
 import com.lithic.api.models.AuthStreamSecret
+import java.util.function.Consumer
 
 class AuthStreamEnrollmentServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrollmentService {
@@ -29,6 +30,11 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
     }
 
     override fun withRawResponse(): AuthStreamEnrollmentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): AuthStreamEnrollmentService =
+        AuthStreamEnrollmentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams,
@@ -50,6 +56,13 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthStreamEnrollmentService.WithRawResponse =
+            AuthStreamEnrollmentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveSecretHandler: Handler<AuthStreamSecret> =
             jsonHandler<AuthStreamSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -60,6 +73,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "auth_stream", "secret")
                     .build()
                     .prepare(clientOptions, params)
@@ -86,6 +100,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthStreamEnrol
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "auth_stream", "secret", "rotate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

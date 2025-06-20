@@ -22,6 +22,7 @@ import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class DecisioningServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     DecisioningServiceAsync {
@@ -31,6 +32,9 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
     }
 
     override fun withRawResponse(): DecisioningServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DecisioningServiceAsync =
+        DecisioningServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
@@ -58,6 +62,13 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DecisioningServiceAsync.WithRawResponse =
+            DecisioningServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val challengeResponseHandler: Handler<Void?> =
             emptyHandler().withErrorHandler(errorHandler)
 
@@ -68,6 +79,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "challenge_response")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -91,6 +103,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "secret")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -120,6 +133,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "secret", "rotate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

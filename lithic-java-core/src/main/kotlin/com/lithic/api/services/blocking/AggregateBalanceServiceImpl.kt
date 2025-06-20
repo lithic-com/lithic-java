@@ -17,6 +17,7 @@ import com.lithic.api.core.prepare
 import com.lithic.api.models.AggregateBalanceListPage
 import com.lithic.api.models.AggregateBalanceListPageResponse
 import com.lithic.api.models.AggregateBalanceListParams
+import java.util.function.Consumer
 
 class AggregateBalanceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AggregateBalanceService {
@@ -26,6 +27,9 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
     }
 
     override fun withRawResponse(): AggregateBalanceService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AggregateBalanceService =
+        AggregateBalanceServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: AggregateBalanceListParams,
@@ -39,6 +43,13 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AggregateBalanceService.WithRawResponse =
+            AggregateBalanceServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<AggregateBalanceListPageResponse> =
             jsonHandler<AggregateBalanceListPageResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -50,6 +61,7 @@ class AggregateBalanceServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "aggregate_balances")
                     .build()
                     .prepare(clientOptions, params)

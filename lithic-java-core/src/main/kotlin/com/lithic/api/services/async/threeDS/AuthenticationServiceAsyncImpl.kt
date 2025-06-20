@@ -24,6 +24,7 @@ import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AuthenticationServiceAsyncImpl
@@ -34,6 +35,11 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
     }
 
     override fun withRawResponse(): AuthenticationServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): AuthenticationServiceAsync =
+        AuthenticationServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
@@ -61,6 +67,13 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AuthenticationServiceAsync.WithRawResponse =
+            AuthenticationServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<AuthenticationRetrieveResponse> =
             jsonHandler<AuthenticationRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -78,6 +91,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_authentication", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -108,6 +122,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_authentication", "simulate")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -138,6 +153,7 @@ internal constructor(private val clientOptions: ClientOptions) : AuthenticationS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_decisioning", "simulate", "enter_otp")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
