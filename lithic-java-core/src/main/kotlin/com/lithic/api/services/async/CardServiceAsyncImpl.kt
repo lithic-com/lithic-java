@@ -46,9 +46,9 @@ import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import java.net.URI
 import java.util.Base64
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.apache.hc.core5.net.URIBuilder
 

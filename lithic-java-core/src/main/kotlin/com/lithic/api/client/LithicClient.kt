@@ -35,7 +35,6 @@ import com.lithic.api.services.blocking.TokenizationService
 import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.WebhookService
-
 import java.util.function.Consumer
 
 /**

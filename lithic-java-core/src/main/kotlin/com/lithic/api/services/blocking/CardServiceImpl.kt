@@ -45,9 +45,9 @@ import com.lithic.api.services.blocking.cards.FinancialTransactionService
 import com.lithic.api.services.blocking.cards.FinancialTransactionServiceImpl
 import java.net.URI
 import java.util.Base64
+import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.apache.hc.core5.net.URIBuilder
 
