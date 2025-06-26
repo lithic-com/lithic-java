@@ -16,6 +16,7 @@ import java.util.Collections
 import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
+/** Response from Card Program to a 3DS Authentication challenge */
 class ChallengeResponse
 private constructor(
     private val token: JsonField<String>,
@@ -32,9 +33,8 @@ private constructor(
     ) : this(token, challengeResponse, mutableMapOf())
 
     /**
-     * Globally unique identifier for the 3DS authentication. This token is sent as part of the
-     * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
-     * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+     * Globally unique identifier for 3DS Authentication that resulted in PENDING_CHALLENGE
+     * authentication result.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -42,7 +42,7 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * Whether the Cardholder has Approved or Declined the issued Challenge
+     * Whether the Cardholder has approved or declined the issued Challenge
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -107,9 +107,8 @@ private constructor(
         }
 
         /**
-         * Globally unique identifier for the 3DS authentication. This token is sent as part of the
-         * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
-         * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+         * Globally unique identifier for 3DS Authentication that resulted in PENDING_CHALLENGE
+         * authentication result.
          */
         fun token(token: String) = token(JsonField.of(token))
 
@@ -121,7 +120,7 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** Whether the Cardholder has Approved or Declined the issued Challenge */
+        /** Whether the Cardholder has approved or declined the issued Challenge */
         fun challengeResponse(challengeResponse: ChallengeResult) =
             challengeResponse(JsonField.of(challengeResponse))
 

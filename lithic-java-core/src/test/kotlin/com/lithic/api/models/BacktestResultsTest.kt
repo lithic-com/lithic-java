@@ -18,17 +18,14 @@ internal class BacktestResultsTest {
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(
-                            BacktestResults.Results.RuleStats.builder()
+                            RuleStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    BacktestResults.Results.RuleStats.Example.builder()
+                                    RuleStats.Example.builder()
                                         .approved(true)
-                                        .decision(
-                                            BacktestResults.Results.RuleStats.Example.Decision
-                                                .APPROVED
-                                        )
+                                        .decision(RuleStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
@@ -37,17 +34,14 @@ internal class BacktestResultsTest {
                                 .build()
                         )
                         .draftVersion(
-                            BacktestResults.Results.RuleStats.builder()
+                            RuleStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    BacktestResults.Results.RuleStats.Example.builder()
+                                    RuleStats.Example.builder()
                                         .approved(true)
-                                        .decision(
-                                            BacktestResults.Results.RuleStats.Example.Decision
-                                                .APPROVED
-                                        )
+                                        .decision(RuleStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
@@ -72,16 +66,14 @@ internal class BacktestResultsTest {
             .isEqualTo(
                 BacktestResults.Results.builder()
                     .currentVersion(
-                        BacktestResults.Results.RuleStats.builder()
+                        RuleStats.builder()
                             .approved(0L)
                             .challenged(0L)
                             .declined(0L)
                             .addExample(
-                                BacktestResults.Results.RuleStats.Example.builder()
+                                RuleStats.Example.builder()
                                     .approved(true)
-                                    .decision(
-                                        BacktestResults.Results.RuleStats.Example.Decision.APPROVED
-                                    )
+                                    .decision(RuleStats.Example.Decision.APPROVED)
                                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .build()
@@ -90,16 +82,14 @@ internal class BacktestResultsTest {
                             .build()
                     )
                     .draftVersion(
-                        BacktestResults.Results.RuleStats.builder()
+                        RuleStats.builder()
                             .approved(0L)
                             .challenged(0L)
                             .declined(0L)
                             .addExample(
-                                BacktestResults.Results.RuleStats.Example.builder()
+                                RuleStats.Example.builder()
                                     .approved(true)
-                                    .decision(
-                                        BacktestResults.Results.RuleStats.Example.Decision.APPROVED
-                                    )
+                                    .decision(RuleStats.Example.Decision.APPROVED)
                                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .build()
@@ -128,17 +118,14 @@ internal class BacktestResultsTest {
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(
-                            BacktestResults.Results.RuleStats.builder()
+                            RuleStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    BacktestResults.Results.RuleStats.Example.builder()
+                                    RuleStats.Example.builder()
                                         .approved(true)
-                                        .decision(
-                                            BacktestResults.Results.RuleStats.Example.Decision
-                                                .APPROVED
-                                        )
+                                        .decision(RuleStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
@@ -147,17 +134,14 @@ internal class BacktestResultsTest {
                                 .build()
                         )
                         .draftVersion(
-                            BacktestResults.Results.RuleStats.builder()
+                            RuleStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    BacktestResults.Results.RuleStats.Example.builder()
+                                    RuleStats.Example.builder()
                                         .approved(true)
-                                        .decision(
-                                            BacktestResults.Results.RuleStats.Example.Decision
-                                                .APPROVED
-                                        )
+                                        .decision(RuleStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()

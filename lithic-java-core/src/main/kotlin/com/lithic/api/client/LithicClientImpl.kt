@@ -49,6 +49,8 @@ import com.lithic.api.services.blocking.ExternalPaymentService
 import com.lithic.api.services.blocking.ExternalPaymentServiceImpl
 import com.lithic.api.services.blocking.FinancialAccountService
 import com.lithic.api.services.blocking.FinancialAccountServiceImpl
+import com.lithic.api.services.blocking.FraudService
+import com.lithic.api.services.blocking.FraudServiceImpl
 import com.lithic.api.services.blocking.FundingEventService
 import com.lithic.api.services.blocking.FundingEventServiceImpl
 import com.lithic.api.services.blocking.ManagementOperationService
@@ -180,6 +182,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         FundingEventServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val fraud: FraudService by lazy { FraudServiceImpl(clientOptionsWithUserAgent) }
+
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
@@ -240,6 +244,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun managementOperations(): ManagementOperationService = managementOperations
 
     override fun fundingEvents(): FundingEventService = fundingEvents
+
+    override fun fraud(): FraudService = fraud
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -360,6 +366,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             FundingEventServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val fraud: FraudService.WithRawResponse by lazy {
+            FraudServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClient.WithRawResponse =
@@ -425,6 +435,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             managementOperations
 
         override fun fundingEvents(): FundingEventService.WithRawResponse = fundingEvents
+
+        override fun fraud(): FraudService.WithRawResponse = fraud
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

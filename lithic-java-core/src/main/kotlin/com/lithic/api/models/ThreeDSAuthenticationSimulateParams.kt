@@ -30,12 +30,14 @@ import kotlin.jvm.optionals.getOrNull
  */
 class ThreeDSAuthenticationSimulateParams
 private constructor(
-    private val body: Body,
+    private val body: SimulateAuthenticationRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /**
+     * Merchant information for the simulated transaction
+     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
@@ -50,6 +52,8 @@ private constructor(
     fun pan(): String = body.pan()
 
     /**
+     * Transaction details for the simulation
+     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
@@ -119,7 +123,8 @@ private constructor(
     /** A builder for [ThreeDSAuthenticationSimulateParams]. */
     class Builder internal constructor() {
 
-        private var body: Body.Builder = Body.builder()
+        private var body: SimulateAuthenticationRequest.Builder =
+            SimulateAuthenticationRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -143,8 +148,9 @@ private constructor(
          * - [transaction]
          * - [cardExpiryCheck]
          */
-        fun body(body: Body) = apply { this.body = body.toBuilder() }
+        fun body(body: SimulateAuthenticationRequest) = apply { this.body = body.toBuilder() }
 
+        /** Merchant information for the simulated transaction */
         fun merchant(merchant: Merchant) = apply { body.merchant(merchant) }
 
         /**
@@ -167,6 +173,7 @@ private constructor(
          */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
+        /** Transaction details for the simulation */
         fun transaction(transaction: Transaction) = apply { body.transaction(transaction) }
 
         /**
@@ -338,13 +345,14 @@ private constructor(
             )
     }
 
-    fun _body(): Body = body
+    fun _body(): SimulateAuthenticationRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    class Body
+    /** Request object for simulating a 3DS authentication */
+    class SimulateAuthenticationRequest
     private constructor(
         private val merchant: JsonField<Merchant>,
         private val pan: JsonField<String>,
@@ -368,6 +376,8 @@ private constructor(
         ) : this(merchant, pan, transaction, cardExpiryCheck, mutableMapOf())
 
         /**
+         * Merchant information for the simulated transaction
+         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
@@ -382,6 +392,8 @@ private constructor(
         fun pan(): String = pan.getRequired("pan")
 
         /**
+         * Transaction details for the simulation
+         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
@@ -445,7 +457,8 @@ private constructor(
         companion object {
 
             /**
-             * Returns a mutable builder for constructing an instance of [Body].
+             * Returns a mutable builder for constructing an instance of
+             * [SimulateAuthenticationRequest].
              *
              * The following fields are required:
              * ```java
@@ -457,7 +470,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [Body]. */
+        /** A builder for [SimulateAuthenticationRequest]. */
         class Builder internal constructor() {
 
             private var merchant: JsonField<Merchant>? = null
@@ -467,14 +480,17 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                merchant = body.merchant
-                pan = body.pan
-                transaction = body.transaction
-                cardExpiryCheck = body.cardExpiryCheck
-                additionalProperties = body.additionalProperties.toMutableMap()
-            }
+            internal fun from(simulateAuthenticationRequest: SimulateAuthenticationRequest) =
+                apply {
+                    merchant = simulateAuthenticationRequest.merchant
+                    pan = simulateAuthenticationRequest.pan
+                    transaction = simulateAuthenticationRequest.transaction
+                    cardExpiryCheck = simulateAuthenticationRequest.cardExpiryCheck
+                    additionalProperties =
+                        simulateAuthenticationRequest.additionalProperties.toMutableMap()
+                }
 
+            /** Merchant information for the simulated transaction */
             fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
             /**
@@ -498,6 +514,7 @@ private constructor(
              */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
+            /** Transaction details for the simulation */
             fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
 
             /**
@@ -549,7 +566,7 @@ private constructor(
             }
 
             /**
-             * Returns an immutable instance of [Body].
+             * Returns an immutable instance of [SimulateAuthenticationRequest].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              *
@@ -562,8 +579,8 @@ private constructor(
              *
              * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): Body =
-                Body(
+            fun build(): SimulateAuthenticationRequest =
+                SimulateAuthenticationRequest(
                     checkRequired("merchant", merchant),
                     checkRequired("pan", pan),
                     checkRequired("transaction", transaction),
@@ -574,7 +591,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Body = apply {
+        fun validate(): SimulateAuthenticationRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -612,7 +629,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SimulateAuthenticationRequest && merchant == other.merchant && pan == other.pan && transaction == other.transaction && cardExpiryCheck == other.cardExpiryCheck && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -622,9 +639,10 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
+            "SimulateAuthenticationRequest{merchant=$merchant, pan=$pan, transaction=$transaction, cardExpiryCheck=$cardExpiryCheck, additionalProperties=$additionalProperties}"
     }
 
+    /** Merchant information for the simulated transaction */
     class Merchant
     private constructor(
         private val id: JsonField<String>,
@@ -910,6 +928,7 @@ private constructor(
             "Merchant{id=$id, country=$country, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
     }
 
+    /** Transaction details for the simulation */
     class Transaction
     private constructor(
         private val amount: JsonField<Long>,

@@ -150,7 +150,7 @@ internal class TokenizationServiceTest {
             tokenizationService.updateDigitalCardArt(
                 TokenizationUpdateDigitalCardArtParams.builder()
                     .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                     .build()
             )
 
