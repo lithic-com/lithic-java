@@ -15,12 +15,14 @@ import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2ReportParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
+import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.V2ApplyResponse
 import com.lithic.api.models.V2CreateResponse
 import com.lithic.api.models.V2DraftResponse
 import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
+import com.lithic.api.models.V2RetrieveReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
@@ -279,11 +281,12 @@ interface V2ServiceAsync {
         promote(authRuleToken, AuthRuleV2PromoteParams.none(), requestOptions)
 
     /**
-     * Requests a performance report of an Auth rule to be asynchronously generated. Reports can
-     * only be run on rules in draft or active mode and will included approved and declined
-     * statistics as well as examples. The generated report will be delivered asynchronously through
-     * a webhook with `event_type` = `auth_rules.performance_report.created`. See the docs on
-     * setting up [webhook subscriptions](https://docs.lithic.com/docs/events-api).
+     * This endpoint is deprecated and will be removed in the future. Requests a performance report
+     * of an Auth rule to be asynchronously generated. Reports can only be run on rules in draft or
+     * active mode and will included approved and declined statistics as well as examples. The
+     * generated report will be delivered asynchronously through a webhook with `event_type` =
+     * `auth_rules.performance_report.created`. See the docs on setting up
+     * [webhook subscriptions](https://docs.lithic.com/docs/events-api).
      *
      * Reports are generated based on data collected by Lithic's processing system in the trailing
      * week. The performance of the auth rule will be assessed on the configuration of the auth rule
@@ -323,10 +326,12 @@ interface V2ServiceAsync {
      * processing systems have processed the transaction, and when a transaction will be included in
      * the report.
      */
+    @Deprecated("deprecated")
     fun report(authRuleToken: String): CompletableFuture<V2ReportResponse> =
         report(authRuleToken, AuthRuleV2ReportParams.none())
 
     /** @see [report] */
+    @Deprecated("deprecated")
     fun report(
         authRuleToken: String,
         params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
@@ -335,27 +340,69 @@ interface V2ServiceAsync {
         report(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
     /** @see [report] */
+    @Deprecated("deprecated")
     fun report(
         authRuleToken: String,
         params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
     ): CompletableFuture<V2ReportResponse> = report(authRuleToken, params, RequestOptions.none())
 
     /** @see [report] */
+    @Deprecated("deprecated")
     fun report(
         params: AuthRuleV2ReportParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2ReportResponse>
 
     /** @see [report] */
+    @Deprecated("deprecated")
     fun report(params: AuthRuleV2ReportParams): CompletableFuture<V2ReportResponse> =
         report(params, RequestOptions.none())
 
     /** @see [report] */
+    @Deprecated("deprecated")
     fun report(
         authRuleToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<V2ReportResponse> =
         report(authRuleToken, AuthRuleV2ReportParams.none(), requestOptions)
+
+    /**
+     * Retrieves a performance report for an Auth rule containing daily statistics and evaluation
+     * outcomes.
+     *
+     * **Time Range Limitations:**
+     * - Reports are supported for the past 3 months only
+     * - Maximum interval length is 1 month
+     * - Report data is available only through the previous day in UTC (current day data is not
+     *   available)
+     *
+     * The report provides daily statistics for both current and draft versions of the Auth rule,
+     * including approval, decline, and challenge counts along with sample events.
+     */
+    fun retrieveReport(
+        authRuleToken: String,
+        params: AuthRuleV2RetrieveReportParams,
+    ): CompletableFuture<V2RetrieveReportResponse> =
+        retrieveReport(authRuleToken, params, RequestOptions.none())
+
+    /** @see [retrieveReport] */
+    fun retrieveReport(
+        authRuleToken: String,
+        params: AuthRuleV2RetrieveReportParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<V2RetrieveReportResponse> =
+        retrieveReport(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+    /** @see [retrieveReport] */
+    fun retrieveReport(
+        params: AuthRuleV2RetrieveReportParams
+    ): CompletableFuture<V2RetrieveReportResponse> = retrieveReport(params, RequestOptions.none())
+
+    /** @see [retrieveReport] */
+    fun retrieveReport(
+        params: AuthRuleV2RetrieveReportParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<V2RetrieveReportResponse>
 
     /** A view of [V2ServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -640,10 +687,12 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/report`, but is
          * otherwise the same as [V2ServiceAsync.report].
          */
+        @Deprecated("deprecated")
         fun report(authRuleToken: String): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(authRuleToken, AuthRuleV2ReportParams.none())
 
         /** @see [report] */
+        @Deprecated("deprecated")
         fun report(
             authRuleToken: String,
             params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
@@ -652,6 +701,7 @@ interface V2ServiceAsync {
             report(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
         /** @see [report] */
+        @Deprecated("deprecated")
         fun report(
             authRuleToken: String,
             params: AuthRuleV2ReportParams = AuthRuleV2ReportParams.none(),
@@ -659,22 +709,55 @@ interface V2ServiceAsync {
             report(authRuleToken, params, RequestOptions.none())
 
         /** @see [report] */
+        @Deprecated("deprecated")
         fun report(
             params: AuthRuleV2ReportParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>>
 
         /** @see [report] */
+        @Deprecated("deprecated")
         fun report(
             params: AuthRuleV2ReportParams
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(params, RequestOptions.none())
 
         /** @see [report] */
+        @Deprecated("deprecated")
         fun report(
             authRuleToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(authRuleToken, AuthRuleV2ReportParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}/report`, but is
+         * otherwise the same as [V2ServiceAsync.retrieveReport].
+         */
+        fun retrieveReport(
+            authRuleToken: String,
+            params: AuthRuleV2RetrieveReportParams,
+        ): CompletableFuture<HttpResponseFor<V2RetrieveReportResponse>> =
+            retrieveReport(authRuleToken, params, RequestOptions.none())
+
+        /** @see [retrieveReport] */
+        fun retrieveReport(
+            authRuleToken: String,
+            params: AuthRuleV2RetrieveReportParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveReportResponse>> =
+            retrieveReport(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+        /** @see [retrieveReport] */
+        fun retrieveReport(
+            params: AuthRuleV2RetrieveReportParams
+        ): CompletableFuture<HttpResponseFor<V2RetrieveReportResponse>> =
+            retrieveReport(params, RequestOptions.none())
+
+        /** @see [retrieveReport] */
+        fun retrieveReport(
+            params: AuthRuleV2RetrieveReportParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveReportResponse>>
     }
 }

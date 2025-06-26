@@ -2202,6 +2202,7 @@ private constructor(
         private val returnReasonCode: JsonField<String>,
         private val secCode: JsonField<SecCode>,
         private val traceNumbers: JsonField<List<String?>>,
+        private val addenda: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -2223,6 +2224,7 @@ private constructor(
             @JsonProperty("trace_numbers")
             @ExcludeMissing
             traceNumbers: JsonField<List<String?>> = JsonMissing.of(),
+            @JsonProperty("addenda") @ExcludeMissing addenda: JsonField<String> = JsonMissing.of(),
         ) : this(
             companyId,
             receiptRoutingNumber,
@@ -2230,6 +2232,7 @@ private constructor(
             returnReasonCode,
             secCode,
             traceNumbers,
+            addenda,
             mutableMapOf(),
         )
 
@@ -2270,6 +2273,12 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun traceNumbers(): List<String?> = traceNumbers.getRequired("trace_numbers")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun addenda(): Optional<String> = addenda.getOptional("addenda")
 
         /**
          * Returns the raw JSON value of [companyId].
@@ -2322,6 +2331,13 @@ private constructor(
         @ExcludeMissing
         fun _traceNumbers(): JsonField<List<String?>> = traceNumbers
 
+        /**
+         * Returns the raw JSON value of [addenda].
+         *
+         * Unlike [addenda], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("addenda") @ExcludeMissing fun _addenda(): JsonField<String> = addenda
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -2361,6 +2377,7 @@ private constructor(
             private var returnReasonCode: JsonField<String>? = null
             private var secCode: JsonField<SecCode>? = null
             private var traceNumbers: JsonField<MutableList<String?>>? = null
+            private var addenda: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -2371,6 +2388,7 @@ private constructor(
                 returnReasonCode = paymentMethodAttributes.returnReasonCode
                 secCode = paymentMethodAttributes.secCode
                 traceNumbers = paymentMethodAttributes.traceNumbers.map { it.toMutableList() }
+                addenda = paymentMethodAttributes.addenda
                 additionalProperties = paymentMethodAttributes.additionalProperties.toMutableMap()
             }
 
@@ -2486,6 +2504,20 @@ private constructor(
                     }
             }
 
+            fun addenda(addenda: String?) = addenda(JsonField.ofNullable(addenda))
+
+            /** Alias for calling [Builder.addenda] with `addenda.orElse(null)`. */
+            fun addenda(addenda: Optional<String>) = addenda(addenda.getOrNull())
+
+            /**
+             * Sets [Builder.addenda] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.addenda] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun addenda(addenda: JsonField<String>) = apply { this.addenda = addenda }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -2530,6 +2562,7 @@ private constructor(
                     checkRequired("returnReasonCode", returnReasonCode),
                     checkRequired("secCode", secCode),
                     checkRequired("traceNumbers", traceNumbers).map { it.toImmutable() },
+                    addenda,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -2547,6 +2580,7 @@ private constructor(
             returnReasonCode()
             secCode().validate()
             traceNumbers()
+            addenda()
             validated = true
         }
 
@@ -2572,7 +2606,8 @@ private constructor(
                 (if (returnReasonCode.asKnown().isPresent) 1 else 0) +
                 (secCode.asKnown().getOrNull()?.validity() ?: 0) +
                 (traceNumbers.asKnown().getOrNull()?.sumOf { (if (it == null) 0 else 1).toInt() }
-                    ?: 0)
+                    ?: 0) +
+                (if (addenda.asKnown().isPresent) 1 else 0)
 
         class SecCode @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -2715,17 +2750,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentMethodAttributes && companyId == other.companyId && receiptRoutingNumber == other.receiptRoutingNumber && retries == other.retries && returnReasonCode == other.returnReasonCode && secCode == other.secCode && traceNumbers == other.traceNumbers && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PaymentMethodAttributes && companyId == other.companyId && receiptRoutingNumber == other.receiptRoutingNumber && retries == other.retries && returnReasonCode == other.returnReasonCode && secCode == other.secCode && traceNumbers == other.traceNumbers && addenda == other.addenda && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(companyId, receiptRoutingNumber, retries, returnReasonCode, secCode, traceNumbers, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(companyId, receiptRoutingNumber, retries, returnReasonCode, secCode, traceNumbers, addenda, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, traceNumbers=$traceNumbers, additionalProperties=$additionalProperties}"
+            "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, traceNumbers=$traceNumbers, addenda=$addenda, additionalProperties=$additionalProperties}"
     }
 
     /**

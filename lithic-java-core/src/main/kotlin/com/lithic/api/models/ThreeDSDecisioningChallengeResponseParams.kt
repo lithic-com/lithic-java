@@ -9,7 +9,12 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
-/** Card program's response to a 3DS Challenge Request (CReq) */
+/**
+ * Card program's response to a 3DS Challenge Request. Challenge Request is emitted as a webhook
+ * [three_ds_authentication.challenge](https://docs.lithic.com/reference/post_three-ds-authentication-challenge)
+ * and your Card Program needs to be configured with Out of Band (OOB) Challenges in order to
+ * receive it (see https://docs.lithic.com/docs/3ds-challenge-flow for more information).
+ */
 class ThreeDSDecisioningChallengeResponseParams
 private constructor(
     private val challengeResponse: ChallengeResponse,
@@ -17,6 +22,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /** Response from Card Program to a 3DS Authentication challenge */
     fun challengeResponse(): ChallengeResponse = challengeResponse
 
     fun _additionalBodyProperties(): Map<String, JsonValue> =
@@ -60,6 +66,7 @@ private constructor(
                 threeDSDecisioningChallengeResponseParams.additionalQueryParams.toBuilder()
         }
 
+        /** Response from Card Program to a 3DS Authentication challenge */
         fun challengeResponse(challengeResponse: ChallengeResponse) = apply {
             this.challengeResponse = challengeResponse
         }

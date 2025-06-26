@@ -27,8 +27,7 @@ private constructor(
     ) : this(token, mutableMapOf())
 
     /**
-     * A unique token to reference this transaction with later calls to void or clear the
-     * authorization.
+     * Globally unique identifier for the 3DS authentication.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -76,10 +75,7 @@ private constructor(
                 authenticationSimulateResponse.additionalProperties.toMutableMap()
         }
 
-        /**
-         * A unique token to reference this transaction with later calls to void or clear the
-         * authorization.
-         */
+        /** Globally unique identifier for the 3DS authentication. */
         fun token(token: String) = token(JsonField.of(token))
 
         /**

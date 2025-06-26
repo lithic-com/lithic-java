@@ -23,7 +23,7 @@ internal class AuthenticationRetrieveResponseTest {
                     AuthenticationRetrieveResponse.Cardholder.builder()
                         .addressMatch(true)
                         .billingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                            AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -38,7 +38,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .phoneNumberMobile("x")
                         .phoneNumberWork("x")
                         .shippingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                            AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -115,6 +115,7 @@ internal class AuthenticationRetrieveResponseTest {
                 )
                 .browser(
                     AuthenticationRetrieveResponse.Browser.builder()
+                        .acceptHeader("accept_header")
                         .ip("ip")
                         .javaEnabled(true)
                         .javascriptEnabled(true)
@@ -134,7 +135,7 @@ internal class AuthenticationRetrieveResponseTest {
                 .challengeOrchestratedBy(
                     AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
                 )
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
+                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
                 .threeRiRequestType(
                     AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
                 )
@@ -165,7 +166,7 @@ internal class AuthenticationRetrieveResponseTest {
                 AuthenticationRetrieveResponse.Cardholder.builder()
                     .addressMatch(true)
                     .billingAddress(
-                        AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                        AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                             .address1("address1")
                             .address2("address2")
                             .address3("address3")
@@ -180,7 +181,7 @@ internal class AuthenticationRetrieveResponseTest {
                     .phoneNumberMobile("x")
                     .phoneNumberWork("x")
                     .shippingAddress(
-                        AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                        AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
                             .address1("address1")
                             .address2("address2")
                             .address3("address3")
@@ -258,6 +259,7 @@ internal class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.browser())
             .contains(
                 AuthenticationRetrieveResponse.Browser.builder()
+                    .acceptHeader("accept_header")
                     .ip("ip")
                     .javaEnabled(true)
                     .javascriptEnabled(true)
@@ -276,7 +278,7 @@ internal class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.challengeOrchestratedBy())
             .contains(AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC)
         assertThat(authenticationRetrieveResponse.decisionMadeBy())
-            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
+            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
         assertThat(authenticationRetrieveResponse.threeRiRequestType())
             .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION)
         assertThat(authenticationRetrieveResponse.transaction())
@@ -306,7 +308,7 @@ internal class AuthenticationRetrieveResponseTest {
                     AuthenticationRetrieveResponse.Cardholder.builder()
                         .addressMatch(true)
                         .billingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                            AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -321,7 +323,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .phoneNumberMobile("x")
                         .phoneNumberWork("x")
                         .shippingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ThreeDSAddress.builder()
+                            AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -398,6 +400,7 @@ internal class AuthenticationRetrieveResponseTest {
                 )
                 .browser(
                     AuthenticationRetrieveResponse.Browser.builder()
+                        .acceptHeader("accept_header")
                         .ip("ip")
                         .javaEnabled(true)
                         .javascriptEnabled(true)
@@ -417,7 +420,7 @@ internal class AuthenticationRetrieveResponseTest {
                 .challengeOrchestratedBy(
                     AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
                 )
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
+                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
                 .threeRiRequestType(
                     AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
                 )

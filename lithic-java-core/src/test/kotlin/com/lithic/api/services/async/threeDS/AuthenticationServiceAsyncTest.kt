@@ -51,8 +51,8 @@ internal class AuthenticationServiceAsyncTest {
                     .pan("4111111289144142")
                     .transaction(
                         ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                            .amount(100L)
-                            .currency("USD")
+                            .amount(0L)
+                            .currency("GBP")
                             .build()
                     )
                     .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
