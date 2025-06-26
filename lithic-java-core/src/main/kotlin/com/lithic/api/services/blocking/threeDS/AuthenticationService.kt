@@ -89,9 +89,9 @@ interface AuthenticationService {
 
     /**
      * Endpoint for simulating entering OTP into 3DS Challenge UI. A call to
-     * /v1/three_ds_authentication/simulate that resulted in triggered SMS-OTP challenge must
-     * precede. Only a single attempt is supported; upon entering OTP, the challenge is either
-     * approved or declined.
+     * [/v1/three_ds_authentication/simulate](https://docs.lithic.com/reference/postsimulateauthentication)
+     * that resulted in triggered SMS-OTP challenge must precede. Only a single attempt is
+     * supported; upon entering OTP, the challenge is either approved or declined.
      */
     fun simulateOtpEntry(params: ThreeDSAuthenticationSimulateOtpEntryParams) =
         simulateOtpEntry(params, RequestOptions.none())

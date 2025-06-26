@@ -34,6 +34,7 @@ internal class PaymentServiceTest {
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                             .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                            .addenda("addenda")
                             .build()
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)

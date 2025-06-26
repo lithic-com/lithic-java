@@ -23,6 +23,7 @@ import com.lithic.api.services.async.EventServiceAsync
 import com.lithic.api.services.async.ExternalBankAccountServiceAsync
 import com.lithic.api.services.async.ExternalPaymentServiceAsync
 import com.lithic.api.services.async.FinancialAccountServiceAsync
+import com.lithic.api.services.async.FraudServiceAsync
 import com.lithic.api.services.async.FundingEventServiceAsync
 import com.lithic.api.services.async.ManagementOperationServiceAsync
 import com.lithic.api.services.async.PaymentServiceAsync
@@ -127,6 +128,8 @@ interface LithicClientAsync {
 
     fun fundingEvents(): FundingEventServiceAsync
 
+    fun fraud(): FraudServiceAsync
+
     /** Status of api */
     fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
 
@@ -221,6 +224,8 @@ interface LithicClientAsync {
         fun managementOperations(): ManagementOperationServiceAsync.WithRawResponse
 
         fun fundingEvents(): FundingEventServiceAsync.WithRawResponse
+
+        fun fraud(): FraudServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as

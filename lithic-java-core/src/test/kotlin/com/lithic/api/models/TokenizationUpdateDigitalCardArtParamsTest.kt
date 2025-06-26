@@ -11,7 +11,7 @@ internal class TokenizationUpdateDigitalCardArtParamsTest {
     fun create() {
         TokenizationUpdateDigitalCardArtParams.builder()
             .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
             .build()
     }
 
@@ -32,12 +32,12 @@ internal class TokenizationUpdateDigitalCardArtParamsTest {
         val params =
             TokenizationUpdateDigitalCardArtParams.builder()
                 .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .build()
 
         val body = params._body()
 
-        assertThat(body.digitalCardArtToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.digitalCardArtToken()).contains("00000000-0000-0000-1000-000000000000")
     }
 
     @Test

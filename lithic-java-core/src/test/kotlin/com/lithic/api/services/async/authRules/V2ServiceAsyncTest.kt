@@ -8,9 +8,11 @@ import com.lithic.api.models.AuthRuleCondition
 import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DraftParams
+import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.ConditionalAttribute
 import com.lithic.api.models.ConditionalBlockParameters
+import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -210,6 +212,28 @@ internal class V2ServiceAsyncTest {
         val v2ServiceAsync = client.authRules().v2()
 
         val responseFuture = v2ServiceAsync.report("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Test
+    fun retrieveReport() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val v2ServiceAsync = client.authRules().v2()
+
+        val responseFuture =
+            v2ServiceAsync.retrieveReport(
+                AuthRuleV2RetrieveReportParams.builder()
+                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .begin(LocalDate.parse("2019-12-27"))
+                    .end(LocalDate.parse("2019-12-27"))
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.validate()

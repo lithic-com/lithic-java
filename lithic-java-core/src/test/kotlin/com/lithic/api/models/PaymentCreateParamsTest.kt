@@ -17,6 +17,7 @@ internal class PaymentCreateParamsTest {
             .methodAttributes(
                 PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                    .addenda("addenda")
                     .build()
             )
             .type(PaymentCreateParams.Type.COLLECTION)
@@ -37,6 +38,7 @@ internal class PaymentCreateParamsTest {
                 .methodAttributes(
                     PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                         .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                        .addenda("addenda")
                         .build()
                 )
                 .type(PaymentCreateParams.Type.COLLECTION)
@@ -56,6 +58,7 @@ internal class PaymentCreateParamsTest {
             .isEqualTo(
                 PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                    .addenda("addenda")
                     .build()
             )
         assertThat(body.type()).isEqualTo(PaymentCreateParams.Type.COLLECTION)
