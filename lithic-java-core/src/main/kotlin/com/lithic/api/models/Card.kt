@@ -31,7 +31,7 @@ private constructor(
     private val lastFour: JsonField<String>,
     private val pinStatus: JsonField<NonPciCard.PinStatus>,
     private val spendLimit: JsonField<Long>,
-    private val spendLimitDuration: JsonField<NonPciCard.SpendLimitDuration>,
+    private val spendLimitDuration: JsonField<SpendLimitDuration>,
     private val state: JsonField<NonPciCard.State>,
     private val type: JsonField<NonPciCard.Type>,
     private val authRuleTokens: JsonField<List<String>>,
@@ -71,7 +71,7 @@ private constructor(
         @JsonProperty("spend_limit") @ExcludeMissing spendLimit: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("spend_limit_duration")
         @ExcludeMissing
-        spendLimitDuration: JsonField<NonPciCard.SpendLimitDuration> = JsonMissing.of(),
+        spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
         @JsonProperty("state")
         @ExcludeMissing
         state: JsonField<NonPciCard.State> = JsonMissing.of(),
@@ -216,12 +216,20 @@ private constructor(
     fun spendLimit(): Long = spendLimit.getRequired("spend_limit")
 
     /**
-     * Spend limit duration
+     * Spend limit duration values:
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     *   support recurring monthly payments, which can occur on different day every month, the time
+     *   window we consider for monthly velocity starts 6 days after the current calendar date one
+     *   month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     *   under the spend limit.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun spendLimitDuration(): NonPciCard.SpendLimitDuration =
+    fun spendLimitDuration(): SpendLimitDuration =
         spendLimitDuration.getRequired("spend_limit_duration")
 
     /**
@@ -440,7 +448,7 @@ private constructor(
      */
     @JsonProperty("spend_limit_duration")
     @ExcludeMissing
-    fun _spendLimitDuration(): JsonField<NonPciCard.SpendLimitDuration> = spendLimitDuration
+    fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
     /**
      * Returns the raw JSON value of [state].
@@ -599,7 +607,7 @@ private constructor(
         private var lastFour: JsonField<String>? = null
         private var pinStatus: JsonField<NonPciCard.PinStatus>? = null
         private var spendLimit: JsonField<Long>? = null
-        private var spendLimitDuration: JsonField<NonPciCard.SpendLimitDuration>? = null
+        private var spendLimitDuration: JsonField<SpendLimitDuration>? = null
         private var state: JsonField<NonPciCard.State>? = null
         private var type: JsonField<NonPciCard.Type>? = null
         private var authRuleTokens: JsonField<MutableList<String>>? = null
@@ -752,21 +760,31 @@ private constructor(
          */
         fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
-        /** Spend limit duration */
-        fun spendLimitDuration(spendLimitDuration: NonPciCard.SpendLimitDuration) =
+        /**
+         * Spend limit duration values:
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         *   card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
+         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         *   transaction is under the spend limit.
+         */
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
             spendLimitDuration(JsonField.of(spendLimitDuration))
 
         /**
          * Sets [Builder.spendLimitDuration] to an arbitrary JSON value.
          *
          * You should usually call [Builder.spendLimitDuration] with a well-typed
-         * [NonPciCard.SpendLimitDuration] value instead. This method is primarily for setting the
-         * field to an undocumented or not yet supported value.
+         * [SpendLimitDuration] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
          */
-        fun spendLimitDuration(spendLimitDuration: JsonField<NonPciCard.SpendLimitDuration>) =
-            apply {
-                this.spendLimitDuration = spendLimitDuration
-            }
+        fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
+            this.spendLimitDuration = spendLimitDuration
+        }
 
         /**
          * Card state values: _ `CLOSED` - Card will no longer approve authorizations. Closing a
