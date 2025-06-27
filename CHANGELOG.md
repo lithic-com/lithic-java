@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.94.0 (2025-06-27)
+
+Full Changelog: [v0.93.0...v0.94.0](https://github.com/lithic-com/lithic-java/compare/v0.93.0...v0.94.0)
+
+### Features
+
+* **api:** introduce dedicated model for SpendLimitDuration ([48444d4](https://github.com/lithic-com/lithic-java/commit/48444d4d52a1f1d963b7a1520886529ffbd80a26))
+* **client:** adds support for on-demand Auth Rule Performance Reports ([66d5cd0](https://github.com/lithic-com/lithic-java/commit/66d5cd0a89266de35f2326d579357cc4190fc20c))
+
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([1c7b405](https://github.com/lithic-com/lithic-java/commit/1c7b405338adfb8e8f7cf875ed3d6c8c03274e02))
+
+
+### Chores
+
+* **internal:** manual updates ([806eca4](https://github.com/lithic-com/lithic-java/commit/806eca42328cfaabcb56c1b4040b77f83f882884))
+
 ## 0.93.0 (2025-06-23)
 
 Full Changelog: [v0.92.0...v0.93.0](https://github.com/lithic-com/lithic-java/compare/v0.92.0...v0.93.0)
