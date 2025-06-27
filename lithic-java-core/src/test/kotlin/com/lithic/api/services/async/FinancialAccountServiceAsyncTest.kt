@@ -123,10 +123,10 @@ internal class FinancialAccountServiceAsyncTest {
             financialAccountServiceAsync.updateStatus(
                 FinancialAccountUpdateStatusParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+                    .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
                     .substatus(
                         FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
-                            .END_USER_REQUEST
+                            .CHARGED_OFF_FRAUD
                     )
                     .build()
             )

@@ -14,7 +14,7 @@ internal class SettlementReportTest {
     fun create() {
         val settlementReport =
             SettlementReport.builder()
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .currency("USD")
                 .addDetail(
                     SettlementSummaryDetails.builder()
@@ -35,11 +35,11 @@ internal class SettlementReportTest {
                 .reportDate("2023-06-01")
                 .settledNetAmount(1893L)
                 .transactionsGrossAmount(1900L)
-                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .build()
 
         assertThat(settlementReport.created())
-            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
         assertThat(settlementReport.currency()).isEqualTo("USD")
         assertThat(settlementReport.details())
             .containsExactly(
@@ -62,7 +62,7 @@ internal class SettlementReportTest {
         assertThat(settlementReport.settledNetAmount()).isEqualTo(1893L)
         assertThat(settlementReport.transactionsGrossAmount()).isEqualTo(1900L)
         assertThat(settlementReport.updated())
-            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
     }
 
     @Test
@@ -70,7 +70,7 @@ internal class SettlementReportTest {
         val jsonMapper = jsonMapper()
         val settlementReport =
             SettlementReport.builder()
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .currency("USD")
                 .addDetail(
                     SettlementSummaryDetails.builder()
@@ -91,7 +91,7 @@ internal class SettlementReportTest {
                 .reportDate("2023-06-01")
                 .settledNetAmount(1893L)
                 .transactionsGrossAmount(1900L)
-                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .build()
 
         val roundtrippedSettlementReport =

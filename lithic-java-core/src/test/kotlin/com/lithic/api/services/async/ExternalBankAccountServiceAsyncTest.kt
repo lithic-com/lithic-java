@@ -33,35 +33,35 @@ internal class ExternalBankAccountServiceAsyncTest {
                     .body(
                         ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
                             .builder()
-                            .accountNumber("13719713158835300")
-                            .country("USA")
+                            .accountNumber("12345678901234567")
+                            .country("USD")
                             .currency("USD")
                             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .owner("John Doe")
-                            .ownerType(OwnerType.BUSINESS)
-                            .routingNumber("011103093")
+                            .owner("owner")
+                            .ownerType(OwnerType.INDIVIDUAL)
+                            .routingNumber("123456789")
                             .type(
                                 ExternalBankAccountCreateParams.Body
                                     .BankVerifiedCreateBankAccountApiRequest
                                     .AccountType
                                     .CHECKING
                             )
-                            .verificationMethod(VerificationMethod.MICRO_DEPOSIT)
+                            .verificationMethod(VerificationMethod.MANUAL)
                             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .address(
                                 ExternalBankAccountAddress.builder()
-                                    .address1("5 Broad Street")
-                                    .city("New York")
-                                    .country("USA")
-                                    .postalCode("10001")
-                                    .state("NY")
+                                    .address1("x")
+                                    .city("x")
+                                    .country("USD")
+                                    .postalCode("11201")
+                                    .state("xx")
                                     .address2("x")
                                     .build()
                             )
                             .companyId("sq")
                             .dob(LocalDate.parse("2019-12-27"))
                             .doingBusinessAs("x")
-                            .name("John Does Checking")
+                            .name("name")
                             .userDefinedId("x")
                             .verificationEnforcement(true)
                             .build()
