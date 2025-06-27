@@ -11,9 +11,9 @@ internal class FinancialAccountUpdateStatusParamsTest {
     fun create() {
         FinancialAccountUpdateStatusParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+            .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
             .substatus(
-                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.END_USER_REQUEST
+                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.CHARGED_OFF_FRAUD
             )
             .build()
     }
@@ -23,10 +23,10 @@ internal class FinancialAccountUpdateStatusParamsTest {
         val params =
             FinancialAccountUpdateStatusParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+                .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
                 .substatus(
                     FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
-                        .END_USER_REQUEST
+                        .CHARGED_OFF_FRAUD
                 )
                 .build()
 
@@ -40,20 +40,20 @@ internal class FinancialAccountUpdateStatusParamsTest {
         val params =
             FinancialAccountUpdateStatusParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+                .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
                 .substatus(
                     FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
-                        .END_USER_REQUEST
+                        .CHARGED_OFF_FRAUD
                 )
                 .build()
 
         val body = params._body()
 
         assertThat(body.status())
-            .isEqualTo(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+            .isEqualTo(FinancialAccountUpdateStatusParams.FinancialAccountStatus.OPEN)
         assertThat(body.substatus())
             .contains(
-                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.END_USER_REQUEST
+                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.CHARGED_OFF_FRAUD
             )
     }
 }
