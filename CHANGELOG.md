@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.94.1 (2025-06-29)
+
+Full Changelog: [v0.94.0...v0.94.1](https://github.com/lithic-com/lithic-java/compare/v0.94.0...v0.94.1)
+
+### Bug Fixes
+
+* **client:** don't close client on `withOptions` usage when original is gc'd ([17178c0](https://github.com/lithic-com/lithic-java/commit/17178c0dd0bd4c502f313014e6029b6df04090c5))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([93f11e2](https://github.com/lithic-com/lithic-java/commit/93f11e24c131b1aeee9e8429eb2a681c46974a99))
+
 ## 0.94.0 (2025-06-27)
 
 Full Changelog: [v0.93.0...v0.94.0](https://github.com/lithic-com/lithic-java/compare/v0.93.0...v0.94.0)
