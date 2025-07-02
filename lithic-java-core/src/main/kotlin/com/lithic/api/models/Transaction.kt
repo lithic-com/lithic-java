@@ -7659,6 +7659,7 @@ private constructor(
         private val result: JsonField<DeclineResult>,
         private val ruleResults: JsonField<List<RuleResult>>,
         private val type: JsonField<Type>,
+        private val accountType: JsonField<Type>,
         private val networkSpecificData: JsonField<NetworkSpecificData>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -7689,6 +7690,9 @@ private constructor(
             @ExcludeMissing
             ruleResults: JsonField<List<RuleResult>> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            @JsonProperty("account_type")
+            @ExcludeMissing
+            accountType: JsonField<Type> = JsonMissing.of(),
             @JsonProperty("network_specific_data")
             @ExcludeMissing
             networkSpecificData: JsonField<NetworkSpecificData> = JsonMissing.of(),
@@ -7703,6 +7707,7 @@ private constructor(
             result,
             ruleResults,
             type,
+            accountType,
             networkSpecificData,
             mutableMapOf(),
         )
@@ -7787,6 +7792,12 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun type(): Type = type.getRequired("type")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun accountType(): Optional<Type> = accountType.getOptional("account_type")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -7881,6 +7892,15 @@ private constructor(
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /**
+         * Returns the raw JSON value of [accountType].
+         *
+         * Unlike [accountType], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("account_type")
+        @ExcludeMissing
+        fun _accountType(): JsonField<Type> = accountType
+
+        /**
          * Returns the raw JSON value of [networkSpecificData].
          *
          * Unlike [networkSpecificData], this method doesn't throw if the JSON field has an
@@ -7937,6 +7957,7 @@ private constructor(
             private var result: JsonField<DeclineResult>? = null
             private var ruleResults: JsonField<MutableList<RuleResult>>? = null
             private var type: JsonField<Type>? = null
+            private var accountType: JsonField<Type> = JsonMissing.of()
             private var networkSpecificData: JsonField<NetworkSpecificData> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -7952,6 +7973,7 @@ private constructor(
                 result = transactionEvent.result
                 ruleResults = transactionEvent.ruleResults.map { it.toMutableList() }
                 type = transactionEvent.type
+                accountType = transactionEvent.accountType
                 networkSpecificData = transactionEvent.networkSpecificData
                 additionalProperties = transactionEvent.additionalProperties.toMutableMap()
             }
@@ -8124,6 +8146,17 @@ private constructor(
              */
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
+            fun accountType(accountType: Type) = accountType(JsonField.of(accountType))
+
+            /**
+             * Sets [Builder.accountType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountType] with a well-typed [Type] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun accountType(accountType: JsonField<Type>) = apply { this.accountType = accountType }
+
             fun networkSpecificData(networkSpecificData: NetworkSpecificData) =
                 networkSpecificData(JsonField.of(networkSpecificData))
 
@@ -8190,6 +8223,7 @@ private constructor(
                     checkRequired("result", result),
                     checkRequired("ruleResults", ruleResults).map { it.toImmutable() },
                     checkRequired("type", type),
+                    accountType,
                     networkSpecificData,
                     additionalProperties.toMutableMap(),
                 )
@@ -8212,6 +8246,7 @@ private constructor(
             result().validate()
             ruleResults().forEach { it.validate() }
             type().validate()
+            accountType().ifPresent { it.validate() }
             networkSpecificData().ifPresent { it.validate() }
             validated = true
         }
@@ -8242,6 +8277,7 @@ private constructor(
                 (result.asKnown().getOrNull()?.validity() ?: 0) +
                 (ruleResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0) +
+                (accountType.asKnown().getOrNull()?.validity() ?: 0) +
                 (networkSpecificData.asKnown().getOrNull()?.validity() ?: 0)
 
         class TransactionEventAmounts
@@ -12465,6 +12501,133 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val CHECKING = of("CHECKING")
+
+                @JvmField val SAVINGS = of("SAVINGS")
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            /** An enum containing [Type]'s known values. */
+            enum class Known {
+                CHECKING,
+                SAVINGS,
+            }
+
+            /**
+             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Type] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                CHECKING,
+                SAVINGS,
+                /** An enum member indicating that [Type] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    CHECKING -> Value.CHECKING
+                    SAVINGS -> Value.SAVINGS
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    CHECKING -> Known.CHECKING
+                    SAVINGS -> Known.SAVINGS
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Type = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         class NetworkSpecificData
         private constructor(
             private val mastercard: JsonField<MastercardNetworkSpecificData>,
@@ -13466,17 +13629,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && token == other.token && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && networkInfo == other.networkInfo && result == other.result && ruleResults == other.ruleResults && type == other.type && networkSpecificData == other.networkSpecificData && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && token == other.token && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && networkInfo == other.networkInfo && result == other.result && ruleResults == other.ruleResults && type == other.type && accountType == other.accountType && networkSpecificData == other.networkSpecificData && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, amounts, created, detailedResults, effectivePolarity, networkInfo, result, ruleResults, type, networkSpecificData, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, amount, amounts, created, detailedResults, effectivePolarity, networkInfo, result, ruleResults, type, accountType, networkSpecificData, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionEvent{token=$token, amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, networkInfo=$networkInfo, result=$result, ruleResults=$ruleResults, type=$type, networkSpecificData=$networkSpecificData, additionalProperties=$additionalProperties}"
+            "TransactionEvent{token=$token, amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, networkInfo=$networkInfo, result=$result, ruleResults=$ruleResults, type=$type, accountType=$accountType, networkSpecificData=$networkSpecificData, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
