@@ -27,6 +27,7 @@ private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
     private val institutionId: JsonField<String>,
+    private val isComplete: JsonField<Boolean>,
     private val network: JsonField<Network>,
     private val reportDate: JsonField<LocalDate>,
     private val settlementInstitutionId: JsonField<String>,
@@ -47,6 +48,9 @@ private constructor(
         @JsonProperty("institution_id")
         @ExcludeMissing
         institutionId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("is_complete")
+        @ExcludeMissing
+        isComplete: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("network") @ExcludeMissing network: JsonField<Network> = JsonMissing.of(),
         @JsonProperty("report_date")
         @ExcludeMissing
@@ -67,6 +71,7 @@ private constructor(
         created,
         currency,
         institutionId,
+        isComplete,
         network,
         reportDate,
         settlementInstitutionId,
@@ -116,7 +121,16 @@ private constructor(
     fun institutionId(): String = institutionId.getRequired("institution_id")
 
     /**
-     * Card network where the transaction took place. VISA, MASTERCARD, MAESTRO, or INTERLINK.
+     * Indicates that all settlement records related to this Network Total are available in the
+     * details endpoint.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun isComplete(): Boolean = isComplete.getRequired("is_complete")
+
+    /**
+     * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or INTERLINK.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -203,6 +217,13 @@ private constructor(
     fun _institutionId(): JsonField<String> = institutionId
 
     /**
+     * Returns the raw JSON value of [isComplete].
+     *
+     * Unlike [isComplete], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("is_complete") @ExcludeMissing fun _isComplete(): JsonField<Boolean> = isComplete
+
+    /**
      * Returns the raw JSON value of [network].
      *
      * Unlike [network], this method doesn't throw if the JSON field has an unexpected type.
@@ -276,6 +297,7 @@ private constructor(
          * .created()
          * .currency()
          * .institutionId()
+         * .isComplete()
          * .network()
          * .reportDate()
          * .settlementInstitutionId()
@@ -294,6 +316,7 @@ private constructor(
         private var created: JsonField<OffsetDateTime>? = null
         private var currency: JsonField<String>? = null
         private var institutionId: JsonField<String>? = null
+        private var isComplete: JsonField<Boolean>? = null
         private var network: JsonField<Network>? = null
         private var reportDate: JsonField<LocalDate>? = null
         private var settlementInstitutionId: JsonField<String>? = null
@@ -309,6 +332,7 @@ private constructor(
             created = networkTotalListResponse.created
             currency = networkTotalListResponse.currency
             institutionId = networkTotalListResponse.institutionId
+            isComplete = networkTotalListResponse.isComplete
             network = networkTotalListResponse.network
             reportDate = networkTotalListResponse.reportDate
             settlementInstitutionId = networkTotalListResponse.settlementInstitutionId
@@ -381,7 +405,23 @@ private constructor(
         }
 
         /**
-         * Card network where the transaction took place. VISA, MASTERCARD, MAESTRO, or INTERLINK.
+         * Indicates that all settlement records related to this Network Total are available in the
+         * details endpoint.
+         */
+        fun isComplete(isComplete: Boolean) = isComplete(JsonField.of(isComplete))
+
+        /**
+         * Sets [Builder.isComplete] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isComplete] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
+
+        /**
+         * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or
+         * INTERLINK.
          */
         fun network(network: Network) = network(JsonField.of(network))
 
@@ -492,6 +532,7 @@ private constructor(
          * .created()
          * .currency()
          * .institutionId()
+         * .isComplete()
          * .network()
          * .reportDate()
          * .settlementInstitutionId()
@@ -508,6 +549,7 @@ private constructor(
                 checkRequired("created", created),
                 checkRequired("currency", currency),
                 checkRequired("institutionId", institutionId),
+                checkRequired("isComplete", isComplete),
                 checkRequired("network", network),
                 checkRequired("reportDate", reportDate),
                 checkRequired("settlementInstitutionId", settlementInstitutionId),
@@ -530,6 +572,7 @@ private constructor(
         created()
         currency()
         institutionId()
+        isComplete()
         network().validate()
         reportDate()
         settlementInstitutionId()
@@ -559,6 +602,7 @@ private constructor(
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (currency.asKnown().isPresent) 1 else 0) +
             (if (institutionId.asKnown().isPresent) 1 else 0) +
+            (if (isComplete.asKnown().isPresent) 1 else 0) +
             (network.asKnown().getOrNull()?.validity() ?: 0) +
             (if (reportDate.asKnown().isPresent) 1 else 0) +
             (if (settlementInstitutionId.asKnown().isPresent) 1 else 0) +
@@ -863,7 +907,9 @@ private constructor(
             "Amounts{grossSettlement=$grossSettlement, interchangeFees=$interchangeFees, netSettlement=$netSettlement, visaCharges=$visaCharges, additionalProperties=$additionalProperties}"
     }
 
-    /** Card network where the transaction took place. VISA, MASTERCARD, MAESTRO, or INTERLINK. */
+    /**
+     * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or INTERLINK.
+     */
     class Network @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -878,6 +924,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val AMEX = of("AMEX")
+
             @JvmField val VISA = of("VISA")
 
             @JvmField val MASTERCARD = of("MASTERCARD")
@@ -891,6 +939,7 @@ private constructor(
 
         /** An enum containing [Network]'s known values. */
         enum class Known {
+            AMEX,
             VISA,
             MASTERCARD,
             MAESTRO,
@@ -907,6 +956,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            AMEX,
             VISA,
             MASTERCARD,
             MAESTRO,
@@ -924,6 +974,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                AMEX -> Value.AMEX
                 VISA -> Value.VISA
                 MASTERCARD -> Value.MASTERCARD
                 MAESTRO -> Value.MAESTRO
@@ -942,6 +993,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                AMEX -> Known.AMEX
                 VISA -> Known.VISA
                 MASTERCARD -> Known.MASTERCARD
                 MAESTRO -> Known.MAESTRO
@@ -1006,15 +1058,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is NetworkTotalListResponse && token == other.token && amounts == other.amounts && created == other.created && currency == other.currency && institutionId == other.institutionId && network == other.network && reportDate == other.reportDate && settlementInstitutionId == other.settlementInstitutionId && settlementService == other.settlementService && updated == other.updated && cycle == other.cycle && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is NetworkTotalListResponse && token == other.token && amounts == other.amounts && created == other.created && currency == other.currency && institutionId == other.institutionId && isComplete == other.isComplete && network == other.network && reportDate == other.reportDate && settlementInstitutionId == other.settlementInstitutionId && settlementService == other.settlementService && updated == other.updated && cycle == other.cycle && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, amounts, created, currency, institutionId, network, reportDate, settlementInstitutionId, settlementService, updated, cycle, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, amounts, created, currency, institutionId, isComplete, network, reportDate, settlementInstitutionId, settlementService, updated, cycle, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "NetworkTotalListResponse{token=$token, amounts=$amounts, created=$created, currency=$currency, institutionId=$institutionId, network=$network, reportDate=$reportDate, settlementInstitutionId=$settlementInstitutionId, settlementService=$settlementService, updated=$updated, cycle=$cycle, additionalProperties=$additionalProperties}"
+        "NetworkTotalListResponse{token=$token, amounts=$amounts, created=$created, currency=$currency, institutionId=$institutionId, isComplete=$isComplete, network=$network, reportDate=$reportDate, settlementInstitutionId=$settlementInstitutionId, settlementService=$settlementService, updated=$updated, cycle=$cycle, additionalProperties=$additionalProperties}"
 }
