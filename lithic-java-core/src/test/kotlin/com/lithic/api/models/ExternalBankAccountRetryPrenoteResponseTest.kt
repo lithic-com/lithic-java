@@ -24,7 +24,7 @@ internal class ExternalBankAccountRetryPrenoteResponseTest {
                 .ownerType(OwnerType.INDIVIDUAL)
                 .routingNumber("routing_number")
                 .state(ExternalBankAccountRetryPrenoteResponse.State.ENABLED)
-                .type(ExternalBankAccountRetryPrenoteResponse.Type.CHECKING)
+                .type(ExternalBankAccountRetryPrenoteResponse.AccountType.CHECKING)
                 .verificationAttempts(0L)
                 .verificationMethod(VerificationMethod.MANUAL)
                 .verificationState(
@@ -65,7 +65,7 @@ internal class ExternalBankAccountRetryPrenoteResponseTest {
         assertThat(externalBankAccountRetryPrenoteResponse.state())
             .isEqualTo(ExternalBankAccountRetryPrenoteResponse.State.ENABLED)
         assertThat(externalBankAccountRetryPrenoteResponse.type())
-            .isEqualTo(ExternalBankAccountRetryPrenoteResponse.Type.CHECKING)
+            .isEqualTo(ExternalBankAccountRetryPrenoteResponse.AccountType.CHECKING)
         assertThat(externalBankAccountRetryPrenoteResponse.verificationAttempts()).isEqualTo(0L)
         assertThat(externalBankAccountRetryPrenoteResponse.verificationMethod())
             .isEqualTo(VerificationMethod.MANUAL)
@@ -112,7 +112,7 @@ internal class ExternalBankAccountRetryPrenoteResponseTest {
                 .ownerType(OwnerType.INDIVIDUAL)
                 .routingNumber("routing_number")
                 .state(ExternalBankAccountRetryPrenoteResponse.State.ENABLED)
-                .type(ExternalBankAccountRetryPrenoteResponse.Type.CHECKING)
+                .type(ExternalBankAccountRetryPrenoteResponse.AccountType.CHECKING)
                 .verificationAttempts(0L)
                 .verificationMethod(VerificationMethod.MANUAL)
                 .verificationState(
