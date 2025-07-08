@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.95.1 (2025-07-08)
+
+Full Changelog: [v0.95.0...v0.95.1](https://github.com/lithic-com/lithic-java/compare/v0.95.0...v0.95.1)
+
+### Chores
+
+* **ci:** ensure docs generation always succeeds ([1bf367a](https://github.com/lithic-com/lithic-java/commit/1bf367a7cffe53272387316678edaa89035f2330))
+
 ## 0.95.0 (2025-07-08)
 
 Full Changelog: [v0.94.1...v0.95.0](https://github.com/lithic-com/lithic-java/compare/v0.94.1...v0.95.0)
