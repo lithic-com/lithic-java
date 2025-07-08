@@ -26,7 +26,7 @@ internal class ExternalBankAccountListPageResponseTest {
                         .ownerType(ExternalBankAccountListResponse.OwnerType.BUSINESS)
                         .routingNumber("routing_number")
                         .state(ExternalBankAccountListResponse.State.ENABLED)
-                        .type(ExternalBankAccountListResponse.Type.CHECKING)
+                        .type(ExternalBankAccountListResponse.AccountType.CHECKING)
                         .verificationAttempts(0L)
                         .verificationMethod(
                             ExternalBankAccountListResponse.VerificationMethod.MANUAL
@@ -69,7 +69,7 @@ internal class ExternalBankAccountListPageResponseTest {
                     .ownerType(ExternalBankAccountListResponse.OwnerType.BUSINESS)
                     .routingNumber("routing_number")
                     .state(ExternalBankAccountListResponse.State.ENABLED)
-                    .type(ExternalBankAccountListResponse.Type.CHECKING)
+                    .type(ExternalBankAccountListResponse.AccountType.CHECKING)
                     .verificationAttempts(0L)
                     .verificationMethod(ExternalBankAccountListResponse.VerificationMethod.MANUAL)
                     .verificationState(ExternalBankAccountListResponse.VerificationState.PENDING)
@@ -112,7 +112,7 @@ internal class ExternalBankAccountListPageResponseTest {
                         .ownerType(ExternalBankAccountListResponse.OwnerType.BUSINESS)
                         .routingNumber("routing_number")
                         .state(ExternalBankAccountListResponse.State.ENABLED)
-                        .type(ExternalBankAccountListResponse.Type.CHECKING)
+                        .type(ExternalBankAccountListResponse.AccountType.CHECKING)
                         .verificationAttempts(0L)
                         .verificationMethod(
                             ExternalBankAccountListResponse.VerificationMethod.MANUAL
