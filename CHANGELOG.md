@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.95.0 (2025-07-08)
+
+Full Changelog: [v0.94.1...v0.95.0](https://github.com/lithic-com/lithic-java/compare/v0.94.1...v0.95.0)
+
+### Features
+
+* **api:** add models for merchant_lock_parameters and conditional_3ds_action_parameters ([b59636c](https://github.com/lithic-com/lithic-java/commit/b59636c2cb89ade70cf550def6e9725bc1b12543))
+* **api:** api update ([e2c3beb](https://github.com/lithic-com/lithic-java/commit/e2c3beb77d4ad2fe19de8b912c2ed76cb18cfc4c))
+* **api:** api update ([18b0eaf](https://github.com/lithic-com/lithic-java/commit/18b0eafd592ef69be6a1908fad502beb11a85091))
+* **api:** api update ([999bba7](https://github.com/lithic-com/lithic-java/commit/999bba7db4343cf712dffde3201210a871772007))
+
+
+### Bug Fixes
+
+* **api:** name conflict between type and account type ([17cd5ef](https://github.com/lithic-com/lithic-java/commit/17cd5ef02e671bd45043c16dc447c6ce51af65e2))
+
+
+### Refactors
+
+* **internal:** minor `ClientOptionsTest` change ([017f196](https://github.com/lithic-com/lithic-java/commit/017f196c2c6801484b43f0ee54f2f5764ed22560))
+
 ## 0.94.1 (2025-06-29)
 
 Full Changelog: [v0.94.0...v0.94.1](https://github.com/lithic-com/lithic-java/compare/v0.94.0...v0.94.1)
