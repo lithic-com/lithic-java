@@ -607,6 +607,8 @@ private constructor(
 
             @JvmField val ACH_RECEIPT_SETTLED = of("ACH_RECEIPT_SETTLED")
 
+            @JvmField val ACH_RECEIPT_RELEASED = of("ACH_RECEIPT_RELEASED")
+
             @JvmField val ACH_RETURN_INITIATED = of("ACH_RETURN_INITIATED")
 
             @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
@@ -623,6 +625,7 @@ private constructor(
             ACH_ORIGINATION_PROCESSED,
             ACH_ORIGINATION_SETTLED,
             ACH_RECEIPT_SETTLED,
+            ACH_RECEIPT_RELEASED,
             ACH_RETURN_INITIATED,
             ACH_RETURN_PROCESSED,
             ACH_RETURN_SETTLED,
@@ -645,6 +648,7 @@ private constructor(
             ACH_ORIGINATION_PROCESSED,
             ACH_ORIGINATION_SETTLED,
             ACH_RECEIPT_SETTLED,
+            ACH_RECEIPT_RELEASED,
             ACH_RETURN_INITIATED,
             ACH_RETURN_PROCESSED,
             ACH_RETURN_SETTLED,
@@ -669,6 +673,7 @@ private constructor(
                 ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
                 ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                 ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
+                ACH_RECEIPT_RELEASED -> Value.ACH_RECEIPT_RELEASED
                 ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                 ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
                 ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
@@ -691,6 +696,7 @@ private constructor(
                 ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
                 ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                 ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
+                ACH_RECEIPT_RELEASED -> Known.ACH_RECEIPT_RELEASED
                 ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                 ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
                 ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED

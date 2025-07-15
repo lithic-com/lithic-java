@@ -26,6 +26,7 @@ import com.lithic.api.services.async.FinancialAccountServiceAsync
 import com.lithic.api.services.async.FraudServiceAsync
 import com.lithic.api.services.async.FundingEventServiceAsync
 import com.lithic.api.services.async.ManagementOperationServiceAsync
+import com.lithic.api.services.async.NetworkProgramServiceAsync
 import com.lithic.api.services.async.PaymentServiceAsync
 import com.lithic.api.services.async.ReportServiceAsync
 import com.lithic.api.services.async.ResponderEndpointServiceAsync
@@ -130,6 +131,8 @@ interface LithicClientAsync {
 
     fun fraud(): FraudServiceAsync
 
+    fun networkPrograms(): NetworkProgramServiceAsync
+
     /** Status of api */
     fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
 
@@ -226,6 +229,8 @@ interface LithicClientAsync {
         fun fundingEvents(): FundingEventServiceAsync.WithRawResponse
 
         fun fraud(): FraudServiceAsync.WithRawResponse
+
+        fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as

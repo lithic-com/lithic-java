@@ -27,6 +27,7 @@ import com.lithic.api.services.blocking.FinancialAccountService
 import com.lithic.api.services.blocking.FraudService
 import com.lithic.api.services.blocking.FundingEventService
 import com.lithic.api.services.blocking.ManagementOperationService
+import com.lithic.api.services.blocking.NetworkProgramService
 import com.lithic.api.services.blocking.PaymentService
 import com.lithic.api.services.blocking.ReportService
 import com.lithic.api.services.blocking.ResponderEndpointService
@@ -130,6 +131,8 @@ interface LithicClient {
 
     fun fraud(): FraudService
 
+    fun networkPrograms(): NetworkProgramService
+
     /** Status of api */
     fun apiStatus(): ApiStatus = apiStatus(ClientApiStatusParams.none())
 
@@ -223,6 +226,8 @@ interface LithicClient {
         fun fundingEvents(): FundingEventService.WithRawResponse
 
         fun fraud(): FraudService.WithRawResponse
+
+        fun networkPrograms(): NetworkProgramService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as

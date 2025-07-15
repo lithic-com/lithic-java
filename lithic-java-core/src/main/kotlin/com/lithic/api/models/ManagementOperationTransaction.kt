@@ -37,6 +37,7 @@ private constructor(
     private val status: JsonField<TransactionStatus>,
     private val transactionSeries: JsonField<TransactionSeries>,
     private val updated: JsonField<OffsetDateTime>,
+    private val externalResource: JsonField<ExternalResource>,
     private val userDefinedId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -78,6 +79,9 @@ private constructor(
         @JsonProperty("updated")
         @ExcludeMissing
         updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("external_resource")
+        @ExcludeMissing
+        externalResource: JsonField<ExternalResource> = JsonMissing.of(),
         @JsonProperty("user_defined_id")
         @ExcludeMissing
         userDefinedId: JsonField<String> = JsonMissing.of(),
@@ -95,6 +99,7 @@ private constructor(
         status,
         transactionSeries,
         updated,
+        externalResource,
         userDefinedId,
         mutableMapOf(),
     )
@@ -178,6 +183,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    /**
+     * External resource associated with the management operation
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun externalResource(): Optional<ExternalResource> =
+        externalResource.getOptional("external_resource")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -293,6 +307,16 @@ private constructor(
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     /**
+     * Returns the raw JSON value of [externalResource].
+     *
+     * Unlike [externalResource], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("external_resource")
+    @ExcludeMissing
+    fun _externalResource(): JsonField<ExternalResource> = externalResource
+
+    /**
      * Returns the raw JSON value of [userDefinedId].
      *
      * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected type.
@@ -355,6 +379,7 @@ private constructor(
         private var status: JsonField<TransactionStatus>? = null
         private var transactionSeries: JsonField<TransactionSeries>? = null
         private var updated: JsonField<OffsetDateTime>? = null
+        private var externalResource: JsonField<ExternalResource> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -373,6 +398,7 @@ private constructor(
             status = managementOperationTransaction.status
             transactionSeries = managementOperationTransaction.transactionSeries
             updated = managementOperationTransaction.updated
+            externalResource = managementOperationTransaction.externalResource
             userDefinedId = managementOperationTransaction.userDefinedId
             additionalProperties =
                 managementOperationTransaction.additionalProperties.toMutableMap()
@@ -551,6 +577,25 @@ private constructor(
          */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
+        /** External resource associated with the management operation */
+        fun externalResource(externalResource: ExternalResource?) =
+            externalResource(JsonField.ofNullable(externalResource))
+
+        /** Alias for calling [Builder.externalResource] with `externalResource.orElse(null)`. */
+        fun externalResource(externalResource: Optional<ExternalResource>) =
+            externalResource(externalResource.getOrNull())
+
+        /**
+         * Sets [Builder.externalResource] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalResource] with a well-typed [ExternalResource]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun externalResource(externalResource: JsonField<ExternalResource>) = apply {
+            this.externalResource = externalResource
+        }
+
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
         /**
@@ -622,6 +667,7 @@ private constructor(
                 checkRequired("status", status),
                 checkRequired("transactionSeries", transactionSeries),
                 checkRequired("updated", updated),
+                externalResource,
                 userDefinedId,
                 additionalProperties.toMutableMap(),
             )
@@ -647,6 +693,7 @@ private constructor(
         status().validate()
         transactionSeries().ifPresent { it.validate() }
         updated()
+        externalResource().ifPresent { it.validate() }
         userDefinedId()
         validated = true
     }
@@ -679,6 +726,7 @@ private constructor(
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (transactionSeries.asKnown().getOrNull()?.validity() ?: 0) +
             (if (updated.asKnown().isPresent) 1 else 0) +
+            (externalResource.asKnown().getOrNull()?.validity() ?: 0) +
             (if (userDefinedId.asKnown().isPresent) 1 else 0)
 
     class ManagementOperationCategory
@@ -2467,15 +2515,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && category == other.category && created == other.created && currency == other.currency && direction == other.direction && events == other.events && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && transactionSeries == other.transactionSeries && updated == other.updated && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && category == other.category && created == other.created && currency == other.currency && direction == other.direction && events == other.events && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && transactionSeries == other.transactionSeries && updated == other.updated && externalResource == other.externalResource && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, direction, events, financialAccountToken, pendingAmount, result, settledAmount, status, transactionSeries, updated, userDefinedId, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, direction, events, financialAccountToken, pendingAmount, result, settledAmount, status, transactionSeries, updated, externalResource, userDefinedId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ManagementOperationTransaction{token=$token, category=$category, created=$created, currency=$currency, direction=$direction, events=$events, financialAccountToken=$financialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, transactionSeries=$transactionSeries, updated=$updated, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "ManagementOperationTransaction{token=$token, category=$category, created=$created, currency=$currency, direction=$direction, events=$events, financialAccountToken=$financialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, transactionSeries=$transactionSeries, updated=$updated, externalResource=$externalResource, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }

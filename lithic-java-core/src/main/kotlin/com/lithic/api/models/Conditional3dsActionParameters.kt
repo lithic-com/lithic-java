@@ -385,10 +385,8 @@ private constructor(
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder.
-         * - `RISK_SCORE`: Network-provided score assessing risk level associated with a given
-         *   authentication. Scores are on a range of 0-999, with 0 representing the lowest risk and
-         *   999 representing the highest risk. For Visa transactions, where the raw score has a
-         *   range of 0-99, Lithic will normalize the score by multiplying the raw score by 10x.
+         * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+         *   level, with a higher value indicating a higher amount of risk.
          * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -489,11 +487,8 @@ private constructor(
              *   field in the settlement/cardholder billing currency. This is the amount the issuer
              *   should authorize against unless the issuer is paying the acquirer fee on behalf of
              *   the cardholder.
-             * - `RISK_SCORE`: Network-provided score assessing risk level associated with a given
-             *   authentication. Scores are on a range of 0-999, with 0 representing the lowest risk
-             *   and 999 representing the highest risk. For Visa transactions, where the raw score
-             *   has a range of 0-99, Lithic will normalize the score by multiplying the raw score
-             *   by 10x.
+             * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+             *   level, with a higher value indicating a higher amount of risk.
              * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
@@ -618,10 +613,8 @@ private constructor(
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder.
-         * - `RISK_SCORE`: Network-provided score assessing risk level associated with a given
-         *   authentication. Scores are on a range of 0-999, with 0 representing the lowest risk and
-         *   999 representing the highest risk. For Visa transactions, where the raw score has a
-         *   range of 0-99, Lithic will normalize the score by multiplying the raw score by 10x.
+         * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+         *   level, with a higher value indicating a higher amount of risk.
          * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :

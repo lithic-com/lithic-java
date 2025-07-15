@@ -40,10 +40,12 @@ internal class AccountServiceTest {
             accountService.update(
                 AccountUpdateParams.builder()
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .comment("comment")
                     .dailySpendLimit(1000L)
                     .lifetimeSpendLimit(0L)
                     .monthlySpendLimit(0L)
                     .state(AccountUpdateParams.State.ACTIVE)
+                    .substatus(AccountUpdateParams.Substatus.FRAUD_IDENTIFIED)
                     .verificationAddress(
                         AccountUpdateParams.VerificationAddress.builder()
                             .address1("address1")
