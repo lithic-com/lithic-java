@@ -79,6 +79,14 @@ private constructor(
     fun memo(): Optional<String> = body.memo()
 
     /**
+     * What to do if the financial account is closed when posting an operation
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun onClosedAccount(): Optional<OnClosedAccount> = body.onClosedAccount()
+
+    /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -146,6 +154,13 @@ private constructor(
      * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _memo(): JsonField<String> = body._memo()
+
+    /**
+     * Returns the raw JSON value of [onClosedAccount].
+     *
+     * Unlike [onClosedAccount], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _onClosedAccount(): JsonField<OnClosedAccount> = body._onClosedAccount()
 
     /**
      * Returns the raw JSON value of [subtype].
@@ -315,6 +330,22 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        /** What to do if the financial account is closed when posting an operation */
+        fun onClosedAccount(onClosedAccount: OnClosedAccount) = apply {
+            body.onClosedAccount(onClosedAccount)
+        }
+
+        /**
+         * Sets [Builder.onClosedAccount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.onClosedAccount] with a well-typed [OnClosedAccount]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun onClosedAccount(onClosedAccount: JsonField<OnClosedAccount>) = apply {
+            body.onClosedAccount(onClosedAccount)
+        }
 
         fun subtype(subtype: String) = apply { body.subtype(subtype) }
 
@@ -497,6 +528,7 @@ private constructor(
         private val financialAccountToken: JsonField<String>,
         private val token: JsonField<String>,
         private val memo: JsonField<String>,
+        private val onClosedAccount: JsonField<OnClosedAccount>,
         private val subtype: JsonField<String>,
         private val userDefinedId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -522,6 +554,9 @@ private constructor(
             financialAccountToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("on_closed_account")
+            @ExcludeMissing
+            onClosedAccount: JsonField<OnClosedAccount> = JsonMissing.of(),
             @JsonProperty("subtype") @ExcludeMissing subtype: JsonField<String> = JsonMissing.of(),
             @JsonProperty("user_defined_id")
             @ExcludeMissing
@@ -535,6 +570,7 @@ private constructor(
             financialAccountToken,
             token,
             memo,
+            onClosedAccount,
             subtype,
             userDefinedId,
             mutableMapOf(),
@@ -588,6 +624,15 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun memo(): Optional<String> = memo.getOptional("memo")
+
+        /**
+         * What to do if the financial account is closed when posting an operation
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun onClosedAccount(): Optional<OnClosedAccount> =
+            onClosedAccount.getOptional("on_closed_account")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -670,6 +715,16 @@ private constructor(
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         /**
+         * Returns the raw JSON value of [onClosedAccount].
+         *
+         * Unlike [onClosedAccount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("on_closed_account")
+        @ExcludeMissing
+        fun _onClosedAccount(): JsonField<OnClosedAccount> = onClosedAccount
+
+        /**
          * Returns the raw JSON value of [subtype].
          *
          * Unlike [subtype], this method doesn't throw if the JSON field has an unexpected type.
@@ -728,6 +783,7 @@ private constructor(
             private var financialAccountToken: JsonField<String>? = null
             private var token: JsonField<String> = JsonMissing.of()
             private var memo: JsonField<String> = JsonMissing.of()
+            private var onClosedAccount: JsonField<OnClosedAccount> = JsonMissing.of()
             private var subtype: JsonField<String> = JsonMissing.of()
             private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -743,6 +799,7 @@ private constructor(
                     financialAccountToken = createManagementOperationRequest.financialAccountToken
                     token = createManagementOperationRequest.token
                     memo = createManagementOperationRequest.memo
+                    onClosedAccount = createManagementOperationRequest.onClosedAccount
                     subtype = createManagementOperationRequest.subtype
                     userDefinedId = createManagementOperationRequest.userDefinedId
                     additionalProperties =
@@ -850,6 +907,21 @@ private constructor(
              */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
+            /** What to do if the financial account is closed when posting an operation */
+            fun onClosedAccount(onClosedAccount: OnClosedAccount) =
+                onClosedAccount(JsonField.of(onClosedAccount))
+
+            /**
+             * Sets [Builder.onClosedAccount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.onClosedAccount] with a well-typed [OnClosedAccount]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun onClosedAccount(onClosedAccount: JsonField<OnClosedAccount>) = apply {
+                this.onClosedAccount = onClosedAccount
+            }
+
             fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
             /**
@@ -920,6 +992,7 @@ private constructor(
                     checkRequired("financialAccountToken", financialAccountToken),
                     token,
                     memo,
+                    onClosedAccount,
                     subtype,
                     userDefinedId,
                     additionalProperties.toMutableMap(),
@@ -941,6 +1014,7 @@ private constructor(
             financialAccountToken()
             token()
             memo()
+            onClosedAccount().ifPresent { it.validate() }
             subtype()
             userDefinedId()
             validated = true
@@ -970,6 +1044,7 @@ private constructor(
                 (if (financialAccountToken.asKnown().isPresent) 1 else 0) +
                 (if (token.asKnown().isPresent) 1 else 0) +
                 (if (memo.asKnown().isPresent) 1 else 0) +
+                (onClosedAccount.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (subtype.asKnown().isPresent) 1 else 0) +
                 (if (userDefinedId.asKnown().isPresent) 1 else 0)
 
@@ -978,17 +1053,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateManagementOperationRequest && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateManagementOperationRequest && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && onClosedAccount == other.onClosedAccount && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, subtype, userDefinedId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, onClosedAccount, subtype, userDefinedId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateManagementOperationRequest{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "CreateManagementOperationRequest{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, onClosedAccount=$onClosedAccount, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     class ManagementOperationCategory
@@ -1503,6 +1578,136 @@ private constructor(
             }
 
             return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** What to do if the financial account is closed when posting an operation */
+    class OnClosedAccount @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val FAIL = of("FAIL")
+
+            @JvmField val USE_SUSPENSE = of("USE_SUSPENSE")
+
+            @JvmStatic fun of(value: String) = OnClosedAccount(JsonField.of(value))
+        }
+
+        /** An enum containing [OnClosedAccount]'s known values. */
+        enum class Known {
+            FAIL,
+            USE_SUSPENSE,
+        }
+
+        /**
+         * An enum containing [OnClosedAccount]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [OnClosedAccount] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            FAIL,
+            USE_SUSPENSE,
+            /**
+             * An enum member indicating that [OnClosedAccount] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                FAIL -> Value.FAIL
+                USE_SUSPENSE -> Value.USE_SUSPENSE
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                FAIL -> Known.FAIL
+                USE_SUSPENSE -> Known.USE_SUSPENSE
+                else -> throw LithicInvalidDataException("Unknown OnClosedAccount: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): OnClosedAccount = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is OnClosedAccount && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

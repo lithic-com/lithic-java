@@ -30,6 +30,8 @@ private constructor(
     private val accountHolder: JsonField<AccountHolder>,
     private val authRuleTokens: JsonField<List<String>>,
     private val cardholderCurrency: JsonField<String>,
+    private val comment: JsonField<String>,
+    private val substatus: JsonField<Substatus>,
     private val verificationAddress: JsonField<VerificationAddress>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -53,6 +55,10 @@ private constructor(
         @JsonProperty("cardholder_currency")
         @ExcludeMissing
         cardholderCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("comment") @ExcludeMissing comment: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("substatus")
+        @ExcludeMissing
+        substatus: JsonField<Substatus> = JsonMissing.of(),
         @JsonProperty("verification_address")
         @ExcludeMissing
         verificationAddress: JsonField<VerificationAddress> = JsonMissing.of(),
@@ -64,6 +70,8 @@ private constructor(
         accountHolder,
         authRuleTokens,
         cardholderCurrency,
+        comment,
+        substatus,
         verificationAddress,
         mutableMapOf(),
     )
@@ -140,6 +148,45 @@ private constructor(
         cardholderCurrency.getOptional("cardholder_currency")
 
     /**
+     * Additional context or information related to the account.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun comment(): Optional<String> = comment.getOptional("comment")
+
+    /**
+     * Account state substatus values:
+     * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
+     *   or fabricated identity information, encompassing both true identity theft and synthetic
+     *   identities.
+     * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
+     *   access or fraudulent transactions, necessitating further investigation.
+     * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+     *   account holder. Examples include disputing valid transactions without cause, falsely
+     *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
+     *   account services.
+     * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+     *   account for personal reasons. This encompasses situations such as bankruptcy, other
+     *   financial considerations, or the account holder's death.
+     * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+     *   strategy, risk management, inactivity, product changes, regulatory concerns, or violations
+     *   of terms and conditions.
+     * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+     *   specified period. This status applies to accounts that are paused or closed due to
+     *   inactivity.
+     * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
+     *   future implementations, this status may prevent clients from activating the account via
+     *   APIs until the review is completed.
+     * - `OTHER` - The reason for the account's current status does not fall into any of the above
+     *   categories. A comment should be provided to specify the particular reason.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun substatus(): Optional<Substatus> = substatus.getOptional("substatus")
+
+    /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -207,6 +254,20 @@ private constructor(
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /**
+     * Returns the raw JSON value of [comment].
+     *
+     * Unlike [comment], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("comment") @ExcludeMissing fun _comment(): JsonField<String> = comment
+
+    /**
+     * Returns the raw JSON value of [substatus].
+     *
+     * Unlike [substatus], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("substatus") @ExcludeMissing fun _substatus(): JsonField<Substatus> = substatus
+
+    /**
      * Returns the raw JSON value of [verificationAddress].
      *
      * Unlike [verificationAddress], this method doesn't throw if the JSON field has an unexpected
@@ -255,6 +316,8 @@ private constructor(
         private var accountHolder: JsonField<AccountHolder> = JsonMissing.of()
         private var authRuleTokens: JsonField<MutableList<String>>? = null
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
+        private var comment: JsonField<String> = JsonMissing.of()
+        private var substatus: JsonField<Substatus> = JsonMissing.of()
         private var verificationAddress: JsonField<VerificationAddress> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -267,6 +330,8 @@ private constructor(
             accountHolder = account.accountHolder
             authRuleTokens = account.authRuleTokens.map { it.toMutableList() }
             cardholderCurrency = account.cardholderCurrency
+            comment = account.comment
+            substatus = account.substatus
             verificationAddress = account.verificationAddress
             additionalProperties = account.additionalProperties.toMutableMap()
         }
@@ -401,6 +466,54 @@ private constructor(
             this.cardholderCurrency = cardholderCurrency
         }
 
+        /** Additional context or information related to the account. */
+        fun comment(comment: String) = comment(JsonField.of(comment))
+
+        /**
+         * Sets [Builder.comment] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.comment] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+
+        /**
+         * Account state substatus values:
+         * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
+         *   stolen or fabricated identity information, encompassing both true identity theft and
+         *   synthetic identities.
+         * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
+         *   unauthorized access or fraudulent transactions, necessitating further investigation.
+         * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+         *   account holder. Examples include disputing valid transactions without cause, falsely
+         *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
+         *   account services.
+         * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+         *   account for personal reasons. This encompasses situations such as bankruptcy, other
+         *   financial considerations, or the account holder's death.
+         * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+         *   strategy, risk management, inactivity, product changes, regulatory concerns, or
+         *   violations of terms and conditions.
+         * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+         *   specified period. This status applies to accounts that are paused or closed due to
+         *   inactivity.
+         * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review.
+         *   In future implementations, this status may prevent clients from activating the account
+         *   via APIs until the review is completed.
+         * - `OTHER` - The reason for the account's current status does not fall into any of the
+         *   above categories. A comment should be provided to specify the particular reason.
+         */
+        fun substatus(substatus: Substatus) = substatus(JsonField.of(substatus))
+
+        /**
+         * Sets [Builder.substatus] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.substatus] with a well-typed [Substatus] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun substatus(substatus: JsonField<Substatus>) = apply { this.substatus = substatus }
+
         @Deprecated("deprecated")
         fun verificationAddress(verificationAddress: VerificationAddress) =
             verificationAddress(JsonField.of(verificationAddress))
@@ -460,6 +573,8 @@ private constructor(
                 accountHolder,
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
+                comment,
+                substatus,
                 verificationAddress,
                 additionalProperties.toMutableMap(),
             )
@@ -479,6 +594,8 @@ private constructor(
         accountHolder().ifPresent { it.validate() }
         authRuleTokens()
         cardholderCurrency()
+        comment()
+        substatus().ifPresent { it.validate() }
         verificationAddress().ifPresent { it.validate() }
         validated = true
     }
@@ -505,6 +622,8 @@ private constructor(
             (accountHolder.asKnown().getOrNull()?.validity() ?: 0) +
             (authRuleTokens.asKnown().getOrNull()?.size ?: 0) +
             (if (cardholderCurrency.asKnown().isPresent) 1 else 0) +
+            (if (comment.asKnown().isPresent) 1 else 0) +
+            (substatus.asKnown().getOrNull()?.validity() ?: 0) +
             (verificationAddress.asKnown().getOrNull()?.validity() ?: 0)
 
     /**
@@ -1176,6 +1295,195 @@ private constructor(
             "AccountHolder{token=$token, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * Account state substatus values:
+     * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
+     *   or fabricated identity information, encompassing both true identity theft and synthetic
+     *   identities.
+     * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
+     *   access or fraudulent transactions, necessitating further investigation.
+     * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+     *   account holder. Examples include disputing valid transactions without cause, falsely
+     *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
+     *   account services.
+     * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+     *   account for personal reasons. This encompasses situations such as bankruptcy, other
+     *   financial considerations, or the account holder's death.
+     * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+     *   strategy, risk management, inactivity, product changes, regulatory concerns, or violations
+     *   of terms and conditions.
+     * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+     *   specified period. This status applies to accounts that are paused or closed due to
+     *   inactivity.
+     * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
+     *   future implementations, this status may prevent clients from activating the account via
+     *   APIs until the review is completed.
+     * - `OTHER` - The reason for the account's current status does not fall into any of the above
+     *   categories. A comment should be provided to specify the particular reason.
+     */
+    class Substatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val FRAUD_IDENTIFIED = of("FRAUD_IDENTIFIED")
+
+            @JvmField val SUSPICIOUS_ACTIVITY = of("SUSPICIOUS_ACTIVITY")
+
+            @JvmField val RISK_VIOLATION = of("RISK_VIOLATION")
+
+            @JvmField val END_USER_REQUEST = of("END_USER_REQUEST")
+
+            @JvmField val ISSUER_REQUEST = of("ISSUER_REQUEST")
+
+            @JvmField val NOT_ACTIVE = of("NOT_ACTIVE")
+
+            @JvmField val INTERNAL_REVIEW = of("INTERNAL_REVIEW")
+
+            @JvmField val OTHER = of("OTHER")
+
+            @JvmStatic fun of(value: String) = Substatus(JsonField.of(value))
+        }
+
+        /** An enum containing [Substatus]'s known values. */
+        enum class Known {
+            FRAUD_IDENTIFIED,
+            SUSPICIOUS_ACTIVITY,
+            RISK_VIOLATION,
+            END_USER_REQUEST,
+            ISSUER_REQUEST,
+            NOT_ACTIVE,
+            INTERNAL_REVIEW,
+            OTHER,
+        }
+
+        /**
+         * An enum containing [Substatus]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Substatus] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            FRAUD_IDENTIFIED,
+            SUSPICIOUS_ACTIVITY,
+            RISK_VIOLATION,
+            END_USER_REQUEST,
+            ISSUER_REQUEST,
+            NOT_ACTIVE,
+            INTERNAL_REVIEW,
+            OTHER,
+            /**
+             * An enum member indicating that [Substatus] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                FRAUD_IDENTIFIED -> Value.FRAUD_IDENTIFIED
+                SUSPICIOUS_ACTIVITY -> Value.SUSPICIOUS_ACTIVITY
+                RISK_VIOLATION -> Value.RISK_VIOLATION
+                END_USER_REQUEST -> Value.END_USER_REQUEST
+                ISSUER_REQUEST -> Value.ISSUER_REQUEST
+                NOT_ACTIVE -> Value.NOT_ACTIVE
+                INTERNAL_REVIEW -> Value.INTERNAL_REVIEW
+                OTHER -> Value.OTHER
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                FRAUD_IDENTIFIED -> Known.FRAUD_IDENTIFIED
+                SUSPICIOUS_ACTIVITY -> Known.SUSPICIOUS_ACTIVITY
+                RISK_VIOLATION -> Known.RISK_VIOLATION
+                END_USER_REQUEST -> Known.END_USER_REQUEST
+                ISSUER_REQUEST -> Known.ISSUER_REQUEST
+                NOT_ACTIVE -> Known.NOT_ACTIVE
+                INTERNAL_REVIEW -> Known.INTERNAL_REVIEW
+                OTHER -> Known.OTHER
+                else -> throw LithicInvalidDataException("Unknown Substatus: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Substatus = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Substatus && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     @Deprecated("deprecated")
     class VerificationAddress
     private constructor(
@@ -1535,15 +1843,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Account && token == other.token && created == other.created && spendLimit == other.spendLimit && state == other.state && accountHolder == other.accountHolder && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Account && token == other.token && created == other.created && spendLimit == other.spendLimit && state == other.state && accountHolder == other.accountHolder && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && comment == other.comment && substatus == other.substatus && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, created, spendLimit, state, accountHolder, authRuleTokens, cardholderCurrency, verificationAddress, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, created, spendLimit, state, accountHolder, authRuleTokens, cardholderCurrency, comment, substatus, verificationAddress, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Account{token=$token, created=$created, spendLimit=$spendLimit, state=$state, accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
+        "Account{token=$token, created=$created, spendLimit=$spendLimit, state=$state, accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, comment=$comment, substatus=$substatus, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
 }

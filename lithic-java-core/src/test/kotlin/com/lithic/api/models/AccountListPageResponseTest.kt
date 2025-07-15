@@ -36,6 +36,8 @@ internal class AccountListPageResponseTest {
                         )
                         .addAuthRuleToken("string")
                         .cardholderCurrency("USD")
+                        .comment("comment")
+                        .substatus(Account.Substatus.FRAUD_IDENTIFIED)
                         .verificationAddress(
                             Account.VerificationAddress.builder()
                                 .address1("124 Old Forest Way")
@@ -74,6 +76,8 @@ internal class AccountListPageResponseTest {
                     )
                     .addAuthRuleToken("string")
                     .cardholderCurrency("USD")
+                    .comment("comment")
+                    .substatus(Account.Substatus.FRAUD_IDENTIFIED)
                     .verificationAddress(
                         Account.VerificationAddress.builder()
                             .address1("124 Old Forest Way")
@@ -116,6 +120,8 @@ internal class AccountListPageResponseTest {
                         )
                         .addAuthRuleToken("string")
                         .cardholderCurrency("USD")
+                        .comment("comment")
+                        .substatus(Account.Substatus.FRAUD_IDENTIFIED)
                         .verificationAddress(
                             Account.VerificationAddress.builder()
                                 .address1("124 Old Forest Way")

@@ -55,6 +55,8 @@ import com.lithic.api.services.blocking.FundingEventService
 import com.lithic.api.services.blocking.FundingEventServiceImpl
 import com.lithic.api.services.blocking.ManagementOperationService
 import com.lithic.api.services.blocking.ManagementOperationServiceImpl
+import com.lithic.api.services.blocking.NetworkProgramService
+import com.lithic.api.services.blocking.NetworkProgramServiceImpl
 import com.lithic.api.services.blocking.PaymentService
 import com.lithic.api.services.blocking.PaymentServiceImpl
 import com.lithic.api.services.blocking.ReportService
@@ -180,6 +182,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
 
     private val fraud: FraudService by lazy { FraudServiceImpl(clientOptionsWithUserAgent) }
 
+    private val networkPrograms: NetworkProgramService by lazy {
+        NetworkProgramServiceImpl(clientOptionsWithUserAgent)
+    }
+
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
@@ -240,6 +246,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun fundingEvents(): FundingEventService = fundingEvents
 
     override fun fraud(): FraudService = fraud
+
+    override fun networkPrograms(): NetworkProgramService = networkPrograms
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -364,6 +372,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             FraudServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val networkPrograms: NetworkProgramService.WithRawResponse by lazy {
+            NetworkProgramServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClient.WithRawResponse =
@@ -431,6 +443,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun fundingEvents(): FundingEventService.WithRawResponse = fundingEvents
 
         override fun fraud(): FraudService.WithRawResponse = fraud
+
+        override fun networkPrograms(): NetworkProgramService.WithRawResponse = networkPrograms
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

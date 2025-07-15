@@ -37,6 +37,7 @@ internal class ManagementOperationServiceAsyncTest {
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .memo("memo")
+                    .onClosedAccount(ManagementOperationCreateParams.OnClosedAccount.FAIL)
                     .subtype("subtype")
                     .userDefinedId("user_defined_id")
                     .build()

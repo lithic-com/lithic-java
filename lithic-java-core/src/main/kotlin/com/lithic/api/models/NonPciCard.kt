@@ -37,14 +37,17 @@ private constructor(
     private val type: JsonField<Type>,
     private val authRuleTokens: JsonField<List<String>>,
     private val cardholderCurrency: JsonField<String>,
+    private val comment: JsonField<String>,
     private val digitalCardArtToken: JsonField<String>,
     private val expMonth: JsonField<String>,
     private val expYear: JsonField<String>,
     private val hostname: JsonField<String>,
     private val memo: JsonField<String>,
+    private val networkProgramToken: JsonField<String>,
     private val pendingCommands: JsonField<List<String>>,
     private val productId: JsonField<String>,
     private val replacementFor: JsonField<String>,
+    private val substatus: JsonField<Substatus>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -79,6 +82,7 @@ private constructor(
         @JsonProperty("cardholder_currency")
         @ExcludeMissing
         cardholderCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("comment") @ExcludeMissing comment: JsonField<String> = JsonMissing.of(),
         @JsonProperty("digital_card_art_token")
         @ExcludeMissing
         digitalCardArtToken: JsonField<String> = JsonMissing.of(),
@@ -86,6 +90,9 @@ private constructor(
         @JsonProperty("exp_year") @ExcludeMissing expYear: JsonField<String> = JsonMissing.of(),
         @JsonProperty("hostname") @ExcludeMissing hostname: JsonField<String> = JsonMissing.of(),
         @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("network_program_token")
+        @ExcludeMissing
+        networkProgramToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("pending_commands")
         @ExcludeMissing
         pendingCommands: JsonField<List<String>> = JsonMissing.of(),
@@ -93,6 +100,9 @@ private constructor(
         @JsonProperty("replacement_for")
         @ExcludeMissing
         replacementFor: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("substatus")
+        @ExcludeMissing
+        substatus: JsonField<Substatus> = JsonMissing.of(),
     ) : this(
         token,
         accountToken,
@@ -107,14 +117,17 @@ private constructor(
         type,
         authRuleTokens,
         cardholderCurrency,
+        comment,
         digitalCardArtToken,
         expMonth,
         expYear,
         hostname,
         memo,
+        networkProgramToken,
         pendingCommands,
         productId,
         replacementFor,
+        substatus,
         mutableMapOf(),
     )
 
@@ -256,6 +269,14 @@ private constructor(
         cardholderCurrency.getOptional("cardholder_currency")
 
     /**
+     * Additional context or information related to the card.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun comment(): Optional<String> = comment.getOptional("comment")
+
+    /**
      * Specifies the digital card art to be displayed in the user's digital wallet after
      * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
      *
@@ -298,6 +319,17 @@ private constructor(
     fun memo(): Optional<String> = memo.getOptional("memo")
 
     /**
+     * Globally unique identifier for the card's network program. Null if the card is not associated
+     * with a network program. Currently applicable to Visa cards participating in Account Level
+     * Management only
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun networkProgramToken(): Optional<String> =
+        networkProgramToken.getOptional("network_program_token")
+
+    /**
      * Indicates if there are offline PIN changes pending card interaction with an offline PIN
      * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
      * markets supporting offline PINs.
@@ -325,6 +357,30 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun replacementFor(): Optional<String> = replacementFor.getOptional("replacement_for")
+
+    /**
+     * Card state substatus values: _ `LOST` - The physical card is no longer in the cardholder's
+     * possession due to being lost or never received by the cardholder. _ `COMPROMISED` - Card
+     * information has been exposed, potentially leading to unauthorized access. This may involve
+     * physical card theft, cloning, or online data breaches. _ `DAMAGED` - The physical card is not
+     * functioning properly, such as having chip failures or a demagnetized magnetic stripe. _
+     * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * to fraud or damage, such as switching to a different product or closing the account. _
+     * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage, such
+     * as account inactivity, product or policy changes, or technology upgrades. _ `NOT_ACTIVE` -
+     * The card hasn’t had any transaction activity for a specified period, applicable to statuses
+     * like `PAUSED` or `CLOSED`. _ `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious
+     * transactions or activities that require review. This can involve prompting the cardholder to
+     * confirm legitimate use or report confirmed fraud. _ `INTERNAL_REVIEW` - The card is
+     * temporarily paused pending further internal review. _ `EXPIRED` - The card has expired and
+     * has been closed without being reissued. _ `UNDELIVERABLE` - The card cannot be delivered to
+     * the cardholder and has been returned. \* `OTHER` - The reason for the status does not fall
+     * into any of the above categories. A comment can be provided to specify the reason.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun substatus(): Optional<Substatus> = substatus.getOptional("substatus")
 
     /**
      * Returns the raw JSON value of [token].
@@ -432,6 +488,13 @@ private constructor(
     fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /**
+     * Returns the raw JSON value of [comment].
+     *
+     * Unlike [comment], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("comment") @ExcludeMissing fun _comment(): JsonField<String> = comment
+
+    /**
      * Returns the raw JSON value of [digitalCardArtToken].
      *
      * Unlike [digitalCardArtToken], this method doesn't throw if the JSON field has an unexpected
@@ -470,6 +533,16 @@ private constructor(
     @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
     /**
+     * Returns the raw JSON value of [networkProgramToken].
+     *
+     * Unlike [networkProgramToken], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("network_program_token")
+    @ExcludeMissing
+    fun _networkProgramToken(): JsonField<String> = networkProgramToken
+
+    /**
      * Returns the raw JSON value of [pendingCommands].
      *
      * Unlike [pendingCommands], this method doesn't throw if the JSON field has an unexpected type.
@@ -493,6 +566,13 @@ private constructor(
     @JsonProperty("replacement_for")
     @ExcludeMissing
     fun _replacementFor(): JsonField<String> = replacementFor
+
+    /**
+     * Returns the raw JSON value of [substatus].
+     *
+     * Unlike [substatus], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("substatus") @ExcludeMissing fun _substatus(): JsonField<Substatus> = substatus
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -545,14 +625,17 @@ private constructor(
         private var type: JsonField<Type>? = null
         private var authRuleTokens: JsonField<MutableList<String>>? = null
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
+        private var comment: JsonField<String> = JsonMissing.of()
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
         private var expMonth: JsonField<String> = JsonMissing.of()
         private var expYear: JsonField<String> = JsonMissing.of()
         private var hostname: JsonField<String> = JsonMissing.of()
         private var memo: JsonField<String> = JsonMissing.of()
+        private var networkProgramToken: JsonField<String> = JsonMissing.of()
         private var pendingCommands: JsonField<MutableList<String>>? = null
         private var productId: JsonField<String> = JsonMissing.of()
         private var replacementFor: JsonField<String> = JsonMissing.of()
+        private var substatus: JsonField<Substatus> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -570,14 +653,17 @@ private constructor(
             type = nonPciCard.type
             authRuleTokens = nonPciCard.authRuleTokens.map { it.toMutableList() }
             cardholderCurrency = nonPciCard.cardholderCurrency
+            comment = nonPciCard.comment
             digitalCardArtToken = nonPciCard.digitalCardArtToken
             expMonth = nonPciCard.expMonth
             expYear = nonPciCard.expYear
             hostname = nonPciCard.hostname
             memo = nonPciCard.memo
+            networkProgramToken = nonPciCard.networkProgramToken
             pendingCommands = nonPciCard.pendingCommands.map { it.toMutableList() }
             productId = nonPciCard.productId
             replacementFor = nonPciCard.replacementFor
+            substatus = nonPciCard.substatus
             additionalProperties = nonPciCard.additionalProperties.toMutableMap()
         }
 
@@ -807,6 +893,17 @@ private constructor(
             this.cardholderCurrency = cardholderCurrency
         }
 
+        /** Additional context or information related to the card. */
+        fun comment(comment: String) = comment(JsonField.of(comment))
+
+        /**
+         * Sets [Builder.comment] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.comment] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+
         /**
          * Specifies the digital card art to be displayed in the user's digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
@@ -869,6 +966,31 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+        /**
+         * Globally unique identifier for the card's network program. Null if the card is not
+         * associated with a network program. Currently applicable to Visa cards participating in
+         * Account Level Management only
+         */
+        fun networkProgramToken(networkProgramToken: String?) =
+            networkProgramToken(JsonField.ofNullable(networkProgramToken))
+
+        /**
+         * Alias for calling [Builder.networkProgramToken] with `networkProgramToken.orElse(null)`.
+         */
+        fun networkProgramToken(networkProgramToken: Optional<String>) =
+            networkProgramToken(networkProgramToken.getOrNull())
+
+        /**
+         * Sets [Builder.networkProgramToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.networkProgramToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun networkProgramToken(networkProgramToken: JsonField<String>) = apply {
+            this.networkProgramToken = networkProgramToken
+        }
 
         /**
          * Indicates if there are offline PIN changes pending card interaction with an offline PIN
@@ -939,6 +1061,37 @@ private constructor(
             this.replacementFor = replacementFor
         }
 
+        /**
+         * Card state substatus values: _ `LOST` - The physical card is no longer in the
+         * cardholder's possession due to being lost or never received by the cardholder. _
+         * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+         * access. This may involve physical card theft, cloning, or online data breaches. _
+         * `DAMAGED` - The physical card is not functioning properly, such as having chip failures
+         * or a demagnetized magnetic stripe. _ `END_USER_REQUEST` - The cardholder requested the
+         * closure of the card for reasons unrelated to fraud or damage, such as switching to a
+         * different product or closing the account. _ `ISSUER_REQUEST` - The issuer closed the card
+         * for reasons unrelated to fraud or damage, such as account inactivity, product or policy
+         * changes, or technology upgrades. _ `NOT_ACTIVE` - The card hasn’t had any transaction
+         * activity for a specified period, applicable to statuses like `PAUSED` or `CLOSED`. _
+         * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
+         * that require review. This can involve prompting the cardholder to confirm legitimate use
+         * or report confirmed fraud. _ `INTERNAL_REVIEW` - The card is temporarily paused pending
+         * further internal review. _ `EXPIRED` - The card has expired and has been closed without
+         * being reissued. _ `UNDELIVERABLE` - The card cannot be delivered to the cardholder and
+         * has been returned. \* `OTHER` - The reason for the status does not fall into any of the
+         * above categories. A comment can be provided to specify the reason.
+         */
+        fun substatus(substatus: Substatus) = substatus(JsonField.of(substatus))
+
+        /**
+         * Sets [Builder.substatus] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.substatus] with a well-typed [Substatus] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun substatus(substatus: JsonField<Substatus>) = apply { this.substatus = substatus }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -995,14 +1148,17 @@ private constructor(
                 checkRequired("type", type),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
+                comment,
                 digitalCardArtToken,
                 expMonth,
                 expYear,
                 hostname,
                 memo,
+                networkProgramToken,
                 (pendingCommands ?: JsonMissing.of()).map { it.toImmutable() },
                 productId,
                 replacementFor,
+                substatus,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -1027,14 +1183,17 @@ private constructor(
         type().validate()
         authRuleTokens()
         cardholderCurrency()
+        comment()
         digitalCardArtToken()
         expMonth()
         expYear()
         hostname()
         memo()
+        networkProgramToken()
         pendingCommands()
         productId()
         replacementFor()
+        substatus().ifPresent { it.validate() }
         validated = true
     }
 
@@ -1066,14 +1225,17 @@ private constructor(
             (type.asKnown().getOrNull()?.validity() ?: 0) +
             (authRuleTokens.asKnown().getOrNull()?.size ?: 0) +
             (if (cardholderCurrency.asKnown().isPresent) 1 else 0) +
+            (if (comment.asKnown().isPresent) 1 else 0) +
             (if (digitalCardArtToken.asKnown().isPresent) 1 else 0) +
             (if (expMonth.asKnown().isPresent) 1 else 0) +
             (if (expYear.asKnown().isPresent) 1 else 0) +
             (if (hostname.asKnown().isPresent) 1 else 0) +
             (if (memo.asKnown().isPresent) 1 else 0) +
+            (if (networkProgramToken.asKnown().isPresent) 1 else 0) +
             (pendingCommands.asKnown().getOrNull()?.size ?: 0) +
             (if (productId.asKnown().isPresent) 1 else 0) +
-            (if (replacementFor.asKnown().isPresent) 1 else 0)
+            (if (replacementFor.asKnown().isPresent) 1 else 0) +
+            (substatus.asKnown().getOrNull()?.validity() ?: 0)
 
     /** Deprecated: Funding account for the card. */
     class FundingAccount
@@ -2202,20 +2364,220 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Card state substatus values: _ `LOST` - The physical card is no longer in the cardholder's
+     * possession due to being lost or never received by the cardholder. _ `COMPROMISED` - Card
+     * information has been exposed, potentially leading to unauthorized access. This may involve
+     * physical card theft, cloning, or online data breaches. _ `DAMAGED` - The physical card is not
+     * functioning properly, such as having chip failures or a demagnetized magnetic stripe. _
+     * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * to fraud or damage, such as switching to a different product or closing the account. _
+     * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage, such
+     * as account inactivity, product or policy changes, or technology upgrades. _ `NOT_ACTIVE` -
+     * The card hasn’t had any transaction activity for a specified period, applicable to statuses
+     * like `PAUSED` or `CLOSED`. _ `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious
+     * transactions or activities that require review. This can involve prompting the cardholder to
+     * confirm legitimate use or report confirmed fraud. _ `INTERNAL_REVIEW` - The card is
+     * temporarily paused pending further internal review. _ `EXPIRED` - The card has expired and
+     * has been closed without being reissued. _ `UNDELIVERABLE` - The card cannot be delivered to
+     * the cardholder and has been returned. \* `OTHER` - The reason for the status does not fall
+     * into any of the above categories. A comment can be provided to specify the reason.
+     */
+    class Substatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val LOST = of("LOST")
+
+            @JvmField val COMPROMISED = of("COMPROMISED")
+
+            @JvmField val DAMAGED = of("DAMAGED")
+
+            @JvmField val END_USER_REQUEST = of("END_USER_REQUEST")
+
+            @JvmField val ISSUER_REQUEST = of("ISSUER_REQUEST")
+
+            @JvmField val NOT_ACTIVE = of("NOT_ACTIVE")
+
+            @JvmField val SUSPICIOUS_ACTIVITY = of("SUSPICIOUS_ACTIVITY")
+
+            @JvmField val INTERNAL_REVIEW = of("INTERNAL_REVIEW")
+
+            @JvmField val EXPIRED = of("EXPIRED")
+
+            @JvmField val UNDELIVERABLE = of("UNDELIVERABLE")
+
+            @JvmField val OTHER = of("OTHER")
+
+            @JvmStatic fun of(value: String) = Substatus(JsonField.of(value))
+        }
+
+        /** An enum containing [Substatus]'s known values. */
+        enum class Known {
+            LOST,
+            COMPROMISED,
+            DAMAGED,
+            END_USER_REQUEST,
+            ISSUER_REQUEST,
+            NOT_ACTIVE,
+            SUSPICIOUS_ACTIVITY,
+            INTERNAL_REVIEW,
+            EXPIRED,
+            UNDELIVERABLE,
+            OTHER,
+        }
+
+        /**
+         * An enum containing [Substatus]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Substatus] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            LOST,
+            COMPROMISED,
+            DAMAGED,
+            END_USER_REQUEST,
+            ISSUER_REQUEST,
+            NOT_ACTIVE,
+            SUSPICIOUS_ACTIVITY,
+            INTERNAL_REVIEW,
+            EXPIRED,
+            UNDELIVERABLE,
+            OTHER,
+            /**
+             * An enum member indicating that [Substatus] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                LOST -> Value.LOST
+                COMPROMISED -> Value.COMPROMISED
+                DAMAGED -> Value.DAMAGED
+                END_USER_REQUEST -> Value.END_USER_REQUEST
+                ISSUER_REQUEST -> Value.ISSUER_REQUEST
+                NOT_ACTIVE -> Value.NOT_ACTIVE
+                SUSPICIOUS_ACTIVITY -> Value.SUSPICIOUS_ACTIVITY
+                INTERNAL_REVIEW -> Value.INTERNAL_REVIEW
+                EXPIRED -> Value.EXPIRED
+                UNDELIVERABLE -> Value.UNDELIVERABLE
+                OTHER -> Value.OTHER
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                LOST -> Known.LOST
+                COMPROMISED -> Known.COMPROMISED
+                DAMAGED -> Known.DAMAGED
+                END_USER_REQUEST -> Known.END_USER_REQUEST
+                ISSUER_REQUEST -> Known.ISSUER_REQUEST
+                NOT_ACTIVE -> Known.NOT_ACTIVE
+                SUSPICIOUS_ACTIVITY -> Known.SUSPICIOUS_ACTIVITY
+                INTERNAL_REVIEW -> Known.INTERNAL_REVIEW
+                EXPIRED -> Known.EXPIRED
+                UNDELIVERABLE -> Known.UNDELIVERABLE
+                OTHER -> Known.OTHER
+                else -> throw LithicInvalidDataException("Unknown Substatus: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Substatus = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Substatus && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is NonPciCard && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is NonPciCard && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && comment == other.comment && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && networkProgramToken == other.networkProgramToken && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && substatus == other.substatus && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, created, funding, lastFour, pinStatus, spendLimit, spendLimitDuration, state, type, authRuleTokens, cardholderCurrency, digitalCardArtToken, expMonth, expYear, hostname, memo, pendingCommands, productId, replacementFor, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, created, funding, lastFour, pinStatus, spendLimit, spendLimitDuration, state, type, authRuleTokens, cardholderCurrency, comment, digitalCardArtToken, expMonth, expYear, hostname, memo, networkProgramToken, pendingCommands, productId, replacementFor, substatus, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, additionalProperties=$additionalProperties}"
+        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, comment=$comment, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, networkProgramToken=$networkProgramToken, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, substatus=$substatus, additionalProperties=$additionalProperties}"
 }
