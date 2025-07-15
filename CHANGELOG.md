@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.96.0 (2025-07-15)
+
+Full Changelog: [v0.95.0...v0.96.0](https://github.com/lithic-com/lithic-java/compare/v0.95.0...v0.96.0)
+
+### Features
+
+* **api:** adds Network Programs and Account/Card Sub-statuses ([076028b](https://github.com/lithic-com/lithic-java/commit/076028b56cbab680e6e56fd31578009de54ed394))
+
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([c59e95c](https://github.com/lithic-com/lithic-java/commit/c59e95c98f2bfcba62374d39aaf820a6c3d687d2))
+* **ci:** ensure docs generation always succeeds ([1bf367a](https://github.com/lithic-com/lithic-java/commit/1bf367a7cffe53272387316678edaa89035f2330))
+
 ## 0.95.0 (2025-07-08)
 
 Full Changelog: [v0.94.1...v0.95.0](https://github.com/lithic-com/lithic-java/compare/v0.94.1...v0.95.0)
