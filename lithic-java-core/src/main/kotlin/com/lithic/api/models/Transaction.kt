@@ -2681,19 +2681,22 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun threeDSVersion(): Optional<String> = threeDSVersion.getOptional("3ds_version")
 
         /**
-         * Whether an acquirer exemption applied to the transaction.
+         * Whether an acquirer exemption applied to the transaction. Not currently populated and
+         * will be removed in the future.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun acquirerExemption(): AcquirerExemption =
             acquirerExemption.getRequired("acquirer_exemption")
 
         /**
-         * Indicates what the outcome of the 3DS authentication process is.
+         * Indicates the outcome of the 3DS authentication process.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -2712,10 +2715,10 @@ private constructor(
         /**
          * Indicates whether chargeback liability shift applies to the transaction. Possible enum
          * values:
-         *
-         *     * `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow, chargeback liability shift applies.
-         *     * `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-         *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         *   chargeback liability shift applies.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         *   liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
          *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          *
@@ -2743,6 +2746,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun verificationAttempted(): VerificationAttempted =
             verificationAttempted.getRequired("verification_attempted")
 
@@ -2753,6 +2757,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
+        @Deprecated("deprecated")
         fun verificationResult(): VerificationResult =
             verificationResult.getRequired("verification_result")
 
@@ -2771,6 +2776,7 @@ private constructor(
          * Unlike [threeDSVersion], this method doesn't throw if the JSON field has an unexpected
          * type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("3ds_version")
         @ExcludeMissing
         fun _threeDSVersion(): JsonField<String> = threeDSVersion
@@ -2781,6 +2787,7 @@ private constructor(
          * Unlike [acquirerExemption], this method doesn't throw if the JSON field has an unexpected
          * type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("acquirer_exemption")
         @ExcludeMissing
         fun _acquirerExemption(): JsonField<AcquirerExemption> = acquirerExemption
@@ -2831,6 +2838,7 @@ private constructor(
          * Unlike [verificationAttempted], this method doesn't throw if the JSON field has an
          * unexpected type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("verification_attempted")
         @ExcludeMissing
         fun _verificationAttempted(): JsonField<VerificationAttempted> = verificationAttempted
@@ -2841,6 +2849,7 @@ private constructor(
          * Unlike [verificationResult], this method doesn't throw if the JSON field has an
          * unexpected type.
          */
+        @Deprecated("deprecated")
         @JsonProperty("verification_result")
         @ExcludeMissing
         fun _verificationResult(): JsonField<VerificationResult> = verificationResult
@@ -2916,10 +2925,12 @@ private constructor(
             }
 
             /** The 3DS version used for the authentication */
+            @Deprecated("deprecated")
             fun threeDSVersion(threeDSVersion: String?) =
                 threeDSVersion(JsonField.ofNullable(threeDSVersion))
 
             /** Alias for calling [Builder.threeDSVersion] with `threeDSVersion.orElse(null)`. */
+            @Deprecated("deprecated")
             fun threeDSVersion(threeDSVersion: Optional<String>) =
                 threeDSVersion(threeDSVersion.getOrNull())
 
@@ -2930,11 +2941,16 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
+            @Deprecated("deprecated")
             fun threeDSVersion(threeDSVersion: JsonField<String>) = apply {
                 this.threeDSVersion = threeDSVersion
             }
 
-            /** Whether an acquirer exemption applied to the transaction. */
+            /**
+             * Whether an acquirer exemption applied to the transaction. Not currently populated and
+             * will be removed in the future.
+             */
+            @Deprecated("deprecated")
             fun acquirerExemption(acquirerExemption: AcquirerExemption) =
                 acquirerExemption(JsonField.of(acquirerExemption))
 
@@ -2945,11 +2961,12 @@ private constructor(
              * [AcquirerExemption] value instead. This method is primarily for setting the field to
              * an undocumented or not yet supported value.
              */
+            @Deprecated("deprecated")
             fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
                 this.acquirerExemption = acquirerExemption
             }
 
-            /** Indicates what the outcome of the 3DS authentication process is. */
+            /** Indicates the outcome of the 3DS authentication process. */
             fun authenticationResult(authenticationResult: AuthenticationResult) =
                 authenticationResult(JsonField.of(authenticationResult))
 
@@ -2983,10 +3000,10 @@ private constructor(
             /**
              * Indicates whether chargeback liability shift applies to the transaction. Possible
              * enum values:
-             *
-             *     * `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow, chargeback liability shift applies.
-             *     * `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-             *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
+             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
+             *   flow, chargeback liability shift applies.
+             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
+             *   is liable.
              * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
              *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
              */
@@ -3035,6 +3052,7 @@ private constructor(
              * Indicates whether a 3DS challenge flow was used, and if so, what the verification
              * method was. (deprecated, use `authentication_result`)
              */
+            @Deprecated("deprecated")
             fun verificationAttempted(verificationAttempted: VerificationAttempted) =
                 verificationAttempted(JsonField.of(verificationAttempted))
 
@@ -3045,6 +3063,7 @@ private constructor(
              * [VerificationAttempted] value instead. This method is primarily for setting the field
              * to an undocumented or not yet supported value.
              */
+            @Deprecated("deprecated")
             fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
                 apply {
                     this.verificationAttempted = verificationAttempted
@@ -3054,6 +3073,7 @@ private constructor(
              * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
              * `authentication_result`)
              */
+            @Deprecated("deprecated")
             fun verificationResult(verificationResult: VerificationResult) =
                 verificationResult(JsonField.of(verificationResult))
 
@@ -3064,6 +3084,7 @@ private constructor(
              * [VerificationResult] value instead. This method is primarily for setting the field to
              * an undocumented or not yet supported value.
              */
+            @Deprecated("deprecated")
             fun verificationResult(verificationResult: JsonField<VerificationResult>) = apply {
                 this.verificationResult = verificationResult
             }
@@ -3182,7 +3203,11 @@ private constructor(
                 (verificationResult.asKnown().getOrNull()?.validity() ?: 0) +
                 (authenticationMethod.asKnown().getOrNull()?.validity() ?: 0)
 
-        /** Whether an acquirer exemption applied to the transaction. */
+        /**
+         * Whether an acquirer exemption applied to the transaction. Not currently populated and
+         * will be removed in the future.
+         */
+        @Deprecated("deprecated")
         class AcquirerExemption
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {
@@ -3357,7 +3382,7 @@ private constructor(
             override fun toString() = value.toString()
         }
 
-        /** Indicates what the outcome of the 3DS authentication process is. */
+        /** Indicates the outcome of the 3DS authentication process. */
         class AuthenticationResult
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {
@@ -3664,10 +3689,10 @@ private constructor(
         /**
          * Indicates whether chargeback liability shift applies to the transaction. Possible enum
          * values:
-         *
-         *     * `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow, chargeback liability shift applies.
-         *     * `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-         *     * `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is liable.
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         *   chargeback liability shift applies.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         *   liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
          *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          */
@@ -3689,11 +3714,9 @@ private constructor(
 
                 @JvmField val _3DS_AUTHENTICATED = of("3DS_AUTHENTICATED")
 
-                @JvmField val ACQUIRER_EXEMPTION = of("ACQUIRER_EXEMPTION")
+                @JvmField val TOKEN_AUTHENTICATED = of("TOKEN_AUTHENTICATED")
 
                 @JvmField val NONE = of("NONE")
-
-                @JvmField val TOKEN_AUTHENTICATED = of("TOKEN_AUTHENTICATED")
 
                 @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
             }
@@ -3701,9 +3724,8 @@ private constructor(
             /** An enum containing [LiabilityShift]'s known values. */
             enum class Known {
                 _3DS_AUTHENTICATED,
-                ACQUIRER_EXEMPTION,
-                NONE,
                 TOKEN_AUTHENTICATED,
+                NONE,
             }
 
             /**
@@ -3717,9 +3739,8 @@ private constructor(
              */
             enum class Value {
                 _3DS_AUTHENTICATED,
-                ACQUIRER_EXEMPTION,
-                NONE,
                 TOKEN_AUTHENTICATED,
+                NONE,
                 /**
                  * An enum member indicating that [LiabilityShift] was instantiated with an unknown
                  * value.
@@ -3737,9 +3758,8 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     _3DS_AUTHENTICATED -> Value._3DS_AUTHENTICATED
-                    ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
-                    NONE -> Value.NONE
                     TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
+                    NONE -> Value.NONE
                     else -> Value._UNKNOWN
                 }
 
@@ -3755,9 +3775,8 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     _3DS_AUTHENTICATED -> Known._3DS_AUTHENTICATED
-                    ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
-                    NONE -> Known.NONE
                     TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
+                    NONE -> Known.NONE
                     else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
                 }
 
@@ -3819,6 +3838,7 @@ private constructor(
          * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
          * was. (deprecated, use `authentication_result`)
          */
+        @Deprecated("deprecated")
         class VerificationAttempted
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {
@@ -3958,6 +3978,7 @@ private constructor(
          * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
          * `authentication_result`)
          */
+        @Deprecated("deprecated")
         class VerificationResult
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {

@@ -57,6 +57,13 @@ internal class ManagementOperationTransactionTest {
                         .build()
                 )
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .externalResource(
+                    ExternalResource.builder()
+                        .externalResourceToken("external_resource_token")
+                        .externalResourceType(ExternalResourceType.STATEMENT)
+                        .externalResourceSubToken("external_resource_sub_token")
+                        .build()
+                )
                 .userDefinedId("user_defined_id")
                 .build()
 
@@ -111,6 +118,14 @@ internal class ManagementOperationTransactionTest {
             )
         assertThat(managementOperationTransaction.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(managementOperationTransaction.externalResource())
+            .contains(
+                ExternalResource.builder()
+                    .externalResourceToken("external_resource_token")
+                    .externalResourceType(ExternalResourceType.STATEMENT)
+                    .externalResourceSubToken("external_resource_sub_token")
+                    .build()
+            )
         assertThat(managementOperationTransaction.userDefinedId()).contains("user_defined_id")
     }
 
@@ -161,6 +176,13 @@ internal class ManagementOperationTransactionTest {
                         .build()
                 )
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .externalResource(
+                    ExternalResource.builder()
+                        .externalResourceToken("external_resource_token")
+                        .externalResourceType(ExternalResourceType.STATEMENT)
+                        .externalResourceSubToken("external_resource_sub_token")
+                        .build()
+                )
                 .userDefinedId("user_defined_id")
                 .build()
 

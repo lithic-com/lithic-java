@@ -6,24 +6,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
@@ -34,7 +23,7 @@ import kotlin.jvm.optionals.getOrNull
 class VelocityLimitParams
 private constructor(
     private val filters: JsonField<Filters>,
-    private val period: JsonField<Period>,
+    private val period: JsonField<VelocityLimitParamsPeriodWindow>,
     private val scope: JsonField<Scope>,
     private val limitAmount: JsonField<Long>,
     private val limitCount: JsonField<Long>,
@@ -44,7 +33,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("filters") @ExcludeMissing filters: JsonField<Filters> = JsonMissing.of(),
-        @JsonProperty("period") @ExcludeMissing period: JsonField<Period> = JsonMissing.of(),
+        @JsonProperty("period")
+        @ExcludeMissing
+        period: JsonField<VelocityLimitParamsPeriodWindow> = JsonMissing.of(),
         @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
         @JsonProperty("limit_amount")
         @ExcludeMissing
@@ -65,7 +56,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun period(): Period = period.getRequired("period")
+    fun period(): VelocityLimitParamsPeriodWindow = period.getRequired("period")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -105,7 +96,9 @@ private constructor(
      *
      * Unlike [period], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("period") @ExcludeMissing fun _period(): JsonField<Period> = period
+    @JsonProperty("period")
+    @ExcludeMissing
+    fun _period(): JsonField<VelocityLimitParamsPeriodWindow> = period
 
     /**
      * Returns the raw JSON value of [scope].
@@ -159,7 +152,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var filters: JsonField<Filters>? = null
-        private var period: JsonField<Period>? = null
+        private var period: JsonField<VelocityLimitParamsPeriodWindow>? = null
         private var scope: JsonField<Scope>? = null
         private var limitAmount: JsonField<Long> = JsonMissing.of()
         private var limitCount: JsonField<Long> = JsonMissing.of()
@@ -189,25 +182,62 @@ private constructor(
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
-        fun period(period: Period) = period(JsonField.of(period))
+        fun period(period: VelocityLimitParamsPeriodWindow) = period(JsonField.of(period))
 
         /**
          * Sets [Builder.period] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.period] with a well-typed [Period] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.period] with a well-typed
+         * [VelocityLimitParamsPeriodWindow] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
          */
-        fun period(period: JsonField<Period>) = apply { this.period = period }
+        fun period(period: JsonField<VelocityLimitParamsPeriodWindow>) = apply {
+            this.period = period
+        }
 
-        /** Alias for calling [period] with `Period.ofTrailingWindow(trailingWindow)`. */
-        fun period(trailingWindow: Long) = period(Period.ofTrailingWindow(trailingWindow))
+        /**
+         * Alias for calling [period] with `VelocityLimitParamsPeriodWindow.ofTrailing(trailing)`.
+         */
+        fun period(trailing: Long) = period(VelocityLimitParamsPeriodWindow.ofTrailing(trailing))
+
+        /** Alias for calling [period] with `VelocityLimitParamsPeriodWindow.ofFixed(fixed)`. */
+        fun period(fixed: VelocityLimitParamsPeriodWindow.FixedWindow) =
+            period(VelocityLimitParamsPeriodWindow.ofFixed(fixed))
 
         /**
          * Alias for calling [period] with
-         * `Period.ofVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)`.
+         * `VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(trailingWindowObject)`.
          */
-        fun period(velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow) =
-            period(Period.ofVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow))
+        fun period(trailingWindowObject: VelocityLimitParamsPeriodWindow.TrailingWindowObject) =
+            period(VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(trailingWindowObject))
+
+        /**
+         * Alias for calling [period] with
+         * `VelocityLimitParamsPeriodWindow.ofFixedWindowDay(fixedWindowDay)`.
+         */
+        fun period(fixedWindowDay: VelocityLimitParamsPeriodWindow.FixedWindowDay) =
+            period(VelocityLimitParamsPeriodWindow.ofFixedWindowDay(fixedWindowDay))
+
+        /**
+         * Alias for calling [period] with
+         * `VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(fixedWindowWeek)`.
+         */
+        fun period(fixedWindowWeek: VelocityLimitParamsPeriodWindow.FixedWindowWeek) =
+            period(VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(fixedWindowWeek))
+
+        /**
+         * Alias for calling [period] with
+         * `VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(fixedWindowMonth)`.
+         */
+        fun period(fixedWindowMonth: VelocityLimitParamsPeriodWindow.FixedWindowMonth) =
+            period(VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(fixedWindowMonth))
+
+        /**
+         * Alias for calling [period] with
+         * `VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear)`.
+         */
+        fun period(fixedWindowYear: VelocityLimitParamsPeriodWindow.FixedWindowYear) =
+            period(VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear))
 
         fun scope(scope: Scope) = scope(JsonField.of(scope))
 
@@ -714,249 +744,6 @@ private constructor(
 
         override fun toString() =
             "Filters{excludeCountries=$excludeCountries, excludeMccs=$excludeMccs, includeCountries=$includeCountries, includeMccs=$includeMccs, additionalProperties=$additionalProperties}"
-    }
-
-    /**
-     * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-     * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-     */
-    @JsonDeserialize(using = Period.Deserializer::class)
-    @JsonSerialize(using = Period.Serializer::class)
-    class Period
-    private constructor(
-        private val trailingWindow: Long? = null,
-        private val velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow? = null,
-        private val _json: JsonValue? = null,
-    ) {
-
-        /**
-         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-         */
-        fun trailingWindow(): Optional<Long> = Optional.ofNullable(trailingWindow)
-
-        /**
-         * The window of time to calculate Spend Velocity over.
-         * - `DAY`: Velocity over the current day since midnight Eastern Time.
-         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
-         * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
-         *   in Eastern Time.
-         * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
-         *   Time.
-         */
-        fun velocityLimitParamsPeriodWindow(): Optional<VelocityLimitParamsPeriodWindow> =
-            Optional.ofNullable(velocityLimitParamsPeriodWindow)
-
-        fun isTrailingWindow(): Boolean = trailingWindow != null
-
-        fun isVelocityLimitParamsPeriodWindow(): Boolean = velocityLimitParamsPeriodWindow != null
-
-        /**
-         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-         */
-        fun asTrailingWindow(): Long = trailingWindow.getOrThrow("trailingWindow")
-
-        /**
-         * The window of time to calculate Spend Velocity over.
-         * - `DAY`: Velocity over the current day since midnight Eastern Time.
-         * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
-         * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
-         *   in Eastern Time.
-         * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
-         *   Time.
-         */
-        fun asVelocityLimitParamsPeriodWindow(): VelocityLimitParamsPeriodWindow =
-            velocityLimitParamsPeriodWindow.getOrThrow("velocityLimitParamsPeriodWindow")
-
-        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
-
-        fun <T> accept(visitor: Visitor<T>): T =
-            when {
-                trailingWindow != null -> visitor.visitTrailingWindow(trailingWindow)
-                velocityLimitParamsPeriodWindow != null ->
-                    visitor.visitVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)
-                else -> visitor.unknown(_json)
-            }
-
-        private var validated: Boolean = false
-
-        fun validate(): Period = apply {
-            if (validated) {
-                return@apply
-            }
-
-            accept(
-                object : Visitor<Unit> {
-                    override fun visitTrailingWindow(trailingWindow: Long) {}
-
-                    override fun visitVelocityLimitParamsPeriodWindow(
-                        velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
-                    ) {
-                        velocityLimitParamsPeriodWindow.validate()
-                    }
-                }
-            )
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic
-        internal fun validity(): Int =
-            accept(
-                object : Visitor<Int> {
-                    override fun visitTrailingWindow(trailingWindow: Long) = 1
-
-                    override fun visitVelocityLimitParamsPeriodWindow(
-                        velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
-                    ) = velocityLimitParamsPeriodWindow.validity()
-
-                    override fun unknown(json: JsonValue?) = 0
-                }
-            )
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Period && trailingWindow == other.trailingWindow && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
-        }
-
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(trailingWindow, velocityLimitParamsPeriodWindow) /* spotless:on */
-
-        override fun toString(): String =
-            when {
-                trailingWindow != null -> "Period{trailingWindow=$trailingWindow}"
-                velocityLimitParamsPeriodWindow != null ->
-                    "Period{velocityLimitParamsPeriodWindow=$velocityLimitParamsPeriodWindow}"
-                _json != null -> "Period{_unknown=$_json}"
-                else -> throw IllegalStateException("Invalid Period")
-            }
-
-        companion object {
-
-            /**
-             * The size of the trailing window to calculate Spend Velocity over in seconds. The
-             * minimum value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-             */
-            @JvmStatic
-            fun ofTrailingWindow(trailingWindow: Long) = Period(trailingWindow = trailingWindow)
-
-            /**
-             * The window of time to calculate Spend Velocity over.
-             * - `DAY`: Velocity over the current day since midnight Eastern Time.
-             * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern
-             *   Time.
-             * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
-             *   month in Eastern Time.
-             * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in
-             *   Eastern Time.
-             */
-            @JvmStatic
-            fun ofVelocityLimitParamsPeriodWindow(
-                velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
-            ) = Period(velocityLimitParamsPeriodWindow = velocityLimitParamsPeriodWindow)
-        }
-
-        /** An interface that defines how to map each variant of [Period] to a value of type [T]. */
-        interface Visitor<out T> {
-
-            /**
-             * The size of the trailing window to calculate Spend Velocity over in seconds. The
-             * minimum value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-             */
-            fun visitTrailingWindow(trailingWindow: Long): T
-
-            /**
-             * The window of time to calculate Spend Velocity over.
-             * - `DAY`: Velocity over the current day since midnight Eastern Time.
-             * - `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern
-             *   Time.
-             * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the
-             *   month in Eastern Time.
-             * - `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in
-             *   Eastern Time.
-             */
-            fun visitVelocityLimitParamsPeriodWindow(
-                velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
-            ): T
-
-            /**
-             * Maps an unknown variant of [Period] to a value of type [T].
-             *
-             * An instance of [Period] can contain an unknown variant if it was deserialized from
-             * data that doesn't match any known variant. For example, if the SDK is on an older
-             * version than the API, then the API may respond with new variants that the SDK is
-             * unaware of.
-             *
-             * @throws LithicInvalidDataException in the default implementation.
-             */
-            fun unknown(json: JsonValue?): T {
-                throw LithicInvalidDataException("Unknown Period: $json")
-            }
-        }
-
-        internal class Deserializer : BaseDeserializer<Period>(Period::class) {
-
-            override fun ObjectCodec.deserialize(node: JsonNode): Period {
-                val json = JsonValue.fromJsonNode(node)
-
-                val bestMatches =
-                    sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())
-                                ?.let {
-                                    Period(velocityLimitParamsPeriodWindow = it, _json = json)
-                                },
-                            tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                                Period(trailingWindow = it, _json = json)
-                            },
-                        )
-                        .filterNotNull()
-                        .allMaxBy { it.validity() }
-                        .toList()
-                return when (bestMatches.size) {
-                    // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
-                    0 -> Period(_json = json)
-                    1 -> bestMatches.single()
-                    // If there's more than one match with the highest validity, then use the first
-                    // completely valid match, or simply the first match if none are completely
-                    // valid.
-                    else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
-                }
-            }
-        }
-
-        internal class Serializer : BaseSerializer<Period>(Period::class) {
-
-            override fun serialize(
-                value: Period,
-                generator: JsonGenerator,
-                provider: SerializerProvider,
-            ) {
-                when {
-                    value.trailingWindow != null -> generator.writeObject(value.trailingWindow)
-                    value.velocityLimitParamsPeriodWindow != null ->
-                        generator.writeObject(value.velocityLimitParamsPeriodWindow)
-                    value._json != null -> generator.writeObject(value._json)
-                    else -> throw IllegalStateException("Invalid Period")
-                }
-            }
-        }
     }
 
     class Scope @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
