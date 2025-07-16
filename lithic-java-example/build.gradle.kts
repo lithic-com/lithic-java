@@ -17,5 +17,12 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.lithic.api.example.Main"
+    // Use `./gradlew :lithic-java-example:run` to run `Main`
+    // Use `./gradlew :lithic-java-example:run -Dexample=Something` to run `SomethingExample`
+    mainClass = "com.lithic.api.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}Example"
+        else
+            "Main"
+    }"
 }
