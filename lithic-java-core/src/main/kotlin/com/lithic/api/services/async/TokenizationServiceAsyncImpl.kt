@@ -3,13 +3,12 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -114,7 +113,8 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         TokenizationServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -125,7 +125,6 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
 
         private val retrieveHandler: Handler<TokenizationRetrieveResponse> =
             jsonHandler<TokenizationRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieve(
             params: TokenizationRetrieveParams,
@@ -145,7 +144,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -159,7 +158,6 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
 
         private val listHandler: Handler<TokenizationListPageResponse> =
             jsonHandler<TokenizationListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: TokenizationListParams,
@@ -176,7 +174,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -196,7 +194,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val activateHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val activateHandler: Handler<Void?> = emptyHandler()
 
         override fun activate(
             params: TokenizationActivateParams,
@@ -217,12 +215,13 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { activateHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { activateHandler.handle(it) }
+                    }
                 }
         }
 
-        private val deactivateHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val deactivateHandler: Handler<Void?> = emptyHandler()
 
         override fun deactivate(
             params: TokenizationDeactivateParams,
@@ -243,11 +242,13 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { deactivateHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { deactivateHandler.handle(it) }
+                    }
                 }
         }
 
-        private val pauseHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val pauseHandler: Handler<Void?> = emptyHandler()
 
         override fun pause(
             params: TokenizationPauseParams,
@@ -268,12 +269,13 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { pauseHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { pauseHandler.handle(it) }
+                    }
                 }
         }
 
-        private val resendActivationCodeHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val resendActivationCodeHandler: Handler<Void?> = emptyHandler()
 
         override fun resendActivationCode(
             params: TokenizationResendActivationCodeParams,
@@ -299,13 +301,14 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { resendActivationCodeHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { resendActivationCodeHandler.handle(it) }
+                    }
                 }
         }
 
         private val simulateHandler: Handler<TokenizationSimulateResponse> =
             jsonHandler<TokenizationSimulateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun simulate(
             params: TokenizationSimulateParams,
@@ -323,7 +326,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { simulateHandler.handle(it) }
                             .also {
@@ -335,7 +338,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val unpauseHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val unpauseHandler: Handler<Void?> = emptyHandler()
 
         override fun unpause(
             params: TokenizationUnpauseParams,
@@ -356,13 +359,14 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { unpauseHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { unpauseHandler.handle(it) }
+                    }
                 }
         }
 
         private val updateDigitalCardArtHandler: Handler<TokenizationUpdateDigitalCardArtResponse> =
             jsonHandler<TokenizationUpdateDigitalCardArtResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams,
@@ -388,7 +392,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { updateDigitalCardArtHandler.handle(it) }
                             .also {

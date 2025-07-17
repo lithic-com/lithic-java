@@ -118,8 +118,120 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun cardsCreate400WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<BadRequestException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(400)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun cardsCreate401() {
         val cardService = client.cards()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnauthorizedException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(401)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun cardsCreate401WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -230,8 +342,120 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun cardsCreate403WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<PermissionDeniedException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(403)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun cardsCreate404() {
         val cardService = client.cards()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<NotFoundException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(404)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun cardsCreate404WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -342,8 +566,120 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun cardsCreate422WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(422)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun cardsCreate429() {
         val cardService = client.cards()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<RateLimitException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(429)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun cardsCreate429WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(
@@ -454,8 +790,120 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun cardsCreate500WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<InternalServerException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(500)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun cardsCreate999() {
         val cardService = client.cards()
+        stubFor(
+            post(anyUrl())
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                cardService.create(
+                    CardCreateParams.builder()
+                        .type(CardCreateParams.Type.VIRTUAL)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .cardProgramToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                        .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .expMonth("06")
+                        .expYear("2027")
+                        .memo("New Card")
+                        .pin("pin")
+                        .productId("1")
+                        .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementComment("replacement_comment")
+                        .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .replacementSubstatus(CardCreateParams.ReplacementSubstatus.LOST)
+                        .shippingAddress(
+                            ShippingAddress.builder()
+                                .address1("5 Broad Street")
+                                .city("NEW YORK")
+                                .country("USA")
+                                .firstName("Michael")
+                                .lastName("Bluth")
+                                .postalCode("10001-1809")
+                                .state("NY")
+                                .address2("Unit 25A")
+                                .email("johnny@appleseed.com")
+                                .line2Text("The Bluth Company")
+                                .phoneNumber("+15555555555")
+                                .build()
+                        )
+                        .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
+                        .spendLimit(1000L)
+                        .spendLimitDuration(SpendLimitDuration.TRANSACTION)
+                        .state(CardCreateParams.State.OPEN)
+                        .build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(999)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun cardsCreate999WithRawResponse() {
+        val cardService = client.cards().withRawResponse()
         stubFor(
             post(anyUrl())
                 .willReturn(

@@ -3,13 +3,12 @@
 package com.lithic.api.services.blocking.authRules
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -131,7 +130,8 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         V2Service.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val backtests: BacktestService.WithRawResponse by lazy {
             BacktestServiceImpl.WithRawResponseImpl(clientOptions)
@@ -147,7 +147,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         override fun backtests(): BacktestService.WithRawResponse = backtests
 
         private val createHandler: Handler<V2CreateResponse> =
-            jsonHandler<V2CreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2CreateResponse>(clientOptions.jsonMapper)
 
         override fun create(
             params: AuthRuleV2CreateParams,
@@ -163,7 +163,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -175,7 +175,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         }
 
         private val retrieveHandler: Handler<V2RetrieveResponse> =
-            jsonHandler<V2RetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2RetrieveResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AuthRuleV2RetrieveParams,
@@ -193,7 +193,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -205,7 +205,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         }
 
         private val updateHandler: Handler<V2UpdateResponse> =
-            jsonHandler<V2UpdateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2UpdateResponse>(clientOptions.jsonMapper)
 
         override fun update(
             params: AuthRuleV2UpdateParams,
@@ -224,7 +224,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { updateHandler.handle(it) }
                     .also {
@@ -237,7 +237,6 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
 
         private val listHandler: Handler<AuthRuleV2ListPageResponse> =
             jsonHandler<AuthRuleV2ListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: AuthRuleV2ListParams,
@@ -252,7 +251,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -270,7 +269,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
             }
         }
 
-        private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val deleteHandler: Handler<Void?> = emptyHandler()
 
         override fun delete(
             params: AuthRuleV2DeleteParams,
@@ -289,11 +288,13 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable { response.use { deleteHandler.handle(it) } }
+            return errorHandler.handle(response).parseable {
+                response.use { deleteHandler.handle(it) }
+            }
         }
 
         private val applyHandler: Handler<V2ApplyResponse> =
-            jsonHandler<V2ApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2ApplyResponse>(clientOptions.jsonMapper)
 
         @Deprecated("deprecated")
         override fun apply(
@@ -313,7 +314,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { applyHandler.handle(it) }
                     .also {
@@ -325,7 +326,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         }
 
         private val draftHandler: Handler<V2DraftResponse> =
-            jsonHandler<V2DraftResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2DraftResponse>(clientOptions.jsonMapper)
 
         override fun draft(
             params: AuthRuleV2DraftParams,
@@ -344,7 +345,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { draftHandler.handle(it) }
                     .also {
@@ -356,7 +357,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         }
 
         private val promoteHandler: Handler<V2PromoteResponse> =
-            jsonHandler<V2PromoteResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2PromoteResponse>(clientOptions.jsonMapper)
 
         override fun promote(
             params: AuthRuleV2PromoteParams,
@@ -375,7 +376,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { promoteHandler.handle(it) }
                     .also {
@@ -387,7 +388,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         }
 
         private val reportHandler: Handler<V2ReportResponse> =
-            jsonHandler<V2ReportResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<V2ReportResponse>(clientOptions.jsonMapper)
 
         @Deprecated("deprecated")
         override fun report(
@@ -407,7 +408,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { reportHandler.handle(it) }
                     .also {
@@ -420,7 +421,6 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
 
         private val retrieveReportHandler: Handler<V2RetrieveReportResponse> =
             jsonHandler<V2RetrieveReportResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveReport(
             params: AuthRuleV2RetrieveReportParams,
@@ -438,7 +438,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveReportHandler.handle(it) }
                     .also {

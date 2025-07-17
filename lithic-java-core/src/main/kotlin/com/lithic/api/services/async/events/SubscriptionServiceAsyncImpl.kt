@@ -3,13 +3,12 @@
 package com.lithic.api.services.async.events
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -131,7 +130,8 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         SubscriptionServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -141,7 +141,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             )
 
         private val createHandler: Handler<EventSubscription> =
-            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper)
 
         override fun create(
             params: EventSubscriptionCreateParams,
@@ -159,7 +159,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -172,7 +172,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
         }
 
         private val retrieveHandler: Handler<EventSubscription> =
-            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: EventSubscriptionRetrieveParams,
@@ -192,7 +192,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -205,7 +205,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
         }
 
         private val updateHandler: Handler<EventSubscription> =
-            jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<EventSubscription>(clientOptions.jsonMapper)
 
         override fun update(
             params: EventSubscriptionUpdateParams,
@@ -226,7 +226,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { updateHandler.handle(it) }
                             .also {
@@ -240,7 +240,6 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
 
         private val listHandler: Handler<EventSubscriptionListPageResponse> =
             jsonHandler<EventSubscriptionListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: EventSubscriptionListParams,
@@ -257,7 +256,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -277,7 +276,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val deleteHandler: Handler<Void?> = emptyHandler()
 
         override fun delete(
             params: EventSubscriptionDeleteParams,
@@ -298,13 +297,14 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { deleteHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { deleteHandler.handle(it) }
+                    }
                 }
         }
 
         private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageResponse> =
             jsonHandler<EventSubscriptionListAttemptsPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listAttempts(
             params: EventSubscriptionListAttemptsParams,
@@ -324,7 +324,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listAttemptsHandler.handle(it) }
                             .also {
@@ -344,7 +344,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val recoverHandler: Handler<Void?> = emptyHandler()
 
         override fun recover(
             params: EventSubscriptionRecoverParams,
@@ -365,12 +365,13 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { recoverHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { recoverHandler.handle(it) }
+                    }
                 }
         }
 
-        private val replayMissingHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val replayMissingHandler: Handler<Void?> = emptyHandler()
 
         override fun replayMissing(
             params: EventSubscriptionReplayMissingParams,
@@ -396,13 +397,14 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { replayMissingHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { replayMissingHandler.handle(it) }
+                    }
                 }
         }
 
         private val retrieveSecretHandler: Handler<SubscriptionRetrieveSecretResponse> =
             jsonHandler<SubscriptionRetrieveSecretResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveSecret(
             params: EventSubscriptionRetrieveSecretParams,
@@ -422,7 +424,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveSecretHandler.handle(it) }
                             .also {
@@ -434,8 +436,7 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val rotateSecretHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val rotateSecretHandler: Handler<Void?> = emptyHandler()
 
         override fun rotateSecret(
             params: EventSubscriptionRotateSecretParams,
@@ -462,12 +463,13 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { rotateSecretHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { rotateSecretHandler.handle(it) }
+                    }
                 }
         }
 
-        private val sendSimulatedExampleHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val sendSimulatedExampleHandler: Handler<Void?> = emptyHandler()
 
         override fun sendSimulatedExample(
             params: EventSubscriptionSendSimulatedExampleParams,
@@ -494,7 +496,9 @@ class SubscriptionServiceAsyncImpl internal constructor(private val clientOption
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { sendSimulatedExampleHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { sendSimulatedExampleHandler.handle(it) }
+                    }
                 }
         }
     }
