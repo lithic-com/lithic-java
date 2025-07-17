@@ -3,13 +3,12 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -122,7 +121,8 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         FinancialAccountService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val balances: BalanceService.WithRawResponse by lazy {
             BalanceServiceImpl.WithRawResponseImpl(clientOptions)
@@ -164,7 +164,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         override fun loanTapes(): LoanTapeService.WithRawResponse = loanTapes
 
         private val createHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper)
 
         override fun create(
             params: FinancialAccountCreateParams,
@@ -180,7 +180,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -192,7 +192,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         }
 
         private val retrieveHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: FinancialAccountRetrieveParams,
@@ -210,7 +210,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -222,7 +222,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
         }
 
         private val updateHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper)
 
         override fun update(
             params: FinancialAccountUpdateParams,
@@ -241,7 +241,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { updateHandler.handle(it) }
                     .also {
@@ -254,7 +254,6 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
 
         private val listHandler: Handler<FinancialAccountListPageResponse> =
             jsonHandler<FinancialAccountListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: FinancialAccountListParams,
@@ -269,7 +268,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -287,8 +286,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
             }
         }
 
-        private val registerAccountNumberHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val registerAccountNumberHandler: Handler<Void?> = emptyHandler()
 
         override fun registerAccountNumber(
             params: FinancialAccountRegisterAccountNumberParams,
@@ -312,11 +310,13 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable { response.use { registerAccountNumberHandler.handle(it) } }
+            return errorHandler.handle(response).parseable {
+                response.use { registerAccountNumberHandler.handle(it) }
+            }
         }
 
         private val updateStatusHandler: Handler<FinancialAccount> =
-            jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<FinancialAccount>(clientOptions.jsonMapper)
 
         override fun updateStatus(
             params: FinancialAccountUpdateStatusParams,
@@ -340,7 +340,7 @@ class FinancialAccountServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { updateStatusHandler.handle(it) }
                     .also {

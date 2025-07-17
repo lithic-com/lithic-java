@@ -3,14 +3,14 @@
 package com.lithic.api.client
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.getPackageVersion
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
@@ -279,7 +279,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LithicClientAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val accounts: AccountServiceAsync.WithRawResponse by lazy {
             AccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -466,7 +467,7 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         override fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse = networkPrograms
 
         private val apiStatusHandler: Handler<ApiStatus> =
-            jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<ApiStatus>(clientOptions.jsonMapper)
 
         override fun apiStatus(
             params: ClientApiStatusParams,
@@ -483,7 +484,7 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { apiStatusHandler.handle(it) }
                             .also {

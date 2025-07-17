@@ -3,12 +3,11 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -63,7 +62,8 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ResponderEndpointServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -74,7 +74,6 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
 
         private val createHandler: Handler<ResponderEndpointCreateResponse> =
             jsonHandler<ResponderEndpointCreateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun create(
             params: ResponderEndpointCreateParams,
@@ -92,7 +91,7 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -104,7 +103,7 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
                 }
         }
 
-        private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+        private val deleteHandler: Handler<Void?> = emptyHandler()
 
         override fun delete(
             params: ResponderEndpointDeleteParams,
@@ -122,13 +121,14 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { deleteHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { deleteHandler.handle(it) }
+                    }
                 }
         }
 
         private val checkStatusHandler: Handler<ResponderEndpointStatus> =
             jsonHandler<ResponderEndpointStatus>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun checkStatus(
             params: ResponderEndpointCheckStatusParams,
@@ -145,7 +145,7 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { checkStatusHandler.handle(it) }
                             .also {

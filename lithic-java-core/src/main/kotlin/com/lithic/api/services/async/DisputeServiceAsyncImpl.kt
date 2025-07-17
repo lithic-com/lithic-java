@@ -3,14 +3,14 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -113,7 +113,8 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DisputeServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -122,8 +123,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<Dispute> =
-            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val createHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun create(
             params: DisputeCreateParams,
@@ -141,7 +141,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -154,7 +154,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val retrieveHandler: Handler<Dispute> =
-            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: DisputeRetrieveParams,
@@ -174,7 +174,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -186,8 +186,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val updateHandler: Handler<Dispute> =
-            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val updateHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun update(
             params: DisputeUpdateParams,
@@ -208,7 +207,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { updateHandler.handle(it) }
                             .also {
@@ -222,7 +221,6 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val listHandler: Handler<DisputeListPageResponse> =
             jsonHandler<DisputeListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: DisputeListParams,
@@ -239,7 +237,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -259,8 +257,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val deleteHandler: Handler<Dispute> =
-            jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val deleteHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun delete(
             params: DisputeDeleteParams,
@@ -281,7 +278,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { deleteHandler.handle(it) }
                             .also {
@@ -294,7 +291,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val deleteEvidenceHandler: Handler<DisputeEvidence> =
-            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper)
 
         override fun deleteEvidence(
             params: DisputeDeleteEvidenceParams,
@@ -321,7 +318,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { deleteEvidenceHandler.handle(it) }
                             .also {
@@ -334,7 +331,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val initiateEvidenceUploadHandler: Handler<DisputeEvidence> =
-            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper)
 
         override fun initiateEvidenceUpload(
             params: DisputeInitiateEvidenceUploadParams,
@@ -355,7 +352,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { initiateEvidenceUploadHandler.handle(it) }
                             .also {
@@ -369,7 +366,6 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val listEvidencesHandler: Handler<DisputeListEvidencesPageResponse> =
             jsonHandler<DisputeListEvidencesPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listEvidences(
             params: DisputeListEvidencesParams,
@@ -389,7 +385,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listEvidencesHandler.handle(it) }
                             .also {
@@ -410,7 +406,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val retrieveEvidenceHandler: Handler<DisputeEvidence> =
-            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DisputeEvidence>(clientOptions.jsonMapper)
 
         override fun retrieveEvidence(
             params: DisputeRetrieveEvidenceParams,
@@ -436,7 +432,7 @@ class DisputeServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveEvidenceHandler.handle(it) }
                             .also {

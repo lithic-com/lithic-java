@@ -3,14 +3,14 @@
 package com.lithic.api.services.async.creditProducts
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
@@ -45,7 +45,8 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ExtendedCreditServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -55,7 +56,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
             )
 
         private val retrieveHandler: Handler<ExtendedCredit> =
-            jsonHandler<ExtendedCredit>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<ExtendedCredit>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams,
@@ -80,7 +81,7 @@ internal constructor(private val clientOptions: ClientOptions) : ExtendedCreditS
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {

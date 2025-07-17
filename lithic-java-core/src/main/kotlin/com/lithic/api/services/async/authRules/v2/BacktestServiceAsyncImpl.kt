@@ -3,14 +3,14 @@
 package com.lithic.api.services.async.authRules.v2
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -53,7 +53,8 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BacktestServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -64,7 +65,6 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val createHandler: Handler<BacktestCreateResponse> =
             jsonHandler<BacktestCreateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun create(
             params: AuthRuleV2BacktestCreateParams,
@@ -85,7 +85,7 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -98,7 +98,7 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
         }
 
         private val retrieveHandler: Handler<BacktestResults> =
-            jsonHandler<BacktestResults>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<BacktestResults>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams,
@@ -124,7 +124,7 @@ class BacktestServiceAsyncImpl internal constructor(private val clientOptions: C
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {

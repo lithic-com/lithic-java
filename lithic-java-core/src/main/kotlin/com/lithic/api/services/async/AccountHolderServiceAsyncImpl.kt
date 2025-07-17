@@ -3,14 +3,14 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -118,7 +118,8 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AccountHolderServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -129,7 +130,6 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
 
         private val createHandler: Handler<AccountHolderCreateResponse> =
             jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun create(
             params: AccountHolderCreateParams,
@@ -150,7 +150,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -163,7 +163,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
         }
 
         private val retrieveHandler: Handler<AccountHolder> =
-            jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<AccountHolder>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AccountHolderRetrieveParams,
@@ -183,7 +183,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -197,7 +197,6 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
 
         private val updateHandler: Handler<AccountHolderUpdateResponse> =
             jsonHandler<AccountHolderUpdateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun update(
             params: AccountHolderUpdateParams,
@@ -218,7 +217,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { updateHandler.handle(it) }
                             .also {
@@ -232,7 +231,6 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
 
         private val listHandler: Handler<AccountHolderListPageResponse> =
             jsonHandler<AccountHolderListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: AccountHolderListParams,
@@ -249,7 +247,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -271,7 +269,6 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
 
         private val listDocumentsHandler: Handler<AccountHolderListDocumentsResponse> =
             jsonHandler<AccountHolderListDocumentsResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listDocuments(
             params: AccountHolderListDocumentsParams,
@@ -291,7 +288,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listDocumentsHandler.handle(it) }
                             .also {
@@ -304,7 +301,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
         }
 
         private val retrieveDocumentHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams,
@@ -330,7 +327,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveDocumentHandler.handle(it) }
                             .also {
@@ -343,7 +340,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
         }
 
         private val simulateEnrollmentDocumentReviewHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun simulateEnrollmentDocumentReview(
             params: AccountHolderSimulateEnrollmentDocumentReviewParams,
@@ -366,7 +363,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { simulateEnrollmentDocumentReviewHandler.handle(it) }
                             .also {
@@ -381,7 +378,6 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
         private val simulateEnrollmentReviewHandler:
             Handler<AccountHolderSimulateEnrollmentReviewResponse> =
             jsonHandler<AccountHolderSimulateEnrollmentReviewResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun simulateEnrollmentReview(
             params: AccountHolderSimulateEnrollmentReviewParams,
@@ -399,7 +395,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { simulateEnrollmentReviewHandler.handle(it) }
                             .also {
@@ -412,7 +408,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
         }
 
         private val uploadDocumentHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun uploadDocument(
             params: AccountHolderUploadDocumentParams,
@@ -433,7 +429,7 @@ class AccountHolderServiceAsyncImpl internal constructor(private val clientOptio
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { uploadDocumentHandler.handle(it) }
                             .also {
