@@ -3,14 +3,14 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -115,7 +115,8 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AccountHolderService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -126,7 +127,6 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
 
         private val createHandler: Handler<AccountHolderCreateResponse> =
             jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun create(
             params: AccountHolderCreateParams,
@@ -145,7 +145,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .applyDefaults(RequestOptions.from(clientOptions))
                     .applyDefaults(RequestOptions.builder().timeout(Duration.ofMinutes(5)).build())
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -157,7 +157,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         }
 
         private val retrieveHandler: Handler<AccountHolder> =
-            jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<AccountHolder>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AccountHolderRetrieveParams,
@@ -175,7 +175,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -188,7 +188,6 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
 
         private val updateHandler: Handler<AccountHolderUpdateResponse> =
             jsonHandler<AccountHolderUpdateResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun update(
             params: AccountHolderUpdateParams,
@@ -207,7 +206,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { updateHandler.handle(it) }
                     .also {
@@ -220,7 +219,6 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
 
         private val listHandler: Handler<AccountHolderListPageResponse> =
             jsonHandler<AccountHolderListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: AccountHolderListParams,
@@ -235,7 +233,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -255,7 +253,6 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
 
         private val listDocumentsHandler: Handler<AccountHolderListDocumentsResponse> =
             jsonHandler<AccountHolderListDocumentsResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listDocuments(
             params: AccountHolderListDocumentsParams,
@@ -273,7 +270,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listDocumentsHandler.handle(it) }
                     .also {
@@ -285,7 +282,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         }
 
         private val retrieveDocumentHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams,
@@ -309,7 +306,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveDocumentHandler.handle(it) }
                     .also {
@@ -321,7 +318,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         }
 
         private val simulateEnrollmentDocumentReviewHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun simulateEnrollmentDocumentReview(
             params: AccountHolderSimulateEnrollmentDocumentReviewParams,
@@ -342,7 +339,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { simulateEnrollmentDocumentReviewHandler.handle(it) }
                     .also {
@@ -356,7 +353,6 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         private val simulateEnrollmentReviewHandler:
             Handler<AccountHolderSimulateEnrollmentReviewResponse> =
             jsonHandler<AccountHolderSimulateEnrollmentReviewResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun simulateEnrollmentReview(
             params: AccountHolderSimulateEnrollmentReviewParams,
@@ -372,7 +368,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { simulateEnrollmentReviewHandler.handle(it) }
                     .also {
@@ -384,7 +380,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         }
 
         private val uploadDocumentHandler: Handler<Document> =
-            jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Document>(clientOptions.jsonMapper)
 
         override fun uploadDocument(
             params: AccountHolderUploadDocumentParams,
@@ -403,7 +399,7 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { uploadDocumentHandler.handle(it) }
                     .also {

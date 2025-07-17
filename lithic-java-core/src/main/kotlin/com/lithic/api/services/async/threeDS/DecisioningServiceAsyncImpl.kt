@@ -3,12 +3,11 @@
 package com.lithic.api.services.async.threeDS
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.handlers.emptyHandler
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse
@@ -60,7 +59,8 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DecisioningServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -69,8 +69,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val challengeResponseHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val challengeResponseHandler: Handler<Void?> = emptyHandler()
 
         override fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams,
@@ -88,13 +87,14 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { challengeResponseHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { challengeResponseHandler.handle(it) }
+                    }
                 }
         }
 
         private val retrieveSecretHandler: Handler<DecisioningRetrieveSecretResponse> =
             jsonHandler<DecisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams,
@@ -111,7 +111,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveSecretHandler.handle(it) }
                             .also {
@@ -123,8 +123,7 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
                 }
         }
 
-        private val rotateSecretHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val rotateSecretHandler: Handler<Void?> = emptyHandler()
 
         override fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams,
@@ -142,7 +141,9 @@ class DecisioningServiceAsyncImpl internal constructor(private val clientOptions
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { rotateSecretHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { rotateSecretHandler.handle(it) }
+                    }
                 }
         }
     }

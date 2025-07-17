@@ -3,14 +3,14 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -71,7 +71,8 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ManagementOperationService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -82,7 +83,6 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
 
         private val createHandler: Handler<ManagementOperationTransaction> =
             jsonHandler<ManagementOperationTransaction>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun create(
             params: ManagementOperationCreateParams,
@@ -98,7 +98,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -111,7 +111,6 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
 
         private val retrieveHandler: Handler<ManagementOperationTransaction> =
             jsonHandler<ManagementOperationTransaction>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieve(
             params: ManagementOperationRetrieveParams,
@@ -129,7 +128,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -142,7 +141,6 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
 
         private val listHandler: Handler<ManagementOperationListPageResponse> =
             jsonHandler<ManagementOperationListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: ManagementOperationListParams,
@@ -157,7 +155,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -177,7 +175,6 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
 
         private val reverseHandler: Handler<ManagementOperationTransaction> =
             jsonHandler<ManagementOperationTransaction>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun reverse(
             params: ManagementOperationReverseParams,
@@ -196,7 +193,7 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { reverseHandler.handle(it) }
                     .also {

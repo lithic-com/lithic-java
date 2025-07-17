@@ -3,15 +3,16 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.handlers.emptyHandler
+
+import com.lithic.api.core.handlers.errorBodyHandler
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
-import com.lithic.api.core.handlers.withErrorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
@@ -74,7 +75,8 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         EventService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val subscriptions: SubscriptionService.WithRawResponse by lazy {
             SubscriptionServiceImpl.WithRawResponseImpl(clientOptions)
@@ -96,8 +98,7 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
         override fun eventSubscriptions(): EventSubscriptionService.WithRawResponse =
             eventSubscriptions
 
-        private val retrieveHandler: Handler<Event> =
-            jsonHandler<Event>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val retrieveHandler: Handler<Event> = jsonHandler<Event>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: EventRetrieveParams,
@@ -115,7 +116,7 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -128,7 +129,6 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val listHandler: Handler<EventListPageResponse> =
             jsonHandler<EventListPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: EventListParams,
@@ -143,7 +143,7 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -163,7 +163,6 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val listAttemptsHandler: Handler<EventListAttemptsPageResponse> =
             jsonHandler<EventListAttemptsPageResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listAttempts(
             params: EventListAttemptsParams,
@@ -181,7 +180,7 @@ class EventServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listAttemptsHandler.handle(it) }
                     .also {
