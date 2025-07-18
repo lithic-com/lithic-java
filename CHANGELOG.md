@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.97.0 (2025-07-18)
+
+Full Changelog: [v0.96.1...v0.97.0](https://github.com/lithic-com/lithic-java/compare/v0.96.1...v0.97.0)
+
+### Features
+
+* **client:** add https config options ([ac2c55c](https://github.com/lithic-com/lithic-java/commit/ac2c55c13ad7fd93a14e5e64cb8acc548ad84c63))
+
+
+### Chores
+
+* **internal:** refactor delegating from client to options ([f165926](https://github.com/lithic-com/lithic-java/commit/f165926b1e58f6119241fe908915d86de6161d8f))
+
 ## 0.96.1 (2025-07-18)
 
 Full Changelog: [v0.96.0...v0.96.1](https://github.com/lithic-com/lithic-java/compare/v0.96.0...v0.96.1)

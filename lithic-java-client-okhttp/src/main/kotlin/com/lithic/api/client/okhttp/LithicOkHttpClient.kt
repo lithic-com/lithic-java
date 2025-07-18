@@ -9,11 +9,15 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.Timeout
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.jsonMapper
 import java.net.Proxy
 import java.time.Clock
 import java.time.Duration
 import java.util.Optional
 import java.util.concurrent.Executor
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 import kotlin.jvm.optionals.getOrNull
 
 class LithicOkHttpClient private constructor() {
@@ -30,12 +34,63 @@ class LithicOkHttpClient private constructor() {
     class Builder internal constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
-        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
+        private var sslSocketFactory: SSLSocketFactory? = null
+        private var trustManager: X509TrustManager? = null
+        private var hostnameVerifier: HostnameVerifier? = null
 
-        fun sandbox() = apply { baseUrl(ClientOptions.SANDBOX_URL) }
+        fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
 
-        fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
+        /** Alias for calling [Builder.proxy] with `proxy.orElse(null)`. */
+        fun proxy(proxy: Optional<Proxy>) = proxy(proxy.getOrNull())
+
+        /**
+         * The socket factory used to secure HTTPS connections.
+         *
+         * If this is set, then [trustManager] must also be set.
+         *
+         * If unset, then the system default is used. Most applications should not call this method,
+         * and instead use the system default. The default include special optimizations that can be
+         * lost if the implementation is modified.
+         */
+        fun sslSocketFactory(sslSocketFactory: SSLSocketFactory?) = apply {
+            this.sslSocketFactory = sslSocketFactory
+        }
+
+        /** Alias for calling [Builder.sslSocketFactory] with `sslSocketFactory.orElse(null)`. */
+        fun sslSocketFactory(sslSocketFactory: Optional<SSLSocketFactory>) =
+            sslSocketFactory(sslSocketFactory.getOrNull())
+
+        /**
+         * The trust manager used to secure HTTPS connections.
+         *
+         * If this is set, then [sslSocketFactory] must also be set.
+         *
+         * If unset, then the system default is used. Most applications should not call this method,
+         * and instead use the system default. The default include special optimizations that can be
+         * lost if the implementation is modified.
+         */
+        fun trustManager(trustManager: X509TrustManager?) = apply {
+            this.trustManager = trustManager
+        }
+
+        /** Alias for calling [Builder.trustManager] with `trustManager.orElse(null)`. */
+        fun trustManager(trustManager: Optional<X509TrustManager>) =
+            trustManager(trustManager.getOrNull())
+
+        /**
+         * The verifier used to confirm that response certificates apply to requested hostnames for
+         * HTTPS connections.
+         *
+         * If unset, then a default hostname verifier is used.
+         */
+        fun hostnameVerifier(hostnameVerifier: HostnameVerifier?) = apply {
+            this.hostnameVerifier = hostnameVerifier
+        }
+
+        /** Alias for calling [Builder.hostnameVerifier] with `hostnameVerifier.orElse(null)`. */
+        fun hostnameVerifier(hostnameVerifier: Optional<HostnameVerifier>) =
+            hostnameVerifier(hostnameVerifier.getOrNull())
 
         /**
          * Whether to throw an exception if any of the Jackson versions detected at runtime are
@@ -55,6 +110,40 @@ class LithicOkHttpClient private constructor() {
         }
 
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
+
+        fun baseUrl(baseUrl: String?) = apply { clientOptions.baseUrl(baseUrl) }
+
+        /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
+        fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
+
+        fun sandbox() = apply { clientOptions.sandbox() }
+
+        fun responseValidation(responseValidation: Boolean) = apply {
+            clientOptions.responseValidation(responseValidation)
+        }
+
+        fun timeout(timeout: Timeout) = apply { clientOptions.timeout(timeout) }
+
+        /**
+         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         *
+         * See [Timeout.request] for more details.
+         *
+         * For fine-grained control, pass a [Timeout] object.
+         */
+        fun timeout(timeout: Duration) = apply { clientOptions.timeout(timeout) }
+
+        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
+
+        fun webhookSecret(webhookSecret: String?) = apply {
+            clientOptions.webhookSecret(webhookSecret)
+        }
+
+        /** Alias for calling [Builder.webhookSecret] with `webhookSecret.orElse(null)`. */
+        fun webhookSecret(webhookSecret: Optional<String>) =
+            webhookSecret(webhookSecret.getOrNull())
 
         fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
 
@@ -136,38 +225,6 @@ class LithicOkHttpClient private constructor() {
             clientOptions.removeAllQueryParams(keys)
         }
 
-        fun timeout(timeout: Timeout) = apply {
-            clientOptions.timeout(timeout)
-            this.timeout = timeout
-        }
-
-        /**
-         * Sets the maximum time allowed for a complete HTTP call, not including retries.
-         *
-         * See [Timeout.request] for more details.
-         *
-         * For fine-grained control, pass a [Timeout] object.
-         */
-        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
-
-        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
-
-        fun proxy(proxy: Proxy) = apply { this.proxy = proxy }
-
-        fun responseValidation(responseValidation: Boolean) = apply {
-            clientOptions.responseValidation(responseValidation)
-        }
-
-        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
-
-        fun webhookSecret(webhookSecret: String?) = apply {
-            clientOptions.webhookSecret(webhookSecret)
-        }
-
-        /** Alias for calling [Builder.webhookSecret] with `webhookSecret.orElse(null)`. */
-        fun webhookSecret(webhookSecret: Optional<String>) =
-            webhookSecret(webhookSecret.getOrNull())
-
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
         /**
@@ -178,7 +235,15 @@ class LithicOkHttpClient private constructor() {
         fun build(): LithicClient =
             LithicClientImpl(
                 clientOptions
-                    .httpClient(OkHttpClient.builder().timeout(timeout).proxy(proxy).build())
+                    .httpClient(
+                        OkHttpClient.builder()
+                            .timeout(clientOptions.timeout())
+                            .proxy(proxy)
+                            .sslSocketFactory(sslSocketFactory)
+                            .trustManager(trustManager)
+                            .hostnameVerifier(hostnameVerifier)
+                            .build()
+                    )
                     .build()
             )
     }
