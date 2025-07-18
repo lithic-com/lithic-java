@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.96.1 (2025-07-18)
+
+Full Changelog: [v0.96.0...v0.96.1](https://github.com/lithic-com/lithic-java/compare/v0.96.0...v0.96.1)
+
+### Bug Fixes
+
+* **client:** ensure error handling always occurs ([037c1ff](https://github.com/lithic-com/lithic-java/commit/037c1ffd0e92cb6e86f9e434f96f9cff6a6393e2))
+
+
+### Chores
+
+* fix conflict ([83182ce](https://github.com/lithic-com/lithic-java/commit/83182ce0bcaf7edb9d5874e2496c3ea6314295a9))
+* **internal:** allow running specific example from cli ([59ee949](https://github.com/lithic-com/lithic-java/commit/59ee949248a1e53456df67804bbae9ccb2a258d3))
+
 ## 0.96.0 (2025-07-15)
 
 Full Changelog: [v0.95.0...v0.96.0](https://github.com/lithic-com/lithic-java/compare/v0.95.0...v0.96.0)
