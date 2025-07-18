@@ -522,8 +522,9 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         }
     }
 
-    private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
-    private val embedHandler: Handler<String> = stringHandler().withErrorHandler(errorHandler)
+    private val errorHandler: Handler<HttpResponse> =
+        errorHandler(errorBodyHandler(clientOptions.jsonMapper))
+    private val embedHandler: Handler<String> = stringHandler()
 
     override fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
@@ -549,7 +550,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
                 .putHeader("Accept", "text/html")
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response.let { embedHandler.handle(it) }
+            errorHandler.handle(response).let { embedHandler.handle(it) }
         }
     }
 
