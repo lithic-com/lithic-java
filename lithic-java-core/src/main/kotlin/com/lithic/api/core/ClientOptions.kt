@@ -246,9 +246,14 @@ private constructor(
         fun timeout(): Timeout = timeout
 
         fun fromEnv() = apply {
-            System.getenv("LITHIC_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("LITHIC_API_KEY")?.let { apiKey(it) }
-            System.getenv("LITHIC_WEBHOOK_SECRET")?.let { webhookSecret(it) }
+            (System.getProperty("lithic.baseUrl") ?: System.getenv("LITHIC_BASE_URL"))?.let {
+                baseUrl(it)
+            }
+            (System.getProperty("lithic.apiKey") ?: System.getenv("LITHIC_API_KEY"))?.let {
+                apiKey(it)
+            }
+            (System.getProperty("lithic.webhookSecret") ?: System.getenv("LITHIC_WEBHOOK_SECRET"))
+                ?.let { webhookSecret(it) }
         }
 
         /**
