@@ -433,6 +433,8 @@ private constructor(
 
             @JvmField val CARD = of("CARD")
 
+            @JvmField val ANY = of("ANY")
+
             @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
         }
 
@@ -441,6 +443,7 @@ private constructor(
             PROGRAM,
             ACCOUNT,
             CARD,
+            ANY,
         }
 
         /**
@@ -456,6 +459,7 @@ private constructor(
             PROGRAM,
             ACCOUNT,
             CARD,
+            ANY,
             /** An enum member indicating that [Scope] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -472,6 +476,7 @@ private constructor(
                 PROGRAM -> Value.PROGRAM
                 ACCOUNT -> Value.ACCOUNT
                 CARD -> Value.CARD
+                ANY -> Value.ANY
                 else -> Value._UNKNOWN
             }
 
@@ -489,6 +494,7 @@ private constructor(
                 PROGRAM -> Known.PROGRAM
                 ACCOUNT -> Known.ACCOUNT
                 CARD -> Known.CARD
+                ANY -> Known.ANY
                 else -> throw LithicInvalidDataException("Unknown Scope: $value")
             }
 
