@@ -1337,6 +1337,8 @@ private constructor(
 
             @JvmField val CLEARING = of("CLEARING")
 
+            @JvmField val COLLABORATION = of("COLLABORATION")
+
             @JvmField val FEE = of("FEE")
 
             @JvmField val FINANCIAL = of("FINANCIAL")
@@ -1356,6 +1358,7 @@ private constructor(
             ARBITRATION,
             CHARGEBACK,
             CLEARING,
+            COLLABORATION,
             FEE,
             FINANCIAL,
             NON_FINANCIAL,
@@ -1377,6 +1380,7 @@ private constructor(
             ARBITRATION,
             CHARGEBACK,
             CLEARING,
+            COLLABORATION,
             FEE,
             FINANCIAL,
             NON_FINANCIAL,
@@ -1399,6 +1403,7 @@ private constructor(
                 ARBITRATION -> Value.ARBITRATION
                 CHARGEBACK -> Value.CHARGEBACK
                 CLEARING -> Value.CLEARING
+                COLLABORATION -> Value.COLLABORATION
                 FEE -> Value.FEE
                 FINANCIAL -> Value.FINANCIAL
                 NON_FINANCIAL -> Value.NON_FINANCIAL
@@ -1422,6 +1427,7 @@ private constructor(
                 ARBITRATION -> Known.ARBITRATION
                 CHARGEBACK -> Known.CHARGEBACK
                 CLEARING -> Known.CLEARING
+                COLLABORATION -> Known.COLLABORATION
                 FEE -> Known.FEE
                 FINANCIAL -> Known.FINANCIAL
                 NON_FINANCIAL -> Known.NON_FINANCIAL
