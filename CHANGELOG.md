@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.97.0 (2025-07-23)
+
+Full Changelog: [v0.96.1...v0.97.0](https://github.com/lithic-com/lithic-java/compare/v0.96.1...v0.97.0)
+
+### Features
+
+* **api:** adds new Auth Rules Scope and Settlement Details type ([b94bfc2](https://github.com/lithic-com/lithic-java/commit/b94bfc2ecef5a07742f4f0e0bf36ccd8e38c2b9f))
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([ef6b26e](https://github.com/lithic-com/lithic-java/commit/ef6b26ea48e9ceca26ae7e4da2805bce7b99d363))
+* **client:** add https config options ([ac2c55c](https://github.com/lithic-com/lithic-java/commit/ac2c55c13ad7fd93a14e5e64cb8acc548ad84c63))
+* **client:** allow configuring env via system properties ([3b78f9e](https://github.com/lithic-com/lithic-java/commit/3b78f9e12ba76f1422339640ca3bac21eafa408d))
+
+
+### Chores
+
+* **docs:** update Account Holder deprecation formatting ([12496f2](https://github.com/lithic-com/lithic-java/commit/12496f2edfff93ed6a1bbfc72ecba34acf85365f))
+* **internal:** refactor delegating from client to options ([f165926](https://github.com/lithic-com/lithic-java/commit/f165926b1e58f6119241fe908915d86de6161d8f))
+
+
+### Documentation
+
+* fix missing readme comment ([f1d5068](https://github.com/lithic-com/lithic-java/commit/f1d50687540c2435b14e058007f7bbbfb8025613))
+
 ## 0.96.1 (2025-07-18)
 
 Full Changelog: [v0.96.0...v0.96.1](https://github.com/lithic-com/lithic-java/compare/v0.96.0...v0.96.1)
