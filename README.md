@@ -93,7 +93,7 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient;
 
 LithicClient client = LithicOkHttpClient.builder()
     // Configures using the `lithic.apiKey`, `lithic.webhookSecret` and `lithic.baseUrl` system properties
-    Or configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
+    // Or configures using the `LITHIC_API_KEY`, `LITHIC_WEBHOOK_SECRET` and `LITHIC_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My Lithic API Key")
     .build();
