@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.97.2 (2025-07-24)
+
+Full Changelog: [v0.97.1...v0.97.2](https://github.com/lithic-com/lithic-java/compare/v0.97.1...v0.97.2)
+
+### Documentation
+
+* more code comments ([ceb45ee](https://github.com/lithic-com/lithic-java/commit/ceb45ee1e189449f1097d181d86238b1f535805d))
+
 ## 0.97.1 (2025-07-24)
 
 Full Changelog: [v0.97.0...v0.97.1](https://github.com/lithic-com/lithic-java/compare/v0.97.0...v0.97.1)
