@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.97.1 (2025-07-24)
+
+Full Changelog: [v0.97.0...v0.97.1](https://github.com/lithic-com/lithic-java/compare/v0.97.0...v0.97.1)
+
+### Bug Fixes
+
+* **client:** accidental mutability of some classes ([fc619ca](https://github.com/lithic-com/lithic-java/commit/fc619cadba3ade9214c2638bb9f9c5c224925a9d))
+
+
+### Chores
+
+* **internal:** remove unnecessary `[...]` in `[@see](https://github.com/see)` ([47d67f7](https://github.com/lithic-com/lithic-java/commit/47d67f774679aed9f823bf66237895ac21c8a2ae))
+
 ## 0.97.0 (2025-07-23)
 
 Full Changelog: [v0.96.1...v0.97.0](https://github.com/lithic-com/lithic-java/compare/v0.96.1...v0.97.0)
