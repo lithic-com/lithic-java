@@ -28,7 +28,7 @@ interface ExtendedCreditServiceAsync {
     fun retrieve(creditProductToken: String): CompletableFuture<ExtendedCredit> =
         retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductExtendedCreditRetrieveParams =
@@ -37,7 +37,7 @@ interface ExtendedCreditServiceAsync {
     ): CompletableFuture<ExtendedCredit> =
         retrieve(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductExtendedCreditRetrieveParams =
@@ -45,18 +45,18 @@ interface ExtendedCreditServiceAsync {
     ): CompletableFuture<ExtendedCredit> =
         retrieve(creditProductToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExtendedCredit>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams
     ): CompletableFuture<ExtendedCredit> = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         requestOptions: RequestOptions,
@@ -92,7 +92,7 @@ interface ExtendedCreditServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
             retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             creditProductToken: String,
             params: CreditProductExtendedCreditRetrieveParams =
@@ -104,7 +104,7 @@ interface ExtendedCreditServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             creditProductToken: String,
             params: CreditProductExtendedCreditRetrieveParams =
@@ -112,19 +112,19 @@ interface ExtendedCreditServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
             retrieve(creditProductToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams
         ): CompletableFuture<HttpResponseFor<ExtendedCredit>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             creditProductToken: String,
             requestOptions: RequestOptions,

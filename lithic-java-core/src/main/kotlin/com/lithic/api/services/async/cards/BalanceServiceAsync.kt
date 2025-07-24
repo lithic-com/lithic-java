@@ -28,7 +28,7 @@ interface BalanceServiceAsync {
     fun list(cardToken: String): CompletableFuture<CardBalanceListPageAsync> =
         list(cardToken, CardBalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         cardToken: String,
         params: CardBalanceListParams = CardBalanceListParams.none(),
@@ -36,23 +36,23 @@ interface BalanceServiceAsync {
     ): CompletableFuture<CardBalanceListPageAsync> =
         list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         cardToken: String,
         params: CardBalanceListParams = CardBalanceListParams.none(),
     ): CompletableFuture<CardBalanceListPageAsync> = list(cardToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBalanceListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         cardToken: String,
         requestOptions: RequestOptions,
@@ -80,7 +80,7 @@ interface BalanceServiceAsync {
         fun list(cardToken: String): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(cardToken, CardBalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
@@ -88,26 +88,26 @@ interface BalanceServiceAsync {
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(cardToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardBalanceListParams
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             cardToken: String,
             requestOptions: RequestOptions,

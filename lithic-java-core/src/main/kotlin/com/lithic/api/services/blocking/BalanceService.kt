@@ -27,17 +27,17 @@ interface BalanceService {
     /** Get the balances for a program, business, or a given end-user account */
     fun list(): BalanceListPage = list(BalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: BalanceListParams = BalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BalanceListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: BalanceListParams = BalanceListParams.none()): BalanceListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): BalanceListPage =
         list(BalanceListParams.none(), requestOptions)
 
@@ -57,20 +57,20 @@ interface BalanceService {
          */
         @MustBeClosed fun list(): HttpResponseFor<BalanceListPage> = list(BalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BalanceListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: BalanceListParams = BalanceListParams.none()
         ): HttpResponseFor<BalanceListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<BalanceListPage> =
             list(BalanceListParams.none(), requestOptions)

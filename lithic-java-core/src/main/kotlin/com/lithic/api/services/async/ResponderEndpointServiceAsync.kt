@@ -32,18 +32,18 @@ interface ResponderEndpointServiceAsync {
     fun create(): CompletableFuture<ResponderEndpointCreateResponse> =
         create(ResponderEndpointCreateParams.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponderEndpointCreateResponse>
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
     ): CompletableFuture<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(requestOptions: RequestOptions): CompletableFuture<ResponderEndpointCreateResponse> =
         create(ResponderEndpointCreateParams.none(), requestOptions)
 
@@ -51,7 +51,7 @@ interface ResponderEndpointServiceAsync {
     fun delete(params: ResponderEndpointDeleteParams): CompletableFuture<Void?> =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: ResponderEndpointDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -62,7 +62,7 @@ interface ResponderEndpointServiceAsync {
         params: ResponderEndpointCheckStatusParams
     ): CompletableFuture<ResponderEndpointStatus> = checkStatus(params, RequestOptions.none())
 
-    /** @see [checkStatus] */
+    /** @see checkStatus */
     fun checkStatus(
         params: ResponderEndpointCheckStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -90,19 +90,19 @@ interface ResponderEndpointServiceAsync {
         fun create(): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
             create(ResponderEndpointCreateParams.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>>
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ResponderEndpointCreateResponse>> =
@@ -115,7 +115,7 @@ interface ResponderEndpointServiceAsync {
         fun delete(params: ResponderEndpointDeleteParams): CompletableFuture<HttpResponse> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: ResponderEndpointDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -130,7 +130,7 @@ interface ResponderEndpointServiceAsync {
         ): CompletableFuture<HttpResponseFor<ResponderEndpointStatus>> =
             checkStatus(params, RequestOptions.none())
 
-        /** @see [checkStatus] */
+        /** @see checkStatus */
         fun checkStatus(
             params: ResponderEndpointCheckStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),

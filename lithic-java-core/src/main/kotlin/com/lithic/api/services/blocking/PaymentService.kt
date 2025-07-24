@@ -42,7 +42,7 @@ interface PaymentService {
     fun create(params: PaymentCreateParams): PaymentCreateResponse =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: PaymentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -52,46 +52,46 @@ interface PaymentService {
     fun retrieve(paymentToken: String): Payment =
         retrieve(paymentToken, PaymentRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         paymentToken: String,
         params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Payment = retrieve(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         paymentToken: String,
         params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
     ): Payment = retrieve(paymentToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: PaymentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Payment
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: PaymentRetrieveParams): Payment = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(paymentToken: String, requestOptions: RequestOptions): Payment =
         retrieve(paymentToken, PaymentRetrieveParams.none(), requestOptions)
 
     /** List all the payments for the provided search criteria. */
     fun list(): PaymentListPage = list(PaymentListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: PaymentListParams = PaymentListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: PaymentListParams = PaymentListParams.none()): PaymentListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): PaymentListPage =
         list(PaymentListParams.none(), requestOptions)
 
@@ -99,7 +99,7 @@ interface PaymentService {
     fun retry(paymentToken: String): PaymentRetryResponse =
         retry(paymentToken, PaymentRetryParams.none())
 
-    /** @see [retry] */
+    /** @see retry */
     fun retry(
         paymentToken: String,
         params: PaymentRetryParams = PaymentRetryParams.none(),
@@ -107,23 +107,23 @@ interface PaymentService {
     ): PaymentRetryResponse =
         retry(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-    /** @see [retry] */
+    /** @see retry */
     fun retry(
         paymentToken: String,
         params: PaymentRetryParams = PaymentRetryParams.none(),
     ): PaymentRetryResponse = retry(paymentToken, params, RequestOptions.none())
 
-    /** @see [retry] */
+    /** @see retry */
     fun retry(
         params: PaymentRetryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentRetryResponse
 
-    /** @see [retry] */
+    /** @see retry */
     fun retry(params: PaymentRetryParams): PaymentRetryResponse =
         retry(params, RequestOptions.none())
 
-    /** @see [retry] */
+    /** @see retry */
     fun retry(paymentToken: String, requestOptions: RequestOptions): PaymentRetryResponse =
         retry(paymentToken, PaymentRetryParams.none(), requestOptions)
 
@@ -133,7 +133,7 @@ interface PaymentService {
         params: PaymentSimulateActionParams,
     ): PaymentSimulateActionResponse = simulateAction(paymentToken, params, RequestOptions.none())
 
-    /** @see [simulateAction] */
+    /** @see simulateAction */
     fun simulateAction(
         paymentToken: String,
         params: PaymentSimulateActionParams,
@@ -141,11 +141,11 @@ interface PaymentService {
     ): PaymentSimulateActionResponse =
         simulateAction(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-    /** @see [simulateAction] */
+    /** @see simulateAction */
     fun simulateAction(params: PaymentSimulateActionParams): PaymentSimulateActionResponse =
         simulateAction(params, RequestOptions.none())
 
-    /** @see [simulateAction] */
+    /** @see simulateAction */
     fun simulateAction(
         params: PaymentSimulateActionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -155,7 +155,7 @@ interface PaymentService {
     fun simulateReceipt(params: PaymentSimulateReceiptParams): PaymentSimulateReceiptResponse =
         simulateReceipt(params, RequestOptions.none())
 
-    /** @see [simulateReceipt] */
+    /** @see simulateReceipt */
     fun simulateReceipt(
         params: PaymentSimulateReceiptParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -165,7 +165,7 @@ interface PaymentService {
     fun simulateRelease(params: PaymentSimulateReleaseParams): PaymentSimulateReleaseResponse =
         simulateRelease(params, RequestOptions.none())
 
-    /** @see [simulateRelease] */
+    /** @see simulateRelease */
     fun simulateRelease(
         params: PaymentSimulateReleaseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -175,7 +175,7 @@ interface PaymentService {
     fun simulateReturn(params: PaymentSimulateReturnParams): PaymentSimulateReturnResponse =
         simulateReturn(params, RequestOptions.none())
 
-    /** @see [simulateReturn] */
+    /** @see simulateReturn */
     fun simulateReturn(
         params: PaymentSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -199,7 +199,7 @@ interface PaymentService {
         fun create(params: PaymentCreateParams): HttpResponseFor<PaymentCreateResponse> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: PaymentCreateParams,
@@ -214,7 +214,7 @@ interface PaymentService {
         fun retrieve(paymentToken: String): HttpResponseFor<Payment> =
             retrieve(paymentToken, PaymentRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             paymentToken: String,
@@ -223,26 +223,26 @@ interface PaymentService {
         ): HttpResponseFor<Payment> =
             retrieve(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             paymentToken: String,
             params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
         ): HttpResponseFor<Payment> = retrieve(paymentToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: PaymentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Payment>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: PaymentRetrieveParams): HttpResponseFor<Payment> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             paymentToken: String,
@@ -256,20 +256,20 @@ interface PaymentService {
          */
         @MustBeClosed fun list(): HttpResponseFor<PaymentListPage> = list(PaymentListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PaymentListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none()
         ): HttpResponseFor<PaymentListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<PaymentListPage> =
             list(PaymentListParams.none(), requestOptions)
@@ -282,7 +282,7 @@ interface PaymentService {
         fun retry(paymentToken: String): HttpResponseFor<PaymentRetryResponse> =
             retry(paymentToken, PaymentRetryParams.none())
 
-        /** @see [retry] */
+        /** @see retry */
         @MustBeClosed
         fun retry(
             paymentToken: String,
@@ -291,7 +291,7 @@ interface PaymentService {
         ): HttpResponseFor<PaymentRetryResponse> =
             retry(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-        /** @see [retry] */
+        /** @see retry */
         @MustBeClosed
         fun retry(
             paymentToken: String,
@@ -299,19 +299,19 @@ interface PaymentService {
         ): HttpResponseFor<PaymentRetryResponse> =
             retry(paymentToken, params, RequestOptions.none())
 
-        /** @see [retry] */
+        /** @see retry */
         @MustBeClosed
         fun retry(
             params: PaymentRetryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PaymentRetryResponse>
 
-        /** @see [retry] */
+        /** @see retry */
         @MustBeClosed
         fun retry(params: PaymentRetryParams): HttpResponseFor<PaymentRetryResponse> =
             retry(params, RequestOptions.none())
 
-        /** @see [retry] */
+        /** @see retry */
         @MustBeClosed
         fun retry(
             paymentToken: String,
@@ -330,7 +330,7 @@ interface PaymentService {
         ): HttpResponseFor<PaymentSimulateActionResponse> =
             simulateAction(paymentToken, params, RequestOptions.none())
 
-        /** @see [simulateAction] */
+        /** @see simulateAction */
         @MustBeClosed
         fun simulateAction(
             paymentToken: String,
@@ -339,14 +339,14 @@ interface PaymentService {
         ): HttpResponseFor<PaymentSimulateActionResponse> =
             simulateAction(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
-        /** @see [simulateAction] */
+        /** @see simulateAction */
         @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams
         ): HttpResponseFor<PaymentSimulateActionResponse> =
             simulateAction(params, RequestOptions.none())
 
-        /** @see [simulateAction] */
+        /** @see simulateAction */
         @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams,
@@ -363,7 +363,7 @@ interface PaymentService {
         ): HttpResponseFor<PaymentSimulateReceiptResponse> =
             simulateReceipt(params, RequestOptions.none())
 
-        /** @see [simulateReceipt] */
+        /** @see simulateReceipt */
         @MustBeClosed
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams,
@@ -380,7 +380,7 @@ interface PaymentService {
         ): HttpResponseFor<PaymentSimulateReleaseResponse> =
             simulateRelease(params, RequestOptions.none())
 
-        /** @see [simulateRelease] */
+        /** @see simulateRelease */
         @MustBeClosed
         fun simulateRelease(
             params: PaymentSimulateReleaseParams,
@@ -397,7 +397,7 @@ interface PaymentService {
         ): HttpResponseFor<PaymentSimulateReturnResponse> =
             simulateReturn(params, RequestOptions.none())
 
-        /** @see [simulateReturn] */
+        /** @see simulateReturn */
         @MustBeClosed
         fun simulateReturn(
             params: PaymentSimulateReturnParams,

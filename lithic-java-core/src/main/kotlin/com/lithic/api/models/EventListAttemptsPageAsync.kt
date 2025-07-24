@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [EventServiceAsync.listAttempts] */
+/** @see EventServiceAsync.listAttempts */
 class EventListAttemptsPageAsync
 private constructor(
     private val service: EventServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [EventListAttemptsPageResponse], but gracefully handles missing data.
      *
-     * @see [EventListAttemptsPageResponse.data]
+     * @see EventListAttemptsPageResponse.data
      */
     fun data(): List<MessageAttempt> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [EventListAttemptsPageResponse], but gracefully handles missing data.
      *
-     * @see [EventListAttemptsPageResponse.hasMore]
+     * @see EventListAttemptsPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

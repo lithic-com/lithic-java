@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [NetworkTotalService.list] */
+/** @see NetworkTotalService.list */
 class ReportSettlementNetworkTotalListPage
 private constructor(
     private val service: NetworkTotalService,
@@ -22,7 +22,7 @@ private constructor(
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
      * data.
      *
-     * @see [ReportSettlementNetworkTotalListPageResponse.data]
+     * @see ReportSettlementNetworkTotalListPageResponse.data
      */
     fun data(): List<NetworkTotalListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -31,7 +31,7 @@ private constructor(
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
      * data.
      *
-     * @see [ReportSettlementNetworkTotalListPageResponse.hasMore]
+     * @see ReportSettlementNetworkTotalListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

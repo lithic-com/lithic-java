@@ -36,7 +36,7 @@ interface SettlementServiceAsync {
     ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
         listDetails(reportDate, ReportSettlementListDetailsParams.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
@@ -44,26 +44,26 @@ interface SettlementServiceAsync {
     ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
         listDetails(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
     ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
         listDetails(reportDate, params, RequestOptions.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         params: ReportSettlementListDetailsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReportSettlementListDetailsPageAsync>
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         params: ReportSettlementListDetailsParams
     ): CompletableFuture<ReportSettlementListDetailsPageAsync> =
         listDetails(params, RequestOptions.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         requestOptions: RequestOptions,
@@ -74,7 +74,7 @@ interface SettlementServiceAsync {
     fun summary(reportDate: LocalDate): CompletableFuture<SettlementReport> =
         summary(reportDate, ReportSettlementSummaryParams.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         reportDate: LocalDate,
         params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
@@ -82,23 +82,23 @@ interface SettlementServiceAsync {
     ): CompletableFuture<SettlementReport> =
         summary(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         reportDate: LocalDate,
         params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
     ): CompletableFuture<SettlementReport> = summary(reportDate, params, RequestOptions.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SettlementReport>
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(params: ReportSettlementSummaryParams): CompletableFuture<SettlementReport> =
         summary(params, RequestOptions.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         reportDate: LocalDate,
         requestOptions: RequestOptions,
@@ -131,7 +131,7 @@ interface SettlementServiceAsync {
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(reportDate, ReportSettlementListDetailsParams.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         fun listDetails(
             reportDate: LocalDate,
             params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
@@ -139,26 +139,26 @@ interface SettlementServiceAsync {
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         fun listDetails(
             reportDate: LocalDate,
             params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(reportDate, params, RequestOptions.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         fun listDetails(
             params: ReportSettlementListDetailsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>>
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         fun listDetails(
             params: ReportSettlementListDetailsParams
         ): CompletableFuture<HttpResponseFor<ReportSettlementListDetailsPageAsync>> =
             listDetails(params, RequestOptions.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         fun listDetails(
             reportDate: LocalDate,
             requestOptions: RequestOptions,
@@ -172,7 +172,7 @@ interface SettlementServiceAsync {
         fun summary(reportDate: LocalDate): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(reportDate, ReportSettlementSummaryParams.none())
 
-        /** @see [summary] */
+        /** @see summary */
         fun summary(
             reportDate: LocalDate,
             params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
@@ -180,26 +180,26 @@ interface SettlementServiceAsync {
         ): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-        /** @see [summary] */
+        /** @see summary */
         fun summary(
             reportDate: LocalDate,
             params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
         ): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(reportDate, params, RequestOptions.none())
 
-        /** @see [summary] */
+        /** @see summary */
         fun summary(
             params: ReportSettlementSummaryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SettlementReport>>
 
-        /** @see [summary] */
+        /** @see summary */
         fun summary(
             params: ReportSettlementSummaryParams
         ): CompletableFuture<HttpResponseFor<SettlementReport>> =
             summary(params, RequestOptions.none())
 
-        /** @see [summary] */
+        /** @see summary */
         fun summary(
             reportDate: LocalDate,
             requestOptions: RequestOptions,

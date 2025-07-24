@@ -30,7 +30,7 @@ interface MicroDepositService {
         params: ExternalBankAccountMicroDepositCreateParams,
     ): MicroDepositCreateResponse = create(externalBankAccountToken, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         externalBankAccountToken: String,
         params: ExternalBankAccountMicroDepositCreateParams,
@@ -41,11 +41,11 @@ interface MicroDepositService {
             requestOptions,
         )
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: ExternalBankAccountMicroDepositCreateParams): MicroDepositCreateResponse =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: ExternalBankAccountMicroDepositCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -77,7 +77,7 @@ interface MicroDepositService {
         ): HttpResponseFor<MicroDepositCreateResponse> =
             create(externalBankAccountToken, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             externalBankAccountToken: String,
@@ -89,13 +89,13 @@ interface MicroDepositService {
                 requestOptions,
             )
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams
         ): HttpResponseFor<MicroDepositCreateResponse> = create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams,

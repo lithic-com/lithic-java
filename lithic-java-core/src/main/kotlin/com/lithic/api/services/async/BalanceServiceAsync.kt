@@ -27,18 +27,18 @@ interface BalanceServiceAsync {
     /** Get the balances for a program, business, or a given end-user account */
     fun list(): CompletableFuture<BalanceListPageAsync> = list(BalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: BalanceListParams = BalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BalanceListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: BalanceListParams = BalanceListParams.none()
     ): CompletableFuture<BalanceListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<BalanceListPageAsync> =
         list(BalanceListParams.none(), requestOptions)
 
@@ -63,19 +63,19 @@ interface BalanceServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
             list(BalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: BalanceListParams = BalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: BalanceListParams = BalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =

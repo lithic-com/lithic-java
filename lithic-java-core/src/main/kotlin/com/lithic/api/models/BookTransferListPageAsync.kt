@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [BookTransferServiceAsync.list] */
+/** @see BookTransferServiceAsync.list */
 class BookTransferListPageAsync
 private constructor(
     private val service: BookTransferServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [BookTransferListPageResponse], but gracefully handles missing data.
      *
-     * @see [BookTransferListPageResponse.data]
+     * @see BookTransferListPageResponse.data
      */
     fun data(): List<BookTransferResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [BookTransferListPageResponse], but gracefully handles missing data.
      *
-     * @see [BookTransferListPageResponse.hasMore]
+     * @see BookTransferListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

@@ -29,7 +29,7 @@ interface EventSubscriptionServiceAsync {
         params: EventEventSubscriptionResendParams,
     ): CompletableFuture<Void?> = resend(eventSubscriptionToken, params, RequestOptions.none())
 
-    /** @see [resend] */
+    /** @see resend */
     fun resend(
         eventSubscriptionToken: String,
         params: EventEventSubscriptionResendParams,
@@ -40,11 +40,11 @@ interface EventSubscriptionServiceAsync {
             requestOptions,
         )
 
-    /** @see [resend] */
+    /** @see resend */
     fun resend(params: EventEventSubscriptionResendParams): CompletableFuture<Void?> =
         resend(params, RequestOptions.none())
 
-    /** @see [resend] */
+    /** @see resend */
     fun resend(
         params: EventEventSubscriptionResendParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -76,7 +76,7 @@ interface EventSubscriptionServiceAsync {
         ): CompletableFuture<HttpResponse> =
             resend(eventSubscriptionToken, params, RequestOptions.none())
 
-        /** @see [resend] */
+        /** @see resend */
         fun resend(
             eventSubscriptionToken: String,
             params: EventEventSubscriptionResendParams,
@@ -87,11 +87,11 @@ interface EventSubscriptionServiceAsync {
                 requestOptions,
             )
 
-        /** @see [resend] */
+        /** @see resend */
         fun resend(params: EventEventSubscriptionResendParams): CompletableFuture<HttpResponse> =
             resend(params, RequestOptions.none())
 
-        /** @see [resend] */
+        /** @see resend */
         fun resend(
             params: EventEventSubscriptionResendParams,
             requestOptions: RequestOptions = RequestOptions.none(),

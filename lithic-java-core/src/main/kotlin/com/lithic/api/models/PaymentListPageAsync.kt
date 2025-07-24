@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [PaymentServiceAsync.list] */
+/** @see PaymentServiceAsync.list */
 class PaymentListPageAsync
 private constructor(
     private val service: PaymentServiceAsync,
@@ -24,14 +24,14 @@ private constructor(
     /**
      * Delegates to [PaymentListPageResponse], but gracefully handles missing data.
      *
-     * @see [PaymentListPageResponse.data]
+     * @see PaymentListPageResponse.data
      */
     fun data(): List<Payment> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [PaymentListPageResponse], but gracefully handles missing data.
      *
-     * @see [PaymentListPageResponse.hasMore]
+     * @see PaymentListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

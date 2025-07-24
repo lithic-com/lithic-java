@@ -55,7 +55,7 @@ interface TransactionService {
     fun retrieve(transactionToken: String): Transaction =
         retrieve(transactionToken, TransactionRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
@@ -63,23 +63,23 @@ interface TransactionService {
     ): Transaction =
         retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
     ): Transaction = retrieve(transactionToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Transaction
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: TransactionRetrieveParams): Transaction =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(transactionToken: String, requestOptions: RequestOptions): Transaction =
         retrieve(transactionToken, TransactionRetrieveParams.none(), requestOptions)
 
@@ -89,17 +89,17 @@ interface TransactionService {
      */
     fun list(): TransactionListPage = list(TransactionListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: TransactionListParams = TransactionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TransactionListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: TransactionListParams = TransactionListParams.none()): TransactionListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): TransactionListPage =
         list(TransactionListParams.none(), requestOptions)
 
@@ -107,7 +107,7 @@ interface TransactionService {
     fun expireAuthorization(transactionToken: String) =
         expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         transactionToken: String,
         params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
@@ -118,23 +118,23 @@ interface TransactionService {
             requestOptions,
         )
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         transactionToken: String,
         params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
     ) = expireAuthorization(transactionToken, params, RequestOptions.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         params: TransactionExpireAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(params: TransactionExpireAuthorizationParams) =
         expireAuthorization(params, RequestOptions.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(transactionToken: String, requestOptions: RequestOptions) =
         expireAuthorization(
             transactionToken,
@@ -155,7 +155,7 @@ interface TransactionService {
     ): TransactionSimulateAuthorizationResponse =
         simulateAuthorization(params, RequestOptions.none())
 
-    /** @see [simulateAuthorization] */
+    /** @see simulateAuthorization */
     fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -170,7 +170,7 @@ interface TransactionService {
     ): TransactionSimulateAuthorizationAdviceResponse =
         simulateAuthorizationAdvice(params, RequestOptions.none())
 
-    /** @see [simulateAuthorizationAdvice] */
+    /** @see simulateAuthorizationAdvice */
     fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -187,7 +187,7 @@ interface TransactionService {
         params: TransactionSimulateClearingParams
     ): TransactionSimulateClearingResponse = simulateClearing(params, RequestOptions.none())
 
-    /** @see [simulateClearing] */
+    /** @see simulateClearing */
     fun simulateClearing(
         params: TransactionSimulateClearingParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -202,7 +202,7 @@ interface TransactionService {
     ): TransactionSimulateCreditAuthorizationResponse =
         simulateCreditAuthorization(params, RequestOptions.none())
 
-    /** @see [simulateCreditAuthorization] */
+    /** @see simulateCreditAuthorization */
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -215,7 +215,7 @@ interface TransactionService {
     fun simulateReturn(params: TransactionSimulateReturnParams): TransactionSimulateReturnResponse =
         simulateReturn(params, RequestOptions.none())
 
-    /** @see [simulateReturn] */
+    /** @see simulateReturn */
     fun simulateReturn(
         params: TransactionSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -230,7 +230,7 @@ interface TransactionService {
     ): TransactionSimulateReturnReversalResponse =
         simulateReturnReversal(params, RequestOptions.none())
 
-    /** @see [simulateReturnReversal] */
+    /** @see simulateReturnReversal */
     fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -245,7 +245,7 @@ interface TransactionService {
     fun simulateVoid(params: TransactionSimulateVoidParams): TransactionSimulateVoidResponse =
         simulateVoid(params, RequestOptions.none())
 
-    /** @see [simulateVoid] */
+    /** @see simulateVoid */
     fun simulateVoid(
         params: TransactionSimulateVoidParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -277,7 +277,7 @@ interface TransactionService {
         fun retrieve(transactionToken: String): HttpResponseFor<Transaction> =
             retrieve(transactionToken, TransactionRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             transactionToken: String,
@@ -286,26 +286,26 @@ interface TransactionService {
         ): HttpResponseFor<Transaction> =
             retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             transactionToken: String,
             params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
         ): HttpResponseFor<Transaction> = retrieve(transactionToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Transaction>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: TransactionRetrieveParams): HttpResponseFor<Transaction> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             transactionToken: String,
@@ -320,20 +320,20 @@ interface TransactionService {
         @MustBeClosed
         fun list(): HttpResponseFor<TransactionListPage> = list(TransactionListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: TransactionListParams = TransactionListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TransactionListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: TransactionListParams = TransactionListParams.none()
         ): HttpResponseFor<TransactionListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<TransactionListPage> =
             list(TransactionListParams.none(), requestOptions)
@@ -347,7 +347,7 @@ interface TransactionService {
         fun expireAuthorization(transactionToken: String): HttpResponse =
             expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         @MustBeClosed
         fun expireAuthorization(
             transactionToken: String,
@@ -360,7 +360,7 @@ interface TransactionService {
                 requestOptions,
             )
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         @MustBeClosed
         fun expireAuthorization(
             transactionToken: String,
@@ -368,19 +368,19 @@ interface TransactionService {
                 TransactionExpireAuthorizationParams.none(),
         ): HttpResponse = expireAuthorization(transactionToken, params, RequestOptions.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         @MustBeClosed
         fun expireAuthorization(
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         @MustBeClosed
         fun expireAuthorization(params: TransactionExpireAuthorizationParams): HttpResponse =
             expireAuthorization(params, RequestOptions.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         @MustBeClosed
         fun expireAuthorization(
             transactionToken: String,
@@ -402,7 +402,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateAuthorizationResponse> =
             simulateAuthorization(params, RequestOptions.none())
 
-        /** @see [simulateAuthorization] */
+        /** @see simulateAuthorization */
         @MustBeClosed
         fun simulateAuthorization(
             params: TransactionSimulateAuthorizationParams,
@@ -419,7 +419,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateAuthorizationAdviceResponse> =
             simulateAuthorizationAdvice(params, RequestOptions.none())
 
-        /** @see [simulateAuthorizationAdvice] */
+        /** @see simulateAuthorizationAdvice */
         @MustBeClosed
         fun simulateAuthorizationAdvice(
             params: TransactionSimulateAuthorizationAdviceParams,
@@ -436,7 +436,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateClearingResponse> =
             simulateClearing(params, RequestOptions.none())
 
-        /** @see [simulateClearing] */
+        /** @see simulateClearing */
         @MustBeClosed
         fun simulateClearing(
             params: TransactionSimulateClearingParams,
@@ -453,7 +453,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateCreditAuthorizationResponse> =
             simulateCreditAuthorization(params, RequestOptions.none())
 
-        /** @see [simulateCreditAuthorization] */
+        /** @see simulateCreditAuthorization */
         @MustBeClosed
         fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams,
@@ -470,7 +470,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateReturnResponse> =
             simulateReturn(params, RequestOptions.none())
 
-        /** @see [simulateReturn] */
+        /** @see simulateReturn */
         @MustBeClosed
         fun simulateReturn(
             params: TransactionSimulateReturnParams,
@@ -487,7 +487,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateReturnReversalResponse> =
             simulateReturnReversal(params, RequestOptions.none())
 
-        /** @see [simulateReturnReversal] */
+        /** @see simulateReturnReversal */
         @MustBeClosed
         fun simulateReturnReversal(
             params: TransactionSimulateReturnReversalParams,
@@ -504,7 +504,7 @@ interface TransactionService {
         ): HttpResponseFor<TransactionSimulateVoidResponse> =
             simulateVoid(params, RequestOptions.none())
 
-        /** @see [simulateVoid] */
+        /** @see simulateVoid */
         @MustBeClosed
         fun simulateVoid(
             params: TransactionSimulateVoidParams,

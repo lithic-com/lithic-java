@@ -32,7 +32,7 @@ interface LoanTapeServiceAsync {
         params: FinancialAccountLoanTapeRetrieveParams,
     ): CompletableFuture<LoanTape> = retrieve(loanTapeToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         loanTapeToken: String,
         params: FinancialAccountLoanTapeRetrieveParams,
@@ -40,11 +40,11 @@ interface LoanTapeServiceAsync {
     ): CompletableFuture<LoanTape> =
         retrieve(params.toBuilder().loanTapeToken(loanTapeToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: FinancialAccountLoanTapeRetrieveParams): CompletableFuture<LoanTape> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialAccountLoanTapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -56,7 +56,7 @@ interface LoanTapeServiceAsync {
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
         list(financialAccountToken, FinancialAccountLoanTapeListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
@@ -67,26 +67,26 @@ interface LoanTapeServiceAsync {
             requestOptions,
         )
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
         list(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountLoanTapeListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountLoanTapeListParams
     ): CompletableFuture<FinancialAccountLoanTapeListPageAsync> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -118,7 +118,7 @@ interface LoanTapeServiceAsync {
         ): CompletableFuture<HttpResponseFor<LoanTape>> =
             retrieve(loanTapeToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             loanTapeToken: String,
             params: FinancialAccountLoanTapeRetrieveParams,
@@ -126,12 +126,12 @@ interface LoanTapeServiceAsync {
         ): CompletableFuture<HttpResponseFor<LoanTape>> =
             retrieve(params.toBuilder().loanTapeToken(loanTapeToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams
         ): CompletableFuture<HttpResponseFor<LoanTape>> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: FinancialAccountLoanTapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -147,7 +147,7 @@ interface LoanTapeServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
             list(financialAccountToken, FinancialAccountLoanTapeListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             financialAccountToken: String,
             params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
@@ -158,26 +158,26 @@ interface LoanTapeServiceAsync {
                 requestOptions,
             )
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             financialAccountToken: String,
             params: FinancialAccountLoanTapeListParams = FinancialAccountLoanTapeListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
             list(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountLoanTapeListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountLoanTapeListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountLoanTapeListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,

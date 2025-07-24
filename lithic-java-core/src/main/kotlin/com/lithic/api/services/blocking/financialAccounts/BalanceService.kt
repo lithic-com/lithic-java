@@ -28,7 +28,7 @@ interface BalanceService {
     fun list(financialAccountToken: String): FinancialAccountBalanceListPage =
         list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
@@ -39,23 +39,23 @@ interface BalanceService {
             requestOptions,
         )
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
     ): FinancialAccountBalanceListPage = list(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountBalanceListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: FinancialAccountBalanceListParams): FinancialAccountBalanceListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -81,7 +81,7 @@ interface BalanceService {
         fun list(financialAccountToken: String): HttpResponseFor<FinancialAccountBalanceListPage> =
             list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -93,7 +93,7 @@ interface BalanceService {
                 requestOptions,
             )
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -101,20 +101,20 @@ interface BalanceService {
         ): HttpResponseFor<FinancialAccountBalanceListPage> =
             list(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountBalanceListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams
         ): HttpResponseFor<FinancialAccountBalanceListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,

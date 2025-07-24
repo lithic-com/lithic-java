@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [ExternalPaymentService.list] */
+/** @see ExternalPaymentService.list */
 class ExternalPaymentListPage
 private constructor(
     private val service: ExternalPaymentService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [ExternalPaymentListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalPaymentListPageResponse.data]
+     * @see ExternalPaymentListPageResponse.data
      */
     fun data(): List<ExternalPayment> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [ExternalPaymentListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalPaymentListPageResponse.hasMore]
+     * @see ExternalPaymentListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

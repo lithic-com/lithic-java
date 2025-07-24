@@ -36,7 +36,7 @@ interface DecisioningService {
     fun challengeResponse(params: ThreeDSDecisioningChallengeResponseParams) =
         challengeResponse(params, RequestOptions.none())
 
-    /** @see [challengeResponse] */
+    /** @see challengeResponse */
     fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -53,20 +53,20 @@ interface DecisioningService {
     fun retrieveSecret(): DecisioningRetrieveSecretResponse =
         retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DecisioningRetrieveSecretResponse
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none()
     ): DecisioningRetrieveSecretResponse = retrieveSecret(params, RequestOptions.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): DecisioningRetrieveSecretResponse =
         retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
 
@@ -78,18 +78,18 @@ interface DecisioningService {
      */
     fun rotateSecret() = rotateSecret(ThreeDSDecisioningRotateSecretParams.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none()
     ) = rotateSecret(params, RequestOptions.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions) =
         rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
 
@@ -115,7 +115,7 @@ interface DecisioningService {
         fun challengeResponse(params: ThreeDSDecisioningChallengeResponseParams): HttpResponse =
             challengeResponse(params, RequestOptions.none())
 
-        /** @see [challengeResponse] */
+        /** @see challengeResponse */
         @MustBeClosed
         fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams,
@@ -130,7 +130,7 @@ interface DecisioningService {
         fun retrieveSecret(): HttpResponseFor<DecisioningRetrieveSecretResponse> =
             retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
@@ -138,7 +138,7 @@ interface DecisioningService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DecisioningRetrieveSecretResponse>
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
@@ -146,7 +146,7 @@ interface DecisioningService {
         ): HttpResponseFor<DecisioningRetrieveSecretResponse> =
             retrieveSecret(params, RequestOptions.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             requestOptions: RequestOptions
@@ -160,7 +160,7 @@ interface DecisioningService {
         @MustBeClosed
         fun rotateSecret(): HttpResponse = rotateSecret(ThreeDSDecisioningRotateSecretParams.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
@@ -168,14 +168,14 @@ interface DecisioningService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none()
         ): HttpResponse = rotateSecret(params, RequestOptions.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)

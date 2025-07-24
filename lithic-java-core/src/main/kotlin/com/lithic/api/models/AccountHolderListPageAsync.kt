@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [AccountHolderServiceAsync.list] */
+/** @see AccountHolderServiceAsync.list */
 class AccountHolderListPageAsync
 private constructor(
     private val service: AccountHolderServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [AccountHolderListPageResponse], but gracefully handles missing data.
      *
-     * @see [AccountHolderListPageResponse.data]
+     * @see AccountHolderListPageResponse.data
      */
     fun data(): List<AccountHolder> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [AccountHolderListPageResponse], but gracefully handles missing data.
      *
-     * @see [AccountHolderListPageResponse.hasMore]
+     * @see AccountHolderListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

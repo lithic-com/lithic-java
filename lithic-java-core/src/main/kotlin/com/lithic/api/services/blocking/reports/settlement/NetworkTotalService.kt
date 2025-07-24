@@ -30,7 +30,7 @@ interface NetworkTotalService {
     fun retrieve(token: String): NetworkTotalRetrieveResponse =
         retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         token: String,
         params: ReportSettlementNetworkTotalRetrieveParams =
@@ -39,24 +39,24 @@ interface NetworkTotalService {
     ): NetworkTotalRetrieveResponse =
         retrieve(params.toBuilder().token(token).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         token: String,
         params: ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams.none(),
     ): NetworkTotalRetrieveResponse = retrieve(token, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): NetworkTotalRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ReportSettlementNetworkTotalRetrieveParams): NetworkTotalRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(token: String, requestOptions: RequestOptions): NetworkTotalRetrieveResponse =
         retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none(), requestOptions)
 
@@ -64,20 +64,20 @@ interface NetworkTotalService {
     fun list(): ReportSettlementNetworkTotalListPage =
         list(ReportSettlementNetworkTotalListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: ReportSettlementNetworkTotalListParams =
             ReportSettlementNetworkTotalListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ReportSettlementNetworkTotalListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: ReportSettlementNetworkTotalListParams =
             ReportSettlementNetworkTotalListParams.none()
     ): ReportSettlementNetworkTotalListPage = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): ReportSettlementNetworkTotalListPage =
         list(ReportSettlementNetworkTotalListParams.none(), requestOptions)
 
@@ -103,7 +103,7 @@ interface NetworkTotalService {
         fun retrieve(token: String): HttpResponseFor<NetworkTotalRetrieveResponse> =
             retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             token: String,
@@ -113,7 +113,7 @@ interface NetworkTotalService {
         ): HttpResponseFor<NetworkTotalRetrieveResponse> =
             retrieve(params.toBuilder().token(token).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             token: String,
@@ -122,20 +122,20 @@ interface NetworkTotalService {
         ): HttpResponseFor<NetworkTotalRetrieveResponse> =
             retrieve(token, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<NetworkTotalRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams
         ): HttpResponseFor<NetworkTotalRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             token: String,
@@ -151,7 +151,7 @@ interface NetworkTotalService {
         fun list(): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
             list(ReportSettlementNetworkTotalListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
@@ -159,7 +159,7 @@ interface NetworkTotalService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ReportSettlementNetworkTotalListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: ReportSettlementNetworkTotalListParams =
@@ -167,7 +167,7 @@ interface NetworkTotalService {
         ): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions

@@ -55,7 +55,7 @@ interface TransactionServiceAsync {
     fun retrieve(transactionToken: String): CompletableFuture<Transaction> =
         retrieve(transactionToken, TransactionRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
@@ -63,23 +63,23 @@ interface TransactionServiceAsync {
     ): CompletableFuture<Transaction> =
         retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
     ): CompletableFuture<Transaction> = retrieve(transactionToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Transaction>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: TransactionRetrieveParams): CompletableFuture<Transaction> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         requestOptions: RequestOptions,
@@ -92,18 +92,18 @@ interface TransactionServiceAsync {
      */
     fun list(): CompletableFuture<TransactionListPageAsync> = list(TransactionListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: TransactionListParams = TransactionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: TransactionListParams = TransactionListParams.none()
     ): CompletableFuture<TransactionListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<TransactionListPageAsync> =
         list(TransactionListParams.none(), requestOptions)
 
@@ -111,7 +111,7 @@ interface TransactionServiceAsync {
     fun expireAuthorization(transactionToken: String): CompletableFuture<Void?> =
         expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         transactionToken: String,
         params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
@@ -122,25 +122,25 @@ interface TransactionServiceAsync {
             requestOptions,
         )
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         transactionToken: String,
         params: TransactionExpireAuthorizationParams = TransactionExpireAuthorizationParams.none(),
     ): CompletableFuture<Void?> =
         expireAuthorization(transactionToken, params, RequestOptions.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         params: TransactionExpireAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         params: TransactionExpireAuthorizationParams
     ): CompletableFuture<Void?> = expireAuthorization(params, RequestOptions.none())
 
-    /** @see [expireAuthorization] */
+    /** @see expireAuthorization */
     fun expireAuthorization(
         transactionToken: String,
         requestOptions: RequestOptions,
@@ -164,7 +164,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateAuthorizationResponse> =
         simulateAuthorization(params, RequestOptions.none())
 
-    /** @see [simulateAuthorization] */
+    /** @see simulateAuthorization */
     fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -179,7 +179,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse> =
         simulateAuthorizationAdvice(params, RequestOptions.none())
 
-    /** @see [simulateAuthorizationAdvice] */
+    /** @see simulateAuthorizationAdvice */
     fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -197,7 +197,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateClearingResponse> =
         simulateClearing(params, RequestOptions.none())
 
-    /** @see [simulateClearing] */
+    /** @see simulateClearing */
     fun simulateClearing(
         params: TransactionSimulateClearingParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -212,7 +212,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> =
         simulateCreditAuthorization(params, RequestOptions.none())
 
-    /** @see [simulateCreditAuthorization] */
+    /** @see simulateCreditAuthorization */
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -227,7 +227,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateReturnResponse> =
         simulateReturn(params, RequestOptions.none())
 
-    /** @see [simulateReturn] */
+    /** @see simulateReturn */
     fun simulateReturn(
         params: TransactionSimulateReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -242,7 +242,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateReturnReversalResponse> =
         simulateReturnReversal(params, RequestOptions.none())
 
-    /** @see [simulateReturnReversal] */
+    /** @see simulateReturnReversal */
     fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -259,7 +259,7 @@ interface TransactionServiceAsync {
     ): CompletableFuture<TransactionSimulateVoidResponse> =
         simulateVoid(params, RequestOptions.none())
 
-    /** @see [simulateVoid] */
+    /** @see simulateVoid */
     fun simulateVoid(
         params: TransactionSimulateVoidParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -291,7 +291,7 @@ interface TransactionServiceAsync {
         fun retrieve(transactionToken: String): CompletableFuture<HttpResponseFor<Transaction>> =
             retrieve(transactionToken, TransactionRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             transactionToken: String,
             params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
@@ -299,25 +299,25 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<Transaction>> =
             retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             transactionToken: String,
             params: TransactionRetrieveParams = TransactionRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Transaction>> =
             retrieve(transactionToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: TransactionRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Transaction>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: TransactionRetrieveParams
         ): CompletableFuture<HttpResponseFor<Transaction>> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             transactionToken: String,
             requestOptions: RequestOptions,
@@ -331,19 +331,19 @@ interface TransactionServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> =
             list(TransactionListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: TransactionListParams = TransactionListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: TransactionListParams = TransactionListParams.none()
         ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TransactionListPageAsync>> =
@@ -357,7 +357,7 @@ interface TransactionServiceAsync {
         fun expireAuthorization(transactionToken: String): CompletableFuture<HttpResponse> =
             expireAuthorization(transactionToken, TransactionExpireAuthorizationParams.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         fun expireAuthorization(
             transactionToken: String,
             params: TransactionExpireAuthorizationParams =
@@ -369,7 +369,7 @@ interface TransactionServiceAsync {
                 requestOptions,
             )
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         fun expireAuthorization(
             transactionToken: String,
             params: TransactionExpireAuthorizationParams =
@@ -377,18 +377,18 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponse> =
             expireAuthorization(transactionToken, params, RequestOptions.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         fun expireAuthorization(
             params: TransactionExpireAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         fun expireAuthorization(
             params: TransactionExpireAuthorizationParams
         ): CompletableFuture<HttpResponse> = expireAuthorization(params, RequestOptions.none())
 
-        /** @see [expireAuthorization] */
+        /** @see expireAuthorization */
         fun expireAuthorization(
             transactionToken: String,
             requestOptions: RequestOptions,
@@ -408,7 +408,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationResponse>> =
             simulateAuthorization(params, RequestOptions.none())
 
-        /** @see [simulateAuthorization] */
+        /** @see simulateAuthorization */
         fun simulateAuthorization(
             params: TransactionSimulateAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -423,7 +423,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateAuthorizationAdviceResponse>> =
             simulateAuthorizationAdvice(params, RequestOptions.none())
 
-        /** @see [simulateAuthorizationAdvice] */
+        /** @see simulateAuthorizationAdvice */
         fun simulateAuthorizationAdvice(
             params: TransactionSimulateAuthorizationAdviceParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -438,7 +438,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateClearingResponse>> =
             simulateClearing(params, RequestOptions.none())
 
-        /** @see [simulateClearing] */
+        /** @see simulateClearing */
         fun simulateClearing(
             params: TransactionSimulateClearingParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -453,7 +453,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationResponse>> =
             simulateCreditAuthorization(params, RequestOptions.none())
 
-        /** @see [simulateCreditAuthorization] */
+        /** @see simulateCreditAuthorization */
         fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -468,7 +468,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnResponse>> =
             simulateReturn(params, RequestOptions.none())
 
-        /** @see [simulateReturn] */
+        /** @see simulateReturn */
         fun simulateReturn(
             params: TransactionSimulateReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -483,7 +483,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateReturnReversalResponse>> =
             simulateReturnReversal(params, RequestOptions.none())
 
-        /** @see [simulateReturnReversal] */
+        /** @see simulateReturnReversal */
         fun simulateReturnReversal(
             params: TransactionSimulateReturnReversalParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -498,7 +498,7 @@ interface TransactionServiceAsync {
         ): CompletableFuture<HttpResponseFor<TransactionSimulateVoidResponse>> =
             simulateVoid(params, RequestOptions.none())
 
-        /** @see [simulateVoid] */
+        /** @see simulateVoid */
         fun simulateVoid(
             params: TransactionSimulateVoidParams,
             requestOptions: RequestOptions = RequestOptions.none(),

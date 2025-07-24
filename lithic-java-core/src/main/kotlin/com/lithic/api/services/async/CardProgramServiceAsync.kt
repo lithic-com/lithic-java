@@ -30,7 +30,7 @@ interface CardProgramServiceAsync {
     fun retrieve(cardProgramToken: String): CompletableFuture<CardProgram> =
         retrieve(cardProgramToken, CardProgramRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
@@ -38,23 +38,23 @@ interface CardProgramServiceAsync {
     ): CompletableFuture<CardProgram> =
         retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
     ): CompletableFuture<CardProgram> = retrieve(cardProgramToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CardProgramRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgram>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: CardProgramRetrieveParams): CompletableFuture<CardProgram> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         requestOptions: RequestOptions,
@@ -64,18 +64,18 @@ interface CardProgramServiceAsync {
     /** List card programs. */
     fun list(): CompletableFuture<CardProgramListPageAsync> = list(CardProgramListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardProgramListParams = CardProgramListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgramListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardProgramListParams = CardProgramListParams.none()
     ): CompletableFuture<CardProgramListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardProgramListPageAsync> =
         list(CardProgramListParams.none(), requestOptions)
 
@@ -101,7 +101,7 @@ interface CardProgramServiceAsync {
         fun retrieve(cardProgramToken: String): CompletableFuture<HttpResponseFor<CardProgram>> =
             retrieve(cardProgramToken, CardProgramRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
@@ -109,25 +109,25 @@ interface CardProgramServiceAsync {
         ): CompletableFuture<HttpResponseFor<CardProgram>> =
             retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>> =
             retrieve(cardProgramToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CardProgramRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CardProgramRetrieveParams
         ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             cardProgramToken: String,
             requestOptions: RequestOptions,
@@ -141,19 +141,19 @@ interface CardProgramServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
             list(CardProgramListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardProgramListParams = CardProgramListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardProgramListParams = CardProgramListParams.none()
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =

@@ -31,7 +31,7 @@ interface LineItemService {
     ): FinancialAccountStatementLineItemListPage =
         list(statementToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         statementToken: String,
         params: FinancialAccountStatementLineItemListParams,
@@ -39,12 +39,12 @@ interface LineItemService {
     ): FinancialAccountStatementLineItemListPage =
         list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams
     ): FinancialAccountStatementLineItemListPage = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -72,7 +72,7 @@ interface LineItemService {
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
             list(statementToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             statementToken: String,
@@ -81,14 +81,14 @@ interface LineItemService {
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
             list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams,

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [SettlementServiceAsync.listDetails] */
+/** @see SettlementServiceAsync.listDetails */
 class ReportSettlementListDetailsPageAsync
 private constructor(
     private val service: SettlementServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
      *
-     * @see [ReportSettlementListDetailsPageResponse.data]
+     * @see ReportSettlementListDetailsPageResponse.data
      */
     fun data(): List<SettlementDetail> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
      *
-     * @see [ReportSettlementListDetailsPageResponse.hasMore]
+     * @see ReportSettlementListDetailsPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

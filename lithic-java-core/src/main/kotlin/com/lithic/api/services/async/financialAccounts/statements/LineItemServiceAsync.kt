@@ -31,7 +31,7 @@ interface LineItemServiceAsync {
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
         list(statementToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         statementToken: String,
         params: FinancialAccountStatementLineItemListParams,
@@ -39,13 +39,13 @@ interface LineItemServiceAsync {
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
         list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -76,7 +76,7 @@ interface LineItemServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
             list(statementToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             statementToken: String,
             params: FinancialAccountStatementLineItemListParams,
@@ -84,13 +84,13 @@ interface LineItemServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
             list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountStatementLineItemListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountStatementLineItemListParams,
             requestOptions: RequestOptions = RequestOptions.none(),

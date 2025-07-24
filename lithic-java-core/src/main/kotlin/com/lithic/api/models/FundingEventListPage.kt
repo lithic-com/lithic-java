@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [FundingEventService.list] */
+/** @see FundingEventService.list */
 class FundingEventListPage
 private constructor(
     private val service: FundingEventService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [FundingEventListPageResponse], but gracefully handles missing data.
      *
-     * @see [FundingEventListPageResponse.data]
+     * @see FundingEventListPageResponse.data
      */
     fun data(): List<FundingEventListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [FundingEventListPageResponse], but gracefully handles missing data.
      *
-     * @see [FundingEventListPageResponse.hasMore]
+     * @see FundingEventListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
