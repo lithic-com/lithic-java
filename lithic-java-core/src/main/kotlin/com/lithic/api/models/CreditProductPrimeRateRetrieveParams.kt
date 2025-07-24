@@ -29,8 +29,10 @@ private constructor(
     /** The effective date that the prime rate starts after */
     fun startingAfter(): Optional<LocalDate> = Optional.ofNullable(startingAfter)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

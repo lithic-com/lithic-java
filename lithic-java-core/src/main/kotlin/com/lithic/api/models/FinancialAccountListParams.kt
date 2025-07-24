@@ -32,8 +32,10 @@ private constructor(
     /** List financial accounts of a given type */
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

@@ -25,8 +25,10 @@ private constructor(
     /** Globally unique identifier for statements. */
     fun statementToken(): Optional<String> = Optional.ofNullable(statementToken)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
