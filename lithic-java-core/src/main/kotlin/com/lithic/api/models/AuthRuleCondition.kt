@@ -22,6 +22,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
@@ -589,7 +590,8 @@ private constructor(
 
             /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
             @JvmStatic
-            fun ofListOfStrings(listOfStrings: List<String>) = Value(listOfStrings = listOfStrings)
+            fun ofListOfStrings(listOfStrings: List<String>) =
+                Value(listOfStrings = listOfStrings.toImmutable())
         }
 
         /** An interface that defines how to map each variant of [Value] to a value of type [T]. */
