@@ -37,7 +37,7 @@ interface DecisioningServiceAsync {
         params: ThreeDSDecisioningChallengeResponseParams
     ): CompletableFuture<Void?> = challengeResponse(params, RequestOptions.none())
 
-    /** @see [challengeResponse] */
+    /** @see challengeResponse */
     fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -54,21 +54,21 @@ interface DecisioningServiceAsync {
     fun retrieveSecret(): CompletableFuture<DecisioningRetrieveSecretResponse> =
         retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DecisioningRetrieveSecretResponse>
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none()
     ): CompletableFuture<DecisioningRetrieveSecretResponse> =
         retrieveSecret(params, RequestOptions.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         requestOptions: RequestOptions
     ): CompletableFuture<DecisioningRetrieveSecretResponse> =
@@ -83,18 +83,18 @@ interface DecisioningServiceAsync {
     fun rotateSecret(): CompletableFuture<Void?> =
         rotateSecret(ThreeDSDecisioningRotateSecretParams.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none()
     ): CompletableFuture<Void?> = rotateSecret(params, RequestOptions.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<Void?> =
         rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
 
@@ -121,7 +121,7 @@ interface DecisioningServiceAsync {
             params: ThreeDSDecisioningChallengeResponseParams
         ): CompletableFuture<HttpResponse> = challengeResponse(params, RequestOptions.none())
 
-        /** @see [challengeResponse] */
+        /** @see challengeResponse */
         fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -135,21 +135,21 @@ interface DecisioningServiceAsync {
             CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
             retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>>
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none()
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
             retrieveSecret(params, RequestOptions.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
@@ -162,20 +162,20 @@ interface DecisioningServiceAsync {
         fun rotateSecret(): CompletableFuture<HttpResponse> =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none()
         ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
             rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
     }

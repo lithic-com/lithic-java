@@ -35,7 +35,7 @@ interface StatementService {
         params: FinancialAccountStatementRetrieveParams,
     ): Statement = retrieve(statementToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         statementToken: String,
         params: FinancialAccountStatementRetrieveParams,
@@ -43,11 +43,11 @@ interface StatementService {
     ): Statement =
         retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: FinancialAccountStatementRetrieveParams): Statement =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialAccountStatementRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface StatementService {
     fun list(financialAccountToken: String): FinancialAccountStatementListPage =
         list(financialAccountToken, FinancialAccountStatementListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
@@ -68,24 +68,24 @@ interface StatementService {
             requestOptions,
         )
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
     ): FinancialAccountStatementListPage =
         list(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountStatementListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountStatementListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: FinancialAccountStatementListParams): FinancialAccountStatementListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -115,7 +115,7 @@ interface StatementService {
             params: FinancialAccountStatementRetrieveParams,
         ): HttpResponseFor<Statement> = retrieve(statementToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             statementToken: String,
@@ -124,12 +124,12 @@ interface StatementService {
         ): HttpResponseFor<Statement> =
             retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: FinancialAccountStatementRetrieveParams): HttpResponseFor<Statement> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams,
@@ -147,7 +147,7 @@ interface StatementService {
         ): HttpResponseFor<FinancialAccountStatementListPage> =
             list(financialAccountToken, FinancialAccountStatementListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -160,7 +160,7 @@ interface StatementService {
                 requestOptions,
             )
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -168,20 +168,20 @@ interface StatementService {
         ): HttpResponseFor<FinancialAccountStatementListPage> =
             list(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountStatementListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementListParams
         ): HttpResponseFor<FinancialAccountStatementListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,

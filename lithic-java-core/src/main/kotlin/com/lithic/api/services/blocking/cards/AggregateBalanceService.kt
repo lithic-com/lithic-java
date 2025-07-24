@@ -27,18 +27,18 @@ interface AggregateBalanceService {
     /** Get the aggregated card balance across all end-user accounts. */
     fun list(): CardAggregateBalanceListPage = list(CardAggregateBalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardAggregateBalanceListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
     ): CardAggregateBalanceListPage = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CardAggregateBalanceListPage =
         list(CardAggregateBalanceListParams.none(), requestOptions)
 
@@ -65,20 +65,20 @@ interface AggregateBalanceService {
         fun list(): HttpResponseFor<CardAggregateBalanceListPage> =
             list(CardAggregateBalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardAggregateBalanceListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
         ): HttpResponseFor<CardAggregateBalanceListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardAggregateBalanceListPage> =
             list(CardAggregateBalanceListParams.none(), requestOptions)

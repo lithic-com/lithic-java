@@ -34,7 +34,7 @@ interface SettlementService {
     fun listDetails(reportDate: LocalDate): ReportSettlementListDetailsPage =
         listDetails(reportDate, ReportSettlementListDetailsParams.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
@@ -42,23 +42,23 @@ interface SettlementService {
     ): ReportSettlementListDetailsPage =
         listDetails(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         params: ReportSettlementListDetailsParams = ReportSettlementListDetailsParams.none(),
     ): ReportSettlementListDetailsPage = listDetails(reportDate, params, RequestOptions.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         params: ReportSettlementListDetailsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ReportSettlementListDetailsPage
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(params: ReportSettlementListDetailsParams): ReportSettlementListDetailsPage =
         listDetails(params, RequestOptions.none())
 
-    /** @see [listDetails] */
+    /** @see listDetails */
     fun listDetails(
         reportDate: LocalDate,
         requestOptions: RequestOptions,
@@ -69,30 +69,30 @@ interface SettlementService {
     fun summary(reportDate: LocalDate): SettlementReport =
         summary(reportDate, ReportSettlementSummaryParams.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         reportDate: LocalDate,
         params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SettlementReport = summary(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         reportDate: LocalDate,
         params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
     ): SettlementReport = summary(reportDate, params, RequestOptions.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SettlementReport
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(params: ReportSettlementSummaryParams): SettlementReport =
         summary(params, RequestOptions.none())
 
-    /** @see [summary] */
+    /** @see summary */
     fun summary(reportDate: LocalDate, requestOptions: RequestOptions): SettlementReport =
         summary(reportDate, ReportSettlementSummaryParams.none(), requestOptions)
 
@@ -118,7 +118,7 @@ interface SettlementService {
         fun listDetails(reportDate: LocalDate): HttpResponseFor<ReportSettlementListDetailsPage> =
             listDetails(reportDate, ReportSettlementListDetailsParams.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
@@ -127,7 +127,7 @@ interface SettlementService {
         ): HttpResponseFor<ReportSettlementListDetailsPage> =
             listDetails(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
@@ -135,21 +135,21 @@ interface SettlementService {
         ): HttpResponseFor<ReportSettlementListDetailsPage> =
             listDetails(reportDate, params, RequestOptions.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         @MustBeClosed
         fun listDetails(
             params: ReportSettlementListDetailsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ReportSettlementListDetailsPage>
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         @MustBeClosed
         fun listDetails(
             params: ReportSettlementListDetailsParams
         ): HttpResponseFor<ReportSettlementListDetailsPage> =
             listDetails(params, RequestOptions.none())
 
-        /** @see [listDetails] */
+        /** @see listDetails */
         @MustBeClosed
         fun listDetails(
             reportDate: LocalDate,
@@ -165,7 +165,7 @@ interface SettlementService {
         fun summary(reportDate: LocalDate): HttpResponseFor<SettlementReport> =
             summary(reportDate, ReportSettlementSummaryParams.none())
 
-        /** @see [summary] */
+        /** @see summary */
         @MustBeClosed
         fun summary(
             reportDate: LocalDate,
@@ -174,26 +174,26 @@ interface SettlementService {
         ): HttpResponseFor<SettlementReport> =
             summary(params.toBuilder().reportDate(reportDate).build(), requestOptions)
 
-        /** @see [summary] */
+        /** @see summary */
         @MustBeClosed
         fun summary(
             reportDate: LocalDate,
             params: ReportSettlementSummaryParams = ReportSettlementSummaryParams.none(),
         ): HttpResponseFor<SettlementReport> = summary(reportDate, params, RequestOptions.none())
 
-        /** @see [summary] */
+        /** @see summary */
         @MustBeClosed
         fun summary(
             params: ReportSettlementSummaryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SettlementReport>
 
-        /** @see [summary] */
+        /** @see summary */
         @MustBeClosed
         fun summary(params: ReportSettlementSummaryParams): HttpResponseFor<SettlementReport> =
             summary(params, RequestOptions.none())
 
-        /** @see [summary] */
+        /** @see summary */
         @MustBeClosed
         fun summary(
             reportDate: LocalDate,

@@ -30,17 +30,17 @@ interface PrimeRateService {
     fun create(creditProductToken: String, params: CreditProductPrimeRateCreateParams) =
         create(creditProductToken, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         creditProductToken: String,
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ) = create(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: CreditProductPrimeRateCreateParams) = create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -50,7 +50,7 @@ interface PrimeRateService {
     fun retrieve(creditProductToken: String): PrimeRateRetrieveResponse =
         retrieve(creditProductToken, CreditProductPrimeRateRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductPrimeRateRetrieveParams = CreditProductPrimeRateRetrieveParams.none(),
@@ -58,23 +58,23 @@ interface PrimeRateService {
     ): PrimeRateRetrieveResponse =
         retrieve(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductPrimeRateRetrieveParams = CreditProductPrimeRateRetrieveParams.none(),
     ): PrimeRateRetrieveResponse = retrieve(creditProductToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CreditProductPrimeRateRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PrimeRateRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: CreditProductPrimeRateRetrieveParams): PrimeRateRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         requestOptions: RequestOptions,
@@ -102,7 +102,7 @@ interface PrimeRateService {
             params: CreditProductPrimeRateCreateParams,
         ): HttpResponse = create(creditProductToken, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             creditProductToken: String,
@@ -114,12 +114,12 @@ interface PrimeRateService {
                 requestOptions,
             )
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(params: CreditProductPrimeRateCreateParams): HttpResponse =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: CreditProductPrimeRateCreateParams,
@@ -135,7 +135,7 @@ interface PrimeRateService {
         fun retrieve(creditProductToken: String): HttpResponseFor<PrimeRateRetrieveResponse> =
             retrieve(creditProductToken, CreditProductPrimeRateRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,
@@ -148,7 +148,7 @@ interface PrimeRateService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,
@@ -157,20 +157,20 @@ interface PrimeRateService {
         ): HttpResponseFor<PrimeRateRetrieveResponse> =
             retrieve(creditProductToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CreditProductPrimeRateRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PrimeRateRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CreditProductPrimeRateRetrieveParams
         ): HttpResponseFor<PrimeRateRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,

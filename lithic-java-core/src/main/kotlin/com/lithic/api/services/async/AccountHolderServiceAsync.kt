@@ -50,7 +50,7 @@ interface AccountHolderServiceAsync {
     fun create(params: AccountHolderCreateParams): CompletableFuture<AccountHolderCreateResponse> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -60,7 +60,7 @@ interface AccountHolderServiceAsync {
     fun retrieve(accountHolderToken: String): CompletableFuture<AccountHolder> =
         retrieve(accountHolderToken, AccountHolderRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountHolderToken: String,
         params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
@@ -68,24 +68,24 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<AccountHolder> =
         retrieve(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountHolderToken: String,
         params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
     ): CompletableFuture<AccountHolder> =
         retrieve(accountHolderToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AccountHolderRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolder>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AccountHolderRetrieveParams): CompletableFuture<AccountHolder> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountHolderToken: String,
         requestOptions: RequestOptions,
@@ -109,7 +109,7 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<AccountHolderUpdateResponse> =
         update(accountHolderToken, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         accountHolderToken: String,
         params: AccountHolderUpdateParams,
@@ -117,11 +117,11 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<AccountHolderUpdateResponse> =
         update(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
 
-    /** @see [update] */
+    /** @see update */
     fun update(params: AccountHolderUpdateParams): CompletableFuture<AccountHolderUpdateResponse> =
         update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -132,18 +132,18 @@ interface AccountHolderServiceAsync {
      */
     fun list(): CompletableFuture<AccountHolderListPageAsync> = list(AccountHolderListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AccountHolderListParams = AccountHolderListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AccountHolderListParams = AccountHolderListParams.none()
     ): CompletableFuture<AccountHolderListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<AccountHolderListPageAsync> =
         list(AccountHolderListParams.none(), requestOptions)
 
@@ -167,7 +167,7 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<AccountHolderListDocumentsResponse> =
         listDocuments(accountHolderToken, AccountHolderListDocumentsParams.none())
 
-    /** @see [listDocuments] */
+    /** @see listDocuments */
     fun listDocuments(
         accountHolderToken: String,
         params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
@@ -178,26 +178,26 @@ interface AccountHolderServiceAsync {
             requestOptions,
         )
 
-    /** @see [listDocuments] */
+    /** @see listDocuments */
     fun listDocuments(
         accountHolderToken: String,
         params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
     ): CompletableFuture<AccountHolderListDocumentsResponse> =
         listDocuments(accountHolderToken, params, RequestOptions.none())
 
-    /** @see [listDocuments] */
+    /** @see listDocuments */
     fun listDocuments(
         params: AccountHolderListDocumentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderListDocumentsResponse>
 
-    /** @see [listDocuments] */
+    /** @see listDocuments */
     fun listDocuments(
         params: AccountHolderListDocumentsParams
     ): CompletableFuture<AccountHolderListDocumentsResponse> =
         listDocuments(params, RequestOptions.none())
 
-    /** @see [listDocuments] */
+    /** @see listDocuments */
     fun listDocuments(
         accountHolderToken: String,
         requestOptions: RequestOptions,
@@ -224,7 +224,7 @@ interface AccountHolderServiceAsync {
         params: AccountHolderRetrieveDocumentParams,
     ): CompletableFuture<Document> = retrieveDocument(documentToken, params, RequestOptions.none())
 
-    /** @see [retrieveDocument] */
+    /** @see retrieveDocument */
     fun retrieveDocument(
         documentToken: String,
         params: AccountHolderRetrieveDocumentParams,
@@ -232,11 +232,11 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<Document> =
         retrieveDocument(params.toBuilder().documentToken(documentToken).build(), requestOptions)
 
-    /** @see [retrieveDocument] */
+    /** @see retrieveDocument */
     fun retrieveDocument(params: AccountHolderRetrieveDocumentParams): CompletableFuture<Document> =
         retrieveDocument(params, RequestOptions.none())
 
-    /** @see [retrieveDocument] */
+    /** @see retrieveDocument */
     fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -247,7 +247,7 @@ interface AccountHolderServiceAsync {
         params: AccountHolderSimulateEnrollmentDocumentReviewParams
     ): CompletableFuture<Document> = simulateEnrollmentDocumentReview(params, RequestOptions.none())
 
-    /** @see [simulateEnrollmentDocumentReview] */
+    /** @see simulateEnrollmentDocumentReview */
     fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -261,21 +261,21 @@ interface AccountHolderServiceAsync {
         CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
         simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none())
 
-    /** @see [simulateEnrollmentReview] */
+    /** @see simulateEnrollmentReview */
     fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams =
             AccountHolderSimulateEnrollmentReviewParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse>
 
-    /** @see [simulateEnrollmentReview] */
+    /** @see simulateEnrollmentReview */
     fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams =
             AccountHolderSimulateEnrollmentReviewParams.none()
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
         simulateEnrollmentReview(params, RequestOptions.none())
 
-    /** @see [simulateEnrollmentReview] */
+    /** @see simulateEnrollmentReview */
     fun simulateEnrollmentReview(
         requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> =
@@ -305,7 +305,7 @@ interface AccountHolderServiceAsync {
     ): CompletableFuture<Document> =
         uploadDocument(accountHolderToken, params, RequestOptions.none())
 
-    /** @see [uploadDocument] */
+    /** @see uploadDocument */
     fun uploadDocument(
         accountHolderToken: String,
         params: AccountHolderUploadDocumentParams,
@@ -316,11 +316,11 @@ interface AccountHolderServiceAsync {
             requestOptions,
         )
 
-    /** @see [uploadDocument] */
+    /** @see uploadDocument */
     fun uploadDocument(params: AccountHolderUploadDocumentParams): CompletableFuture<Document> =
         uploadDocument(params, RequestOptions.none())
 
-    /** @see [uploadDocument] */
+    /** @see uploadDocument */
     fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -350,7 +350,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: AccountHolderCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -365,7 +365,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountHolder>> =
             retrieve(accountHolderToken, AccountHolderRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountHolderToken: String,
             params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
@@ -376,26 +376,26 @@ interface AccountHolderServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountHolderToken: String,
             params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolder>> =
             retrieve(accountHolderToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AccountHolderRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolder>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AccountHolderRetrieveParams
         ): CompletableFuture<HttpResponseFor<AccountHolder>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountHolderToken: String,
             requestOptions: RequestOptions,
@@ -412,7 +412,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountHolderUpdateResponse>> =
             update(accountHolderToken, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             accountHolderToken: String,
             params: AccountHolderUpdateParams,
@@ -423,13 +423,13 @@ interface AccountHolderServiceAsync {
                 requestOptions,
             )
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: AccountHolderUpdateParams
         ): CompletableFuture<HttpResponseFor<AccountHolderUpdateResponse>> =
             update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: AccountHolderUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -442,19 +442,19 @@ interface AccountHolderServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>> =
             list(AccountHolderListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AccountHolderListParams = AccountHolderListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AccountHolderListParams = AccountHolderListParams.none()
         ): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AccountHolderListPageAsync>> =
@@ -470,7 +470,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountHolderListDocumentsResponse>> =
             listDocuments(accountHolderToken, AccountHolderListDocumentsParams.none())
 
-        /** @see [listDocuments] */
+        /** @see listDocuments */
         fun listDocuments(
             accountHolderToken: String,
             params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
@@ -481,26 +481,26 @@ interface AccountHolderServiceAsync {
                 requestOptions,
             )
 
-        /** @see [listDocuments] */
+        /** @see listDocuments */
         fun listDocuments(
             accountHolderToken: String,
             params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderListDocumentsResponse>> =
             listDocuments(accountHolderToken, params, RequestOptions.none())
 
-        /** @see [listDocuments] */
+        /** @see listDocuments */
         fun listDocuments(
             params: AccountHolderListDocumentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderListDocumentsResponse>>
 
-        /** @see [listDocuments] */
+        /** @see listDocuments */
         fun listDocuments(
             params: AccountHolderListDocumentsParams
         ): CompletableFuture<HttpResponseFor<AccountHolderListDocumentsResponse>> =
             listDocuments(params, RequestOptions.none())
 
-        /** @see [listDocuments] */
+        /** @see listDocuments */
         fun listDocuments(
             accountHolderToken: String,
             requestOptions: RequestOptions,
@@ -522,7 +522,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Document>> =
             retrieveDocument(documentToken, params, RequestOptions.none())
 
-        /** @see [retrieveDocument] */
+        /** @see retrieveDocument */
         fun retrieveDocument(
             documentToken: String,
             params: AccountHolderRetrieveDocumentParams,
@@ -533,13 +533,13 @@ interface AccountHolderServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieveDocument] */
+        /** @see retrieveDocument */
         fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams
         ): CompletableFuture<HttpResponseFor<Document>> =
             retrieveDocument(params, RequestOptions.none())
 
-        /** @see [retrieveDocument] */
+        /** @see retrieveDocument */
         fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -555,7 +555,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Document>> =
             simulateEnrollmentDocumentReview(params, RequestOptions.none())
 
-        /** @see [simulateEnrollmentDocumentReview] */
+        /** @see simulateEnrollmentDocumentReview */
         fun simulateEnrollmentDocumentReview(
             params: AccountHolderSimulateEnrollmentDocumentReviewParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -569,21 +569,21 @@ interface AccountHolderServiceAsync {
             CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
             simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none())
 
-        /** @see [simulateEnrollmentReview] */
+        /** @see simulateEnrollmentReview */
         fun simulateEnrollmentReview(
             params: AccountHolderSimulateEnrollmentReviewParams =
                 AccountHolderSimulateEnrollmentReviewParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>>
 
-        /** @see [simulateEnrollmentReview] */
+        /** @see simulateEnrollmentReview */
         fun simulateEnrollmentReview(
             params: AccountHolderSimulateEnrollmentReviewParams =
                 AccountHolderSimulateEnrollmentReviewParams.none()
         ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
             simulateEnrollmentReview(params, RequestOptions.none())
 
-        /** @see [simulateEnrollmentReview] */
+        /** @see simulateEnrollmentReview */
         fun simulateEnrollmentReview(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse>> =
@@ -603,7 +603,7 @@ interface AccountHolderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Document>> =
             uploadDocument(accountHolderToken, params, RequestOptions.none())
 
-        /** @see [uploadDocument] */
+        /** @see uploadDocument */
         fun uploadDocument(
             accountHolderToken: String,
             params: AccountHolderUploadDocumentParams,
@@ -614,13 +614,13 @@ interface AccountHolderServiceAsync {
                 requestOptions,
             )
 
-        /** @see [uploadDocument] */
+        /** @see uploadDocument */
         fun uploadDocument(
             params: AccountHolderUploadDocumentParams
         ): CompletableFuture<HttpResponseFor<Document>> =
             uploadDocument(params, RequestOptions.none())
 
-        /** @see [uploadDocument] */
+        /** @see uploadDocument */
         fun uploadDocument(
             params: AccountHolderUploadDocumentParams,
             requestOptions: RequestOptions = RequestOptions.none(),

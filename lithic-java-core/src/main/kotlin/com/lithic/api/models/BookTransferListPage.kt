@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [BookTransferService.list] */
+/** @see BookTransferService.list */
 class BookTransferListPage
 private constructor(
     private val service: BookTransferService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [BookTransferListPageResponse], but gracefully handles missing data.
      *
-     * @see [BookTransferListPageResponse.data]
+     * @see BookTransferListPageResponse.data
      */
     fun data(): List<BookTransferResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [BookTransferListPageResponse], but gracefully handles missing data.
      *
-     * @see [BookTransferListPageResponse.hasMore]
+     * @see BookTransferListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

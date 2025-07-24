@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [V2ServiceAsync.list] */
+/** @see V2ServiceAsync.list */
 class AuthRuleV2ListPageAsync
 private constructor(
     private val service: V2ServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
      *
-     * @see [AuthRuleV2ListPageResponse.data]
+     * @see AuthRuleV2ListPageResponse.data
      */
     fun data(): List<V2ListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
      *
-     * @see [AuthRuleV2ListPageResponse.hasMore]
+     * @see AuthRuleV2ListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

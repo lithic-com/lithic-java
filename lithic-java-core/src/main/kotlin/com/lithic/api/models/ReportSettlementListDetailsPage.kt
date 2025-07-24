@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [SettlementService.listDetails] */
+/** @see SettlementService.listDetails */
 class ReportSettlementListDetailsPage
 private constructor(
     private val service: SettlementService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
      *
-     * @see [ReportSettlementListDetailsPageResponse.data]
+     * @see ReportSettlementListDetailsPageResponse.data
      */
     fun data(): List<SettlementDetail> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [ReportSettlementListDetailsPageResponse], but gracefully handles missing data.
      *
-     * @see [ReportSettlementListDetailsPageResponse.hasMore]
+     * @see ReportSettlementListDetailsPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

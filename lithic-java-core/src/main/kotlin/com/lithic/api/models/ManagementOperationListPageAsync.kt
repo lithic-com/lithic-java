@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [ManagementOperationServiceAsync.list] */
+/** @see ManagementOperationServiceAsync.list */
 class ManagementOperationListPageAsync
 private constructor(
     private val service: ManagementOperationServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [ManagementOperationListPageResponse], but gracefully handles missing data.
      *
-     * @see [ManagementOperationListPageResponse.data]
+     * @see ManagementOperationListPageResponse.data
      */
     fun data(): List<ManagementOperationTransaction> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [ManagementOperationListPageResponse], but gracefully handles missing data.
      *
-     * @see [ManagementOperationListPageResponse.hasMore]
+     * @see ManagementOperationListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

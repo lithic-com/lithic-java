@@ -32,7 +32,7 @@ interface FundingEventService {
     fun retrieve(fundingEventToken: String): FundingEventRetrieveResponse =
         retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
@@ -40,23 +40,23 @@ interface FundingEventService {
     ): FundingEventRetrieveResponse =
         retrieve(params.toBuilder().fundingEventToken(fundingEventToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
     ): FundingEventRetrieveResponse = retrieve(fundingEventToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FundingEventRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FundingEventRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: FundingEventRetrieveParams): FundingEventRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         requestOptions: RequestOptions,
@@ -66,17 +66,17 @@ interface FundingEventService {
     /** Get all funding events for program */
     fun list(): FundingEventListPage = list(FundingEventListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FundingEventListParams = FundingEventListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FundingEventListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: FundingEventListParams = FundingEventListParams.none()): FundingEventListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): FundingEventListPage =
         list(FundingEventListParams.none(), requestOptions)
 
@@ -84,7 +84,7 @@ interface FundingEventService {
     fun retrieveDetails(fundingEventToken: String): FundingEventRetrieveDetailsResponse =
         retrieveDetails(fundingEventToken, FundingEventRetrieveDetailsParams.none())
 
-    /** @see [retrieveDetails] */
+    /** @see retrieveDetails */
     fun retrieveDetails(
         fundingEventToken: String,
         params: FundingEventRetrieveDetailsParams = FundingEventRetrieveDetailsParams.none(),
@@ -95,25 +95,25 @@ interface FundingEventService {
             requestOptions,
         )
 
-    /** @see [retrieveDetails] */
+    /** @see retrieveDetails */
     fun retrieveDetails(
         fundingEventToken: String,
         params: FundingEventRetrieveDetailsParams = FundingEventRetrieveDetailsParams.none(),
     ): FundingEventRetrieveDetailsResponse =
         retrieveDetails(fundingEventToken, params, RequestOptions.none())
 
-    /** @see [retrieveDetails] */
+    /** @see retrieveDetails */
     fun retrieveDetails(
         params: FundingEventRetrieveDetailsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FundingEventRetrieveDetailsResponse
 
-    /** @see [retrieveDetails] */
+    /** @see retrieveDetails */
     fun retrieveDetails(
         params: FundingEventRetrieveDetailsParams
     ): FundingEventRetrieveDetailsResponse = retrieveDetails(params, RequestOptions.none())
 
-    /** @see [retrieveDetails] */
+    /** @see retrieveDetails */
     fun retrieveDetails(
         fundingEventToken: String,
         requestOptions: RequestOptions,
@@ -142,7 +142,7 @@ interface FundingEventService {
         fun retrieve(fundingEventToken: String): HttpResponseFor<FundingEventRetrieveResponse> =
             retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             fundingEventToken: String,
@@ -154,7 +154,7 @@ interface FundingEventService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             fundingEventToken: String,
@@ -162,20 +162,20 @@ interface FundingEventService {
         ): HttpResponseFor<FundingEventRetrieveResponse> =
             retrieve(fundingEventToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FundingEventRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FundingEventRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FundingEventRetrieveParams
         ): HttpResponseFor<FundingEventRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             fundingEventToken: String,
@@ -190,20 +190,20 @@ interface FundingEventService {
         @MustBeClosed
         fun list(): HttpResponseFor<FundingEventListPage> = list(FundingEventListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FundingEventListParams = FundingEventListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FundingEventListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FundingEventListParams = FundingEventListParams.none()
         ): HttpResponseFor<FundingEventListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<FundingEventListPage> =
             list(FundingEventListParams.none(), requestOptions)
@@ -218,7 +218,7 @@ interface FundingEventService {
         ): HttpResponseFor<FundingEventRetrieveDetailsResponse> =
             retrieveDetails(fundingEventToken, FundingEventRetrieveDetailsParams.none())
 
-        /** @see [retrieveDetails] */
+        /** @see retrieveDetails */
         @MustBeClosed
         fun retrieveDetails(
             fundingEventToken: String,
@@ -230,7 +230,7 @@ interface FundingEventService {
                 requestOptions,
             )
 
-        /** @see [retrieveDetails] */
+        /** @see retrieveDetails */
         @MustBeClosed
         fun retrieveDetails(
             fundingEventToken: String,
@@ -238,21 +238,21 @@ interface FundingEventService {
         ): HttpResponseFor<FundingEventRetrieveDetailsResponse> =
             retrieveDetails(fundingEventToken, params, RequestOptions.none())
 
-        /** @see [retrieveDetails] */
+        /** @see retrieveDetails */
         @MustBeClosed
         fun retrieveDetails(
             params: FundingEventRetrieveDetailsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FundingEventRetrieveDetailsResponse>
 
-        /** @see [retrieveDetails] */
+        /** @see retrieveDetails */
         @MustBeClosed
         fun retrieveDetails(
             params: FundingEventRetrieveDetailsParams
         ): HttpResponseFor<FundingEventRetrieveDetailsResponse> =
             retrieveDetails(params, RequestOptions.none())
 
-        /** @see [retrieveDetails] */
+        /** @see retrieveDetails */
         @MustBeClosed
         fun retrieveDetails(
             fundingEventToken: String,

@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [ExternalBankAccountService.list] */
+/** @see ExternalBankAccountService.list */
 class ExternalBankAccountListPage
 private constructor(
     private val service: ExternalBankAccountService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [ExternalBankAccountListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalBankAccountListPageResponse.data]
+     * @see ExternalBankAccountListPageResponse.data
      */
     fun data(): List<ExternalBankAccountListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [ExternalBankAccountListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalBankAccountListPageResponse.hasMore]
+     * @see ExternalBankAccountListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

@@ -50,7 +50,7 @@ interface FinancialAccountServiceAsync {
     fun create(params: FinancialAccountCreateParams): CompletableFuture<FinancialAccount> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: FinancialAccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -60,7 +60,7 @@ interface FinancialAccountServiceAsync {
     fun retrieve(financialAccountToken: String): CompletableFuture<FinancialAccount> =
         retrieve(financialAccountToken, FinancialAccountRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
@@ -71,24 +71,24 @@ interface FinancialAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
     ): CompletableFuture<FinancialAccount> =
         retrieve(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialAccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: FinancialAccountRetrieveParams): CompletableFuture<FinancialAccount> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -99,7 +99,7 @@ interface FinancialAccountServiceAsync {
     fun update(financialAccountToken: String): CompletableFuture<FinancialAccount> =
         update(financialAccountToken, FinancialAccountUpdateParams.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
@@ -110,24 +110,24 @@ interface FinancialAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
     ): CompletableFuture<FinancialAccount> =
         update(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: FinancialAccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccount>
 
-    /** @see [update] */
+    /** @see update */
     fun update(params: FinancialAccountUpdateParams): CompletableFuture<FinancialAccount> =
         update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -138,18 +138,18 @@ interface FinancialAccountServiceAsync {
     fun list(): CompletableFuture<FinancialAccountListPageAsync> =
         list(FinancialAccountListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountListParams = FinancialAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialAccountListParams = FinancialAccountListParams.none()
     ): CompletableFuture<FinancialAccountListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<FinancialAccountListPageAsync> =
         list(FinancialAccountListParams.none(), requestOptions)
 
@@ -160,7 +160,7 @@ interface FinancialAccountServiceAsync {
     ): CompletableFuture<Void?> =
         registerAccountNumber(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [registerAccountNumber] */
+    /** @see registerAccountNumber */
     fun registerAccountNumber(
         financialAccountToken: String,
         params: FinancialAccountRegisterAccountNumberParams,
@@ -171,12 +171,12 @@ interface FinancialAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [registerAccountNumber] */
+    /** @see registerAccountNumber */
     fun registerAccountNumber(
         params: FinancialAccountRegisterAccountNumberParams
     ): CompletableFuture<Void?> = registerAccountNumber(params, RequestOptions.none())
 
-    /** @see [registerAccountNumber] */
+    /** @see registerAccountNumber */
     fun registerAccountNumber(
         params: FinancialAccountRegisterAccountNumberParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -189,7 +189,7 @@ interface FinancialAccountServiceAsync {
     ): CompletableFuture<FinancialAccount> =
         updateStatus(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [updateStatus] */
+    /** @see updateStatus */
     fun updateStatus(
         financialAccountToken: String,
         params: FinancialAccountUpdateStatusParams,
@@ -200,12 +200,12 @@ interface FinancialAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [updateStatus] */
+    /** @see updateStatus */
     fun updateStatus(
         params: FinancialAccountUpdateStatusParams
     ): CompletableFuture<FinancialAccount> = updateStatus(params, RequestOptions.none())
 
-    /** @see [updateStatus] */
+    /** @see updateStatus */
     fun updateStatus(
         params: FinancialAccountUpdateStatusParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -245,7 +245,7 @@ interface FinancialAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: FinancialAccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -260,7 +260,7 @@ interface FinancialAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             retrieve(financialAccountToken, FinancialAccountRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
@@ -271,26 +271,26 @@ interface FinancialAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             financialAccountToken: String,
             params: FinancialAccountRetrieveParams = FinancialAccountRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             retrieve(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: FinancialAccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: FinancialAccountRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             financialAccountToken: String,
             requestOptions: RequestOptions,
@@ -306,7 +306,7 @@ interface FinancialAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             update(financialAccountToken, FinancialAccountUpdateParams.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             financialAccountToken: String,
             params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
@@ -317,26 +317,26 @@ interface FinancialAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             financialAccountToken: String,
             params: FinancialAccountUpdateParams = FinancialAccountUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             update(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: FinancialAccountUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccount>>
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: FinancialAccountUpdateParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             financialAccountToken: String,
             requestOptions: RequestOptions,
@@ -350,19 +350,19 @@ interface FinancialAccountServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
             list(FinancialAccountListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: FinancialAccountListParams = FinancialAccountListParams.none()
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<FinancialAccountListPageAsync>> =
@@ -379,7 +379,7 @@ interface FinancialAccountServiceAsync {
         ): CompletableFuture<HttpResponse> =
             registerAccountNumber(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [registerAccountNumber] */
+        /** @see registerAccountNumber */
         fun registerAccountNumber(
             financialAccountToken: String,
             params: FinancialAccountRegisterAccountNumberParams,
@@ -390,12 +390,12 @@ interface FinancialAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [registerAccountNumber] */
+        /** @see registerAccountNumber */
         fun registerAccountNumber(
             params: FinancialAccountRegisterAccountNumberParams
         ): CompletableFuture<HttpResponse> = registerAccountNumber(params, RequestOptions.none())
 
-        /** @see [registerAccountNumber] */
+        /** @see registerAccountNumber */
         fun registerAccountNumber(
             params: FinancialAccountRegisterAccountNumberParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -412,7 +412,7 @@ interface FinancialAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             updateStatus(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [updateStatus] */
+        /** @see updateStatus */
         fun updateStatus(
             financialAccountToken: String,
             params: FinancialAccountUpdateStatusParams,
@@ -423,13 +423,13 @@ interface FinancialAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [updateStatus] */
+        /** @see updateStatus */
         fun updateStatus(
             params: FinancialAccountUpdateStatusParams
         ): CompletableFuture<HttpResponseFor<FinancialAccount>> =
             updateStatus(params, RequestOptions.none())
 
-        /** @see [updateStatus] */
+        /** @see updateStatus */
         fun updateStatus(
             params: FinancialAccountUpdateStatusParams,
             requestOptions: RequestOptions = RequestOptions.none(),

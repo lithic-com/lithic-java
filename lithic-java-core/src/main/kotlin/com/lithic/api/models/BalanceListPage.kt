@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [BalanceService.list] */
+/** @see BalanceService.list */
 class BalanceListPage
 private constructor(
     private val service: BalanceService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [BalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [BalanceListPageResponse.data]
+     * @see BalanceListPageResponse.data
      */
     fun data(): List<Balance> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [BalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [BalanceListPageResponse.hasMore]
+     * @see BalanceListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

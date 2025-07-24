@@ -28,7 +28,7 @@ interface ExtendedCreditService {
     fun retrieve(creditProductToken: String): ExtendedCredit =
         retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductExtendedCreditRetrieveParams =
@@ -37,24 +37,24 @@ interface ExtendedCreditService {
     ): ExtendedCredit =
         retrieve(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductExtendedCreditRetrieveParams =
             CreditProductExtendedCreditRetrieveParams.none(),
     ): ExtendedCredit = retrieve(creditProductToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CreditProductExtendedCreditRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExtendedCredit
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: CreditProductExtendedCreditRetrieveParams): ExtendedCredit =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(creditProductToken: String, requestOptions: RequestOptions): ExtendedCredit =
         retrieve(
             creditProductToken,
@@ -85,7 +85,7 @@ interface ExtendedCreditService {
         fun retrieve(creditProductToken: String): HttpResponseFor<ExtendedCredit> =
             retrieve(creditProductToken, CreditProductExtendedCreditRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,
@@ -98,7 +98,7 @@ interface ExtendedCreditService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,
@@ -107,20 +107,20 @@ interface ExtendedCreditService {
         ): HttpResponseFor<ExtendedCredit> =
             retrieve(creditProductToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExtendedCredit>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CreditProductExtendedCreditRetrieveParams
         ): HttpResponseFor<ExtendedCredit> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             creditProductToken: String,

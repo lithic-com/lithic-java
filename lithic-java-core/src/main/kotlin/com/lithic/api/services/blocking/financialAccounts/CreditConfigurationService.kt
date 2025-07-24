@@ -29,7 +29,7 @@ interface CreditConfigurationService {
     fun retrieve(financialAccountToken: String): FinancialAccountCreditConfig =
         retrieve(financialAccountToken, FinancialAccountCreditConfigurationRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         params: FinancialAccountCreditConfigurationRetrieveParams =
@@ -41,25 +41,25 @@ interface CreditConfigurationService {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         params: FinancialAccountCreditConfigurationRetrieveParams =
             FinancialAccountCreditConfigurationRetrieveParams.none(),
     ): FinancialAccountCreditConfig = retrieve(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialAccountCreditConfigurationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountCreditConfig
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialAccountCreditConfigurationRetrieveParams
     ): FinancialAccountCreditConfig = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -74,7 +74,7 @@ interface CreditConfigurationService {
     fun update(financialAccountToken: String): FinancialAccountCreditConfig =
         update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         params: FinancialAccountCreditConfigurationUpdateParams =
@@ -86,25 +86,25 @@ interface CreditConfigurationService {
             requestOptions,
         )
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         params: FinancialAccountCreditConfigurationUpdateParams =
             FinancialAccountCreditConfigurationUpdateParams.none(),
     ): FinancialAccountCreditConfig = update(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: FinancialAccountCreditConfigurationUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountCreditConfig
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: FinancialAccountCreditConfigurationUpdateParams
     ): FinancialAccountCreditConfig = update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -142,7 +142,7 @@ interface CreditConfigurationService {
                 FinancialAccountCreditConfigurationRetrieveParams.none(),
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
@@ -155,7 +155,7 @@ interface CreditConfigurationService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
@@ -164,20 +164,20 @@ interface CreditConfigurationService {
         ): HttpResponseFor<FinancialAccountCreditConfig> =
             retrieve(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountCreditConfig>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams
         ): HttpResponseFor<FinancialAccountCreditConfig> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             financialAccountToken: String,
@@ -198,7 +198,7 @@ interface CreditConfigurationService {
         fun update(financialAccountToken: String): HttpResponseFor<FinancialAccountCreditConfig> =
             update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 
-        /** @see [update] */
+        /** @see update */
         @MustBeClosed
         fun update(
             financialAccountToken: String,
@@ -211,7 +211,7 @@ interface CreditConfigurationService {
                 requestOptions,
             )
 
-        /** @see [update] */
+        /** @see update */
         @MustBeClosed
         fun update(
             financialAccountToken: String,
@@ -220,20 +220,20 @@ interface CreditConfigurationService {
         ): HttpResponseFor<FinancialAccountCreditConfig> =
             update(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         @MustBeClosed
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountCreditConfig>
 
-        /** @see [update] */
+        /** @see update */
         @MustBeClosed
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams
         ): HttpResponseFor<FinancialAccountCreditConfig> = update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         @MustBeClosed
         fun update(
             financialAccountToken: String,

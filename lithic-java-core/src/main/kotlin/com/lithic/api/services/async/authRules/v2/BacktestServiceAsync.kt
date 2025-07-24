@@ -53,7 +53,7 @@ interface BacktestServiceAsync {
     fun create(authRuleToken: String): CompletableFuture<BacktestCreateResponse> =
         create(authRuleToken, AuthRuleV2BacktestCreateParams.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         authRuleToken: String,
         params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
@@ -61,24 +61,24 @@ interface BacktestServiceAsync {
     ): CompletableFuture<BacktestCreateResponse> =
         create(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         authRuleToken: String,
         params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
     ): CompletableFuture<BacktestCreateResponse> =
         create(authRuleToken, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: AuthRuleV2BacktestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BacktestCreateResponse>
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: AuthRuleV2BacktestCreateParams): CompletableFuture<BacktestCreateResponse> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         authRuleToken: String,
         requestOptions: RequestOptions,
@@ -109,7 +109,7 @@ interface BacktestServiceAsync {
     ): CompletableFuture<BacktestResults> =
         retrieve(authRuleBacktestToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         authRuleBacktestToken: String,
         params: AuthRuleV2BacktestRetrieveParams,
@@ -120,11 +120,11 @@ interface BacktestServiceAsync {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AuthRuleV2BacktestRetrieveParams): CompletableFuture<BacktestResults> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AuthRuleV2BacktestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -153,7 +153,7 @@ interface BacktestServiceAsync {
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(authRuleToken, AuthRuleV2BacktestCreateParams.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             authRuleToken: String,
             params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
@@ -161,26 +161,26 @@ interface BacktestServiceAsync {
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             authRuleToken: String,
             params: AuthRuleV2BacktestCreateParams = AuthRuleV2BacktestCreateParams.none(),
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(authRuleToken, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: AuthRuleV2BacktestCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>>
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: AuthRuleV2BacktestCreateParams
         ): CompletableFuture<HttpResponseFor<BacktestCreateResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             authRuleToken: String,
             requestOptions: RequestOptions,
@@ -198,7 +198,7 @@ interface BacktestServiceAsync {
         ): CompletableFuture<HttpResponseFor<BacktestResults>> =
             retrieve(authRuleBacktestToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             authRuleBacktestToken: String,
             params: AuthRuleV2BacktestRetrieveParams,
@@ -209,13 +209,13 @@ interface BacktestServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams
         ): CompletableFuture<HttpResponseFor<BacktestResults>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AuthRuleV2BacktestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),

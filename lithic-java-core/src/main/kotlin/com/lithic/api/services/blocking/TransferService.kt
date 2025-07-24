@@ -28,7 +28,7 @@ interface TransferService {
     @Deprecated("deprecated")
     fun create(params: TransferCreateParams): Transfer = create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     @Deprecated("deprecated")
     fun create(
         params: TransferCreateParams,
@@ -54,7 +54,7 @@ interface TransferService {
         fun create(params: TransferCreateParams): HttpResponseFor<Transfer> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @Deprecated("deprecated")
         @MustBeClosed
         fun create(

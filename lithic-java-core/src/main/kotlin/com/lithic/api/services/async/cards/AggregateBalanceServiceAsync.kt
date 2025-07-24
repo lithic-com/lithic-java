@@ -28,18 +28,18 @@ interface AggregateBalanceServiceAsync {
     fun list(): CompletableFuture<CardAggregateBalanceListPageAsync> =
         list(CardAggregateBalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardAggregateBalanceListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
     ): CompletableFuture<CardAggregateBalanceListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardAggregateBalanceListPageAsync> =
         list(CardAggregateBalanceListParams.none(), requestOptions)
 
@@ -65,19 +65,19 @@ interface AggregateBalanceServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
             list(CardAggregateBalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: CardAggregateBalanceListParams = CardAggregateBalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardAggregateBalanceListPageAsync>> =

@@ -29,7 +29,7 @@ interface TransferServiceAsync {
     fun create(params: TransferCreateParams): CompletableFuture<Transfer> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     @Deprecated("deprecated")
     fun create(
         params: TransferCreateParams,
@@ -58,7 +58,7 @@ interface TransferServiceAsync {
         fun create(params: TransferCreateParams): CompletableFuture<HttpResponseFor<Transfer>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @Deprecated("deprecated")
         fun create(
             params: TransferCreateParams,

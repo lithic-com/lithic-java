@@ -36,20 +36,20 @@ interface AuthStreamEnrollmentService {
     fun retrieveSecret(): AuthStreamSecret =
         retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthStreamSecret
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none()
     ): AuthStreamSecret = retrieveSecret(params, RequestOptions.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): AuthStreamSecret =
         retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
 
@@ -61,20 +61,20 @@ interface AuthStreamEnrollmentService {
      */
     fun rotateSecret() = rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none()
     ) = rotateSecret(params, RequestOptions.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions) =
         rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
 
@@ -101,7 +101,7 @@ interface AuthStreamEnrollmentService {
         fun retrieveSecret(): HttpResponseFor<AuthStreamSecret> =
             retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
@@ -109,14 +109,14 @@ interface AuthStreamEnrollmentService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthStreamSecret>
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none()
         ): HttpResponseFor<AuthStreamSecret> = retrieveSecret(params, RequestOptions.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(requestOptions: RequestOptions): HttpResponseFor<AuthStreamSecret> =
             retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
@@ -129,7 +129,7 @@ interface AuthStreamEnrollmentService {
         fun rotateSecret(): HttpResponse =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
@@ -137,14 +137,14 @@ interface AuthStreamEnrollmentService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none()
         ): HttpResponse = rotateSecret(params, RequestOptions.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)

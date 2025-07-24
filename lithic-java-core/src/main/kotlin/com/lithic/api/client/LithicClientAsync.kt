@@ -133,18 +133,18 @@ interface LithicClientAsync {
     /** Status of api */
     fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
 
-    /** @see [apiStatus] */
+    /** @see apiStatus */
     fun apiStatus(
         params: ClientApiStatusParams = ClientApiStatusParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ApiStatus>
 
-    /** @see [apiStatus] */
+    /** @see apiStatus */
     fun apiStatus(
         params: ClientApiStatusParams = ClientApiStatusParams.none()
     ): CompletableFuture<ApiStatus> = apiStatus(params, RequestOptions.none())
 
-    /** @see [apiStatus] */
+    /** @see apiStatus */
     fun apiStatus(requestOptions: RequestOptions): CompletableFuture<ApiStatus> =
         apiStatus(ClientApiStatusParams.none(), requestOptions)
 
@@ -236,18 +236,18 @@ interface LithicClientAsync {
         fun apiStatus(): CompletableFuture<HttpResponseFor<ApiStatus>> =
             apiStatus(ClientApiStatusParams.none())
 
-        /** @see [apiStatus] */
+        /** @see apiStatus */
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ApiStatus>>
 
-        /** @see [apiStatus] */
+        /** @see apiStatus */
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none()
         ): CompletableFuture<HttpResponseFor<ApiStatus>> = apiStatus(params, RequestOptions.none())
 
-        /** @see [apiStatus] */
+        /** @see apiStatus */
         fun apiStatus(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ApiStatus>> =

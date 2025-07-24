@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [DigitalCardArtServiceAsync.list] */
+/** @see DigitalCardArtServiceAsync.list */
 class DigitalCardArtListPageAsync
 private constructor(
     private val service: DigitalCardArtServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [DigitalCardArtListPageResponse], but gracefully handles missing data.
      *
-     * @see [DigitalCardArtListPageResponse.data]
+     * @see DigitalCardArtListPageResponse.data
      */
     fun data(): List<DigitalCardArt> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [DigitalCardArtListPageResponse], but gracefully handles missing data.
      *
-     * @see [DigitalCardArtListPageResponse.hasMore]
+     * @see DigitalCardArtListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

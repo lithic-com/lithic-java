@@ -30,7 +30,7 @@ interface DigitalCardArtServiceAsync {
     fun retrieve(digitalCardArtToken: String): CompletableFuture<DigitalCardArt> =
         retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         digitalCardArtToken: String,
         params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
@@ -41,24 +41,24 @@ interface DigitalCardArtServiceAsync {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         digitalCardArtToken: String,
         params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
     ): CompletableFuture<DigitalCardArt> =
         retrieve(digitalCardArtToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArt>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DigitalCardArtRetrieveParams): CompletableFuture<DigitalCardArt> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         digitalCardArtToken: String,
         requestOptions: RequestOptions,
@@ -69,18 +69,18 @@ interface DigitalCardArtServiceAsync {
     fun list(): CompletableFuture<DigitalCardArtListPageAsync> =
         list(DigitalCardArtListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DigitalCardArtListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none()
     ): CompletableFuture<DigitalCardArtListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<DigitalCardArtListPageAsync> =
         list(DigitalCardArtListParams.none(), requestOptions)
 
@@ -108,7 +108,7 @@ interface DigitalCardArtServiceAsync {
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
             retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             digitalCardArtToken: String,
             params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
@@ -119,26 +119,26 @@ interface DigitalCardArtServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             digitalCardArtToken: String,
             params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
             retrieve(digitalCardArtToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DigitalCardArtRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DigitalCardArtRetrieveParams
         ): CompletableFuture<HttpResponseFor<DigitalCardArt>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             digitalCardArtToken: String,
             requestOptions: RequestOptions,
@@ -152,19 +152,19 @@ interface DigitalCardArtServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>> =
             list(DigitalCardArtListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none()
         ): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DigitalCardArtListPageAsync>> =

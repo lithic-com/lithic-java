@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [BalanceServiceAsync.list] */
+/** @see BalanceServiceAsync.list */
 class FinancialAccountBalanceListPageAsync
 private constructor(
     private val service: BalanceServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [FinancialAccountBalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountBalanceListPageResponse.data]
+     * @see FinancialAccountBalanceListPageResponse.data
      */
     fun data(): List<BalanceListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [FinancialAccountBalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountBalanceListPageResponse.hasMore]
+     * @see FinancialAccountBalanceListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

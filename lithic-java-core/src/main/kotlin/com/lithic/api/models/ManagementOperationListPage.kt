@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [ManagementOperationService.list] */
+/** @see ManagementOperationService.list */
 class ManagementOperationListPage
 private constructor(
     private val service: ManagementOperationService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [ManagementOperationListPageResponse], but gracefully handles missing data.
      *
-     * @see [ManagementOperationListPageResponse.data]
+     * @see ManagementOperationListPageResponse.data
      */
     fun data(): List<ManagementOperationTransaction> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [ManagementOperationListPageResponse], but gracefully handles missing data.
      *
-     * @see [ManagementOperationListPageResponse.hasMore]
+     * @see ManagementOperationListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

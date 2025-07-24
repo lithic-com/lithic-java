@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [FinancialTransactionService.list] */
+/** @see FinancialTransactionService.list */
 class FinancialTransactionListPage
 private constructor(
     private val service: FinancialTransactionService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [FinancialTransactionListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialTransactionListPageResponse.data]
+     * @see FinancialTransactionListPageResponse.data
      */
     fun data(): List<FinancialTransaction> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [FinancialTransactionListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialTransactionListPageResponse.hasMore]
+     * @see FinancialTransactionListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

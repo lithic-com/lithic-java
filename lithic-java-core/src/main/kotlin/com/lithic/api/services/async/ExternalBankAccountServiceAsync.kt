@@ -41,18 +41,18 @@ interface ExternalBankAccountServiceAsync {
     fun create(): CompletableFuture<ExternalBankAccountCreateResponse> =
         create(ExternalBankAccountCreateParams.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse>
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
     ): CompletableFuture<ExternalBankAccountCreateResponse> = create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         requestOptions: RequestOptions
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
@@ -64,7 +64,7 @@ interface ExternalBankAccountServiceAsync {
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
         retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
@@ -75,26 +75,26 @@ interface ExternalBankAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
         retrieve(externalBankAccountToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ExternalBankAccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ExternalBankAccountRetrieveParams
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
@@ -107,7 +107,7 @@ interface ExternalBankAccountServiceAsync {
     ): CompletableFuture<ExternalBankAccountUpdateResponse> =
         update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         externalBankAccountToken: String,
         params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
@@ -118,25 +118,25 @@ interface ExternalBankAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         externalBankAccountToken: String,
         params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
     ): CompletableFuture<ExternalBankAccountUpdateResponse> =
         update(externalBankAccountToken, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: ExternalBankAccountUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountUpdateResponse>
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: ExternalBankAccountUpdateParams
     ): CompletableFuture<ExternalBankAccountUpdateResponse> = update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
@@ -147,18 +147,18 @@ interface ExternalBankAccountServiceAsync {
     fun list(): CompletableFuture<ExternalBankAccountListPageAsync> =
         list(ExternalBankAccountListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: ExternalBankAccountListParams = ExternalBankAccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
     ): CompletableFuture<ExternalBankAccountListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ExternalBankAccountListPageAsync> =
         list(ExternalBankAccountListParams.none(), requestOptions)
 
@@ -171,7 +171,7 @@ interface ExternalBankAccountServiceAsync {
             ExternalBankAccountRetryMicroDepositsParams.none(),
         )
 
-    /** @see [retryMicroDeposits] */
+    /** @see retryMicroDeposits */
     fun retryMicroDeposits(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryMicroDepositsParams =
@@ -183,7 +183,7 @@ interface ExternalBankAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [retryMicroDeposits] */
+    /** @see retryMicroDeposits */
     fun retryMicroDeposits(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryMicroDepositsParams =
@@ -191,19 +191,19 @@ interface ExternalBankAccountServiceAsync {
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse> =
         retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
 
-    /** @see [retryMicroDeposits] */
+    /** @see retryMicroDeposits */
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse>
 
-    /** @see [retryMicroDeposits] */
+    /** @see retryMicroDeposits */
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse> =
         retryMicroDeposits(params, RequestOptions.none())
 
-    /** @see [retryMicroDeposits] */
+    /** @see retryMicroDeposits */
     fun retryMicroDeposits(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
@@ -220,7 +220,7 @@ interface ExternalBankAccountServiceAsync {
     ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse> =
         retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
 
-    /** @see [retryPrenote] */
+    /** @see retryPrenote */
     fun retryPrenote(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryPrenoteParams =
@@ -232,26 +232,26 @@ interface ExternalBankAccountServiceAsync {
             requestOptions,
         )
 
-    /** @see [retryPrenote] */
+    /** @see retryPrenote */
     fun retryPrenote(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryPrenoteParams = ExternalBankAccountRetryPrenoteParams.none(),
     ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse> =
         retryPrenote(externalBankAccountToken, params, RequestOptions.none())
 
-    /** @see [retryPrenote] */
+    /** @see retryPrenote */
     fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse>
 
-    /** @see [retryPrenote] */
+    /** @see retryPrenote */
     fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams
     ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse> =
         retryPrenote(params, RequestOptions.none())
 
-    /** @see [retryPrenote] */
+    /** @see retryPrenote */
     fun retryPrenote(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
@@ -286,19 +286,19 @@ interface ExternalBankAccountServiceAsync {
         fun create(): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
             create(ExternalBankAccountCreateParams.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>>
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
@@ -314,7 +314,7 @@ interface ExternalBankAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
             retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
@@ -325,26 +325,26 @@ interface ExternalBankAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
             retrieve(externalBankAccountToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: ExternalBankAccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: ExternalBankAccountRetrieveParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
@@ -365,7 +365,7 @@ interface ExternalBankAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
             update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             externalBankAccountToken: String,
             params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
@@ -376,26 +376,26 @@ interface ExternalBankAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             externalBankAccountToken: String,
             params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
             update(externalBankAccountToken, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: ExternalBankAccountUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>>
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: ExternalBankAccountUpdateParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
             update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
@@ -409,19 +409,19 @@ interface ExternalBankAccountServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>> =
             list(ExternalBankAccountListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: ExternalBankAccountListParams = ExternalBankAccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>> =
@@ -440,7 +440,7 @@ interface ExternalBankAccountServiceAsync {
                 ExternalBankAccountRetryMicroDepositsParams.none(),
             )
 
-        /** @see [retryMicroDeposits] */
+        /** @see retryMicroDeposits */
         fun retryMicroDeposits(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetryMicroDepositsParams =
@@ -452,7 +452,7 @@ interface ExternalBankAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retryMicroDeposits] */
+        /** @see retryMicroDeposits */
         fun retryMicroDeposits(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetryMicroDepositsParams =
@@ -460,19 +460,19 @@ interface ExternalBankAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>> =
             retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
 
-        /** @see [retryMicroDeposits] */
+        /** @see retryMicroDeposits */
         fun retryMicroDeposits(
             params: ExternalBankAccountRetryMicroDepositsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>>
 
-        /** @see [retryMicroDeposits] */
+        /** @see retryMicroDeposits */
         fun retryMicroDeposits(
             params: ExternalBankAccountRetryMicroDepositsParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>> =
             retryMicroDeposits(params, RequestOptions.none())
 
-        /** @see [retryMicroDeposits] */
+        /** @see retryMicroDeposits */
         fun retryMicroDeposits(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
@@ -493,7 +493,7 @@ interface ExternalBankAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryPrenoteResponse>> =
             retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
 
-        /** @see [retryPrenote] */
+        /** @see retryPrenote */
         fun retryPrenote(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetryPrenoteParams =
@@ -505,7 +505,7 @@ interface ExternalBankAccountServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retryPrenote] */
+        /** @see retryPrenote */
         fun retryPrenote(
             externalBankAccountToken: String,
             params: ExternalBankAccountRetryPrenoteParams =
@@ -513,19 +513,19 @@ interface ExternalBankAccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryPrenoteResponse>> =
             retryPrenote(externalBankAccountToken, params, RequestOptions.none())
 
-        /** @see [retryPrenote] */
+        /** @see retryPrenote */
         fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryPrenoteResponse>>
 
-        /** @see [retryPrenote] */
+        /** @see retryPrenote */
         fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryPrenoteResponse>> =
             retryPrenote(params, RequestOptions.none())
 
-        /** @see [retryPrenote] */
+        /** @see retryPrenote */
         fun retryPrenote(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
