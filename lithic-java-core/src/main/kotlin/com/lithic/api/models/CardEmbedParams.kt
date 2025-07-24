@@ -47,8 +47,10 @@ private constructor(
     /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
     fun hmac(): String = hmac
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

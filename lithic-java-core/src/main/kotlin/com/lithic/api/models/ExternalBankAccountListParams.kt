@@ -58,8 +58,10 @@ private constructor(
     fun verificationStates(): Optional<List<VerificationState>> =
         Optional.ofNullable(verificationStates)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
