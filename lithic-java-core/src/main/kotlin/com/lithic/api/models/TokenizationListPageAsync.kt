@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [TokenizationServiceAsync.list] */
+/** @see TokenizationServiceAsync.list */
 class TokenizationListPageAsync
 private constructor(
     private val service: TokenizationServiceAsync,
@@ -24,14 +24,14 @@ private constructor(
     /**
      * Delegates to [TokenizationListPageResponse], but gracefully handles missing data.
      *
-     * @see [TokenizationListPageResponse.data]
+     * @see TokenizationListPageResponse.data
      */
     fun data(): List<Tokenization> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [TokenizationListPageResponse], but gracefully handles missing data.
      *
-     * @see [TokenizationListPageResponse.hasMore]
+     * @see TokenizationListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

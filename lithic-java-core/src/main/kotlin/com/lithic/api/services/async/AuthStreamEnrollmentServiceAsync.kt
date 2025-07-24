@@ -36,20 +36,20 @@ interface AuthStreamEnrollmentServiceAsync {
     fun retrieveSecret(): CompletableFuture<AuthStreamSecret> =
         retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AuthStreamSecret>
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none()
     ): CompletableFuture<AuthStreamSecret> = retrieveSecret(params, RequestOptions.none())
 
-    /** @see [retrieveSecret] */
+    /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): CompletableFuture<AuthStreamSecret> =
         retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
 
@@ -62,20 +62,20 @@ interface AuthStreamEnrollmentServiceAsync {
     fun rotateSecret(): CompletableFuture<Void?> =
         rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none()
     ): CompletableFuture<Void?> = rotateSecret(params, RequestOptions.none())
 
-    /** @see [rotateSecret] */
+    /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<Void?> =
         rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
 
@@ -101,21 +101,21 @@ interface AuthStreamEnrollmentServiceAsync {
         fun retrieveSecret(): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
             retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>>
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none()
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
             retrieveSecret(params, RequestOptions.none())
 
-        /** @see [retrieveSecret] */
+        /** @see retrieveSecret */
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
@@ -128,20 +128,20 @@ interface AuthStreamEnrollmentServiceAsync {
         fun rotateSecret(): CompletableFuture<HttpResponse> =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none()
         ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
-        /** @see [rotateSecret] */
+        /** @see rotateSecret */
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
             rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
     }

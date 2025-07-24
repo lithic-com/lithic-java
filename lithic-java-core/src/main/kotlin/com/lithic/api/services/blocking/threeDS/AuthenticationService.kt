@@ -32,7 +32,7 @@ interface AuthenticationService {
     fun retrieve(threeDSAuthenticationToken: String): AuthenticationRetrieveResponse =
         retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
@@ -43,24 +43,24 @@ interface AuthenticationService {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
     ): AuthenticationRetrieveResponse =
         retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthenticationRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ThreeDSAuthenticationRetrieveParams): AuthenticationRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         threeDSAuthenticationToken: String,
         requestOptions: RequestOptions,
@@ -81,7 +81,7 @@ interface AuthenticationService {
     fun simulate(params: ThreeDSAuthenticationSimulateParams): AuthenticationSimulateResponse =
         simulate(params, RequestOptions.none())
 
-    /** @see [simulate] */
+    /** @see simulate */
     fun simulate(
         params: ThreeDSAuthenticationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -96,7 +96,7 @@ interface AuthenticationService {
     fun simulateOtpEntry(params: ThreeDSAuthenticationSimulateOtpEntryParams) =
         simulateOtpEntry(params, RequestOptions.none())
 
-    /** @see [simulateOtpEntry] */
+    /** @see simulateOtpEntry */
     fun simulateOtpEntry(
         params: ThreeDSAuthenticationSimulateOtpEntryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -127,7 +127,7 @@ interface AuthenticationService {
         ): HttpResponseFor<AuthenticationRetrieveResponse> =
             retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
@@ -140,7 +140,7 @@ interface AuthenticationService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
@@ -148,20 +148,20 @@ interface AuthenticationService {
         ): HttpResponseFor<AuthenticationRetrieveResponse> =
             retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthenticationRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams
         ): HttpResponseFor<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
@@ -182,7 +182,7 @@ interface AuthenticationService {
             params: ThreeDSAuthenticationSimulateParams
         ): HttpResponseFor<AuthenticationSimulateResponse> = simulate(params, RequestOptions.none())
 
-        /** @see [simulate] */
+        /** @see simulate */
         @MustBeClosed
         fun simulate(
             params: ThreeDSAuthenticationSimulateParams,
@@ -197,7 +197,7 @@ interface AuthenticationService {
         fun simulateOtpEntry(params: ThreeDSAuthenticationSimulateOtpEntryParams): HttpResponse =
             simulateOtpEntry(params, RequestOptions.none())
 
-        /** @see [simulateOtpEntry] */
+        /** @see simulateOtpEntry */
         @MustBeClosed
         fun simulateOtpEntry(
             params: ThreeDSAuthenticationSimulateOtpEntryParams,

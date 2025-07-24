@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [AggregateBalanceService.list] */
+/** @see AggregateBalanceService.list */
 class CardAggregateBalanceListPage
 private constructor(
     private val service: AggregateBalanceService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [CardAggregateBalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardAggregateBalanceListPageResponse.data]
+     * @see CardAggregateBalanceListPageResponse.data
      */
     fun data(): List<AggregateBalanceListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [CardAggregateBalanceListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardAggregateBalanceListPageResponse.hasMore]
+     * @see CardAggregateBalanceListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

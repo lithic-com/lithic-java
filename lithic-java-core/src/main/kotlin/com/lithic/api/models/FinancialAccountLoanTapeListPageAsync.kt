@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [LoanTapeServiceAsync.list] */
+/** @see LoanTapeServiceAsync.list */
 class FinancialAccountLoanTapeListPageAsync
 private constructor(
     private val service: LoanTapeServiceAsync,
@@ -24,14 +24,14 @@ private constructor(
     /**
      * Delegates to [FinancialAccountLoanTapeListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountLoanTapeListPageResponse.data]
+     * @see FinancialAccountLoanTapeListPageResponse.data
      */
     fun data(): List<LoanTape> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [FinancialAccountLoanTapeListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountLoanTapeListPageResponse.hasMore]
+     * @see FinancialAccountLoanTapeListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [DisputeService.list] */
+/** @see DisputeService.list */
 class DisputeListPage
 private constructor(
     private val service: DisputeService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [DisputeListPageResponse], but gracefully handles missing data.
      *
-     * @see [DisputeListPageResponse.data]
+     * @see DisputeListPageResponse.data
      */
     fun data(): List<Dispute> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [DisputeListPageResponse], but gracefully handles missing data.
      *
-     * @see [DisputeListPageResponse.hasMore]
+     * @see DisputeListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

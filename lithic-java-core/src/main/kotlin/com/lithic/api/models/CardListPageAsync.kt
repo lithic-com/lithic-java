@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [CardServiceAsync.list] */
+/** @see CardServiceAsync.list */
 class CardListPageAsync
 private constructor(
     private val service: CardServiceAsync,
@@ -24,14 +24,14 @@ private constructor(
     /**
      * Delegates to [CardListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardListPageResponse.data]
+     * @see CardListPageResponse.data
      */
     fun data(): List<NonPciCard> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [CardListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardListPageResponse.hasMore]
+     * @see CardListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

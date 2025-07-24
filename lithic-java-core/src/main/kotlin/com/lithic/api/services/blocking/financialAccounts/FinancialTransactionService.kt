@@ -32,7 +32,7 @@ interface FinancialTransactionService {
         params: FinancialTransactionRetrieveParams,
     ): FinancialTransaction = retrieve(financialTransactionToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         financialTransactionToken: String,
         params: FinancialTransactionRetrieveParams,
@@ -43,11 +43,11 @@ interface FinancialTransactionService {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: FinancialTransactionRetrieveParams): FinancialTransaction =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface FinancialTransactionService {
     fun list(financialAccountToken: String): FinancialTransactionListPage =
         list(financialAccountToken, FinancialTransactionListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
@@ -68,23 +68,23 @@ interface FinancialTransactionService {
             requestOptions,
         )
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
     ): FinancialTransactionListPage = list(financialAccountToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialTransactionListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: FinancialTransactionListParams): FinancialTransactionListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
@@ -118,7 +118,7 @@ interface FinancialTransactionService {
         ): HttpResponseFor<FinancialTransaction> =
             retrieve(financialTransactionToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             financialTransactionToken: String,
@@ -130,13 +130,13 @@ interface FinancialTransactionService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialTransactionRetrieveParams
         ): HttpResponseFor<FinancialTransaction> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialTransactionRetrieveParams,
@@ -152,7 +152,7 @@ interface FinancialTransactionService {
         fun list(financialAccountToken: String): HttpResponseFor<FinancialTransactionListPage> =
             list(financialAccountToken, FinancialTransactionListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -164,7 +164,7 @@ interface FinancialTransactionService {
                 requestOptions,
             )
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,
@@ -172,20 +172,20 @@ interface FinancialTransactionService {
         ): HttpResponseFor<FinancialTransactionListPage> =
             list(financialAccountToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialTransactionListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialTransactionListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialTransactionListParams
         ): HttpResponseFor<FinancialTransactionListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             financialAccountToken: String,

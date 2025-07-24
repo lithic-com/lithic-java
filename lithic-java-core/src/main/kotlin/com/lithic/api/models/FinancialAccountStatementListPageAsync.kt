@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [StatementServiceAsync.list] */
+/** @see StatementServiceAsync.list */
 class FinancialAccountStatementListPageAsync
 private constructor(
     private val service: StatementServiceAsync,
@@ -24,14 +24,14 @@ private constructor(
     /**
      * Delegates to [Statements], but gracefully handles missing data.
      *
-     * @see [Statements.data]
+     * @see Statements.data
      */
     fun data(): List<Statement> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [Statements], but gracefully handles missing data.
      *
-     * @see [Statements.hasMore]
+     * @see Statements.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

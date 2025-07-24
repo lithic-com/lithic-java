@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [NetworkTotalServiceAsync.list] */
+/** @see NetworkTotalServiceAsync.list */
 class ReportSettlementNetworkTotalListPageAsync
 private constructor(
     private val service: NetworkTotalServiceAsync,
@@ -25,7 +25,7 @@ private constructor(
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
      * data.
      *
-     * @see [ReportSettlementNetworkTotalListPageResponse.data]
+     * @see ReportSettlementNetworkTotalListPageResponse.data
      */
     fun data(): List<NetworkTotalListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -34,7 +34,7 @@ private constructor(
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
      * data.
      *
-     * @see [ReportSettlementNetworkTotalListPageResponse.hasMore]
+     * @see ReportSettlementNetworkTotalListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

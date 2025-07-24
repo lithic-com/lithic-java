@@ -27,30 +27,30 @@ interface BalanceService {
     /** Get the balances for a given card. */
     fun list(cardToken: String): CardBalanceListPage = list(cardToken, CardBalanceListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         cardToken: String,
         params: CardBalanceListParams = CardBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardBalanceListPage = list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         cardToken: String,
         params: CardBalanceListParams = CardBalanceListParams.none(),
     ): CardBalanceListPage = list(cardToken, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardBalanceListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: CardBalanceListParams): CardBalanceListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(cardToken: String, requestOptions: RequestOptions): CardBalanceListPage =
         list(cardToken, CardBalanceListParams.none(), requestOptions)
 
@@ -72,7 +72,7 @@ interface BalanceService {
         fun list(cardToken: String): HttpResponseFor<CardBalanceListPage> =
             list(cardToken, CardBalanceListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             cardToken: String,
@@ -81,26 +81,26 @@ interface BalanceService {
         ): HttpResponseFor<CardBalanceListPage> =
             list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
         ): HttpResponseFor<CardBalanceListPage> = list(cardToken, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: CardBalanceListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardBalanceListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: CardBalanceListParams): HttpResponseFor<CardBalanceListPage> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             cardToken: String,

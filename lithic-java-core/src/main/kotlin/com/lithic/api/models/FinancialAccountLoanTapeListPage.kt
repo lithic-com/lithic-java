@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [LoanTapeService.list] */
+/** @see LoanTapeService.list */
 class FinancialAccountLoanTapeListPage
 private constructor(
     private val service: LoanTapeService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [FinancialAccountLoanTapeListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountLoanTapeListPageResponse.data]
+     * @see FinancialAccountLoanTapeListPageResponse.data
      */
     fun data(): List<LoanTape> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [FinancialAccountLoanTapeListPageResponse], but gracefully handles missing data.
      *
-     * @see [FinancialAccountLoanTapeListPageResponse.hasMore]
+     * @see FinancialAccountLoanTapeListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

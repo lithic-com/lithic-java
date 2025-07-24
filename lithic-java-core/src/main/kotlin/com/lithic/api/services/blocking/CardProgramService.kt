@@ -30,7 +30,7 @@ interface CardProgramService {
     fun retrieve(cardProgramToken: String): CardProgram =
         retrieve(cardProgramToken, CardProgramRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
@@ -38,40 +38,40 @@ interface CardProgramService {
     ): CardProgram =
         retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
     ): CardProgram = retrieve(cardProgramToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CardProgramRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProgram
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: CardProgramRetrieveParams): CardProgram =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(cardProgramToken: String, requestOptions: RequestOptions): CardProgram =
         retrieve(cardProgramToken, CardProgramRetrieveParams.none(), requestOptions)
 
     /** List card programs. */
     fun list(): CardProgramListPage = list(CardProgramListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: CardProgramListParams = CardProgramListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProgramListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: CardProgramListParams = CardProgramListParams.none()): CardProgramListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CardProgramListPage =
         list(CardProgramListParams.none(), requestOptions)
 
@@ -97,7 +97,7 @@ interface CardProgramService {
         fun retrieve(cardProgramToken: String): HttpResponseFor<CardProgram> =
             retrieve(cardProgramToken, CardProgramRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
@@ -106,26 +106,26 @@ interface CardProgramService {
         ): HttpResponseFor<CardProgram> =
             retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
         ): HttpResponseFor<CardProgram> = retrieve(cardProgramToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CardProgramRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardProgram>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: CardProgramRetrieveParams): HttpResponseFor<CardProgram> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             cardProgramToken: String,
@@ -140,20 +140,20 @@ interface CardProgramService {
         @MustBeClosed
         fun list(): HttpResponseFor<CardProgramListPage> = list(CardProgramListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: CardProgramListParams = CardProgramListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardProgramListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: CardProgramListParams = CardProgramListParams.none()
         ): HttpResponseFor<CardProgramListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardProgramListPage> =
             list(CardProgramListParams.none(), requestOptions)

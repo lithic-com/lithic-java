@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [DigitalCardArtService.list] */
+/** @see DigitalCardArtService.list */
 class DigitalCardArtListPage
 private constructor(
     private val service: DigitalCardArtService,
@@ -21,7 +21,7 @@ private constructor(
     /**
      * Delegates to [DigitalCardArtListPageResponse], but gracefully handles missing data.
      *
-     * @see [DigitalCardArtListPageResponse.data]
+     * @see DigitalCardArtListPageResponse.data
      */
     fun data(): List<DigitalCardArt> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -29,7 +29,7 @@ private constructor(
     /**
      * Delegates to [DigitalCardArtListPageResponse], but gracefully handles missing data.
      *
-     * @see [DigitalCardArtListPageResponse.hasMore]
+     * @see DigitalCardArtListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

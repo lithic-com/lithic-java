@@ -30,7 +30,7 @@ interface DigitalCardArtService {
     fun retrieve(digitalCardArtToken: String): DigitalCardArt =
         retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         digitalCardArtToken: String,
         params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
@@ -41,41 +41,41 @@ interface DigitalCardArtService {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         digitalCardArtToken: String,
         params: DigitalCardArtRetrieveParams = DigitalCardArtRetrieveParams.none(),
     ): DigitalCardArt = retrieve(digitalCardArtToken, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DigitalCardArtRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArt
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DigitalCardArtRetrieveParams): DigitalCardArt =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(digitalCardArtToken: String, requestOptions: RequestOptions): DigitalCardArt =
         retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none(), requestOptions)
 
     /** List digital card art. */
     fun list(): DigitalCardArtListPage = list(DigitalCardArtListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DigitalCardArtListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: DigitalCardArtListParams = DigitalCardArtListParams.none()
     ): DigitalCardArtListPage = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): DigitalCardArtListPage =
         list(DigitalCardArtListParams.none(), requestOptions)
 
@@ -101,7 +101,7 @@ interface DigitalCardArtService {
         fun retrieve(digitalCardArtToken: String): HttpResponseFor<DigitalCardArt> =
             retrieve(digitalCardArtToken, DigitalCardArtRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             digitalCardArtToken: String,
@@ -113,7 +113,7 @@ interface DigitalCardArtService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             digitalCardArtToken: String,
@@ -121,19 +121,19 @@ interface DigitalCardArtService {
         ): HttpResponseFor<DigitalCardArt> =
             retrieve(digitalCardArtToken, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: DigitalCardArtRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DigitalCardArt>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: DigitalCardArtRetrieveParams): HttpResponseFor<DigitalCardArt> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             digitalCardArtToken: String,
@@ -148,20 +148,20 @@ interface DigitalCardArtService {
         @MustBeClosed
         fun list(): HttpResponseFor<DigitalCardArtListPage> = list(DigitalCardArtListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DigitalCardArtListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: DigitalCardArtListParams = DigitalCardArtListParams.none()
         ): HttpResponseFor<DigitalCardArtListPage> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<DigitalCardArtListPage> =
             list(DigitalCardArtListParams.none(), requestOptions)

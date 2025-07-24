@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [ExternalBankAccountServiceAsync.list] */
+/** @see ExternalBankAccountServiceAsync.list */
 class ExternalBankAccountListPageAsync
 private constructor(
     private val service: ExternalBankAccountServiceAsync,
@@ -24,7 +24,7 @@ private constructor(
     /**
      * Delegates to [ExternalBankAccountListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalBankAccountListPageResponse.data]
+     * @see ExternalBankAccountListPageResponse.data
      */
     fun data(): List<ExternalBankAccountListResponse> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
@@ -32,7 +32,7 @@ private constructor(
     /**
      * Delegates to [ExternalBankAccountListPageResponse], but gracefully handles missing data.
      *
-     * @see [ExternalBankAccountListPageResponse.hasMore]
+     * @see ExternalBankAccountListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

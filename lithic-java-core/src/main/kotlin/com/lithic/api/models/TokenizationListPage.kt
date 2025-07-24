@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [TokenizationService.list] */
+/** @see TokenizationService.list */
 class TokenizationListPage
 private constructor(
     private val service: TokenizationService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [TokenizationListPageResponse], but gracefully handles missing data.
      *
-     * @see [TokenizationListPageResponse.data]
+     * @see TokenizationListPageResponse.data
      */
     fun data(): List<Tokenization> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [TokenizationListPageResponse], but gracefully handles missing data.
      *
-     * @see [TokenizationListPageResponse.hasMore]
+     * @see TokenizationListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

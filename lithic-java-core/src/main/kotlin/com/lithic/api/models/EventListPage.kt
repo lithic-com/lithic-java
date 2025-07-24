@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [EventService.list] */
+/** @see EventService.list */
 class EventListPage
 private constructor(
     private val service: EventService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [EventListPageResponse], but gracefully handles missing data.
      *
-     * @see [EventListPageResponse.data]
+     * @see EventListPageResponse.data
      */
     fun data(): List<Event> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [EventListPageResponse], but gracefully handles missing data.
      *
-     * @see [EventListPageResponse.hasMore]
+     * @see EventListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 

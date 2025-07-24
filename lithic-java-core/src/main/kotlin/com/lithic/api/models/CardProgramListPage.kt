@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [CardProgramService.list] */
+/** @see CardProgramService.list */
 class CardProgramListPage
 private constructor(
     private val service: CardProgramService,
@@ -21,14 +21,14 @@ private constructor(
     /**
      * Delegates to [CardProgramListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardProgramListPageResponse.data]
+     * @see CardProgramListPageResponse.data
      */
     fun data(): List<CardProgram> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [CardProgramListPageResponse], but gracefully handles missing data.
      *
-     * @see [CardProgramListPageResponse.hasMore]
+     * @see CardProgramListPageResponse.hasMore
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
