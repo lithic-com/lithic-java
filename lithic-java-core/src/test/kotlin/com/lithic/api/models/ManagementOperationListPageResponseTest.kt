@@ -18,11 +18,14 @@ internal class ManagementOperationListPageResponseTest {
                 .addData(
                     ManagementOperationTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
+                        .status(ManagementOperationTransaction.TransactionStatus.PENDING)
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .category(
                             ManagementOperationTransaction.ManagementOperationCategory
                                 .MANAGEMENT_FEE
                         )
-                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("currency")
                         .direction(
                             ManagementOperationTransaction.ManagementOperationDirection.CREDIT
@@ -52,11 +55,17 @@ internal class ManagementOperationListPageResponseTest {
                                 .subtype("subtype")
                                 .build()
                         )
+                        .externalResource(
+                            ExternalResource.builder()
+                                .externalResourceToken("external_resource_token")
+                                .externalResourceType(ExternalResourceType.STATEMENT)
+                                .externalResourceSubToken("external_resource_sub_token")
+                                .build()
+                        )
                         .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .result(ManagementOperationTransaction.TransactionResult.APPROVED)
                         .settledAmount(0L)
-                        .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                         .transactionSeries(
                             ManagementOperationTransaction.TransactionSeries.builder()
                                 .relatedTransactionEventToken(
@@ -64,14 +73,6 @@ internal class ManagementOperationListPageResponseTest {
                                 )
                                 .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
                                 .type("FEE")
-                                .build()
-                        )
-                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .externalResource(
-                            ExternalResource.builder()
-                                .externalResourceToken("external_resource_token")
-                                .externalResourceType(ExternalResourceType.STATEMENT)
-                                .externalResourceSubToken("external_resource_sub_token")
                                 .build()
                         )
                         .userDefinedId("user_defined_id")
@@ -84,10 +85,13 @@ internal class ManagementOperationListPageResponseTest {
             .containsExactly(
                 ManagementOperationTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
+                    .status(ManagementOperationTransaction.TransactionStatus.PENDING)
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .category(
                         ManagementOperationTransaction.ManagementOperationCategory.MANAGEMENT_FEE
                     )
-                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("currency")
                     .direction(ManagementOperationTransaction.ManagementOperationDirection.CREDIT)
                     .addEvent(
@@ -115,24 +119,22 @@ internal class ManagementOperationListPageResponseTest {
                             .subtype("subtype")
                             .build()
                     )
-                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .pendingAmount(0L)
-                    .result(ManagementOperationTransaction.TransactionResult.APPROVED)
-                    .settledAmount(0L)
-                    .status(ManagementOperationTransaction.TransactionStatus.PENDING)
-                    .transactionSeries(
-                        ManagementOperationTransaction.TransactionSeries.builder()
-                            .relatedTransactionEventToken("123e4567-e89b-12d3-a456-426614174000")
-                            .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
-                            .type("FEE")
-                            .build()
-                    )
-                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .externalResource(
                         ExternalResource.builder()
                             .externalResourceToken("external_resource_token")
                             .externalResourceType(ExternalResourceType.STATEMENT)
                             .externalResourceSubToken("external_resource_sub_token")
+                            .build()
+                    )
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .pendingAmount(0L)
+                    .result(ManagementOperationTransaction.TransactionResult.APPROVED)
+                    .settledAmount(0L)
+                    .transactionSeries(
+                        ManagementOperationTransaction.TransactionSeries.builder()
+                            .relatedTransactionEventToken("123e4567-e89b-12d3-a456-426614174000")
+                            .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
+                            .type("FEE")
                             .build()
                     )
                     .userDefinedId("user_defined_id")
@@ -149,11 +151,14 @@ internal class ManagementOperationListPageResponseTest {
                 .addData(
                     ManagementOperationTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
+                        .status(ManagementOperationTransaction.TransactionStatus.PENDING)
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .category(
                             ManagementOperationTransaction.ManagementOperationCategory
                                 .MANAGEMENT_FEE
                         )
-                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("currency")
                         .direction(
                             ManagementOperationTransaction.ManagementOperationDirection.CREDIT
@@ -183,11 +188,17 @@ internal class ManagementOperationListPageResponseTest {
                                 .subtype("subtype")
                                 .build()
                         )
+                        .externalResource(
+                            ExternalResource.builder()
+                                .externalResourceToken("external_resource_token")
+                                .externalResourceType(ExternalResourceType.STATEMENT)
+                                .externalResourceSubToken("external_resource_sub_token")
+                                .build()
+                        )
                         .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .result(ManagementOperationTransaction.TransactionResult.APPROVED)
                         .settledAmount(0L)
-                        .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                         .transactionSeries(
                             ManagementOperationTransaction.TransactionSeries.builder()
                                 .relatedTransactionEventToken(
@@ -195,14 +206,6 @@ internal class ManagementOperationListPageResponseTest {
                                 )
                                 .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
                                 .type("FEE")
-                                .build()
-                        )
-                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .externalResource(
-                            ExternalResource.builder()
-                                .externalResourceToken("external_resource_token")
-                                .externalResourceType(ExternalResourceType.STATEMENT)
-                                .externalResourceSubToken("external_resource_sub_token")
                                 .build()
                         )
                         .userDefinedId("user_defined_id")

@@ -7,6 +7,7 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPage
@@ -14,7 +15,6 @@ import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationRetrieveResponse
 import com.lithic.api.models.TokenizationSimulateParams
 import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
@@ -37,7 +37,7 @@ interface TokenizationService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationService
 
     /** Get tokenization */
-    fun retrieve(tokenizationToken: String): TokenizationRetrieveResponse =
+    fun retrieve(tokenizationToken: String): Tokenization =
         retrieve(tokenizationToken, TokenizationRetrieveParams.none())
 
     /** @see retrieve */
@@ -45,30 +45,27 @@ interface TokenizationService {
         tokenizationToken: String,
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationRetrieveResponse =
+    ): Tokenization =
         retrieve(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tokenizationToken: String,
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
-    ): TokenizationRetrieveResponse = retrieve(tokenizationToken, params, RequestOptions.none())
+    ): Tokenization = retrieve(tokenizationToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: TokenizationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationRetrieveResponse
+    ): Tokenization
 
     /** @see retrieve */
-    fun retrieve(params: TokenizationRetrieveParams): TokenizationRetrieveResponse =
+    fun retrieve(params: TokenizationRetrieveParams): Tokenization =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(
-        tokenizationToken: String,
-        requestOptions: RequestOptions,
-    ): TokenizationRetrieveResponse =
+    fun retrieve(tokenizationToken: String, requestOptions: RequestOptions): Tokenization =
         retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
     /** List card tokenizations */
@@ -377,7 +374,7 @@ interface TokenizationService {
          * otherwise the same as [TokenizationService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(tokenizationToken: String): HttpResponseFor<TokenizationRetrieveResponse> =
+        fun retrieve(tokenizationToken: String): HttpResponseFor<Tokenization> =
             retrieve(tokenizationToken, TokenizationRetrieveParams.none())
 
         /** @see retrieve */
@@ -386,7 +383,7 @@ interface TokenizationService {
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationRetrieveResponse> =
+        ): HttpResponseFor<Tokenization> =
             retrieve(
                 params.toBuilder().tokenizationToken(tokenizationToken).build(),
                 requestOptions,
@@ -397,7 +394,7 @@ interface TokenizationService {
         fun retrieve(
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
-        ): HttpResponseFor<TokenizationRetrieveResponse> =
+        ): HttpResponseFor<Tokenization> =
             retrieve(tokenizationToken, params, RequestOptions.none())
 
         /** @see retrieve */
@@ -405,20 +402,19 @@ interface TokenizationService {
         fun retrieve(
             params: TokenizationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationRetrieveResponse>
+        ): HttpResponseFor<Tokenization>
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(
-            params: TokenizationRetrieveParams
-        ): HttpResponseFor<TokenizationRetrieveResponse> = retrieve(params, RequestOptions.none())
+        fun retrieve(params: TokenizationRetrieveParams): HttpResponseFor<Tokenization> =
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tokenizationToken: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<TokenizationRetrieveResponse> =
+        ): HttpResponseFor<Tokenization> =
             retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
         /**

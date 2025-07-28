@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.core.jsonMapper
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,8 +17,11 @@ internal class ExternalPaymentTest {
         val externalPayment =
             ExternalPayment.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .family(ExternalPayment.TransactionFamilyTypes.CARD)
+                .status(ExternalPayment.TransactionStatus.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .currency("currency")
                 .addEvent(
                     ExternalPayment.ExternalPaymentEvent.builder()
@@ -41,18 +45,20 @@ internal class ExternalPaymentTest {
                 .pendingAmount(0L)
                 .result(ExternalPayment.TransactionResult.APPROVED)
                 .settledAmount(0L)
-                .status(ExternalPayment.TransactionStatus.PENDING)
-                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
                 .build()
 
         assertThat(externalPayment.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(externalPayment.category())
-            .isEqualTo(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
         assertThat(externalPayment.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(externalPayment.currency()).isEqualTo("currency")
-        assertThat(externalPayment.events())
+        assertThat(externalPayment.family()).isEqualTo(ExternalPayment.TransactionFamilyTypes.CARD)
+        assertThat(externalPayment.status()).isEqualTo(ExternalPayment.TransactionStatus.PENDING)
+        assertThat(externalPayment.updated())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(externalPayment.category())
+            .contains(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
+        assertThat(externalPayment.currency()).contains("currency")
+        assertThat(externalPayment.events().getOrNull())
             .containsExactly(
                 ExternalPayment.ExternalPaymentEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -71,15 +77,12 @@ internal class ExternalPaymentTest {
                     .build()
             )
         assertThat(externalPayment.financialAccountToken())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(externalPayment.paymentType())
-            .isEqualTo(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
-        assertThat(externalPayment.pendingAmount()).isEqualTo(0L)
-        assertThat(externalPayment.result()).isEqualTo(ExternalPayment.TransactionResult.APPROVED)
-        assertThat(externalPayment.settledAmount()).isEqualTo(0L)
-        assertThat(externalPayment.status()).isEqualTo(ExternalPayment.TransactionStatus.PENDING)
-        assertThat(externalPayment.updated())
-            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .contains(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
+        assertThat(externalPayment.pendingAmount()).contains(0L)
+        assertThat(externalPayment.result()).contains(ExternalPayment.TransactionResult.APPROVED)
+        assertThat(externalPayment.settledAmount()).contains(0L)
         assertThat(externalPayment.userDefinedId()).contains("user_defined_id")
     }
 
@@ -89,8 +92,11 @@ internal class ExternalPaymentTest {
         val externalPayment =
             ExternalPayment.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .family(ExternalPayment.TransactionFamilyTypes.CARD)
+                .status(ExternalPayment.TransactionStatus.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .currency("currency")
                 .addEvent(
                     ExternalPayment.ExternalPaymentEvent.builder()
@@ -114,8 +120,6 @@ internal class ExternalPaymentTest {
                 .pendingAmount(0L)
                 .result(ExternalPayment.TransactionResult.APPROVED)
                 .settledAmount(0L)
-                .status(ExternalPayment.TransactionStatus.PENDING)
-                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
                 .build()
 

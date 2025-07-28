@@ -11,7 +11,7 @@ internal class ManagementOperationCreateParamsTest {
     @Test
     fun create() {
         ManagementOperationCreateParams.builder()
-            .amount(0L)
+            .amount(1L)
             .category(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
             .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
             .effectiveDate(LocalDate.parse("2019-12-27"))
@@ -29,7 +29,7 @@ internal class ManagementOperationCreateParamsTest {
     fun body() {
         val params =
             ManagementOperationCreateParams.builder()
-                .amount(0L)
+                .amount(1L)
                 .category(
                     ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE
                 )
@@ -48,7 +48,7 @@ internal class ManagementOperationCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body.amount()).isEqualTo(0L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category())
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
         assertThat(body.direction())
@@ -69,7 +69,7 @@ internal class ManagementOperationCreateParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             ManagementOperationCreateParams.builder()
-                .amount(0L)
+                .amount(1L)
                 .category(
                     ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE
                 )
@@ -83,7 +83,7 @@ internal class ManagementOperationCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body.amount()).isEqualTo(0L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category())
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
         assertThat(body.direction())
