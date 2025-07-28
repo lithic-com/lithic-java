@@ -6,6 +6,7 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPageAsync
@@ -13,7 +14,6 @@ import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationRetrieveResponse
 import com.lithic.api.models.TokenizationSimulateParams
 import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
@@ -37,7 +37,7 @@ interface TokenizationServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationServiceAsync
 
     /** Get tokenization */
-    fun retrieve(tokenizationToken: String): CompletableFuture<TokenizationRetrieveResponse> =
+    fun retrieve(tokenizationToken: String): CompletableFuture<Tokenization> =
         retrieve(tokenizationToken, TokenizationRetrieveParams.none())
 
     /** @see retrieve */
@@ -45,32 +45,30 @@ interface TokenizationServiceAsync {
         tokenizationToken: String,
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationRetrieveResponse> =
+    ): CompletableFuture<Tokenization> =
         retrieve(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tokenizationToken: String,
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
-    ): CompletableFuture<TokenizationRetrieveResponse> =
-        retrieve(tokenizationToken, params, RequestOptions.none())
+    ): CompletableFuture<Tokenization> = retrieve(tokenizationToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: TokenizationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationRetrieveResponse>
+    ): CompletableFuture<Tokenization>
 
     /** @see retrieve */
-    fun retrieve(
-        params: TokenizationRetrieveParams
-    ): CompletableFuture<TokenizationRetrieveResponse> = retrieve(params, RequestOptions.none())
+    fun retrieve(params: TokenizationRetrieveParams): CompletableFuture<Tokenization> =
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         tokenizationToken: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TokenizationRetrieveResponse> =
+    ): CompletableFuture<Tokenization> =
         retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
     /** List card tokenizations */
@@ -406,9 +404,7 @@ interface TokenizationServiceAsync {
          * Returns a raw HTTP response for `get /v1/tokenizations/{tokenization_token}`, but is
          * otherwise the same as [TokenizationServiceAsync.retrieve].
          */
-        fun retrieve(
-            tokenizationToken: String
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+        fun retrieve(tokenizationToken: String): CompletableFuture<HttpResponseFor<Tokenization>> =
             retrieve(tokenizationToken, TokenizationRetrieveParams.none())
 
         /** @see retrieve */
@@ -416,7 +412,7 @@ interface TokenizationServiceAsync {
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             retrieve(
                 params.toBuilder().tokenizationToken(tokenizationToken).build(),
                 requestOptions,
@@ -426,26 +422,26 @@ interface TokenizationServiceAsync {
         fun retrieve(
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             retrieve(tokenizationToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             params: TokenizationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>>
+        ): CompletableFuture<HttpResponseFor<Tokenization>>
 
         /** @see retrieve */
         fun retrieve(
             params: TokenizationRetrieveParams
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             tokenizationToken: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
 
         /**
