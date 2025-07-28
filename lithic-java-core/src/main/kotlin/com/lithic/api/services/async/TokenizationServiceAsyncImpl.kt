@@ -17,6 +17,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
+import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPageAsync
@@ -25,7 +26,6 @@ import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationRetrieveResponse
 import com.lithic.api.models.TokenizationSimulateParams
 import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
@@ -50,7 +50,7 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
     override fun retrieve(
         params: TokenizationRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TokenizationRetrieveResponse> =
+    ): CompletableFuture<Tokenization> =
         // get /v1/tokenizations/{tokenization_token}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
@@ -123,13 +123,13 @@ class TokenizationServiceAsyncImpl internal constructor(private val clientOption
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val retrieveHandler: Handler<TokenizationRetrieveResponse> =
-            jsonHandler<TokenizationRetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<Tokenization> =
+            jsonHandler<Tokenization>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: TokenizationRetrieveParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<TokenizationRetrieveResponse>> {
+        ): CompletableFuture<HttpResponseFor<Tokenization>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("tokenizationToken", params.tokenizationToken().getOrNull())
