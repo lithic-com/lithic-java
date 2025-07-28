@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.98.0 (2025-07-28)
+
+Full Changelog: [v0.97.1...v0.98.0](https://github.com/lithic-com/lithic-java/compare/v0.97.1...v0.98.0)
+
+### Features
+
+* **api:** updates Transaction retrieve response to match API ([88464d7](https://github.com/lithic-com/lithic-java/commit/88464d78e371337db7a1c4530866a9d18ba893d4))
+
+
+### Documentation
+
+* more code comments ([ceb45ee](https://github.com/lithic-com/lithic-java/commit/ceb45ee1e189449f1097d181d86238b1f535805d))
+
 ## 0.97.1 (2025-07-24)
 
 Full Changelog: [v0.97.0...v0.97.1](https://github.com/lithic-com/lithic-java/compare/v0.97.0...v0.97.1)
