@@ -362,6 +362,12 @@ both of which will raise an error if the signature is invalid.
 Note that the "body" parameter must be the raw JSON string sent from the server (do not parse it first).
 The `.unwrap()` method can parse this JSON for you.
 
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `lithic-java-core` is published with a [configuration file](lithic-java-core/src/main/resources/META-INF/proguard/lithic-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
+
 ## Jackson
 
 The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
