@@ -3,6 +3,7 @@ package com.lithic.api.core.http
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.checkRequired
 import com.lithic.api.errors.LithicIoException
+import com.lithic.api.errors.LithicRetryableException
 import java.io.IOException
 import java.time.Clock
 import java.time.Duration
@@ -176,9 +177,10 @@ private constructor(
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean =
-        // Only retry IOException and LithicIoException, other exceptions are not intended to be
-        // retried.
-        throwable is IOException || throwable is LithicIoException
+        // Only retry known retryable exceptions, other exceptions are not intended to be retried.
+        throwable is IOException ||
+            throwable is LithicIoException ||
+            throwable is LithicRetryableException
 
     private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
