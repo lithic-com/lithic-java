@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.99.0 (2025-07-31)
+
+Full Changelog: [v0.98.0...v0.99.0](https://github.com/lithic-com/lithic-java/compare/v0.98.0...v0.99.0)
+
+### Features
+
+* add retryable exception ([9d0e333](https://github.com/lithic-com/lithic-java/commit/9d0e333fa86f6ca6feafd1ea77663082212d4fbd))
+* **client:** ensure compat with proguard ([0cf8803](https://github.com/lithic-com/lithic-java/commit/0cf88037c4534479827ab86f6cfc4e01aa6c9f5e))
+
+
+### Bug Fixes
+
+* **client:** r8 support ([3f77652](https://github.com/lithic-com/lithic-java/commit/3f776524d6c643f14ce1e4a29d5a61919028d27e))
+
+
+### Chores
+
+* **internal:** bump ci test timeout ([dc67b43](https://github.com/lithic-com/lithic-java/commit/dc67b43b859593e8a7a302e2d74935fa45e11584))
+* **internal:** reduce proguard ci logging ([7af8774](https://github.com/lithic-com/lithic-java/commit/7af8774633df28cc77bf86cf3bde7073bc1caf04))
+
 ## 0.98.0 (2025-07-28)
 
 Full Changelog: [v0.97.1...v0.98.0](https://github.com/lithic-com/lithic-java/compare/v0.97.1...v0.98.0)
