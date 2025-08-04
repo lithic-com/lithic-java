@@ -1549,12 +1549,15 @@ private constructor(
 
                 @JvmField val APPROVED = of("APPROVED")
 
+                @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
+
                 @JvmStatic fun of(value: String) = DetailedResults(JsonField.of(value))
             }
 
             /** An enum containing [DetailedResults]'s known values. */
             enum class Known {
-                APPROVED
+                APPROVED,
+                INSUFFICIENT_FUNDS,
             }
 
             /**
@@ -1568,6 +1571,7 @@ private constructor(
              */
             enum class Value {
                 APPROVED,
+                INSUFFICIENT_FUNDS,
                 /**
                  * An enum member indicating that [DetailedResults] was instantiated with an unknown
                  * value.
@@ -1585,6 +1589,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     APPROVED -> Value.APPROVED
+                    INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
                     else -> Value._UNKNOWN
                 }
 
@@ -1600,6 +1605,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     APPROVED -> Known.APPROVED
+                    INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
                     else -> throw LithicInvalidDataException("Unknown DetailedResults: $value")
                 }
 

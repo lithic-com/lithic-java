@@ -8,6 +8,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
+import com.lithic.api.services.blocking.AccountActivityService
 import com.lithic.api.services.blocking.AccountHolderService
 import com.lithic.api.services.blocking.AccountService
 import com.lithic.api.services.blocking.AggregateBalanceService
@@ -130,6 +131,8 @@ interface LithicClient {
 
     fun networkPrograms(): NetworkProgramService
 
+    fun accountActivity(): AccountActivityService
+
     /** Status of api */
     fun apiStatus(): ApiStatus = apiStatus(ClientApiStatusParams.none())
 
@@ -225,6 +228,8 @@ interface LithicClient {
         fun fraud(): FraudService.WithRawResponse
 
         fun networkPrograms(): NetworkProgramService.WithRawResponse
+
+        fun accountActivity(): AccountActivityService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
