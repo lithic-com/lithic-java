@@ -80,6 +80,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.fundingEvents()).isNotNull()
         assertThat(client.fraud()).isNotNull()
         assertThat(client.networkPrograms()).isNotNull()
+        assertThat(client.accountActivity()).isNotNull()
     }
 
     @Test
