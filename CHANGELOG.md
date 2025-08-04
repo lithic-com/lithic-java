@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.100.0 (2025-08-04)
+
+Full Changelog: [v0.99.0...v0.100.0](https://github.com/lithic-com/lithic-java/compare/v0.99.0...v0.100.0)
+
+### Features
+
+* **api:** adds new Account Activity API ([8c85abd](https://github.com/lithic-com/lithic-java/commit/8c85abda56d34fb424cb6343c3c7f96d0cd32b9a))
+
 ## 0.99.0 (2025-07-31)
 
 Full Changelog: [v0.98.0...v0.99.0](https://github.com/lithic-com/lithic-java/compare/v0.98.0...v0.99.0)
