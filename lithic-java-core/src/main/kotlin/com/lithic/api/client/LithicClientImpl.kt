@@ -17,6 +17,8 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
+import com.lithic.api.services.blocking.AccountActivityService
+import com.lithic.api.services.blocking.AccountActivityServiceImpl
 import com.lithic.api.services.blocking.AccountHolderService
 import com.lithic.api.services.blocking.AccountHolderServiceImpl
 import com.lithic.api.services.blocking.AccountService
@@ -190,6 +192,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         NetworkProgramServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val accountActivity: AccountActivityService by lazy {
+        AccountActivityServiceImpl(clientOptionsWithUserAgent)
+    }
+
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
@@ -254,6 +260,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun fraud(): FraudService = fraud
 
     override fun networkPrograms(): NetworkProgramService = networkPrograms
+
+    override fun accountActivity(): AccountActivityService = accountActivity
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -383,6 +391,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             NetworkProgramServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val accountActivity: AccountActivityService.WithRawResponse by lazy {
+            AccountActivityServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClient.WithRawResponse =
@@ -452,6 +464,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun fraud(): FraudService.WithRawResponse = fraud
 
         override fun networkPrograms(): NetworkProgramService.WithRawResponse = networkPrograms
+
+        override fun accountActivity(): AccountActivityService.WithRawResponse = accountActivity
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper)

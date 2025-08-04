@@ -36,6 +36,7 @@ private constructor(
     private val method: JsonField<Method>,
     private val methodAttributes: JsonField<PaymentMethodAttributes>,
     private val pendingAmount: JsonField<Long>,
+    private val relatedAccountTokens: JsonField<RelatedAccountTokens>,
     private val result: JsonField<Result>,
     private val settledAmount: JsonField<Long>,
     private val source: JsonField<Source>,
@@ -76,6 +77,9 @@ private constructor(
         @JsonProperty("pending_amount")
         @ExcludeMissing
         pendingAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("related_account_tokens")
+        @ExcludeMissing
+        relatedAccountTokens: JsonField<RelatedAccountTokens> = JsonMissing.of(),
         @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
         @JsonProperty("settled_amount")
         @ExcludeMissing
@@ -104,6 +108,7 @@ private constructor(
         method,
         methodAttributes,
         pendingAmount,
+        relatedAccountTokens,
         result,
         settledAmount,
         source,
@@ -203,6 +208,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
+
+    /**
+     * Account tokens related to a payment transaction
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun relatedAccountTokens(): RelatedAccountTokens =
+        relatedAccountTokens.getRequired("related_account_tokens")
 
     /**
      * APPROVED payments were successful while DECLINED payments were declined by Lithic or
@@ -359,6 +373,16 @@ private constructor(
     fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
+     * Returns the raw JSON value of [relatedAccountTokens].
+     *
+     * Unlike [relatedAccountTokens], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("related_account_tokens")
+    @ExcludeMissing
+    fun _relatedAccountTokens(): JsonField<RelatedAccountTokens> = relatedAccountTokens
+
+    /**
      * Returns the raw JSON value of [result].
      *
      * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
@@ -445,6 +469,7 @@ private constructor(
          * .method()
          * .methodAttributes()
          * .pendingAmount()
+         * .relatedAccountTokens()
          * .result()
          * .settledAmount()
          * .source()
@@ -471,6 +496,7 @@ private constructor(
         private var method: JsonField<Method>? = null
         private var methodAttributes: JsonField<PaymentMethodAttributes>? = null
         private var pendingAmount: JsonField<Long>? = null
+        private var relatedAccountTokens: JsonField<RelatedAccountTokens>? = null
         private var result: JsonField<Result>? = null
         private var settledAmount: JsonField<Long>? = null
         private var source: JsonField<Source>? = null
@@ -494,6 +520,7 @@ private constructor(
             method = payment.method
             methodAttributes = payment.methodAttributes
             pendingAmount = payment.pendingAmount
+            relatedAccountTokens = payment.relatedAccountTokens
             result = payment.result
             settledAmount = payment.settledAmount
             source = payment.source
@@ -677,6 +704,21 @@ private constructor(
             this.pendingAmount = pendingAmount
         }
 
+        /** Account tokens related to a payment transaction */
+        fun relatedAccountTokens(relatedAccountTokens: RelatedAccountTokens) =
+            relatedAccountTokens(JsonField.of(relatedAccountTokens))
+
+        /**
+         * Sets [Builder.relatedAccountTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.relatedAccountTokens] with a well-typed
+         * [RelatedAccountTokens] value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
+         */
+        fun relatedAccountTokens(relatedAccountTokens: JsonField<RelatedAccountTokens>) = apply {
+            this.relatedAccountTokens = relatedAccountTokens
+        }
+
         /**
          * APPROVED payments were successful while DECLINED payments were declined by Lithic or
          * returned.
@@ -819,6 +861,7 @@ private constructor(
          * .method()
          * .methodAttributes()
          * .pendingAmount()
+         * .relatedAccountTokens()
          * .result()
          * .settledAmount()
          * .source()
@@ -843,6 +886,7 @@ private constructor(
                 checkRequired("method", method),
                 checkRequired("methodAttributes", methodAttributes),
                 checkRequired("pendingAmount", pendingAmount),
+                checkRequired("relatedAccountTokens", relatedAccountTokens),
                 checkRequired("result", result),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("source", source),
@@ -873,6 +917,7 @@ private constructor(
         method().validate()
         methodAttributes().validate()
         pendingAmount()
+        relatedAccountTokens().validate()
         result().validate()
         settledAmount()
         source().validate()
@@ -910,6 +955,7 @@ private constructor(
             (method.asKnown().getOrNull()?.validity() ?: 0) +
             (methodAttributes.asKnown().getOrNull()?.validity() ?: 0) +
             (if (pendingAmount.asKnown().isPresent) 1 else 0) +
+            (relatedAccountTokens.asKnown().getOrNull()?.validity() ?: 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (source.asKnown().getOrNull()?.validity() ?: 0) +
@@ -2763,6 +2809,231 @@ private constructor(
             "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, traceNumbers=$traceNumbers, addenda=$addenda, additionalProperties=$additionalProperties}"
     }
 
+    /** Account tokens related to a payment transaction */
+    class RelatedAccountTokens
+    private constructor(
+        private val accountToken: JsonField<String>,
+        private val businessAccountToken: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("account_token")
+            @ExcludeMissing
+            accountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("business_account_token")
+            @ExcludeMissing
+            businessAccountToken: JsonField<String> = JsonMissing.of(),
+        ) : this(accountToken, businessAccountToken, mutableMapOf())
+
+        /**
+         * Globally unique identifier for the account
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
+
+        /**
+         * Globally unique identifier for the business account
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun businessAccountToken(): Optional<String> =
+            businessAccountToken.getOptional("business_account_token")
+
+        /**
+         * Returns the raw JSON value of [accountToken].
+         *
+         * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        fun _accountToken(): JsonField<String> = accountToken
+
+        /**
+         * Returns the raw JSON value of [businessAccountToken].
+         *
+         * Unlike [businessAccountToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun _businessAccountToken(): JsonField<String> = businessAccountToken
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [RelatedAccountTokens].
+             *
+             * The following fields are required:
+             * ```java
+             * .accountToken()
+             * .businessAccountToken()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [RelatedAccountTokens]. */
+        class Builder internal constructor() {
+
+            private var accountToken: JsonField<String>? = null
+            private var businessAccountToken: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(relatedAccountTokens: RelatedAccountTokens) = apply {
+                accountToken = relatedAccountTokens.accountToken
+                businessAccountToken = relatedAccountTokens.businessAccountToken
+                additionalProperties = relatedAccountTokens.additionalProperties.toMutableMap()
+            }
+
+            /** Globally unique identifier for the account */
+            fun accountToken(accountToken: String?) =
+                accountToken(JsonField.ofNullable(accountToken))
+
+            /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.getOrNull())
+
+            /**
+             * Sets [Builder.accountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.accountToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun accountToken(accountToken: JsonField<String>) = apply {
+                this.accountToken = accountToken
+            }
+
+            /** Globally unique identifier for the business account */
+            fun businessAccountToken(businessAccountToken: String?) =
+                businessAccountToken(JsonField.ofNullable(businessAccountToken))
+
+            /**
+             * Alias for calling [Builder.businessAccountToken] with
+             * `businessAccountToken.orElse(null)`.
+             */
+            fun businessAccountToken(businessAccountToken: Optional<String>) =
+                businessAccountToken(businessAccountToken.getOrNull())
+
+            /**
+             * Sets [Builder.businessAccountToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.businessAccountToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+                this.businessAccountToken = businessAccountToken
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [RelatedAccountTokens].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .accountToken()
+             * .businessAccountToken()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): RelatedAccountTokens =
+                RelatedAccountTokens(
+                    checkRequired("accountToken", accountToken),
+                    checkRequired("businessAccountToken", businessAccountToken),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): RelatedAccountTokens = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accountToken()
+            businessAccountToken()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (accountToken.asKnown().isPresent) 1 else 0) +
+                (if (businessAccountToken.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is RelatedAccountTokens && accountToken == other.accountToken && businessAccountToken == other.businessAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(accountToken, businessAccountToken, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "RelatedAccountTokens{accountToken=$accountToken, businessAccountToken=$businessAccountToken, additionalProperties=$additionalProperties}"
+    }
+
     /**
      * APPROVED payments were successful while DECLINED payments were declined by Lithic or
      * returned.
@@ -3167,15 +3438,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Payment && token == other.token && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && direction == other.direction && events == other.events && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && source == other.source && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && expectedReleaseDate == other.expectedReleaseDate && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Payment && token == other.token && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && direction == other.direction && events == other.events && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && pendingAmount == other.pendingAmount && relatedAccountTokens == other.relatedAccountTokens && result == other.result && settledAmount == other.settledAmount && source == other.source && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && expectedReleaseDate == other.expectedReleaseDate && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, descriptor, direction, events, externalBankAccountToken, financialAccountToken, method, methodAttributes, pendingAmount, result, settledAmount, source, status, updated, userDefinedId, expectedReleaseDate, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, descriptor, direction, events, externalBankAccountToken, financialAccountToken, method, methodAttributes, pendingAmount, relatedAccountTokens, result, settledAmount, source, status, updated, userDefinedId, expectedReleaseDate, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Payment{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, additionalProperties=$additionalProperties}"
+        "Payment{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, additionalProperties=$additionalProperties}"
 }
