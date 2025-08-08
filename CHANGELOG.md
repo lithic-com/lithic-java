@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.100.1 (2025-08-08)
+
+Full Changelog: [v0.100.0...v0.100.1](https://github.com/lithic-com/lithic-java/compare/v0.100.0...v0.100.1)
+
+### Chores
+
+* **example:** fix run example comment ([b4a3975](https://github.com/lithic-com/lithic-java/commit/b4a3975dc3331bfc2d6a04e3f66cfce7b1a9e8c8))
+* increase max gradle JVM heap to 8GB ([99fb198](https://github.com/lithic-com/lithic-java/commit/99fb198db3839a4e7679f44f143a100136d539d7))
+* **internal:** add async lock helper ([f72791f](https://github.com/lithic-com/lithic-java/commit/f72791f75b86e4c3597a40d6fd76edfb98ef1803))
+* **internal:** update comment in script ([f36b145](https://github.com/lithic-com/lithic-java/commit/f36b145db97f756b4ea77dbe25b1bebad35caa47))
+* update @stainless-api/prism-cli to v5.15.0 ([09e01b1](https://github.com/lithic-com/lithic-java/commit/09e01b1e84b9b4f434da61189ebd681b8187e09b))
+
 ## 0.100.0 (2025-08-04)
 
 Full Changelog: [v0.99.0...v0.100.0](https://github.com/lithic-com/lithic-java/compare/v0.99.0...v0.100.0)
