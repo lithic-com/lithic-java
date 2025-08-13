@@ -291,10 +291,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeListEvidencesParams && disputeToken == other.disputeToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DisputeListEvidencesParams &&
+            disputeToken == other.disputeToken &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, begin, end, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            disputeToken,
+            begin,
+            end,
+            endingBefore,
+            pageSize,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "DisputeListEvidencesParams{disputeToken=$disputeToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

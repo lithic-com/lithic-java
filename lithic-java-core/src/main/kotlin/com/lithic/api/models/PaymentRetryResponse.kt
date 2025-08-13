@@ -1049,12 +1049,57 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentRetryResponse && token == other.token && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && direction == other.direction && events == other.events && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && pendingAmount == other.pendingAmount && relatedAccountTokens == other.relatedAccountTokens && result == other.result && settledAmount == other.settledAmount && source == other.source && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && expectedReleaseDate == other.expectedReleaseDate && balance == other.balance && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is PaymentRetryResponse &&
+            token == other.token &&
+            category == other.category &&
+            created == other.created &&
+            currency == other.currency &&
+            descriptor == other.descriptor &&
+            direction == other.direction &&
+            events == other.events &&
+            externalBankAccountToken == other.externalBankAccountToken &&
+            financialAccountToken == other.financialAccountToken &&
+            method == other.method &&
+            methodAttributes == other.methodAttributes &&
+            pendingAmount == other.pendingAmount &&
+            relatedAccountTokens == other.relatedAccountTokens &&
+            result == other.result &&
+            settledAmount == other.settledAmount &&
+            source == other.source &&
+            status == other.status &&
+            updated == other.updated &&
+            userDefinedId == other.userDefinedId &&
+            expectedReleaseDate == other.expectedReleaseDate &&
+            balance == other.balance &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, descriptor, direction, events, externalBankAccountToken, financialAccountToken, method, methodAttributes, pendingAmount, relatedAccountTokens, result, settledAmount, source, status, updated, userDefinedId, expectedReleaseDate, balance, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            category,
+            created,
+            currency,
+            descriptor,
+            direction,
+            events,
+            externalBankAccountToken,
+            financialAccountToken,
+            method,
+            methodAttributes,
+            pendingAmount,
+            relatedAccountTokens,
+            result,
+            settledAmount,
+            source,
+            status,
+            updated,
+            userDefinedId,
+            expectedReleaseDate,
+            balance,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

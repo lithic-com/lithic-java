@@ -467,7 +467,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -480,10 +480,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeListParams && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && status == other.status && transactionTokens == other.transactionTokens && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DisputeListParams &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            status == other.status &&
+            transactionTokens == other.transactionTokens &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, end, endingBefore, pageSize, startingAfter, status, transactionTokens, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            begin,
+            end,
+            endingBefore,
+            pageSize,
+            startingAfter,
+            status,
+            transactionTokens,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "DisputeListParams{begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, transactionTokens=$transactionTokens, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

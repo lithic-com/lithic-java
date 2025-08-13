@@ -406,7 +406,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventStream && value == other.value /* spotless:on */
+            return other is EventStream && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -544,7 +544,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
+            return other is Scope && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -557,10 +557,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2ListParams && accountToken == other.accountToken && cardToken == other.cardToken && endingBefore == other.endingBefore && eventStream == other.eventStream && pageSize == other.pageSize && scope == other.scope && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2ListParams &&
+            accountToken == other.accountToken &&
+            cardToken == other.cardToken &&
+            endingBefore == other.endingBefore &&
+            eventStream == other.eventStream &&
+            pageSize == other.pageSize &&
+            scope == other.scope &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, cardToken, endingBefore, eventStream, pageSize, scope, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            cardToken,
+            endingBefore,
+            eventStream,
+            pageSize,
+            scope,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "AuthRuleV2ListParams{accountToken=$accountToken, cardToken=$cardToken, endingBefore=$endingBefore, eventStream=$eventStream, pageSize=$pageSize, scope=$scope, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

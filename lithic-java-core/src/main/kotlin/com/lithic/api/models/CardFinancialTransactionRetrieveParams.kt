@@ -214,10 +214,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardFinancialTransactionRetrieveParams && cardToken == other.cardToken && financialTransactionToken == other.financialTransactionToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardFinancialTransactionRetrieveParams &&
+            cardToken == other.cardToken &&
+            financialTransactionToken == other.financialTransactionToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, financialTransactionToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(cardToken, financialTransactionToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CardFinancialTransactionRetrieveParams{cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

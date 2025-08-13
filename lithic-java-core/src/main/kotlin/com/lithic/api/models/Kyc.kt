@@ -740,12 +740,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Individual && address == other.address && dob == other.dob && email == other.email && firstName == other.firstName && governmentId == other.governmentId && lastName == other.lastName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Individual &&
+                address == other.address &&
+                dob == other.dob &&
+                email == other.email &&
+                firstName == other.firstName &&
+                governmentId == other.governmentId &&
+                lastName == other.lastName &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                address,
+                dob,
+                email,
+                firstName,
+                governmentId,
+                lastName,
+                phoneNumber,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -871,7 +888,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Workflow && value == other.value /* spotless:on */
+            return other is Workflow && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -884,12 +901,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyc && individual == other.individual && tosTimestamp == other.tosTimestamp && workflow == other.workflow && externalId == other.externalId && kycPassedTimestamp == other.kycPassedTimestamp && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Kyc &&
+            individual == other.individual &&
+            tosTimestamp == other.tosTimestamp &&
+            workflow == other.workflow &&
+            externalId == other.externalId &&
+            kycPassedTimestamp == other.kycPassedTimestamp &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(individual, tosTimestamp, workflow, externalId, kycPassedTimestamp, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            individual,
+            tosTimestamp,
+            workflow,
+            externalId,
+            kycPassedTimestamp,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

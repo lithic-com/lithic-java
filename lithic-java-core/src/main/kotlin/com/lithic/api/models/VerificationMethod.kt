@@ -149,7 +149,7 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
             return true
         }
 
-        return /* spotless:off */ other is VerificationMethod && value == other.value /* spotless:on */
+        return other is VerificationMethod && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

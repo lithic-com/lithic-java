@@ -180,10 +180,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentRetrieveParams && paymentToken == other.paymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is PaymentRetrieveParams &&
+            paymentToken == other.paymentToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(paymentToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "PaymentRetrieveParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

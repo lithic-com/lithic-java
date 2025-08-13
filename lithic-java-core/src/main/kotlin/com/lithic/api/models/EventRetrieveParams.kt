@@ -180,10 +180,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventRetrieveParams && eventToken == other.eventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is EventRetrieveParams &&
+            eventToken == other.eventToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(eventToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "EventRetrieveParams{eventToken=$eventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

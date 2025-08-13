@@ -184,10 +184,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementSummaryParams && reportDate == other.reportDate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportSettlementSummaryParams &&
+            reportDate == other.reportDate &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(reportDate, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(reportDate, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ReportSettlementSummaryParams{reportDate=$reportDate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -237,10 +237,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2RetrieveReportParams && authRuleToken == other.authRuleToken && begin == other.begin && end == other.end && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2RetrieveReportParams &&
+            authRuleToken == other.authRuleToken &&
+            begin == other.begin &&
+            end == other.end &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, begin, end, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, begin, end, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2RetrieveReportParams{authRuleToken=$authRuleToken, begin=$begin, end=$end, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

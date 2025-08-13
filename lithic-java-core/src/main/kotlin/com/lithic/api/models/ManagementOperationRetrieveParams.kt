@@ -192,10 +192,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationRetrieveParams && managementOperationToken == other.managementOperationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ManagementOperationRetrieveParams &&
+            managementOperationToken == other.managementOperationToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(managementOperationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(managementOperationToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ManagementOperationRetrieveParams{managementOperationToken=$managementOperationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -420,12 +420,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Results && currentVersion == other.currentVersion && draftVersion == other.draftVersion && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Results &&
+                currentVersion == other.currentVersion &&
+                draftVersion == other.draftVersion &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(currentVersion, draftVersion, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(currentVersion, draftVersion, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -638,12 +641,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SimulationParameters && authRuleToken == other.authRuleToken && end == other.end && start == other.start && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is SimulationParameters &&
+                authRuleToken == other.authRuleToken &&
+                end == other.end &&
+                start == other.start &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(authRuleToken, end, start, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(authRuleToken, end, start, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -656,12 +663,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BacktestResults && backtestToken == other.backtestToken && results == other.results && simulationParameters == other.simulationParameters && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BacktestResults &&
+            backtestToken == other.backtestToken &&
+            results == other.results &&
+            simulationParameters == other.simulationParameters &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(backtestToken, results, simulationParameters, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(backtestToken, results, simulationParameters, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

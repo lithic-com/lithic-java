@@ -180,10 +180,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeRetrieveParams && disputeToken == other.disputeToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DisputeRetrieveParams &&
+            disputeToken == other.disputeToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(disputeToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DisputeRetrieveParams{disputeToken=$disputeToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

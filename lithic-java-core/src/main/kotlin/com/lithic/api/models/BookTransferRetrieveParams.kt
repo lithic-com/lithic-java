@@ -185,10 +185,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BookTransferRetrieveParams && bookTransferToken == other.bookTransferToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is BookTransferRetrieveParams &&
+            bookTransferToken == other.bookTransferToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(bookTransferToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(bookTransferToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "BookTransferRetrieveParams{bookTransferToken=$bookTransferToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

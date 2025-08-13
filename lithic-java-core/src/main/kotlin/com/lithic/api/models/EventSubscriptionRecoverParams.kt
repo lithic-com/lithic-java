@@ -271,10 +271,24 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionRecoverParams && eventSubscriptionToken == other.eventSubscriptionToken && begin == other.begin && end == other.end && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is EventSubscriptionRecoverParams &&
+            eventSubscriptionToken == other.eventSubscriptionToken &&
+            begin == other.begin &&
+            end == other.end &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, begin, end, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            eventSubscriptionToken,
+            begin,
+            end,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
         "EventSubscriptionRecoverParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

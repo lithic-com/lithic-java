@@ -176,10 +176,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardRetrieveParams && cardToken == other.cardToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardRetrieveParams &&
+            cardToken == other.cardToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(cardToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CardRetrieveParams{cardToken=$cardToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

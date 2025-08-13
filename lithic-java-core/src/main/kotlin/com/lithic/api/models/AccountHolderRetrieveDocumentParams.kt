@@ -223,10 +223,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderRetrieveDocumentParams && accountHolderToken == other.accountHolderToken && documentToken == other.documentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountHolderRetrieveDocumentParams &&
+            accountHolderToken == other.accountHolderToken &&
+            documentToken == other.documentToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, documentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountHolderToken, documentToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AccountHolderRetrieveDocumentParams{accountHolderToken=$accountHolderToken, documentToken=$documentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

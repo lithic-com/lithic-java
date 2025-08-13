@@ -188,10 +188,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FraudTransactionRetrieveParams && transactionToken == other.transactionToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FraudTransactionRetrieveParams &&
+            transactionToken == other.transactionToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(transactionToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(transactionToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "FraudTransactionRetrieveParams{transactionToken=$transactionToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

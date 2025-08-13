@@ -231,10 +231,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardBalanceListParams && cardToken == other.cardToken && balanceDate == other.balanceDate && lastTransactionEventToken == other.lastTransactionEventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardBalanceListParams &&
+            cardToken == other.cardToken &&
+            balanceDate == other.balanceDate &&
+            lastTransactionEventToken == other.lastTransactionEventToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, balanceDate, lastTransactionEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            cardToken,
+            balanceDate,
+            lastTransactionEventToken,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "CardBalanceListParams{cardToken=$cardToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

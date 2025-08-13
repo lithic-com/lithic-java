@@ -719,7 +719,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
+            return other is EventType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -732,10 +732,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventListParams && begin == other.begin && end == other.end && endingBefore == other.endingBefore && eventTypes == other.eventTypes && pageSize == other.pageSize && startingAfter == other.startingAfter && withContent == other.withContent && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is EventListParams &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            eventTypes == other.eventTypes &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            withContent == other.withContent &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, end, endingBefore, eventTypes, pageSize, startingAfter, withContent, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            begin,
+            end,
+            endingBefore,
+            eventTypes,
+            pageSize,
+            startingAfter,
+            withContent,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "EventListParams{begin=$begin, end=$end, endingBefore=$endingBefore, eventTypes=$eventTypes, pageSize=$pageSize, startingAfter=$startingAfter, withContent=$withContent, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

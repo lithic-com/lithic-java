@@ -192,10 +192,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountRetrieveParams && externalBankAccountToken == other.externalBankAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ExternalBankAccountRetrieveParams &&
+            externalBankAccountToken == other.externalBankAccountToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(externalBankAccountToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ExternalBankAccountRetrieveParams{externalBankAccountToken=$externalBankAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

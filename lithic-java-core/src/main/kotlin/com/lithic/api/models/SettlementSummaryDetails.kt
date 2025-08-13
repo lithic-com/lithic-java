@@ -581,7 +581,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+            return other is Network && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -594,12 +594,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SettlementSummaryDetails && currency == other.currency && disputesGrossAmount == other.disputesGrossAmount && institution == other.institution && interchangeGrossAmount == other.interchangeGrossAmount && network == other.network && otherFeesGrossAmount == other.otherFeesGrossAmount && settledNetAmount == other.settledNetAmount && transactionsGrossAmount == other.transactionsGrossAmount && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SettlementSummaryDetails &&
+            currency == other.currency &&
+            disputesGrossAmount == other.disputesGrossAmount &&
+            institution == other.institution &&
+            interchangeGrossAmount == other.interchangeGrossAmount &&
+            network == other.network &&
+            otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            settledNetAmount == other.settledNetAmount &&
+            transactionsGrossAmount == other.transactionsGrossAmount &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(currency, disputesGrossAmount, institution, interchangeGrossAmount, network, otherFeesGrossAmount, settledNetAmount, transactionsGrossAmount, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            currency,
+            disputesGrossAmount,
+            institution,
+            interchangeGrossAmount,
+            network,
+            otherFeesGrossAmount,
+            settledNetAmount,
+            transactionsGrossAmount,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

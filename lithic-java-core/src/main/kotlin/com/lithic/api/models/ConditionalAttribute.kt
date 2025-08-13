@@ -248,7 +248,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             return true
         }
 
-        return /* spotless:off */ other is ConditionalAttribute && value == other.value /* spotless:on */
+        return other is ConditionalAttribute && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

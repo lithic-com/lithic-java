@@ -457,7 +457,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
+            return other is Result && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -609,7 +609,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardTransactionStatusFilter && value == other.value /* spotless:on */
+            return other is CardTransactionStatusFilter && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -622,10 +622,34 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TransactionListParams &&
+            accountToken == other.accountToken &&
+            begin == other.begin &&
+            cardToken == other.cardToken &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            pageSize == other.pageSize &&
+            result == other.result &&
+            startingAfter == other.startingAfter &&
+            status == other.status &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            begin,
+            cardToken,
+            end,
+            endingBefore,
+            pageSize,
+            result,
+            startingAfter,
+            status,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "TransactionListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

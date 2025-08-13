@@ -202,10 +202,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseParams && challengeResponse == other.challengeResponse && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ThreeDSDecisioningChallengeResponseParams &&
+            challengeResponse == other.challengeResponse &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(challengeResponse, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(challengeResponse, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ThreeDSDecisioningChallengeResponseParams{challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

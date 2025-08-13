@@ -127,10 +127,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementNetworkTotalListPage && service == other.service && params == other.params && response == other.response /* spotless:on */
+        return other is ReportSettlementNetworkTotalListPage &&
+            service == other.service &&
+            params == other.params &&
+            response == other.response
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(service, params, response) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(service, params, response)
 
     override fun toString() =
         "ReportSettlementNetworkTotalListPage{service=$service, params=$params, response=$response}"
