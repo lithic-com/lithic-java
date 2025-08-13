@@ -480,12 +480,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardProgram && token == other.token && created == other.created && name == other.name && panRangeEnd == other.panRangeEnd && panRangeStart == other.panRangeStart && accountLevelManagementEnabled == other.accountLevelManagementEnabled && cardholderCurrency == other.cardholderCurrency && settlementCurrencies == other.settlementCurrencies && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is CardProgram &&
+            token == other.token &&
+            created == other.created &&
+            name == other.name &&
+            panRangeEnd == other.panRangeEnd &&
+            panRangeStart == other.panRangeStart &&
+            accountLevelManagementEnabled == other.accountLevelManagementEnabled &&
+            cardholderCurrency == other.cardholderCurrency &&
+            settlementCurrencies == other.settlementCurrencies &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, created, name, panRangeEnd, panRangeStart, accountLevelManagementEnabled, cardholderCurrency, settlementCurrencies, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            created,
+            name,
+            panRangeEnd,
+            panRangeStart,
+            accountLevelManagementEnabled,
+            cardholderCurrency,
+            settlementCurrencies,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

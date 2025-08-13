@@ -458,12 +458,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                parameters == other.parameters &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(parameters, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -602,10 +602,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams && merchantLock == other.merchantLock && conditional3dsAction == other.conditional3dsAction /* spotless:on */
+            return other is Parameters &&
+                conditionalBlock == other.conditionalBlock &&
+                velocityLimitParams == other.velocityLimitParams &&
+                merchantLock == other.merchantLock &&
+                conditional3dsAction == other.conditional3dsAction
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams, merchantLock, conditional3dsAction) /* spotless:on */
+        override fun hashCode(): Int =
+            Objects.hash(conditionalBlock, velocityLimitParams, merchantLock, conditional3dsAction)
 
         override fun toString(): String =
             when {
@@ -726,10 +731,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2DraftParams && authRuleToken == other.authRuleToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2DraftParams &&
+            authRuleToken == other.authRuleToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2DraftParams{authRuleToken=$authRuleToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -696,7 +696,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -709,12 +709,33 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRule && token == other.token && state == other.state && accountTokens == other.accountTokens && allowedCountries == other.allowedCountries && allowedMcc == other.allowedMcc && blockedCountries == other.blockedCountries && blockedMcc == other.blockedMcc && cardTokens == other.cardTokens && programLevel == other.programLevel && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AuthRule &&
+            token == other.token &&
+            state == other.state &&
+            accountTokens == other.accountTokens &&
+            allowedCountries == other.allowedCountries &&
+            allowedMcc == other.allowedMcc &&
+            blockedCountries == other.blockedCountries &&
+            blockedMcc == other.blockedMcc &&
+            cardTokens == other.cardTokens &&
+            programLevel == other.programLevel &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, state, accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            state,
+            accountTokens,
+            allowedCountries,
+            allowedMcc,
+            blockedCountries,
+            blockedMcc,
+            cardTokens,
+            programLevel,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

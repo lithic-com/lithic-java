@@ -522,7 +522,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+            return other is Network && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -535,12 +535,29 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DigitalCardArt && token == other.token && cardProgramToken == other.cardProgramToken && created == other.created && description == other.description && isEnabled == other.isEnabled && network == other.network && isCardProgramDefault == other.isCardProgramDefault && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is DigitalCardArt &&
+            token == other.token &&
+            cardProgramToken == other.cardProgramToken &&
+            created == other.created &&
+            description == other.description &&
+            isEnabled == other.isEnabled &&
+            network == other.network &&
+            isCardProgramDefault == other.isCardProgramDefault &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, cardProgramToken, created, description, isEnabled, network, isCardProgramDefault, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            cardProgramToken,
+            created,
+            description,
+            isEnabled,
+            network,
+            isCardProgramDefault,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

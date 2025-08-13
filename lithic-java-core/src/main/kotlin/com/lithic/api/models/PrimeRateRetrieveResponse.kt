@@ -401,12 +401,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestRate && effectiveDate == other.effectiveDate && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is InterestRate &&
+                effectiveDate == other.effectiveDate &&
+                rate == other.rate &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(effectiveDate, rate, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(effectiveDate, rate, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -419,12 +422,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PrimeRateRetrieveResponse && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is PrimeRateRetrieveResponse &&
+            data == other.data &&
+            hasMore == other.hasMore &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(data, hasMore, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

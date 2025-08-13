@@ -1167,7 +1167,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+            return other is Network && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1301,12 +1301,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is OtherFeesDetails && isa == other.isa && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is OtherFeesDetails &&
+                isa == other.isa &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(isa, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1480,7 +1480,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1493,12 +1493,57 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SettlementDetail && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && cardToken == other.cardToken && created == other.created && currency == other.currency && disputesGrossAmount == other.disputesGrossAmount && eventTokens == other.eventTokens && institution == other.institution && interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision && interchangeGrossAmount == other.interchangeGrossAmount && network == other.network && otherFeesDetails == other.otherFeesDetails && otherFeesGrossAmount == other.otherFeesGrossAmount && reportDate == other.reportDate && settlementDate == other.settlementDate && transactionToken == other.transactionToken && transactionsGrossAmount == other.transactionsGrossAmount && type == other.type && updated == other.updated && feeDescription == other.feeDescription && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SettlementDetail &&
+            token == other.token &&
+            accountToken == other.accountToken &&
+            cardProgramToken == other.cardProgramToken &&
+            cardToken == other.cardToken &&
+            created == other.created &&
+            currency == other.currency &&
+            disputesGrossAmount == other.disputesGrossAmount &&
+            eventTokens == other.eventTokens &&
+            institution == other.institution &&
+            interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision &&
+            interchangeGrossAmount == other.interchangeGrossAmount &&
+            network == other.network &&
+            otherFeesDetails == other.otherFeesDetails &&
+            otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            reportDate == other.reportDate &&
+            settlementDate == other.settlementDate &&
+            transactionToken == other.transactionToken &&
+            transactionsGrossAmount == other.transactionsGrossAmount &&
+            type == other.type &&
+            updated == other.updated &&
+            feeDescription == other.feeDescription &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, cardToken, created, currency, disputesGrossAmount, eventTokens, institution, interchangeFeeExtendedPrecision, interchangeGrossAmount, network, otherFeesDetails, otherFeesGrossAmount, reportDate, settlementDate, transactionToken, transactionsGrossAmount, type, updated, feeDescription, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountToken,
+            cardProgramToken,
+            cardToken,
+            created,
+            currency,
+            disputesGrossAmount,
+            eventTokens,
+            institution,
+            interchangeFeeExtendedPrecision,
+            interchangeGrossAmount,
+            network,
+            otherFeesDetails,
+            otherFeesGrossAmount,
+            reportDate,
+            settlementDate,
+            transactionToken,
+            transactionsGrossAmount,
+            type,
+            updated,
+            feeDescription,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

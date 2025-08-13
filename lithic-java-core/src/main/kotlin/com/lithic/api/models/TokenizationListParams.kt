@@ -444,7 +444,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationChannel && value == other.value /* spotless:on */
+            return other is TokenizationChannel && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -457,10 +457,32 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && tokenizationChannel == other.tokenizationChannel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TokenizationListParams &&
+            accountToken == other.accountToken &&
+            begin == other.begin &&
+            cardToken == other.cardToken &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            tokenizationChannel == other.tokenizationChannel &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            begin,
+            cardToken,
+            end,
+            endingBefore,
+            pageSize,
+            startingAfter,
+            tokenizationChannel,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -606,7 +606,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is KycExemptionType && value == other.value /* spotless:on */
+            return other is KycExemptionType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -726,7 +726,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Workflow && value == other.value /* spotless:on */
+            return other is Workflow && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -739,12 +739,33 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycExempt && address == other.address && email == other.email && firstName == other.firstName && kycExemptionType == other.kycExemptionType && lastName == other.lastName && phoneNumber == other.phoneNumber && workflow == other.workflow && businessAccountToken == other.businessAccountToken && externalId == other.externalId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is KycExempt &&
+            address == other.address &&
+            email == other.email &&
+            firstName == other.firstName &&
+            kycExemptionType == other.kycExemptionType &&
+            lastName == other.lastName &&
+            phoneNumber == other.phoneNumber &&
+            workflow == other.workflow &&
+            businessAccountToken == other.businessAccountToken &&
+            externalId == other.externalId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(address, email, firstName, kycExemptionType, lastName, phoneNumber, workflow, businessAccountToken, externalId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            address,
+            email,
+            firstName,
+            kycExemptionType,
+            lastName,
+            phoneNumber,
+            workflow,
+            businessAccountToken,
+            externalId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

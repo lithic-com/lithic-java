@@ -1257,7 +1257,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Reason && value == other.value /* spotless:on */
+            return other is Reason && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1498,7 +1498,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ResolutionReason && value == other.value /* spotless:on */
+            return other is ResolutionReason && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1670,7 +1670,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1683,12 +1683,51 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Dispute && token == other.token && amount == other.amount && arbitrationDate == other.arbitrationDate && created == other.created && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && networkClaimIds == other.networkClaimIds && networkFiledDate == other.networkFiledDate && networkReasonCode == other.networkReasonCode && prearbitrationDate == other.prearbitrationDate && primaryClaimId == other.primaryClaimId && reason == other.reason && representmentDate == other.representmentDate && resolutionDate == other.resolutionDate && resolutionNote == other.resolutionNote && resolutionReason == other.resolutionReason && status == other.status && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Dispute &&
+            token == other.token &&
+            amount == other.amount &&
+            arbitrationDate == other.arbitrationDate &&
+            created == other.created &&
+            customerFiledDate == other.customerFiledDate &&
+            customerNote == other.customerNote &&
+            networkClaimIds == other.networkClaimIds &&
+            networkFiledDate == other.networkFiledDate &&
+            networkReasonCode == other.networkReasonCode &&
+            prearbitrationDate == other.prearbitrationDate &&
+            primaryClaimId == other.primaryClaimId &&
+            reason == other.reason &&
+            representmentDate == other.representmentDate &&
+            resolutionDate == other.resolutionDate &&
+            resolutionNote == other.resolutionNote &&
+            resolutionReason == other.resolutionReason &&
+            status == other.status &&
+            transactionToken == other.transactionToken &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionDate, resolutionNote, resolutionReason, status, transactionToken, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            amount,
+            arbitrationDate,
+            created,
+            customerFiledDate,
+            customerNote,
+            networkClaimIds,
+            networkFiledDate,
+            networkReasonCode,
+            prearbitrationDate,
+            primaryClaimId,
+            reason,
+            representmentDate,
+            resolutionDate,
+            resolutionNote,
+            resolutionReason,
+            status,
+            transactionToken,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -347,7 +347,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -360,10 +360,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountListParams && accountToken == other.accountToken && businessAccountToken == other.businessAccountToken && type == other.type && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FinancialAccountListParams &&
+            accountToken == other.accountToken &&
+            businessAccountToken == other.businessAccountToken &&
+            type == other.type &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, businessAccountToken, type, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            businessAccountToken,
+            type,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "FinancialAccountListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -349,10 +349,18 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens && createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens && createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel /* spotless:on */
+            return other is Body &&
+                createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens &&
+                createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens &&
+                createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel) /* spotless:on */
+        override fun hashCode(): Int =
+            Objects.hash(
+                createAuthRuleRequestAccountTokens,
+                createAuthRuleRequestCardTokens,
+                createAuthRuleRequestProgramLevel,
+            )
 
         override fun toString(): String =
             when {
@@ -929,10 +937,20 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams && merchantLock == other.merchantLock && conditional3dsAction == other.conditional3dsAction /* spotless:on */
+                    return other is Parameters &&
+                        conditionalBlock == other.conditionalBlock &&
+                        velocityLimitParams == other.velocityLimitParams &&
+                        merchantLock == other.merchantLock &&
+                        conditional3dsAction == other.conditional3dsAction
                 }
 
-                override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams, merchantLock, conditional3dsAction) /* spotless:on */
+                override fun hashCode(): Int =
+                    Objects.hash(
+                        conditionalBlock,
+                        velocityLimitParams,
+                        merchantLock,
+                        conditional3dsAction,
+                    )
 
                 override fun toString(): String =
                     when {
@@ -1207,7 +1225,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is AuthRuleType && value == other.value /* spotless:on */
+                    return other is AuthRuleType && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1220,12 +1238,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CreateAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CreateAuthRuleRequestAccountTokens &&
+                    accountTokens == other.accountTokens &&
+                    name == other.name &&
+                    parameters == other.parameters &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(accountTokens, name, parameters, type, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(accountTokens, name, parameters, type, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1690,10 +1713,20 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams && merchantLock == other.merchantLock && conditional3dsAction == other.conditional3dsAction /* spotless:on */
+                    return other is Parameters &&
+                        conditionalBlock == other.conditionalBlock &&
+                        velocityLimitParams == other.velocityLimitParams &&
+                        merchantLock == other.merchantLock &&
+                        conditional3dsAction == other.conditional3dsAction
                 }
 
-                override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams, merchantLock, conditional3dsAction) /* spotless:on */
+                override fun hashCode(): Int =
+                    Objects.hash(
+                        conditionalBlock,
+                        velocityLimitParams,
+                        merchantLock,
+                        conditional3dsAction,
+                    )
 
                 override fun toString(): String =
                     when {
@@ -1968,7 +2001,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is AuthRuleType && value == other.value /* spotless:on */
+                    return other is AuthRuleType && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1981,12 +2014,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CreateAuthRuleRequestCardTokens && cardTokens == other.cardTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CreateAuthRuleRequestCardTokens &&
+                    cardTokens == other.cardTokens &&
+                    name == other.name &&
+                    parameters == other.parameters &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(cardTokens, name, parameters, type, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(cardTokens, name, parameters, type, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2496,10 +2534,20 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Parameters && conditionalBlock == other.conditionalBlock && velocityLimitParams == other.velocityLimitParams && merchantLock == other.merchantLock && conditional3dsAction == other.conditional3dsAction /* spotless:on */
+                    return other is Parameters &&
+                        conditionalBlock == other.conditionalBlock &&
+                        velocityLimitParams == other.velocityLimitParams &&
+                        merchantLock == other.merchantLock &&
+                        conditional3dsAction == other.conditional3dsAction
                 }
 
-                override fun hashCode(): Int = /* spotless:off */ Objects.hash(conditionalBlock, velocityLimitParams, merchantLock, conditional3dsAction) /* spotless:on */
+                override fun hashCode(): Int =
+                    Objects.hash(
+                        conditionalBlock,
+                        velocityLimitParams,
+                        merchantLock,
+                        conditional3dsAction,
+                    )
 
                 override fun toString(): String =
                     when {
@@ -2774,7 +2822,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is AuthRuleType && value == other.value /* spotless:on */
+                    return other is AuthRuleType && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -2787,12 +2835,25 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CreateAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CreateAuthRuleRequestProgramLevel &&
+                    programLevel == other.programLevel &&
+                    excludedCardTokens == other.excludedCardTokens &&
+                    name == other.name &&
+                    parameters == other.parameters &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, name, parameters, type, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    programLevel,
+                    excludedCardTokens,
+                    name,
+                    parameters,
+                    type,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2806,10 +2867,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2CreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2CreateParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2CreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

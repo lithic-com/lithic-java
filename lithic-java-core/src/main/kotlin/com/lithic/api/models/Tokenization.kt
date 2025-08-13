@@ -841,7 +841,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1026,7 +1026,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenRequestorName && value == other.value /* spotless:on */
+            return other is TokenRequestorName && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1157,7 +1157,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationChannel && value == other.value /* spotless:on */
+            return other is TokenizationChannel && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1578,7 +1578,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Result && value == other.value /* spotless:on */
+                return other is Result && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1724,7 +1724,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1737,12 +1737,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationEvent && token == other.token && createdAt == other.createdAt && result == other.result && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TokenizationEvent &&
+                token == other.token &&
+                createdAt == other.createdAt &&
+                result == other.result &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, createdAt, result, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(token, createdAt, result, type, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1755,12 +1760,41 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Tokenization && token == other.token && accountToken == other.accountToken && cardToken == other.cardToken && createdAt == other.createdAt && dpan == other.dpan && status == other.status && tokenRequestorName == other.tokenRequestorName && tokenUniqueReference == other.tokenUniqueReference && tokenizationChannel == other.tokenizationChannel && updatedAt == other.updatedAt && digitalCardArtToken == other.digitalCardArtToken && events == other.events && paymentAccountReferenceId == other.paymentAccountReferenceId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Tokenization &&
+            token == other.token &&
+            accountToken == other.accountToken &&
+            cardToken == other.cardToken &&
+            createdAt == other.createdAt &&
+            dpan == other.dpan &&
+            status == other.status &&
+            tokenRequestorName == other.tokenRequestorName &&
+            tokenUniqueReference == other.tokenUniqueReference &&
+            tokenizationChannel == other.tokenizationChannel &&
+            updatedAt == other.updatedAt &&
+            digitalCardArtToken == other.digitalCardArtToken &&
+            events == other.events &&
+            paymentAccountReferenceId == other.paymentAccountReferenceId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardToken, createdAt, dpan, status, tokenRequestorName, tokenUniqueReference, tokenizationChannel, updatedAt, digitalCardArtToken, events, paymentAccountReferenceId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountToken,
+            cardToken,
+            createdAt,
+            dpan,
+            status,
+            tokenRequestorName,
+            tokenUniqueReference,
+            tokenizationChannel,
+            updatedAt,
+            digitalCardArtToken,
+            events,
+            paymentAccountReferenceId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

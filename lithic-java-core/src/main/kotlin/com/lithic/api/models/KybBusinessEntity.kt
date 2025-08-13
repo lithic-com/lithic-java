@@ -747,12 +747,19 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Address && address1 == other.address1 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && address2 == other.address2 && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Address &&
+                address1 == other.address1 &&
+                city == other.city &&
+                country == other.country &&
+                postalCode == other.postalCode &&
+                state == other.state &&
+                address2 == other.address2 &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address1, city, country, postalCode, state, address2, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(address1, city, country, postalCode, state, address2, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -765,12 +772,27 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KybBusinessEntity && address == other.address && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && phoneNumbers == other.phoneNumbers && dbaBusinessName == other.dbaBusinessName && parentCompany == other.parentCompany && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is KybBusinessEntity &&
+            address == other.address &&
+            governmentId == other.governmentId &&
+            legalBusinessName == other.legalBusinessName &&
+            phoneNumbers == other.phoneNumbers &&
+            dbaBusinessName == other.dbaBusinessName &&
+            parentCompany == other.parentCompany &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(address, governmentId, legalBusinessName, phoneNumbers, dbaBusinessName, parentCompany, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            address,
+            governmentId,
+            legalBusinessName,
+            phoneNumbers,
+            dbaBusinessName,
+            parentCompany,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -147,12 +147,12 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ResponderEndpointCreateResponse && enrolled == other.enrolled && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ResponderEndpointCreateResponse &&
+            enrolled == other.enrolled &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(enrolled, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

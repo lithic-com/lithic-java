@@ -1220,7 +1220,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
+            return other is AccountType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1364,7 +1364,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AuthenticationResult && value == other.value /* spotless:on */
+            return other is AuthenticationResult && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1503,7 +1503,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardExpiryCheck && value == other.value /* spotless:on */
+            return other is CardExpiryCheck && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2341,12 +2341,27 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is BillingAddress && address1 == other.address1 && address2 == other.address2 && address3 == other.address3 && city == other.city && country == other.country && postalCode == other.postalCode && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is BillingAddress &&
+                    address1 == other.address1 &&
+                    address2 == other.address2 &&
+                    address3 == other.address3 &&
+                    city == other.city &&
+                    country == other.country &&
+                    postalCode == other.postalCode &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(address1, address2, address3, city, country, postalCode, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    address1,
+                    address2,
+                    address3,
+                    city,
+                    country,
+                    postalCode,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2701,12 +2716,27 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ShippingAddress && address1 == other.address1 && address2 == other.address2 && address3 == other.address3 && city == other.city && country == other.country && postalCode == other.postalCode && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is ShippingAddress &&
+                    address1 == other.address1 &&
+                    address2 == other.address2 &&
+                    address3 == other.address3 &&
+                    city == other.city &&
+                    country == other.country &&
+                    postalCode == other.postalCode &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(address1, address2, address3, city, country, postalCode, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    address1,
+                    address2,
+                    address3,
+                    city,
+                    country,
+                    postalCode,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2719,12 +2749,31 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Cardholder && addressMatch == other.addressMatch && billingAddress == other.billingAddress && email == other.email && name == other.name && phoneNumberHome == other.phoneNumberHome && phoneNumberMobile == other.phoneNumberMobile && phoneNumberWork == other.phoneNumberWork && shippingAddress == other.shippingAddress && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Cardholder &&
+                addressMatch == other.addressMatch &&
+                billingAddress == other.billingAddress &&
+                email == other.email &&
+                name == other.name &&
+                phoneNumberHome == other.phoneNumberHome &&
+                phoneNumberMobile == other.phoneNumberMobile &&
+                phoneNumberWork == other.phoneNumberWork &&
+                shippingAddress == other.shippingAddress &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(addressMatch, billingAddress, email, name, phoneNumberHome, phoneNumberMobile, phoneNumberWork, shippingAddress, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                addressMatch,
+                billingAddress,
+                email,
+                name,
+                phoneNumberHome,
+                phoneNumberMobile,
+                phoneNumberWork,
+                shippingAddress,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2856,7 +2905,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Channel && value == other.value /* spotless:on */
+            return other is Channel && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -3930,7 +3979,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is DeliveryTimeFrame && value == other.value /* spotless:on */
+                    return other is DeliveryTimeFrame && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -4069,7 +4118,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is OrderAvailability && value == other.value /* spotless:on */
+                    return other is OrderAvailability && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -4206,7 +4255,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is ReorderItems && value == other.value /* spotless:on */
+                    return other is ReorderItems && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -4389,7 +4438,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
+                    return other is ShippingMethod && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -4402,12 +4451,33 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is RiskIndicator && deliveryEmailAddress == other.deliveryEmailAddress && deliveryTimeFrame == other.deliveryTimeFrame && giftCardAmount == other.giftCardAmount && giftCardCount == other.giftCardCount && giftCardCurrency == other.giftCardCurrency && orderAvailability == other.orderAvailability && preOrderAvailableDate == other.preOrderAvailableDate && reorderItems == other.reorderItems && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is RiskIndicator &&
+                    deliveryEmailAddress == other.deliveryEmailAddress &&
+                    deliveryTimeFrame == other.deliveryTimeFrame &&
+                    giftCardAmount == other.giftCardAmount &&
+                    giftCardCount == other.giftCardCount &&
+                    giftCardCurrency == other.giftCardCurrency &&
+                    orderAvailability == other.orderAvailability &&
+                    preOrderAvailableDate == other.preOrderAvailableDate &&
+                    reorderItems == other.reorderItems &&
+                    shippingMethod == other.shippingMethod &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(deliveryEmailAddress, deliveryTimeFrame, giftCardAmount, giftCardCount, giftCardCurrency, orderAvailability, preOrderAvailableDate, reorderItems, shippingMethod, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    deliveryEmailAddress,
+                    deliveryTimeFrame,
+                    giftCardAmount,
+                    giftCardCount,
+                    giftCardCurrency,
+                    orderAvailability,
+                    preOrderAvailableDate,
+                    reorderItems,
+                    shippingMethod,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -4420,12 +4490,18 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Merchant && id == other.id && country == other.country && mcc == other.mcc && name == other.name && riskIndicator == other.riskIndicator && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Merchant &&
+                id == other.id &&
+                country == other.country &&
+                mcc == other.mcc &&
+                name == other.name &&
+                riskIndicator == other.riskIndicator &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, country, mcc, name, riskIndicator, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(id, country, mcc, name, riskIndicator, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -4558,7 +4634,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is MessageCategory && value == other.value /* spotless:on */
+            return other is MessageCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -4736,7 +4812,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ThreeDSRequestorChallengeIndicator && value == other.value /* spotless:on */
+            return other is ThreeDSRequestorChallengeIndicator && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -5084,7 +5160,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is NetworkDecision && value == other.value /* spotless:on */
+                return other is NetworkDecision && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -5097,12 +5173,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AdditionalData && networkDecision == other.networkDecision && networkRiskScore == other.networkRiskScore && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is AdditionalData &&
+                networkDecision == other.networkDecision &&
+                networkRiskScore == other.networkRiskScore &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(networkDecision, networkRiskScore, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(networkDecision, networkRiskScore, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -5290,12 +5369,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is App && deviceInfo == other.deviceInfo && ip == other.ip && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is App &&
+                deviceInfo == other.deviceInfo &&
+                ip == other.ip &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(deviceInfo, ip, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -5482,7 +5562,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AuthenticationRequestType && value == other.value /* spotless:on */
+            return other is AuthenticationRequestType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -5935,12 +6015,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Browser && acceptHeader == other.acceptHeader && ip == other.ip && javaEnabled == other.javaEnabled && javascriptEnabled == other.javascriptEnabled && language == other.language && timeZone == other.timeZone && userAgent == other.userAgent && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Browser &&
+                acceptHeader == other.acceptHeader &&
+                ip == other.ip &&
+                javaEnabled == other.javaEnabled &&
+                javascriptEnabled == other.javascriptEnabled &&
+                language == other.language &&
+                timeZone == other.timeZone &&
+                userAgent == other.userAgent &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(acceptHeader, ip, javaEnabled, javascriptEnabled, language, timeZone, userAgent, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                acceptHeader,
+                ip,
+                javaEnabled,
+                javascriptEnabled,
+                language,
+                timeZone,
+                userAgent,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -6266,7 +6363,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is MethodType && value == other.value /* spotless:on */
+                return other is MethodType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -6279,12 +6376,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ChallengeMetadata && methodType == other.methodType && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is ChallengeMetadata &&
+                methodType == other.methodType &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(methodType, phoneNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(methodType, phoneNumber, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -6426,7 +6526,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ChallengeOrchestratedBy && value == other.value /* spotless:on */
+            return other is ChallengeOrchestratedBy && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -6583,7 +6683,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DecisionMadeBy && value == other.value /* spotless:on */
+            return other is DecisionMadeBy && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -6803,7 +6903,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ThreeRiRequestType && value == other.value /* spotless:on */
+            return other is ThreeRiRequestType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -7351,7 +7451,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -7364,12 +7464,27 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Transaction && amount == other.amount && cardholderAmount == other.cardholderAmount && currency == other.currency && currencyExponent == other.currencyExponent && dateTime == other.dateTime && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Transaction &&
+                amount == other.amount &&
+                cardholderAmount == other.cardholderAmount &&
+                currency == other.currency &&
+                currencyExponent == other.currencyExponent &&
+                dateTime == other.dateTime &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, cardholderAmount, currency, currencyExponent, dateTime, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                cardholderAmount,
+                currency,
+                currencyExponent,
+                dateTime,
+                type,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -7382,12 +7497,55 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthenticationRetrieveResponse && token == other.token && accountType == other.accountType && authenticationResult == other.authenticationResult && cardExpiryCheck == other.cardExpiryCheck && cardToken == other.cardToken && cardholder == other.cardholder && channel == other.channel && created == other.created && merchant == other.merchant && messageCategory == other.messageCategory && threeDSRequestorChallengeIndicator == other.threeDSRequestorChallengeIndicator && additionalData == other.additionalData && app == other.app && authenticationRequestType == other.authenticationRequestType && browser == other.browser && challengeMetadata == other.challengeMetadata && challengeOrchestratedBy == other.challengeOrchestratedBy && decisionMadeBy == other.decisionMadeBy && threeRiRequestType == other.threeRiRequestType && transaction == other.transaction && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AuthenticationRetrieveResponse &&
+            token == other.token &&
+            accountType == other.accountType &&
+            authenticationResult == other.authenticationResult &&
+            cardExpiryCheck == other.cardExpiryCheck &&
+            cardToken == other.cardToken &&
+            cardholder == other.cardholder &&
+            channel == other.channel &&
+            created == other.created &&
+            merchant == other.merchant &&
+            messageCategory == other.messageCategory &&
+            threeDSRequestorChallengeIndicator == other.threeDSRequestorChallengeIndicator &&
+            additionalData == other.additionalData &&
+            app == other.app &&
+            authenticationRequestType == other.authenticationRequestType &&
+            browser == other.browser &&
+            challengeMetadata == other.challengeMetadata &&
+            challengeOrchestratedBy == other.challengeOrchestratedBy &&
+            decisionMadeBy == other.decisionMadeBy &&
+            threeRiRequestType == other.threeRiRequestType &&
+            transaction == other.transaction &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountType, authenticationResult, cardExpiryCheck, cardToken, cardholder, channel, created, merchant, messageCategory, threeDSRequestorChallengeIndicator, additionalData, app, authenticationRequestType, browser, challengeMetadata, challengeOrchestratedBy, decisionMadeBy, threeRiRequestType, transaction, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountType,
+            authenticationResult,
+            cardExpiryCheck,
+            cardToken,
+            cardholder,
+            channel,
+            created,
+            merchant,
+            messageCategory,
+            threeDSRequestorChallengeIndicator,
+            additionalData,
+            app,
+            authenticationRequestType,
+            browser,
+            challengeMetadata,
+            challengeOrchestratedBy,
+            decisionMadeBy,
+            threeRiRequestType,
+            transaction,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -894,12 +894,23 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Amounts && grossSettlement == other.grossSettlement && interchangeFees == other.interchangeFees && netSettlement == other.netSettlement && visaCharges == other.visaCharges && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Amounts &&
+                grossSettlement == other.grossSettlement &&
+                interchangeFees == other.interchangeFees &&
+                netSettlement == other.netSettlement &&
+                visaCharges == other.visaCharges &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(grossSettlement, interchangeFees, netSettlement, visaCharges, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                grossSettlement,
+                interchangeFees,
+                netSettlement,
+                visaCharges,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1045,7 +1056,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+            return other is Network && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1058,12 +1069,39 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is NetworkTotalListResponse && token == other.token && amounts == other.amounts && created == other.created && currency == other.currency && institutionId == other.institutionId && isComplete == other.isComplete && network == other.network && reportDate == other.reportDate && settlementInstitutionId == other.settlementInstitutionId && settlementService == other.settlementService && updated == other.updated && cycle == other.cycle && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is NetworkTotalListResponse &&
+            token == other.token &&
+            amounts == other.amounts &&
+            created == other.created &&
+            currency == other.currency &&
+            institutionId == other.institutionId &&
+            isComplete == other.isComplete &&
+            network == other.network &&
+            reportDate == other.reportDate &&
+            settlementInstitutionId == other.settlementInstitutionId &&
+            settlementService == other.settlementService &&
+            updated == other.updated &&
+            cycle == other.cycle &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, amounts, created, currency, institutionId, isComplete, network, reportDate, settlementInstitutionId, settlementService, updated, cycle, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            amounts,
+            created,
+            currency,
+            institutionId,
+            isComplete,
+            network,
+            reportDate,
+            settlementInstitutionId,
+            settlementService,
+            updated,
+            cycle,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -493,12 +493,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestRate && effectiveDate == other.effectiveDate && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is InterestRate &&
+                effectiveDate == other.effectiveDate &&
+                rate == other.rate &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(effectiveDate, rate, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(effectiveDate, rate, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -511,10 +514,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreditProductPrimeRateCreateParams && creditProductToken == other.creditProductToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CreditProductPrimeRateCreateParams &&
+            creditProductToken == other.creditProductToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(creditProductToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CreditProductPrimeRateCreateParams{creditProductToken=$creditProductToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

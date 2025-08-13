@@ -513,12 +513,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is UpdateFinancialAccountStatusRequest && status == other.status && substatus == other.substatus && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is UpdateFinancialAccountStatusRequest &&
+                status == other.status &&
+                substatus == other.substatus &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(status, substatus, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -663,7 +664,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountStatus && value == other.value /* spotless:on */
+            return other is FinancialAccountStatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -811,7 +812,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is UpdateFinancialAccountSubstatus && value == other.value /* spotless:on */
+            return other is UpdateFinancialAccountSubstatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -824,10 +825,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountUpdateStatusParams && financialAccountToken == other.financialAccountToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FinancialAccountUpdateStatusParams &&
+            financialAccountToken == other.financialAccountToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(financialAccountToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "FinancialAccountUpdateStatusParams{financialAccountToken=$financialAccountToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

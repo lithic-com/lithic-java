@@ -686,7 +686,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Decision && value == other.value /* spotless:on */
+                return other is Decision && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -699,12 +699,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Example && approved == other.approved && decision == other.decision && eventToken == other.eventToken && timestamp == other.timestamp && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Example &&
+                approved == other.approved &&
+                decision == other.decision &&
+                eventToken == other.eventToken &&
+                timestamp == other.timestamp &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(approved, decision, eventToken, timestamp, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(approved, decision, eventToken, timestamp, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -717,12 +722,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RuleStats && approved == other.approved && challenged == other.challenged && declined == other.declined && examples == other.examples && version == other.version && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is RuleStats &&
+            approved == other.approved &&
+            challenged == other.challenged &&
+            declined == other.declined &&
+            examples == other.examples &&
+            version == other.version &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(approved, challenged, declined, examples, version, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(approved, challenged, declined, examples, version, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

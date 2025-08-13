@@ -629,7 +629,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CollectionResourceType && value == other.value /* spotless:on */
+            return other is CollectionResourceType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -831,12 +831,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FundingEventSettlement && networkSettlementDate == other.networkSettlementDate && settledGrossAmount == other.settledGrossAmount && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is FundingEventSettlement &&
+                networkSettlementDate == other.networkSettlementDate &&
+                settledGrossAmount == other.settledGrossAmount &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(networkSettlementDate, settledGrossAmount, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(networkSettlementDate, settledGrossAmount, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -849,12 +852,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FundingEventListResponse && token == other.token && collectionResourceType == other.collectionResourceType && collectionTokens == other.collectionTokens && created == other.created && highWatermark == other.highWatermark && networkSettlementSummary == other.networkSettlementSummary && previousHighWatermark == other.previousHighWatermark && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is FundingEventListResponse &&
+            token == other.token &&
+            collectionResourceType == other.collectionResourceType &&
+            collectionTokens == other.collectionTokens &&
+            created == other.created &&
+            highWatermark == other.highWatermark &&
+            networkSettlementSummary == other.networkSettlementSummary &&
+            previousHighWatermark == other.previousHighWatermark &&
+            updated == other.updated &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, collectionResourceType, collectionTokens, created, highWatermark, networkSettlementSummary, previousHighWatermark, updated, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            collectionResourceType,
+            collectionTokens,
+            created,
+            highWatermark,
+            networkSettlementSummary,
+            previousHighWatermark,
+            updated,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

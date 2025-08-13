@@ -1000,7 +1000,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TransactionCategory && value == other.value /* spotless:on */
+                return other is TransactionCategory && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1530,7 +1530,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FinancialEventType && value == other.value /* spotless:on */
+                return other is FinancialEventType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1543,12 +1543,39 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementLineItemResponse && token == other.token && amount == other.amount && category == other.category && created == other.created && currency == other.currency && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && financialTransactionEventToken == other.financialTransactionEventToken && financialTransactionToken == other.financialTransactionToken && cardToken == other.cardToken && descriptor == other.descriptor && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is StatementLineItemResponse &&
+                token == other.token &&
+                amount == other.amount &&
+                category == other.category &&
+                created == other.created &&
+                currency == other.currency &&
+                effectiveDate == other.effectiveDate &&
+                eventType == other.eventType &&
+                financialAccountToken == other.financialAccountToken &&
+                financialTransactionEventToken == other.financialTransactionEventToken &&
+                financialTransactionToken == other.financialTransactionToken &&
+                cardToken == other.cardToken &&
+                descriptor == other.descriptor &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, category, created, currency, effectiveDate, eventType, financialAccountToken, financialTransactionEventToken, financialTransactionToken, cardToken, descriptor, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                amount,
+                category,
+                created,
+                currency,
+                effectiveDate,
+                eventType,
+                financialAccountToken,
+                financialTransactionEventToken,
+                financialTransactionToken,
+                cardToken,
+                descriptor,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1561,12 +1588,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StatementLineItems && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StatementLineItems &&
+            data == other.data &&
+            hasMore == other.hasMore &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(data, hasMore, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

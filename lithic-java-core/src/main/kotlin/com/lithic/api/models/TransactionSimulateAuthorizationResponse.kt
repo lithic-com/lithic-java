@@ -199,12 +199,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateAuthorizationResponse && token == other.token && debuggingRequestId == other.debuggingRequestId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is TransactionSimulateAuthorizationResponse &&
+            token == other.token &&
+            debuggingRequestId == other.debuggingRequestId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, debuggingRequestId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(token, debuggingRequestId, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

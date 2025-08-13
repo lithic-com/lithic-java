@@ -187,10 +187,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DigitalCardArtRetrieveParams && digitalCardArtToken == other.digitalCardArtToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DigitalCardArtRetrieveParams &&
+            digitalCardArtToken == other.digitalCardArtToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(digitalCardArtToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(digitalCardArtToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DigitalCardArtRetrieveParams{digitalCardArtToken=$digitalCardArtToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

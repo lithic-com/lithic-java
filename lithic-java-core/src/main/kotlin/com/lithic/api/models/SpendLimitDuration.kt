@@ -148,7 +148,7 @@ class SpendLimitDuration @JsonCreator private constructor(private val value: Jso
             return true
         }
 
-        return /* spotless:off */ other is SpendLimitDuration && value == other.value /* spotless:on */
+        return other is SpendLimitDuration && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

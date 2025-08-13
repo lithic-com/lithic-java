@@ -366,7 +366,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
+            return other is Result && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -379,12 +379,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReleaseResponse && debuggingRequestId == other.debuggingRequestId && result == other.result && transactionEventToken == other.transactionEventToken && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is PaymentSimulateReleaseResponse &&
+            debuggingRequestId == other.debuggingRequestId &&
+            result == other.result &&
+            transactionEventToken == other.transactionEventToken &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(debuggingRequestId, result, transactionEventToken, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(debuggingRequestId, result, transactionEventToken, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

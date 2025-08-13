@@ -1755,7 +1755,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is State && value == other.value /* spotless:on */
+                return other is State && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1886,7 +1886,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1899,12 +1899,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FundingAccount && token == other.token && created == other.created && lastFour == other.lastFour && state == other.state && type == other.type && accountName == other.accountName && nickname == other.nickname && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is FundingAccount &&
+                token == other.token &&
+                created == other.created &&
+                lastFour == other.lastFour &&
+                state == other.state &&
+                type == other.type &&
+                accountName == other.accountName &&
+                nickname == other.nickname &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, created, lastFour, state, type, accountName, nickname, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                created,
+                lastFour,
+                state,
+                type,
+                accountName,
+                nickname,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2040,7 +2057,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PinStatus && value == other.value /* spotless:on */
+            return other is PinStatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2197,7 +2214,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2356,7 +2373,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2556,7 +2573,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Substatus && value == other.value /* spotless:on */
+            return other is Substatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2569,12 +2586,63 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is NonPciCard && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && comment == other.comment && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && networkProgramToken == other.networkProgramToken && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && substatus == other.substatus && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is NonPciCard &&
+            token == other.token &&
+            accountToken == other.accountToken &&
+            cardProgramToken == other.cardProgramToken &&
+            created == other.created &&
+            funding == other.funding &&
+            lastFour == other.lastFour &&
+            pinStatus == other.pinStatus &&
+            spendLimit == other.spendLimit &&
+            spendLimitDuration == other.spendLimitDuration &&
+            state == other.state &&
+            type == other.type &&
+            authRuleTokens == other.authRuleTokens &&
+            cardholderCurrency == other.cardholderCurrency &&
+            comment == other.comment &&
+            digitalCardArtToken == other.digitalCardArtToken &&
+            expMonth == other.expMonth &&
+            expYear == other.expYear &&
+            hostname == other.hostname &&
+            memo == other.memo &&
+            networkProgramToken == other.networkProgramToken &&
+            pendingCommands == other.pendingCommands &&
+            productId == other.productId &&
+            replacementFor == other.replacementFor &&
+            substatus == other.substatus &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, created, funding, lastFour, pinStatus, spendLimit, spendLimitDuration, state, type, authRuleTokens, cardholderCurrency, comment, digitalCardArtToken, expMonth, expYear, hostname, memo, networkProgramToken, pendingCommands, productId, replacementFor, substatus, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountToken,
+            cardProgramToken,
+            created,
+            funding,
+            lastFour,
+            pinStatus,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            type,
+            authRuleTokens,
+            cardholderCurrency,
+            comment,
+            digitalCardArtToken,
+            expMonth,
+            expYear,
+            hostname,
+            memo,
+            networkProgramToken,
+            pendingCommands,
+            productId,
+            replacementFor,
+            substatus,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

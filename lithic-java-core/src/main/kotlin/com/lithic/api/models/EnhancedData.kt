@@ -902,12 +902,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is LineItem && amount == other.amount && description == other.description && productCode == other.productCode && quantity == other.quantity && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is LineItem &&
+                    amount == other.amount &&
+                    description == other.description &&
+                    productCode == other.productCode &&
+                    quantity == other.quantity &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(amount, description, productCode, quantity, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(amount, description, productCode, quantity, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1255,7 +1260,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is TaxExemptIndicator && value == other.value /* spotless:on */
+                    return other is TaxExemptIndicator && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1268,12 +1273,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TaxData && amount == other.amount && exempt == other.exempt && merchantTaxId == other.merchantTaxId && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is TaxData &&
+                    amount == other.amount &&
+                    exempt == other.exempt &&
+                    merchantTaxId == other.merchantTaxId &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(amount, exempt, merchantTaxId, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(amount, exempt, merchantTaxId, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1286,12 +1295,25 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CommonData && lineItems == other.lineItems && tax == other.tax && customerReferenceNumber == other.customerReferenceNumber && merchantReferenceNumber == other.merchantReferenceNumber && orderDate == other.orderDate && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is CommonData &&
+                lineItems == other.lineItems &&
+                tax == other.tax &&
+                customerReferenceNumber == other.customerReferenceNumber &&
+                merchantReferenceNumber == other.merchantReferenceNumber &&
+                orderDate == other.orderDate &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(lineItems, tax, customerReferenceNumber, merchantReferenceNumber, orderDate, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                lineItems,
+                tax,
+                customerReferenceNumber,
+                merchantReferenceNumber,
+                orderDate,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1859,12 +1881,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is AmountTotals && discount == other.discount && grossSale == other.grossSale && netSale == other.netSale && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is AmountTotals &&
+                    discount == other.discount &&
+                    grossSale == other.grossSale &&
+                    netSale == other.netSale &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(discount, grossSale, netSale, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(discount, grossSale, netSale, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -3115,7 +3141,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is FuelType && value == other.value /* spotless:on */
+                    return other is FuelType && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3281,7 +3307,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is FuelUnitOfMeasure && value == other.value /* spotless:on */
+                    return other is FuelUnitOfMeasure && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3294,12 +3320,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FuelData && quantity == other.quantity && type == other.type && unitOfMeasure == other.unitOfMeasure && unitPrice == other.unitPrice && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is FuelData &&
+                    quantity == other.quantity &&
+                    type == other.type &&
+                    unitOfMeasure == other.unitOfMeasure &&
+                    unitPrice == other.unitPrice &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(quantity, type, unitOfMeasure, unitPrice, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(quantity, type, unitOfMeasure, unitPrice, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -3449,7 +3480,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ServiceType && value == other.value /* spotless:on */
+                return other is ServiceType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -3462,12 +3493,27 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Fleet && amountTotals == other.amountTotals && fuel == other.fuel && driverNumber == other.driverNumber && odometer == other.odometer && serviceType == other.serviceType && vehicleNumber == other.vehicleNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Fleet &&
+                amountTotals == other.amountTotals &&
+                fuel == other.fuel &&
+                driverNumber == other.driverNumber &&
+                odometer == other.odometer &&
+                serviceType == other.serviceType &&
+                vehicleNumber == other.vehicleNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amountTotals, fuel, driverNumber, odometer, serviceType, vehicleNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amountTotals,
+                fuel,
+                driverNumber,
+                odometer,
+                serviceType,
+                vehicleNumber,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3480,12 +3526,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EnhancedData && token == other.token && common == other.common && eventToken == other.eventToken && fleet == other.fleet && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is EnhancedData &&
+            token == other.token &&
+            common == other.common &&
+            eventToken == other.eventToken &&
+            fleet == other.fleet &&
+            transactionToken == other.transactionToken &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, common, eventToken, fleet, transactionToken, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(token, common, eventToken, fleet, transactionToken, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

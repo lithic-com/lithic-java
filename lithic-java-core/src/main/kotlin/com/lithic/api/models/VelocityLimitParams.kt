@@ -733,12 +733,23 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Filters && excludeCountries == other.excludeCountries && excludeMccs == other.excludeMccs && includeCountries == other.includeCountries && includeMccs == other.includeMccs && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Filters &&
+                excludeCountries == other.excludeCountries &&
+                excludeMccs == other.excludeMccs &&
+                includeCountries == other.includeCountries &&
+                includeMccs == other.includeMccs &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(excludeCountries, excludeMccs, includeCountries, includeMccs, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                excludeCountries,
+                excludeMccs,
+                includeCountries,
+                includeMccs,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -863,7 +874,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
+            return other is Scope && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -876,12 +887,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is VelocityLimitParams && filters == other.filters && period == other.period && scope == other.scope && limitAmount == other.limitAmount && limitCount == other.limitCount && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is VelocityLimitParams &&
+            filters == other.filters &&
+            period == other.period &&
+            scope == other.scope &&
+            limitAmount == other.limitAmount &&
+            limitCount == other.limitCount &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(filters, period, scope, limitAmount, limitCount, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(filters, period, scope, limitAmount, limitCount, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

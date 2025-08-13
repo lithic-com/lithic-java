@@ -1358,12 +1358,67 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Card && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && comment == other.comment && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && networkProgramToken == other.networkProgramToken && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && substatus == other.substatus && cvv == other.cvv && pan == other.pan && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Card &&
+            token == other.token &&
+            accountToken == other.accountToken &&
+            cardProgramToken == other.cardProgramToken &&
+            created == other.created &&
+            funding == other.funding &&
+            lastFour == other.lastFour &&
+            pinStatus == other.pinStatus &&
+            spendLimit == other.spendLimit &&
+            spendLimitDuration == other.spendLimitDuration &&
+            state == other.state &&
+            type == other.type &&
+            authRuleTokens == other.authRuleTokens &&
+            cardholderCurrency == other.cardholderCurrency &&
+            comment == other.comment &&
+            digitalCardArtToken == other.digitalCardArtToken &&
+            expMonth == other.expMonth &&
+            expYear == other.expYear &&
+            hostname == other.hostname &&
+            memo == other.memo &&
+            networkProgramToken == other.networkProgramToken &&
+            pendingCommands == other.pendingCommands &&
+            productId == other.productId &&
+            replacementFor == other.replacementFor &&
+            substatus == other.substatus &&
+            cvv == other.cvv &&
+            pan == other.pan &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, created, funding, lastFour, pinStatus, spendLimit, spendLimitDuration, state, type, authRuleTokens, cardholderCurrency, comment, digitalCardArtToken, expMonth, expYear, hostname, memo, networkProgramToken, pendingCommands, productId, replacementFor, substatus, cvv, pan, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountToken,
+            cardProgramToken,
+            created,
+            funding,
+            lastFour,
+            pinStatus,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            type,
+            authRuleTokens,
+            cardholderCurrency,
+            comment,
+            digitalCardArtToken,
+            expMonth,
+            expYear,
+            hostname,
+            memo,
+            networkProgramToken,
+            pendingCommands,
+            productId,
+            replacementFor,
+            substatus,
+            cvv,
+            pan,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

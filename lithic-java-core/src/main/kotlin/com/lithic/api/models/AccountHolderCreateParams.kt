@@ -306,10 +306,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt /* spotless:on */
+            return other is Body &&
+                kyb == other.kyb &&
+                kyc == other.kyc &&
+                kycExempt == other.kycExempt
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(kyb, kyc, kycExempt) /* spotless:on */
+        override fun hashCode(): Int = Objects.hash(kyb, kyc, kycExempt)
 
         override fun toString(): String =
             when {
@@ -408,10 +411,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountHolderCreateParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AccountHolderCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

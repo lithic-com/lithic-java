@@ -411,12 +411,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is RetryMicroDepositVerificationRequest && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is RetryMicroDepositVerificationRequest &&
+                financialAccountToken == other.financialAccountToken &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(financialAccountToken, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(financialAccountToken, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -429,10 +431,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsParams && externalBankAccountToken == other.externalBankAccountToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ExternalBankAccountRetryMicroDepositsParams &&
+            externalBankAccountToken == other.externalBankAccountToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(externalBankAccountToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ExternalBankAccountRetryMicroDepositsParams{externalBankAccountToken=$externalBankAccountToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

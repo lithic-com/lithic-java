@@ -449,7 +449,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -462,10 +462,32 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardListParams && accountToken == other.accountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && memo == other.memo && pageSize == other.pageSize && startingAfter == other.startingAfter && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardListParams &&
+            accountToken == other.accountToken &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            memo == other.memo &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            state == other.state &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, memo, pageSize, startingAfter, state, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            begin,
+            end,
+            endingBefore,
+            memo,
+            pageSize,
+            startingAfter,
+            state,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "CardListParams{accountToken=$accountToken, begin=$begin, end=$end, endingBefore=$endingBefore, memo=$memo, pageSize=$pageSize, startingAfter=$startingAfter, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

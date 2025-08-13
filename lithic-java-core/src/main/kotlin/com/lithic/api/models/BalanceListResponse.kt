@@ -672,7 +672,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -685,12 +685,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BalanceListResponse && token == other.token && availableAmount == other.availableAmount && created == other.created && currency == other.currency && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && type == other.type && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BalanceListResponse &&
+            token == other.token &&
+            availableAmount == other.availableAmount &&
+            created == other.created &&
+            currency == other.currency &&
+            lastTransactionEventToken == other.lastTransactionEventToken &&
+            lastTransactionToken == other.lastTransactionToken &&
+            pendingAmount == other.pendingAmount &&
+            totalAmount == other.totalAmount &&
+            type == other.type &&
+            updated == other.updated &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, availableAmount, created, currency, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, type, updated, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            availableAmount,
+            created,
+            currency,
+            lastTransactionEventToken,
+            lastTransactionToken,
+            pendingAmount,
+            totalAmount,
+            type,
+            updated,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 
