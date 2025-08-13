@@ -6051,6 +6051,7 @@ private constructor(
     class ChallengeMetadata
     private constructor(
         private val methodType: JsonField<MethodType>,
+        private val status: JsonField<Status>,
         private val phoneNumber: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -6060,10 +6061,11 @@ private constructor(
             @JsonProperty("method_type")
             @ExcludeMissing
             methodType: JsonField<MethodType> = JsonMissing.of(),
+            @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
             @JsonProperty("phone_number")
             @ExcludeMissing
             phoneNumber: JsonField<String> = JsonMissing.of(),
-        ) : this(methodType, phoneNumber, mutableMapOf())
+        ) : this(methodType, status, phoneNumber, mutableMapOf())
 
         /**
          * The type of challenge method used for authentication.
@@ -6072,6 +6074,28 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun methodType(): MethodType = methodType.getRequired("method_type")
+
+        /**
+         * Indicates the status of the challenge
+         * - SUCCESS - Cardholder completed the challenge successfully
+         * - PENDING - Challenge was issued to the cardholder and was not completed yet
+         * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+         *   phone number. Relevant only for SMS_OTP method
+         * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+         *   challenge TTL
+         * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
+         *   the challenge UI
+         * - CANCELED_OOB - Cardholder canceled the challenge out of band
+         * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
+         *   more than the allowed number of times or requesting a new OTP more than the allowed
+         *   number of times
+         * - ABORTED - Merchant aborted authentication after a challenge was requested
+         * - ERROR - The challenge failed for a reason different than those documented
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun status(): Status = status.getRequired("status")
 
         /**
          * The phone number used for delivering the OTP. Relevant only for SMS_OTP method.
@@ -6089,6 +6113,13 @@ private constructor(
         @JsonProperty("method_type")
         @ExcludeMissing
         fun _methodType(): JsonField<MethodType> = methodType
+
+        /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
         /**
          * Returns the raw JSON value of [phoneNumber].
@@ -6119,6 +6150,7 @@ private constructor(
              * The following fields are required:
              * ```java
              * .methodType()
+             * .status()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -6128,12 +6160,14 @@ private constructor(
         class Builder internal constructor() {
 
             private var methodType: JsonField<MethodType>? = null
+            private var status: JsonField<Status>? = null
             private var phoneNumber: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(challengeMetadata: ChallengeMetadata) = apply {
                 methodType = challengeMetadata.methodType
+                status = challengeMetadata.status
                 phoneNumber = challengeMetadata.phoneNumber
                 additionalProperties = challengeMetadata.additionalProperties.toMutableMap()
             }
@@ -6151,6 +6185,34 @@ private constructor(
             fun methodType(methodType: JsonField<MethodType>) = apply {
                 this.methodType = methodType
             }
+
+            /**
+             * Indicates the status of the challenge
+             * - SUCCESS - Cardholder completed the challenge successfully
+             * - PENDING - Challenge was issued to the cardholder and was not completed yet
+             * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+             *   phone number. Relevant only for SMS_OTP method
+             * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+             *   challenge TTL
+             * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel"
+             *   on the challenge UI
+             * - CANCELED_OOB - Cardholder canceled the challenge out of band
+             * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect
+             *   OTP more than the allowed number of times or requesting a new OTP more than the
+             *   allowed number of times
+             * - ABORTED - Merchant aborted authentication after a challenge was requested
+             * - ERROR - The challenge failed for a reason different than those documented
+             */
+            fun status(status: Status) = status(JsonField.of(status))
+
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /** The phone number used for delivering the OTP. Relevant only for SMS_OTP method. */
             fun phoneNumber(phoneNumber: String?) = phoneNumber(JsonField.ofNullable(phoneNumber))
@@ -6196,6 +6258,7 @@ private constructor(
              * The following fields are required:
              * ```java
              * .methodType()
+             * .status()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
@@ -6203,6 +6266,7 @@ private constructor(
             fun build(): ChallengeMetadata =
                 ChallengeMetadata(
                     checkRequired("methodType", methodType),
+                    checkRequired("status", status),
                     phoneNumber,
                     additionalProperties.toMutableMap(),
                 )
@@ -6216,6 +6280,7 @@ private constructor(
             }
 
             methodType().validate()
+            status().validate()
             phoneNumber()
             validated = true
         }
@@ -6237,6 +6302,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (methodType.asKnown().getOrNull()?.validity() ?: 0) +
+                (status.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (phoneNumber.asKnown().isPresent) 1 else 0)
 
         /** The type of challenge method used for authentication. */
@@ -6371,6 +6437,194 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Indicates the status of the challenge
+         * - SUCCESS - Cardholder completed the challenge successfully
+         * - PENDING - Challenge was issued to the cardholder and was not completed yet
+         * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+         *   phone number. Relevant only for SMS_OTP method
+         * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+         *   challenge TTL
+         * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
+         *   the challenge UI
+         * - CANCELED_OOB - Cardholder canceled the challenge out of band
+         * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
+         *   more than the allowed number of times or requesting a new OTP more than the allowed
+         *   number of times
+         * - ABORTED - Merchant aborted authentication after a challenge was requested
+         * - ERROR - The challenge failed for a reason different than those documented
+         */
+        class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val SUCCESS = of("SUCCESS")
+
+                @JvmField val PENDING = of("PENDING")
+
+                @JvmField val SMS_DELIVERY_FAILED = of("SMS_DELIVERY_FAILED")
+
+                @JvmField val CARDHOLDER_TIMEOUT = of("CARDHOLDER_TIMEOUT")
+
+                @JvmField val CANCELED_VIA_CHALLENGE_UI = of("CANCELED_VIA_CHALLENGE_UI")
+
+                @JvmField val CANCELED_OOB = of("CANCELED_OOB")
+
+                @JvmField val ATTEMPTS_EXCEEDED = of("ATTEMPTS_EXCEEDED")
+
+                @JvmField val ABORTED = of("ABORTED")
+
+                @JvmField val ERROR = of("ERROR")
+
+                @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+            }
+
+            /** An enum containing [Status]'s known values. */
+            enum class Known {
+                SUCCESS,
+                PENDING,
+                SMS_DELIVERY_FAILED,
+                CARDHOLDER_TIMEOUT,
+                CANCELED_VIA_CHALLENGE_UI,
+                CANCELED_OOB,
+                ATTEMPTS_EXCEEDED,
+                ABORTED,
+                ERROR,
+            }
+
+            /**
+             * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Status] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                SUCCESS,
+                PENDING,
+                SMS_DELIVERY_FAILED,
+                CARDHOLDER_TIMEOUT,
+                CANCELED_VIA_CHALLENGE_UI,
+                CANCELED_OOB,
+                ATTEMPTS_EXCEEDED,
+                ABORTED,
+                ERROR,
+                /**
+                 * An enum member indicating that [Status] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    SUCCESS -> Value.SUCCESS
+                    PENDING -> Value.PENDING
+                    SMS_DELIVERY_FAILED -> Value.SMS_DELIVERY_FAILED
+                    CARDHOLDER_TIMEOUT -> Value.CARDHOLDER_TIMEOUT
+                    CANCELED_VIA_CHALLENGE_UI -> Value.CANCELED_VIA_CHALLENGE_UI
+                    CANCELED_OOB -> Value.CANCELED_OOB
+                    ATTEMPTS_EXCEEDED -> Value.ATTEMPTS_EXCEEDED
+                    ABORTED -> Value.ABORTED
+                    ERROR -> Value.ERROR
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    SUCCESS -> Known.SUCCESS
+                    PENDING -> Known.PENDING
+                    SMS_DELIVERY_FAILED -> Known.SMS_DELIVERY_FAILED
+                    CARDHOLDER_TIMEOUT -> Known.CARDHOLDER_TIMEOUT
+                    CANCELED_VIA_CHALLENGE_UI -> Known.CANCELED_VIA_CHALLENGE_UI
+                    CANCELED_OOB -> Known.CANCELED_OOB
+                    ATTEMPTS_EXCEEDED -> Known.ATTEMPTS_EXCEEDED
+                    ABORTED -> Known.ABORTED
+                    ERROR -> Known.ERROR
+                    else -> throw LithicInvalidDataException("Unknown Status: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Status = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Status && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -6378,18 +6632,19 @@ private constructor(
 
             return other is ChallengeMetadata &&
                 methodType == other.methodType &&
+                status == other.status &&
                 phoneNumber == other.phoneNumber &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(methodType, phoneNumber, additionalProperties)
+            Objects.hash(methodType, status, phoneNumber, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ChallengeMetadata{methodType=$methodType, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+            "ChallengeMetadata{methodType=$methodType, status=$status, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     /**

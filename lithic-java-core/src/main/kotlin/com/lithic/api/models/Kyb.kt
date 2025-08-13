@@ -159,7 +159,7 @@ private constructor(
     fun externalId(): Optional<String> = externalId.getOptional("external_id")
 
     /**
-     * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
+     * An RFC 3339 timestamp indicating when precomputed KYB was completed on the business with a
      * pass result.
      *
      * This field is required only if workflow type is `KYB_BYO`.
@@ -491,7 +491,7 @@ private constructor(
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
+         * An RFC 3339 timestamp indicating when precomputed KYB was completed on the business with
          * a pass result.
          *
          * This field is required only if workflow type is `KYB_BYO`.
