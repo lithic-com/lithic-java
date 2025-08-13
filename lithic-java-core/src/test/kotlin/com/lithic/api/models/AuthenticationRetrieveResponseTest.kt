@@ -129,6 +129,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .methodType(
                             AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP
                         )
+                        .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
                         .phoneNumber("phone_number")
                         .build()
                 )
@@ -272,6 +273,7 @@ internal class AuthenticationRetrieveResponseTest {
             .contains(
                 AuthenticationRetrieveResponse.ChallengeMetadata.builder()
                     .methodType(AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP)
+                    .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
                     .phoneNumber("phone_number")
                     .build()
             )
@@ -414,6 +416,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .methodType(
                             AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP
                         )
+                        .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
                         .phoneNumber("phone_number")
                         .build()
                 )
