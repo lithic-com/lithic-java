@@ -476,12 +476,15 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentActionRequest && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is ExternalPaymentActionRequest &&
+                effectiveDate == other.effectiveDate &&
+                memo == other.memo &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(effectiveDate, memo, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(effectiveDate, memo, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -494,10 +497,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalPaymentReleaseParams && externalPaymentToken == other.externalPaymentToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ExternalPaymentReleaseParams &&
+            externalPaymentToken == other.externalPaymentToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(externalPaymentToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ExternalPaymentReleaseParams{externalPaymentToken=$externalPaymentToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

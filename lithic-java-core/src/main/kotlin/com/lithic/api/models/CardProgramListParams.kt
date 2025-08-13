@@ -230,10 +230,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardProgramListParams && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardProgramListParams &&
+            endingBefore == other.endingBefore &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            endingBefore,
+            pageSize,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "CardProgramListParams{endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

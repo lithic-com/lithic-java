@@ -509,7 +509,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+            return other is Network && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -522,10 +522,38 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementNetworkTotalListParams && begin == other.begin && end == other.end && endingBefore == other.endingBefore && institutionId == other.institutionId && network == other.network && pageSize == other.pageSize && reportDate == other.reportDate && reportDateBegin == other.reportDateBegin && reportDateEnd == other.reportDateEnd && settlementInstitutionId == other.settlementInstitutionId && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportSettlementNetworkTotalListParams &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            institutionId == other.institutionId &&
+            network == other.network &&
+            pageSize == other.pageSize &&
+            reportDate == other.reportDate &&
+            reportDateBegin == other.reportDateBegin &&
+            reportDateEnd == other.reportDateEnd &&
+            settlementInstitutionId == other.settlementInstitutionId &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, end, endingBefore, institutionId, network, pageSize, reportDate, reportDateBegin, reportDateEnd, settlementInstitutionId, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            begin,
+            end,
+            endingBefore,
+            institutionId,
+            network,
+            pageSize,
+            reportDate,
+            reportDateBegin,
+            reportDateEnd,
+            settlementInstitutionId,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ReportSettlementNetworkTotalListParams{begin=$begin, end=$end, endingBefore=$endingBefore, institutionId=$institutionId, network=$network, pageSize=$pageSize, reportDate=$reportDate, reportDateBegin=$reportDateBegin, reportDateEnd=$reportDateEnd, settlementInstitutionId=$settlementInstitutionId, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -543,12 +543,21 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DailyStatistic && currentVersionStatistics == other.currentVersionStatistics && date == other.date && draftVersionStatistics == other.draftVersionStatistics && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is DailyStatistic &&
+                currentVersionStatistics == other.currentVersionStatistics &&
+                date == other.date &&
+                draftVersionStatistics == other.draftVersionStatistics &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(currentVersionStatistics, date, draftVersionStatistics, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                currentVersionStatistics,
+                date,
+                draftVersionStatistics,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -561,12 +570,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2RetrieveReportResponse && authRuleToken == other.authRuleToken && begin == other.begin && dailyStatistics == other.dailyStatistics && end == other.end && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is V2RetrieveReportResponse &&
+            authRuleToken == other.authRuleToken &&
+            begin == other.begin &&
+            dailyStatistics == other.dailyStatistics &&
+            end == other.end &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(authRuleToken, begin, dailyStatistics, end, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(authRuleToken, begin, dailyStatistics, end, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

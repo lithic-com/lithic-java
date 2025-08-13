@@ -121,7 +121,7 @@ class OwnerType @JsonCreator private constructor(private val value: JsonField<St
             return true
         }
 
-        return /* spotless:off */ other is OwnerType && value == other.value /* spotless:on */
+        return other is OwnerType && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

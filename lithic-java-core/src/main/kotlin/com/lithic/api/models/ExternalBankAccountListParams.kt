@@ -486,7 +486,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
+            return other is AccountType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -620,7 +620,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountState && value == other.value /* spotless:on */
+            return other is AccountState && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -761,7 +761,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
+            return other is VerificationState && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -774,10 +774,34 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountListParams && accountToken == other.accountToken && accountTypes == other.accountTypes && countries == other.countries && endingBefore == other.endingBefore && ownerTypes == other.ownerTypes && pageSize == other.pageSize && startingAfter == other.startingAfter && states == other.states && verificationStates == other.verificationStates && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ExternalBankAccountListParams &&
+            accountToken == other.accountToken &&
+            accountTypes == other.accountTypes &&
+            countries == other.countries &&
+            endingBefore == other.endingBefore &&
+            ownerTypes == other.ownerTypes &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            states == other.states &&
+            verificationStates == other.verificationStates &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, accountTypes, countries, endingBefore, ownerTypes, pageSize, startingAfter, states, verificationStates, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountToken,
+            accountTypes,
+            countries,
+            endingBefore,
+            ownerTypes,
+            pageSize,
+            startingAfter,
+            states,
+            verificationStates,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ExternalBankAccountListParams{accountToken=$accountToken, accountTypes=$accountTypes, countries=$countries, endingBefore=$endingBefore, ownerTypes=$ownerTypes, pageSize=$pageSize, startingAfter=$startingAfter, states=$states, verificationStates=$verificationStates, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

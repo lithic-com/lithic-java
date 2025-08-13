@@ -395,12 +395,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && eventType == other.eventType && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                eventType == other.eventType &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(eventType, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -810,7 +810,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
+            return other is EventType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -823,10 +823,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleParams && eventSubscriptionToken == other.eventSubscriptionToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is EventSubscriptionSendSimulatedExampleParams &&
+            eventSubscriptionToken == other.eventSubscriptionToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(eventSubscriptionToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "EventSubscriptionSendSimulatedExampleParams{eventSubscriptionToken=$eventSubscriptionToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

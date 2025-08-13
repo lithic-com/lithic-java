@@ -379,10 +379,38 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderListParams && begin == other.begin && email == other.email && end == other.end && endingBefore == other.endingBefore && externalId == other.externalId && firstName == other.firstName && lastName == other.lastName && legalBusinessName == other.legalBusinessName && limit == other.limit && phoneNumber == other.phoneNumber && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountHolderListParams &&
+            begin == other.begin &&
+            email == other.email &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            externalId == other.externalId &&
+            firstName == other.firstName &&
+            lastName == other.lastName &&
+            legalBusinessName == other.legalBusinessName &&
+            limit == other.limit &&
+            phoneNumber == other.phoneNumber &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            begin,
+            email,
+            end,
+            endingBefore,
+            externalId,
+            firstName,
+            lastName,
+            legalBusinessName,
+            limit,
+            phoneNumber,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "AccountHolderListParams{begin=$begin, email=$email, end=$end, endingBefore=$endingBefore, externalId=$externalId, firstName=$firstName, lastName=$lastName, legalBusinessName=$legalBusinessName, limit=$limit, phoneNumber=$phoneNumber, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

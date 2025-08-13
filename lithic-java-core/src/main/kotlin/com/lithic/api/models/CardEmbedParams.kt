@@ -227,10 +227,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardEmbedParams && embedRequest == other.embedRequest && hmac == other.hmac && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardEmbedParams &&
+            embedRequest == other.embedRequest &&
+            hmac == other.hmac &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

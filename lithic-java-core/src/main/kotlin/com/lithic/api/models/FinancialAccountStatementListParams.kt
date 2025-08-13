@@ -331,10 +331,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountStatementListParams && financialAccountToken == other.financialAccountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && includeInitialStatements == other.includeInitialStatements && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FinancialAccountStatementListParams &&
+            financialAccountToken == other.financialAccountToken &&
+            begin == other.begin &&
+            end == other.end &&
+            endingBefore == other.endingBefore &&
+            includeInitialStatements == other.includeInitialStatements &&
+            pageSize == other.pageSize &&
+            startingAfter == other.startingAfter &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, includeInitialStatements, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            financialAccountToken,
+            begin,
+            end,
+            endingBefore,
+            includeInitialStatements,
+            pageSize,
+            startingAfter,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "FinancialAccountStatementListParams{financialAccountToken=$financialAccountToken, begin=$begin, end=$end, endingBefore=$endingBefore, includeInitialStatements=$includeInitialStatements, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

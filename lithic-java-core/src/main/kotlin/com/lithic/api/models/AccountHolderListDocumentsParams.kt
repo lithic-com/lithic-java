@@ -204,10 +204,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderListDocumentsParams && accountHolderToken == other.accountHolderToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountHolderListDocumentsParams &&
+            accountHolderToken == other.accountHolderToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountHolderToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AccountHolderListDocumentsParams{accountHolderToken=$accountHolderToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

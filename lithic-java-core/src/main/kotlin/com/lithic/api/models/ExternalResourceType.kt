@@ -138,7 +138,7 @@ class ExternalResourceType @JsonCreator private constructor(private val value: J
             return true
         }
 
-        return /* spotless:off */ other is ExternalResourceType && value == other.value /* spotless:on */
+        return other is ExternalResourceType && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

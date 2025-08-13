@@ -467,12 +467,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BacktestRequest && end == other.end && start == other.start && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is BacktestRequest &&
+                end == other.end &&
+                start == other.start &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(end, start, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -485,10 +486,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2BacktestCreateParams && authRuleToken == other.authRuleToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2BacktestCreateParams &&
+            authRuleToken == other.authRuleToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2BacktestCreateParams{authRuleToken=$authRuleToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

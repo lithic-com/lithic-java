@@ -1828,7 +1828,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is FinancialAccountStatus && value == other.value /* spotless:on */
+                    return other is FinancialAccountStatus && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1985,7 +1985,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is FinancialAccountSubstatus && value == other.value /* spotless:on */
+                    return other is FinancialAccountSubstatus && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1998,12 +1998,15 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FinancialAccountState && status == other.status && substatus == other.substatus && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is FinancialAccountState &&
+                    status == other.status &&
+                    substatus == other.substatus &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(status, substatus, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(status, substatus, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2140,7 +2143,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is PeriodState && value == other.value /* spotless:on */
+                return other is PeriodState && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2153,12 +2156,31 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountStanding && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && daysPastDue == other.daysPastDue && financialAccountState == other.financialAccountState && hasGrace == other.hasGrace && periodNumber == other.periodNumber && periodState == other.periodState && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is AccountStanding &&
+                consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade &&
+                consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade &&
+                consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed &&
+                daysPastDue == other.daysPastDue &&
+                financialAccountState == other.financialAccountState &&
+                hasGrace == other.hasGrace &&
+                periodNumber == other.periodNumber &&
+                periodState == other.periodState &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, daysPastDue, financialAccountState, hasGrace, periodNumber, periodState, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                consecutiveFullPaymentsMade,
+                consecutiveMinimumPaymentsMade,
+                consecutiveMinimumPaymentsMissed,
+                daysPastDue,
+                financialAccountState,
+                hasGrace,
+                periodNumber,
+                periodState,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2674,12 +2696,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CategoryBalances && fees == other.fees && interest == other.interest && principal == other.principal && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CategoryBalances &&
+                    fees == other.fees &&
+                    interest == other.interest &&
+                    principal == other.principal &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(fees, interest, principal, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(fees, interest, principal, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -2692,12 +2718,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Balances && due == other.due && nextStatementDue == other.nextStatementDue && pastDue == other.pastDue && pastStatementsDue == other.pastStatementsDue && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Balances &&
+                due == other.due &&
+                nextStatementDue == other.nextStatementDue &&
+                pastDue == other.pastDue &&
+                pastStatementsDue == other.pastStatementsDue &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(due, nextStatementDue, pastDue, pastStatementsDue, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(due, nextStatementDue, pastDue, pastStatementsDue, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3095,12 +3126,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementTotals && balanceTransfers == other.balanceTransfers && cashAdvances == other.cashAdvances && credits == other.credits && fees == other.fees && interest == other.interest && payments == other.payments && purchases == other.purchases && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is StatementTotals &&
+                balanceTransfers == other.balanceTransfers &&
+                cashAdvances == other.cashAdvances &&
+                credits == other.credits &&
+                fees == other.fees &&
+                interest == other.interest &&
+                payments == other.payments &&
+                purchases == other.purchases &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(balanceTransfers, cashAdvances, credits, fees, interest, payments, purchases, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                balanceTransfers,
+                cashAdvances,
+                credits,
+                fees,
+                interest,
+                payments,
+                purchases,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3777,12 +3825,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CategoryDetails && balanceTransfers == other.balanceTransfers && cashAdvances == other.cashAdvances && purchases == other.purchases && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CategoryDetails &&
+                    balanceTransfers == other.balanceTransfers &&
+                    cashAdvances == other.cashAdvances &&
+                    purchases == other.purchases &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(balanceTransfers, cashAdvances, purchases, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(balanceTransfers, cashAdvances, purchases, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -3919,7 +3971,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is InterestCalculationMethod && value == other.value /* spotless:on */
+                return other is InterestCalculationMethod && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -3932,12 +3984,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestDetails && actualInterestCharged == other.actualInterestCharged && dailyBalanceAmounts == other.dailyBalanceAmounts && effectiveApr == other.effectiveApr && interestCalculationMethod == other.interestCalculationMethod && interestForPeriod == other.interestForPeriod && primeRate == other.primeRate && minimumInterestCharged == other.minimumInterestCharged && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is InterestDetails &&
+                actualInterestCharged == other.actualInterestCharged &&
+                dailyBalanceAmounts == other.dailyBalanceAmounts &&
+                effectiveApr == other.effectiveApr &&
+                interestCalculationMethod == other.interestCalculationMethod &&
+                interestForPeriod == other.interestForPeriod &&
+                primeRate == other.primeRate &&
+                minimumInterestCharged == other.minimumInterestCharged &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(actualInterestCharged, dailyBalanceAmounts, effectiveApr, interestCalculationMethod, interestForPeriod, primeRate, minimumInterestCharged, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                actualInterestCharged,
+                dailyBalanceAmounts,
+                effectiveApr,
+                interestCalculationMethod,
+                interestForPeriod,
+                primeRate,
+                minimumInterestCharged,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -4122,12 +4191,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BalanceDetails && amount == other.amount && remaining == other.remaining && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is BalanceDetails &&
+                amount == other.amount &&
+                remaining == other.remaining &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(amount, remaining, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -4345,12 +4415,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CategoryBalances && fees == other.fees && interest == other.interest && principal == other.principal && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is CategoryBalances &&
+                fees == other.fees &&
+                interest == other.interest &&
+                principal == other.principal &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(fees, interest, principal, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(fees, interest, principal, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -4363,12 +4437,59 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LoanTape && token == other.token && accountStanding == other.accountStanding && availableCredit == other.availableCredit && balances == other.balances && created == other.created && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && date == other.date && dayTotals == other.dayTotals && endingBalance == other.endingBalance && excessCredits == other.excessCredits && financialAccountToken == other.financialAccountToken && interestDetails == other.interestDetails && minimumPaymentBalance == other.minimumPaymentBalance && paymentAllocation == other.paymentAllocation && periodTotals == other.periodTotals && previousStatementBalance == other.previousStatementBalance && startingBalance == other.startingBalance && updated == other.updated && version == other.version && ytdTotals == other.ytdTotals && tier == other.tier && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is LoanTape &&
+            token == other.token &&
+            accountStanding == other.accountStanding &&
+            availableCredit == other.availableCredit &&
+            balances == other.balances &&
+            created == other.created &&
+            creditLimit == other.creditLimit &&
+            creditProductToken == other.creditProductToken &&
+            date == other.date &&
+            dayTotals == other.dayTotals &&
+            endingBalance == other.endingBalance &&
+            excessCredits == other.excessCredits &&
+            financialAccountToken == other.financialAccountToken &&
+            interestDetails == other.interestDetails &&
+            minimumPaymentBalance == other.minimumPaymentBalance &&
+            paymentAllocation == other.paymentAllocation &&
+            periodTotals == other.periodTotals &&
+            previousStatementBalance == other.previousStatementBalance &&
+            startingBalance == other.startingBalance &&
+            updated == other.updated &&
+            version == other.version &&
+            ytdTotals == other.ytdTotals &&
+            tier == other.tier &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountStanding, availableCredit, balances, created, creditLimit, creditProductToken, date, dayTotals, endingBalance, excessCredits, financialAccountToken, interestDetails, minimumPaymentBalance, paymentAllocation, periodTotals, previousStatementBalance, startingBalance, updated, version, ytdTotals, tier, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountStanding,
+            availableCredit,
+            balances,
+            created,
+            creditLimit,
+            creditProductToken,
+            date,
+            dayTotals,
+            endingBalance,
+            excessCredits,
+            financialAccountToken,
+            interestDetails,
+            minimumPaymentBalance,
+            paymentAllocation,
+            periodTotals,
+            previousStatementBalance,
+            startingBalance,
+            updated,
+            version,
+            ytdTotals,
+            tier,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

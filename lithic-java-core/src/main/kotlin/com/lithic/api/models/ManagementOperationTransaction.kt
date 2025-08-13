@@ -909,7 +909,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionFamilyTypes && value == other.value /* spotless:on */
+            return other is TransactionFamilyTypes && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1057,7 +1057,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionStatus && value == other.value /* spotless:on */
+            return other is TransactionStatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1208,7 +1208,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
+            return other is ManagementOperationCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1341,7 +1341,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
+            return other is ManagementOperationDirection && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1922,7 +1922,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DetailedResults && value == other.value /* spotless:on */
+                return other is DetailedResults && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2055,7 +2055,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+                return other is TransactionResult && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2294,7 +2294,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
+                return other is ManagementOperationEventType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2307,12 +2307,33 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationEvent && token == other.token && amount == other.amount && created == other.created && detailedResults == other.detailedResults && effectiveDate == other.effectiveDate && memo == other.memo && result == other.result && type == other.type && subtype == other.subtype && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is ManagementOperationEvent &&
+                token == other.token &&
+                amount == other.amount &&
+                created == other.created &&
+                detailedResults == other.detailedResults &&
+                effectiveDate == other.effectiveDate &&
+                memo == other.memo &&
+                result == other.result &&
+                type == other.type &&
+                subtype == other.subtype &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, created, detailedResults, effectiveDate, memo, result, type, subtype, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                amount,
+                created,
+                detailedResults,
+                effectiveDate,
+                memo,
+                result,
+                type,
+                subtype,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2441,7 +2462,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+            return other is TransactionResult && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2692,12 +2713,21 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSeries && relatedTransactionEventToken == other.relatedTransactionEventToken && relatedTransactionToken == other.relatedTransactionToken && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TransactionSeries &&
+                relatedTransactionEventToken == other.relatedTransactionEventToken &&
+                relatedTransactionToken == other.relatedTransactionToken &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(relatedTransactionEventToken, relatedTransactionToken, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                relatedTransactionEventToken,
+                relatedTransactionToken,
+                type,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2710,12 +2740,47 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && created == other.created && family == other.family && status == other.status && updated == other.updated && category == other.category && currency == other.currency && direction == other.direction && events == other.events && externalResource == other.externalResource && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && transactionSeries == other.transactionSeries && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ManagementOperationTransaction &&
+            token == other.token &&
+            created == other.created &&
+            family == other.family &&
+            status == other.status &&
+            updated == other.updated &&
+            category == other.category &&
+            currency == other.currency &&
+            direction == other.direction &&
+            events == other.events &&
+            externalResource == other.externalResource &&
+            financialAccountToken == other.financialAccountToken &&
+            pendingAmount == other.pendingAmount &&
+            result == other.result &&
+            settledAmount == other.settledAmount &&
+            transactionSeries == other.transactionSeries &&
+            userDefinedId == other.userDefinedId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, created, family, status, updated, category, currency, direction, events, externalResource, financialAccountToken, pendingAmount, result, settledAmount, transactionSeries, userDefinedId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            created,
+            family,
+            status,
+            updated,
+            category,
+            currency,
+            direction,
+            events,
+            externalResource,
+            financialAccountToken,
+            pendingAmount,
+            result,
+            settledAmount,
+            transactionSeries,
+            userDefinedId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

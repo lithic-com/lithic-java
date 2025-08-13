@@ -129,7 +129,7 @@ private constructor(private val value: JsonField<String>) : Enum {
             return true
         }
 
-        return /* spotless:off */ other is AccountFinancialAccountType && value == other.value /* spotless:on */
+        return other is AccountFinancialAccountType && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

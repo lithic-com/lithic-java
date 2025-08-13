@@ -646,12 +646,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                url == other.url &&
+                description == other.description &&
+                disabled == other.disabled &&
+                eventTypes == other.eventTypes &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(url, description, disabled, eventTypes, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(url, description, disabled, eventTypes, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1060,7 +1065,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
+            return other is EventType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1073,10 +1078,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionUpdateParams && eventSubscriptionToken == other.eventSubscriptionToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is EventSubscriptionUpdateParams &&
+            eventSubscriptionToken == other.eventSubscriptionToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(eventSubscriptionToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "EventSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

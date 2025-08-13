@@ -241,10 +241,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeDeleteEvidenceParams && disputeToken == other.disputeToken && evidenceToken == other.evidenceToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is DisputeDeleteEvidenceParams &&
+            disputeToken == other.disputeToken &&
+            evidenceToken == other.evidenceToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, evidenceToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            disputeToken,
+            evidenceToken,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
         "DisputeDeleteEvidenceParams{disputeToken=$disputeToken, evidenceToken=$evidenceToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

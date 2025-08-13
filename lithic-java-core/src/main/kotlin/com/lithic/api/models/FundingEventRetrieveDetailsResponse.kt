@@ -252,12 +252,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FundingEventRetrieveDetailsResponse && token == other.token && settlementDetailsUrl == other.settlementDetailsUrl && settlementSummaryUrl == other.settlementSummaryUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is FundingEventRetrieveDetailsResponse &&
+            token == other.token &&
+            settlementDetailsUrl == other.settlementDetailsUrl &&
+            settlementSummaryUrl == other.settlementSummaryUrl &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, settlementDetailsUrl, settlementSummaryUrl, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(token, settlementDetailsUrl, settlementSummaryUrl, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

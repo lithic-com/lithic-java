@@ -338,10 +338,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && accountLevelRule == other.accountLevelRule && cardLevelRule == other.cardLevelRule && programLevelRule == other.programLevelRule /* spotless:on */
+            return other is Body &&
+                accountLevelRule == other.accountLevelRule &&
+                cardLevelRule == other.cardLevelRule &&
+                programLevelRule == other.programLevelRule
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountLevelRule, cardLevelRule, programLevelRule) /* spotless:on */
+        override fun hashCode(): Int =
+            Objects.hash(accountLevelRule, cardLevelRule, programLevelRule)
 
         override fun toString(): String =
             when {
@@ -796,7 +800,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is State && value == other.value /* spotless:on */
+                    return other is State && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -809,12 +813,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is AccountLevelRule && accountTokens == other.accountTokens && name == other.name && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is AccountLevelRule &&
+                    accountTokens == other.accountTokens &&
+                    name == other.name &&
+                    state == other.state &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(accountTokens, name, state, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(accountTokens, name, state, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1177,7 +1185,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is State && value == other.value /* spotless:on */
+                    return other is State && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1190,12 +1198,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CardLevelRule && cardTokens == other.cardTokens && name == other.name && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is CardLevelRule &&
+                    cardTokens == other.cardTokens &&
+                    name == other.name &&
+                    state == other.state &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(cardTokens, name, state, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(cardTokens, name, state, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1602,7 +1614,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is State && value == other.value /* spotless:on */
+                    return other is State && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -1615,12 +1627,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ProgramLevelRule && excludedCardTokens == other.excludedCardTokens && name == other.name && programLevel == other.programLevel && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is ProgramLevelRule &&
+                    excludedCardTokens == other.excludedCardTokens &&
+                    name == other.name &&
+                    programLevel == other.programLevel &&
+                    state == other.state &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(excludedCardTokens, name, programLevel, state, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(excludedCardTokens, name, programLevel, state, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1634,10 +1651,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2UpdateParams && authRuleToken == other.authRuleToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2UpdateParams &&
+            authRuleToken == other.authRuleToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2UpdateParams{authRuleToken=$authRuleToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

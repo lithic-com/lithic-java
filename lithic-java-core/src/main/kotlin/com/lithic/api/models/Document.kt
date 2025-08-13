@@ -579,7 +579,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentType && value == other.value /* spotless:on */
+            return other is DocumentType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1260,7 +1260,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ImageType && value == other.value /* spotless:on */
+                return other is ImageType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1413,7 +1413,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DocumentUploadStatus && value == other.value /* spotless:on */
+                return other is DocumentUploadStatus && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1609,7 +1609,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DocumentUploadStatusReasons && value == other.value /* spotless:on */
+                return other is DocumentUploadStatusReasons && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1622,12 +1622,33 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is RequiredDocumentUpload && token == other.token && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && created == other.created && imageType == other.imageType && rejectedEntityStatusReasons == other.rejectedEntityStatusReasons && status == other.status && statusReasons == other.statusReasons && updated == other.updated && uploadUrl == other.uploadUrl && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is RequiredDocumentUpload &&
+                token == other.token &&
+                acceptedEntityStatusReasons == other.acceptedEntityStatusReasons &&
+                created == other.created &&
+                imageType == other.imageType &&
+                rejectedEntityStatusReasons == other.rejectedEntityStatusReasons &&
+                status == other.status &&
+                statusReasons == other.statusReasons &&
+                updated == other.updated &&
+                uploadUrl == other.uploadUrl &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, acceptedEntityStatusReasons, created, imageType, rejectedEntityStatusReasons, status, statusReasons, updated, uploadUrl, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                acceptedEntityStatusReasons,
+                created,
+                imageType,
+                rejectedEntityStatusReasons,
+                status,
+                statusReasons,
+                updated,
+                uploadUrl,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1640,12 +1661,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Document && token == other.token && accountHolderToken == other.accountHolderToken && documentType == other.documentType && entityToken == other.entityToken && requiredDocumentUploads == other.requiredDocumentUploads && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Document &&
+            token == other.token &&
+            accountHolderToken == other.accountHolderToken &&
+            documentType == other.documentType &&
+            entityToken == other.entityToken &&
+            requiredDocumentUploads == other.requiredDocumentUploads &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, accountHolderToken, documentType, entityToken, requiredDocumentUploads, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            accountHolderToken,
+            documentType,
+            entityToken,
+            requiredDocumentUploads,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

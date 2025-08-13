@@ -181,10 +181,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2RetrieveParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2RetrieveParams &&
+            authRuleToken == other.authRuleToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2RetrieveParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

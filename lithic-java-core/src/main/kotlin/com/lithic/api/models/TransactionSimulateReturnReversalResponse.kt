@@ -161,12 +161,12 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateReturnReversalResponse && debuggingRequestId == other.debuggingRequestId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is TransactionSimulateReturnReversalResponse &&
+            debuggingRequestId == other.debuggingRequestId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(debuggingRequestId, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

@@ -224,10 +224,20 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionDeleteParams && eventSubscriptionToken == other.eventSubscriptionToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is EventSubscriptionDeleteParams &&
+            eventSubscriptionToken == other.eventSubscriptionToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            eventSubscriptionToken,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
         "EventSubscriptionDeleteParams{eventSubscriptionToken=$eventSubscriptionToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

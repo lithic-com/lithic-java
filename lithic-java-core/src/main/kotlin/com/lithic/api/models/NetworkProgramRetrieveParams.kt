@@ -187,10 +187,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is NetworkProgramRetrieveParams && networkProgramToken == other.networkProgramToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is NetworkProgramRetrieveParams &&
+            networkProgramToken == other.networkProgramToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(networkProgramToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(networkProgramToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "NetworkProgramRetrieveParams{networkProgramToken=$networkProgramToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

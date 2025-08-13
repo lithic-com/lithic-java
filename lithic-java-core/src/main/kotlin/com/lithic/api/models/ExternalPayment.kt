@@ -815,7 +815,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionFamilyTypes && value == other.value /* spotless:on */
+            return other is TransactionFamilyTypes && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -963,7 +963,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionStatus && value == other.value /* spotless:on */
+            return other is TransactionStatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1107,7 +1107,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentCategory && value == other.value /* spotless:on */
+            return other is ExternalPaymentCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1655,7 +1655,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DetailedResults && value == other.value /* spotless:on */
+                return other is DetailedResults && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1788,7 +1788,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+                return other is TransactionResult && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2031,7 +2031,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ExternalPaymentEventType && value == other.value /* spotless:on */
+                return other is ExternalPaymentEventType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2044,12 +2044,31 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentEvent && token == other.token && amount == other.amount && created == other.created && detailedResults == other.detailedResults && effectiveDate == other.effectiveDate && memo == other.memo && result == other.result && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is ExternalPaymentEvent &&
+                token == other.token &&
+                amount == other.amount &&
+                created == other.created &&
+                detailedResults == other.detailedResults &&
+                effectiveDate == other.effectiveDate &&
+                memo == other.memo &&
+                result == other.result &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, created, detailedResults, effectiveDate, memo, result, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                amount,
+                created,
+                detailedResults,
+                effectiveDate,
+                memo,
+                result,
+                type,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2181,7 +2200,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentDirection && value == other.value /* spotless:on */
+            return other is ExternalPaymentDirection && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2310,7 +2329,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+            return other is TransactionResult && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2323,12 +2342,43 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalPayment && token == other.token && created == other.created && family == other.family && status == other.status && updated == other.updated && category == other.category && currency == other.currency && events == other.events && financialAccountToken == other.financialAccountToken && paymentType == other.paymentType && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ExternalPayment &&
+            token == other.token &&
+            created == other.created &&
+            family == other.family &&
+            status == other.status &&
+            updated == other.updated &&
+            category == other.category &&
+            currency == other.currency &&
+            events == other.events &&
+            financialAccountToken == other.financialAccountToken &&
+            paymentType == other.paymentType &&
+            pendingAmount == other.pendingAmount &&
+            result == other.result &&
+            settledAmount == other.settledAmount &&
+            userDefinedId == other.userDefinedId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, created, family, status, updated, category, currency, events, financialAccountToken, paymentType, pendingAmount, result, settledAmount, userDefinedId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            token,
+            created,
+            family,
+            status,
+            updated,
+            category,
+            currency,
+            events,
+            financialAccountToken,
+            paymentType,
+            pendingAmount,
+            result,
+            settledAmount,
+            userDefinedId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

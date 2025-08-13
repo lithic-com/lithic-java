@@ -696,7 +696,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountType && value == other.value /* spotless:on */
+            return other is FinancialAccountType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -709,12 +709,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AggregateBalance && availableAmount == other.availableAmount && created == other.created && currency == other.currency && financialAccountType == other.financialAccountType && lastFinancialAccountToken == other.lastFinancialAccountToken && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AggregateBalance &&
+            availableAmount == other.availableAmount &&
+            created == other.created &&
+            currency == other.currency &&
+            financialAccountType == other.financialAccountType &&
+            lastFinancialAccountToken == other.lastFinancialAccountToken &&
+            lastTransactionEventToken == other.lastTransactionEventToken &&
+            lastTransactionToken == other.lastTransactionToken &&
+            pendingAmount == other.pendingAmount &&
+            totalAmount == other.totalAmount &&
+            updated == other.updated &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(availableAmount, created, currency, financialAccountType, lastFinancialAccountToken, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            availableAmount,
+            created,
+            currency,
+            financialAccountType,
+            lastFinancialAccountToken,
+            lastTransactionEventToken,
+            lastTransactionToken,
+            pendingAmount,
+            totalAmount,
+            updated,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

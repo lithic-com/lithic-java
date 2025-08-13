@@ -720,7 +720,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
+            return other is EventType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -733,12 +733,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscription && token == other.token && description == other.description && disabled == other.disabled && url == other.url && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is EventSubscription &&
+            token == other.token &&
+            description == other.description &&
+            disabled == other.disabled &&
+            url == other.url &&
+            eventTypes == other.eventTypes &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, description, disabled, url, eventTypes, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(token, description, disabled, url, eventTypes, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

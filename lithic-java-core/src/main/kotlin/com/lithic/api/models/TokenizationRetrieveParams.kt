@@ -185,10 +185,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationRetrieveParams && tokenizationToken == other.tokenizationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TokenizationRetrieveParams &&
+            tokenizationToken == other.tokenizationToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "TokenizationRetrieveParams{tokenizationToken=$tokenizationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

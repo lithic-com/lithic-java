@@ -205,10 +205,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardAggregateBalanceListParams && accountToken == other.accountToken && businessAccountToken == other.businessAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardAggregateBalanceListParams &&
+            accountToken == other.accountToken &&
+            businessAccountToken == other.businessAccountToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, businessAccountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountToken, businessAccountToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CardAggregateBalanceListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

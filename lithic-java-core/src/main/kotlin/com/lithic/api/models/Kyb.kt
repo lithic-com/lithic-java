@@ -1026,12 +1026,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is KybIndividual && address == other.address && dob == other.dob && email == other.email && firstName == other.firstName && governmentId == other.governmentId && lastName == other.lastName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is KybIndividual &&
+                address == other.address &&
+                dob == other.dob &&
+                email == other.email &&
+                firstName == other.firstName &&
+                governmentId == other.governmentId &&
+                lastName == other.lastName &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                address,
+                dob,
+                email,
+                firstName,
+                governmentId,
+                lastName,
+                phoneNumber,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1432,12 +1449,27 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BusinessEntity && address == other.address && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && phoneNumbers == other.phoneNumbers && dbaBusinessName == other.dbaBusinessName && parentCompany == other.parentCompany && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is BusinessEntity &&
+                address == other.address &&
+                governmentId == other.governmentId &&
+                legalBusinessName == other.legalBusinessName &&
+                phoneNumbers == other.phoneNumbers &&
+                dbaBusinessName == other.dbaBusinessName &&
+                parentCompany == other.parentCompany &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, governmentId, legalBusinessName, phoneNumbers, dbaBusinessName, parentCompany, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                address,
+                governmentId,
+                legalBusinessName,
+                phoneNumbers,
+                dbaBusinessName,
+                parentCompany,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1563,7 +1595,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Workflow && value == other.value /* spotless:on */
+            return other is Workflow && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1576,12 +1608,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyb && beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && businessEntity == other.businessEntity && controlPerson == other.controlPerson && natureOfBusiness == other.natureOfBusiness && tosTimestamp == other.tosTimestamp && workflow == other.workflow && beneficialOwnerEntities == other.beneficialOwnerEntities && externalId == other.externalId && kybPassedTimestamp == other.kybPassedTimestamp && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Kyb &&
+            beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+            businessEntity == other.businessEntity &&
+            controlPerson == other.controlPerson &&
+            natureOfBusiness == other.natureOfBusiness &&
+            tosTimestamp == other.tosTimestamp &&
+            workflow == other.workflow &&
+            beneficialOwnerEntities == other.beneficialOwnerEntities &&
+            externalId == other.externalId &&
+            kybPassedTimestamp == other.kybPassedTimestamp &&
+            websiteUrl == other.websiteUrl &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(beneficialOwnerIndividuals, businessEntity, controlPerson, natureOfBusiness, tosTimestamp, workflow, beneficialOwnerEntities, externalId, kybPassedTimestamp, websiteUrl, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            beneficialOwnerIndividuals,
+            businessEntity,
+            controlPerson,
+            natureOfBusiness,
+            tosTimestamp,
+            workflow,
+            beneficialOwnerEntities,
+            externalId,
+            kybPassedTimestamp,
+            websiteUrl,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -185,10 +185,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FundingEventRetrieveParams && fundingEventToken == other.fundingEventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FundingEventRetrieveParams &&
+            fundingEventToken == other.fundingEventToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(fundingEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(fundingEventToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "FundingEventRetrieveParams{fundingEventToken=$fundingEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

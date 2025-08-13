@@ -125,7 +125,7 @@ class ChallengeResult @JsonCreator private constructor(private val value: JsonFi
             return true
         }
 
-        return /* spotless:off */ other is ChallengeResult && value == other.value /* spotless:on */
+        return other is ChallengeResult && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

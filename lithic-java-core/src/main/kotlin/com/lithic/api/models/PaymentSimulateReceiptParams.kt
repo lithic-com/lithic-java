@@ -672,12 +672,25 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SimulateReceiptRequest && token == other.token && amount == other.amount && financialAccountToken == other.financialAccountToken && receiptType == other.receiptType && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is SimulateReceiptRequest &&
+                token == other.token &&
+                amount == other.amount &&
+                financialAccountToken == other.financialAccountToken &&
+                receiptType == other.receiptType &&
+                memo == other.memo &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(token, amount, financialAccountToken, receiptType, memo, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                token,
+                amount,
+                financialAccountToken,
+                receiptType,
+                memo,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -806,7 +819,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ReceiptType && value == other.value /* spotless:on */
+            return other is ReceiptType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -819,10 +832,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReceiptParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is PaymentSimulateReceiptParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "PaymentSimulateReceiptParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

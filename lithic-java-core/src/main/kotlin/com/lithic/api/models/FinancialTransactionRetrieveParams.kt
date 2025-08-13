@@ -215,10 +215,20 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialTransactionRetrieveParams && financialAccountToken == other.financialAccountToken && financialTransactionToken == other.financialTransactionToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is FinancialTransactionRetrieveParams &&
+            financialAccountToken == other.financialAccountToken &&
+            financialTransactionToken == other.financialTransactionToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, financialTransactionToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            financialAccountToken,
+            financialTransactionToken,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "FinancialTransactionRetrieveParams{financialAccountToken=$financialAccountToken, financialTransactionToken=$financialTransactionToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

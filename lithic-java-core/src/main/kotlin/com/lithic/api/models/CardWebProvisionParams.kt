@@ -396,12 +396,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && digitalWallet == other.digitalWallet && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                digitalWallet == other.digitalWallet &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(digitalWallet, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -525,7 +525,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DigitalWallet && value == other.value /* spotless:on */
+            return other is DigitalWallet && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -538,10 +538,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardWebProvisionParams && cardToken == other.cardToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CardWebProvisionParams &&
+            cardToken == other.cardToken &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(cardToken, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CardWebProvisionParams{cardToken=$cardToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

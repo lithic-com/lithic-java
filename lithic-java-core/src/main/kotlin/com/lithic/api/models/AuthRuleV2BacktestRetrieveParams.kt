@@ -227,10 +227,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2BacktestRetrieveParams && authRuleToken == other.authRuleToken && authRuleBacktestToken == other.authRuleBacktestToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AuthRuleV2BacktestRetrieveParams &&
+            authRuleToken == other.authRuleToken &&
+            authRuleBacktestToken == other.authRuleBacktestToken &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, authRuleBacktestToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(authRuleToken, authRuleBacktestToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AuthRuleV2BacktestRetrieveParams{authRuleToken=$authRuleToken, authRuleBacktestToken=$authRuleBacktestToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -187,10 +187,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementNetworkTotalRetrieveParams && token == other.token && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportSettlementNetworkTotalRetrieveParams &&
+            token == other.token &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(token, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ReportSettlementNetworkTotalRetrieveParams{token=$token, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
