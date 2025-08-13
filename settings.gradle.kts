@@ -1,7 +1,14 @@
 rootProject.name = "lithic-java-root"
 
-include("lithic-java")
-include("lithic-java-client-okhttp")
-include("lithic-java-core")
-include("lithic-java-proguard-test")
-include("lithic-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("lithic-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }
