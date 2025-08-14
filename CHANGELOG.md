@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.101.1 (2025-08-14)
+
+Full Changelog: [v0.101.0...v0.101.1](https://github.com/lithic-com/lithic-java/compare/v0.101.0...v0.101.1)
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([b9b6f21](https://github.com/lithic-com/lithic-java/commit/b9b6f21cda84140211bc62b8b61edf1c7ffa31bd))
+
+
+### Chores
+
+* **ci:** add build job ([a974607](https://github.com/lithic-com/lithic-java/commit/a974607e87bfdf5d0fc756970a746f45fac7641c))
+
 ## 0.101.0 (2025-08-13)
 
 Full Changelog: [v0.100.0...v0.101.0](https://github.com/lithic-com/lithic-java/compare/v0.100.0...v0.101.0)
