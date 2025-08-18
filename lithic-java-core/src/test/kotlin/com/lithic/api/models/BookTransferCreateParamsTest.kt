@@ -11,13 +11,15 @@ internal class BookTransferCreateParamsTest {
     fun create() {
         BookTransferCreateParams.builder()
             .amount(1L)
-            .category(BookTransferCreateParams.Category.ADJUSTMENT)
+            .category(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
             .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .subtype("subtype")
             .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .type(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+            .type(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .externalId("external_id")
             .memo("memo")
+            .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
             .build()
     }
 
@@ -26,26 +28,31 @@ internal class BookTransferCreateParamsTest {
         val params =
             BookTransferCreateParams.builder()
                 .amount(1L)
-                .category(BookTransferCreateParams.Category.ADJUSTMENT)
+                .category(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .subtype("subtype")
                 .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .type(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+                .type(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .externalId("external_id")
                 .memo("memo")
+                .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
                 .build()
 
         val body = params._body()
 
         assertThat(body.amount()).isEqualTo(1L)
-        assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)
+        assertThat(body.category())
+            .isEqualTo(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
         assertThat(body.fromFinancialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.subtype()).isEqualTo("subtype")
         assertThat(body.toFinancialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.type()).isEqualTo(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+        assertThat(body.type()).isEqualTo(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
         assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.externalId()).contains("external_id")
         assertThat(body.memo()).contains("memo")
+        assertThat(body.onClosedAccount()).contains(BookTransferCreateParams.OnClosedAccount.FAIL)
     }
 
     @Test
@@ -53,21 +60,22 @@ internal class BookTransferCreateParamsTest {
         val params =
             BookTransferCreateParams.builder()
                 .amount(1L)
-                .category(BookTransferCreateParams.Category.ADJUSTMENT)
+                .category(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .subtype("subtype")
                 .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .type(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+                .type(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
                 .build()
 
         val body = params._body()
 
         assertThat(body.amount()).isEqualTo(1L)
-        assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)
+        assertThat(body.category())
+            .isEqualTo(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
         assertThat(body.fromFinancialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.subtype()).isEqualTo("subtype")
         assertThat(body.toFinancialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.type()).isEqualTo(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+        assertThat(body.type()).isEqualTo(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
     }
 }

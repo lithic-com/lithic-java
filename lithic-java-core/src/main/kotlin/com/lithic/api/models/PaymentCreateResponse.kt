@@ -43,6 +43,7 @@ private constructor(
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedId: JsonField<String>,
     private val expectedReleaseDate: JsonField<LocalDate>,
+    private val type: JsonField<Payment.TransferType>,
     private val balance: JsonField<Balance>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -105,6 +106,9 @@ private constructor(
         @JsonProperty("expected_release_date")
         @ExcludeMissing
         expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        type: JsonField<Payment.TransferType> = JsonMissing.of(),
         @JsonProperty("balance") @ExcludeMissing balance: JsonField<Balance> = JsonMissing.of(),
     ) : this(
         token,
@@ -127,6 +131,7 @@ private constructor(
         updated,
         userDefinedId,
         expectedReleaseDate,
+        type,
         balance,
         mutableMapOf(),
     )
@@ -153,6 +158,7 @@ private constructor(
             .updated(updated)
             .userDefinedId(userDefinedId)
             .expectedReleaseDate(expectedReleaseDate)
+            .type(type)
             .build()
 
     /**
@@ -312,6 +318,14 @@ private constructor(
      */
     fun expectedReleaseDate(): Optional<LocalDate> =
         expectedReleaseDate.getOptional("expected_release_date")
+
+    /**
+     * Payment type indicating the specific ACH message or Fedwire transfer type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun type(): Optional<Payment.TransferType> = type.getOptional("type")
 
     /**
      * Balance
@@ -489,6 +503,13 @@ private constructor(
     fun _expectedReleaseDate(): JsonField<LocalDate> = expectedReleaseDate
 
     /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Payment.TransferType> = type
+
+    /**
      * Returns the raw JSON value of [balance].
      *
      * Unlike [balance], this method doesn't throw if the JSON field has an unexpected type.
@@ -561,6 +582,7 @@ private constructor(
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedId: JsonField<String>? = null
         private var expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of()
+        private var type: JsonField<Payment.TransferType> = JsonMissing.of()
         private var balance: JsonField<Balance> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -586,6 +608,7 @@ private constructor(
             updated = paymentCreateResponse.updated
             userDefinedId = paymentCreateResponse.userDefinedId
             expectedReleaseDate = paymentCreateResponse.expectedReleaseDate
+            type = paymentCreateResponse.type
             balance = paymentCreateResponse.balance
             additionalProperties = paymentCreateResponse.additionalProperties.toMutableMap()
         }
@@ -889,6 +912,18 @@ private constructor(
             this.expectedReleaseDate = expectedReleaseDate
         }
 
+        /** Payment type indicating the specific ACH message or Fedwire transfer type */
+        fun type(type: Payment.TransferType) = type(JsonField.of(type))
+
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [Payment.TransferType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun type(type: JsonField<Payment.TransferType>) = apply { this.type = type }
+
         /** Balance */
         fun balance(balance: Balance) = balance(JsonField.of(balance))
 
@@ -971,6 +1006,7 @@ private constructor(
                 checkRequired("updated", updated),
                 checkRequired("userDefinedId", userDefinedId),
                 expectedReleaseDate,
+                type,
                 balance,
                 additionalProperties.toMutableMap(),
             )
@@ -1003,6 +1039,7 @@ private constructor(
         updated()
         userDefinedId()
         expectedReleaseDate()
+        type().ifPresent { it.validate() }
         balance().ifPresent { it.validate() }
         validated = true
     }
@@ -1042,6 +1079,7 @@ private constructor(
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedId.asKnown().isPresent) 1 else 0) +
             (if (expectedReleaseDate.asKnown().isPresent) 1 else 0) +
+            (type.asKnown().getOrNull()?.validity() ?: 0) +
             (balance.asKnown().getOrNull()?.validity() ?: 0)
 
     override fun equals(other: Any?): Boolean {
@@ -1070,6 +1108,7 @@ private constructor(
             updated == other.updated &&
             userDefinedId == other.userDefinedId &&
             expectedReleaseDate == other.expectedReleaseDate &&
+            type == other.type &&
             balance == other.balance &&
             additionalProperties == other.additionalProperties
     }
@@ -1096,6 +1135,7 @@ private constructor(
             updated,
             userDefinedId,
             expectedReleaseDate,
+            type,
             balance,
             additionalProperties,
         )
@@ -1104,5 +1144,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "PaymentCreateResponse{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, balance=$balance, additionalProperties=$additionalProperties}"
+        "PaymentCreateResponse{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, type=$type, balance=$balance, additionalProperties=$additionalProperties}"
 }

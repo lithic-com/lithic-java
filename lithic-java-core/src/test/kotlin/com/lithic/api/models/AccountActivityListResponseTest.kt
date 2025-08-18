@@ -25,7 +25,22 @@ internal class AccountActivityListResponseTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("USD")
                 .descriptor("descriptor")
-                .addEvent(JsonValue.from(mapOf<String, Any>()))
+                .addEvent(
+                    AccountActivityListResponse.FinancialTransaction.FinancialEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .result(
+                            AccountActivityListResponse.FinancialTransaction.FinancialEvent.Result
+                                .APPROVED
+                        )
+                        .type(
+                            AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                .FinancialEventType
+                                .ACH_ORIGINATION_CANCELLED
+                        )
+                        .build()
+                )
                 .family(
                     AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes.CARD
                 )
@@ -62,7 +77,23 @@ internal class AccountActivityListResponseTest {
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("USD")
                     .descriptor("descriptor")
-                    .addEvent(JsonValue.from(mapOf<String, Any>()))
+                    .addEvent(
+                        AccountActivityListResponse.FinancialTransaction.FinancialEvent.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .amount(0L)
+                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .result(
+                                AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                    .Result
+                                    .APPROVED
+                            )
+                            .type(
+                                AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                    .FinancialEventType
+                                    .ACH_ORIGINATION_CANCELLED
+                            )
+                            .build()
+                    )
                     .family(
                         AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes.CARD
                     )
@@ -98,7 +129,30 @@ internal class AccountActivityListResponseTest {
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("USD")
-                .addEvent(JsonValue.from(mapOf<String, Any>()))
+                .addEvent(
+                    AccountActivityListResponse.BookTransferTransaction.BookTransferEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .detailedResults(
+                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
+                                .BookTransferDetailedResults
+                                .APPROVED
+                        )
+                        .memo("memo")
+                        .result(
+                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
+                                .Result
+                                .APPROVED
+                        )
+                        .subtype("subtype")
+                        .type(
+                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
+                                .BookTransferType
+                                .ATM_WITHDRAWAL
+                        )
+                        .build()
+                )
                 .family(
                     AccountActivityListResponse.BookTransferTransaction.TransactionFamilyTypes.CARD
                 )
@@ -154,7 +208,34 @@ internal class AccountActivityListResponseTest {
                     )
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("USD")
-                    .addEvent(JsonValue.from(mapOf<String, Any>()))
+                    .addEvent(
+                        AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
+                            .builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .amount(0L)
+                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .detailedResults(
+                                AccountActivityListResponse.BookTransferTransaction
+                                    .BookTransferEvent
+                                    .BookTransferDetailedResults
+                                    .APPROVED
+                            )
+                            .memo("memo")
+                            .result(
+                                AccountActivityListResponse.BookTransferTransaction
+                                    .BookTransferEvent
+                                    .Result
+                                    .APPROVED
+                            )
+                            .subtype("subtype")
+                            .type(
+                                AccountActivityListResponse.BookTransferTransaction
+                                    .BookTransferEvent
+                                    .BookTransferType
+                                    .ATM_WITHDRAWAL
+                            )
+                            .build()
+                    )
                     .family(
                         AccountActivityListResponse.BookTransferTransaction.TransactionFamilyTypes
                             .CARD
@@ -711,7 +792,26 @@ internal class AccountActivityListResponseTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .descriptor("descriptor")
                 .direction(AccountActivityListResponse.PaymentTransaction.Direction.CREDIT)
-                .addEvent(JsonValue.from(mapOf<String, Any>()))
+                .addEvent(
+                    AccountActivityListResponse.PaymentTransaction.PaymentEvent.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .amount(0L)
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .result(
+                            AccountActivityListResponse.PaymentTransaction.PaymentEvent.Result
+                                .APPROVED
+                        )
+                        .type(
+                            AccountActivityListResponse.PaymentTransaction.PaymentEvent.Type
+                                .ACH_ORIGINATION_CANCELLED
+                        )
+                        .addDetailedResult(
+                            AccountActivityListResponse.PaymentTransaction.PaymentEvent
+                                .DetailedResult
+                                .APPROVED
+                        )
+                        .build()
+                )
                 .family(AccountActivityListResponse.PaymentTransaction.TransactionFamilyTypes.CARD)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .method(AccountActivityListResponse.PaymentTransaction.Method.ACH_NEXT_DAY)
@@ -775,7 +875,26 @@ internal class AccountActivityListResponseTest {
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .descriptor("descriptor")
                     .direction(AccountActivityListResponse.PaymentTransaction.Direction.CREDIT)
-                    .addEvent(JsonValue.from(mapOf<String, Any>()))
+                    .addEvent(
+                        AccountActivityListResponse.PaymentTransaction.PaymentEvent.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .amount(0L)
+                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .result(
+                                AccountActivityListResponse.PaymentTransaction.PaymentEvent.Result
+                                    .APPROVED
+                            )
+                            .type(
+                                AccountActivityListResponse.PaymentTransaction.PaymentEvent.Type
+                                    .ACH_ORIGINATION_CANCELLED
+                            )
+                            .addDetailedResult(
+                                AccountActivityListResponse.PaymentTransaction.PaymentEvent
+                                    .DetailedResult
+                                    .APPROVED
+                            )
+                            .build()
+                    )
                     .family(
                         AccountActivityListResponse.PaymentTransaction.TransactionFamilyTypes.CARD
                     )

@@ -27,7 +27,7 @@ internal class PaymentTest {
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .result(Payment.PaymentEvent.Result.APPROVED)
-                        .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED)
+                        .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                         .build()
                 )
@@ -59,6 +59,7 @@ internal class PaymentTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
                 .expectedReleaseDate(LocalDate.parse("2019-12-27"))
+                .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .build()
 
         assertThat(payment.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -74,7 +75,7 @@ internal class PaymentTest {
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .result(Payment.PaymentEvent.Result.APPROVED)
-                    .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED)
+                    .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                     .build()
             )
@@ -110,6 +111,7 @@ internal class PaymentTest {
         assertThat(payment.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(payment.userDefinedId()).contains("user_defined_id")
         assertThat(payment.expectedReleaseDate()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(payment.type()).contains(Payment.TransferType.ORIGINATION_CREDIT)
     }
 
     @Test
@@ -129,7 +131,7 @@ internal class PaymentTest {
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .result(Payment.PaymentEvent.Result.APPROVED)
-                        .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED)
+                        .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                         .build()
                 )
@@ -161,6 +163,7 @@ internal class PaymentTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
                 .expectedReleaseDate(LocalDate.parse("2019-12-27"))
+                .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .build()
 
         val roundtrippedPayment =

@@ -44,6 +44,7 @@ private constructor(
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedId: JsonField<String>,
     private val expectedReleaseDate: JsonField<LocalDate>,
+    private val type: JsonField<TransferType>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -95,6 +96,7 @@ private constructor(
         @JsonProperty("expected_release_date")
         @ExcludeMissing
         expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing type: JsonField<TransferType> = JsonMissing.of(),
     ) : this(
         token,
         category,
@@ -116,6 +118,7 @@ private constructor(
         updated,
         userDefinedId,
         expectedReleaseDate,
+        type,
         mutableMapOf(),
     )
 
@@ -278,6 +281,14 @@ private constructor(
         expectedReleaseDate.getOptional("expected_release_date")
 
     /**
+     * Payment type indicating the specific ACH message or Fedwire transfer type
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun type(): Optional<TransferType> = type.getOptional("type")
+
+    /**
      * Returns the raw JSON value of [token].
      *
      * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
@@ -438,6 +449,13 @@ private constructor(
     @ExcludeMissing
     fun _expectedReleaseDate(): JsonField<LocalDate> = expectedReleaseDate
 
+    /**
+     * Returns the raw JSON value of [type].
+     *
+     * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<TransferType> = type
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -504,6 +522,7 @@ private constructor(
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedId: JsonField<String>? = null
         private var expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of()
+        private var type: JsonField<TransferType> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -528,6 +547,7 @@ private constructor(
             updated = payment.updated
             userDefinedId = payment.userDefinedId
             expectedReleaseDate = payment.expectedReleaseDate
+            type = payment.type
             additionalProperties = payment.additionalProperties.toMutableMap()
         }
 
@@ -823,6 +843,18 @@ private constructor(
             this.expectedReleaseDate = expectedReleaseDate
         }
 
+        /** Payment type indicating the specific ACH message or Fedwire transfer type */
+        fun type(type: TransferType) = type(JsonField.of(type))
+
+        /**
+         * Sets [Builder.type] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.type] with a well-typed [TransferType] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun type(type: JsonField<TransferType>) = apply { this.type = type }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -894,6 +926,7 @@ private constructor(
                 checkRequired("updated", updated),
                 checkRequired("userDefinedId", userDefinedId),
                 expectedReleaseDate,
+                type,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -925,6 +958,7 @@ private constructor(
         updated()
         userDefinedId()
         expectedReleaseDate()
+        type().ifPresent { it.validate() }
         validated = true
     }
 
@@ -962,7 +996,8 @@ private constructor(
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedId.asKnown().isPresent) 1 else 0) +
-            (if (expectedReleaseDate.asKnown().isPresent) 1 else 0)
+            (if (expectedReleaseDate.asKnown().isPresent) 1 else 0) +
+            (type.asKnown().getOrNull()?.validity() ?: 0)
 
     /** Payment category */
     class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
@@ -1211,13 +1246,14 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Payment Event */
     class PaymentEvent
     private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,
         private val created: JsonField<OffsetDateTime>,
         private val result: JsonField<Result>,
-        private val type: JsonField<PaymentEventType>,
+        private val type: JsonField<Type>,
         private val detailedResults: JsonField<List<DetailedResult>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -1230,9 +1266,7 @@ private constructor(
             @ExcludeMissing
             created: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            type: JsonField<PaymentEventType> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
             @JsonProperty("detailed_results")
             @ExcludeMissing
             detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
@@ -1295,7 +1329,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun type(): PaymentEventType = type.getRequired("type")
+        fun type(): Type = type.getRequired("type")
 
         /**
          * More detailed reasons for the event
@@ -1339,7 +1373,7 @@ private constructor(
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<PaymentEventType> = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /**
          * Returns the raw JSON value of [detailedResults].
@@ -1387,7 +1421,7 @@ private constructor(
             private var amount: JsonField<Long>? = null
             private var created: JsonField<OffsetDateTime>? = null
             private var result: JsonField<Result>? = null
-            private var type: JsonField<PaymentEventType>? = null
+            private var type: JsonField<Type>? = null
             private var detailedResults: JsonField<MutableList<DetailedResult>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1476,16 +1510,16 @@ private constructor(
              * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository
              *   Financial Institution.
              */
-            fun type(type: PaymentEventType) = type(JsonField.of(type))
+            fun type(type: Type) = type(JsonField.of(type))
 
             /**
              * Sets [Builder.type] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.type] with a well-typed [PaymentEventType] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
              */
-            fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /** More detailed reasons for the event */
             fun detailedResults(detailedResults: List<DetailedResult>) =
@@ -1753,9 +1787,7 @@ private constructor(
          * - `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
          *   Institution.
          */
-        class PaymentEventType
-        @JsonCreator
-        private constructor(private val value: JsonField<String>) : Enum {
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1791,10 +1823,10 @@ private constructor(
 
                 @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
 
-                @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
 
-            /** An enum containing [PaymentEventType]'s known values. */
+            /** An enum containing [Type]'s known values. */
             enum class Known {
                 ACH_ORIGINATION_CANCELLED,
                 ACH_ORIGINATION_INITIATED,
@@ -1810,10 +1842,9 @@ private constructor(
             }
 
             /**
-             * An enum containing [PaymentEventType]'s known values, as well as an [_UNKNOWN]
-             * member.
+             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
-             * An instance of [PaymentEventType] can contain an unknown value in a couple of cases:
+             * An instance of [Type] can contain an unknown value in a couple of cases:
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
@@ -1831,10 +1862,7 @@ private constructor(
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
                 ACH_RETURN_SETTLED,
-                /**
-                 * An enum member indicating that [PaymentEventType] was instantiated with an
-                 * unknown value.
-                 */
+                /** An enum member indicating that [Type] was instantiated with an unknown value. */
                 _UNKNOWN,
             }
 
@@ -1883,7 +1911,7 @@ private constructor(
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
                     ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
-                    else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
                 }
 
             /**
@@ -1902,7 +1930,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): PaymentEventType = apply {
+            fun validate(): Type = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1932,7 +1960,7 @@ private constructor(
                     return true
                 }
 
-                return other is PaymentEventType && value == other.value
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -3468,6 +3496,183 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Payment type indicating the specific ACH message or Fedwire transfer type */
+    class TransferType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ORIGINATION_CREDIT = of("ORIGINATION_CREDIT")
+
+            @JvmField val ORIGINATION_DEBIT = of("ORIGINATION_DEBIT")
+
+            @JvmField val RECEIPT_CREDIT = of("RECEIPT_CREDIT")
+
+            @JvmField val RECEIPT_DEBIT = of("RECEIPT_DEBIT")
+
+            @JvmField val CUSTOMER_TRANSFER = of("CUSTOMER_TRANSFER")
+
+            @JvmField val DRAWDOWN_PAYMENT = of("DRAWDOWN_PAYMENT")
+
+            @JvmField val REVERSAL_PAYMENT = of("REVERSAL_PAYMENT")
+
+            @JvmField val DRAWDOWN_REQUEST = of("DRAWDOWN_REQUEST")
+
+            @JvmField val REVERSAL_REQUEST = of("REVERSAL_REQUEST")
+
+            @JvmField val DRAWDOWN_REFUSAL = of("DRAWDOWN_REFUSAL")
+
+            @JvmStatic fun of(value: String) = TransferType(JsonField.of(value))
+        }
+
+        /** An enum containing [TransferType]'s known values. */
+        enum class Known {
+            ORIGINATION_CREDIT,
+            ORIGINATION_DEBIT,
+            RECEIPT_CREDIT,
+            RECEIPT_DEBIT,
+            CUSTOMER_TRANSFER,
+            DRAWDOWN_PAYMENT,
+            REVERSAL_PAYMENT,
+            DRAWDOWN_REQUEST,
+            REVERSAL_REQUEST,
+            DRAWDOWN_REFUSAL,
+        }
+
+        /**
+         * An enum containing [TransferType]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [TransferType] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ORIGINATION_CREDIT,
+            ORIGINATION_DEBIT,
+            RECEIPT_CREDIT,
+            RECEIPT_DEBIT,
+            CUSTOMER_TRANSFER,
+            DRAWDOWN_PAYMENT,
+            REVERSAL_PAYMENT,
+            DRAWDOWN_REQUEST,
+            REVERSAL_REQUEST,
+            DRAWDOWN_REFUSAL,
+            /**
+             * An enum member indicating that [TransferType] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ORIGINATION_CREDIT -> Value.ORIGINATION_CREDIT
+                ORIGINATION_DEBIT -> Value.ORIGINATION_DEBIT
+                RECEIPT_CREDIT -> Value.RECEIPT_CREDIT
+                RECEIPT_DEBIT -> Value.RECEIPT_DEBIT
+                CUSTOMER_TRANSFER -> Value.CUSTOMER_TRANSFER
+                DRAWDOWN_PAYMENT -> Value.DRAWDOWN_PAYMENT
+                REVERSAL_PAYMENT -> Value.REVERSAL_PAYMENT
+                DRAWDOWN_REQUEST -> Value.DRAWDOWN_REQUEST
+                REVERSAL_REQUEST -> Value.REVERSAL_REQUEST
+                DRAWDOWN_REFUSAL -> Value.DRAWDOWN_REFUSAL
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ORIGINATION_CREDIT -> Known.ORIGINATION_CREDIT
+                ORIGINATION_DEBIT -> Known.ORIGINATION_DEBIT
+                RECEIPT_CREDIT -> Known.RECEIPT_CREDIT
+                RECEIPT_DEBIT -> Known.RECEIPT_DEBIT
+                CUSTOMER_TRANSFER -> Known.CUSTOMER_TRANSFER
+                DRAWDOWN_PAYMENT -> Known.DRAWDOWN_PAYMENT
+                REVERSAL_PAYMENT -> Known.REVERSAL_PAYMENT
+                DRAWDOWN_REQUEST -> Known.DRAWDOWN_REQUEST
+                REVERSAL_REQUEST -> Known.REVERSAL_REQUEST
+                DRAWDOWN_REFUSAL -> Known.DRAWDOWN_REFUSAL
+                else -> throw LithicInvalidDataException("Unknown TransferType: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): TransferType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TransferType && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -3494,6 +3699,7 @@ private constructor(
             updated == other.updated &&
             userDefinedId == other.userDefinedId &&
             expectedReleaseDate == other.expectedReleaseDate &&
+            type == other.type &&
             additionalProperties == other.additionalProperties
     }
 
@@ -3519,6 +3725,7 @@ private constructor(
             updated,
             userDefinedId,
             expectedReleaseDate,
+            type,
             additionalProperties,
         )
     }
@@ -3526,5 +3733,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Payment{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, additionalProperties=$additionalProperties}"
+        "Payment{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, expectedReleaseDate=$expectedReleaseDate, type=$type, additionalProperties=$additionalProperties}"
 }

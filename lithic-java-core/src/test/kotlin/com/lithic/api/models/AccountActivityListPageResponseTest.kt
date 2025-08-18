@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
@@ -25,7 +24,24 @@ internal class AccountActivityListPageResponseTest {
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("USD")
                         .descriptor("descriptor")
-                        .addEvent(JsonValue.from(mapOf<String, Any>()))
+                        .addEvent(
+                            AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                .builder()
+                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .amount(0L)
+                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                .result(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .Result
+                                        .APPROVED
+                                )
+                                .type(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .FinancialEventType
+                                        .ACH_ORIGINATION_CANCELLED
+                                )
+                                .build()
+                        )
                         .family(
                             AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
                                 .CARD
@@ -58,7 +74,24 @@ internal class AccountActivityListPageResponseTest {
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("USD")
                         .descriptor("descriptor")
-                        .addEvent(JsonValue.from(mapOf<String, Any>()))
+                        .addEvent(
+                            AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                .builder()
+                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .amount(0L)
+                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                .result(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .Result
+                                        .APPROVED
+                                )
+                                .type(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .FinancialEventType
+                                        .ACH_ORIGINATION_CANCELLED
+                                )
+                                .build()
+                        )
                         .family(
                             AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
                                 .CARD
@@ -95,7 +128,24 @@ internal class AccountActivityListPageResponseTest {
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("USD")
                         .descriptor("descriptor")
-                        .addEvent(JsonValue.from(mapOf<String, Any>()))
+                        .addEvent(
+                            AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                .builder()
+                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .amount(0L)
+                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                .result(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .Result
+                                        .APPROVED
+                                )
+                                .type(
+                                    AccountActivityListResponse.FinancialTransaction.FinancialEvent
+                                        .FinancialEventType
+                                        .ACH_ORIGINATION_CANCELLED
+                                )
+                                .build()
+                        )
                         .family(
                             AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
                                 .CARD

@@ -12,6 +12,7 @@ internal class AccountActivityListParamsTest {
     @Test
     fun create() {
         AccountActivityListParams.builder()
+            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .category(AccountActivityListParams.TransactionCategory.ACH)
@@ -29,6 +30,7 @@ internal class AccountActivityListParamsTest {
     fun queryParams() {
         val params =
             AccountActivityListParams.builder()
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(AccountActivityListParams.TransactionCategory.ACH)
@@ -46,6 +48,7 @@ internal class AccountActivityListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("begin", "2019-12-27T18:11:19.117Z")
                     .put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("category", "ACH")

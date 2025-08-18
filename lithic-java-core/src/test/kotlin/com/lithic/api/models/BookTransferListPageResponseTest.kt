@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -18,7 +17,7 @@ internal class BookTransferListPageResponseTest {
                 .addData(
                     BookTransferResponse.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .category(BookTransferResponse.Category.ADJUSTMENT)
+                        .category(BookTransferResponse.BookTransferCategory.ADJUSTMENT)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("currency")
                         .addEvent(
@@ -26,15 +25,21 @@ internal class BookTransferListPageResponseTest {
                                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                 .amount(0L)
                                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                .addDetailedResult(
-                                    BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
+                                .detailedResults(
+                                    BookTransferResponse.BookTransferEvent
+                                        .BookTransferDetailedResults
+                                        .APPROVED
                                 )
                                 .memo("memo")
                                 .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                                 .subtype("subtype")
-                                .type("type")
+                                .type(
+                                    BookTransferResponse.BookTransferEvent.BookTransferType
+                                        .ATM_WITHDRAWAL
+                                )
                                 .build()
                         )
+                        .externalId("external_id")
                         .externalResource(
                             ExternalResource.builder()
                                 .externalResourceToken("external_resource_token")
@@ -44,10 +49,10 @@ internal class BookTransferListPageResponseTest {
                         )
                         .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
-                        .result(BookTransferResponse.Result.APPROVED)
+                        .result(BookTransferResponse.TransactionResult.APPROVED)
                         .settledAmount(0L)
                         .status(BookTransferResponse.Status.DECLINED)
-                        .toFinancialAccountToken(JsonValue.from(mapOf<String, Any>()))
+                        .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .transactionSeries(
                             BookTransferResponse.TransactionSeries.builder()
                                 .relatedTransactionEventToken(
@@ -67,7 +72,7 @@ internal class BookTransferListPageResponseTest {
             .containsExactly(
                 BookTransferResponse.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .category(BookTransferResponse.Category.ADJUSTMENT)
+                    .category(BookTransferResponse.BookTransferCategory.ADJUSTMENT)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("currency")
                     .addEvent(
@@ -75,15 +80,20 @@ internal class BookTransferListPageResponseTest {
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .addDetailedResult(
-                                BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
+                            .detailedResults(
+                                BookTransferResponse.BookTransferEvent.BookTransferDetailedResults
+                                    .APPROVED
                             )
                             .memo("memo")
                             .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                             .subtype("subtype")
-                            .type("type")
+                            .type(
+                                BookTransferResponse.BookTransferEvent.BookTransferType
+                                    .ATM_WITHDRAWAL
+                            )
                             .build()
                     )
+                    .externalId("external_id")
                     .externalResource(
                         ExternalResource.builder()
                             .externalResourceToken("external_resource_token")
@@ -93,10 +103,10 @@ internal class BookTransferListPageResponseTest {
                     )
                     .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .pendingAmount(0L)
-                    .result(BookTransferResponse.Result.APPROVED)
+                    .result(BookTransferResponse.TransactionResult.APPROVED)
                     .settledAmount(0L)
                     .status(BookTransferResponse.Status.DECLINED)
-                    .toFinancialAccountToken(JsonValue.from(mapOf<String, Any>()))
+                    .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .transactionSeries(
                         BookTransferResponse.TransactionSeries.builder()
                             .relatedTransactionEventToken("123e4567-e89b-12d3-a456-426614174000")
@@ -118,7 +128,7 @@ internal class BookTransferListPageResponseTest {
                 .addData(
                     BookTransferResponse.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .category(BookTransferResponse.Category.ADJUSTMENT)
+                        .category(BookTransferResponse.BookTransferCategory.ADJUSTMENT)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .currency("currency")
                         .addEvent(
@@ -126,15 +136,21 @@ internal class BookTransferListPageResponseTest {
                                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                 .amount(0L)
                                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                .addDetailedResult(
-                                    BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
+                                .detailedResults(
+                                    BookTransferResponse.BookTransferEvent
+                                        .BookTransferDetailedResults
+                                        .APPROVED
                                 )
                                 .memo("memo")
                                 .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                                 .subtype("subtype")
-                                .type("type")
+                                .type(
+                                    BookTransferResponse.BookTransferEvent.BookTransferType
+                                        .ATM_WITHDRAWAL
+                                )
                                 .build()
                         )
+                        .externalId("external_id")
                         .externalResource(
                             ExternalResource.builder()
                                 .externalResourceToken("external_resource_token")
@@ -144,10 +160,10 @@ internal class BookTransferListPageResponseTest {
                         )
                         .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
-                        .result(BookTransferResponse.Result.APPROVED)
+                        .result(BookTransferResponse.TransactionResult.APPROVED)
                         .settledAmount(0L)
                         .status(BookTransferResponse.Status.DECLINED)
-                        .toFinancialAccountToken(JsonValue.from(mapOf<String, Any>()))
+                        .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .transactionSeries(
                             BookTransferResponse.TransactionSeries.builder()
                                 .relatedTransactionEventToken(
