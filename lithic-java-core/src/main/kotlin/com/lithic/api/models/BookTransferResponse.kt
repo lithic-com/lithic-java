@@ -24,17 +24,18 @@ import kotlin.jvm.optionals.getOrNull
 class BookTransferResponse
 private constructor(
     private val token: JsonField<String>,
-    private val category: JsonField<Category>,
+    private val category: JsonField<BookTransferCategory>,
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
     private val events: JsonField<List<BookTransferEvent>>,
+    private val externalId: JsonField<String>,
     private val externalResource: JsonField<ExternalResource>,
     private val fromFinancialAccountToken: JsonField<String>,
     private val pendingAmount: JsonField<Long>,
-    private val result: JsonField<Result>,
+    private val result: JsonField<TransactionResult>,
     private val settledAmount: JsonField<Long>,
     private val status: JsonField<Status>,
-    private val toFinancialAccountToken: JsonValue,
+    private val toFinancialAccountToken: JsonField<String>,
     private val transactionSeries: JsonField<TransactionSeries>,
     private val updated: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -43,7 +44,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("category") @ExcludeMissing category: JsonField<Category> = JsonMissing.of(),
+        @JsonProperty("category")
+        @ExcludeMissing
+        category: JsonField<BookTransferCategory> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -51,6 +54,9 @@ private constructor(
         @JsonProperty("events")
         @ExcludeMissing
         events: JsonField<List<BookTransferEvent>> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("external_resource")
         @ExcludeMissing
         externalResource: JsonField<ExternalResource> = JsonMissing.of(),
@@ -60,14 +66,16 @@ private constructor(
         @JsonProperty("pending_amount")
         @ExcludeMissing
         pendingAmount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        result: JsonField<TransactionResult> = JsonMissing.of(),
         @JsonProperty("settled_amount")
         @ExcludeMissing
         settledAmount: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
         @JsonProperty("to_financial_account_token")
         @ExcludeMissing
-        toFinancialAccountToken: JsonValue = JsonMissing.of(),
+        toFinancialAccountToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("transaction_series")
         @ExcludeMissing
         transactionSeries: JsonField<TransactionSeries> = JsonMissing.of(),
@@ -80,6 +88,7 @@ private constructor(
         created,
         currency,
         events,
+        externalId,
         externalResource,
         fromFinancialAccountToken,
         pendingAmount,
@@ -107,7 +116,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun category(): Category = category.getRequired("category")
+    fun category(): BookTransferCategory = category.getRequired("category")
 
     /**
      * Date and time when the transfer occurred. UTC time zone.
@@ -134,6 +143,14 @@ private constructor(
     fun events(): List<BookTransferEvent> = events.getRequired("events")
 
     /**
+     * External ID defined by the customer
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
+
+    /**
      * External resource associated with the management operation
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -154,8 +171,9 @@ private constructor(
 
     /**
      * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
-     * any acquirer fees. The value of this field will go to zero over time once the financial
-     * transaction is settled.
+     * any acquirer fees.
+     *
+     * The value of this field will go to zero over time once the financial transaction is settled.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -163,13 +181,10 @@ private constructor(
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
     /**
-     * APPROVED transactions were successful while DECLINED transactions were declined by user,
-     * Lithic, or the network.
-     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun result(): Result = result.getRequired("result")
+    fun result(): TransactionResult = result.getRequired("result")
 
     /**
      * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
@@ -181,8 +196,10 @@ private constructor(
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
     /**
-     * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
-     * reversed \* `SETTLED` - The transfer is completed.
+     * Status types:
+     * - `DECLINED` - The transfer was declined.
+     * - `REVERSED` - The transfer was reversed
+     * - `SETTLED` - The transfer is completed.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -192,10 +209,12 @@ private constructor(
     /**
      * Globally unique identifier for the financial account or card that will receive the funds.
      * Accepted type dependent on the program's use case.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    @JsonProperty("to_financial_account_token")
-    @ExcludeMissing
-    fun _toFinancialAccountToken(): JsonValue = toFinancialAccountToken
+    fun toFinancialAccountToken(): String =
+        toFinancialAccountToken.getRequired("to_financial_account_token")
 
     /**
      * A series of transactions that are grouped together.
@@ -226,7 +245,9 @@ private constructor(
      *
      * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
+    @JsonProperty("category")
+    @ExcludeMissing
+    fun _category(): JsonField<BookTransferCategory> = category
 
     /**
      * Returns the raw JSON value of [created].
@@ -250,6 +271,13 @@ private constructor(
     @JsonProperty("events")
     @ExcludeMissing
     fun _events(): JsonField<List<BookTransferEvent>> = events
+
+    /**
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
      * Returns the raw JSON value of [externalResource].
@@ -285,7 +313,7 @@ private constructor(
      *
      * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
+    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<TransactionResult> = result
 
     /**
      * Returns the raw JSON value of [settledAmount].
@@ -302,6 +330,16 @@ private constructor(
      * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
+
+    /**
+     * Returns the raw JSON value of [toFinancialAccountToken].
+     *
+     * Unlike [toFinancialAccountToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("to_financial_account_token")
+    @ExcludeMissing
+    fun _toFinancialAccountToken(): JsonField<String> = toFinancialAccountToken
 
     /**
      * Returns the raw JSON value of [transactionSeries].
@@ -344,6 +382,7 @@ private constructor(
          * .created()
          * .currency()
          * .events()
+         * .externalId()
          * .externalResource()
          * .fromFinancialAccountToken()
          * .pendingAmount()
@@ -362,17 +401,18 @@ private constructor(
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
-        private var category: JsonField<Category>? = null
+        private var category: JsonField<BookTransferCategory>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var currency: JsonField<String>? = null
         private var events: JsonField<MutableList<BookTransferEvent>>? = null
+        private var externalId: JsonField<String>? = null
         private var externalResource: JsonField<ExternalResource>? = null
         private var fromFinancialAccountToken: JsonField<String>? = null
         private var pendingAmount: JsonField<Long>? = null
-        private var result: JsonField<Result>? = null
+        private var result: JsonField<TransactionResult>? = null
         private var settledAmount: JsonField<Long>? = null
         private var status: JsonField<Status>? = null
-        private var toFinancialAccountToken: JsonValue? = null
+        private var toFinancialAccountToken: JsonField<String>? = null
         private var transactionSeries: JsonField<TransactionSeries>? = null
         private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -384,6 +424,7 @@ private constructor(
             created = bookTransferResponse.created
             currency = bookTransferResponse.currency
             events = bookTransferResponse.events.map { it.toMutableList() }
+            externalId = bookTransferResponse.externalId
             externalResource = bookTransferResponse.externalResource
             fromFinancialAccountToken = bookTransferResponse.fromFinancialAccountToken
             pendingAmount = bookTransferResponse.pendingAmount
@@ -411,16 +452,16 @@ private constructor(
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Category of the book transfer */
-        fun category(category: Category) = category(JsonField.of(category))
+        fun category(category: BookTransferCategory) = category(JsonField.of(category))
 
         /**
          * Sets [Builder.category] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.category] with a well-typed [Category] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
+         * You should usually call [Builder.category] with a well-typed [BookTransferCategory] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun category(category: JsonField<Category>) = apply { this.category = category }
+        fun category(category: JsonField<BookTransferCategory>) = apply { this.category = category }
 
         /** Date and time when the transfer occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -471,6 +512,21 @@ private constructor(
                 }
         }
 
+        /** External ID defined by the customer */
+        fun externalId(externalId: String?) = externalId(JsonField.ofNullable(externalId))
+
+        /** Alias for calling [Builder.externalId] with `externalId.orElse(null)`. */
+        fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
+
+        /**
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
         /** External resource associated with the management operation */
         fun externalResource(externalResource: ExternalResource?) =
             externalResource(JsonField.ofNullable(externalResource))
@@ -510,8 +566,10 @@ private constructor(
 
         /**
          * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
-         * including any acquirer fees. The value of this field will go to zero over time once the
-         * financial transaction is settled.
+         * including any acquirer fees.
+         *
+         * The value of this field will go to zero over time once the financial transaction is
+         * settled.
          */
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
@@ -526,19 +584,16 @@ private constructor(
             this.pendingAmount = pendingAmount
         }
 
-        /**
-         * APPROVED transactions were successful while DECLINED transactions were declined by user,
-         * Lithic, or the network.
-         */
-        fun result(result: Result) = result(JsonField.of(result))
+        fun result(result: TransactionResult) = result(JsonField.of(result))
 
         /**
          * Sets [Builder.result] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.result] with a well-typed [Result] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.result] with a well-typed [TransactionResult] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun result(result: JsonField<Result>) = apply { this.result = result }
+        fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
         /**
          * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
@@ -558,8 +613,10 @@ private constructor(
         }
 
         /**
-         * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
-         * reversed \* `SETTLED` - The transfer is completed.
+         * Status types:
+         * - `DECLINED` - The transfer was declined.
+         * - `REVERSED` - The transfer was reversed
+         * - `SETTLED` - The transfer is completed.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
@@ -575,7 +632,17 @@ private constructor(
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
-        fun toFinancialAccountToken(toFinancialAccountToken: JsonValue) = apply {
+        fun toFinancialAccountToken(toFinancialAccountToken: String) =
+            toFinancialAccountToken(JsonField.of(toFinancialAccountToken))
+
+        /**
+         * Sets [Builder.toFinancialAccountToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.toFinancialAccountToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun toFinancialAccountToken(toFinancialAccountToken: JsonField<String>) = apply {
             this.toFinancialAccountToken = toFinancialAccountToken
         }
 
@@ -641,6 +708,7 @@ private constructor(
          * .created()
          * .currency()
          * .events()
+         * .externalId()
          * .externalResource()
          * .fromFinancialAccountToken()
          * .pendingAmount()
@@ -661,6 +729,7 @@ private constructor(
                 checkRequired("created", created),
                 checkRequired("currency", currency),
                 checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("externalId", externalId),
                 checkRequired("externalResource", externalResource),
                 checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
                 checkRequired("pendingAmount", pendingAmount),
@@ -686,12 +755,14 @@ private constructor(
         created()
         currency()
         events().forEach { it.validate() }
+        externalId()
         externalResource().ifPresent { it.validate() }
         fromFinancialAccountToken()
         pendingAmount()
         result().validate()
         settledAmount()
         status().validate()
+        toFinancialAccountToken()
         transactionSeries().ifPresent { it.validate() }
         updated()
         validated = true
@@ -717,17 +788,21 @@ private constructor(
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (currency.asKnown().isPresent) 1 else 0) +
             (events.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (if (externalId.asKnown().isPresent) 1 else 0) +
             (externalResource.asKnown().getOrNull()?.validity() ?: 0) +
             (if (fromFinancialAccountToken.asKnown().isPresent) 1 else 0) +
             (if (pendingAmount.asKnown().isPresent) 1 else 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (toFinancialAccountToken.asKnown().isPresent) 1 else 0) +
             (transactionSeries.asKnown().getOrNull()?.validity() ?: 0) +
             (if (updated.asKnown().isPresent) 1 else 0)
 
     /** Category of the book transfer */
-    class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class BookTransferCategory
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -755,10 +830,10 @@ private constructor(
 
             @JvmField val TRANSFER = of("TRANSFER")
 
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+            @JvmStatic fun of(value: String) = BookTransferCategory(JsonField.of(value))
         }
 
-        /** An enum containing [Category]'s known values. */
+        /** An enum containing [BookTransferCategory]'s known values. */
         enum class Known {
             ADJUSTMENT,
             BALANCE_OR_FUNDING,
@@ -770,9 +845,10 @@ private constructor(
         }
 
         /**
-         * An enum containing [Category]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [BookTransferCategory]'s known values, as well as an [_UNKNOWN]
+         * member.
          *
-         * An instance of [Category] can contain an unknown value in a couple of cases:
+         * An instance of [BookTransferCategory] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -786,7 +862,10 @@ private constructor(
             FEE,
             REWARD,
             TRANSFER,
-            /** An enum member indicating that [Category] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [BookTransferCategory] was instantiated with an
+             * unknown value.
+             */
             _UNKNOWN,
         }
 
@@ -827,7 +906,7 @@ private constructor(
                 FEE -> Known.FEE
                 REWARD -> Known.REWARD
                 TRANSFER -> Known.TRANSFER
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
+                else -> throw LithicInvalidDataException("Unknown BookTransferCategory: $value")
             }
 
         /**
@@ -844,7 +923,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Category = apply {
+        fun validate(): BookTransferCategory = apply {
             if (validated) {
                 return@apply
             }
@@ -874,7 +953,7 @@ private constructor(
                 return true
             }
 
-            return other is Category && value == other.value
+            return other is BookTransferCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -882,16 +961,17 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Book transfer Event */
     class BookTransferEvent
     private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,
         private val created: JsonField<OffsetDateTime>,
-        private val detailedResults: JsonField<List<DetailedResult>>,
+        private val detailedResults: JsonField<BookTransferDetailedResults>,
         private val memo: JsonField<String>,
         private val result: JsonField<Result>,
         private val subtype: JsonField<String>,
-        private val type: JsonField<String>,
+        private val type: JsonField<BookTransferType>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -904,11 +984,13 @@ private constructor(
             created: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("detailed_results")
             @ExcludeMissing
-            detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
+            detailedResults: JsonField<BookTransferDetailedResults> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
             @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
             @JsonProperty("subtype") @ExcludeMissing subtype: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("type") @ExcludeMissing type: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type")
+            @ExcludeMissing
+            type: JsonField<BookTransferType> = JsonMissing.of(),
         ) : this(
             token,
             amount,
@@ -947,12 +1029,10 @@ private constructor(
         fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
-         * Detailed Results
-         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun detailedResults(): List<DetailedResult> =
+        fun detailedResults(): BookTransferDetailedResults =
             detailedResults.getRequired("detailed_results")
 
         /**
@@ -986,7 +1066,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun type(): String = type.getRequired("type")
+        fun type(): BookTransferType = type.getRequired("type")
 
         /**
          * Returns the raw JSON value of [token].
@@ -1017,7 +1097,7 @@ private constructor(
          */
         @JsonProperty("detailed_results")
         @ExcludeMissing
-        fun _detailedResults(): JsonField<List<DetailedResult>> = detailedResults
+        fun _detailedResults(): JsonField<BookTransferDetailedResults> = detailedResults
 
         /**
          * Returns the raw JSON value of [memo].
@@ -1045,7 +1125,7 @@ private constructor(
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<BookTransferType> = type
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1085,11 +1165,11 @@ private constructor(
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null
             private var created: JsonField<OffsetDateTime>? = null
-            private var detailedResults: JsonField<MutableList<DetailedResult>>? = null
+            private var detailedResults: JsonField<BookTransferDetailedResults>? = null
             private var memo: JsonField<String>? = null
             private var result: JsonField<Result>? = null
             private var subtype: JsonField<String>? = null
-            private var type: JsonField<String>? = null
+            private var type: JsonField<BookTransferType>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1097,7 +1177,7 @@ private constructor(
                 token = bookTransferEvent.token
                 amount = bookTransferEvent.amount
                 created = bookTransferEvent.created
-                detailedResults = bookTransferEvent.detailedResults.map { it.toMutableList() }
+                detailedResults = bookTransferEvent.detailedResults
                 memo = bookTransferEvent.memo
                 result = bookTransferEvent.result
                 subtype = bookTransferEvent.subtype
@@ -1144,31 +1224,18 @@ private constructor(
              */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-            /** Detailed Results */
-            fun detailedResults(detailedResults: List<DetailedResult>) =
+            fun detailedResults(detailedResults: BookTransferDetailedResults) =
                 detailedResults(JsonField.of(detailedResults))
 
             /**
              * Sets [Builder.detailedResults] to an arbitrary JSON value.
              *
              * You should usually call [Builder.detailedResults] with a well-typed
-             * `List<DetailedResult>` value instead. This method is primarily for setting the field
-             * to an undocumented or not yet supported value.
+             * [BookTransferDetailedResults] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
-            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
-                this.detailedResults = detailedResults.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [DetailedResult] to [detailedResults].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addDetailedResult(detailedResult: DetailedResult) = apply {
-                detailedResults =
-                    (detailedResults ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("detailedResults", it).add(detailedResult)
-                    }
+            fun detailedResults(detailedResults: JsonField<BookTransferDetailedResults>) = apply {
+                this.detailedResults = detailedResults
             }
 
             /** Memo for the transfer. */
@@ -1211,16 +1278,16 @@ private constructor(
             fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
             /** Type of the book transfer */
-            fun type(type: String) = type(JsonField.of(type))
+            fun type(type: BookTransferType) = type(JsonField.of(type))
 
             /**
              * Sets [Builder.type] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.type] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.type] with a well-typed [BookTransferType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun type(type: JsonField<String>) = apply { this.type = type }
+            fun type(type: JsonField<BookTransferType>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1265,7 +1332,7 @@ private constructor(
                     checkRequired("token", token),
                     checkRequired("amount", amount),
                     checkRequired("created", created),
-                    checkRequired("detailedResults", detailedResults).map { it.toImmutable() },
+                    checkRequired("detailedResults", detailedResults),
                     checkRequired("memo", memo),
                     checkRequired("result", result),
                     checkRequired("subtype", subtype),
@@ -1284,11 +1351,11 @@ private constructor(
             token()
             amount()
             created()
-            detailedResults().forEach { it.validate() }
+            detailedResults().validate()
             memo()
             result().validate()
             subtype()
-            type()
+            type().validate()
             validated = true
         }
 
@@ -1311,13 +1378,13 @@ private constructor(
             (if (token.asKnown().isPresent) 1 else 0) +
                 (if (amount.asKnown().isPresent) 1 else 0) +
                 (if (created.asKnown().isPresent) 1 else 0) +
-                (detailedResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (detailedResults.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (memo.asKnown().isPresent) 1 else 0) +
                 (result.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (subtype.asKnown().isPresent) 1 else 0) +
-                (if (type.asKnown().isPresent) 1 else 0)
+                (type.asKnown().getOrNull()?.validity() ?: 0)
 
-        class DetailedResult
+        class BookTransferDetailedResults
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1337,19 +1404,21 @@ private constructor(
 
                 @JvmField val FUNDS_INSUFFICIENT = of("FUNDS_INSUFFICIENT")
 
-                @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
+                @JvmStatic fun of(value: String) = BookTransferDetailedResults(JsonField.of(value))
             }
 
-            /** An enum containing [DetailedResult]'s known values. */
+            /** An enum containing [BookTransferDetailedResults]'s known values. */
             enum class Known {
                 APPROVED,
                 FUNDS_INSUFFICIENT,
             }
 
             /**
-             * An enum containing [DetailedResult]'s known values, as well as an [_UNKNOWN] member.
+             * An enum containing [BookTransferDetailedResults]'s known values, as well as an
+             * [_UNKNOWN] member.
              *
-             * An instance of [DetailedResult] can contain an unknown value in a couple of cases:
+             * An instance of [BookTransferDetailedResults] can contain an unknown value in a couple
+             * of cases:
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
@@ -1359,8 +1428,8 @@ private constructor(
                 APPROVED,
                 FUNDS_INSUFFICIENT,
                 /**
-                 * An enum member indicating that [DetailedResult] was instantiated with an unknown
-                 * value.
+                 * An enum member indicating that [BookTransferDetailedResults] was instantiated
+                 * with an unknown value.
                  */
                 _UNKNOWN,
             }
@@ -1392,7 +1461,10 @@ private constructor(
                 when (this) {
                     APPROVED -> Known.APPROVED
                     FUNDS_INSUFFICIENT -> Known.FUNDS_INSUFFICIENT
-                    else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown BookTransferDetailedResults: $value"
+                        )
                 }
 
             /**
@@ -1411,7 +1483,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): DetailedResult = apply {
+            fun validate(): BookTransferDetailedResults = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1441,7 +1513,7 @@ private constructor(
                     return true
                 }
 
-                return other is DetailedResult && value == other.value
+                return other is BookTransferDetailedResults && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1582,6 +1654,326 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /** Type of the book transfer */
+        class BookTransferType
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val ATM_WITHDRAWAL = of("ATM_WITHDRAWAL")
+
+                @JvmField val ATM_DECLINE = of("ATM_DECLINE")
+
+                @JvmField val INTERNATIONAL_ATM_WITHDRAWAL = of("INTERNATIONAL_ATM_WITHDRAWAL")
+
+                @JvmField val INACTIVITY = of("INACTIVITY")
+
+                @JvmField val STATEMENT = of("STATEMENT")
+
+                @JvmField val MONTHLY = of("MONTHLY")
+
+                @JvmField val QUARTERLY = of("QUARTERLY")
+
+                @JvmField val ANNUAL = of("ANNUAL")
+
+                @JvmField val CUSTOMER_SERVICE = of("CUSTOMER_SERVICE")
+
+                @JvmField val ACCOUNT_MAINTENANCE = of("ACCOUNT_MAINTENANCE")
+
+                @JvmField val ACCOUNT_ACTIVATION = of("ACCOUNT_ACTIVATION")
+
+                @JvmField val ACCOUNT_CLOSURE = of("ACCOUNT_CLOSURE")
+
+                @JvmField val CARD_REPLACEMENT = of("CARD_REPLACEMENT")
+
+                @JvmField val CARD_DELIVERY = of("CARD_DELIVERY")
+
+                @JvmField val CARD_CREATE = of("CARD_CREATE")
+
+                @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
+
+                @JvmField val INTEREST = of("INTEREST")
+
+                @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
+
+                @JvmField val BILL_PAYMENT = of("BILL_PAYMENT")
+
+                @JvmField val CASH_BACK = of("CASH_BACK")
+
+                @JvmField val ACCOUNT_TO_ACCOUNT = of("ACCOUNT_TO_ACCOUNT")
+
+                @JvmField val CARD_TO_CARD = of("CARD_TO_CARD")
+
+                @JvmField val DISBURSE = of("DISBURSE")
+
+                @JvmField val BILLING_ERROR = of("BILLING_ERROR")
+
+                @JvmField val LOSS_WRITE_OFF = of("LOSS_WRITE_OFF")
+
+                @JvmField val EXPIRED_CARD = of("EXPIRED_CARD")
+
+                @JvmField val EARLY_DERECOGNITION = of("EARLY_DERECOGNITION")
+
+                @JvmField val ESCHEATMENT = of("ESCHEATMENT")
+
+                @JvmField val INACTIVITY_FEE_DOWN = of("INACTIVITY_FEE_DOWN")
+
+                @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
+
+                @JvmField val DISPUTE_WON = of("DISPUTE_WON")
+
+                @JvmField val SERVICE = of("SERVICE")
+
+                @JvmField val TRANSFER = of("TRANSFER")
+
+                @JvmStatic fun of(value: String) = BookTransferType(JsonField.of(value))
+            }
+
+            /** An enum containing [BookTransferType]'s known values. */
+            enum class Known {
+                ATM_WITHDRAWAL,
+                ATM_DECLINE,
+                INTERNATIONAL_ATM_WITHDRAWAL,
+                INACTIVITY,
+                STATEMENT,
+                MONTHLY,
+                QUARTERLY,
+                ANNUAL,
+                CUSTOMER_SERVICE,
+                ACCOUNT_MAINTENANCE,
+                ACCOUNT_ACTIVATION,
+                ACCOUNT_CLOSURE,
+                CARD_REPLACEMENT,
+                CARD_DELIVERY,
+                CARD_CREATE,
+                CURRENCY_CONVERSION,
+                INTEREST,
+                LATE_PAYMENT,
+                BILL_PAYMENT,
+                CASH_BACK,
+                ACCOUNT_TO_ACCOUNT,
+                CARD_TO_CARD,
+                DISBURSE,
+                BILLING_ERROR,
+                LOSS_WRITE_OFF,
+                EXPIRED_CARD,
+                EARLY_DERECOGNITION,
+                ESCHEATMENT,
+                INACTIVITY_FEE_DOWN,
+                PROVISIONAL_CREDIT,
+                DISPUTE_WON,
+                SERVICE,
+                TRANSFER,
+            }
+
+            /**
+             * An enum containing [BookTransferType]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [BookTransferType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                ATM_WITHDRAWAL,
+                ATM_DECLINE,
+                INTERNATIONAL_ATM_WITHDRAWAL,
+                INACTIVITY,
+                STATEMENT,
+                MONTHLY,
+                QUARTERLY,
+                ANNUAL,
+                CUSTOMER_SERVICE,
+                ACCOUNT_MAINTENANCE,
+                ACCOUNT_ACTIVATION,
+                ACCOUNT_CLOSURE,
+                CARD_REPLACEMENT,
+                CARD_DELIVERY,
+                CARD_CREATE,
+                CURRENCY_CONVERSION,
+                INTEREST,
+                LATE_PAYMENT,
+                BILL_PAYMENT,
+                CASH_BACK,
+                ACCOUNT_TO_ACCOUNT,
+                CARD_TO_CARD,
+                DISBURSE,
+                BILLING_ERROR,
+                LOSS_WRITE_OFF,
+                EXPIRED_CARD,
+                EARLY_DERECOGNITION,
+                ESCHEATMENT,
+                INACTIVITY_FEE_DOWN,
+                PROVISIONAL_CREDIT,
+                DISPUTE_WON,
+                SERVICE,
+                TRANSFER,
+                /**
+                 * An enum member indicating that [BookTransferType] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    ATM_WITHDRAWAL -> Value.ATM_WITHDRAWAL
+                    ATM_DECLINE -> Value.ATM_DECLINE
+                    INTERNATIONAL_ATM_WITHDRAWAL -> Value.INTERNATIONAL_ATM_WITHDRAWAL
+                    INACTIVITY -> Value.INACTIVITY
+                    STATEMENT -> Value.STATEMENT
+                    MONTHLY -> Value.MONTHLY
+                    QUARTERLY -> Value.QUARTERLY
+                    ANNUAL -> Value.ANNUAL
+                    CUSTOMER_SERVICE -> Value.CUSTOMER_SERVICE
+                    ACCOUNT_MAINTENANCE -> Value.ACCOUNT_MAINTENANCE
+                    ACCOUNT_ACTIVATION -> Value.ACCOUNT_ACTIVATION
+                    ACCOUNT_CLOSURE -> Value.ACCOUNT_CLOSURE
+                    CARD_REPLACEMENT -> Value.CARD_REPLACEMENT
+                    CARD_DELIVERY -> Value.CARD_DELIVERY
+                    CARD_CREATE -> Value.CARD_CREATE
+                    CURRENCY_CONVERSION -> Value.CURRENCY_CONVERSION
+                    INTEREST -> Value.INTEREST
+                    LATE_PAYMENT -> Value.LATE_PAYMENT
+                    BILL_PAYMENT -> Value.BILL_PAYMENT
+                    CASH_BACK -> Value.CASH_BACK
+                    ACCOUNT_TO_ACCOUNT -> Value.ACCOUNT_TO_ACCOUNT
+                    CARD_TO_CARD -> Value.CARD_TO_CARD
+                    DISBURSE -> Value.DISBURSE
+                    BILLING_ERROR -> Value.BILLING_ERROR
+                    LOSS_WRITE_OFF -> Value.LOSS_WRITE_OFF
+                    EXPIRED_CARD -> Value.EXPIRED_CARD
+                    EARLY_DERECOGNITION -> Value.EARLY_DERECOGNITION
+                    ESCHEATMENT -> Value.ESCHEATMENT
+                    INACTIVITY_FEE_DOWN -> Value.INACTIVITY_FEE_DOWN
+                    PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
+                    DISPUTE_WON -> Value.DISPUTE_WON
+                    SERVICE -> Value.SERVICE
+                    TRANSFER -> Value.TRANSFER
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    ATM_WITHDRAWAL -> Known.ATM_WITHDRAWAL
+                    ATM_DECLINE -> Known.ATM_DECLINE
+                    INTERNATIONAL_ATM_WITHDRAWAL -> Known.INTERNATIONAL_ATM_WITHDRAWAL
+                    INACTIVITY -> Known.INACTIVITY
+                    STATEMENT -> Known.STATEMENT
+                    MONTHLY -> Known.MONTHLY
+                    QUARTERLY -> Known.QUARTERLY
+                    ANNUAL -> Known.ANNUAL
+                    CUSTOMER_SERVICE -> Known.CUSTOMER_SERVICE
+                    ACCOUNT_MAINTENANCE -> Known.ACCOUNT_MAINTENANCE
+                    ACCOUNT_ACTIVATION -> Known.ACCOUNT_ACTIVATION
+                    ACCOUNT_CLOSURE -> Known.ACCOUNT_CLOSURE
+                    CARD_REPLACEMENT -> Known.CARD_REPLACEMENT
+                    CARD_DELIVERY -> Known.CARD_DELIVERY
+                    CARD_CREATE -> Known.CARD_CREATE
+                    CURRENCY_CONVERSION -> Known.CURRENCY_CONVERSION
+                    INTEREST -> Known.INTEREST
+                    LATE_PAYMENT -> Known.LATE_PAYMENT
+                    BILL_PAYMENT -> Known.BILL_PAYMENT
+                    CASH_BACK -> Known.CASH_BACK
+                    ACCOUNT_TO_ACCOUNT -> Known.ACCOUNT_TO_ACCOUNT
+                    CARD_TO_CARD -> Known.CARD_TO_CARD
+                    DISBURSE -> Known.DISBURSE
+                    BILLING_ERROR -> Known.BILLING_ERROR
+                    LOSS_WRITE_OFF -> Known.LOSS_WRITE_OFF
+                    EXPIRED_CARD -> Known.EXPIRED_CARD
+                    EARLY_DERECOGNITION -> Known.EARLY_DERECOGNITION
+                    ESCHEATMENT -> Known.ESCHEATMENT
+                    INACTIVITY_FEE_DOWN -> Known.INACTIVITY_FEE_DOWN
+                    PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
+                    DISPUTE_WON -> Known.DISPUTE_WON
+                    SERVICE -> Known.SERVICE
+                    TRANSFER -> Known.TRANSFER
+                    else -> throw LithicInvalidDataException("Unknown BookTransferType: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): BookTransferType = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is BookTransferType && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1619,11 +2011,8 @@ private constructor(
             "BookTransferEvent{token=$token, amount=$amount, created=$created, detailedResults=$detailedResults, memo=$memo, result=$result, subtype=$subtype, type=$type, additionalProperties=$additionalProperties}"
     }
 
-    /**
-     * APPROVED transactions were successful while DECLINED transactions were declined by user,
-     * Lithic, or the network.
-     */
-    class Result @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class TransactionResult @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1641,19 +2030,19 @@ private constructor(
 
             @JvmField val DECLINED = of("DECLINED")
 
-            @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+            @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
         }
 
-        /** An enum containing [Result]'s known values. */
+        /** An enum containing [TransactionResult]'s known values. */
         enum class Known {
             APPROVED,
             DECLINED,
         }
 
         /**
-         * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [TransactionResult]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Result] can contain an unknown value in a couple of cases:
+         * An instance of [TransactionResult] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -1662,7 +2051,10 @@ private constructor(
         enum class Value {
             APPROVED,
             DECLINED,
-            /** An enum member indicating that [Result] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [TransactionResult] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -1693,7 +2085,7 @@ private constructor(
             when (this) {
                 APPROVED -> Known.APPROVED
                 DECLINED -> Known.DECLINED
-                else -> throw LithicInvalidDataException("Unknown Result: $value")
+                else -> throw LithicInvalidDataException("Unknown TransactionResult: $value")
             }
 
         /**
@@ -1710,7 +2102,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Result = apply {
+        fun validate(): TransactionResult = apply {
             if (validated) {
                 return@apply
             }
@@ -1740,7 +2132,7 @@ private constructor(
                 return true
             }
 
-            return other is Result && value == other.value
+            return other is TransactionResult && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1749,8 +2141,10 @@ private constructor(
     }
 
     /**
-     * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
-     * reversed \* `SETTLED` - The transfer is completed.
+     * Status types:
+     * - `DECLINED` - The transfer was declined.
+     * - `REVERSED` - The transfer was reversed
+     * - `SETTLED` - The transfer is completed.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -2160,6 +2554,7 @@ private constructor(
             created == other.created &&
             currency == other.currency &&
             events == other.events &&
+            externalId == other.externalId &&
             externalResource == other.externalResource &&
             fromFinancialAccountToken == other.fromFinancialAccountToken &&
             pendingAmount == other.pendingAmount &&
@@ -2179,6 +2574,7 @@ private constructor(
             created,
             currency,
             events,
+            externalId,
             externalResource,
             fromFinancialAccountToken,
             pendingAmount,
@@ -2195,5 +2591,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BookTransferResponse{token=$token, category=$category, created=$created, currency=$currency, events=$events, externalResource=$externalResource, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, transactionSeries=$transactionSeries, updated=$updated, additionalProperties=$additionalProperties}"
+        "BookTransferResponse{token=$token, category=$category, created=$created, currency=$currency, events=$events, externalId=$externalId, externalResource=$externalResource, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, transactionSeries=$transactionSeries, updated=$updated, additionalProperties=$additionalProperties}"
 }

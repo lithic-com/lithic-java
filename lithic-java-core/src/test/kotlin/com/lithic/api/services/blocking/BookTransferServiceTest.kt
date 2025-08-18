@@ -25,13 +25,15 @@ internal class BookTransferServiceTest {
             bookTransferService.create(
                 BookTransferCreateParams.builder()
                     .amount(1L)
-                    .category(BookTransferCreateParams.Category.ADJUSTMENT)
+                    .category(BookTransferCreateParams.BookTransferCategory.ADJUSTMENT)
                     .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .subtype("subtype")
                     .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .type(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
+                    .type(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .externalId("external_id")
                     .memo("memo")
+                    .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
                     .build()
             )
 
