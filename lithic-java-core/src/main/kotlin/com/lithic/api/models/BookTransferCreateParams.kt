@@ -24,13 +24,13 @@ import kotlin.jvm.optionals.getOrNull
 /** Book transfer funds between two financial accounts or between a financial account and card */
 class BookTransferCreateParams
 private constructor(
-    private val body: Body,
+    private val body: CreateBookTransferRequest,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     /**
-     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
+     * Amount to be transferred in the currency's smallest unit (e.g., cents for USD). This should
      * always be a positive value.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -44,7 +44,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun category(): Category = body.category()
+    fun category(): BookTransferCategory = body.category()
 
     /**
      * Globally unique identifier for the financial account or card that will send the funds.
@@ -73,12 +73,12 @@ private constructor(
     fun toFinancialAccountToken(): String = body.toFinancialAccountToken()
 
     /**
-     * Type of book_transfer
+     * Type of the book transfer
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun type(): Type = body.type()
+    fun type(): BookTransferType = body.type()
 
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
@@ -90,12 +90,28 @@ private constructor(
     fun token(): Optional<String> = body.token()
 
     /**
+     * External ID defined by the customer
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun externalId(): Optional<String> = body.externalId()
+
+    /**
      * Optional descriptor for the transfer.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun memo(): Optional<String> = body.memo()
+
+    /**
+     * What to do if the financial account is closed when posting an operation
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun onClosedAccount(): Optional<OnClosedAccount> = body.onClosedAccount()
 
     /**
      * Returns the raw JSON value of [amount].
@@ -109,7 +125,7 @@ private constructor(
      *
      * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _category(): JsonField<Category> = body._category()
+    fun _category(): JsonField<BookTransferCategory> = body._category()
 
     /**
      * Returns the raw JSON value of [fromFinancialAccountToken].
@@ -139,7 +155,7 @@ private constructor(
      *
      * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _type(): JsonField<Type> = body._type()
+    fun _type(): JsonField<BookTransferType> = body._type()
 
     /**
      * Returns the raw JSON value of [token].
@@ -149,11 +165,25 @@ private constructor(
     fun _token(): JsonField<String> = body._token()
 
     /**
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _externalId(): JsonField<String> = body._externalId()
+
+    /**
      * Returns the raw JSON value of [memo].
      *
      * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _memo(): JsonField<String> = body._memo()
+
+    /**
+     * Returns the raw JSON value of [onClosedAccount].
+     *
+     * Unlike [onClosedAccount], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _onClosedAccount(): JsonField<OnClosedAccount> = body._onClosedAccount()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -186,7 +216,7 @@ private constructor(
     /** A builder for [BookTransferCreateParams]. */
     class Builder internal constructor() {
 
-        private var body: Body.Builder = Body.builder()
+        private var body: CreateBookTransferRequest.Builder = CreateBookTransferRequest.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -209,10 +239,10 @@ private constructor(
          * - [toFinancialAccountToken]
          * - etc.
          */
-        fun body(body: Body) = apply { this.body = body.toBuilder() }
+        fun body(body: CreateBookTransferRequest) = apply { this.body = body.toBuilder() }
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+         * Amount to be transferred in the currency's smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
         fun amount(amount: Long) = apply { body.amount(amount) }
@@ -226,16 +256,16 @@ private constructor(
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Category of the book transfer */
-        fun category(category: Category) = apply { body.category(category) }
+        fun category(category: BookTransferCategory) = apply { body.category(category) }
 
         /**
          * Sets [Builder.category] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.category] with a well-typed [Category] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
+         * You should usually call [Builder.category] with a well-typed [BookTransferCategory] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun category(category: JsonField<Category>) = apply { body.category(category) }
+        fun category(category: JsonField<BookTransferCategory>) = apply { body.category(category) }
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
@@ -286,16 +316,17 @@ private constructor(
             body.toFinancialAccountToken(toFinancialAccountToken)
         }
 
-        /** Type of book_transfer */
-        fun type(type: Type) = apply { body.type(type) }
+        /** Type of the book transfer */
+        fun type(type: BookTransferType) = apply { body.type(type) }
 
         /**
          * Sets [Builder.type] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.type] with a well-typed [BookTransferType] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun type(type: JsonField<Type>) = apply { body.type(type) }
+        fun type(type: JsonField<BookTransferType>) = apply { body.type(type) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
@@ -311,6 +342,18 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { body.token(token) }
 
+        /** External ID defined by the customer */
+        fun externalId(externalId: String) = apply { body.externalId(externalId) }
+
+        /**
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun externalId(externalId: JsonField<String>) = apply { body.externalId(externalId) }
+
         /** Optional descriptor for the transfer. */
         fun memo(memo: String) = apply { body.memo(memo) }
 
@@ -321,6 +364,22 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        /** What to do if the financial account is closed when posting an operation */
+        fun onClosedAccount(onClosedAccount: OnClosedAccount) = apply {
+            body.onClosedAccount(onClosedAccount)
+        }
+
+        /**
+         * Sets [Builder.onClosedAccount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.onClosedAccount] with a well-typed [OnClosedAccount]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun onClosedAccount(onClosedAccount: JsonField<OnClosedAccount>) = apply {
+            body.onClosedAccount(onClosedAccount)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -464,22 +523,24 @@ private constructor(
             )
     }
 
-    fun _body(): Body = body
+    fun _body(): CreateBookTransferRequest = body
 
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    class Body
+    class CreateBookTransferRequest
     private constructor(
         private val amount: JsonField<Long>,
-        private val category: JsonField<Category>,
+        private val category: JsonField<BookTransferCategory>,
         private val fromFinancialAccountToken: JsonField<String>,
         private val subtype: JsonField<String>,
         private val toFinancialAccountToken: JsonField<String>,
-        private val type: JsonField<Type>,
+        private val type: JsonField<BookTransferType>,
         private val token: JsonField<String>,
+        private val externalId: JsonField<String>,
         private val memo: JsonField<String>,
+        private val onClosedAccount: JsonField<OnClosedAccount>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -488,7 +549,7 @@ private constructor(
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("category")
             @ExcludeMissing
-            category: JsonField<Category> = JsonMissing.of(),
+            category: JsonField<BookTransferCategory> = JsonMissing.of(),
             @JsonProperty("from_financial_account_token")
             @ExcludeMissing
             fromFinancialAccountToken: JsonField<String> = JsonMissing.of(),
@@ -496,9 +557,17 @@ private constructor(
             @JsonProperty("to_financial_account_token")
             @ExcludeMissing
             toFinancialAccountToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            @JsonProperty("type")
+            @ExcludeMissing
+            type: JsonField<BookTransferType> = JsonMissing.of(),
             @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("external_id")
+            @ExcludeMissing
+            externalId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("on_closed_account")
+            @ExcludeMissing
+            onClosedAccount: JsonField<OnClosedAccount> = JsonMissing.of(),
         ) : this(
             amount,
             category,
@@ -507,12 +576,14 @@ private constructor(
             toFinancialAccountToken,
             type,
             token,
+            externalId,
             memo,
+            onClosedAccount,
             mutableMapOf(),
         )
 
         /**
-         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+         * Amount to be transferred in the currency's smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -526,7 +597,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun category(): Category = category.getRequired("category")
+        fun category(): BookTransferCategory = category.getRequired("category")
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
@@ -557,12 +628,12 @@ private constructor(
             toFinancialAccountToken.getRequired("to_financial_account_token")
 
         /**
-         * Type of book_transfer
+         * Type of the book transfer
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun type(): Type = type.getRequired("type")
+        fun type(): BookTransferType = type.getRequired("type")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
@@ -574,12 +645,29 @@ private constructor(
         fun token(): Optional<String> = token.getOptional("token")
 
         /**
+         * External ID defined by the customer
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun externalId(): Optional<String> = externalId.getOptional("external_id")
+
+        /**
          * Optional descriptor for the transfer.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun memo(): Optional<String> = memo.getOptional("memo")
+
+        /**
+         * What to do if the financial account is closed when posting an operation
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun onClosedAccount(): Optional<OnClosedAccount> =
+            onClosedAccount.getOptional("on_closed_account")
 
         /**
          * Returns the raw JSON value of [amount].
@@ -593,7 +681,9 @@ private constructor(
          *
          * Unlike [category], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
+        @JsonProperty("category")
+        @ExcludeMissing
+        fun _category(): JsonField<BookTransferCategory> = category
 
         /**
          * Returns the raw JSON value of [fromFinancialAccountToken].
@@ -627,7 +717,7 @@ private constructor(
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<BookTransferType> = type
 
         /**
          * Returns the raw JSON value of [token].
@@ -637,11 +727,30 @@ private constructor(
         @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
+         * Returns the raw JSON value of [externalId].
+         *
+         * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        fun _externalId(): JsonField<String> = externalId
+
+        /**
          * Returns the raw JSON value of [memo].
          *
          * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
+
+        /**
+         * Returns the raw JSON value of [onClosedAccount].
+         *
+         * Unlike [onClosedAccount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("on_closed_account")
+        @ExcludeMissing
+        fun _onClosedAccount(): JsonField<OnClosedAccount> = onClosedAccount
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -658,7 +767,8 @@ private constructor(
         companion object {
 
             /**
-             * Returns a mutable builder for constructing an instance of [Body].
+             * Returns a mutable builder for constructing an instance of
+             * [CreateBookTransferRequest].
              *
              * The following fields are required:
              * ```java
@@ -673,34 +783,38 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [Body]. */
+        /** A builder for [CreateBookTransferRequest]. */
         class Builder internal constructor() {
 
             private var amount: JsonField<Long>? = null
-            private var category: JsonField<Category>? = null
+            private var category: JsonField<BookTransferCategory>? = null
             private var fromFinancialAccountToken: JsonField<String>? = null
             private var subtype: JsonField<String>? = null
             private var toFinancialAccountToken: JsonField<String>? = null
-            private var type: JsonField<Type>? = null
+            private var type: JsonField<BookTransferType>? = null
             private var token: JsonField<String> = JsonMissing.of()
+            private var externalId: JsonField<String> = JsonMissing.of()
             private var memo: JsonField<String> = JsonMissing.of()
+            private var onClosedAccount: JsonField<OnClosedAccount> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(body: Body) = apply {
-                amount = body.amount
-                category = body.category
-                fromFinancialAccountToken = body.fromFinancialAccountToken
-                subtype = body.subtype
-                toFinancialAccountToken = body.toFinancialAccountToken
-                type = body.type
-                token = body.token
-                memo = body.memo
-                additionalProperties = body.additionalProperties.toMutableMap()
+            internal fun from(createBookTransferRequest: CreateBookTransferRequest) = apply {
+                amount = createBookTransferRequest.amount
+                category = createBookTransferRequest.category
+                fromFinancialAccountToken = createBookTransferRequest.fromFinancialAccountToken
+                subtype = createBookTransferRequest.subtype
+                toFinancialAccountToken = createBookTransferRequest.toFinancialAccountToken
+                type = createBookTransferRequest.type
+                token = createBookTransferRequest.token
+                externalId = createBookTransferRequest.externalId
+                memo = createBookTransferRequest.memo
+                onClosedAccount = createBookTransferRequest.onClosedAccount
+                additionalProperties = createBookTransferRequest.additionalProperties.toMutableMap()
             }
 
             /**
-             * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+             * Amount to be transferred in the currency's smallest unit (e.g., cents for USD). This
              * should always be a positive value.
              */
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -715,16 +829,18 @@ private constructor(
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Category of the book transfer */
-            fun category(category: Category) = category(JsonField.of(category))
+            fun category(category: BookTransferCategory) = category(JsonField.of(category))
 
             /**
              * Sets [Builder.category] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.category] with a well-typed [Category] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.category] with a well-typed [BookTransferCategory]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
-            fun category(category: JsonField<Category>) = apply { this.category = category }
+            fun category(category: JsonField<BookTransferCategory>) = apply {
+                this.category = category
+            }
 
             /**
              * Globally unique identifier for the financial account or card that will send the
@@ -774,17 +890,17 @@ private constructor(
                 this.toFinancialAccountToken = toFinancialAccountToken
             }
 
-            /** Type of book_transfer */
-            fun type(type: Type) = type(JsonField.of(type))
+            /** Type of the book transfer */
+            fun type(type: BookTransferType) = type(JsonField.of(type))
 
             /**
              * Sets [Builder.type] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.type] with a well-typed [BookTransferType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<BookTransferType>) = apply { this.type = type }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
@@ -801,6 +917,18 @@ private constructor(
              */
             fun token(token: JsonField<String>) = apply { this.token = token }
 
+            /** External ID defined by the customer */
+            fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+            /**
+             * Sets [Builder.externalId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.externalId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
             /** Optional descriptor for the transfer. */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
@@ -812,6 +940,21 @@ private constructor(
              * value.
              */
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+            /** What to do if the financial account is closed when posting an operation */
+            fun onClosedAccount(onClosedAccount: OnClosedAccount) =
+                onClosedAccount(JsonField.of(onClosedAccount))
+
+            /**
+             * Sets [Builder.onClosedAccount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.onClosedAccount] with a well-typed [OnClosedAccount]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun onClosedAccount(onClosedAccount: JsonField<OnClosedAccount>) = apply {
+                this.onClosedAccount = onClosedAccount
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -833,7 +976,7 @@ private constructor(
             }
 
             /**
-             * Returns an immutable instance of [Body].
+             * Returns an immutable instance of [CreateBookTransferRequest].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              *
@@ -849,8 +992,8 @@ private constructor(
              *
              * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): Body =
-                Body(
+            fun build(): CreateBookTransferRequest =
+                CreateBookTransferRequest(
                     checkRequired("amount", amount),
                     checkRequired("category", category),
                     checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
@@ -858,14 +1001,16 @@ private constructor(
                     checkRequired("toFinancialAccountToken", toFinancialAccountToken),
                     checkRequired("type", type),
                     token,
+                    externalId,
                     memo,
+                    onClosedAccount,
                     additionalProperties.toMutableMap(),
                 )
         }
 
         private var validated: Boolean = false
 
-        fun validate(): Body = apply {
+        fun validate(): CreateBookTransferRequest = apply {
             if (validated) {
                 return@apply
             }
@@ -877,7 +1022,9 @@ private constructor(
             toFinancialAccountToken()
             type().validate()
             token()
+            externalId()
             memo()
+            onClosedAccount().ifPresent { it.validate() }
             validated = true
         }
 
@@ -904,14 +1051,16 @@ private constructor(
                 (if (toFinancialAccountToken.asKnown().isPresent) 1 else 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (token.asKnown().isPresent) 1 else 0) +
-                (if (memo.asKnown().isPresent) 1 else 0)
+                (if (externalId.asKnown().isPresent) 1 else 0) +
+                (if (memo.asKnown().isPresent) 1 else 0) +
+                (onClosedAccount.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return other is Body &&
+            return other is CreateBookTransferRequest &&
                 amount == other.amount &&
                 category == other.category &&
                 fromFinancialAccountToken == other.fromFinancialAccountToken &&
@@ -919,7 +1068,9 @@ private constructor(
                 toFinancialAccountToken == other.toFinancialAccountToken &&
                 type == other.type &&
                 token == other.token &&
+                externalId == other.externalId &&
                 memo == other.memo &&
+                onClosedAccount == other.onClosedAccount &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -932,7 +1083,9 @@ private constructor(
                 toFinancialAccountToken,
                 type,
                 token,
+                externalId,
                 memo,
+                onClosedAccount,
                 additionalProperties,
             )
         }
@@ -940,11 +1093,13 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
+            "CreateBookTransferRequest{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, externalId=$externalId, memo=$memo, onClosedAccount=$onClosedAccount, additionalProperties=$additionalProperties}"
     }
 
     /** Category of the book transfer */
-    class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class BookTransferCategory
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -972,10 +1127,10 @@ private constructor(
 
             @JvmField val TRANSFER = of("TRANSFER")
 
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+            @JvmStatic fun of(value: String) = BookTransferCategory(JsonField.of(value))
         }
 
-        /** An enum containing [Category]'s known values. */
+        /** An enum containing [BookTransferCategory]'s known values. */
         enum class Known {
             ADJUSTMENT,
             BALANCE_OR_FUNDING,
@@ -987,9 +1142,10 @@ private constructor(
         }
 
         /**
-         * An enum containing [Category]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [BookTransferCategory]'s known values, as well as an [_UNKNOWN]
+         * member.
          *
-         * An instance of [Category] can contain an unknown value in a couple of cases:
+         * An instance of [BookTransferCategory] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -1003,7 +1159,10 @@ private constructor(
             FEE,
             REWARD,
             TRANSFER,
-            /** An enum member indicating that [Category] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [BookTransferCategory] was instantiated with an
+             * unknown value.
+             */
             _UNKNOWN,
         }
 
@@ -1044,7 +1203,7 @@ private constructor(
                 FEE -> Known.FEE
                 REWARD -> Known.REWARD
                 TRANSFER -> Known.TRANSFER
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
+                else -> throw LithicInvalidDataException("Unknown BookTransferCategory: $value")
             }
 
         /**
@@ -1061,7 +1220,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Category = apply {
+        fun validate(): BookTransferCategory = apply {
             if (validated) {
                 return@apply
             }
@@ -1091,7 +1250,7 @@ private constructor(
                 return true
             }
 
-            return other is Category && value == other.value
+            return other is BookTransferCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1099,8 +1258,9 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** Type of book_transfer */
-    class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    /** Type of the book transfer */
+    class BookTransferType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1180,10 +1340,10 @@ private constructor(
 
             @JvmField val TRANSFER = of("TRANSFER")
 
-            @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            @JvmStatic fun of(value: String) = BookTransferType(JsonField.of(value))
         }
 
-        /** An enum containing [Type]'s known values. */
+        /** An enum containing [BookTransferType]'s known values. */
         enum class Known {
             ATM_WITHDRAWAL,
             ATM_DECLINE,
@@ -1221,9 +1381,9 @@ private constructor(
         }
 
         /**
-         * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [BookTransferType]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Type] can contain an unknown value in a couple of cases:
+         * An instance of [BookTransferType] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -1263,7 +1423,10 @@ private constructor(
             DISPUTE_WON,
             SERVICE,
             TRANSFER,
-            /** An enum member indicating that [Type] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [BookTransferType] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -1356,7 +1519,7 @@ private constructor(
                 DISPUTE_WON -> Known.DISPUTE_WON
                 SERVICE -> Known.SERVICE
                 TRANSFER -> Known.TRANSFER
-                else -> throw LithicInvalidDataException("Unknown Type: $value")
+                else -> throw LithicInvalidDataException("Unknown BookTransferType: $value")
             }
 
         /**
@@ -1373,7 +1536,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Type = apply {
+        fun validate(): BookTransferType = apply {
             if (validated) {
                 return@apply
             }
@@ -1403,7 +1566,137 @@ private constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is BookTransferType && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** What to do if the financial account is closed when posting an operation */
+    class OnClosedAccount @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val FAIL = of("FAIL")
+
+            @JvmField val USE_SUSPENSE = of("USE_SUSPENSE")
+
+            @JvmStatic fun of(value: String) = OnClosedAccount(JsonField.of(value))
+        }
+
+        /** An enum containing [OnClosedAccount]'s known values. */
+        enum class Known {
+            FAIL,
+            USE_SUSPENSE,
+        }
+
+        /**
+         * An enum containing [OnClosedAccount]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [OnClosedAccount] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            FAIL,
+            USE_SUSPENSE,
+            /**
+             * An enum member indicating that [OnClosedAccount] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                FAIL -> Value.FAIL
+                USE_SUSPENSE -> Value.USE_SUSPENSE
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                FAIL -> Known.FAIL
+                USE_SUSPENSE -> Known.USE_SUSPENSE
+                else -> throw LithicInvalidDataException("Unknown OnClosedAccount: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): OnClosedAccount = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is OnClosedAccount && value == other.value
         }
 
         override fun hashCode() = value.hashCode()

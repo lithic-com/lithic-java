@@ -19,6 +19,7 @@ import kotlin.jvm.optionals.getOrNull
 /** Retrieve a list of transactions across all public accounts. */
 class AccountActivityListParams
 private constructor(
+    private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
     private val category: TransactionCategory?,
@@ -32,6 +33,9 @@ private constructor(
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
+
+    /** Filter by account token */
+    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     /**
      * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -96,6 +100,7 @@ private constructor(
     /** A builder for [AccountActivityListParams]. */
     class Builder internal constructor() {
 
+        private var accountToken: String? = null
         private var begin: OffsetDateTime? = null
         private var businessAccountToken: String? = null
         private var category: TransactionCategory? = null
@@ -111,6 +116,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(accountActivityListParams: AccountActivityListParams) = apply {
+            accountToken = accountActivityListParams.accountToken
             begin = accountActivityListParams.begin
             businessAccountToken = accountActivityListParams.businessAccountToken
             category = accountActivityListParams.category
@@ -124,6 +130,12 @@ private constructor(
             additionalHeaders = accountActivityListParams.additionalHeaders.toBuilder()
             additionalQueryParams = accountActivityListParams.additionalQueryParams.toBuilder()
         }
+
+        /** Filter by account token */
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -340,6 +352,7 @@ private constructor(
          */
         fun build(): AccountActivityListParams =
             AccountActivityListParams(
+                accountToken,
                 begin,
                 businessAccountToken,
                 category,
@@ -360,6 +373,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                accountToken?.let { put("account_token", it) }
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 businessAccountToken?.let { put("business_account_token", it) }
                 category?.let { put("category", it.toString()) }
@@ -857,6 +871,7 @@ private constructor(
         }
 
         return other is AccountActivityListParams &&
+            accountToken == other.accountToken &&
             begin == other.begin &&
             businessAccountToken == other.businessAccountToken &&
             category == other.category &&
@@ -873,6 +888,7 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
+            accountToken,
             begin,
             businessAccountToken,
             category,
@@ -888,5 +904,5 @@ private constructor(
         )
 
     override fun toString() =
-        "AccountActivityListParams{begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AccountActivityListParams{accountToken=$accountToken, begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
