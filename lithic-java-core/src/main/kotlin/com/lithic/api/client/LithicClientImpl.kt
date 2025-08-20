@@ -264,7 +264,7 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         // get /v1/status
         withRawResponse().apiStatus(params, requestOptions).parse()
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LithicClient.WithRawResponse {
