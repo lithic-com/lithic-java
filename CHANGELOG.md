@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.102.1 (2025-08-23)
+
+Full Changelog: [v0.102.0...v0.102.1](https://github.com/lithic-com/lithic-java/compare/v0.102.0...v0.102.1)
+
+### Bug Fixes
+
+* fix casing issue ([0b2187a](https://github.com/lithic-com/lithic-java/commit/0b2187ac0850df8a20974029c8e4fd6796135932))
+* update singularization rules ([546691f](https://github.com/lithic-com/lithic-java/commit/546691f462bbb849a11baa32f3ff8f34aff9523b))
+
+
+### Chores
+
+* **ci:** reduce log noise ([9e55acc](https://github.com/lithic-com/lithic-java/commit/9e55acc8f97887a2a0bb33fd298200fd1d5dc75a))
+* **client:** refactor closing / shutdown ([ffdb0de](https://github.com/lithic-com/lithic-java/commit/ffdb0dec8ae31a8f1a5894ae62c9330d9f5e69fe))
+* **internal:** support running formatters directly ([5803b62](https://github.com/lithic-com/lithic-java/commit/5803b62ba3fa4f6d9cf6f8c92d04f9fd0473a701))
+* remove memory upper bound from publishing step ([e75ad9a](https://github.com/lithic-com/lithic-java/commit/e75ad9a34161e81144bb936ca66113f14ccf659c))
+
 ## 0.102.0 (2025-08-18)
 
 Full Changelog: [v0.101.0...v0.102.0](https://github.com/lithic-com/lithic-java/compare/v0.101.0...v0.102.0)
