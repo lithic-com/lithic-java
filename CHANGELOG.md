@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.102.2 (2025-09-03)
+
+Full Changelog: [v0.102.1...v0.102.2](https://github.com/lithic-com/lithic-java/compare/v0.102.1...v0.102.2)
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([d5befc0](https://github.com/lithic-com/lithic-java/commit/d5befc05b5ee183bcab519155ad4d42400448c61))
+
 ## 0.102.1 (2025-08-23)
 
 Full Changelog: [v0.102.0...v0.102.1](https://github.com/lithic-com/lithic-java/compare/v0.102.0...v0.102.1)
