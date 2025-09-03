@@ -1340,6 +1340,8 @@ private constructor(
 
             @JvmField val TRANSFER = of("TRANSFER")
 
+            @JvmField val COLLECTION = of("COLLECTION")
+
             @JvmStatic fun of(value: String) = BookTransferType(JsonField.of(value))
         }
 
@@ -1378,6 +1380,7 @@ private constructor(
             DISPUTE_WON,
             SERVICE,
             TRANSFER,
+            COLLECTION,
         }
 
         /**
@@ -1423,6 +1426,7 @@ private constructor(
             DISPUTE_WON,
             SERVICE,
             TRANSFER,
+            COLLECTION,
             /**
              * An enum member indicating that [BookTransferType] was instantiated with an unknown
              * value.
@@ -1472,6 +1476,7 @@ private constructor(
                 DISPUTE_WON -> Value.DISPUTE_WON
                 SERVICE -> Value.SERVICE
                 TRANSFER -> Value.TRANSFER
+                COLLECTION -> Value.COLLECTION
                 else -> Value._UNKNOWN
             }
 
@@ -1519,6 +1524,7 @@ private constructor(
                 DISPUTE_WON -> Known.DISPUTE_WON
                 SERVICE -> Known.SERVICE
                 TRANSFER -> Known.TRANSFER
+                COLLECTION -> Known.COLLECTION
                 else -> throw LithicInvalidDataException("Unknown BookTransferType: $value")
             }
 
