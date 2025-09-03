@@ -4512,6 +4512,8 @@ private constructor(
 
                     @JvmField val TRANSFER = of("TRANSFER")
 
+                    @JvmField val COLLECTION = of("COLLECTION")
+
                     @JvmStatic fun of(value: String) = BookTransferType(JsonField.of(value))
                 }
 
@@ -4550,6 +4552,7 @@ private constructor(
                     DISPUTE_WON,
                     SERVICE,
                     TRANSFER,
+                    COLLECTION,
                 }
 
                 /**
@@ -4597,6 +4600,7 @@ private constructor(
                     DISPUTE_WON,
                     SERVICE,
                     TRANSFER,
+                    COLLECTION,
                     /**
                      * An enum member indicating that [BookTransferType] was instantiated with an
                      * unknown value.
@@ -4646,6 +4650,7 @@ private constructor(
                         DISPUTE_WON -> Value.DISPUTE_WON
                         SERVICE -> Value.SERVICE
                         TRANSFER -> Value.TRANSFER
+                        COLLECTION -> Value.COLLECTION
                         else -> Value._UNKNOWN
                     }
 
@@ -4693,6 +4698,7 @@ private constructor(
                         DISPUTE_WON -> Known.DISPUTE_WON
                         SERVICE -> Known.SERVICE
                         TRANSFER -> Known.TRANSFER
+                        COLLECTION -> Known.COLLECTION
                         else -> throw LithicInvalidDataException("Unknown BookTransferType: $value")
                     }
 
@@ -7350,6 +7356,7 @@ private constructor(
         private val currency: JsonField<String>,
         private val expectedReleaseDate: JsonField<LocalDate>,
         private val externalBankAccountToken: JsonField<String>,
+        private val type: JsonField<TransferType>,
         private val userDefinedId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -7410,6 +7417,7 @@ private constructor(
             @JsonProperty("external_bank_account_token")
             @ExcludeMissing
             externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<TransferType> = JsonMissing.of(),
             @JsonProperty("user_defined_id")
             @ExcludeMissing
             userDefinedId: JsonField<String> = JsonMissing.of(),
@@ -7434,6 +7442,7 @@ private constructor(
             currency,
             expectedReleaseDate,
             externalBankAccountToken,
+            type,
             userDefinedId,
             mutableMapOf(),
         )
@@ -7599,6 +7608,12 @@ private constructor(
          */
         fun externalBankAccountToken(): Optional<String> =
             externalBankAccountToken.getOptional("external_bank_account_token")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun type(): Optional<TransferType> = type.getOptional("type")
 
         /**
          * User-defined identifier
@@ -7780,6 +7795,13 @@ private constructor(
         fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
         /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<TransferType> = type
+
+        /**
          * Returns the raw JSON value of [userDefinedId].
          *
          * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected
@@ -7853,6 +7875,7 @@ private constructor(
             private var currency: JsonField<String> = JsonMissing.of()
             private var expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of()
             private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
+            private var type: JsonField<TransferType> = JsonMissing.of()
             private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -7878,6 +7901,7 @@ private constructor(
                 currency = paymentTransaction.currency
                 expectedReleaseDate = paymentTransaction.expectedReleaseDate
                 externalBankAccountToken = paymentTransaction.externalBankAccountToken
+                type = paymentTransaction.type
                 userDefinedId = paymentTransaction.userDefinedId
                 additionalProperties = paymentTransaction.additionalProperties.toMutableMap()
             }
@@ -8179,6 +8203,17 @@ private constructor(
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
+            fun type(type: TransferType) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [TransferType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun type(type: JsonField<TransferType>) = apply { this.type = type }
+
             /** User-defined identifier */
             fun userDefinedId(userDefinedId: String?) =
                 userDefinedId(JsonField.ofNullable(userDefinedId))
@@ -8267,6 +8302,7 @@ private constructor(
                     currency,
                     expectedReleaseDate,
                     externalBankAccountToken,
+                    type,
                     userDefinedId,
                     additionalProperties.toMutableMap(),
                 )
@@ -8299,6 +8335,7 @@ private constructor(
             currency()
             expectedReleaseDate()
             externalBankAccountToken()
+            type().ifPresent { it.validate() }
             userDefinedId()
             validated = true
         }
@@ -8339,6 +8376,7 @@ private constructor(
                 (if (currency.asKnown().isPresent) 1 else 0) +
                 (if (expectedReleaseDate.asKnown().isPresent) 1 else 0) +
                 (if (externalBankAccountToken.asKnown().isPresent) 1 else 0) +
+                (type.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (userDefinedId.asKnown().isPresent) 1 else 0)
 
         /** Transaction category */
@@ -10724,67 +10762,42 @@ private constructor(
 
             class WireMethodAttributes
             private constructor(
-                private val wireTransferType: JsonField<WireTransferType>,
-                private val externalBankName: JsonField<String>,
-                private val externalBankRoutingNumber: JsonField<String>,
-                private val externalIndividualName: JsonField<String>,
-                private val imad: JsonField<String>,
-                private val lithicBankName: JsonField<String>,
-                private val lithicBankRoutingNumber: JsonField<String>,
-                private val lithicIndividualName: JsonField<String>,
-                private val omad: JsonField<String>,
-                private val previousTransfer: JsonField<String>,
-                private val wireToken: JsonField<String>,
+                private val wireNetwork: JsonField<WireNetwork>,
+                private val creditor: JsonField<WirePartyDetails>,
+                private val debtor: JsonField<WirePartyDetails>,
+                private val messageId: JsonField<String>,
+                private val remittanceInformation: JsonField<String>,
+                private val wireMessageType: JsonField<String>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
                 @JsonCreator
                 private constructor(
-                    @JsonProperty("wire_transfer_type")
+                    @JsonProperty("wire_network")
                     @ExcludeMissing
-                    wireTransferType: JsonField<WireTransferType> = JsonMissing.of(),
-                    @JsonProperty("external_bank_name")
+                    wireNetwork: JsonField<WireNetwork> = JsonMissing.of(),
+                    @JsonProperty("creditor")
                     @ExcludeMissing
-                    externalBankName: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("external_bank_routing_number")
+                    creditor: JsonField<WirePartyDetails> = JsonMissing.of(),
+                    @JsonProperty("debtor")
                     @ExcludeMissing
-                    externalBankRoutingNumber: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("external_individual_name")
+                    debtor: JsonField<WirePartyDetails> = JsonMissing.of(),
+                    @JsonProperty("message_id")
                     @ExcludeMissing
-                    externalIndividualName: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("imad")
+                    messageId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("remittance_information")
                     @ExcludeMissing
-                    imad: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("lithic_bank_name")
+                    remittanceInformation: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("wire_message_type")
                     @ExcludeMissing
-                    lithicBankName: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("lithic_bank_routing_number")
-                    @ExcludeMissing
-                    lithicBankRoutingNumber: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("lithic_individual_name")
-                    @ExcludeMissing
-                    lithicIndividualName: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("omad")
-                    @ExcludeMissing
-                    omad: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("previous_transfer")
-                    @ExcludeMissing
-                    previousTransfer: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("wire_token")
-                    @ExcludeMissing
-                    wireToken: JsonField<String> = JsonMissing.of(),
+                    wireMessageType: JsonField<String> = JsonMissing.of(),
                 ) : this(
-                    wireTransferType,
-                    externalBankName,
-                    externalBankRoutingNumber,
-                    externalIndividualName,
-                    imad,
-                    lithicBankName,
-                    lithicBankRoutingNumber,
-                    lithicIndividualName,
-                    omad,
-                    previousTransfer,
-                    wireToken,
+                    wireNetwork,
+                    creditor,
+                    debtor,
+                    messageId,
+                    remittanceInformation,
+                    wireMessageType,
                     mutableMapOf(),
                 )
 
@@ -10795,201 +10808,106 @@ private constructor(
                  *   unexpectedly missing or null (e.g. if the server responded with an unexpected
                  *   value).
                  */
-                fun wireTransferType(): WireTransferType =
-                    wireTransferType.getRequired("wire_transfer_type")
+                fun wireNetwork(): WireNetwork = wireNetwork.getRequired("wire_network")
 
                 /**
-                 * External bank name
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun creditor(): Optional<WirePartyDetails> = creditor.getOptional("creditor")
+
+                /**
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun debtor(): Optional<WirePartyDetails> = debtor.getOptional("debtor")
+
+                /**
+                 * Point to point reference identifier, as assigned by the instructing party, used
+                 * for tracking the message through the Fedwire system
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun externalBankName(): Optional<String> =
-                    externalBankName.getOptional("external_bank_name")
+                fun messageId(): Optional<String> = messageId.getOptional("message_id")
 
                 /**
-                 * External bank routing number
+                 * Payment details or invoice reference
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun externalBankRoutingNumber(): Optional<String> =
-                    externalBankRoutingNumber.getOptional("external_bank_routing_number")
+                fun remittanceInformation(): Optional<String> =
+                    remittanceInformation.getOptional("remittance_information")
 
                 /**
-                 * External individual name
+                 * Type of wire message
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
-                fun externalIndividualName(): Optional<String> =
-                    externalIndividualName.getOptional("external_individual_name")
+                fun wireMessageType(): Optional<String> =
+                    wireMessageType.getOptional("wire_message_type")
 
                 /**
-                 * IMAD
+                 * Returns the raw JSON value of [wireNetwork].
                  *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun imad(): Optional<String> = imad.getOptional("imad")
-
-                /**
-                 * Lithic bank name
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun lithicBankName(): Optional<String> =
-                    lithicBankName.getOptional("lithic_bank_name")
-
-                /**
-                 * Lithic bank routing number
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun lithicBankRoutingNumber(): Optional<String> =
-                    lithicBankRoutingNumber.getOptional("lithic_bank_routing_number")
-
-                /**
-                 * Lithic individual name
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun lithicIndividualName(): Optional<String> =
-                    lithicIndividualName.getOptional("lithic_individual_name")
-
-                /**
-                 * OMAD
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun omad(): Optional<String> = omad.getOptional("omad")
-
-                /**
-                 * UUID of previous transfer if this is a retry
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun previousTransfer(): Optional<String> =
-                    previousTransfer.getOptional("previous_transfer")
-
-                /**
-                 * Wire token
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
-                 *   if the server responded with an unexpected value).
-                 */
-                fun wireToken(): Optional<String> = wireToken.getOptional("wire_token")
-
-                /**
-                 * Returns the raw JSON value of [wireTransferType].
-                 *
-                 * Unlike [wireTransferType], this method doesn't throw if the JSON field has an
+                 * Unlike [wireNetwork], this method doesn't throw if the JSON field has an
                  * unexpected type.
                  */
-                @JsonProperty("wire_transfer_type")
+                @JsonProperty("wire_network")
                 @ExcludeMissing
-                fun _wireTransferType(): JsonField<WireTransferType> = wireTransferType
+                fun _wireNetwork(): JsonField<WireNetwork> = wireNetwork
 
                 /**
-                 * Returns the raw JSON value of [externalBankName].
+                 * Returns the raw JSON value of [creditor].
                  *
-                 * Unlike [externalBankName], this method doesn't throw if the JSON field has an
-                 * unexpected type.
+                 * Unlike [creditor], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
-                @JsonProperty("external_bank_name")
+                @JsonProperty("creditor")
                 @ExcludeMissing
-                fun _externalBankName(): JsonField<String> = externalBankName
+                fun _creditor(): JsonField<WirePartyDetails> = creditor
 
                 /**
-                 * Returns the raw JSON value of [externalBankRoutingNumber].
+                 * Returns the raw JSON value of [debtor].
                  *
-                 * Unlike [externalBankRoutingNumber], this method doesn't throw if the JSON field
-                 * has an unexpected type.
+                 * Unlike [debtor], this method doesn't throw if the JSON field has an unexpected
+                 * type.
                  */
-                @JsonProperty("external_bank_routing_number")
+                @JsonProperty("debtor")
                 @ExcludeMissing
-                fun _externalBankRoutingNumber(): JsonField<String> = externalBankRoutingNumber
+                fun _debtor(): JsonField<WirePartyDetails> = debtor
 
                 /**
-                 * Returns the raw JSON value of [externalIndividualName].
+                 * Returns the raw JSON value of [messageId].
                  *
-                 * Unlike [externalIndividualName], this method doesn't throw if the JSON field has
+                 * Unlike [messageId], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("message_id")
+                @ExcludeMissing
+                fun _messageId(): JsonField<String> = messageId
+
+                /**
+                 * Returns the raw JSON value of [remittanceInformation].
+                 *
+                 * Unlike [remittanceInformation], this method doesn't throw if the JSON field has
                  * an unexpected type.
                  */
-                @JsonProperty("external_individual_name")
+                @JsonProperty("remittance_information")
                 @ExcludeMissing
-                fun _externalIndividualName(): JsonField<String> = externalIndividualName
+                fun _remittanceInformation(): JsonField<String> = remittanceInformation
 
                 /**
-                 * Returns the raw JSON value of [imad].
+                 * Returns the raw JSON value of [wireMessageType].
                  *
-                 * Unlike [imad], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("imad") @ExcludeMissing fun _imad(): JsonField<String> = imad
-
-                /**
-                 * Returns the raw JSON value of [lithicBankName].
-                 *
-                 * Unlike [lithicBankName], this method doesn't throw if the JSON field has an
+                 * Unlike [wireMessageType], this method doesn't throw if the JSON field has an
                  * unexpected type.
                  */
-                @JsonProperty("lithic_bank_name")
+                @JsonProperty("wire_message_type")
                 @ExcludeMissing
-                fun _lithicBankName(): JsonField<String> = lithicBankName
-
-                /**
-                 * Returns the raw JSON value of [lithicBankRoutingNumber].
-                 *
-                 * Unlike [lithicBankRoutingNumber], this method doesn't throw if the JSON field has
-                 * an unexpected type.
-                 */
-                @JsonProperty("lithic_bank_routing_number")
-                @ExcludeMissing
-                fun _lithicBankRoutingNumber(): JsonField<String> = lithicBankRoutingNumber
-
-                /**
-                 * Returns the raw JSON value of [lithicIndividualName].
-                 *
-                 * Unlike [lithicIndividualName], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("lithic_individual_name")
-                @ExcludeMissing
-                fun _lithicIndividualName(): JsonField<String> = lithicIndividualName
-
-                /**
-                 * Returns the raw JSON value of [omad].
-                 *
-                 * Unlike [omad], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("omad") @ExcludeMissing fun _omad(): JsonField<String> = omad
-
-                /**
-                 * Returns the raw JSON value of [previousTransfer].
-                 *
-                 * Unlike [previousTransfer], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("previous_transfer")
-                @ExcludeMissing
-                fun _previousTransfer(): JsonField<String> = previousTransfer
-
-                /**
-                 * Returns the raw JSON value of [wireToken].
-                 *
-                 * Unlike [wireToken], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("wire_token")
-                @ExcludeMissing
-                fun _wireToken(): JsonField<String> = wireToken
+                fun _wireMessageType(): JsonField<String> = wireMessageType
 
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -11011,7 +10929,7 @@ private constructor(
                      *
                      * The following fields are required:
                      * ```java
-                     * .wireTransferType()
+                     * .wireNetwork()
                      * ```
                      */
                     @JvmStatic fun builder() = Builder()
@@ -11020,252 +10938,120 @@ private constructor(
                 /** A builder for [WireMethodAttributes]. */
                 class Builder internal constructor() {
 
-                    private var wireTransferType: JsonField<WireTransferType>? = null
-                    private var externalBankName: JsonField<String> = JsonMissing.of()
-                    private var externalBankRoutingNumber: JsonField<String> = JsonMissing.of()
-                    private var externalIndividualName: JsonField<String> = JsonMissing.of()
-                    private var imad: JsonField<String> = JsonMissing.of()
-                    private var lithicBankName: JsonField<String> = JsonMissing.of()
-                    private var lithicBankRoutingNumber: JsonField<String> = JsonMissing.of()
-                    private var lithicIndividualName: JsonField<String> = JsonMissing.of()
-                    private var omad: JsonField<String> = JsonMissing.of()
-                    private var previousTransfer: JsonField<String> = JsonMissing.of()
-                    private var wireToken: JsonField<String> = JsonMissing.of()
+                    private var wireNetwork: JsonField<WireNetwork>? = null
+                    private var creditor: JsonField<WirePartyDetails> = JsonMissing.of()
+                    private var debtor: JsonField<WirePartyDetails> = JsonMissing.of()
+                    private var messageId: JsonField<String> = JsonMissing.of()
+                    private var remittanceInformation: JsonField<String> = JsonMissing.of()
+                    private var wireMessageType: JsonField<String> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(wireMethodAttributes: WireMethodAttributes) = apply {
-                        wireTransferType = wireMethodAttributes.wireTransferType
-                        externalBankName = wireMethodAttributes.externalBankName
-                        externalBankRoutingNumber = wireMethodAttributes.externalBankRoutingNumber
-                        externalIndividualName = wireMethodAttributes.externalIndividualName
-                        imad = wireMethodAttributes.imad
-                        lithicBankName = wireMethodAttributes.lithicBankName
-                        lithicBankRoutingNumber = wireMethodAttributes.lithicBankRoutingNumber
-                        lithicIndividualName = wireMethodAttributes.lithicIndividualName
-                        omad = wireMethodAttributes.omad
-                        previousTransfer = wireMethodAttributes.previousTransfer
-                        wireToken = wireMethodAttributes.wireToken
+                        wireNetwork = wireMethodAttributes.wireNetwork
+                        creditor = wireMethodAttributes.creditor
+                        debtor = wireMethodAttributes.debtor
+                        messageId = wireMethodAttributes.messageId
+                        remittanceInformation = wireMethodAttributes.remittanceInformation
+                        wireMessageType = wireMethodAttributes.wireMessageType
                         additionalProperties =
                             wireMethodAttributes.additionalProperties.toMutableMap()
                     }
 
                     /** Type of wire transfer */
-                    fun wireTransferType(wireTransferType: WireTransferType) =
-                        wireTransferType(JsonField.of(wireTransferType))
+                    fun wireNetwork(wireNetwork: WireNetwork) =
+                        wireNetwork(JsonField.of(wireNetwork))
 
                     /**
-                     * Sets [Builder.wireTransferType] to an arbitrary JSON value.
+                     * Sets [Builder.wireNetwork] to an arbitrary JSON value.
                      *
-                     * You should usually call [Builder.wireTransferType] with a well-typed
-                     * [WireTransferType] value instead. This method is primarily for setting the
+                     * You should usually call [Builder.wireNetwork] with a well-typed [WireNetwork]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun wireNetwork(wireNetwork: JsonField<WireNetwork>) = apply {
+                        this.wireNetwork = wireNetwork
+                    }
+
+                    fun creditor(creditor: WirePartyDetails) = creditor(JsonField.of(creditor))
+
+                    /**
+                     * Sets [Builder.creditor] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.creditor] with a well-typed
+                     * [WirePartyDetails] value instead. This method is primarily for setting the
                      * field to an undocumented or not yet supported value.
                      */
-                    fun wireTransferType(wireTransferType: JsonField<WireTransferType>) = apply {
-                        this.wireTransferType = wireTransferType
+                    fun creditor(creditor: JsonField<WirePartyDetails>) = apply {
+                        this.creditor = creditor
                     }
 
-                    /** External bank name */
-                    fun externalBankName(externalBankName: String?) =
-                        externalBankName(JsonField.ofNullable(externalBankName))
+                    fun debtor(debtor: WirePartyDetails) = debtor(JsonField.of(debtor))
 
                     /**
-                     * Alias for calling [Builder.externalBankName] with
-                     * `externalBankName.orElse(null)`.
-                     */
-                    fun externalBankName(externalBankName: Optional<String>) =
-                        externalBankName(externalBankName.getOrNull())
-
-                    /**
-                     * Sets [Builder.externalBankName] to an arbitrary JSON value.
+                     * Sets [Builder.debtor] to an arbitrary JSON value.
                      *
-                     * You should usually call [Builder.externalBankName] with a well-typed [String]
+                     * You should usually call [Builder.debtor] with a well-typed [WirePartyDetails]
                      * value instead. This method is primarily for setting the field to an
                      * undocumented or not yet supported value.
                      */
-                    fun externalBankName(externalBankName: JsonField<String>) = apply {
-                        this.externalBankName = externalBankName
-                    }
-
-                    /** External bank routing number */
-                    fun externalBankRoutingNumber(externalBankRoutingNumber: String?) =
-                        externalBankRoutingNumber(JsonField.ofNullable(externalBankRoutingNumber))
+                    fun debtor(debtor: JsonField<WirePartyDetails>) = apply { this.debtor = debtor }
 
                     /**
-                     * Alias for calling [Builder.externalBankRoutingNumber] with
-                     * `externalBankRoutingNumber.orElse(null)`.
+                     * Point to point reference identifier, as assigned by the instructing party,
+                     * used for tracking the message through the Fedwire system
                      */
-                    fun externalBankRoutingNumber(externalBankRoutingNumber: Optional<String>) =
-                        externalBankRoutingNumber(externalBankRoutingNumber.getOrNull())
+                    fun messageId(messageId: String?) = messageId(JsonField.ofNullable(messageId))
+
+                    /** Alias for calling [Builder.messageId] with `messageId.orElse(null)`. */
+                    fun messageId(messageId: Optional<String>) = messageId(messageId.getOrNull())
 
                     /**
-                     * Sets [Builder.externalBankRoutingNumber] to an arbitrary JSON value.
+                     * Sets [Builder.messageId] to an arbitrary JSON value.
                      *
-                     * You should usually call [Builder.externalBankRoutingNumber] with a well-typed
-                     * [String] value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun externalBankRoutingNumber(externalBankRoutingNumber: JsonField<String>) =
-                        apply {
-                            this.externalBankRoutingNumber = externalBankRoutingNumber
-                        }
-
-                    /** External individual name */
-                    fun externalIndividualName(externalIndividualName: String?) =
-                        externalIndividualName(JsonField.ofNullable(externalIndividualName))
-
-                    /**
-                     * Alias for calling [Builder.externalIndividualName] with
-                     * `externalIndividualName.orElse(null)`.
-                     */
-                    fun externalIndividualName(externalIndividualName: Optional<String>) =
-                        externalIndividualName(externalIndividualName.getOrNull())
-
-                    /**
-                     * Sets [Builder.externalIndividualName] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.externalIndividualName] with a well-typed
-                     * [String] value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun externalIndividualName(externalIndividualName: JsonField<String>) = apply {
-                        this.externalIndividualName = externalIndividualName
-                    }
-
-                    /** IMAD */
-                    fun imad(imad: String?) = imad(JsonField.ofNullable(imad))
-
-                    /** Alias for calling [Builder.imad] with `imad.orElse(null)`. */
-                    fun imad(imad: Optional<String>) = imad(imad.getOrNull())
-
-                    /**
-                     * Sets [Builder.imad] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.imad] with a well-typed [String] value
+                     * You should usually call [Builder.messageId] with a well-typed [String] value
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun imad(imad: JsonField<String>) = apply { this.imad = imad }
+                    fun messageId(messageId: JsonField<String>) = apply {
+                        this.messageId = messageId
+                    }
 
-                    /** Lithic bank name */
-                    fun lithicBankName(lithicBankName: String?) =
-                        lithicBankName(JsonField.ofNullable(lithicBankName))
+                    /** Payment details or invoice reference */
+                    fun remittanceInformation(remittanceInformation: String?) =
+                        remittanceInformation(JsonField.ofNullable(remittanceInformation))
 
                     /**
-                     * Alias for calling [Builder.lithicBankName] with
-                     * `lithicBankName.orElse(null)`.
+                     * Alias for calling [Builder.remittanceInformation] with
+                     * `remittanceInformation.orElse(null)`.
                      */
-                    fun lithicBankName(lithicBankName: Optional<String>) =
-                        lithicBankName(lithicBankName.getOrNull())
+                    fun remittanceInformation(remittanceInformation: Optional<String>) =
+                        remittanceInformation(remittanceInformation.getOrNull())
 
                     /**
-                     * Sets [Builder.lithicBankName] to an arbitrary JSON value.
+                     * Sets [Builder.remittanceInformation] to an arbitrary JSON value.
                      *
-                     * You should usually call [Builder.lithicBankName] with a well-typed [String]
+                     * You should usually call [Builder.remittanceInformation] with a well-typed
+                     * [String] value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun remittanceInformation(remittanceInformation: JsonField<String>) = apply {
+                        this.remittanceInformation = remittanceInformation
+                    }
+
+                    /** Type of wire message */
+                    fun wireMessageType(wireMessageType: String) =
+                        wireMessageType(JsonField.of(wireMessageType))
+
+                    /**
+                     * Sets [Builder.wireMessageType] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.wireMessageType] with a well-typed [String]
                      * value instead. This method is primarily for setting the field to an
                      * undocumented or not yet supported value.
                      */
-                    fun lithicBankName(lithicBankName: JsonField<String>) = apply {
-                        this.lithicBankName = lithicBankName
-                    }
-
-                    /** Lithic bank routing number */
-                    fun lithicBankRoutingNumber(lithicBankRoutingNumber: String?) =
-                        lithicBankRoutingNumber(JsonField.ofNullable(lithicBankRoutingNumber))
-
-                    /**
-                     * Alias for calling [Builder.lithicBankRoutingNumber] with
-                     * `lithicBankRoutingNumber.orElse(null)`.
-                     */
-                    fun lithicBankRoutingNumber(lithicBankRoutingNumber: Optional<String>) =
-                        lithicBankRoutingNumber(lithicBankRoutingNumber.getOrNull())
-
-                    /**
-                     * Sets [Builder.lithicBankRoutingNumber] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.lithicBankRoutingNumber] with a well-typed
-                     * [String] value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun lithicBankRoutingNumber(lithicBankRoutingNumber: JsonField<String>) =
-                        apply {
-                            this.lithicBankRoutingNumber = lithicBankRoutingNumber
-                        }
-
-                    /** Lithic individual name */
-                    fun lithicIndividualName(lithicIndividualName: String?) =
-                        lithicIndividualName(JsonField.ofNullable(lithicIndividualName))
-
-                    /**
-                     * Alias for calling [Builder.lithicIndividualName] with
-                     * `lithicIndividualName.orElse(null)`.
-                     */
-                    fun lithicIndividualName(lithicIndividualName: Optional<String>) =
-                        lithicIndividualName(lithicIndividualName.getOrNull())
-
-                    /**
-                     * Sets [Builder.lithicIndividualName] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.lithicIndividualName] with a well-typed
-                     * [String] value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun lithicIndividualName(lithicIndividualName: JsonField<String>) = apply {
-                        this.lithicIndividualName = lithicIndividualName
-                    }
-
-                    /** OMAD */
-                    fun omad(omad: String?) = omad(JsonField.ofNullable(omad))
-
-                    /** Alias for calling [Builder.omad] with `omad.orElse(null)`. */
-                    fun omad(omad: Optional<String>) = omad(omad.getOrNull())
-
-                    /**
-                     * Sets [Builder.omad] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.omad] with a well-typed [String] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun omad(omad: JsonField<String>) = apply { this.omad = omad }
-
-                    /** UUID of previous transfer if this is a retry */
-                    fun previousTransfer(previousTransfer: String?) =
-                        previousTransfer(JsonField.ofNullable(previousTransfer))
-
-                    /**
-                     * Alias for calling [Builder.previousTransfer] with
-                     * `previousTransfer.orElse(null)`.
-                     */
-                    fun previousTransfer(previousTransfer: Optional<String>) =
-                        previousTransfer(previousTransfer.getOrNull())
-
-                    /**
-                     * Sets [Builder.previousTransfer] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.previousTransfer] with a well-typed [String]
-                     * value instead. This method is primarily for setting the field to an
-                     * undocumented or not yet supported value.
-                     */
-                    fun previousTransfer(previousTransfer: JsonField<String>) = apply {
-                        this.previousTransfer = previousTransfer
-                    }
-
-                    /** Wire token */
-                    fun wireToken(wireToken: String?) = wireToken(JsonField.ofNullable(wireToken))
-
-                    /** Alias for calling [Builder.wireToken] with `wireToken.orElse(null)`. */
-                    fun wireToken(wireToken: Optional<String>) = wireToken(wireToken.getOrNull())
-
-                    /**
-                     * Sets [Builder.wireToken] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.wireToken] with a well-typed [String] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun wireToken(wireToken: JsonField<String>) = apply {
-                        this.wireToken = wireToken
+                    fun wireMessageType(wireMessageType: JsonField<String>) = apply {
+                        this.wireMessageType = wireMessageType
                     }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -11297,24 +11083,19 @@ private constructor(
                      *
                      * The following fields are required:
                      * ```java
-                     * .wireTransferType()
+                     * .wireNetwork()
                      * ```
                      *
                      * @throws IllegalStateException if any required field is unset.
                      */
                     fun build(): WireMethodAttributes =
                         WireMethodAttributes(
-                            checkRequired("wireTransferType", wireTransferType),
-                            externalBankName,
-                            externalBankRoutingNumber,
-                            externalIndividualName,
-                            imad,
-                            lithicBankName,
-                            lithicBankRoutingNumber,
-                            lithicIndividualName,
-                            omad,
-                            previousTransfer,
-                            wireToken,
+                            checkRequired("wireNetwork", wireNetwork),
+                            creditor,
+                            debtor,
+                            messageId,
+                            remittanceInformation,
+                            wireMessageType,
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -11326,17 +11107,12 @@ private constructor(
                         return@apply
                     }
 
-                    wireTransferType().validate()
-                    externalBankName()
-                    externalBankRoutingNumber()
-                    externalIndividualName()
-                    imad()
-                    lithicBankName()
-                    lithicBankRoutingNumber()
-                    lithicIndividualName()
-                    omad()
-                    previousTransfer()
-                    wireToken()
+                    wireNetwork().validate()
+                    creditor().ifPresent { it.validate() }
+                    debtor().ifPresent { it.validate() }
+                    messageId()
+                    remittanceInformation()
+                    wireMessageType()
                     validated = true
                 }
 
@@ -11356,20 +11132,15 @@ private constructor(
                  */
                 @JvmSynthetic
                 internal fun validity(): Int =
-                    (wireTransferType.asKnown().getOrNull()?.validity() ?: 0) +
-                        (if (externalBankName.asKnown().isPresent) 1 else 0) +
-                        (if (externalBankRoutingNumber.asKnown().isPresent) 1 else 0) +
-                        (if (externalIndividualName.asKnown().isPresent) 1 else 0) +
-                        (if (imad.asKnown().isPresent) 1 else 0) +
-                        (if (lithicBankName.asKnown().isPresent) 1 else 0) +
-                        (if (lithicBankRoutingNumber.asKnown().isPresent) 1 else 0) +
-                        (if (lithicIndividualName.asKnown().isPresent) 1 else 0) +
-                        (if (omad.asKnown().isPresent) 1 else 0) +
-                        (if (previousTransfer.asKnown().isPresent) 1 else 0) +
-                        (if (wireToken.asKnown().isPresent) 1 else 0)
+                    (wireNetwork.asKnown().getOrNull()?.validity() ?: 0) +
+                        (creditor.asKnown().getOrNull()?.validity() ?: 0) +
+                        (debtor.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (messageId.asKnown().isPresent) 1 else 0) +
+                        (if (remittanceInformation.asKnown().isPresent) 1 else 0) +
+                        (if (wireMessageType.asKnown().isPresent) 1 else 0)
 
                 /** Type of wire transfer */
-                class WireTransferType
+                class WireNetwork
                 @JsonCreator
                 private constructor(private val value: JsonField<String>) : Enum {
 
@@ -11390,20 +11161,20 @@ private constructor(
 
                         @JvmField val SWIFT = of("SWIFT")
 
-                        @JvmStatic fun of(value: String) = WireTransferType(JsonField.of(value))
+                        @JvmStatic fun of(value: String) = WireNetwork(JsonField.of(value))
                     }
 
-                    /** An enum containing [WireTransferType]'s known values. */
+                    /** An enum containing [WireNetwork]'s known values. */
                     enum class Known {
                         FEDWIRE,
                         SWIFT,
                     }
 
                     /**
-                     * An enum containing [WireTransferType]'s known values, as well as an
-                     * [_UNKNOWN] member.
+                     * An enum containing [WireNetwork]'s known values, as well as an [_UNKNOWN]
+                     * member.
                      *
-                     * An instance of [WireTransferType] can contain an unknown value in a couple of
+                     * An instance of [WireNetwork] can contain an unknown value in a couple of
                      * cases:
                      * - It was deserialized from data that doesn't match any known member. For
                      *   example, if the SDK is on an older version than the API, then the API may
@@ -11414,8 +11185,8 @@ private constructor(
                         FEDWIRE,
                         SWIFT,
                         /**
-                         * An enum member indicating that [WireTransferType] was instantiated with
-                         * an unknown value.
+                         * An enum member indicating that [WireNetwork] was instantiated with an
+                         * unknown value.
                          */
                         _UNKNOWN,
                     }
@@ -11447,8 +11218,7 @@ private constructor(
                         when (this) {
                             FEDWIRE -> Known.FEDWIRE
                             SWIFT -> Known.SWIFT
-                            else ->
-                                throw LithicInvalidDataException("Unknown WireTransferType: $value")
+                            else -> throw LithicInvalidDataException("Unknown WireNetwork: $value")
                         }
 
                     /**
@@ -11467,7 +11237,7 @@ private constructor(
 
                     private var validated: Boolean = false
 
-                    fun validate(): WireTransferType = apply {
+                    fun validate(): WireNetwork = apply {
                         if (validated) {
                             return@apply
                         }
@@ -11498,7 +11268,7 @@ private constructor(
                             return true
                         }
 
-                        return other is WireTransferType && value == other.value
+                        return other is WireNetwork && value == other.value
                     }
 
                     override fun hashCode() = value.hashCode()
@@ -11512,33 +11282,23 @@ private constructor(
                     }
 
                     return other is WireMethodAttributes &&
-                        wireTransferType == other.wireTransferType &&
-                        externalBankName == other.externalBankName &&
-                        externalBankRoutingNumber == other.externalBankRoutingNumber &&
-                        externalIndividualName == other.externalIndividualName &&
-                        imad == other.imad &&
-                        lithicBankName == other.lithicBankName &&
-                        lithicBankRoutingNumber == other.lithicBankRoutingNumber &&
-                        lithicIndividualName == other.lithicIndividualName &&
-                        omad == other.omad &&
-                        previousTransfer == other.previousTransfer &&
-                        wireToken == other.wireToken &&
+                        wireNetwork == other.wireNetwork &&
+                        creditor == other.creditor &&
+                        debtor == other.debtor &&
+                        messageId == other.messageId &&
+                        remittanceInformation == other.remittanceInformation &&
+                        wireMessageType == other.wireMessageType &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
                     Objects.hash(
-                        wireTransferType,
-                        externalBankName,
-                        externalBankRoutingNumber,
-                        externalIndividualName,
-                        imad,
-                        lithicBankName,
-                        lithicBankRoutingNumber,
-                        lithicIndividualName,
-                        omad,
-                        previousTransfer,
-                        wireToken,
+                        wireNetwork,
+                        creditor,
+                        debtor,
+                        messageId,
+                        remittanceInformation,
+                        wireMessageType,
                         additionalProperties,
                     )
                 }
@@ -11546,7 +11306,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "WireMethodAttributes{wireTransferType=$wireTransferType, externalBankName=$externalBankName, externalBankRoutingNumber=$externalBankRoutingNumber, externalIndividualName=$externalIndividualName, imad=$imad, lithicBankName=$lithicBankName, lithicBankRoutingNumber=$lithicBankRoutingNumber, lithicIndividualName=$lithicIndividualName, omad=$omad, previousTransfer=$previousTransfer, wireToken=$wireToken, additionalProperties=$additionalProperties}"
+                    "WireMethodAttributes{wireNetwork=$wireNetwork, creditor=$creditor, debtor=$debtor, messageId=$messageId, remittanceInformation=$remittanceInformation, wireMessageType=$wireMessageType, additionalProperties=$additionalProperties}"
             }
         }
 
@@ -12203,6 +11963,173 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        class TransferType @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val ORIGINATION_CREDIT = of("ORIGINATION_CREDIT")
+
+                @JvmField val ORIGINATION_DEBIT = of("ORIGINATION_DEBIT")
+
+                @JvmField val RECEIPT_CREDIT = of("RECEIPT_CREDIT")
+
+                @JvmField val RECEIPT_DEBIT = of("RECEIPT_DEBIT")
+
+                @JvmField val WIRE_INBOUND_PAYMENT = of("WIRE_INBOUND_PAYMENT")
+
+                @JvmField val WIRE_INBOUND_ADMIN = of("WIRE_INBOUND_ADMIN")
+
+                @JvmField val WIRE_OUTBOUND_PAYMENT = of("WIRE_OUTBOUND_PAYMENT")
+
+                @JvmField val WIRE_OUTBOUND_ADMIN = of("WIRE_OUTBOUND_ADMIN")
+
+                @JvmStatic fun of(value: String) = TransferType(JsonField.of(value))
+            }
+
+            /** An enum containing [TransferType]'s known values. */
+            enum class Known {
+                ORIGINATION_CREDIT,
+                ORIGINATION_DEBIT,
+                RECEIPT_CREDIT,
+                RECEIPT_DEBIT,
+                WIRE_INBOUND_PAYMENT,
+                WIRE_INBOUND_ADMIN,
+                WIRE_OUTBOUND_PAYMENT,
+                WIRE_OUTBOUND_ADMIN,
+            }
+
+            /**
+             * An enum containing [TransferType]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [TransferType] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                ORIGINATION_CREDIT,
+                ORIGINATION_DEBIT,
+                RECEIPT_CREDIT,
+                RECEIPT_DEBIT,
+                WIRE_INBOUND_PAYMENT,
+                WIRE_INBOUND_ADMIN,
+                WIRE_OUTBOUND_PAYMENT,
+                WIRE_OUTBOUND_ADMIN,
+                /**
+                 * An enum member indicating that [TransferType] was instantiated with an unknown
+                 * value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    ORIGINATION_CREDIT -> Value.ORIGINATION_CREDIT
+                    ORIGINATION_DEBIT -> Value.ORIGINATION_DEBIT
+                    RECEIPT_CREDIT -> Value.RECEIPT_CREDIT
+                    RECEIPT_DEBIT -> Value.RECEIPT_DEBIT
+                    WIRE_INBOUND_PAYMENT -> Value.WIRE_INBOUND_PAYMENT
+                    WIRE_INBOUND_ADMIN -> Value.WIRE_INBOUND_ADMIN
+                    WIRE_OUTBOUND_PAYMENT -> Value.WIRE_OUTBOUND_PAYMENT
+                    WIRE_OUTBOUND_ADMIN -> Value.WIRE_OUTBOUND_ADMIN
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    ORIGINATION_CREDIT -> Known.ORIGINATION_CREDIT
+                    ORIGINATION_DEBIT -> Known.ORIGINATION_DEBIT
+                    RECEIPT_CREDIT -> Known.RECEIPT_CREDIT
+                    RECEIPT_DEBIT -> Known.RECEIPT_DEBIT
+                    WIRE_INBOUND_PAYMENT -> Known.WIRE_INBOUND_PAYMENT
+                    WIRE_INBOUND_ADMIN -> Known.WIRE_INBOUND_ADMIN
+                    WIRE_OUTBOUND_PAYMENT -> Known.WIRE_OUTBOUND_PAYMENT
+                    WIRE_OUTBOUND_ADMIN -> Known.WIRE_OUTBOUND_ADMIN
+                    else -> throw LithicInvalidDataException("Unknown TransferType: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TransferType = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TransferType && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -12229,6 +12156,7 @@ private constructor(
                 currency == other.currency &&
                 expectedReleaseDate == other.expectedReleaseDate &&
                 externalBankAccountToken == other.externalBankAccountToken &&
+                type == other.type &&
                 userDefinedId == other.userDefinedId &&
                 additionalProperties == other.additionalProperties
         }
@@ -12255,6 +12183,7 @@ private constructor(
                 currency,
                 expectedReleaseDate,
                 externalBankAccountToken,
+                type,
                 userDefinedId,
                 additionalProperties,
             )
@@ -12263,6 +12192,6 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentTransaction{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "PaymentTransaction{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 }

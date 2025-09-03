@@ -29,7 +29,7 @@ private constructor(
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
-    /** Page size (for pagination). */
+    /** Number of records per page. */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     /**
@@ -93,7 +93,7 @@ private constructor(
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
-        /** Page size (for pagination). */
+        /** Number of records per page. */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
         /**
