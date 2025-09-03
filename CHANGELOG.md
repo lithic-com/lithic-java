@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.103.0 (2025-09-03)
+
+Full Changelog: [v0.102.2...v0.103.0](https://github.com/lithic-com/lithic-java/compare/v0.102.2...v0.103.0)
+
+### Features
+
+* **api:** adds support for delegated KYB onboarding and more device details in 3DS Authentications ([bd0d218](https://github.com/lithic-com/lithic-java/commit/bd0d218d1258c9a8e0d964ce726e682a9c9251cc))
+
 ## 0.102.2 (2025-09-03)
 
 Full Changelog: [v0.102.1...v0.102.2](https://github.com/lithic-com/lithic-java/compare/v0.102.1...v0.102.2)
