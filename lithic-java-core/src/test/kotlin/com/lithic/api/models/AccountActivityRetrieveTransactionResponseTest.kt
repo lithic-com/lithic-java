@@ -945,6 +945,10 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .currency("USD")
                 .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .type(
+                    AccountActivityRetrieveTransactionResponse.PaymentTransaction.TransferType
+                        .ORIGINATION_CREDIT
+                )
                 .userDefinedId("user_defined_id")
                 .build()
 
@@ -1062,6 +1066,10 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .currency("USD")
                     .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .type(
+                        AccountActivityRetrieveTransactionResponse.PaymentTransaction.TransferType
+                            .ORIGINATION_CREDIT
+                    )
                     .userDefinedId("user_defined_id")
                     .build()
             )

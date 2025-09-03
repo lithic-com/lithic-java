@@ -5195,22 +5195,72 @@ private constructor(
      */
     class App
     private constructor(
+        private val device: JsonField<String>,
         private val deviceInfo: JsonField<String>,
         private val ip: JsonField<String>,
+        private val latitude: JsonField<Double>,
+        private val locale: JsonField<String>,
+        private val longitude: JsonField<Double>,
+        private val os: JsonField<String>,
+        private val platform: JsonField<String>,
+        private val screenHeight: JsonField<Long>,
+        private val screenWidth: JsonField<Long>,
+        private val timeZone: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("device") @ExcludeMissing device: JsonField<String> = JsonMissing.of(),
             @JsonProperty("device_info")
             @ExcludeMissing
             deviceInfo: JsonField<String> = JsonMissing.of(),
             @JsonProperty("ip") @ExcludeMissing ip: JsonField<String> = JsonMissing.of(),
-        ) : this(deviceInfo, ip, mutableMapOf())
+            @JsonProperty("latitude")
+            @ExcludeMissing
+            latitude: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("locale") @ExcludeMissing locale: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("longitude")
+            @ExcludeMissing
+            longitude: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("os") @ExcludeMissing os: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("platform")
+            @ExcludeMissing
+            platform: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("screen_height")
+            @ExcludeMissing
+            screenHeight: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("screen_width")
+            @ExcludeMissing
+            screenWidth: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("time_zone")
+            @ExcludeMissing
+            timeZone: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            device,
+            deviceInfo,
+            ip,
+            latitude,
+            locale,
+            longitude,
+            os,
+            platform,
+            screenHeight,
+            screenWidth,
+            timeZone,
+            mutableMapOf(),
+        )
 
         /**
-         * Device information gathered from the cardholder's device - JSON name/value pairs that is
-         * Base64url encoded. Maps to EMV 3DS field `deviceInfo`.
+         * Device model: e.g. "Apple iPhone 16".
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun device(): Optional<String> = device.getOptional("device")
+
+        /**
+         * Raw device information - base64-encoded JSON object. Maps to EMV 3DS field `deviceInfo`.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -5218,13 +5268,83 @@ private constructor(
         fun deviceInfo(): Optional<String> = deviceInfo.getOptional("device_info")
 
         /**
-         * External IP address used by the app generating the 3DS authentication request. Maps to
-         * EMV 3DS field `appIp`.
+         * IP address of the device.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
         fun ip(): Optional<String> = ip.getOptional("ip")
+
+        /**
+         * Latitude coordinate of current device location.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun latitude(): Optional<Double> = latitude.getOptional("latitude")
+
+        /**
+         * Device locale: e.g. "en-US".
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun locale(): Optional<String> = locale.getOptional("locale")
+
+        /**
+         * Longitude coordinate of current device location.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun longitude(): Optional<Double> = longitude.getOptional("longitude")
+
+        /**
+         * Operating System: e.g. "Android 12", "iOS 17.1".
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun os(): Optional<String> = os.getOptional("os")
+
+        /**
+         * Device platform: Android, iOS, Windows, etc.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun platform(): Optional<String> = platform.getOptional("platform")
+
+        /**
+         * Screen height in pixels.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun screenHeight(): Optional<Long> = screenHeight.getOptional("screen_height")
+
+        /**
+         * Screen width in pixels.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun screenWidth(): Optional<Long> = screenWidth.getOptional("screen_width")
+
+        /**
+         * Time zone offset in minutes between UTC and device local time.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun timeZone(): Optional<String> = timeZone.getOptional("time_zone")
+
+        /**
+         * Returns the raw JSON value of [device].
+         *
+         * Unlike [device], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("device") @ExcludeMissing fun _device(): JsonField<String> = device
 
         /**
          * Returns the raw JSON value of [deviceInfo].
@@ -5241,6 +5361,67 @@ private constructor(
          * Unlike [ip], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("ip") @ExcludeMissing fun _ip(): JsonField<String> = ip
+
+        /**
+         * Returns the raw JSON value of [latitude].
+         *
+         * Unlike [latitude], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("latitude") @ExcludeMissing fun _latitude(): JsonField<Double> = latitude
+
+        /**
+         * Returns the raw JSON value of [locale].
+         *
+         * Unlike [locale], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("locale") @ExcludeMissing fun _locale(): JsonField<String> = locale
+
+        /**
+         * Returns the raw JSON value of [longitude].
+         *
+         * Unlike [longitude], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("longitude") @ExcludeMissing fun _longitude(): JsonField<Double> = longitude
+
+        /**
+         * Returns the raw JSON value of [os].
+         *
+         * Unlike [os], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("os") @ExcludeMissing fun _os(): JsonField<String> = os
+
+        /**
+         * Returns the raw JSON value of [platform].
+         *
+         * Unlike [platform], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("platform") @ExcludeMissing fun _platform(): JsonField<String> = platform
+
+        /**
+         * Returns the raw JSON value of [screenHeight].
+         *
+         * Unlike [screenHeight], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("screen_height")
+        @ExcludeMissing
+        fun _screenHeight(): JsonField<Long> = screenHeight
+
+        /**
+         * Returns the raw JSON value of [screenWidth].
+         *
+         * Unlike [screenWidth], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("screen_width")
+        @ExcludeMissing
+        fun _screenWidth(): JsonField<Long> = screenWidth
+
+        /**
+         * Returns the raw JSON value of [timeZone].
+         *
+         * Unlike [timeZone], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("time_zone") @ExcludeMissing fun _timeZone(): JsonField<String> = timeZone
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -5263,20 +5444,53 @@ private constructor(
         /** A builder for [App]. */
         class Builder internal constructor() {
 
+            private var device: JsonField<String> = JsonMissing.of()
             private var deviceInfo: JsonField<String> = JsonMissing.of()
             private var ip: JsonField<String> = JsonMissing.of()
+            private var latitude: JsonField<Double> = JsonMissing.of()
+            private var locale: JsonField<String> = JsonMissing.of()
+            private var longitude: JsonField<Double> = JsonMissing.of()
+            private var os: JsonField<String> = JsonMissing.of()
+            private var platform: JsonField<String> = JsonMissing.of()
+            private var screenHeight: JsonField<Long> = JsonMissing.of()
+            private var screenWidth: JsonField<Long> = JsonMissing.of()
+            private var timeZone: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(app: App) = apply {
+                device = app.device
                 deviceInfo = app.deviceInfo
                 ip = app.ip
+                latitude = app.latitude
+                locale = app.locale
+                longitude = app.longitude
+                os = app.os
+                platform = app.platform
+                screenHeight = app.screenHeight
+                screenWidth = app.screenWidth
+                timeZone = app.timeZone
                 additionalProperties = app.additionalProperties.toMutableMap()
             }
 
+            /** Device model: e.g. "Apple iPhone 16". */
+            fun device(device: String?) = device(JsonField.ofNullable(device))
+
+            /** Alias for calling [Builder.device] with `device.orElse(null)`. */
+            fun device(device: Optional<String>) = device(device.getOrNull())
+
             /**
-             * Device information gathered from the cardholder's device - JSON name/value pairs that
-             * is Base64url encoded. Maps to EMV 3DS field `deviceInfo`.
+             * Sets [Builder.device] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.device] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun device(device: JsonField<String>) = apply { this.device = device }
+
+            /**
+             * Raw device information - base64-encoded JSON object. Maps to EMV 3DS field
+             * `deviceInfo`.
              */
             fun deviceInfo(deviceInfo: String?) = deviceInfo(JsonField.ofNullable(deviceInfo))
 
@@ -5292,10 +5506,7 @@ private constructor(
              */
             fun deviceInfo(deviceInfo: JsonField<String>) = apply { this.deviceInfo = deviceInfo }
 
-            /**
-             * External IP address used by the app generating the 3DS authentication request. Maps
-             * to EMV 3DS field `appIp`.
-             */
+            /** IP address of the device. */
             fun ip(ip: String) = ip(JsonField.of(ip))
 
             /**
@@ -5306,6 +5517,156 @@ private constructor(
              * value.
              */
             fun ip(ip: JsonField<String>) = apply { this.ip = ip }
+
+            /** Latitude coordinate of current device location. */
+            fun latitude(latitude: Double?) = latitude(JsonField.ofNullable(latitude))
+
+            /**
+             * Alias for [Builder.latitude].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun latitude(latitude: Double) = latitude(latitude as Double?)
+
+            /** Alias for calling [Builder.latitude] with `latitude.orElse(null)`. */
+            fun latitude(latitude: Optional<Double>) = latitude(latitude.getOrNull())
+
+            /**
+             * Sets [Builder.latitude] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.latitude] with a well-typed [Double] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun latitude(latitude: JsonField<Double>) = apply { this.latitude = latitude }
+
+            /** Device locale: e.g. "en-US". */
+            fun locale(locale: String?) = locale(JsonField.ofNullable(locale))
+
+            /** Alias for calling [Builder.locale] with `locale.orElse(null)`. */
+            fun locale(locale: Optional<String>) = locale(locale.getOrNull())
+
+            /**
+             * Sets [Builder.locale] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.locale] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun locale(locale: JsonField<String>) = apply { this.locale = locale }
+
+            /** Longitude coordinate of current device location. */
+            fun longitude(longitude: Double?) = longitude(JsonField.ofNullable(longitude))
+
+            /**
+             * Alias for [Builder.longitude].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun longitude(longitude: Double) = longitude(longitude as Double?)
+
+            /** Alias for calling [Builder.longitude] with `longitude.orElse(null)`. */
+            fun longitude(longitude: Optional<Double>) = longitude(longitude.getOrNull())
+
+            /**
+             * Sets [Builder.longitude] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.longitude] with a well-typed [Double] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun longitude(longitude: JsonField<Double>) = apply { this.longitude = longitude }
+
+            /** Operating System: e.g. "Android 12", "iOS 17.1". */
+            fun os(os: String?) = os(JsonField.ofNullable(os))
+
+            /** Alias for calling [Builder.os] with `os.orElse(null)`. */
+            fun os(os: Optional<String>) = os(os.getOrNull())
+
+            /**
+             * Sets [Builder.os] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.os] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun os(os: JsonField<String>) = apply { this.os = os }
+
+            /** Device platform: Android, iOS, Windows, etc. */
+            fun platform(platform: String?) = platform(JsonField.ofNullable(platform))
+
+            /** Alias for calling [Builder.platform] with `platform.orElse(null)`. */
+            fun platform(platform: Optional<String>) = platform(platform.getOrNull())
+
+            /**
+             * Sets [Builder.platform] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.platform] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun platform(platform: JsonField<String>) = apply { this.platform = platform }
+
+            /** Screen height in pixels. */
+            fun screenHeight(screenHeight: Long?) = screenHeight(JsonField.ofNullable(screenHeight))
+
+            /**
+             * Alias for [Builder.screenHeight].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun screenHeight(screenHeight: Long) = screenHeight(screenHeight as Long?)
+
+            /** Alias for calling [Builder.screenHeight] with `screenHeight.orElse(null)`. */
+            fun screenHeight(screenHeight: Optional<Long>) = screenHeight(screenHeight.getOrNull())
+
+            /**
+             * Sets [Builder.screenHeight] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.screenHeight] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun screenHeight(screenHeight: JsonField<Long>) = apply {
+                this.screenHeight = screenHeight
+            }
+
+            /** Screen width in pixels. */
+            fun screenWidth(screenWidth: Long?) = screenWidth(JsonField.ofNullable(screenWidth))
+
+            /**
+             * Alias for [Builder.screenWidth].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun screenWidth(screenWidth: Long) = screenWidth(screenWidth as Long?)
+
+            /** Alias for calling [Builder.screenWidth] with `screenWidth.orElse(null)`. */
+            fun screenWidth(screenWidth: Optional<Long>) = screenWidth(screenWidth.getOrNull())
+
+            /**
+             * Sets [Builder.screenWidth] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.screenWidth] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun screenWidth(screenWidth: JsonField<Long>) = apply { this.screenWidth = screenWidth }
+
+            /** Time zone offset in minutes between UTC and device local time. */
+            fun timeZone(timeZone: String?) = timeZone(JsonField.ofNullable(timeZone))
+
+            /** Alias for calling [Builder.timeZone] with `timeZone.orElse(null)`. */
+            fun timeZone(timeZone: Optional<String>) = timeZone(timeZone.getOrNull())
+
+            /**
+             * Sets [Builder.timeZone] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.timeZone] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -5331,7 +5692,21 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): App = App(deviceInfo, ip, additionalProperties.toMutableMap())
+            fun build(): App =
+                App(
+                    device,
+                    deviceInfo,
+                    ip,
+                    latitude,
+                    locale,
+                    longitude,
+                    os,
+                    platform,
+                    screenHeight,
+                    screenWidth,
+                    timeZone,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -5341,8 +5716,17 @@ private constructor(
                 return@apply
             }
 
+            device()
             deviceInfo()
             ip()
+            latitude()
+            locale()
+            longitude()
+            os()
+            platform()
+            screenHeight()
+            screenWidth()
+            timeZone()
             validated = true
         }
 
@@ -5362,7 +5746,17 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (deviceInfo.asKnown().isPresent) 1 else 0) + (if (ip.asKnown().isPresent) 1 else 0)
+            (if (device.asKnown().isPresent) 1 else 0) +
+                (if (deviceInfo.asKnown().isPresent) 1 else 0) +
+                (if (ip.asKnown().isPresent) 1 else 0) +
+                (if (latitude.asKnown().isPresent) 1 else 0) +
+                (if (locale.asKnown().isPresent) 1 else 0) +
+                (if (longitude.asKnown().isPresent) 1 else 0) +
+                (if (os.asKnown().isPresent) 1 else 0) +
+                (if (platform.asKnown().isPresent) 1 else 0) +
+                (if (screenHeight.asKnown().isPresent) 1 else 0) +
+                (if (screenWidth.asKnown().isPresent) 1 else 0) +
+                (if (timeZone.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -5370,17 +5764,41 @@ private constructor(
             }
 
             return other is App &&
+                device == other.device &&
                 deviceInfo == other.deviceInfo &&
                 ip == other.ip &&
+                latitude == other.latitude &&
+                locale == other.locale &&
+                longitude == other.longitude &&
+                os == other.os &&
+                platform == other.platform &&
+                screenHeight == other.screenHeight &&
+                screenWidth == other.screenWidth &&
+                timeZone == other.timeZone &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(deviceInfo, ip, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                device,
+                deviceInfo,
+                ip,
+                latitude,
+                locale,
+                longitude,
+                os,
+                platform,
+                screenHeight,
+                screenWidth,
+                timeZone,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "App{deviceInfo=$deviceInfo, ip=$ip, additionalProperties=$additionalProperties}"
+            "App{device=$device, deviceInfo=$deviceInfo, ip=$ip, latitude=$latitude, locale=$locale, longitude=$longitude, os=$os, platform=$platform, screenHeight=$screenHeight, screenWidth=$screenWidth, timeZone=$timeZone, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -5665,9 +6083,8 @@ private constructor(
         fun language(): Optional<String> = language.getOptional("language")
 
         /**
-         * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
-         * browser's local time. The offset is positive if the local time is behind UTC and negative
-         * if it is ahead. Maps to EMV 3DS field `browserTz`.
+         * Time zone offset in minutes between UTC and browser local time. Maps to EMV 3DS field
+         * `browserTz`.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -5899,9 +6316,8 @@ private constructor(
             fun language(language: JsonField<String>) = apply { this.language = language }
 
             /**
-             * Time zone of the cardholder's browser offset in minutes between UTC and the
-             * cardholder browser's local time. The offset is positive if the local time is behind
-             * UTC and negative if it is ahead. Maps to EMV 3DS field `browserTz`.
+             * Time zone offset in minutes between UTC and browser local time. Maps to EMV 3DS field
+             * `browserTz`.
              */
             fun timeZone(timeZone: String?) = timeZone(JsonField.ofNullable(timeZone))
 

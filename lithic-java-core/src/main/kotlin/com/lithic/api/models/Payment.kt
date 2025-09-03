@@ -3520,17 +3520,13 @@ private constructor(
 
             @JvmField val RECEIPT_DEBIT = of("RECEIPT_DEBIT")
 
-            @JvmField val CUSTOMER_TRANSFER = of("CUSTOMER_TRANSFER")
+            @JvmField val WIRE_INBOUND_PAYMENT = of("WIRE_INBOUND_PAYMENT")
 
-            @JvmField val DRAWDOWN_PAYMENT = of("DRAWDOWN_PAYMENT")
+            @JvmField val WIRE_INBOUND_ADMIN = of("WIRE_INBOUND_ADMIN")
 
-            @JvmField val REVERSAL_PAYMENT = of("REVERSAL_PAYMENT")
+            @JvmField val WIRE_OUTBOUND_PAYMENT = of("WIRE_OUTBOUND_PAYMENT")
 
-            @JvmField val DRAWDOWN_REQUEST = of("DRAWDOWN_REQUEST")
-
-            @JvmField val REVERSAL_REQUEST = of("REVERSAL_REQUEST")
-
-            @JvmField val DRAWDOWN_REFUSAL = of("DRAWDOWN_REFUSAL")
+            @JvmField val WIRE_OUTBOUND_ADMIN = of("WIRE_OUTBOUND_ADMIN")
 
             @JvmStatic fun of(value: String) = TransferType(JsonField.of(value))
         }
@@ -3541,12 +3537,10 @@ private constructor(
             ORIGINATION_DEBIT,
             RECEIPT_CREDIT,
             RECEIPT_DEBIT,
-            CUSTOMER_TRANSFER,
-            DRAWDOWN_PAYMENT,
-            REVERSAL_PAYMENT,
-            DRAWDOWN_REQUEST,
-            REVERSAL_REQUEST,
-            DRAWDOWN_REFUSAL,
+            WIRE_INBOUND_PAYMENT,
+            WIRE_INBOUND_ADMIN,
+            WIRE_OUTBOUND_PAYMENT,
+            WIRE_OUTBOUND_ADMIN,
         }
 
         /**
@@ -3563,12 +3557,10 @@ private constructor(
             ORIGINATION_DEBIT,
             RECEIPT_CREDIT,
             RECEIPT_DEBIT,
-            CUSTOMER_TRANSFER,
-            DRAWDOWN_PAYMENT,
-            REVERSAL_PAYMENT,
-            DRAWDOWN_REQUEST,
-            REVERSAL_REQUEST,
-            DRAWDOWN_REFUSAL,
+            WIRE_INBOUND_PAYMENT,
+            WIRE_INBOUND_ADMIN,
+            WIRE_OUTBOUND_PAYMENT,
+            WIRE_OUTBOUND_ADMIN,
             /**
              * An enum member indicating that [TransferType] was instantiated with an unknown value.
              */
@@ -3588,12 +3580,10 @@ private constructor(
                 ORIGINATION_DEBIT -> Value.ORIGINATION_DEBIT
                 RECEIPT_CREDIT -> Value.RECEIPT_CREDIT
                 RECEIPT_DEBIT -> Value.RECEIPT_DEBIT
-                CUSTOMER_TRANSFER -> Value.CUSTOMER_TRANSFER
-                DRAWDOWN_PAYMENT -> Value.DRAWDOWN_PAYMENT
-                REVERSAL_PAYMENT -> Value.REVERSAL_PAYMENT
-                DRAWDOWN_REQUEST -> Value.DRAWDOWN_REQUEST
-                REVERSAL_REQUEST -> Value.REVERSAL_REQUEST
-                DRAWDOWN_REFUSAL -> Value.DRAWDOWN_REFUSAL
+                WIRE_INBOUND_PAYMENT -> Value.WIRE_INBOUND_PAYMENT
+                WIRE_INBOUND_ADMIN -> Value.WIRE_INBOUND_ADMIN
+                WIRE_OUTBOUND_PAYMENT -> Value.WIRE_OUTBOUND_PAYMENT
+                WIRE_OUTBOUND_ADMIN -> Value.WIRE_OUTBOUND_ADMIN
                 else -> Value._UNKNOWN
             }
 
@@ -3612,12 +3602,10 @@ private constructor(
                 ORIGINATION_DEBIT -> Known.ORIGINATION_DEBIT
                 RECEIPT_CREDIT -> Known.RECEIPT_CREDIT
                 RECEIPT_DEBIT -> Known.RECEIPT_DEBIT
-                CUSTOMER_TRANSFER -> Known.CUSTOMER_TRANSFER
-                DRAWDOWN_PAYMENT -> Known.DRAWDOWN_PAYMENT
-                REVERSAL_PAYMENT -> Known.REVERSAL_PAYMENT
-                DRAWDOWN_REQUEST -> Known.DRAWDOWN_REQUEST
-                REVERSAL_REQUEST -> Known.REVERSAL_REQUEST
-                DRAWDOWN_REFUSAL -> Known.DRAWDOWN_REFUSAL
+                WIRE_INBOUND_PAYMENT -> Known.WIRE_INBOUND_PAYMENT
+                WIRE_INBOUND_ADMIN -> Known.WIRE_INBOUND_ADMIN
+                WIRE_OUTBOUND_PAYMENT -> Known.WIRE_OUTBOUND_PAYMENT
+                WIRE_OUTBOUND_ADMIN -> Known.WIRE_OUTBOUND_ADMIN
                 else -> throw LithicInvalidDataException("Unknown TransferType: $value")
             }
 
