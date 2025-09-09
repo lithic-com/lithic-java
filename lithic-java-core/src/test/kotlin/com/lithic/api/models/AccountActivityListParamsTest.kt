@@ -20,9 +20,9 @@ internal class AccountActivityListParamsTest {
             .endingBefore("ending_before")
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .pageSize(1L)
-            .addResult(AccountActivityListParams.Result.APPROVED)
+            .result(AccountActivityListParams.Result.APPROVED)
             .startingAfter("starting_after")
-            .addStatus(AccountActivityListParams.Status.DECLINED)
+            .status(AccountActivityListParams.Status.DECLINED)
             .build()
     }
 
@@ -38,9 +38,9 @@ internal class AccountActivityListParamsTest {
                 .endingBefore("ending_before")
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pageSize(1L)
-                .addResult(AccountActivityListParams.Result.APPROVED)
+                .result(AccountActivityListParams.Result.APPROVED)
                 .startingAfter("starting_after")
-                .addStatus(AccountActivityListParams.Status.DECLINED)
+                .status(AccountActivityListParams.Status.DECLINED)
                 .build()
 
         val queryParams = params._queryParams()
@@ -56,9 +56,9 @@ internal class AccountActivityListParamsTest {
                     .put("ending_before", "ending_before")
                     .put("financial_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("page_size", "1")
-                    .put("result", listOf("APPROVED").joinToString(","))
+                    .put("result", "APPROVED")
                     .put("starting_after", "starting_after")
-                    .put("status", listOf("DECLINED").joinToString(","))
+                    .put("status", "DECLINED")
                     .build()
             )
     }

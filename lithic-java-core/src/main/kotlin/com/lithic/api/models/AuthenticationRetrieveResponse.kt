@@ -2916,59 +2916,24 @@ private constructor(
     /** Object containing data about the merchant involved in the e-commerce transaction. */
     class Merchant
     private constructor(
+        private val riskIndicator: JsonField<RiskIndicator>,
         private val id: JsonField<String>,
         private val country: JsonField<String>,
         private val mcc: JsonField<String>,
         private val name: JsonField<String>,
-        private val riskIndicator: JsonField<RiskIndicator>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("risk_indicator")
+            @ExcludeMissing
+            riskIndicator: JsonField<RiskIndicator> = JsonMissing.of(),
             @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
             @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("risk_indicator")
-            @ExcludeMissing
-            riskIndicator: JsonField<RiskIndicator> = JsonMissing.of(),
-        ) : this(id, country, mcc, name, riskIndicator, mutableMapOf())
-
-        /**
-         * Merchant identifier as assigned by the acquirer. Maps to EMV 3DS field
-         * `acquirerMerchantId`.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun id(): String = id.getRequired("id")
-
-        /**
-         * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
-         * `merchantCountryCode`. Permitted values: ISO 3166-1 alpha-3 country code (e.g., USA).
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun country(): String = country.getRequired("country")
-
-        /**
-         * Merchant category code assigned to the merchant that describes its business activity
-         * type. Maps to EMV 3DS field `mcc`.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun mcc(): String = mcc.getRequired("mcc")
-
-        /**
-         * Name of the merchant. Maps to EMV 3DS field `merchantName`.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun name(): String = name.getRequired("name")
+        ) : this(riskIndicator, id, country, mcc, name, mutableMapOf())
 
         /**
          * Object containing additional data indicating additional risk factors related to the
@@ -2978,6 +2943,53 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun riskIndicator(): RiskIndicator = riskIndicator.getRequired("risk_indicator")
+
+        /**
+         * Merchant identifier as assigned by the acquirer. Maps to EMV 3DS field
+         * `acquirerMerchantId`. May not be present for non-payment authentications.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun id(): Optional<String> = id.getOptional("id")
+
+        /**
+         * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
+         * `merchantCountryCode`. Permitted values: ISO 3166-1 alpha-3 country code (e.g., USA). May
+         * not be present for non-payment authentications.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun country(): Optional<String> = country.getOptional("country")
+
+        /**
+         * Merchant category code assigned to the merchant that describes its business activity
+         * type. Maps to EMV 3DS field `mcc`. May not be present for non-payment authentications.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun mcc(): Optional<String> = mcc.getOptional("mcc")
+
+        /**
+         * Name of the merchant. Maps to EMV 3DS field `merchantName`. May not be present for
+         * non-payment authentications.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun name(): Optional<String> = name.getOptional("name")
+
+        /**
+         * Returns the raw JSON value of [riskIndicator].
+         *
+         * Unlike [riskIndicator], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("risk_indicator")
+        @ExcludeMissing
+        fun _riskIndicator(): JsonField<RiskIndicator> = riskIndicator
 
         /**
          * Returns the raw JSON value of [id].
@@ -3007,16 +3019,6 @@ private constructor(
          */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-        /**
-         * Returns the raw JSON value of [riskIndicator].
-         *
-         * Unlike [riskIndicator], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("risk_indicator")
-        @ExcludeMissing
-        fun _riskIndicator(): JsonField<RiskIndicator> = riskIndicator
-
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -3036,10 +3038,6 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .id()
-             * .country()
-             * .mcc()
-             * .name()
              * .riskIndicator()
              * ```
              */
@@ -3049,79 +3047,22 @@ private constructor(
         /** A builder for [Merchant]. */
         class Builder internal constructor() {
 
-            private var id: JsonField<String>? = null
-            private var country: JsonField<String>? = null
-            private var mcc: JsonField<String>? = null
-            private var name: JsonField<String>? = null
             private var riskIndicator: JsonField<RiskIndicator>? = null
+            private var id: JsonField<String> = JsonMissing.of()
+            private var country: JsonField<String> = JsonMissing.of()
+            private var mcc: JsonField<String> = JsonMissing.of()
+            private var name: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(merchant: Merchant) = apply {
+                riskIndicator = merchant.riskIndicator
                 id = merchant.id
                 country = merchant.country
                 mcc = merchant.mcc
                 name = merchant.name
-                riskIndicator = merchant.riskIndicator
                 additionalProperties = merchant.additionalProperties.toMutableMap()
             }
-
-            /**
-             * Merchant identifier as assigned by the acquirer. Maps to EMV 3DS field
-             * `acquirerMerchantId`.
-             */
-            fun id(id: String) = id(JsonField.of(id))
-
-            /**
-             * Sets [Builder.id] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.id] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun id(id: JsonField<String>) = apply { this.id = id }
-
-            /**
-             * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
-             * `merchantCountryCode`. Permitted values: ISO 3166-1 alpha-3 country code (e.g., USA).
-             */
-            fun country(country: String) = country(JsonField.of(country))
-
-            /**
-             * Sets [Builder.country] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.country] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun country(country: JsonField<String>) = apply { this.country = country }
-
-            /**
-             * Merchant category code assigned to the merchant that describes its business activity
-             * type. Maps to EMV 3DS field `mcc`.
-             */
-            fun mcc(mcc: String) = mcc(JsonField.of(mcc))
-
-            /**
-             * Sets [Builder.mcc] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
-
-            /** Name of the merchant. Maps to EMV 3DS field `merchantName`. */
-            fun name(name: String) = name(JsonField.of(name))
-
-            /**
-             * Sets [Builder.name] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.name] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun name(name: JsonField<String>) = apply { this.name = name }
 
             /**
              * Object containing additional data indicating additional risk factors related to the
@@ -3140,6 +3081,80 @@ private constructor(
             fun riskIndicator(riskIndicator: JsonField<RiskIndicator>) = apply {
                 this.riskIndicator = riskIndicator
             }
+
+            /**
+             * Merchant identifier as assigned by the acquirer. Maps to EMV 3DS field
+             * `acquirerMerchantId`. May not be present for non-payment authentications.
+             */
+            fun id(id: String?) = id(JsonField.ofNullable(id))
+
+            /** Alias for calling [Builder.id] with `id.orElse(null)`. */
+            fun id(id: Optional<String>) = id(id.getOrNull())
+
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun id(id: JsonField<String>) = apply { this.id = id }
+
+            /**
+             * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
+             * `merchantCountryCode`. Permitted values: ISO 3166-1 alpha-3 country code (e.g., USA).
+             * May not be present for non-payment authentications.
+             */
+            fun country(country: String?) = country(JsonField.ofNullable(country))
+
+            /** Alias for calling [Builder.country] with `country.orElse(null)`. */
+            fun country(country: Optional<String>) = country(country.getOrNull())
+
+            /**
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun country(country: JsonField<String>) = apply { this.country = country }
+
+            /**
+             * Merchant category code assigned to the merchant that describes its business activity
+             * type. Maps to EMV 3DS field `mcc`. May not be present for non-payment
+             * authentications.
+             */
+            fun mcc(mcc: String?) = mcc(JsonField.ofNullable(mcc))
+
+            /** Alias for calling [Builder.mcc] with `mcc.orElse(null)`. */
+            fun mcc(mcc: Optional<String>) = mcc(mcc.getOrNull())
+
+            /**
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
+
+            /**
+             * Name of the merchant. Maps to EMV 3DS field `merchantName`. May not be present for
+             * non-payment authentications.
+             */
+            fun name(name: String?) = name(JsonField.ofNullable(name))
+
+            /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+            fun name(name: Optional<String>) = name(name.getOrNull())
+
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -3167,10 +3182,6 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .id()
-             * .country()
-             * .mcc()
-             * .name()
              * .riskIndicator()
              * ```
              *
@@ -3178,11 +3189,11 @@ private constructor(
              */
             fun build(): Merchant =
                 Merchant(
-                    checkRequired("id", id),
-                    checkRequired("country", country),
-                    checkRequired("mcc", mcc),
-                    checkRequired("name", name),
                     checkRequired("riskIndicator", riskIndicator),
+                    id,
+                    country,
+                    mcc,
+                    name,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -3194,11 +3205,11 @@ private constructor(
                 return@apply
             }
 
+            riskIndicator().validate()
             id()
             country()
             mcc()
             name()
-            riskIndicator().validate()
             validated = true
         }
 
@@ -3218,11 +3229,11 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (id.asKnown().isPresent) 1 else 0) +
+            (riskIndicator.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (id.asKnown().isPresent) 1 else 0) +
                 (if (country.asKnown().isPresent) 1 else 0) +
                 (if (mcc.asKnown().isPresent) 1 else 0) +
-                (if (name.asKnown().isPresent) 1 else 0) +
-                (riskIndicator.asKnown().getOrNull()?.validity() ?: 0)
+                (if (name.asKnown().isPresent) 1 else 0)
 
         /**
          * Object containing additional data indicating additional risk factors related to the
@@ -4491,22 +4502,22 @@ private constructor(
             }
 
             return other is Merchant &&
+                riskIndicator == other.riskIndicator &&
                 id == other.id &&
                 country == other.country &&
                 mcc == other.mcc &&
                 name == other.name &&
-                riskIndicator == other.riskIndicator &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(id, country, mcc, name, riskIndicator, additionalProperties)
+            Objects.hash(riskIndicator, id, country, mcc, name, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Merchant{id=$id, country=$country, mcc=$mcc, name=$name, riskIndicator=$riskIndicator, additionalProperties=$additionalProperties}"
+            "Merchant{riskIndicator=$riskIndicator, id=$id, country=$country, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
     }
 
     /**
