@@ -16,6 +16,7 @@ internal class V2RetrieveResponseTest {
             V2RetrieveResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2RetrieveResponse.CurrentVersion.builder()
@@ -59,6 +60,8 @@ internal class V2RetrieveResponseTest {
 
         assertThat(v2RetrieveResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2RetrieveResponse.accountTokens())
+            .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(v2RetrieveResponse.businessAccountTokens())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2RetrieveResponse.cardTokens())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -114,6 +117,7 @@ internal class V2RetrieveResponseTest {
             V2RetrieveResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2RetrieveResponse.CurrentVersion.builder()

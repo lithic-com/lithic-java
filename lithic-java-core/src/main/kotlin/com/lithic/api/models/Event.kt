@@ -75,6 +75,8 @@ private constructor(
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
      *   https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
+     * - `dispute_transaction.created` - A new dispute transaction has been created.
+     * - `dispute_transaction.updated` - A dispute transaction has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      *   activate a digital wallet token.
      * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
@@ -216,6 +218,8 @@ private constructor(
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
          *   https://docs.lithic.com/docs/transaction-webhooks.
          * - `dispute.updated` - A dispute has been updated.
+         * - `dispute_transaction.created` - A new dispute transaction has been created.
+         * - `dispute_transaction.updated` - A dispute transaction has been updated.
          * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
          *   activate a digital wallet token.
          * - `digital_wallet.tokenization_result` - Notification of the end result of a
@@ -344,6 +348,8 @@ private constructor(
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
      *   https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
+     * - `dispute_transaction.created` - A new dispute transaction has been created.
+     * - `dispute_transaction.updated` - A dispute transaction has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      *   activate a digital wallet token.
      * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
@@ -417,6 +423,10 @@ private constructor(
             @JvmField val DISPUTE_UPDATED = of("dispute.updated")
 
             @JvmField val DISPUTE_EVIDENCE_UPLOAD_FAILED = of("dispute_evidence.upload_failed")
+
+            @JvmField val DISPUTE_TRANSACTION_CREATED = of("dispute_transaction.created")
+
+            @JvmField val DISPUTE_TRANSACTION_UPDATED = of("dispute_transaction.updated")
 
             @JvmField val EXTERNAL_BANK_ACCOUNT_CREATED = of("external_bank_account.created")
 
@@ -498,6 +508,8 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_UPDATED,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            DISPUTE_TRANSACTION_CREATED,
+            DISPUTE_TRANSACTION_UPDATED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -555,6 +567,8 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_UPDATED,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            DISPUTE_TRANSACTION_CREATED,
+            DISPUTE_TRANSACTION_UPDATED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -618,6 +632,8 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_UPDATED -> Value.DIGITAL_WALLET_TOKENIZATION_UPDATED
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                DISPUTE_TRANSACTION_CREATED -> Value.DISPUTE_TRANSACTION_CREATED
+                DISPUTE_TRANSACTION_UPDATED -> Value.DISPUTE_TRANSACTION_UPDATED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Value.EXTERNAL_PAYMENT_CREATED
@@ -682,6 +698,8 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_UPDATED -> Known.DIGITAL_WALLET_TOKENIZATION_UPDATED
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                DISPUTE_TRANSACTION_CREATED -> Known.DISPUTE_TRANSACTION_CREATED
+                DISPUTE_TRANSACTION_UPDATED -> Known.DISPUTE_TRANSACTION_UPDATED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Known.EXTERNAL_PAYMENT_CREATED

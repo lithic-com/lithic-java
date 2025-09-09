@@ -14,6 +14,7 @@ internal class AuthRuleV2ApplyParamsTest {
             .body(
                 AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
                     .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
             .build()
@@ -25,9 +26,7 @@ internal class AuthRuleV2ApplyParamsTest {
             AuthRuleV2ApplyParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .body(
-                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder().build()
                 )
                 .build()
 
@@ -44,6 +43,7 @@ internal class AuthRuleV2ApplyParamsTest {
                 .body(
                     AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
                 .build()
@@ -55,7 +55,28 @@ internal class AuthRuleV2ApplyParamsTest {
                 AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(
                     AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
+                )
+            )
+    }
+
+    @Test
+    fun bodyWithoutOptionalFields() {
+        val params =
+            AuthRuleV2ApplyParams.builder()
+                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .body(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder().build()
+                )
+                .build()
+
+        val body = params._body()
+
+        assertThat(body)
+            .isEqualTo(
+                AuthRuleV2ApplyParams.Body.ofApplyAuthRuleRequestAccountTokens(
+                    AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder().build()
                 )
             )
     }

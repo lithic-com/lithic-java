@@ -53,10 +53,6 @@ internal class AuthenticationRetrieveResponseTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .merchant(
                     AuthenticationRetrieveResponse.Merchant.builder()
-                        .id("id")
-                        .country("xxx")
-                        .mcc("xxxx")
-                        .name("name")
                         .riskIndicator(
                             AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
                                 .deliveryEmailAddress("delivery_email_address")
@@ -88,6 +84,10 @@ internal class AuthenticationRetrieveResponseTest {
                                 )
                                 .build()
                         )
+                        .id("id")
+                        .country("xxx")
+                        .mcc("xxxx")
+                        .name("name")
                         .build()
                 )
                 .messageCategory(
@@ -209,10 +209,6 @@ internal class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.merchant())
             .isEqualTo(
                 AuthenticationRetrieveResponse.Merchant.builder()
-                    .id("id")
-                    .country("xxx")
-                    .mcc("xxxx")
-                    .name("name")
                     .riskIndicator(
                         AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
                             .deliveryEmailAddress("delivery_email_address")
@@ -240,6 +236,10 @@ internal class AuthenticationRetrieveResponseTest {
                             )
                             .build()
                     )
+                    .id("id")
+                    .country("xxx")
+                    .mcc("xxxx")
+                    .name("name")
                     .build()
             )
         assertThat(authenticationRetrieveResponse.messageCategory())
@@ -358,10 +358,6 @@ internal class AuthenticationRetrieveResponseTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .merchant(
                     AuthenticationRetrieveResponse.Merchant.builder()
-                        .id("id")
-                        .country("xxx")
-                        .mcc("xxxx")
-                        .name("name")
                         .riskIndicator(
                             AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
                                 .deliveryEmailAddress("delivery_email_address")
@@ -393,6 +389,10 @@ internal class AuthenticationRetrieveResponseTest {
                                 )
                                 .build()
                         )
+                        .id("id")
+                        .country("xxx")
+                        .mcc("xxxx")
+                        .name("name")
                         .build()
                 )
                 .messageCategory(

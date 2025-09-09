@@ -12,10 +12,9 @@ internal class AuthRuleV2UpdateParamsTest {
         AuthRuleV2UpdateParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .body(
-                AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                AuthRuleV2UpdateParams.Body.UnionMember0.builder()
                     .name("name")
-                    .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                    .state(AuthRuleV2UpdateParams.Body.UnionMember0.State.INACTIVE)
                     .build()
             )
             .build()
@@ -26,7 +25,7 @@ internal class AuthRuleV2UpdateParamsTest {
         val params =
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .body(AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build())
+                .body(AuthRuleV2UpdateParams.Body.UnionMember0.builder().build())
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -40,10 +39,9 @@ internal class AuthRuleV2UpdateParamsTest {
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .body(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    AuthRuleV2UpdateParams.Body.UnionMember0.builder()
                         .name("name")
-                        .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                        .state(AuthRuleV2UpdateParams.Body.UnionMember0.State.INACTIVE)
                         .build()
                 )
                 .build()
@@ -52,11 +50,10 @@ internal class AuthRuleV2UpdateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2UpdateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                AuthRuleV2UpdateParams.Body.ofUnionMember0(
+                    AuthRuleV2UpdateParams.Body.UnionMember0.builder()
                         .name("name")
-                        .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                        .state(AuthRuleV2UpdateParams.Body.UnionMember0.State.INACTIVE)
                         .build()
                 )
             )
@@ -67,15 +64,15 @@ internal class AuthRuleV2UpdateParamsTest {
         val params =
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .body(AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build())
+                .body(AuthRuleV2UpdateParams.Body.UnionMember0.builder().build())
                 .build()
 
         val body = params._body()
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2UpdateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build()
+                AuthRuleV2UpdateParams.Body.ofUnionMember0(
+                    AuthRuleV2UpdateParams.Body.UnionMember0.builder().build()
                 )
             )
     }
