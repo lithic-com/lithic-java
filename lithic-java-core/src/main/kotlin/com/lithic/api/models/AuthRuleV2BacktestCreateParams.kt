@@ -36,7 +36,7 @@ import kotlin.jvm.optionals.getOrNull
  * backtest reports on-demand through the
  * `/v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}` endpoint.
  *
- * Lithic currently supports backtesting for `CONDITIONAL_BLOCK` / `CONDITIONAL_3DS_ACTION` rules.
+ * Lithic currently supports backtesting for `CONDITIONAL_BLOCK` / `CONDITIONAL_ACTION` rules.
  * Backtesting for `VELOCITY_LIMIT` rules is generally not supported. In specific cases (i.e. where
  * Lithic has pre-calculated the requested velocity metrics for historical transactions), a backtest
  * may be feasible. However, such cases are uncommon and customers should not anticipate support for

@@ -17,6 +17,7 @@ internal class AuthRuleV2ListPageResponseTest {
                     V2ListResponse.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .currentVersion(
                             V2ListResponse.CurrentVersion.builder()
@@ -66,6 +67,7 @@ internal class AuthRuleV2ListPageResponseTest {
                 V2ListResponse.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .currentVersion(
                         V2ListResponse.CurrentVersion.builder()
@@ -119,6 +121,7 @@ internal class AuthRuleV2ListPageResponseTest {
                     V2ListResponse.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .currentVersion(
                             V2ListResponse.CurrentVersion.builder()

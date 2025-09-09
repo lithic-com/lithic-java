@@ -34,6 +34,12 @@ internal class V2ServiceTest {
                     .body(
                         AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
                             .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .eventStream(
+                                AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
+                                    .EventStream
+                                    .AUTHORIZATION
+                            )
                             .name("name")
                             .parameters(
                                 ConditionalBlockParameters.builder()
@@ -87,10 +93,9 @@ internal class V2ServiceTest {
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .body(
-                        AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        AuthRuleV2UpdateParams.Body.UnionMember0.builder()
                             .name("name")
-                            .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                            .state(AuthRuleV2UpdateParams.Body.UnionMember0.State.INACTIVE)
                             .build()
                     )
                     .build()
@@ -141,6 +146,7 @@ internal class V2ServiceTest {
                     .body(
                         AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
                             .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()

@@ -16,6 +16,7 @@ internal class V2UpdateResponseTest {
             V2UpdateResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2UpdateResponse.CurrentVersion.builder()
@@ -59,6 +60,8 @@ internal class V2UpdateResponseTest {
 
         assertThat(v2UpdateResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2UpdateResponse.accountTokens())
+            .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(v2UpdateResponse.businessAccountTokens())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2UpdateResponse.cardTokens())
             .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -114,6 +117,7 @@ internal class V2UpdateResponseTest {
             V2UpdateResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .currentVersion(
                     V2UpdateResponse.CurrentVersion.builder()

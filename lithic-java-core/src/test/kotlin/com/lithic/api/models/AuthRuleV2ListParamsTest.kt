@@ -12,6 +12,7 @@ internal class AuthRuleV2ListParamsTest {
     fun create() {
         AuthRuleV2ListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .endingBefore("ending_before")
             .eventStream(AuthRuleV2ListParams.EventStream.AUTHORIZATION)
@@ -26,6 +27,7 @@ internal class AuthRuleV2ListParamsTest {
         val params =
             AuthRuleV2ListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .endingBefore("ending_before")
                 .eventStream(AuthRuleV2ListParams.EventStream.AUTHORIZATION)
@@ -40,6 +42,7 @@ internal class AuthRuleV2ListParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("card_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("ending_before", "ending_before")
                     .put("event_stream", "AUTHORIZATION")

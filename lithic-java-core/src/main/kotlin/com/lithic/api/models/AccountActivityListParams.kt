@@ -8,7 +8,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -27,9 +26,9 @@ private constructor(
     private val endingBefore: String?,
     private val financialAccountToken: String?,
     private val pageSize: Long?,
-    private val result: List<Result>?,
+    private val result: Result?,
     private val startingAfter: String?,
-    private val status: List<Status>?,
+    private val status: Status?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
@@ -68,7 +67,7 @@ private constructor(
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     /** Filter by transaction result */
-    fun result(): Optional<List<Result>> = Optional.ofNullable(result)
+    fun result(): Optional<Result> = Optional.ofNullable(result)
 
     /**
      * A cursor representing an item's token after which a page of results should begin. Used to
@@ -77,7 +76,7 @@ private constructor(
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     /** Filter by transaction status */
-    fun status(): Optional<List<Status>> = Optional.ofNullable(status)
+    fun status(): Optional<Status> = Optional.ofNullable(status)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -108,9 +107,9 @@ private constructor(
         private var endingBefore: String? = null
         private var financialAccountToken: String? = null
         private var pageSize: Long? = null
-        private var result: MutableList<Result>? = null
+        private var result: Result? = null
         private var startingAfter: String? = null
-        private var status: MutableList<Status>? = null
+        private var status: Status? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -124,9 +123,9 @@ private constructor(
             endingBefore = accountActivityListParams.endingBefore
             financialAccountToken = accountActivityListParams.financialAccountToken
             pageSize = accountActivityListParams.pageSize
-            result = accountActivityListParams.result?.toMutableList()
+            result = accountActivityListParams.result
             startingAfter = accountActivityListParams.startingAfter
-            status = accountActivityListParams.status?.toMutableList()
+            status = accountActivityListParams.status
             additionalHeaders = accountActivityListParams.additionalHeaders.toBuilder()
             additionalQueryParams = accountActivityListParams.additionalQueryParams.toBuilder()
         }
@@ -208,19 +207,10 @@ private constructor(
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Filter by transaction result */
-        fun result(result: List<Result>?) = apply { this.result = result?.toMutableList() }
+        fun result(result: Result?) = apply { this.result = result }
 
         /** Alias for calling [Builder.result] with `result.orElse(null)`. */
-        fun result(result: Optional<List<Result>>) = result(result.getOrNull())
-
-        /**
-         * Adds a single [Result] to [Builder.result].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        fun addResult(result: Result) = apply {
-            this.result = (this.result ?: mutableListOf()).apply { add(result) }
-        }
+        fun result(result: Optional<Result>) = result(result.getOrNull())
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -233,19 +223,10 @@ private constructor(
             startingAfter(startingAfter.getOrNull())
 
         /** Filter by transaction status */
-        fun status(status: List<Status>?) = apply { this.status = status?.toMutableList() }
+        fun status(status: Status?) = apply { this.status = status }
 
         /** Alias for calling [Builder.status] with `status.orElse(null)`. */
-        fun status(status: Optional<List<Status>>) = status(status.getOrNull())
-
-        /**
-         * Adds a single [Status] to [Builder.status].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        fun addStatus(status: Status) = apply {
-            this.status = (this.status ?: mutableListOf()).apply { add(status) }
-        }
+        fun status(status: Optional<Status>) = status(status.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -360,9 +341,9 @@ private constructor(
                 endingBefore,
                 financialAccountToken,
                 pageSize,
-                result?.toImmutable(),
+                result,
                 startingAfter,
-                status?.toImmutable(),
+                status,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -381,9 +362,9 @@ private constructor(
                 endingBefore?.let { put("ending_before", it) }
                 financialAccountToken?.let { put("financial_account_token", it) }
                 pageSize?.let { put("page_size", it.toString()) }
-                result?.let { put("result", it.joinToString(",") { it.toString() }) }
+                result?.let { put("result", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
-                status?.let { put("status", it.joinToString(",") { it.toString() }) }
+                status?.let { put("status", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
@@ -585,6 +566,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Filter by transaction result */
     class Result @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -710,6 +692,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /** Filter by transaction status */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -730,13 +713,13 @@ private constructor(
 
             @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = of("SETTLED")
-
-            @JvmField val VOIDED = of("VOIDED")
-
             @JvmField val RETURNED = of("RETURNED")
 
             @JvmField val REVERSED = of("REVERSED")
+
+            @JvmField val SETTLED = of("SETTLED")
+
+            @JvmField val VOIDED = of("VOIDED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -746,10 +729,10 @@ private constructor(
             DECLINED,
             EXPIRED,
             PENDING,
-            SETTLED,
-            VOIDED,
             RETURNED,
             REVERSED,
+            SETTLED,
+            VOIDED,
         }
 
         /**
@@ -765,10 +748,10 @@ private constructor(
             DECLINED,
             EXPIRED,
             PENDING,
-            SETTLED,
-            VOIDED,
             RETURNED,
             REVERSED,
+            SETTLED,
+            VOIDED,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -785,10 +768,10 @@ private constructor(
                 DECLINED -> Value.DECLINED
                 EXPIRED -> Value.EXPIRED
                 PENDING -> Value.PENDING
-                SETTLED -> Value.SETTLED
-                VOIDED -> Value.VOIDED
                 RETURNED -> Value.RETURNED
                 REVERSED -> Value.REVERSED
+                SETTLED -> Value.SETTLED
+                VOIDED -> Value.VOIDED
                 else -> Value._UNKNOWN
             }
 
@@ -806,10 +789,10 @@ private constructor(
                 DECLINED -> Known.DECLINED
                 EXPIRED -> Known.EXPIRED
                 PENDING -> Known.PENDING
-                SETTLED -> Known.SETTLED
-                VOIDED -> Known.VOIDED
                 RETURNED -> Known.RETURNED
                 REVERSED -> Known.REVERSED
+                SETTLED -> Known.SETTLED
+                VOIDED -> Known.VOIDED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 

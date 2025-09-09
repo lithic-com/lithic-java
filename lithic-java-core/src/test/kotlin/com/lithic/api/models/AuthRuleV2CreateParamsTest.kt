@@ -13,6 +13,11 @@ internal class AuthRuleV2CreateParamsTest {
             .body(
                 AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
                     .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .eventStream(
+                        AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.EventStream
+                            .AUTHORIZATION
+                    )
                     .name("name")
                     .parameters(
                         ConditionalBlockParameters.builder()
@@ -41,6 +46,12 @@ internal class AuthRuleV2CreateParamsTest {
                 .body(
                     AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .eventStream(
+                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
+                                .EventStream
+                                .AUTHORIZATION
+                        )
                         .name("name")
                         .parameters(
                             ConditionalBlockParameters.builder()
@@ -69,6 +80,12 @@ internal class AuthRuleV2CreateParamsTest {
                 AuthRuleV2CreateParams.Body.ofCreateAuthRuleRequestAccountTokens(
                     AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .eventStream(
+                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
+                                .EventStream
+                                .AUTHORIZATION
+                        )
                         .name("name")
                         .parameters(
                             ConditionalBlockParameters.builder()
@@ -97,7 +114,6 @@ internal class AuthRuleV2CreateParamsTest {
             AuthRuleV2CreateParams.builder()
                 .body(
                     AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(AuthRuleCondition.builder().build())
@@ -118,7 +134,6 @@ internal class AuthRuleV2CreateParamsTest {
             .isEqualTo(
                 AuthRuleV2CreateParams.Body.ofCreateAuthRuleRequestAccountTokens(
                     AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(AuthRuleCondition.builder().build())
