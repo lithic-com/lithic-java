@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.104.0 (2025-09-09)
+
+Full Changelog: [v0.103.0...v0.104.0](https://github.com/lithic-com/lithic-java/compare/v0.103.0...v0.104.0)
+
+### Features
+
+* **api:** adds support for unpauseing external bank accounts ([1dadb0f](https://github.com/lithic-com/lithic-java/commit/1dadb0f3e894c3ab7c38bf263e6974e81381d971))
+
 ## 0.103.0 (2025-09-03)
 
 Full Changelog: [v0.102.2...v0.103.0](https://github.com/lithic-com/lithic-java/compare/v0.102.2...v0.103.0)
