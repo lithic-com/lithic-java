@@ -17,6 +17,8 @@ import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateClearingParams
 import com.lithic.api.models.TransactionSimulateClearingResponse
+import com.lithic.api.models.TransactionSimulateCreditAuthorizationAdviceParams
+import com.lithic.api.models.TransactionSimulateCreditAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
 import com.lithic.api.models.TransactionSimulateCreditAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateReturnParams
@@ -207,16 +209,33 @@ interface TransactionServiceAsync {
      * Simulates a credit authorization advice from the card network. This message indicates that
      * the network approved a credit authorization on your behalf.
      */
+    @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams
     ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> =
         simulateCreditAuthorization(params, RequestOptions.none())
 
     /** @see simulateCreditAuthorization */
+    @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
     fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse>
+
+    /**
+     * Simulates a credit authorization advice from the card network. This message indicates that
+     * the network approved a credit authorization on your behalf.
+     */
+    fun simulateCreditAuthorizationAdvice(
+        params: TransactionSimulateCreditAuthorizationAdviceParams
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationAdviceResponse> =
+        simulateCreditAuthorizationAdvice(params, RequestOptions.none())
+
+    /** @see simulateCreditAuthorizationAdvice */
+    fun simulateCreditAuthorizationAdvice(
+        params: TransactionSimulateCreditAuthorizationAdviceParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationAdviceResponse>
 
     /**
      * Returns, or refunds, an amount back to a card. Returns simulated via this endpoint clear
@@ -448,16 +467,34 @@ interface TransactionServiceAsync {
          * Returns a raw HTTP response for `post /v1/simulate/credit_authorization_advice`, but is
          * otherwise the same as [TransactionServiceAsync.simulateCreditAuthorization].
          */
+        @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
         fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams
         ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationResponse>> =
             simulateCreditAuthorization(params, RequestOptions.none())
 
         /** @see simulateCreditAuthorization */
+        @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
         fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationResponse>>
+
+        /**
+         * Returns a raw HTTP response for `post /v1/simulate/credit_authorization_advice`, but is
+         * otherwise the same as [TransactionServiceAsync.simulateCreditAuthorizationAdvice].
+         */
+        fun simulateCreditAuthorizationAdvice(
+            params: TransactionSimulateCreditAuthorizationAdviceParams
+        ): CompletableFuture<
+            HttpResponseFor<TransactionSimulateCreditAuthorizationAdviceResponse>
+        > = simulateCreditAuthorizationAdvice(params, RequestOptions.none())
+
+        /** @see simulateCreditAuthorizationAdvice */
+        fun simulateCreditAuthorizationAdvice(
+            params: TransactionSimulateCreditAuthorizationAdviceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<TransactionSimulateCreditAuthorizationAdviceResponse>>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/return`, but is otherwise the same as
