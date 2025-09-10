@@ -7,6 +7,7 @@ import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateClearingParams
+import com.lithic.api.models.TransactionSimulateCreditAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
 import com.lithic.api.models.TransactionSimulateReturnParams
 import com.lithic.api.models.TransactionSimulateReturnReversalParams
@@ -146,6 +147,30 @@ internal class TransactionServiceAsyncTest {
         val responseFuture =
             transactionServiceAsync.simulateCreditAuthorization(
                 TransactionSimulateCreditAuthorizationParams.builder()
+                    .amount(3831L)
+                    .descriptor("COFFEE SHOP")
+                    .pan("4111111289144142")
+                    .mcc("5812")
+                    .merchantAcceptorId("XRKGDPOWEWQRRWU")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Test
+    fun simulateCreditAuthorizationAdvice() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val transactionServiceAsync = client.transactions()
+
+        val responseFuture =
+            transactionServiceAsync.simulateCreditAuthorizationAdvice(
+                TransactionSimulateCreditAuthorizationAdviceParams.builder()
                     .amount(3831L)
                     .descriptor("COFFEE SHOP")
                     .pan("4111111289144142")
