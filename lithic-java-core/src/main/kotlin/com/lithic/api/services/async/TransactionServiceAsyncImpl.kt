@@ -29,6 +29,8 @@ import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateClearingParams
 import com.lithic.api.models.TransactionSimulateClearingResponse
+import com.lithic.api.models.TransactionSimulateCreditAuthorizationAdviceParams
+import com.lithic.api.models.TransactionSimulateCreditAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateCreditAuthorizationParams
 import com.lithic.api.models.TransactionSimulateCreditAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateReturnParams
@@ -112,12 +114,22 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
         // post /v1/simulate/clearing
         withRawResponse().simulateClearing(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> =
         // post /v1/simulate/credit_authorization_advice
         withRawResponse().simulateCreditAuthorization(params, requestOptions).thenApply {
+            it.parse()
+        }
+
+    override fun simulateCreditAuthorizationAdvice(
+        params: TransactionSimulateCreditAuthorizationAdviceParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationAdviceResponse> =
+        // post /v1/simulate/credit_authorization_advice
+        withRawResponse().simulateCreditAuthorizationAdvice(params, requestOptions).thenApply {
             it.parse()
         }
 
@@ -371,6 +383,7 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
             Handler<TransactionSimulateCreditAuthorizationResponse> =
             jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("use `simulateCreditAuthorizationAdvice` instead")
         override fun simulateCreditAuthorization(
             params: TransactionSimulateCreditAuthorizationParams,
             requestOptions: RequestOptions,
@@ -390,6 +403,42 @@ class TransactionServiceAsyncImpl internal constructor(private val clientOptions
                     errorHandler.handle(response).parseable {
                         response
                             .use { simulateCreditAuthorizationHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val simulateCreditAuthorizationAdviceHandler:
+            Handler<TransactionSimulateCreditAuthorizationAdviceResponse> =
+            jsonHandler<TransactionSimulateCreditAuthorizationAdviceResponse>(
+                clientOptions.jsonMapper
+            )
+
+        override fun simulateCreditAuthorizationAdvice(
+            params: TransactionSimulateCreditAuthorizationAdviceParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<
+            HttpResponseFor<TransactionSimulateCreditAuthorizationAdviceResponse>
+        > {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "simulate", "credit_authorization_advice")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { simulateCreditAuthorizationAdviceHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
