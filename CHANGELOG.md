@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.105.0 (2025-09-10)
+
+Full Changelog: [v0.104.0...v0.105.0](https://github.com/lithic-com/lithic-java/compare/v0.104.0...v0.105.0)
+
+### Features
+
+* **api:** rename endpoint ([c082730](https://github.com/lithic-com/lithic-java/commit/c0827300cc7751f0fff23d46c8e600a431916471))
+
 ## 0.104.0 (2025-09-09)
 
 Full Changelog: [v0.103.0...v0.104.0](https://github.com/lithic-com/lithic-java/compare/v0.103.0...v0.104.0)
