@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.105.1 (2025-09-15)
+
+Full Changelog: [v0.105.0...v0.105.1](https://github.com/lithic-com/lithic-java/compare/v0.105.0...v0.105.1)
+
+### Bug Fixes
+
+* **client:** incorrect `getPackageVersion` impl ([a70d854](https://github.com/lithic-com/lithic-java/commit/a70d854e542a55828d246ef266c4d1ba49d7bc95))
+
+
+### Chores
+
+* **internal:** codegen related update ([2a2668c](https://github.com/lithic-com/lithic-java/commit/2a2668c5c0a415c518caccaf4a463ec9af92a567))
+* **internal:** codegen related update ([97051d9](https://github.com/lithic-com/lithic-java/commit/97051d95c205b511461c7cd891abcf9416e35341))
+* **internal:** codegen related update ([5d6f0c6](https://github.com/lithic-com/lithic-java/commit/5d6f0c66ec9f014020b266a413ceffbcbfc0cee1))
+
 ## 0.105.0 (2025-09-10)
 
 Full Changelog: [v0.104.0...v0.105.0](https://github.com/lithic-com/lithic-java/compare/v0.104.0...v0.105.0)
