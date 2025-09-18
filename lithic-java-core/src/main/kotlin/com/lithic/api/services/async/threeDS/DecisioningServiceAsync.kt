@@ -6,6 +6,7 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.models.ChallengeResponse
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
@@ -42,6 +43,22 @@ interface DecisioningServiceAsync {
         params: ThreeDSDecisioningChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
+
+    /** @see challengeResponse */
+    fun challengeResponse(
+        challengeResponse: ChallengeResponse,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        challengeResponse(
+            ThreeDSDecisioningChallengeResponseParams.builder()
+                .challengeResponse(challengeResponse)
+                .build(),
+            requestOptions,
+        )
+
+    /** @see challengeResponse */
+    fun challengeResponse(challengeResponse: ChallengeResponse): CompletableFuture<Void?> =
+        challengeResponse(challengeResponse, RequestOptions.none())
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
@@ -126,6 +143,24 @@ interface DecisioningServiceAsync {
             params: ThreeDSDecisioningChallengeResponseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
+
+        /** @see challengeResponse */
+        fun challengeResponse(
+            challengeResponse: ChallengeResponse,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            challengeResponse(
+                ThreeDSDecisioningChallengeResponseParams.builder()
+                    .challengeResponse(challengeResponse)
+                    .build(),
+                requestOptions,
+            )
+
+        /** @see challengeResponse */
+        fun challengeResponse(
+            challengeResponse: ChallengeResponse
+        ): CompletableFuture<HttpResponse> =
+            challengeResponse(challengeResponse, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
