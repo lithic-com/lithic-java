@@ -44,7 +44,8 @@ private constructor(
 
     /**
      * Amount (in cents) to void. Typically this will match the amount in the original
-     * authorization, but can be less.
+     * authorization, but can be less. Applies to authorization reversals only. An authorization
+     * expiry will always apply to the full pending amount.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -144,7 +145,8 @@ private constructor(
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
+         * authorization, but can be less. Applies to authorization reversals only. An authorization
+         * expiry will always apply to the full pending amount.
          */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
@@ -339,7 +341,8 @@ private constructor(
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
+         * authorization, but can be less. Applies to authorization reversals only. An authorization
+         * expiry will always apply to the full pending amount.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -432,7 +435,8 @@ private constructor(
 
             /**
              * Amount (in cents) to void. Typically this will match the amount in the original
-             * authorization, but can be less.
+             * authorization, but can be less. Applies to authorization reversals only. An
+             * authorization expiry will always apply to the full pending amount.
              */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 

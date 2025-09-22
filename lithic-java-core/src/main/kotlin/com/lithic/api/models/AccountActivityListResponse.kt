@@ -316,6 +316,9 @@ private constructor(
 
         override fun ObjectCodec.deserialize(node: JsonNode): AccountActivityListResponse {
             val json = JsonValue.fromJsonNode(node)
+            val family = json.asObject().getOrNull()?.get("family")?.asString()?.getOrNull()
+
+            when (family) {}
 
             val bestMatches =
                 sequenceOf(
