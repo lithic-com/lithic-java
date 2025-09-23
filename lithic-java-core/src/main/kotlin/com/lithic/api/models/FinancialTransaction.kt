@@ -87,10 +87,10 @@ private constructor(
 
     /**
      * Status types:
-     * - `CARD` - Issuing card transaction.
-     * - `ACH` - Transaction over ACH.
-     * - `INTERNAL` - Transaction for internal adjustment.
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     * * `CARD` - Issuing card transaction.
+     * * `ACH` - Transaction over ACH.
+     * * `INTERNAL` - Transaction for internal adjustment.
+     * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -160,12 +160,12 @@ private constructor(
 
     /**
      * Status types:
-     * - `DECLINED` - The transaction was declined.
-     * - `EXPIRED` - The authorization as it has passed its expiration time. Card transaction only.
-     * - `PENDING` - The transaction is expected to settle.
-     * - `RETURNED` - The transaction has been returned.
-     * - `SETTLED` - The transaction is completed.
-     * - `VOIDED` - The transaction was voided. Card transaction only.
+     * * `DECLINED` - The transaction was declined.
+     * * `EXPIRED` - The authorization as it has passed its expiration time. Card transaction only.
+     * * `PENDING` - The transaction is expected to settle.
+     * * `RETURNED` - The transaction has been returned.
+     * * `SETTLED` - The transaction is completed.
+     * * `VOIDED` - The transaction was voided. Card transaction only.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -341,10 +341,10 @@ private constructor(
 
         /**
          * Status types:
-         * - `CARD` - Issuing card transaction.
-         * - `ACH` - Transaction over ACH.
-         * - `INTERNAL` - Transaction for internal adjustment.
-         * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+         * * `CARD` - Issuing card transaction.
+         * * `ACH` - Transaction over ACH.
+         * * `INTERNAL` - Transaction for internal adjustment.
+         * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
          */
         fun category(category: Category) = category(JsonField.of(category))
 
@@ -472,13 +472,13 @@ private constructor(
 
         /**
          * Status types:
-         * - `DECLINED` - The transaction was declined.
-         * - `EXPIRED` - The authorization as it has passed its expiration time. Card transaction
+         * * `DECLINED` - The transaction was declined.
+         * * `EXPIRED` - The authorization as it has passed its expiration time. Card transaction
          *   only.
-         * - `PENDING` - The transaction is expected to settle.
-         * - `RETURNED` - The transaction has been returned.
-         * - `SETTLED` - The transaction is completed.
-         * - `VOIDED` - The transaction was voided. Card transaction only.
+         * * `PENDING` - The transaction is expected to settle.
+         * * `RETURNED` - The transaction has been returned.
+         * * `SETTLED` - The transaction is completed.
+         * * `VOIDED` - The transaction was voided. Card transaction only.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
@@ -610,10 +610,10 @@ private constructor(
 
     /**
      * Status types:
-     * - `CARD` - Issuing card transaction.
-     * - `ACH` - Transaction over ACH.
-     * - `INTERNAL` - Transaction for internal adjustment.
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     * * `CARD` - Issuing card transaction.
+     * * `ACH` - Transaction over ACH.
+     * * `INTERNAL` - Transaction for internal adjustment.
+     * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
      */
     class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1844,12 +1844,12 @@ private constructor(
 
     /**
      * Status types:
-     * - `DECLINED` - The transaction was declined.
-     * - `EXPIRED` - The authorization as it has passed its expiration time. Card transaction only.
-     * - `PENDING` - The transaction is expected to settle.
-     * - `RETURNED` - The transaction has been returned.
-     * - `SETTLED` - The transaction is completed.
-     * - `VOIDED` - The transaction was voided. Card transaction only.
+     * * `DECLINED` - The transaction was declined.
+     * * `EXPIRED` - The authorization as it has passed its expiration time. Card transaction only.
+     * * `PENDING` - The transaction is expected to settle.
+     * * `RETURNED` - The transaction has been returned.
+     * * `SETTLED` - The transaction is completed.
+     * * `VOIDED` - The transaction was voided. Card transaction only.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

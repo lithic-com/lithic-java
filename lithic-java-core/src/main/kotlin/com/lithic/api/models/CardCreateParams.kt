@@ -34,16 +34,16 @@ private constructor(
 
     /**
      * Card types:
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     * * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
      *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     * * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
      *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
      *   [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `SINGLE_USE` - Card is closed upon first successful authorization.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     * * `SINGLE_USE` - Card is closed upon first successful authorization.
+     * * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to the first merchant that successfully
      *   authorizes the card.
-     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
-     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     * * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -54,7 +54,7 @@ private constructor(
     /**
      * Globally unique identifier for the account that the card will be associated with. Required
      * for programs enrolling users using the
-     * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+     * [/account\_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
      * [Managing Your Program](doc:managing-your-program) for more information.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -168,25 +168,25 @@ private constructor(
 
     /**
      * Card state substatus values for the card that this card will replace:
-     * - `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
+     * * `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
      *   never received by the cardholder.
-     * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+     * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
      *   access. This may involve physical card theft, cloning, or online data breaches.
-     * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
+     * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
      *   a demagnetized magnetic stripe.
-     * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
      *   to fraud or damage, such as switching to a different product or closing the account.
-     * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+     * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
      *   such as account inactivity, product or policy changes, or technology upgrades.
-     * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+     * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
      *   applicable to statuses like `PAUSED` or `CLOSED`.
-     * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
+     * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
      *   require review. This can involve prompting the cardholder to confirm legitimate use or
      *   report confirmed fraud.
-     * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-     * - `EXPIRED` - The card has expired and has been closed without being reissued.
-     * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-     * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+     * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+     * * `EXPIRED` - The card has expired and has been closed without being reissued.
+     * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+     * * `OTHER` - The reason for the status does not fall into any of the above categories. A
      *   comment should be provided to specify the reason.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -203,13 +203,13 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
-     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-     * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+     * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
      *   tracking
-     * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-     * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
+     * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+     * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -230,13 +230,13 @@ private constructor(
 
     /**
      * Spend limit duration values:
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
      *   support recurring monthly payments, which can occur on different day every month, the time
      *   window we consider for monthly velocity starts 6 days after the current calendar date one
      *   month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     * * `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
      *   under the spend limit.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -246,8 +246,8 @@ private constructor(
 
     /**
      * Card state values:
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -446,17 +446,17 @@ private constructor(
 
         /**
          * Card types:
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         * * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
          *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         * * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
          *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
          *   [lithic.com/contact](https://lithic.com/contact) for more information.
-         * - `SINGLE_USE` - Card is closed upon first successful authorization.
-         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+         * * `SINGLE_USE` - Card is closed upon first successful authorization.
+         * * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to the first merchant that
          *   successfully authorizes the card.
-         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
-         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
          */
         fun type(type: Type) = apply { body.type(type) }
@@ -472,7 +472,7 @@ private constructor(
         /**
          * Globally unique identifier for the account that the card will be associated with.
          * Required for programs enrolling users using the
-         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [/account\_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
          * [Managing Your Program](doc:managing-your-program) for more information.
          */
         fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
@@ -668,26 +668,26 @@ private constructor(
 
         /**
          * Card state substatus values for the card that this card will replace:
-         * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+         * * `LOST` - The physical card is no longer in the cardholder's possession due to being
          *   lost or never received by the cardholder.
-         * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+         * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
          *   access. This may involve physical card theft, cloning, or online data breaches.
-         * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures
+         * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures
          *   or a demagnetized magnetic stripe.
-         * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+         * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
          *   unrelated to fraud or damage, such as switching to a different product or closing the
          *   account.
-         * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+         * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
          *   such as account inactivity, product or policy changes, or technology upgrades.
-         * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+         * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
          *   applicable to statuses like `PAUSED` or `CLOSED`.
-         * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
+         * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
          *   that require review. This can involve prompting the cardholder to confirm legitimate
          *   use or report confirmed fraud.
-         * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-         * - `EXPIRED` - The card has expired and has been closed without being reissued.
-         * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-         * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+         * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+         * * `EXPIRED` - The card has expired and has been closed without being reissued.
+         * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+         * * `OTHER` - The reason for the status does not fall into any of the above categories. A
          *   comment should be provided to specify the reason.
          */
         fun replacementSubstatus(replacementSubstatus: ReplacementSubstatus) = apply {
@@ -723,14 +723,14 @@ private constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+         * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
          *   tracking
-         * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+         * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+         * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
@@ -767,14 +767,14 @@ private constructor(
 
         /**
          * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
          *   To support recurring monthly payments, which can occur on different day every month,
          *   the time window we consider for monthly velocity starts 6 days after the current
          *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         * * `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
@@ -794,8 +794,8 @@ private constructor(
 
         /**
          * Card state values:
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
         fun state(state: State) = apply { body.state(state) }
 
@@ -1042,17 +1042,17 @@ private constructor(
 
         /**
          * Card types:
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         * * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
          *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         * * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
          *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
          *   [lithic.com/contact](https://lithic.com/contact) for more information.
-         * - `SINGLE_USE` - Card is closed upon first successful authorization.
-         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+         * * `SINGLE_USE` - Card is closed upon first successful authorization.
+         * * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to the first merchant that
          *   successfully authorizes the card.
-         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
-         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1063,7 +1063,7 @@ private constructor(
         /**
          * Globally unique identifier for the account that the card will be associated with.
          * Required for programs enrolling users using the
-         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [/account\_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
          * [Managing Your Program](doc:managing-your-program) for more information.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1181,26 +1181,26 @@ private constructor(
 
         /**
          * Card state substatus values for the card that this card will replace:
-         * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+         * * `LOST` - The physical card is no longer in the cardholder's possession due to being
          *   lost or never received by the cardholder.
-         * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+         * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
          *   access. This may involve physical card theft, cloning, or online data breaches.
-         * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures
+         * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures
          *   or a demagnetized magnetic stripe.
-         * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+         * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
          *   unrelated to fraud or damage, such as switching to a different product or closing the
          *   account.
-         * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+         * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
          *   such as account inactivity, product or policy changes, or technology upgrades.
-         * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+         * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
          *   applicable to statuses like `PAUSED` or `CLOSED`.
-         * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
+         * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
          *   that require review. This can involve prompting the cardholder to confirm legitimate
          *   use or report confirmed fraud.
-         * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-         * - `EXPIRED` - The card has expired and has been closed without being reissued.
-         * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-         * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+         * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+         * * `EXPIRED` - The card has expired and has been closed without being reissued.
+         * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+         * * `OTHER` - The reason for the status does not fall into any of the above categories. A
          *   comment should be provided to specify the reason.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1219,14 +1219,14 @@ private constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+         * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
          *   tracking
-         * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+         * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+         * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1249,14 +1249,14 @@ private constructor(
 
         /**
          * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
          *   To support recurring monthly payments, which can occur on different day every month,
          *   the time window we consider for monthly velocity starts 6 days after the current
          *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         * * `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1267,8 +1267,8 @@ private constructor(
 
         /**
          * Card state values:
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1513,18 +1513,18 @@ private constructor(
 
             /**
              * Card types:
-             * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+             * * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
              *   wallet like Apple Pay or Google Pay (if the card program is digital
              *   wallet-enabled).
-             * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+             * * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
              *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
              *   out at [lithic.com/contact](https://lithic.com/contact) for more information.
-             * - `SINGLE_USE` - Card is closed upon first successful authorization.
-             * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+             * * `SINGLE_USE` - Card is closed upon first successful authorization.
+             * * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to the first merchant that
              *   successfully authorizes the card.
-             * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+             * * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
              *   instead.
-             * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use
+             * * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use
              *   VIRTUAL instead.
              */
             fun type(type: Type) = type(JsonField.of(type))
@@ -1541,7 +1541,7 @@ private constructor(
             /**
              * Globally unique identifier for the account that the card will be associated with.
              * Required for programs enrolling users using the
-             * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+             * [/account\_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
              * [Managing Your Program](doc:managing-your-program) for more information.
              */
             fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -1741,29 +1741,29 @@ private constructor(
 
             /**
              * Card state substatus values for the card that this card will replace:
-             * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+             * * `LOST` - The physical card is no longer in the cardholder's possession due to being
              *   lost or never received by the cardholder.
-             * - `COMPROMISED` - Card information has been exposed, potentially leading to
+             * * `COMPROMISED` - Card information has been exposed, potentially leading to
              *   unauthorized access. This may involve physical card theft, cloning, or online data
              *   breaches.
-             * - `DAMAGED` - The physical card is not functioning properly, such as having chip
+             * * `DAMAGED` - The physical card is not functioning properly, such as having chip
              *   failures or a demagnetized magnetic stripe.
-             * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+             * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
              *   unrelated to fraud or damage, such as switching to a different product or closing
              *   the account.
-             * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or
+             * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or
              *   damage, such as account inactivity, product or policy changes, or technology
              *   upgrades.
-             * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+             * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
              *   applicable to statuses like `PAUSED` or `CLOSED`.
-             * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or
+             * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or
              *   activities that require review. This can involve prompting the cardholder to
              *   confirm legitimate use or report confirmed fraud.
-             * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-             * - `EXPIRED` - The card has expired and has been closed without being reissued.
-             * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been
+             * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+             * * `EXPIRED` - The card has expired and has been closed without being reissued.
+             * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been
              *   returned.
-             * - `OTHER` - The reason for the status does not fall into any of the above categories.
+             * * `OTHER` - The reason for the status does not fall into any of the above categories.
              *   A comment should be provided to specify the reason.
              */
             fun replacementSubstatus(replacementSubstatus: ReplacementSubstatus) =
@@ -1798,15 +1798,15 @@ private constructor(
             /**
              * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
              * besides `STANDARD` require additional permissions.
-             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
              *   tracking
-             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-             * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping,
+             * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+             * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping,
              *   with tracking
-             * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with
+             * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with
              *   tracking
-             * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+             * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
              *   similar international option, with tracking
              */
             fun shippingMethod(shippingMethod: ShippingMethod) =
@@ -1843,15 +1843,15 @@ private constructor(
 
             /**
              * Spend limit duration values:
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
              *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
              *   the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
              *   month. To support recurring monthly payments, which can occur on different day
              *   every month, the time window we consider for monthly velocity starts 6 days after
              *   the current calendar date one month prior.
-             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             * * `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
@@ -1870,9 +1870,9 @@ private constructor(
 
             /**
              * Card state values:
-             * - `OPEN` - Card will approve authorizations (if they match card and account
+             * * `OPEN` - Card will approve authorizations (if they match card and account
              *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+             * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
             fun state(state: State) = state(JsonField.of(state))
 
@@ -2067,16 +2067,16 @@ private constructor(
 
     /**
      * Card types:
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     * * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
      *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     * * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
      *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
      *   [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `SINGLE_USE` - Card is closed upon first successful authorization.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     * * `SINGLE_USE` - Card is closed upon first successful authorization.
+     * * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to the first merchant that successfully
      *   authorizes the card.
-     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
-     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     * * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
      */
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
@@ -2230,25 +2230,25 @@ private constructor(
 
     /**
      * Card state substatus values for the card that this card will replace:
-     * - `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
+     * * `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
      *   never received by the cardholder.
-     * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+     * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
      *   access. This may involve physical card theft, cloning, or online data breaches.
-     * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
+     * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
      *   a demagnetized magnetic stripe.
-     * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
      *   to fraud or damage, such as switching to a different product or closing the account.
-     * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+     * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
      *   such as account inactivity, product or policy changes, or technology upgrades.
-     * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+     * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
      *   applicable to statuses like `PAUSED` or `CLOSED`.
-     * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
+     * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
      *   require review. This can involve prompting the cardholder to confirm legitimate use or
      *   report confirmed fraud.
-     * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-     * - `EXPIRED` - The card has expired and has been closed without being reissued.
-     * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-     * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+     * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+     * * `EXPIRED` - The card has expired and has been closed without being reissued.
+     * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+     * * `OTHER` - The reason for the status does not fall into any of the above categories. A
      *   comment should be provided to specify the reason.
      */
     class ReplacementSubstatus
@@ -2439,13 +2439,13 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
-     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-     * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+     * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
      *   tracking
-     * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-     * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
+     * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+     * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
      */
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -2603,8 +2603,8 @@ private constructor(
 
     /**
      * Card state values:
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      */
     class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

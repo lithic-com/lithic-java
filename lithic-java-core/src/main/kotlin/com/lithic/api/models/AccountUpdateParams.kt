@@ -84,28 +84,28 @@ private constructor(
 
     /**
      * Account state substatus values:
-     * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
+     * * `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
      *   or fabricated identity information, encompassing both true identity theft and synthetic
      *   identities.
-     * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
+     * * `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
      *   access or fraudulent transactions, necessitating further investigation.
-     * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+     * * `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
      *   account holder. Examples include disputing valid transactions without cause, falsely
      *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
      *   account services.
-     * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+     * * `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
      *   account for personal reasons. This encompasses situations such as bankruptcy, other
      *   financial considerations, or the account holder's death.
-     * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+     * * `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
      *   strategy, risk management, inactivity, product changes, regulatory concerns, or violations
      *   of terms and conditions.
-     * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+     * * `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
      *   specified period. This status applies to accounts that are paused or closed due to
      *   inactivity.
-     * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
+     * * `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
      *   future implementations, this status may prevent clients from activating the account via
      *   APIs until the review is completed.
-     * - `OTHER` - The reason for the account's current status does not fall into any of the above
+     * * `OTHER` - The reason for the account's current status does not fall into any of the above
      *   categories. A comment should be provided to specify the particular reason.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -313,28 +313,28 @@ private constructor(
 
         /**
          * Account state substatus values:
-         * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
+         * * `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
          *   stolen or fabricated identity information, encompassing both true identity theft and
          *   synthetic identities.
-         * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
+         * * `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
          *   unauthorized access or fraudulent transactions, necessitating further investigation.
-         * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+         * * `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
          *   account holder. Examples include disputing valid transactions without cause, falsely
          *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
          *   account services.
-         * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+         * * `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
          *   account for personal reasons. This encompasses situations such as bankruptcy, other
          *   financial considerations, or the account holder's death.
-         * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+         * * `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
          *   strategy, risk management, inactivity, product changes, regulatory concerns, or
          *   violations of terms and conditions.
-         * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+         * * `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
          *   specified period. This status applies to accounts that are paused or closed due to
          *   inactivity.
-         * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review.
+         * * `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review.
          *   In future implementations, this status may prevent clients from activating the account
          *   via APIs until the review is completed.
-         * - `OTHER` - The reason for the account's current status does not fall into any of the
+         * * `OTHER` - The reason for the account's current status does not fall into any of the
          *   above categories. A comment should be provided to specify the particular reason.
          */
         fun substatus(substatus: Substatus) = apply { body.substatus(substatus) }
@@ -606,28 +606,28 @@ private constructor(
 
         /**
          * Account state substatus values:
-         * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
+         * * `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
          *   stolen or fabricated identity information, encompassing both true identity theft and
          *   synthetic identities.
-         * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
+         * * `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
          *   unauthorized access or fraudulent transactions, necessitating further investigation.
-         * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+         * * `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
          *   account holder. Examples include disputing valid transactions without cause, falsely
          *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
          *   account services.
-         * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+         * * `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
          *   account for personal reasons. This encompasses situations such as bankruptcy, other
          *   financial considerations, or the account holder's death.
-         * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+         * * `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
          *   strategy, risk management, inactivity, product changes, regulatory concerns, or
          *   violations of terms and conditions.
-         * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+         * * `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
          *   specified period. This status applies to accounts that are paused or closed due to
          *   inactivity.
-         * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review.
+         * * `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review.
          *   In future implementations, this status may prevent clients from activating the account
          *   via APIs until the review is completed.
-         * - `OTHER` - The reason for the account's current status does not fall into any of the
+         * * `OTHER` - The reason for the account's current status does not fall into any of the
          *   above categories. A comment should be provided to specify the particular reason.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -838,29 +838,29 @@ private constructor(
 
             /**
              * Account state substatus values:
-             * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
+             * * `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with
              *   stolen or fabricated identity information, encompassing both true identity theft
              *   and synthetic identities.
-             * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
+             * * `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as
              *   unauthorized access or fraudulent transactions, necessitating further
              *   investigation.
-             * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the
+             * * `RISK_VIOLATION` - The account has been involved in deliberate misuse by the
              *   legitimate account holder. Examples include disputing valid transactions without
              *   cause, falsely claiming non-receipt of goods, or engaging in intentional bust-out
              *   schemes to exploit account services.
-             * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of
+             * * `END_USER_REQUEST` - The account holder has voluntarily requested the closure of
              *   the account for personal reasons. This encompasses situations such as bankruptcy,
              *   other financial considerations, or the account holder's death.
-             * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to
+             * * `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to
              *   business strategy, risk management, inactivity, product changes, regulatory
              *   concerns, or violations of terms and conditions.
-             * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within
+             * * `NOT_ACTIVE` - The account has not had any transactions or payment activity within
              *   a specified period. This status applies to accounts that are paused or closed due
              *   to inactivity.
-             * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal
+             * * `INTERNAL_REVIEW` - The account is temporarily paused pending further internal
              *   review. In future implementations, this status may prevent clients from activating
              *   the account via APIs until the review is completed.
-             * - `OTHER` - The reason for the account's current status does not fall into any of the
+             * * `OTHER` - The reason for the account's current status does not fall into any of the
              *   above categories. A comment should be provided to specify the particular reason.
              */
             fun substatus(substatus: Substatus) = substatus(JsonField.of(substatus))
@@ -1143,28 +1143,28 @@ private constructor(
 
     /**
      * Account state substatus values:
-     * - `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
+     * * `FRAUD_IDENTIFIED` - The account has been recognized as being created or used with stolen
      *   or fabricated identity information, encompassing both true identity theft and synthetic
      *   identities.
-     * - `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
+     * * `SUSPICIOUS_ACTIVITY` - The account has exhibited suspicious behavior, such as unauthorized
      *   access or fraudulent transactions, necessitating further investigation.
-     * - `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
+     * * `RISK_VIOLATION` - The account has been involved in deliberate misuse by the legitimate
      *   account holder. Examples include disputing valid transactions without cause, falsely
      *   claiming non-receipt of goods, or engaging in intentional bust-out schemes to exploit
      *   account services.
-     * - `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
+     * * `END_USER_REQUEST` - The account holder has voluntarily requested the closure of the
      *   account for personal reasons. This encompasses situations such as bankruptcy, other
      *   financial considerations, or the account holder's death.
-     * - `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
+     * * `ISSUER_REQUEST` - The issuer has initiated the closure of the account due to business
      *   strategy, risk management, inactivity, product changes, regulatory concerns, or violations
      *   of terms and conditions.
-     * - `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
+     * * `NOT_ACTIVE` - The account has not had any transactions or payment activity within a
      *   specified period. This status applies to accounts that are paused or closed due to
      *   inactivity.
-     * - `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
+     * * `INTERNAL_REVIEW` - The account is temporarily paused pending further internal review. In
      *   future implementations, this status may prevent clients from activating the account via
      *   APIs until the review is completed.
-     * - `OTHER` - The reason for the account's current status does not fall into any of the above
+     * * `OTHER` - The reason for the account's current status does not fall into any of the above
      *   categories. A comment should be provided to specify the particular reason.
      */
     class Substatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

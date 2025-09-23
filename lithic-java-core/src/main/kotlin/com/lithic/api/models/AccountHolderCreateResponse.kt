@@ -83,7 +83,7 @@ private constructor(
      * KYC and KYB evaluation states.
      *
      * Note:
-     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     * * `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -263,7 +263,7 @@ private constructor(
          * KYC and KYB evaluation states.
          *
          * Note:
-         * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+         * * `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
@@ -450,7 +450,7 @@ private constructor(
      * KYC and KYB evaluation states.
      *
      * Note:
-     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
+     * * `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
