@@ -87,13 +87,13 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
-     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-     * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+     * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
      *   tracking
-     * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-     * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
+     * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+     * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -275,14 +275,14 @@ private constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+         * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
          *   tracking
-         * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+         * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+         * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
@@ -534,14 +534,14 @@ private constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
-         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-         * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+         * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
          *   tracking
-         * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-         * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+         * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+         * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -721,15 +721,15 @@ private constructor(
             /**
              * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
              * besides `STANDARD` require additional permissions.
-             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
              *   tracking
-             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-             * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping,
+             * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+             * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping,
              *   with tracking
-             * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with
+             * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with
              *   tracking
-             * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
+             * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
              *   similar international option, with tracking
              */
             fun shippingMethod(shippingMethod: ShippingMethod) =
@@ -864,13 +864,13 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
-     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-     * - `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
+     * * `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * * `EXPRESS` - FedEx or UPS depending on card manufacturer, Express, 3-day shipping, with
      *   tracking
-     * - `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
-     * - `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
+     * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
+     * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
      */
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :

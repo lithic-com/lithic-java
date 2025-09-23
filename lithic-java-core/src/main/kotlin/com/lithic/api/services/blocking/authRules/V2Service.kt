@@ -280,7 +280,7 @@ interface V2Service {
      *    The Auth Rule has not yet been promoted, causing the draft version of the rule to be
      *    applied in shadow mode.
      * 2. At time `t + 1 hour` a performance report is requested for the Auth Rule. This performance
-     *    report will _only_ contain data for the Auth Rule being executed in the window between `t`
+     *    report will *only* contain data for the Auth Rule being executed in the window between `t`
      *    and `t + 1 hour`. This is because Lithic's transaction processing system will only start
      *    capturing data for the Auth Rule at the time it is created.
      * 3. At time `t + 2 hours` the draft version of the Auth Rule is promoted to the active version

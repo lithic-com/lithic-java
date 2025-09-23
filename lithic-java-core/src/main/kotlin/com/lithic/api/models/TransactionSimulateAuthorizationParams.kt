@@ -118,16 +118,16 @@ private constructor(
 
     /**
      * Type of event to simulate.
-     * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+     * * `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
      *   step is required to settle the transaction.
-     * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+     * * `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
      *   most often observed when a cardholder requests to view a card's balance at an ATM.
-     * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+     * * `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
      *   meaning a subsequent clearing step is required to settle the transaction.
-     * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+     * * `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
      *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
      *   the transaction.
-     * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+     * * `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
      *   funds immediately, and no subsequent clearing is required to settle the transaction.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -404,16 +404,16 @@ private constructor(
 
         /**
          * Type of event to simulate.
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+         * * `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
          *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+         * * `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
          *   most often observed when a cardholder requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+         * * `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
          *   meaning a subsequent clearing step is required to settle the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+         * * `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
          *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
          *   settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+         * * `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
          *   funds immediately, and no subsequent clearing is required to settle the transaction.
          */
         fun status(status: Status) = apply { body.status(status) }
@@ -707,16 +707,16 @@ private constructor(
 
         /**
          * Type of event to simulate.
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+         * * `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
          *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+         * * `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
          *   most often observed when a cardholder requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+         * * `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
          *   meaning a subsequent clearing step is required to settle the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+         * * `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
          *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
          *   settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+         * * `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
          *   funds immediately, and no subsequent clearing is required to settle the transaction.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1005,17 +1005,17 @@ private constructor(
 
             /**
              * Type of event to simulate.
-             * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
+             * * `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
              *   clearing step is required to settle the transaction.
-             * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card,
+             * * `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card,
              *   and is most often observed when a cardholder requests to view a card's balance at
              *   an ATM.
-             * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a
+             * * `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a
              *   refund, meaning a subsequent clearing step is required to settle the transaction.
-             * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
+             * * `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
              *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
              *   required to settle the transaction.
-             * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to
+             * * `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to
              *   credit funds immediately, and no subsequent clearing is required to settle the
              *   transaction.
              */
@@ -1169,16 +1169,16 @@ private constructor(
 
     /**
      * Type of event to simulate.
-     * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+     * * `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
      *   step is required to settle the transaction.
-     * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+     * * `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
      *   most often observed when a cardholder requests to view a card's balance at an ATM.
-     * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+     * * `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
      *   meaning a subsequent clearing step is required to settle the transaction.
-     * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+     * * `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
      *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
      *   the transaction.
-     * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+     * * `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
      *   funds immediately, and no subsequent clearing is required to settle the transaction.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

@@ -21,12 +21,9 @@ import java.util.Objects
  * that the url for the request can be inserted straight into the `src` attribute of an iframe.
  *
  * ```html
- * <iframe
- *   id="card-iframe"
- *   src="https://sandbox.lithic.com/v1/embed/card?embed_request=eyJjc3MiO...;hmac=r8tx1..."
- *   allow="clipboard-write"
- *   class="content"
- * ></iframe>
+ * <iframe id="card-iframe"
+ *         src="https://sandbox.lithic.com/v1/embed/card?embed_request=eyJjc3MiO...;hmac=r8tx1..."
+ *         allow="clipboard-write" class="content"></iframe>
  * ```
  *
  * You should compute the request payload on the server side. You can render it (or the whole

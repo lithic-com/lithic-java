@@ -86,11 +86,11 @@ private constructor(
 
     /**
      * Upload status types:
-     * - `DELETED` - Evidence was deleted.
-     * - `ERROR` - Evidence upload failed.
-     * - `PENDING` - Evidence is pending upload.
-     * - `REJECTED` - Evidence was rejected.
-     * - `UPLOADED` - Evidence was uploaded.
+     * * `DELETED` - Evidence was deleted.
+     * * `ERROR` - Evidence upload failed.
+     * * `PENDING` - Evidence is pending upload.
+     * * `REJECTED` - Evidence was rejected.
+     * * `UPLOADED` - Evidence was uploaded.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -267,11 +267,11 @@ private constructor(
 
         /**
          * Upload status types:
-         * - `DELETED` - Evidence was deleted.
-         * - `ERROR` - Evidence upload failed.
-         * - `PENDING` - Evidence is pending upload.
-         * - `REJECTED` - Evidence was rejected.
-         * - `UPLOADED` - Evidence was uploaded.
+         * * `DELETED` - Evidence was deleted.
+         * * `ERROR` - Evidence upload failed.
+         * * `PENDING` - Evidence is pending upload.
+         * * `REJECTED` - Evidence was rejected.
+         * * `UPLOADED` - Evidence was uploaded.
          */
         fun uploadStatus(uploadStatus: UploadStatus) = uploadStatus(JsonField.of(uploadStatus))
 
@@ -413,11 +413,11 @@ private constructor(
 
     /**
      * Upload status types:
-     * - `DELETED` - Evidence was deleted.
-     * - `ERROR` - Evidence upload failed.
-     * - `PENDING` - Evidence is pending upload.
-     * - `REJECTED` - Evidence was rejected.
-     * - `UPLOADED` - Evidence was uploaded.
+     * * `DELETED` - Evidence was deleted.
+     * * `ERROR` - Evidence upload failed.
+     * * `PENDING` - Evidence is pending upload.
+     * * `REJECTED` - Evidence was rejected.
+     * * `UPLOADED` - Evidence was uploaded.
      */
     class UploadStatus @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {

@@ -209,14 +209,14 @@ private constructor(
 
     /**
      * Indicates whether a challenge is requested for this transaction
-     * - `NO_PREFERENCE` - No Preference
-     * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
-     * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
-     * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
-     * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
+     * * `NO_PREFERENCE` - No Preference
+     * * `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+     * * `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+     * * `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+     * * `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
      *   is already performed)
-     * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
-     * - `OTHER` - Other indicators not captured by above. These are rarely used
+     * * `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+     * * `OTHER` - Other indicators not captured by above. These are rarely used
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -729,14 +729,14 @@ private constructor(
 
         /**
          * Indicates whether a challenge is requested for this transaction
-         * - `NO_PREFERENCE` - No Preference
-         * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
-         * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
-         * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
-         * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk
+         * * `NO_PREFERENCE` - No Preference
+         * * `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+         * * `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+         * * `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+         * * `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk
          *   analysis is already performed)
-         * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
-         * - `OTHER` - Other indicators not captured by above. These are rarely used
+         * * `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+         * * `OTHER` - Other indicators not captured by above. These are rarely used
          */
         fun threeDSRequestorChallengeIndicator(
             threeDSRequestorChallengeIndicator: ThreeDSRequestorChallengeIndicator
@@ -4655,14 +4655,14 @@ private constructor(
 
     /**
      * Indicates whether a challenge is requested for this transaction
-     * - `NO_PREFERENCE` - No Preference
-     * - `NO_CHALLENGE_REQUESTED` - No Challenge Requested
-     * - `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
-     * - `CHALLENGE_MANDATE` - Challenge requested (Mandate)
-     * - `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
+     * * `NO_PREFERENCE` - No Preference
+     * * `NO_CHALLENGE_REQUESTED` - No Challenge Requested
+     * * `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
+     * * `CHALLENGE_MANDATE` - Challenge requested (Mandate)
+     * * `NO_CHALLENGE_RISK_ALREADY_ASSESSED` - No Challenge requested (Transactional risk analysis
      *   is already performed)
-     * - `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
-     * - `OTHER` - Other indicators not captured by above. These are rarely used
+     * * `DATA_SHARE_ONLY` - No Challenge requested (Data Share Only)
+     * * `OTHER` - Other indicators not captured by above. These are rarely used
      */
     class ThreeDSRequestorChallengeIndicator
     @JsonCreator
@@ -6504,20 +6504,20 @@ private constructor(
 
         /**
          * Indicates the status of the challenge
-         * - SUCCESS - Cardholder completed the challenge successfully
-         * - PENDING - Challenge was issued to the cardholder and was not completed yet
-         * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+         * * SUCCESS - Cardholder completed the challenge successfully
+         * * PENDING - Challenge was issued to the cardholder and was not completed yet
+         * * SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
          *   phone number. Relevant only for SMS_OTP method
-         * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+         * * CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
          *   challenge TTL
-         * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
+         * * CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
          *   the challenge UI
-         * - CANCELED_OOB - Cardholder canceled the challenge out of band
-         * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
+         * * CANCELED_OOB - Cardholder canceled the challenge out of band
+         * * ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
          *   more than the allowed number of times or requesting a new OTP more than the allowed
          *   number of times
-         * - ABORTED - Merchant aborted authentication after a challenge was requested
-         * - ERROR - The challenge failed for a reason different than those documented
+         * * ABORTED - Merchant aborted authentication after a challenge was requested
+         * * ERROR - The challenge failed for a reason different than those documented
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -6615,20 +6615,20 @@ private constructor(
 
             /**
              * Indicates the status of the challenge
-             * - SUCCESS - Cardholder completed the challenge successfully
-             * - PENDING - Challenge was issued to the cardholder and was not completed yet
-             * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+             * * SUCCESS - Cardholder completed the challenge successfully
+             * * PENDING - Challenge was issued to the cardholder and was not completed yet
+             * * SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
              *   phone number. Relevant only for SMS_OTP method
-             * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+             * * CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
              *   challenge TTL
-             * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel"
+             * * CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel"
              *   on the challenge UI
-             * - CANCELED_OOB - Cardholder canceled the challenge out of band
-             * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect
+             * * CANCELED_OOB - Cardholder canceled the challenge out of band
+             * * ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect
              *   OTP more than the allowed number of times or requesting a new OTP more than the
              *   allowed number of times
-             * - ABORTED - Merchant aborted authentication after a challenge was requested
-             * - ERROR - The challenge failed for a reason different than those documented
+             * * ABORTED - Merchant aborted authentication after a challenge was requested
+             * * ERROR - The challenge failed for a reason different than those documented
              */
             fun status(status: Status) = status(JsonField.of(status))
 
@@ -6866,20 +6866,20 @@ private constructor(
 
         /**
          * Indicates the status of the challenge
-         * - SUCCESS - Cardholder completed the challenge successfully
-         * - PENDING - Challenge was issued to the cardholder and was not completed yet
-         * - SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
+         * * SUCCESS - Cardholder completed the challenge successfully
+         * * PENDING - Challenge was issued to the cardholder and was not completed yet
+         * * SMS_DELIVERY_FAILED - Lithic confirmed undeliverability of the SMS to the provided
          *   phone number. Relevant only for SMS_OTP method
-         * - CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
+         * * CARDHOLDER_TIMEOUT - Cardholder failed to complete the challenge within the given
          *   challenge TTL
-         * - CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
+         * * CANCELED_VIA_CHALLENGE_UI - Cardholder canceled the challenge by selecting "cancel" on
          *   the challenge UI
-         * - CANCELED_OOB - Cardholder canceled the challenge out of band
-         * - ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
+         * * CANCELED_OOB - Cardholder canceled the challenge out of band
+         * * ATTEMPTS_EXCEEDED - Cardholder failed the challenge by either entering an incorrect OTP
          *   more than the allowed number of times or requesting a new OTP more than the allowed
          *   number of times
-         * - ABORTED - Merchant aborted authentication after a challenge was requested
-         * - ERROR - The challenge failed for a reason different than those documented
+         * * ABORTED - Merchant aborted authentication after a challenge was requested
+         * * ERROR - The challenge failed for a reason different than those documented
          */
         class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

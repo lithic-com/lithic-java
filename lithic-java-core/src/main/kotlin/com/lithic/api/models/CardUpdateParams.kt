@@ -23,7 +23,7 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Update the specified properties of the card. Unsupplied properties will remain unchanged.
  *
- * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
+ * *Note: setting a card to a `CLOSED` state is a final action that cannot be undone.*
  */
 class CardUpdateParams
 private constructor(
@@ -103,13 +103,13 @@ private constructor(
 
     /**
      * Spend limit duration values:
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
      *   support recurring monthly payments, which can occur on different day every month, the time
      *   window we consider for monthly velocity starts 6 days after the current calendar date one
      *   month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     * * `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
      *   under the spend limit.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -119,9 +119,9 @@ private constructor(
 
     /**
      * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * * `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+     * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -130,25 +130,25 @@ private constructor(
 
     /**
      * Card state substatus values:
-     * - `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
+     * * `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
      *   never received by the cardholder.
-     * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+     * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
      *   access. This may involve physical card theft, cloning, or online data breaches.
-     * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
+     * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
      *   a demagnetized magnetic stripe.
-     * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
      *   to fraud or damage, such as switching to a different product or closing the account.
-     * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+     * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
      *   such as account inactivity, product or policy changes, or technology upgrades.
-     * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+     * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
      *   applicable to statuses like `PAUSED` or `CLOSED`.
-     * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
+     * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
      *   require review. This can involve prompting the cardholder to confirm legitimate use or
      *   report confirmed fraud.
-     * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-     * - `EXPIRED` - The card has expired and has been closed without being reissued.
-     * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-     * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+     * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+     * * `EXPIRED` - The card has expired and has been closed without being reissued.
+     * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+     * * `OTHER` - The reason for the status does not fall into any of the above categories. A
      *   comment should be provided to specify the reason.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -393,14 +393,14 @@ private constructor(
 
         /**
          * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
          *   To support recurring monthly payments, which can occur on different day every month,
          *   the time window we consider for monthly velocity starts 6 days after the current
          *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         * * `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
@@ -420,9 +420,9 @@ private constructor(
 
         /**
          * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * * `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+         * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
         fun state(state: State) = apply { body.state(state) }
 
@@ -436,26 +436,26 @@ private constructor(
 
         /**
          * Card state substatus values:
-         * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+         * * `LOST` - The physical card is no longer in the cardholder's possession due to being
          *   lost or never received by the cardholder.
-         * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+         * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
          *   access. This may involve physical card theft, cloning, or online data breaches.
-         * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures
+         * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures
          *   or a demagnetized magnetic stripe.
-         * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+         * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
          *   unrelated to fraud or damage, such as switching to a different product or closing the
          *   account.
-         * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+         * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
          *   such as account inactivity, product or policy changes, or technology upgrades.
-         * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+         * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
          *   applicable to statuses like `PAUSED` or `CLOSED`.
-         * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
+         * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
          *   that require review. This can involve prompting the cardholder to confirm legitimate
          *   use or report confirmed fraud.
-         * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-         * - `EXPIRED` - The card has expired and has been closed without being reissued.
-         * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-         * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+         * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+         * * `EXPIRED` - The card has expired and has been closed without being reissued.
+         * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+         * * `OTHER` - The reason for the status does not fall into any of the above categories. A
          *   comment should be provided to specify the reason.
          */
         fun substatus(substatus: Substatus) = apply { body.substatus(substatus) }
@@ -736,14 +736,14 @@ private constructor(
 
         /**
          * Spend limit duration values:
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
          *   To support recurring monthly payments, which can occur on different day every month,
          *   the time window we consider for monthly velocity starts 6 days after the current
          *   calendar date one month prior.
-         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         * * `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -754,9 +754,9 @@ private constructor(
 
         /**
          * Card state values:
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         * * `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+         * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -765,26 +765,26 @@ private constructor(
 
         /**
          * Card state substatus values:
-         * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+         * * `LOST` - The physical card is no longer in the cardholder's possession due to being
          *   lost or never received by the cardholder.
-         * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+         * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
          *   access. This may involve physical card theft, cloning, or online data breaches.
-         * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures
+         * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures
          *   or a demagnetized magnetic stripe.
-         * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+         * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
          *   unrelated to fraud or damage, such as switching to a different product or closing the
          *   account.
-         * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+         * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
          *   such as account inactivity, product or policy changes, or technology upgrades.
-         * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+         * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
          *   applicable to statuses like `PAUSED` or `CLOSED`.
-         * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
+         * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities
          *   that require review. This can involve prompting the cardholder to confirm legitimate
          *   use or report confirmed fraud.
-         * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-         * - `EXPIRED` - The card has expired and has been closed without being reissued.
-         * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-         * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+         * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+         * * `EXPIRED` - The card has expired and has been closed without being reissued.
+         * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+         * * `OTHER` - The reason for the status does not fall into any of the above categories. A
          *   comment should be provided to specify the reason.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1036,15 +1036,15 @@ private constructor(
 
             /**
              * Spend limit duration values:
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
              *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
              *   the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
              *   month. To support recurring monthly payments, which can occur on different day
              *   every month, the time window we consider for monthly velocity starts 6 days after
              *   the current calendar date one month prior.
-             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             * * `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
@@ -1063,11 +1063,11 @@ private constructor(
 
             /**
              * Card state values:
-             * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
+             * * `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
              *   undone.
-             * - `OPEN` - Card will approve authorizations (if they match card and account
+             * * `OPEN` - Card will approve authorizations (if they match card and account
              *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+             * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
             fun state(state: State) = state(JsonField.of(state))
 
@@ -1082,29 +1082,29 @@ private constructor(
 
             /**
              * Card state substatus values:
-             * - `LOST` - The physical card is no longer in the cardholder's possession due to being
+             * * `LOST` - The physical card is no longer in the cardholder's possession due to being
              *   lost or never received by the cardholder.
-             * - `COMPROMISED` - Card information has been exposed, potentially leading to
+             * * `COMPROMISED` - Card information has been exposed, potentially leading to
              *   unauthorized access. This may involve physical card theft, cloning, or online data
              *   breaches.
-             * - `DAMAGED` - The physical card is not functioning properly, such as having chip
+             * * `DAMAGED` - The physical card is not functioning properly, such as having chip
              *   failures or a demagnetized magnetic stripe.
-             * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
+             * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons
              *   unrelated to fraud or damage, such as switching to a different product or closing
              *   the account.
-             * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or
+             * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or
              *   damage, such as account inactivity, product or policy changes, or technology
              *   upgrades.
-             * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+             * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
              *   applicable to statuses like `PAUSED` or `CLOSED`.
-             * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or
+             * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or
              *   activities that require review. This can involve prompting the cardholder to
              *   confirm legitimate use or report confirmed fraud.
-             * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-             * - `EXPIRED` - The card has expired and has been closed without being reissued.
-             * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been
+             * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+             * * `EXPIRED` - The card has expired and has been closed without being reissued.
+             * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been
              *   returned.
-             * - `OTHER` - The reason for the status does not fall into any of the above categories.
+             * * `OTHER` - The reason for the status does not fall into any of the above categories.
              *   A comment should be provided to specify the reason.
              */
             fun substatus(substatus: Substatus) = substatus(JsonField.of(substatus))
@@ -1373,9 +1373,9 @@ private constructor(
 
     /**
      * Card state values:
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     * * `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+     * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
      */
     class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1510,25 +1510,25 @@ private constructor(
 
     /**
      * Card state substatus values:
-     * - `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
+     * * `LOST` - The physical card is no longer in the cardholder's possession due to being lost or
      *   never received by the cardholder.
-     * - `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
+     * * `COMPROMISED` - Card information has been exposed, potentially leading to unauthorized
      *   access. This may involve physical card theft, cloning, or online data breaches.
-     * - `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
+     * * `DAMAGED` - The physical card is not functioning properly, such as having chip failures or
      *   a demagnetized magnetic stripe.
-     * - `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
+     * * `END_USER_REQUEST` - The cardholder requested the closure of the card for reasons unrelated
      *   to fraud or damage, such as switching to a different product or closing the account.
-     * - `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
+     * * `ISSUER_REQUEST` - The issuer closed the card for reasons unrelated to fraud or damage,
      *   such as account inactivity, product or policy changes, or technology upgrades.
-     * - `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
+     * * `NOT_ACTIVE` - The card hasn’t had any transaction activity for a specified period,
      *   applicable to statuses like `PAUSED` or `CLOSED`.
-     * - `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
+     * * `SUSPICIOUS_ACTIVITY` - The card has one or more suspicious transactions or activities that
      *   require review. This can involve prompting the cardholder to confirm legitimate use or
      *   report confirmed fraud.
-     * - `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
-     * - `EXPIRED` - The card has expired and has been closed without being reissued.
-     * - `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
-     * - `OTHER` - The reason for the status does not fall into any of the above categories. A
+     * * `INTERNAL_REVIEW` - The card is temporarily paused pending further internal review.
+     * * `EXPIRED` - The card has expired and has been closed without being reissued.
+     * * `UNDELIVERABLE` - The card cannot be delivered to the cardholder and has been returned.
+     * * `OTHER` - The reason for the status does not fall into any of the above categories. A
      *   comment should be provided to specify the reason.
      */
     class Substatus @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

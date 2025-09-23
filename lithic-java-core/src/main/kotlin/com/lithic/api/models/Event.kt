@@ -61,32 +61,32 @@ private constructor(
 
     /**
      * Event types:
-     * - `account_holder.created` - Notification that a new account holder has been created and was
+     * * `account_holder.created` - Notification that a new account holder has been created and was
      *   not rejected.
-     * - `account_holder.updated` - Notification that an account holder was updated.
-     * - `account_holder.verification` - Notification than an account holder's identity verification
+     * * `account_holder.updated` - Notification that an account holder was updated.
+     * * `account_holder.verification` - Notification than an account holder's identity verification
      *   is complete.
-     * - `card.created` - Notification that a card has been created.
-     * - `card.renewed` - Notification that a card has been renewed.
-     * - `card.reissued` - Notification that a card has been reissued.
-     * - `card.shipped` - Physical card shipment notification. See
+     * * `card.created` - Notification that a card has been created.
+     * * `card.renewed` - Notification that a card has been renewed.
+     * * `card.reissued` - Notification that a card has been reissued.
+     * * `card.shipped` - Physical card shipment notification. See
      *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-     * - `card.converted` - Notification that a virtual card has been converted to a physical card.
-     * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+     * * `card.converted` - Notification that a virtual card has been converted to a physical card.
+     * * `card_transaction.updated` - Transaction Lifecycle webhook. See
      *   https://docs.lithic.com/docs/transaction-webhooks.
-     * - `dispute.updated` - A dispute has been updated.
-     * - `dispute_transaction.created` - A new dispute transaction has been created.
-     * - `dispute_transaction.updated` - A dispute transaction has been updated.
-     * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
+     * * `dispute.updated` - A dispute has been updated.
+     * * `dispute_transaction.created` - A new dispute transaction has been created.
+     * * `dispute_transaction.updated` - A dispute transaction has been updated.
+     * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      *   activate a digital wallet token.
-     * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
+     * * `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
      *   whether successful or failed.
-     * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
+     * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
      *   end user to complete digital wallet authentication. See
      *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-     * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
+     * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
      *   factor authentication code for activating a digital wallet has been sent to the end user.
-     * - `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
+     * * `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
      *   status has changed.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -203,34 +203,34 @@ private constructor(
 
         /**
          * Event types:
-         * - `account_holder.created` - Notification that a new account holder has been created and
+         * * `account_holder.created` - Notification that a new account holder has been created and
          *   was not rejected.
-         * - `account_holder.updated` - Notification that an account holder was updated.
-         * - `account_holder.verification` - Notification than an account holder's identity
+         * * `account_holder.updated` - Notification that an account holder was updated.
+         * * `account_holder.verification` - Notification than an account holder's identity
          *   verification is complete.
-         * - `card.created` - Notification that a card has been created.
-         * - `card.renewed` - Notification that a card has been renewed.
-         * - `card.reissued` - Notification that a card has been reissued.
-         * - `card.shipped` - Physical card shipment notification. See
+         * * `card.created` - Notification that a card has been created.
+         * * `card.renewed` - Notification that a card has been renewed.
+         * * `card.reissued` - Notification that a card has been reissued.
+         * * `card.shipped` - Physical card shipment notification. See
          *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-         * - `card.converted` - Notification that a virtual card has been converted to a physical
+         * * `card.converted` - Notification that a virtual card has been converted to a physical
          *   card.
-         * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+         * * `card_transaction.updated` - Transaction Lifecycle webhook. See
          *   https://docs.lithic.com/docs/transaction-webhooks.
-         * - `dispute.updated` - A dispute has been updated.
-         * - `dispute_transaction.created` - A new dispute transaction has been created.
-         * - `dispute_transaction.updated` - A dispute transaction has been updated.
-         * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
+         * * `dispute.updated` - A dispute has been updated.
+         * * `dispute_transaction.created` - A new dispute transaction has been created.
+         * * `dispute_transaction.updated` - A dispute transaction has been updated.
+         * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
          *   activate a digital wallet token.
-         * - `digital_wallet.tokenization_result` - Notification of the end result of a
+         * * `digital_wallet.tokenization_result` - Notification of the end result of a
          *   tokenization, whether successful or failed.
-         * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
+         * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
          *   an end user to complete digital wallet authentication. See
          *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-         * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
+         * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
          *   two factor authentication code for activating a digital wallet has been sent to the end
          *   user.
-         * - `digital_wallet.tokenization_updated` - Notification that a digital wallet
+         * * `digital_wallet.tokenization_updated` - Notification that a digital wallet
          *   tokenization's status has changed.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -334,32 +334,32 @@ private constructor(
 
     /**
      * Event types:
-     * - `account_holder.created` - Notification that a new account holder has been created and was
+     * * `account_holder.created` - Notification that a new account holder has been created and was
      *   not rejected.
-     * - `account_holder.updated` - Notification that an account holder was updated.
-     * - `account_holder.verification` - Notification than an account holder's identity verification
+     * * `account_holder.updated` - Notification that an account holder was updated.
+     * * `account_holder.verification` - Notification than an account holder's identity verification
      *   is complete.
-     * - `card.created` - Notification that a card has been created.
-     * - `card.renewed` - Notification that a card has been renewed.
-     * - `card.reissued` - Notification that a card has been reissued.
-     * - `card.shipped` - Physical card shipment notification. See
+     * * `card.created` - Notification that a card has been created.
+     * * `card.renewed` - Notification that a card has been renewed.
+     * * `card.reissued` - Notification that a card has been reissued.
+     * * `card.shipped` - Physical card shipment notification. See
      *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-     * - `card.converted` - Notification that a virtual card has been converted to a physical card.
-     * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+     * * `card.converted` - Notification that a virtual card has been converted to a physical card.
+     * * `card_transaction.updated` - Transaction Lifecycle webhook. See
      *   https://docs.lithic.com/docs/transaction-webhooks.
-     * - `dispute.updated` - A dispute has been updated.
-     * - `dispute_transaction.created` - A new dispute transaction has been created.
-     * - `dispute_transaction.updated` - A dispute transaction has been updated.
-     * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
+     * * `dispute.updated` - A dispute has been updated.
+     * * `dispute_transaction.created` - A new dispute transaction has been created.
+     * * `dispute_transaction.updated` - A dispute transaction has been updated.
+     * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      *   activate a digital wallet token.
-     * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
+     * * `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
      *   whether successful or failed.
-     * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
+     * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
      *   end user to complete digital wallet authentication. See
      *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-     * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
+     * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
      *   factor authentication code for activating a digital wallet has been sent to the end user.
-     * - `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
+     * * `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
      *   status has changed.
      */
     class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
