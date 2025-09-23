@@ -96,7 +96,7 @@ private constructor(
 
     /**
      * Status types:
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -173,11 +173,11 @@ private constructor(
 
     /**
      * Status types:
-     * - `DECLINED` - The transfer was declined.
-     * - `EXPIRED` - The transfer was held in pending for too long and expired.
-     * - `PENDING` - The transfer is pending release from a hold.
-     * - `SETTLED` - The transfer is completed.
-     * - `VOIDED` - The transfer was reversed before it settled.
+     * * `DECLINED` - The transfer was declined.
+     * * `EXPIRED` - The transfer was held in pending for too long and expired.
+     * * `PENDING` - The transfer is pending release from a hold.
+     * * `SETTLED` - The transfer is completed.
+     * * `VOIDED` - The transfer was reversed before it settled.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -366,7 +366,7 @@ private constructor(
 
         /**
          * Status types:
-         * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+         * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
          */
         fun category(category: Category) = category(JsonField.of(category))
 
@@ -519,11 +519,11 @@ private constructor(
 
         /**
          * Status types:
-         * - `DECLINED` - The transfer was declined.
-         * - `EXPIRED` - The transfer was held in pending for too long and expired.
-         * - `PENDING` - The transfer is pending release from a hold.
-         * - `SETTLED` - The transfer is completed.
-         * - `VOIDED` - The transfer was reversed before it settled.
+         * * `DECLINED` - The transfer was declined.
+         * * `EXPIRED` - The transfer was held in pending for too long and expired.
+         * * `PENDING` - The transfer is pending release from a hold.
+         * * `SETTLED` - The transfer is completed.
+         * * `VOIDED` - The transfer was reversed before it settled.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
@@ -670,7 +670,7 @@ private constructor(
 
     /**
      * Status types:
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
+     * * `TRANSFER` - Internal transfer of funds between financial accounts in your program.
      */
     class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1883,11 +1883,11 @@ private constructor(
 
     /**
      * Status types:
-     * - `DECLINED` - The transfer was declined.
-     * - `EXPIRED` - The transfer was held in pending for too long and expired.
-     * - `PENDING` - The transfer is pending release from a hold.
-     * - `SETTLED` - The transfer is completed.
-     * - `VOIDED` - The transfer was reversed before it settled.
+     * * `DECLINED` - The transfer was declined.
+     * * `EXPIRED` - The transfer was held in pending for too long and expired.
+     * * `PENDING` - The transfer is pending release from a hold.
+     * * `SETTLED` - The transfer is completed.
+     * * `VOIDED` - The transfer was reversed before it settled.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

@@ -285,11 +285,11 @@ private constructor(
 
     /**
      * Status types:
-     * - `DECLINED` - The payment was declined.
-     * - `PENDING` - The payment is being processed and has yet to settle or release (origination
+     * * `DECLINED` - The payment was declined.
+     * * `PENDING` - The payment is being processed and has yet to settle or release (origination
      *   debit).
-     * - `RETURNED` - The payment has been returned.
-     * - `SETTLED` - The payment is completed.
+     * * `RETURNED` - The payment has been returned.
+     * * `SETTLED` - The payment is completed.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -850,11 +850,11 @@ private constructor(
 
         /**
          * Status types:
-         * - `DECLINED` - The payment was declined.
-         * - `PENDING` - The payment is being processed and has yet to settle or release
+         * * `DECLINED` - The payment was declined.
+         * * `PENDING` - The payment is being processed and has yet to settle or release
          *   (origination debit).
-         * - `RETURNED` - The payment has been returned.
-         * - `SETTLED` - The payment is completed.
+         * * `RETURNED` - The payment has been returned.
+         * * `SETTLED` - The payment is completed.
          */
         fun status(status: Payment.Status) = status(JsonField.of(status))
 

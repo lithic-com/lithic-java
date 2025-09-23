@@ -373,21 +373,21 @@ private constructor(
          * The attribute to target.
          *
          * The following attributes may be targeted:
-         * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business
+         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business
          *   by the types of goods or services it provides.
-         * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
+         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
          *   alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
-         * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
+         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
          *   transaction.
-         * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
-         * - `DESCRIPTOR`: Short description of card acceptor.
-         * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
+         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
+         * * `DESCRIPTOR`: Short description of card acceptor.
+         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder.
-         * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+         * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
          *   level, with a higher value indicating a higher amount of risk.
-         * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
+         * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -473,23 +473,23 @@ private constructor(
              * The attribute to target.
              *
              * The following attributes may be targeted:
-             * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a
+             * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a
              *   business by the types of goods or services it provides.
-             * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO
+             * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO
              *   3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands
              *   Antilles.
-             * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
+             * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
              *   transaction.
-             * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor
+             * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor
              *   (merchant).
-             * - `DESCRIPTOR`: Short description of card acceptor.
-             * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
+             * * `DESCRIPTOR`: Short description of card acceptor.
+             * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
              *   field in the settlement/cardholder billing currency. This is the amount the issuer
              *   should authorize against unless the issuer is paying the acquirer fee on behalf of
              *   the cardholder.
-             * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+             * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
              *   level, with a higher value indicating a higher amount of risk.
-             * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
+             * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -601,21 +601,21 @@ private constructor(
          * The attribute to target.
          *
          * The following attributes may be targeted:
-         * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business
+         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a business
          *   by the types of goods or services it provides.
-         * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
+         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO 3166-1
          *   alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
-         * - `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
+         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant currency of the
          *   transaction.
-         * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
-         * - `DESCRIPTOR`: Short description of card acceptor.
-         * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
+         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor (merchant).
+         * * `DESCRIPTOR`: Short description of card acceptor.
+         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder.
-         * - `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
+         * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
          *   level, with a higher value indicating a higher amount of risk.
-         * - `MESSAGE_CATEGORY`: The category of the authentication being processed.
+         * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
