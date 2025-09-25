@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Payment
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val category: JsonField<Category>,
@@ -1248,6 +1249,7 @@ private constructor(
 
     /** Payment Event */
     class PaymentEvent
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,
@@ -2284,6 +2286,7 @@ private constructor(
     }
 
     class PaymentMethodAttributes
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val companyId: JsonField<String>,
         private val receiptRoutingNumber: JsonField<String>,
@@ -2871,6 +2874,7 @@ private constructor(
 
     /** Account tokens related to a payment transaction */
     class RelatedAccountTokens
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val accountToken: JsonField<String>,
         private val businessAccountToken: JsonField<String>,

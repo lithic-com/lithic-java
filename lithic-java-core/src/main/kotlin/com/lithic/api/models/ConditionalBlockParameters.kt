@@ -19,6 +19,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class ConditionalBlockParameters
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val conditions: JsonField<List<AuthRuleCondition>>,
     private val additionalProperties: MutableMap<String, JsonValue>,

@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class TokenizationUpdateDigitalCardArtResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val data: JsonField<Tokenization>,
     private val additionalProperties: MutableMap<String, JsonValue>,

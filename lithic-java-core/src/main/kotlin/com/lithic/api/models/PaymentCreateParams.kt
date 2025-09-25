@@ -469,6 +469,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class CreatePaymentRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<Long>,
         private val externalBankAccountToken: JsonField<String>,
@@ -1083,6 +1084,7 @@ private constructor(
     }
 
     class PaymentMethodRequestAttributes
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val secCode: JsonField<SecCode>,
         private val addenda: JsonField<String>,

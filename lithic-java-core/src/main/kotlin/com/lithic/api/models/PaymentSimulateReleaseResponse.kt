@@ -18,6 +18,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class PaymentSimulateReleaseResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val debuggingRequestId: JsonField<String>,
     private val result: JsonField<Result>,

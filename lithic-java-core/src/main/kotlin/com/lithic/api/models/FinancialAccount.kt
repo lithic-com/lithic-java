@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class FinancialAccount
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
@@ -613,6 +614,7 @@ private constructor(
             (substatus.asKnown().getOrNull()?.validity() ?: 0)
 
     class FinancialAccountCreditConfig
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chargedOffReason: JsonField<ChargedOffReason>,
         private val creditLimit: JsonField<Long>,

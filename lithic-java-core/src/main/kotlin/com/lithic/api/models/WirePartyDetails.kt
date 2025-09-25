@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class WirePartyDetails
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val accountNumber: JsonField<String>,
     private val agentId: JsonField<String>,

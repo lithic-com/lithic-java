@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AccountHolder
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
@@ -1092,6 +1093,7 @@ private constructor(
             (if (websiteUrl.asKnown().isPresent) 1 else 0)
 
     class AccountHolderBusinessResponse
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<Address>,
         private val dbaBusinessName: JsonField<String>,
@@ -1567,6 +1569,7 @@ private constructor(
      * information provided via KYC. For example, we do not return the government id.
      */
     class AccountHolderIndividualResponse
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<Address>,
         private val dob: JsonField<String>,
@@ -2574,6 +2577,7 @@ private constructor(
 
     /** Information about the most recent identity verification attempt */
     class AccountHolderVerificationApplication
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val created: JsonField<OffsetDateTime>,
         private val status: JsonField<Status>,

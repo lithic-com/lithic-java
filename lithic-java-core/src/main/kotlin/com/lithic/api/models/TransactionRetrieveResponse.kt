@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class TransactionRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val fraudStatus: JsonField<FraudStatus>,
     private val transactionToken: JsonField<String>,

@@ -416,6 +416,7 @@ private constructor(
 
     /** Financial transaction with inheritance from unified base transaction */
     class FinancialTransaction
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val category: JsonField<TransactionCategory>,
@@ -1269,6 +1270,7 @@ private constructor(
 
         /** Financial Event */
         class FinancialEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val token: JsonField<String>,
             private val amount: JsonField<Long>,
@@ -2733,6 +2735,7 @@ private constructor(
 
     /** Book transfer transaction */
     class BookTransferTransaction
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val category: JsonField<TransactionCategory>,
@@ -3720,6 +3723,7 @@ private constructor(
 
         /** Book transfer Event */
         class BookTransferEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val token: JsonField<String>,
             private val amount: JsonField<Long>,
@@ -5241,6 +5245,7 @@ private constructor(
         }
 
         class TransactionSeries
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val relatedTransactionEventToken: JsonField<String>,
             private val relatedTransactionToken: JsonField<String>,
@@ -5564,6 +5569,7 @@ private constructor(
 
     /** Base class for all transaction types in the ledger service */
     class CardTransaction
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val accountToken: JsonField<String>,
@@ -7338,6 +7344,7 @@ private constructor(
 
     /** Payment transaction */
     class PaymentTransaction
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val category: JsonField<TransactionCategory>,
@@ -8717,6 +8724,7 @@ private constructor(
 
         /** Payment Event */
         class PaymentEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val token: JsonField<String>,
             private val amount: JsonField<Long>,
@@ -10122,6 +10130,7 @@ private constructor(
             }
 
             class AchMethodAttributes
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val secCode: JsonField<SecCode>,
                 private val addenda: JsonField<String>,
@@ -10764,6 +10773,7 @@ private constructor(
             }
 
             class WireMethodAttributes
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val wireNetwork: JsonField<WireNetwork>,
                 private val creditor: JsonField<WirePartyDetails>,
@@ -11315,6 +11325,7 @@ private constructor(
 
         /** Related account tokens for the transaction */
         class RelatedAccountTokens
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val accountToken: JsonField<String>,
             private val businessAccountToken: JsonField<String>,

@@ -514,6 +514,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val comment: JsonField<String>,
         private val dailySpendLimit: JsonField<Long>,
@@ -1337,6 +1338,7 @@ private constructor(
      */
     @Deprecated("deprecated")
     class VerificationAddress
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address1: JsonField<String>,
         private val address2: JsonField<String>,

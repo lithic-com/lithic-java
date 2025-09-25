@@ -466,6 +466,7 @@ private constructor(
 
         /** The KYB request payload for updating a business. */
         class KybPatchRequest
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val beneficialOwnerEntities: JsonField<List<KybBusinessEntityPatch>>,
             private val beneficialOwnerIndividuals: JsonField<List<IndividualPatch>>,
@@ -955,6 +956,7 @@ private constructor(
                     (if (websiteUrl.asKnown().isPresent) 1 else 0)
 
             class KybBusinessEntityPatch
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val entityToken: JsonField<String>,
                 private val address: JsonField<AddressUpdate>,
@@ -1439,6 +1441,7 @@ private constructor(
 
             /** Individuals associated with a KYB application. Phone number is optional. */
             class IndividualPatch
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val entityToken: JsonField<String>,
                 private val address: JsonField<AddressUpdate>,
@@ -1974,6 +1977,7 @@ private constructor(
 
         /** The KYC request payload for updating an account holder. */
         class KycPatchRequest
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val externalId: JsonField<String>,
             private val individual: JsonField<IndividualPatch>,
@@ -2160,6 +2164,7 @@ private constructor(
              * run.
              */
             class IndividualPatch
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val entityToken: JsonField<String>,
                 private val address: JsonField<AddressUpdate>,
@@ -2681,6 +2686,7 @@ private constructor(
 
         /** The legacy request for updating an account holder. */
         class PatchRequest
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val address: JsonField<AddressUpdate>,
             private val businessAccountToken: JsonField<String>,

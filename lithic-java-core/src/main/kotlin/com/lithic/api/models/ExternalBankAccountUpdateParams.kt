@@ -490,6 +490,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class UpdateBankAccountApiRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<ExternalBankAccountAddress>,
         private val companyId: JsonField<String>,

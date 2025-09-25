@@ -23,6 +23,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Dispute. */
 class Dispute
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val amount: JsonField<Long>,

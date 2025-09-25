@@ -323,6 +323,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class SimulateEnrollmentReviewRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val accountHolderToken: JsonField<String>,
         private val status: JsonField<Status>,
