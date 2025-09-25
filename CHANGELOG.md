@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.106.0 (2025-09-25)
+
+Full Changelog: [v0.105.1...v0.106.0](https://github.com/lithic-com/lithic-java/compare/v0.105.1...v0.106.0)
+
+### Features
+
+* **client:** add convenience overloads for some methods ([1835a3b](https://github.com/lithic-com/lithic-java/commit/1835a3b3fe9563ec6043c9e332b66ec1054f2d67))
+* **client:** expose sleeper option ([3006825](https://github.com/lithic-com/lithic-java/commit/300682586590f3cd263ae552c62603f0bf06b74c))
+
+
+### Bug Fixes
+
+* **client:** deserialization of empty objects ([b24cf62](https://github.com/lithic-com/lithic-java/commit/b24cf622050e2d014d54e61b34760b45cf42d713))
+* **client:** ensure single timer is created per client ([3006825](https://github.com/lithic-com/lithic-java/commit/300682586590f3cd263ae552c62603f0bf06b74c))
+
+
+### Chores
+
+* **docs:** small updates to doc strings on a few endpoints ([472d95b](https://github.com/lithic-com/lithic-java/commit/472d95b0e63d7530e5e40674d9d65e5e3a66e6f4))
+* improve formatter performance ([36fa6d6](https://github.com/lithic-com/lithic-java/commit/36fa6d6a567c00b8c24b63fd4eff99a93ed5f787))
+* **internal:** change some comment formatting ([f09453c](https://github.com/lithic-com/lithic-java/commit/f09453c5007dc265cc5fc06dc161395605d12ccf))
+
 ## 0.105.1 (2025-09-15)
 
 Full Changelog: [v0.105.0...v0.105.1](https://github.com/lithic-com/lithic-java/compare/v0.105.0...v0.105.1)
