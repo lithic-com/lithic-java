@@ -17,6 +17,7 @@ import java.util.Objects
 import java.util.Optional
 
 class Address
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val address1: JsonField<String>,
     private val city: JsonField<String>,

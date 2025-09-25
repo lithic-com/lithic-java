@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class BacktestCreateResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val backtestToken: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,

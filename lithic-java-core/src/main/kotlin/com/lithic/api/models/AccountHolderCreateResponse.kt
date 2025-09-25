@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AccountHolderCreateResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,

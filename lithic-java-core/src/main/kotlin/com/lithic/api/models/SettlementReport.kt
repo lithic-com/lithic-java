@@ -20,6 +20,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class SettlementReport
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,

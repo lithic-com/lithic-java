@@ -16,6 +16,7 @@ import java.util.Collections
 import java.util.Objects
 
 class NetworkProgram
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val defaultProductCode: JsonField<String>,

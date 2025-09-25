@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class StatementLineItems
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val data: JsonField<List<StatementLineItemResponse>>,
     private val hasMore: JsonField<Boolean>,
@@ -211,6 +212,7 @@ private constructor(
             (if (hasMore.asKnown().isPresent) 1 else 0)
 
     class StatementLineItemResponse
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,

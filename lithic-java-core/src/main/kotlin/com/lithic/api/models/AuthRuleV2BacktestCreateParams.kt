@@ -304,6 +304,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class BacktestRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val end: JsonField<OffsetDateTime>,
         private val start: JsonField<OffsetDateTime>,

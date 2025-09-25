@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class TransactionSimulateAuthorizationResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val debuggingRequestId: JsonField<String>,

@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class NetworkTotalRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val amounts: JsonField<Amounts>,
@@ -611,6 +612,7 @@ private constructor(
             (if (cycle.asKnown().isPresent) 1 else 0)
 
     class Amounts
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val grossSettlement: JsonField<Long>,
         private val interchangeFees: JsonField<Long>,

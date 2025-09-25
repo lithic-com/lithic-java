@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class KycExempt
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val address: JsonField<Address>,
     private val email: JsonField<String>,

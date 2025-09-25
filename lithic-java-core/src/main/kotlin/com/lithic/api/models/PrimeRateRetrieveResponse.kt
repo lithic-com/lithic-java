@@ -20,6 +20,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class PrimeRateRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val data: JsonField<List<InterestRate>>,
     private val hasMore: JsonField<Boolean>,
@@ -212,6 +213,7 @@ private constructor(
             (if (hasMore.asKnown().isPresent) 1 else 0)
 
     class InterestRate
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val effectiveDate: JsonField<LocalDate>,
         private val rate: JsonField<String>,

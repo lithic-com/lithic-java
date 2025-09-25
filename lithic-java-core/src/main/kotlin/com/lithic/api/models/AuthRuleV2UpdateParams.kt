@@ -471,6 +471,7 @@ private constructor(
         }
 
         class UnionMember0
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val name: JsonField<String>,
             private val state: JsonField<State>,
@@ -796,6 +797,7 @@ private constructor(
         }
 
         class UnionMember1
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val name: JsonField<String>,
             private val state: JsonField<State>,
@@ -1121,6 +1123,7 @@ private constructor(
         }
 
         class CardLevelRule
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val cardTokens: JsonField<List<String>>,
             private val name: JsonField<String>,
@@ -1506,6 +1509,7 @@ private constructor(
         }
 
         class ProgramLevelRule
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val excludedCardTokens: JsonField<List<String>>,
             private val name: JsonField<String>,

@@ -20,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Balance */
 class Balance
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val availableAmount: JsonField<Long>,
     private val created: JsonField<OffsetDateTime>,

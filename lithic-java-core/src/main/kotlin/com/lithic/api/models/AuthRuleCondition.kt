@@ -30,6 +30,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AuthRuleCondition
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val attribute: JsonField<ConditionalAttribute>,
     private val operation: JsonField<Operation>,

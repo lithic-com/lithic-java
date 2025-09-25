@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BacktestResults
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val backtestToken: JsonField<String>,
     private val results: JsonField<Results>,
@@ -240,6 +241,7 @@ private constructor(
             (simulationParameters.asKnown().getOrNull()?.validity() ?: 0)
 
     class Results
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val currentVersion: JsonField<RuleStats>,
         private val draftVersion: JsonField<RuleStats>,
@@ -437,6 +439,7 @@ private constructor(
     }
 
     class SimulationParameters
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val authRuleToken: JsonField<String>,
         private val end: JsonField<OffsetDateTime>,

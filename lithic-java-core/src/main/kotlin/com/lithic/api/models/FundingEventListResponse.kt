@@ -22,6 +22,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class FundingEventListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val collectionResourceType: JsonField<CollectionResourceType>,
@@ -638,6 +639,7 @@ private constructor(
     }
 
     class FundingEventSettlement
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val networkSettlementDate: JsonField<LocalDate>,
         private val settledGrossAmount: JsonField<Long>,

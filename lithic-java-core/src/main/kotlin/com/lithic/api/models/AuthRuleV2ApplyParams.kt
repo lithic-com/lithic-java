@@ -496,6 +496,7 @@ private constructor(
         }
 
         class ApplyAuthRuleRequestAccountTokens
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val accountTokens: JsonField<List<String>>,
             private val businessAccountTokens: JsonField<List<String>>,
@@ -734,6 +735,7 @@ private constructor(
         }
 
         class ApplyAuthRuleRequestCardTokens
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val cardTokens: JsonField<List<String>>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -920,6 +922,7 @@ private constructor(
         }
 
         class ApplyAuthRuleRequestProgramLevel
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val programLevel: JsonField<Boolean>,
             private val excludedCardTokens: JsonField<List<String>>,

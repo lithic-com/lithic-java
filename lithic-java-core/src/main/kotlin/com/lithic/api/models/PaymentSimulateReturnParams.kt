@@ -280,6 +280,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class SimulateOriginationReturnRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val paymentToken: JsonField<String>,
         private val returnReasonCode: JsonField<String>,

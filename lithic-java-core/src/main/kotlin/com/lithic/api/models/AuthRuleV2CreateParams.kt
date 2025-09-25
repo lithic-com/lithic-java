@@ -480,6 +480,7 @@ private constructor(
         }
 
         class CreateAuthRuleRequestAccountTokens
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val accountTokens: JsonField<List<String>>,
             private val businessAccountTokens: JsonField<List<String>>,
@@ -1379,6 +1380,7 @@ private constructor(
                 }
 
                 class ConditionalAuthorizationActionParameters
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val action: JsonField<Action>,
                     private val conditions: JsonField<List<Condition>>,
@@ -1733,6 +1735,7 @@ private constructor(
                     }
 
                     class Condition
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val attribute: JsonField<Attribute>,
                         private val operation: JsonField<Operation>,
@@ -3026,6 +3029,7 @@ private constructor(
         }
 
         class CreateAuthRuleRequestCardTokens
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val cardTokens: JsonField<List<String>>,
             private val eventStream: JsonField<EventStream>,
@@ -3870,6 +3874,7 @@ private constructor(
                 }
 
                 class ConditionalAuthorizationActionParameters
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val action: JsonField<Action>,
                     private val conditions: JsonField<List<Condition>>,
@@ -4224,6 +4229,7 @@ private constructor(
                     }
 
                     class Condition
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val attribute: JsonField<Attribute>,
                         private val operation: JsonField<Operation>,
@@ -5508,6 +5514,7 @@ private constructor(
         }
 
         class CreateAuthRuleRequestProgramLevel
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val programLevel: JsonField<Boolean>,
             private val eventStream: JsonField<EventStream>,
@@ -6405,6 +6412,7 @@ private constructor(
                 }
 
                 class ConditionalAuthorizationActionParameters
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val action: JsonField<Action>,
                     private val conditions: JsonField<List<Condition>>,
@@ -6759,6 +6767,7 @@ private constructor(
                     }
 
                     class Condition
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val attribute: JsonField<Attribute>,
                         private val operation: JsonField<Operation>,

@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class ResponderEndpointStatus
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val enrolled: JsonField<Boolean>,
     private val url: JsonField<String>,

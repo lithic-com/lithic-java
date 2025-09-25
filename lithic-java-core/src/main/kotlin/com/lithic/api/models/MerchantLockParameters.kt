@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class MerchantLockParameters
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val merchants: JsonField<List<Merchant>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -188,6 +189,7 @@ private constructor(
      * or descriptor.
      */
     class Merchant
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val comment: JsonField<String>,
         private val descriptor: JsonField<String>,

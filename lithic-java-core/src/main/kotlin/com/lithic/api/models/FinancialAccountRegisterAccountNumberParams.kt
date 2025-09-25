@@ -274,6 +274,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class RegisterAccountNumberRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val accountNumber: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,

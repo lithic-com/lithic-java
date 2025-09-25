@@ -304,6 +304,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class InterestRate
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val effectiveDate: JsonField<LocalDate>,
         private val rate: JsonField<String>,

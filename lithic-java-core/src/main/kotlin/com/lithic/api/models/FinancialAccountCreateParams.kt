@@ -341,6 +341,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class CreateFinancialAccountRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val nickname: JsonField<String>,
         private val type: JsonField<Type>,

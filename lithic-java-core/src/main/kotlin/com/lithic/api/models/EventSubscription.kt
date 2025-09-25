@@ -22,6 +22,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** A subscription to specific event types. */
 class EventSubscription
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val description: JsonField<String>,
