@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class V2RetrieveReportResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val authRuleToken: JsonField<String>,
     private val begin: JsonField<LocalDate>,
@@ -293,6 +294,7 @@ private constructor(
             (if (end.asKnown().isPresent) 1 else 0)
 
     class DailyStatistic
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val currentVersionStatistics: JsonField<RuleStats>,
         private val date: JsonField<LocalDate>,

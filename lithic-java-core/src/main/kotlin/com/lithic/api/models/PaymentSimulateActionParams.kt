@@ -330,6 +330,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class SimulateActionRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val eventType: JsonField<SupportedSimulationTypes>,
         private val declineReason: JsonField<SupportedSimulationDeclineReasons>,

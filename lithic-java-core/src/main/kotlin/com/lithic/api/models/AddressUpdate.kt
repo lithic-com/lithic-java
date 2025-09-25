@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class AddressUpdate
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val address1: JsonField<String>,
     private val address2: JsonField<String>,

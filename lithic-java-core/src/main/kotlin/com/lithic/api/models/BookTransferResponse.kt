@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BookTransferResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val category: JsonField<BookTransferCategory>,
@@ -963,6 +964,7 @@ private constructor(
 
     /** Book transfer Event */
     class BookTransferEvent
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,
@@ -2285,6 +2287,7 @@ private constructor(
 
     /** A series of transactions that are grouped together. */
     class TransactionSeries
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val relatedTransactionEventToken: JsonField<String>,
         private val relatedTransactionToken: JsonField<String>,

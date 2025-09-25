@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class ResponderEndpointCreateResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val enrolled: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,

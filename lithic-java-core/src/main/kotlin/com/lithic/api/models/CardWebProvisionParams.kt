@@ -261,6 +261,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val digitalWallet: JsonField<DigitalWallet>,
         private val additionalProperties: MutableMap<String, JsonValue>,

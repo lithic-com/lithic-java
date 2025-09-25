@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class SettlementSummaryDetails
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val currency: JsonField<String>,
     private val disputesGrossAmount: JsonField<Long>,

@@ -615,6 +615,7 @@ private constructor(
     }
 
     class TrailingWindowObject
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val duration: JsonField<Long>,
         private val type: JsonField<Type>,
@@ -915,6 +916,7 @@ private constructor(
 
     /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
     class FixedWindowDay
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val type: JsonField<Type>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -1176,6 +1178,7 @@ private constructor(
      * Velocity over the current week since 00:00 / 12 AM in Eastern Time on specified `day_of_week`
      */
     class FixedWindowWeek
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val dayOfWeek: JsonField<Long>,
         private val type: JsonField<Type>,
@@ -1481,6 +1484,7 @@ private constructor(
      * `day_of_month`.
      */
     class FixedWindowMonth
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val dayOfMonth: JsonField<Long>,
         private val type: JsonField<Type>,
@@ -1792,6 +1796,7 @@ private constructor(
      * February 28th.
      */
     class FixedWindowYear
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val dayOfMonth: JsonField<Long>,
         private val month: JsonField<Long>,

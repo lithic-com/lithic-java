@@ -19,6 +19,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** External resource associated with the management operation */
 class ExternalResource
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val externalResourceToken: JsonField<String>,
     private val externalResourceType: JsonField<ExternalResourceType>,

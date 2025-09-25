@@ -22,6 +22,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AccountHolderSimulateEnrollmentReviewResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
@@ -1081,6 +1082,7 @@ private constructor(
             (if (websiteUrl.asKnown().isPresent) 1 else 0)
 
     class Individual
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<Address>,
         private val dob: JsonField<String>,
@@ -1459,6 +1461,7 @@ private constructor(
          * APO/FPO are acceptable. Only USA addresses are currently supported.
          */
         class Address
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val address1: JsonField<String>,
             private val city: JsonField<String>,
@@ -2603,6 +2606,7 @@ private constructor(
 
     /** Information about the most recent identity verification attempt */
     class VerificationApplication
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val created: JsonField<OffsetDateTime>,
         private val status: JsonField<Status>,

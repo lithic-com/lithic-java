@@ -16,6 +16,7 @@ import java.util.Collections
 import java.util.Objects
 
 class ExtendedCredit
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val creditExtended: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,

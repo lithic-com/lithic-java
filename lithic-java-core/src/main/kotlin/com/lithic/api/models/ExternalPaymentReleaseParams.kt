@@ -293,6 +293,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class ExternalPaymentActionRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val effectiveDate: JsonField<LocalDate>,
         private val memo: JsonField<String>,

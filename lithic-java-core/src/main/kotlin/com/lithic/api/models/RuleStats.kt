@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class RuleStats
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val approved: JsonField<Long>,
     private val challenged: JsonField<Long>,
@@ -314,6 +315,7 @@ private constructor(
             (if (version.asKnown().isPresent) 1 else 0)
 
     class Example
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val approved: JsonField<Boolean>,
         private val decision: JsonField<Decision>,

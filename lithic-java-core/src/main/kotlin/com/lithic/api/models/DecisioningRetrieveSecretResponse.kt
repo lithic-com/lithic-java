@@ -16,6 +16,7 @@ import java.util.Objects
 import java.util.Optional
 
 class DecisioningRetrieveSecretResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val secret: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,

@@ -19,6 +19,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class RequiredDocument
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val entityToken: JsonField<String>,
     private val statusReasons: JsonField<List<String>>,

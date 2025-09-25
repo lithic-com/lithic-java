@@ -32,6 +32,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class Conditional3dsActionParameters
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val action: JsonField<Action>,
     private val conditions: JsonField<List<Condition>>,
@@ -351,6 +352,7 @@ private constructor(
     }
 
     class Condition
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val attribute: JsonField<Attribute>,
         private val operation: JsonField<Operation>,

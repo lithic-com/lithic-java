@@ -18,6 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Response from Card Program to a 3DS Authentication challenge */
 class ChallengeResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val challengeResponse: JsonField<ChallengeResult>,

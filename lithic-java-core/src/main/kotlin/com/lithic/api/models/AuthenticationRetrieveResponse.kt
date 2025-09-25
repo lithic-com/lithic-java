@@ -21,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Represents a 3DS authentication */
 class AuthenticationRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
     private val accountType: JsonField<AccountType>,
@@ -1513,6 +1514,7 @@ private constructor(
 
     /** Object containing data about the cardholder provided during the transaction. */
     class Cardholder
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val addressMatch: JsonField<Boolean>,
         private val billingAddress: JsonField<BillingAddress>,
@@ -1996,6 +1998,7 @@ private constructor(
 
         /** Object containing data on the billing address provided during the transaction. */
         class BillingAddress
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val address1: JsonField<String>,
             private val address2: JsonField<String>,
@@ -2371,6 +2374,7 @@ private constructor(
 
         /** Object containing data on the shipping address provided during the transaction. */
         class ShippingAddress
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val address1: JsonField<String>,
             private val address2: JsonField<String>,
@@ -2915,6 +2919,7 @@ private constructor(
 
     /** Object containing data about the merchant involved in the e-commerce transaction. */
     class Merchant
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val riskIndicator: JsonField<RiskIndicator>,
         private val id: JsonField<String>,
@@ -3240,6 +3245,7 @@ private constructor(
          * e-commerce transaction.
          */
         class RiskIndicator
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val deliveryEmailAddress: JsonField<String>,
             private val deliveryTimeFrame: JsonField<DeliveryTimeFrame>,
@@ -4837,6 +4843,7 @@ private constructor(
      * all 3DS requests).
      */
     class AdditionalData
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val networkDecision: JsonField<NetworkDecision>,
         private val networkRiskScore: JsonField<Long>,
@@ -5205,6 +5212,7 @@ private constructor(
      * channel is 'APP_BASED'.
      */
     class App
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val device: JsonField<String>,
         private val deviceInfo: JsonField<String>,
@@ -6004,6 +6012,7 @@ private constructor(
      * channel is 'BROWSER'.
      */
     class Browser
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val acceptHeader: JsonField<String>,
         private val ip: JsonField<String>,
@@ -6476,6 +6485,7 @@ private constructor(
      * Metadata about the challenge method and delivery. Only present when a challenge is triggered.
      */
     class ChallengeMetadata
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val methodType: JsonField<MethodType>,
         private val status: JsonField<Status>,
@@ -7598,6 +7608,7 @@ private constructor(
      * authentication.
      */
     class Transaction
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<Double>,
         private val cardholderAmount: JsonField<Double>,

@@ -447,6 +447,7 @@ private constructor(
         }
 
         class KybDelegated
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val businessEntity: JsonField<KybDelegatedBusinessEntity>,
             private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
@@ -966,6 +967,7 @@ private constructor(
 
             /** Information for business for which the account is being opened. */
             class KybDelegatedBusinessEntity
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val address: JsonField<Address>,
                 private val legalBusinessName: JsonField<String>,
@@ -1408,6 +1410,7 @@ private constructor(
 
             /** Individuals associated with a KYB application. Phone number is optional. */
             class KybIndividual
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val address: JsonField<Address>,
                 private val dob: JsonField<String>,

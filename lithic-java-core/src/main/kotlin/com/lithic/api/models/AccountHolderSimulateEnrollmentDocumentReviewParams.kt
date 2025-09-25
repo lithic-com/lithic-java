@@ -372,6 +372,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class SimulateEnrollmentDocumentReviewRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val documentUploadToken: JsonField<String>,
         private val status: JsonField<Status>,

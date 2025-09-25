@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class VelocityLimitParams
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val filters: JsonField<Filters>,
     private val period: JsonField<VelocityLimitParamsPeriodWindow>,
@@ -382,6 +383,7 @@ private constructor(
             (if (limitCount.asKnown().isPresent) 1 else 0)
 
     class Filters
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val excludeCountries: JsonField<List<String>>,
         private val excludeMccs: JsonField<List<String>>,
