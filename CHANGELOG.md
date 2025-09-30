@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.107.0 (2025-09-30)
+
+Full Changelog: [v0.106.0...v0.107.0](https://github.com/lithic-com/lithic-java/compare/v0.106.0...v0.107.0)
+
+### Features
+
+* **api:** adds support for Auth Rule features ([eaccb51](https://github.com/lithic-com/lithic-java/commit/eaccb5155082fcef9a208de71d7ab402ac40ea36))
+
 ## 0.106.0 (2025-09-25)
 
 Full Changelog: [v0.105.1...v0.106.0](https://github.com/lithic-com/lithic-java/compare/v0.105.1...v0.106.0)
