@@ -14,31 +14,37 @@ internal class VelocityLimitParamsTest {
         val velocityLimitParams =
             VelocityLimitParams.builder()
                 .filters(
-                    VelocityLimitParams.Filters.builder()
+                    VelocityLimitParams.VelocityLimitFilters.builder()
                         .addExcludeCountry("USD")
                         .addExcludeMcc("5542")
                         .addIncludeCountry("USD")
                         .addIncludeMcc("5542")
+                        .addIncludePanEntryMode(
+                            VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                        )
                         .build()
                 )
                 .period(10L)
-                .scope(VelocityLimitParams.Scope.CARD)
+                .scope(VelocityLimitParams.VelocityScope.CARD)
                 .limitAmount(10000L)
                 .limitCount(0L)
                 .build()
 
         assertThat(velocityLimitParams.filters())
             .isEqualTo(
-                VelocityLimitParams.Filters.builder()
+                VelocityLimitParams.VelocityLimitFilters.builder()
                     .addExcludeCountry("USD")
                     .addExcludeMcc("5542")
                     .addIncludeCountry("USD")
                     .addIncludeMcc("5542")
+                    .addIncludePanEntryMode(
+                        VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                    )
                     .build()
             )
         assertThat(velocityLimitParams.period())
             .isEqualTo(VelocityLimitParamsPeriodWindow.ofTrailing(10L))
-        assertThat(velocityLimitParams.scope()).isEqualTo(VelocityLimitParams.Scope.CARD)
+        assertThat(velocityLimitParams.scope()).isEqualTo(VelocityLimitParams.VelocityScope.CARD)
         assertThat(velocityLimitParams.limitAmount()).contains(10000L)
         assertThat(velocityLimitParams.limitCount()).contains(0L)
     }
@@ -49,15 +55,18 @@ internal class VelocityLimitParamsTest {
         val velocityLimitParams =
             VelocityLimitParams.builder()
                 .filters(
-                    VelocityLimitParams.Filters.builder()
+                    VelocityLimitParams.VelocityLimitFilters.builder()
                         .addExcludeCountry("USD")
                         .addExcludeMcc("5542")
                         .addIncludeCountry("USD")
                         .addIncludeMcc("5542")
+                        .addIncludePanEntryMode(
+                            VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                        )
                         .build()
                 )
                 .period(10L)
-                .scope(VelocityLimitParams.Scope.CARD)
+                .scope(VelocityLimitParams.VelocityScope.CARD)
                 .limitAmount(10000L)
                 .limitCount(0L)
                 .build()

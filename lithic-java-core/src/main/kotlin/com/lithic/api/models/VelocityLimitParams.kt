@@ -23,9 +23,9 @@ import kotlin.jvm.optionals.getOrNull
 class VelocityLimitParams
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val filters: JsonField<Filters>,
+    private val filters: JsonField<VelocityLimitFilters>,
     private val period: JsonField<VelocityLimitParamsPeriodWindow>,
-    private val scope: JsonField<Scope>,
+    private val scope: JsonField<VelocityScope>,
     private val limitAmount: JsonField<Long>,
     private val limitCount: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -33,11 +33,13 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("filters") @ExcludeMissing filters: JsonField<Filters> = JsonMissing.of(),
+        @JsonProperty("filters")
+        @ExcludeMissing
+        filters: JsonField<VelocityLimitFilters> = JsonMissing.of(),
         @JsonProperty("period")
         @ExcludeMissing
         period: JsonField<VelocityLimitParamsPeriodWindow> = JsonMissing.of(),
-        @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
+        @JsonProperty("scope") @ExcludeMissing scope: JsonField<VelocityScope> = JsonMissing.of(),
         @JsonProperty("limit_amount")
         @ExcludeMissing
         limitAmount: JsonField<Long> = JsonMissing.of(),
@@ -48,9 +50,11 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun filters(): Filters = filters.getRequired("filters")
+    fun filters(): VelocityLimitFilters = filters.getRequired("filters")
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+     *
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
      * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      *
@@ -60,10 +64,12 @@ private constructor(
     fun period(): VelocityLimitParamsPeriodWindow = period.getRequired("period")
 
     /**
+     * The scope the velocity is calculated for
+     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun scope(): Scope = scope.getRequired("scope")
+    fun scope(): VelocityScope = scope.getRequired("scope")
 
     /**
      * The maximum amount of spend velocity allowed in the period in minor units (the smallest unit
@@ -90,7 +96,9 @@ private constructor(
      *
      * Unlike [filters], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("filters") @ExcludeMissing fun _filters(): JsonField<Filters> = filters
+    @JsonProperty("filters")
+    @ExcludeMissing
+    fun _filters(): JsonField<VelocityLimitFilters> = filters
 
     /**
      * Returns the raw JSON value of [period].
@@ -106,7 +114,7 @@ private constructor(
      *
      * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
+    @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<VelocityScope> = scope
 
     /**
      * Returns the raw JSON value of [limitAmount].
@@ -152,9 +160,9 @@ private constructor(
     /** A builder for [VelocityLimitParams]. */
     class Builder internal constructor() {
 
-        private var filters: JsonField<Filters>? = null
+        private var filters: JsonField<VelocityLimitFilters>? = null
         private var period: JsonField<VelocityLimitParamsPeriodWindow>? = null
-        private var scope: JsonField<Scope>? = null
+        private var scope: JsonField<VelocityScope>? = null
         private var limitAmount: JsonField<Long> = JsonMissing.of()
         private var limitCount: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -169,17 +177,20 @@ private constructor(
             additionalProperties = velocityLimitParams.additionalProperties.toMutableMap()
         }
 
-        fun filters(filters: Filters) = filters(JsonField.of(filters))
+        fun filters(filters: VelocityLimitFilters) = filters(JsonField.of(filters))
 
         /**
          * Sets [Builder.filters] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.filters] with a well-typed [Filters] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.filters] with a well-typed [VelocityLimitFilters] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun filters(filters: JsonField<Filters>) = apply { this.filters = filters }
+        fun filters(filters: JsonField<VelocityLimitFilters>) = apply { this.filters = filters }
 
         /**
+         * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+         *
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
@@ -199,9 +210,11 @@ private constructor(
         /**
          * Alias for calling [period] with `VelocityLimitParamsPeriodWindow.ofTrailing(trailing)`.
          */
+        @Deprecated("deprecated")
         fun period(trailing: Long) = period(VelocityLimitParamsPeriodWindow.ofTrailing(trailing))
 
         /** Alias for calling [period] with `VelocityLimitParamsPeriodWindow.ofFixed(fixed)`. */
+        @Deprecated("deprecated")
         fun period(fixed: VelocityLimitParamsPeriodWindow.FixedWindow) =
             period(VelocityLimitParamsPeriodWindow.ofFixed(fixed))
 
@@ -240,15 +253,17 @@ private constructor(
         fun period(fixedWindowYear: VelocityLimitParamsPeriodWindow.FixedWindowYear) =
             period(VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear))
 
-        fun scope(scope: Scope) = scope(JsonField.of(scope))
+        /** The scope the velocity is calculated for */
+        fun scope(scope: VelocityScope) = scope(JsonField.of(scope))
 
         /**
          * Sets [Builder.scope] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.scope] with a well-typed [Scope] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.scope] with a well-typed [VelocityScope] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
+        fun scope(scope: JsonField<VelocityScope>) = apply { this.scope = scope }
 
         /**
          * The maximum amount of spend velocity allowed in the period in minor units (the smallest
@@ -382,13 +397,14 @@ private constructor(
             (if (limitAmount.asKnown().isPresent) 1 else 0) +
             (if (limitCount.asKnown().isPresent) 1 else 0)
 
-    class Filters
+    class VelocityLimitFilters
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val excludeCountries: JsonField<List<String>>,
         private val excludeMccs: JsonField<List<String>>,
         private val includeCountries: JsonField<List<String>>,
         private val includeMccs: JsonField<List<String>>,
+        private val includePanEntryModes: JsonField<List<IncludePanEntryMode>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -406,7 +422,17 @@ private constructor(
             @JsonProperty("include_mccs")
             @ExcludeMissing
             includeMccs: JsonField<List<String>> = JsonMissing.of(),
-        ) : this(excludeCountries, excludeMccs, includeCountries, includeMccs, mutableMapOf())
+            @JsonProperty("include_pan_entry_modes")
+            @ExcludeMissing
+            includePanEntryModes: JsonField<List<IncludePanEntryMode>> = JsonMissing.of(),
+        ) : this(
+            excludeCountries,
+            excludeMccs,
+            includeCountries,
+            includeMccs,
+            includePanEntryModes,
+            mutableMapOf(),
+        )
 
         /**
          * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
@@ -447,6 +473,16 @@ private constructor(
         fun includeMccs(): Optional<List<String>> = includeMccs.getOptional("include_mccs")
 
         /**
+         * PAN entry modes to include in the velocity calculation. Transactions not matching any of
+         * the provided will not be included in the calculated velocity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun includePanEntryModes(): Optional<List<IncludePanEntryMode>> =
+            includePanEntryModes.getOptional("include_pan_entry_modes")
+
+        /**
          * Returns the raw JSON value of [excludeCountries].
          *
          * Unlike [excludeCountries], this method doesn't throw if the JSON field has an unexpected
@@ -484,6 +520,16 @@ private constructor(
         @ExcludeMissing
         fun _includeMccs(): JsonField<List<String>> = includeMccs
 
+        /**
+         * Returns the raw JSON value of [includePanEntryModes].
+         *
+         * Unlike [includePanEntryModes], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("include_pan_entry_modes")
+        @ExcludeMissing
+        fun _includePanEntryModes(): JsonField<List<IncludePanEntryMode>> = includePanEntryModes
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -498,26 +544,29 @@ private constructor(
 
         companion object {
 
-            /** Returns a mutable builder for constructing an instance of [Filters]. */
+            /** Returns a mutable builder for constructing an instance of [VelocityLimitFilters]. */
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [Filters]. */
+        /** A builder for [VelocityLimitFilters]. */
         class Builder internal constructor() {
 
             private var excludeCountries: JsonField<MutableList<String>>? = null
             private var excludeMccs: JsonField<MutableList<String>>? = null
             private var includeCountries: JsonField<MutableList<String>>? = null
             private var includeMccs: JsonField<MutableList<String>>? = null
+            private var includePanEntryModes: JsonField<MutableList<IncludePanEntryMode>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(filters: Filters) = apply {
-                excludeCountries = filters.excludeCountries.map { it.toMutableList() }
-                excludeMccs = filters.excludeMccs.map { it.toMutableList() }
-                includeCountries = filters.includeCountries.map { it.toMutableList() }
-                includeMccs = filters.includeMccs.map { it.toMutableList() }
-                additionalProperties = filters.additionalProperties.toMutableMap()
+            internal fun from(velocityLimitFilters: VelocityLimitFilters) = apply {
+                excludeCountries = velocityLimitFilters.excludeCountries.map { it.toMutableList() }
+                excludeMccs = velocityLimitFilters.excludeMccs.map { it.toMutableList() }
+                includeCountries = velocityLimitFilters.includeCountries.map { it.toMutableList() }
+                includeMccs = velocityLimitFilters.includeMccs.map { it.toMutableList() }
+                includePanEntryModes =
+                    velocityLimitFilters.includePanEntryModes.map { it.toMutableList() }
+                additionalProperties = velocityLimitFilters.additionalProperties.toMutableMap()
             }
 
             /**
@@ -661,6 +710,44 @@ private constructor(
                     }
             }
 
+            /**
+             * PAN entry modes to include in the velocity calculation. Transactions not matching any
+             * of the provided will not be included in the calculated velocity.
+             */
+            fun includePanEntryModes(includePanEntryModes: List<IncludePanEntryMode>?) =
+                includePanEntryModes(JsonField.ofNullable(includePanEntryModes))
+
+            /**
+             * Alias for calling [Builder.includePanEntryModes] with
+             * `includePanEntryModes.orElse(null)`.
+             */
+            fun includePanEntryModes(includePanEntryModes: Optional<List<IncludePanEntryMode>>) =
+                includePanEntryModes(includePanEntryModes.getOrNull())
+
+            /**
+             * Sets [Builder.includePanEntryModes] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.includePanEntryModes] with a well-typed
+             * `List<IncludePanEntryMode>` value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
+            fun includePanEntryModes(includePanEntryModes: JsonField<List<IncludePanEntryMode>>) =
+                apply {
+                    this.includePanEntryModes = includePanEntryModes.map { it.toMutableList() }
+                }
+
+            /**
+             * Adds a single [IncludePanEntryMode] to [includePanEntryModes].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addIncludePanEntryMode(includePanEntryMode: IncludePanEntryMode) = apply {
+                includePanEntryModes =
+                    (includePanEntryModes ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("includePanEntryModes", it).add(includePanEntryMode)
+                    }
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -681,23 +768,24 @@ private constructor(
             }
 
             /**
-             * Returns an immutable instance of [Filters].
+             * Returns an immutable instance of [VelocityLimitFilters].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Filters =
-                Filters(
+            fun build(): VelocityLimitFilters =
+                VelocityLimitFilters(
                     (excludeCountries ?: JsonMissing.of()).map { it.toImmutable() },
                     (excludeMccs ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeCountries ?: JsonMissing.of()).map { it.toImmutable() },
                     (includeMccs ?: JsonMissing.of()).map { it.toImmutable() },
+                    (includePanEntryModes ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
         }
 
         private var validated: Boolean = false
 
-        fun validate(): Filters = apply {
+        fun validate(): VelocityLimitFilters = apply {
             if (validated) {
                 return@apply
             }
@@ -706,6 +794,7 @@ private constructor(
             excludeMccs()
             includeCountries()
             includeMccs()
+            includePanEntryModes().ifPresent { it.forEach { it.validate() } }
             validated = true
         }
 
@@ -728,18 +817,232 @@ private constructor(
             (excludeCountries.asKnown().getOrNull()?.size ?: 0) +
                 (excludeMccs.asKnown().getOrNull()?.size ?: 0) +
                 (includeCountries.asKnown().getOrNull()?.size ?: 0) +
-                (includeMccs.asKnown().getOrNull()?.size ?: 0)
+                (includeMccs.asKnown().getOrNull()?.size ?: 0) +
+                (includePanEntryModes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+
+        class IncludePanEntryMode
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val AUTO_ENTRY = of("AUTO_ENTRY")
+
+                @JvmField val BAR_CODE = of("BAR_CODE")
+
+                @JvmField val CONTACTLESS = of("CONTACTLESS")
+
+                @JvmField val CREDENTIAL_ON_FILE = of("CREDENTIAL_ON_FILE")
+
+                @JvmField val ECOMMERCE = of("ECOMMERCE")
+
+                @JvmField val ERROR_KEYED = of("ERROR_KEYED")
+
+                @JvmField val ERROR_MAGNETIC_STRIPE = of("ERROR_MAGNETIC_STRIPE")
+
+                @JvmField val ICC = of("ICC")
+
+                @JvmField val KEY_ENTERED = of("KEY_ENTERED")
+
+                @JvmField val MAGNETIC_STRIPE = of("MAGNETIC_STRIPE")
+
+                @JvmField val MANUAL = of("MANUAL")
+
+                @JvmField val OCR = of("OCR")
+
+                @JvmField val SECURE_CARDLESS = of("SECURE_CARDLESS")
+
+                @JvmField val UNSPECIFIED = of("UNSPECIFIED")
+
+                @JvmField val UNKNOWN = of("UNKNOWN")
+
+                @JvmStatic fun of(value: String) = IncludePanEntryMode(JsonField.of(value))
+            }
+
+            /** An enum containing [IncludePanEntryMode]'s known values. */
+            enum class Known {
+                AUTO_ENTRY,
+                BAR_CODE,
+                CONTACTLESS,
+                CREDENTIAL_ON_FILE,
+                ECOMMERCE,
+                ERROR_KEYED,
+                ERROR_MAGNETIC_STRIPE,
+                ICC,
+                KEY_ENTERED,
+                MAGNETIC_STRIPE,
+                MANUAL,
+                OCR,
+                SECURE_CARDLESS,
+                UNSPECIFIED,
+                UNKNOWN,
+            }
+
+            /**
+             * An enum containing [IncludePanEntryMode]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [IncludePanEntryMode] can contain an unknown value in a couple of
+             * cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                AUTO_ENTRY,
+                BAR_CODE,
+                CONTACTLESS,
+                CREDENTIAL_ON_FILE,
+                ECOMMERCE,
+                ERROR_KEYED,
+                ERROR_MAGNETIC_STRIPE,
+                ICC,
+                KEY_ENTERED,
+                MAGNETIC_STRIPE,
+                MANUAL,
+                OCR,
+                SECURE_CARDLESS,
+                UNSPECIFIED,
+                UNKNOWN,
+                /**
+                 * An enum member indicating that [IncludePanEntryMode] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    AUTO_ENTRY -> Value.AUTO_ENTRY
+                    BAR_CODE -> Value.BAR_CODE
+                    CONTACTLESS -> Value.CONTACTLESS
+                    CREDENTIAL_ON_FILE -> Value.CREDENTIAL_ON_FILE
+                    ECOMMERCE -> Value.ECOMMERCE
+                    ERROR_KEYED -> Value.ERROR_KEYED
+                    ERROR_MAGNETIC_STRIPE -> Value.ERROR_MAGNETIC_STRIPE
+                    ICC -> Value.ICC
+                    KEY_ENTERED -> Value.KEY_ENTERED
+                    MAGNETIC_STRIPE -> Value.MAGNETIC_STRIPE
+                    MANUAL -> Value.MANUAL
+                    OCR -> Value.OCR
+                    SECURE_CARDLESS -> Value.SECURE_CARDLESS
+                    UNSPECIFIED -> Value.UNSPECIFIED
+                    UNKNOWN -> Value.UNKNOWN
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    AUTO_ENTRY -> Known.AUTO_ENTRY
+                    BAR_CODE -> Known.BAR_CODE
+                    CONTACTLESS -> Known.CONTACTLESS
+                    CREDENTIAL_ON_FILE -> Known.CREDENTIAL_ON_FILE
+                    ECOMMERCE -> Known.ECOMMERCE
+                    ERROR_KEYED -> Known.ERROR_KEYED
+                    ERROR_MAGNETIC_STRIPE -> Known.ERROR_MAGNETIC_STRIPE
+                    ICC -> Known.ICC
+                    KEY_ENTERED -> Known.KEY_ENTERED
+                    MAGNETIC_STRIPE -> Known.MAGNETIC_STRIPE
+                    MANUAL -> Known.MANUAL
+                    OCR -> Known.OCR
+                    SECURE_CARDLESS -> Known.SECURE_CARDLESS
+                    UNSPECIFIED -> Known.UNSPECIFIED
+                    UNKNOWN -> Known.UNKNOWN
+                    else -> throw LithicInvalidDataException("Unknown IncludePanEntryMode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): IncludePanEntryMode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is IncludePanEntryMode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return other is Filters &&
+            return other is VelocityLimitFilters &&
                 excludeCountries == other.excludeCountries &&
                 excludeMccs == other.excludeMccs &&
                 includeCountries == other.includeCountries &&
                 includeMccs == other.includeMccs &&
+                includePanEntryModes == other.includePanEntryModes &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -749,6 +1052,7 @@ private constructor(
                 excludeMccs,
                 includeCountries,
                 includeMccs,
+                includePanEntryModes,
                 additionalProperties,
             )
         }
@@ -756,10 +1060,12 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Filters{excludeCountries=$excludeCountries, excludeMccs=$excludeMccs, includeCountries=$includeCountries, includeMccs=$includeMccs, additionalProperties=$additionalProperties}"
+            "VelocityLimitFilters{excludeCountries=$excludeCountries, excludeMccs=$excludeMccs, includeCountries=$includeCountries, includeMccs=$includeMccs, includePanEntryModes=$includePanEntryModes, additionalProperties=$additionalProperties}"
     }
 
-    class Scope @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    /** The scope the velocity is calculated for */
+    class VelocityScope @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -777,19 +1083,19 @@ private constructor(
 
             @JvmField val ACCOUNT = of("ACCOUNT")
 
-            @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
+            @JvmStatic fun of(value: String) = VelocityScope(JsonField.of(value))
         }
 
-        /** An enum containing [Scope]'s known values. */
+        /** An enum containing [VelocityScope]'s known values. */
         enum class Known {
             CARD,
             ACCOUNT,
         }
 
         /**
-         * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [VelocityScope]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Scope] can contain an unknown value in a couple of cases:
+         * An instance of [VelocityScope] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -798,7 +1104,10 @@ private constructor(
         enum class Value {
             CARD,
             ACCOUNT,
-            /** An enum member indicating that [Scope] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [VelocityScope] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -829,7 +1138,7 @@ private constructor(
             when (this) {
                 CARD -> Known.CARD
                 ACCOUNT -> Known.ACCOUNT
-                else -> throw LithicInvalidDataException("Unknown Scope: $value")
+                else -> throw LithicInvalidDataException("Unknown VelocityScope: $value")
             }
 
         /**
@@ -846,7 +1155,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Scope = apply {
+        fun validate(): VelocityScope = apply {
             if (validated) {
                 return@apply
             }
@@ -876,7 +1185,7 @@ private constructor(
                 return true
             }
 
-            return other is Scope && value == other.value
+            return other is VelocityScope && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
