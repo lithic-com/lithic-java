@@ -29,6 +29,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
+ * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+ *
  * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum value is
  * 10 seconds, and the maximum value is 2678400 seconds (31 days).
  */
@@ -47,12 +49,16 @@ private constructor(
 ) {
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+     *
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
      * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      */
-    fun trailing(): Optional<Long> = Optional.ofNullable(trailing)
+    @Deprecated("deprecated") fun trailing(): Optional<Long> = Optional.ofNullable(trailing)
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the other Fixed Window Objects
+     *
      * The window of time to calculate Spend Velocity over.
      * * `DAY`: Velocity over the current day since midnight Eastern Time.
      * * `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
@@ -60,7 +66,7 @@ private constructor(
      *   Eastern Time.
      * * `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern Time.
      */
-    fun fixed(): Optional<FixedWindow> = Optional.ofNullable(fixed)
+    @Deprecated("deprecated") fun fixed(): Optional<FixedWindow> = Optional.ofNullable(fixed)
 
     fun trailingWindowObject(): Optional<TrailingWindowObject> =
         Optional.ofNullable(trailingWindowObject)
@@ -87,9 +93,9 @@ private constructor(
      */
     fun fixedWindowYear(): Optional<FixedWindowYear> = Optional.ofNullable(fixedWindowYear)
 
-    fun isTrailing(): Boolean = trailing != null
+    @Deprecated("deprecated") fun isTrailing(): Boolean = trailing != null
 
-    fun isFixed(): Boolean = fixed != null
+    @Deprecated("deprecated") fun isFixed(): Boolean = fixed != null
 
     fun isTrailingWindowObject(): Boolean = trailingWindowObject != null
 
@@ -102,12 +108,16 @@ private constructor(
     fun isFixedWindowYear(): Boolean = fixedWindowYear != null
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+     *
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
      * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
      */
-    fun asTrailing(): Long = trailing.getOrThrow("trailing")
+    @Deprecated("deprecated") fun asTrailing(): Long = trailing.getOrThrow("trailing")
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the other Fixed Window Objects
+     *
      * The window of time to calculate Spend Velocity over.
      * * `DAY`: Velocity over the current day since midnight Eastern Time.
      * * `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
@@ -115,7 +125,7 @@ private constructor(
      *   Eastern Time.
      * * `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern Time.
      */
-    fun asFixed(): FixedWindow = fixed.getOrThrow("fixed")
+    @Deprecated("deprecated") fun asFixed(): FixedWindow = fixed.getOrThrow("fixed")
 
     fun asTrailingWindowObject(): TrailingWindowObject =
         trailingWindowObject.getOrThrow("trailingWindowObject")
@@ -282,13 +292,18 @@ private constructor(
     companion object {
 
         /**
+         * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+         *
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
+        @Deprecated("deprecated")
         @JvmStatic
         fun ofTrailing(trailing: Long) = VelocityLimitParamsPeriodWindow(trailing = trailing)
 
         /**
+         * DEPRECATED: This has been deprecated in favor of the other Fixed Window Objects
+         *
          * The window of time to calculate Spend Velocity over.
          * * `DAY`: Velocity over the current day since midnight Eastern Time.
          * * `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
@@ -297,7 +312,9 @@ private constructor(
          * * `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
          *   Time.
          */
-        @JvmStatic fun ofFixed(fixed: FixedWindow) = VelocityLimitParamsPeriodWindow(fixed = fixed)
+        @Deprecated("deprecated")
+        @JvmStatic
+        fun ofFixed(fixed: FixedWindow) = VelocityLimitParamsPeriodWindow(fixed = fixed)
 
         @JvmStatic
         fun ofTrailingWindowObject(trailingWindowObject: TrailingWindowObject) =
@@ -342,12 +359,16 @@ private constructor(
     interface Visitor<out T> {
 
         /**
+         * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
+         *
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
          */
-        fun visitTrailing(trailing: Long): T
+        @Deprecated("deprecated") fun visitTrailing(trailing: Long): T
 
         /**
+         * DEPRECATED: This has been deprecated in favor of the other Fixed Window Objects
+         *
          * The window of time to calculate Spend Velocity over.
          * * `DAY`: Velocity over the current day since midnight Eastern Time.
          * * `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
@@ -356,7 +377,7 @@ private constructor(
          * * `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern
          *   Time.
          */
-        fun visitFixed(fixed: FixedWindow): T
+        @Deprecated("deprecated") fun visitFixed(fixed: FixedWindow): T
 
         fun visitTrailingWindowObject(trailingWindowObject: TrailingWindowObject): T
 
@@ -467,6 +488,8 @@ private constructor(
     }
 
     /**
+     * DEPRECATED: This has been deprecated in favor of the other Fixed Window Objects
+     *
      * The window of time to calculate Spend Velocity over.
      * * `DAY`: Velocity over the current day since midnight Eastern Time.
      * * `WEEK`: Velocity over the current week since 00:00 / 12 AM on Monday in Eastern Time.
@@ -474,6 +497,7 @@ private constructor(
      *   Eastern Time.
      * * `YEAR`: Velocity over the current year since 00:00 / 12 AM on January 1st in Eastern Time.
      */
+    @Deprecated("deprecated")
     class FixedWindow @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
