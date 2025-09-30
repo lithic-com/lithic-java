@@ -14,6 +14,7 @@ import com.lithic.api.models.AuthRuleV2ListPageAsync
 import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2ReportParams
+import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
@@ -22,6 +23,7 @@ import com.lithic.api.models.V2CreateResponse
 import com.lithic.api.models.V2DraftResponse
 import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
+import com.lithic.api.models.V2RetrieveFeaturesResponse
 import com.lithic.api.models.V2RetrieveReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
@@ -365,6 +367,52 @@ interface V2ServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<V2ReportResponse> =
         report(authRuleToken, AuthRuleV2ReportParams.none(), requestOptions)
+
+    /**
+     * Fetches the current calculated Feature values for the given Auth Rule
+     *
+     * This only calculates the features for the active version.
+     * - VelocityLimit Rules calculates the current Velocity Feature data. This requires a
+     *   `card_token` or `account_token` matching what the rule is Scoped to.
+     * - ConditionalBlock Rules calculates the CARD_TRANSACTION_COUNT_* attributes on the rule. This
+     *   requires a `card_token`
+     */
+    fun retrieveFeatures(authRuleToken: String): CompletableFuture<V2RetrieveFeaturesResponse> =
+        retrieveFeatures(authRuleToken, AuthRuleV2RetrieveFeaturesParams.none())
+
+    /** @see retrieveFeatures */
+    fun retrieveFeatures(
+        authRuleToken: String,
+        params: AuthRuleV2RetrieveFeaturesParams = AuthRuleV2RetrieveFeaturesParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<V2RetrieveFeaturesResponse> =
+        retrieveFeatures(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+    /** @see retrieveFeatures */
+    fun retrieveFeatures(
+        authRuleToken: String,
+        params: AuthRuleV2RetrieveFeaturesParams = AuthRuleV2RetrieveFeaturesParams.none(),
+    ): CompletableFuture<V2RetrieveFeaturesResponse> =
+        retrieveFeatures(authRuleToken, params, RequestOptions.none())
+
+    /** @see retrieveFeatures */
+    fun retrieveFeatures(
+        params: AuthRuleV2RetrieveFeaturesParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<V2RetrieveFeaturesResponse>
+
+    /** @see retrieveFeatures */
+    fun retrieveFeatures(
+        params: AuthRuleV2RetrieveFeaturesParams
+    ): CompletableFuture<V2RetrieveFeaturesResponse> =
+        retrieveFeatures(params, RequestOptions.none())
+
+    /** @see retrieveFeatures */
+    fun retrieveFeatures(
+        authRuleToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<V2RetrieveFeaturesResponse> =
+        retrieveFeatures(authRuleToken, AuthRuleV2RetrieveFeaturesParams.none(), requestOptions)
 
     /**
      * Retrieves a performance report for an Auth rule containing daily statistics and evaluation
@@ -729,6 +777,52 @@ interface V2ServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<V2ReportResponse>> =
             report(authRuleToken, AuthRuleV2ReportParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}/features`, but is
+         * otherwise the same as [V2ServiceAsync.retrieveFeatures].
+         */
+        fun retrieveFeatures(
+            authRuleToken: String
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>> =
+            retrieveFeatures(authRuleToken, AuthRuleV2RetrieveFeaturesParams.none())
+
+        /** @see retrieveFeatures */
+        fun retrieveFeatures(
+            authRuleToken: String,
+            params: AuthRuleV2RetrieveFeaturesParams = AuthRuleV2RetrieveFeaturesParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>> =
+            retrieveFeatures(
+                params.toBuilder().authRuleToken(authRuleToken).build(),
+                requestOptions,
+            )
+
+        /** @see retrieveFeatures */
+        fun retrieveFeatures(
+            authRuleToken: String,
+            params: AuthRuleV2RetrieveFeaturesParams = AuthRuleV2RetrieveFeaturesParams.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>> =
+            retrieveFeatures(authRuleToken, params, RequestOptions.none())
+
+        /** @see retrieveFeatures */
+        fun retrieveFeatures(
+            params: AuthRuleV2RetrieveFeaturesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>>
+
+        /** @see retrieveFeatures */
+        fun retrieveFeatures(
+            params: AuthRuleV2RetrieveFeaturesParams
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>> =
+            retrieveFeatures(params, RequestOptions.none())
+
+        /** @see retrieveFeatures */
+        fun retrieveFeatures(
+            authRuleToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<V2RetrieveFeaturesResponse>> =
+            retrieveFeatures(authRuleToken, AuthRuleV2RetrieveFeaturesParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}/report`, but is

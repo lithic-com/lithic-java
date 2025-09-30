@@ -41,6 +41,7 @@ private constructor(
     private val currentVersion: JsonField<CurrentVersion>,
     private val draftVersion: JsonField<DraftVersion>,
     private val eventStream: JsonField<EventStream>,
+    private val lithicManaged: JsonField<Boolean>,
     private val name: JsonField<String>,
     private val programLevel: JsonField<Boolean>,
     private val state: JsonField<AuthRuleState>,
@@ -70,6 +71,9 @@ private constructor(
         @JsonProperty("event_stream")
         @ExcludeMissing
         eventStream: JsonField<EventStream> = JsonMissing.of(),
+        @JsonProperty("lithic_managed")
+        @ExcludeMissing
+        lithicManaged: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("program_level")
         @ExcludeMissing
@@ -87,6 +91,7 @@ private constructor(
         currentVersion,
         draftVersion,
         eventStream,
+        lithicManaged,
         name,
         programLevel,
         state,
@@ -147,6 +152,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun eventStream(): EventStream = eventStream.getRequired("event_stream")
+
+    /**
+     * Indicates whether this auth rule is managed by Lithic. If true, the rule cannot be modified
+     * or deleted by the user
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun lithicManaged(): Boolean = lithicManaged.getRequired("lithic_managed")
 
     /**
      * Auth Rule Name
@@ -258,6 +272,15 @@ private constructor(
     fun _eventStream(): JsonField<EventStream> = eventStream
 
     /**
+     * Returns the raw JSON value of [lithicManaged].
+     *
+     * Unlike [lithicManaged], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("lithic_managed")
+    @ExcludeMissing
+    fun _lithicManaged(): JsonField<Boolean> = lithicManaged
+
+    /**
      * Returns the raw JSON value of [name].
      *
      * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
@@ -323,6 +346,7 @@ private constructor(
          * .currentVersion()
          * .draftVersion()
          * .eventStream()
+         * .lithicManaged()
          * .name()
          * .programLevel()
          * .state()
@@ -342,6 +366,7 @@ private constructor(
         private var currentVersion: JsonField<CurrentVersion>? = null
         private var draftVersion: JsonField<DraftVersion>? = null
         private var eventStream: JsonField<EventStream>? = null
+        private var lithicManaged: JsonField<Boolean>? = null
         private var name: JsonField<String>? = null
         private var programLevel: JsonField<Boolean>? = null
         private var state: JsonField<AuthRuleState>? = null
@@ -359,6 +384,7 @@ private constructor(
             currentVersion = v2RetrieveResponse.currentVersion
             draftVersion = v2RetrieveResponse.draftVersion
             eventStream = v2RetrieveResponse.eventStream
+            lithicManaged = v2RetrieveResponse.lithicManaged
             name = v2RetrieveResponse.name
             programLevel = v2RetrieveResponse.programLevel
             state = v2RetrieveResponse.state
@@ -507,6 +533,23 @@ private constructor(
             this.eventStream = eventStream
         }
 
+        /**
+         * Indicates whether this auth rule is managed by Lithic. If true, the rule cannot be
+         * modified or deleted by the user
+         */
+        fun lithicManaged(lithicManaged: Boolean) = lithicManaged(JsonField.of(lithicManaged))
+
+        /**
+         * Sets [Builder.lithicManaged] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lithicManaged] with a well-typed [Boolean] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun lithicManaged(lithicManaged: JsonField<Boolean>) = apply {
+            this.lithicManaged = lithicManaged
+        }
+
         /** Auth Rule Name */
         fun name(name: String?) = name(JsonField.ofNullable(name))
 
@@ -627,6 +670,7 @@ private constructor(
          * .currentVersion()
          * .draftVersion()
          * .eventStream()
+         * .lithicManaged()
          * .name()
          * .programLevel()
          * .state()
@@ -646,6 +690,7 @@ private constructor(
                 checkRequired("currentVersion", currentVersion),
                 checkRequired("draftVersion", draftVersion),
                 checkRequired("eventStream", eventStream),
+                checkRequired("lithicManaged", lithicManaged),
                 checkRequired("name", name),
                 checkRequired("programLevel", programLevel),
                 checkRequired("state", state),
@@ -669,6 +714,7 @@ private constructor(
         currentVersion().ifPresent { it.validate() }
         draftVersion().ifPresent { it.validate() }
         eventStream().validate()
+        lithicManaged()
         name()
         programLevel()
         state().validate()
@@ -699,6 +745,7 @@ private constructor(
             (currentVersion.asKnown().getOrNull()?.validity() ?: 0) +
             (draftVersion.asKnown().getOrNull()?.validity() ?: 0) +
             (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (lithicManaged.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (programLevel.asKnown().isPresent) 1 else 0) +
             (state.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1638,6 +1685,8 @@ private constructor(
                      *   acquirer fee field in the settlement/cardholder billing currency. This is
                      *   the amount the issuer should authorize against unless the issuer is paying
                      *   the acquirer fee on behalf of the cardholder.
+                     * * `CASH_AMOUNT`: The cash amount of the transaction in minor units (cents).
+                     *   This represents the amount of cash being withdrawn or advanced.
                      * * `RISK_SCORE`: Network-provided score assessing risk level associated with a
                      *   given authorization. Scores are on a range of 0-999, with 0 representing
                      *   the lowest risk and 999 representing the highest risk. For Visa
@@ -1776,6 +1825,9 @@ private constructor(
                          *   acquirer fee field in the settlement/cardholder billing currency. This
                          *   is the amount the issuer should authorize against unless the issuer is
                          *   paying the acquirer fee on behalf of the cardholder.
+                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
+                         *   (cents). This represents the amount of cash being withdrawn or
+                         *   advanced.
                          * * `RISK_SCORE`: Network-provided score assessing risk level associated
                          *   with a given authorization. Scores are on a range of 0-999, with 0
                          *   representing the lowest risk and 999 representing the highest risk. For
@@ -1947,6 +1999,8 @@ private constructor(
                      *   acquirer fee field in the settlement/cardholder billing currency. This is
                      *   the amount the issuer should authorize against unless the issuer is paying
                      *   the acquirer fee on behalf of the cardholder.
+                     * * `CASH_AMOUNT`: The cash amount of the transaction in minor units (cents).
+                     *   This represents the amount of cash being withdrawn or advanced.
                      * * `RISK_SCORE`: Network-provided score assessing risk level associated with a
                      *   given authorization. Scores are on a range of 0-999, with 0 representing
                      *   the lowest risk and 999 representing the highest risk. For Visa
@@ -2005,6 +2059,8 @@ private constructor(
 
                             @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
 
+                            @JvmField val CASH_AMOUNT = of("CASH_AMOUNT")
+
                             @JvmField val RISK_SCORE = of("RISK_SCORE")
 
                             @JvmField
@@ -2039,6 +2095,7 @@ private constructor(
                             LIABILITY_SHIFT,
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
+                            CASH_AMOUNT,
                             RISK_SCORE,
                             CARD_TRANSACTION_COUNT_15_M,
                             CARD_TRANSACTION_COUNT_1_H,
@@ -2070,6 +2127,7 @@ private constructor(
                             LIABILITY_SHIFT,
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
+                            CASH_AMOUNT,
                             RISK_SCORE,
                             CARD_TRANSACTION_COUNT_15_M,
                             CARD_TRANSACTION_COUNT_1_H,
@@ -2103,6 +2161,7 @@ private constructor(
                                 LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
                                 PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
+                                CASH_AMOUNT -> Value.CASH_AMOUNT
                                 RISK_SCORE -> Value.RISK_SCORE
                                 CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
                                 CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
@@ -2134,6 +2193,7 @@ private constructor(
                                 LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
                                 PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
+                                CASH_AMOUNT -> Known.CASH_AMOUNT
                                 RISK_SCORE -> Known.RISK_SCORE
                                 CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
                                 CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
@@ -3622,6 +3682,8 @@ private constructor(
                      *   acquirer fee field in the settlement/cardholder billing currency. This is
                      *   the amount the issuer should authorize against unless the issuer is paying
                      *   the acquirer fee on behalf of the cardholder.
+                     * * `CASH_AMOUNT`: The cash amount of the transaction in minor units (cents).
+                     *   This represents the amount of cash being withdrawn or advanced.
                      * * `RISK_SCORE`: Network-provided score assessing risk level associated with a
                      *   given authorization. Scores are on a range of 0-999, with 0 representing
                      *   the lowest risk and 999 representing the highest risk. For Visa
@@ -3760,6 +3822,9 @@ private constructor(
                          *   acquirer fee field in the settlement/cardholder billing currency. This
                          *   is the amount the issuer should authorize against unless the issuer is
                          *   paying the acquirer fee on behalf of the cardholder.
+                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
+                         *   (cents). This represents the amount of cash being withdrawn or
+                         *   advanced.
                          * * `RISK_SCORE`: Network-provided score assessing risk level associated
                          *   with a given authorization. Scores are on a range of 0-999, with 0
                          *   representing the lowest risk and 999 representing the highest risk. For
@@ -3931,6 +3996,8 @@ private constructor(
                      *   acquirer fee field in the settlement/cardholder billing currency. This is
                      *   the amount the issuer should authorize against unless the issuer is paying
                      *   the acquirer fee on behalf of the cardholder.
+                     * * `CASH_AMOUNT`: The cash amount of the transaction in minor units (cents).
+                     *   This represents the amount of cash being withdrawn or advanced.
                      * * `RISK_SCORE`: Network-provided score assessing risk level associated with a
                      *   given authorization. Scores are on a range of 0-999, with 0 representing
                      *   the lowest risk and 999 representing the highest risk. For Visa
@@ -3989,6 +4056,8 @@ private constructor(
 
                             @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
 
+                            @JvmField val CASH_AMOUNT = of("CASH_AMOUNT")
+
                             @JvmField val RISK_SCORE = of("RISK_SCORE")
 
                             @JvmField
@@ -4023,6 +4092,7 @@ private constructor(
                             LIABILITY_SHIFT,
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
+                            CASH_AMOUNT,
                             RISK_SCORE,
                             CARD_TRANSACTION_COUNT_15_M,
                             CARD_TRANSACTION_COUNT_1_H,
@@ -4054,6 +4124,7 @@ private constructor(
                             LIABILITY_SHIFT,
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
+                            CASH_AMOUNT,
                             RISK_SCORE,
                             CARD_TRANSACTION_COUNT_15_M,
                             CARD_TRANSACTION_COUNT_1_H,
@@ -4087,6 +4158,7 @@ private constructor(
                                 LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
                                 PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
+                                CASH_AMOUNT -> Value.CASH_AMOUNT
                                 RISK_SCORE -> Value.RISK_SCORE
                                 CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
                                 CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
@@ -4118,6 +4190,7 @@ private constructor(
                                 LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
                                 PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
+                                CASH_AMOUNT -> Known.CASH_AMOUNT
                                 RISK_SCORE -> Known.RISK_SCORE
                                 CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
                                 CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
@@ -5094,6 +5167,7 @@ private constructor(
             currentVersion == other.currentVersion &&
             draftVersion == other.draftVersion &&
             eventStream == other.eventStream &&
+            lithicManaged == other.lithicManaged &&
             name == other.name &&
             programLevel == other.programLevel &&
             state == other.state &&
@@ -5111,6 +5185,7 @@ private constructor(
             currentVersion,
             draftVersion,
             eventStream,
+            lithicManaged,
             name,
             programLevel,
             state,
@@ -5123,5 +5198,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "V2RetrieveResponse{token=$token, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, cardTokens=$cardTokens, currentVersion=$currentVersion, draftVersion=$draftVersion, eventStream=$eventStream, name=$name, programLevel=$programLevel, state=$state, type=$type, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
+        "V2RetrieveResponse{token=$token, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, cardTokens=$cardTokens, currentVersion=$currentVersion, draftVersion=$draftVersion, eventStream=$eventStream, lithicManaged=$lithicManaged, name=$name, programLevel=$programLevel, state=$state, type=$type, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
 }
