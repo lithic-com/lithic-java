@@ -21,7 +21,7 @@ private constructor(
     private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
-    private val category: Category?,
+    private val category: BookTransferCategory?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
     private val financialAccountToken: String?,
@@ -44,7 +44,7 @@ private constructor(
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
     /** Book Transfer category to be returned. */
-    fun category(): Optional<Category> = Optional.ofNullable(category)
+    fun category(): Optional<BookTransferCategory> = Optional.ofNullable(category)
 
     /**
      * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -101,7 +101,7 @@ private constructor(
         private var accountToken: String? = null
         private var begin: OffsetDateTime? = null
         private var businessAccountToken: String? = null
-        private var category: Category? = null
+        private var category: BookTransferCategory? = null
         private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
         private var financialAccountToken: String? = null
@@ -155,10 +155,10 @@ private constructor(
             businessAccountToken(businessAccountToken.getOrNull())
 
         /** Book Transfer category to be returned. */
-        fun category(category: Category?) = apply { this.category = category }
+        fun category(category: BookTransferCategory?) = apply { this.category = category }
 
         /** Alias for calling [Builder.category] with `category.orElse(null)`. */
-        fun category(category: Optional<Category>) = category(category.getOrNull())
+        fun category(category: Optional<BookTransferCategory>) = category(category.getOrNull())
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -370,7 +370,9 @@ private constructor(
             .build()
 
     /** Book Transfer category to be returned. */
-    class Category @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class BookTransferCategory
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -384,52 +386,64 @@ private constructor(
 
         companion object {
 
-            @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
-
-            @JvmField val FEE = of("FEE")
-
-            @JvmField val REWARD = of("REWARD")
-
             @JvmField val ADJUSTMENT = of("ADJUSTMENT")
+
+            @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
             @JvmField val DERECOGNITION = of("DERECOGNITION")
 
             @JvmField val DISPUTE = of("DISPUTE")
 
+            @JvmField val FEE = of("FEE")
+
             @JvmField val INTERNAL = of("INTERNAL")
 
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+            @JvmField val REWARD = of("REWARD")
+
+            @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
+
+            @JvmField val TRANSFER = of("TRANSFER")
+
+            @JvmStatic fun of(value: String) = BookTransferCategory(JsonField.of(value))
         }
 
-        /** An enum containing [Category]'s known values. */
+        /** An enum containing [BookTransferCategory]'s known values. */
         enum class Known {
-            BALANCE_OR_FUNDING,
-            FEE,
-            REWARD,
             ADJUSTMENT,
+            BALANCE_OR_FUNDING,
             DERECOGNITION,
             DISPUTE,
+            FEE,
             INTERNAL,
+            REWARD,
+            PROGRAM_FUNDING,
+            TRANSFER,
         }
 
         /**
-         * An enum containing [Category]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [BookTransferCategory]'s known values, as well as an [_UNKNOWN]
+         * member.
          *
-         * An instance of [Category] can contain an unknown value in a couple of cases:
+         * An instance of [BookTransferCategory] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            BALANCE_OR_FUNDING,
-            FEE,
-            REWARD,
             ADJUSTMENT,
+            BALANCE_OR_FUNDING,
             DERECOGNITION,
             DISPUTE,
+            FEE,
             INTERNAL,
-            /** An enum member indicating that [Category] was instantiated with an unknown value. */
+            REWARD,
+            PROGRAM_FUNDING,
+            TRANSFER,
+            /**
+             * An enum member indicating that [BookTransferCategory] was instantiated with an
+             * unknown value.
+             */
             _UNKNOWN,
         }
 
@@ -442,13 +456,15 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
-                FEE -> Value.FEE
-                REWARD -> Value.REWARD
                 ADJUSTMENT -> Value.ADJUSTMENT
+                BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
                 DERECOGNITION -> Value.DERECOGNITION
                 DISPUTE -> Value.DISPUTE
+                FEE -> Value.FEE
                 INTERNAL -> Value.INTERNAL
+                REWARD -> Value.REWARD
+                PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
+                TRANSFER -> Value.TRANSFER
                 else -> Value._UNKNOWN
             }
 
@@ -463,14 +479,16 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
-                FEE -> Known.FEE
-                REWARD -> Known.REWARD
                 ADJUSTMENT -> Known.ADJUSTMENT
+                BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
                 DERECOGNITION -> Known.DERECOGNITION
                 DISPUTE -> Known.DISPUTE
+                FEE -> Known.FEE
                 INTERNAL -> Known.INTERNAL
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
+                REWARD -> Known.REWARD
+                PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
+                TRANSFER -> Known.TRANSFER
+                else -> throw LithicInvalidDataException("Unknown BookTransferCategory: $value")
             }
 
         /**
@@ -487,7 +505,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Category = apply {
+        fun validate(): BookTransferCategory = apply {
             if (validated) {
                 return@apply
             }
@@ -517,7 +535,7 @@ private constructor(
                 return true
             }
 
-            return other is Category && value == other.value
+            return other is BookTransferCategory && value == other.value
         }
 
         override fun hashCode() = value.hashCode()

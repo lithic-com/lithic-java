@@ -390,6 +390,16 @@ private constructor(
 
             @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
+            @JvmField val FEE = of("FEE")
+
+            @JvmField val REWARD = of("REWARD")
+
+            @JvmField val ADJUSTMENT = of("ADJUSTMENT")
+
+            @JvmField val DERECOGNITION = of("DERECOGNITION")
+
+            @JvmField val DISPUTE = of("DISPUTE")
+
             @JvmField val CARD = of("CARD")
 
             @JvmField val EXTERNAL_ACH = of("EXTERNAL_ACH")
@@ -419,6 +429,11 @@ private constructor(
         enum class Known {
             ACH,
             BALANCE_OR_FUNDING,
+            FEE,
+            REWARD,
+            ADJUSTMENT,
+            DERECOGNITION,
+            DISPUTE,
             CARD,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
@@ -444,6 +459,11 @@ private constructor(
         enum class Value {
             ACH,
             BALANCE_OR_FUNDING,
+            FEE,
+            REWARD,
+            ADJUSTMENT,
+            DERECOGNITION,
+            DISPUTE,
             CARD,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
@@ -473,6 +493,11 @@ private constructor(
             when (this) {
                 ACH -> Value.ACH
                 BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
+                FEE -> Value.FEE
+                REWARD -> Value.REWARD
+                ADJUSTMENT -> Value.ADJUSTMENT
+                DERECOGNITION -> Value.DERECOGNITION
+                DISPUTE -> Value.DISPUTE
                 CARD -> Value.CARD
                 EXTERNAL_ACH -> Value.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
@@ -500,6 +525,11 @@ private constructor(
             when (this) {
                 ACH -> Known.ACH
                 BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
+                FEE -> Known.FEE
+                REWARD -> Known.REWARD
+                ADJUSTMENT -> Known.ADJUSTMENT
+                DERECOGNITION -> Known.DERECOGNITION
+                DISPUTE -> Known.DISPUTE
                 CARD -> Known.CARD
                 EXTERNAL_ACH -> Known.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Known.EXTERNAL_CHECK

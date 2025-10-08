@@ -39,8 +39,6 @@ private constructor(
     fun amount(): Long = body.amount()
 
     /**
-     * Category of the book transfer
-     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
@@ -255,7 +253,6 @@ private constructor(
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
-        /** Category of the book transfer */
         fun category(category: BookTransferCategory) = apply { body.category(category) }
 
         /**
@@ -593,8 +590,6 @@ private constructor(
         fun amount(): Long = amount.getRequired("amount")
 
         /**
-         * Category of the book transfer
-         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
@@ -829,7 +824,6 @@ private constructor(
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            /** Category of the book transfer */
             fun category(category: BookTransferCategory) = category(JsonField.of(category))
 
             /**
@@ -1097,7 +1091,6 @@ private constructor(
             "CreateBookTransferRequest{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, externalId=$externalId, memo=$memo, onClosedAccount=$onClosedAccount, additionalProperties=$additionalProperties}"
     }
 
-    /** Category of the book transfer */
     class BookTransferCategory
     @JsonCreator
     private constructor(private val value: JsonField<String>) : Enum {
@@ -1124,7 +1117,11 @@ private constructor(
 
             @JvmField val FEE = of("FEE")
 
+            @JvmField val INTERNAL = of("INTERNAL")
+
             @JvmField val REWARD = of("REWARD")
+
+            @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
 
             @JvmField val TRANSFER = of("TRANSFER")
 
@@ -1138,7 +1135,9 @@ private constructor(
             DERECOGNITION,
             DISPUTE,
             FEE,
+            INTERNAL,
             REWARD,
+            PROGRAM_FUNDING,
             TRANSFER,
         }
 
@@ -1158,7 +1157,9 @@ private constructor(
             DERECOGNITION,
             DISPUTE,
             FEE,
+            INTERNAL,
             REWARD,
+            PROGRAM_FUNDING,
             TRANSFER,
             /**
              * An enum member indicating that [BookTransferCategory] was instantiated with an
@@ -1181,7 +1182,9 @@ private constructor(
                 DERECOGNITION -> Value.DERECOGNITION
                 DISPUTE -> Value.DISPUTE
                 FEE -> Value.FEE
+                INTERNAL -> Value.INTERNAL
                 REWARD -> Value.REWARD
+                PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
                 TRANSFER -> Value.TRANSFER
                 else -> Value._UNKNOWN
             }
@@ -1202,7 +1205,9 @@ private constructor(
                 DERECOGNITION -> Known.DERECOGNITION
                 DISPUTE -> Known.DISPUTE
                 FEE -> Known.FEE
+                INTERNAL -> Known.INTERNAL
                 REWARD -> Known.REWARD
+                PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
                 TRANSFER -> Known.TRANSFER
                 else -> throw LithicInvalidDataException("Unknown BookTransferCategory: $value")
             }
@@ -1274,6 +1279,8 @@ private constructor(
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         companion object {
+
+            @JvmField val ATM_BALANCE_INQUIRY = of("ATM_BALANCE_INQUIRY")
 
             @JvmField val ATM_WITHDRAWAL = of("ATM_WITHDRAWAL")
 
@@ -1348,6 +1355,7 @@ private constructor(
 
         /** An enum containing [BookTransferType]'s known values. */
         enum class Known {
+            ATM_BALANCE_INQUIRY,
             ATM_WITHDRAWAL,
             ATM_DECLINE,
             INTERNATIONAL_ATM_WITHDRAWAL,
@@ -1394,6 +1402,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            ATM_BALANCE_INQUIRY,
             ATM_WITHDRAWAL,
             ATM_DECLINE,
             INTERNATIONAL_ATM_WITHDRAWAL,
@@ -1444,6 +1453,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                ATM_BALANCE_INQUIRY -> Value.ATM_BALANCE_INQUIRY
                 ATM_WITHDRAWAL -> Value.ATM_WITHDRAWAL
                 ATM_DECLINE -> Value.ATM_DECLINE
                 INTERNATIONAL_ATM_WITHDRAWAL -> Value.INTERNATIONAL_ATM_WITHDRAWAL
@@ -1492,6 +1502,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                ATM_BALANCE_INQUIRY -> Known.ATM_BALANCE_INQUIRY
                 ATM_WITHDRAWAL -> Known.ATM_WITHDRAWAL
                 ATM_DECLINE -> Known.ATM_DECLINE
                 INTERNATIONAL_ATM_WITHDRAWAL -> Known.INTERNATIONAL_ATM_WITHDRAWAL

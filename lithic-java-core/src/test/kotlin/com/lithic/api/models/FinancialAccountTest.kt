@@ -32,6 +32,13 @@ internal class FinancialAccountTest {
                         )
                         .isSpendBlocked(true)
                         .tier("tier")
+                        .autoCollectionConfiguration(
+                            FinancialAccount.FinancialAccountCreditConfig
+                                .AutoCollectionConfigurationResponse
+                                .builder()
+                                .autoCollectionEnabled(true)
+                                .build()
+                        )
                         .build()
                 )
                 .isForBenefitOf(true)
@@ -62,6 +69,13 @@ internal class FinancialAccountTest {
                     )
                     .isSpendBlocked(true)
                     .tier("tier")
+                    .autoCollectionConfiguration(
+                        FinancialAccount.FinancialAccountCreditConfig
+                            .AutoCollectionConfigurationResponse
+                            .builder()
+                            .autoCollectionEnabled(true)
+                            .build()
+                    )
                     .build()
             )
         assertThat(financialAccount.isForBenefitOf()).isEqualTo(true)
@@ -100,6 +114,13 @@ internal class FinancialAccountTest {
                         )
                         .isSpendBlocked(true)
                         .tier("tier")
+                        .autoCollectionConfiguration(
+                            FinancialAccount.FinancialAccountCreditConfig
+                                .AutoCollectionConfigurationResponse
+                                .builder()
+                                .autoCollectionEnabled(true)
+                                .build()
+                        )
                         .build()
                 )
                 .isForBenefitOf(true)

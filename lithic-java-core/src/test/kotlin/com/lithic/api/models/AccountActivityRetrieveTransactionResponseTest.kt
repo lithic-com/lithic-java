@@ -158,8 +158,8 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(
                     AccountActivityRetrieveTransactionResponse.BookTransferTransaction
-                        .TransactionCategory
-                        .ACH
+                        .BookTransferCategory
+                        .ADJUSTMENT
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("USD")
@@ -188,7 +188,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                             AccountActivityRetrieveTransactionResponse.BookTransferTransaction
                                 .BookTransferEvent
                                 .BookTransferType
-                                .ATM_WITHDRAWAL
+                                .ATM_BALANCE_INQUIRY
                         )
                         .build()
                 )
@@ -255,8 +255,8 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .category(
                         AccountActivityRetrieveTransactionResponse.BookTransferTransaction
-                            .TransactionCategory
-                            .ACH
+                            .BookTransferCategory
+                            .ADJUSTMENT
                     )
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("USD")
@@ -285,7 +285,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 AccountActivityRetrieveTransactionResponse.BookTransferTransaction
                                     .BookTransferEvent
                                     .BookTransferType
-                                    .ATM_WITHDRAWAL
+                                    .ATM_BALANCE_INQUIRY
                             )
                             .build()
                     )
@@ -409,6 +409,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                         .build()
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .merchant(
                     Transaction.Merchant.builder()
                         .acceptorId("333301802529120")
@@ -664,6 +665,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                             .build()
                     )
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .merchant(
                         Transaction.Merchant.builder()
                             .acceptorId("333301802529120")
