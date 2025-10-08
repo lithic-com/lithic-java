@@ -29,7 +29,7 @@ internal class BookTransferServiceAsyncTest {
                     .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .subtype("subtype")
                     .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .type(BookTransferCreateParams.BookTransferType.ATM_WITHDRAWAL)
+                    .type(BookTransferCreateParams.BookTransferType.ATM_BALANCE_INQUIRY)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .externalId("external_id")
                     .memo("memo")

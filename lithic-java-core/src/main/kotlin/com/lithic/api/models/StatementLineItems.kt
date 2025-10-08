@@ -830,6 +830,16 @@ private constructor(
 
                 @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
+                @JvmField val FEE = of("FEE")
+
+                @JvmField val REWARD = of("REWARD")
+
+                @JvmField val ADJUSTMENT = of("ADJUSTMENT")
+
+                @JvmField val DERECOGNITION = of("DERECOGNITION")
+
+                @JvmField val DISPUTE = of("DISPUTE")
+
                 @JvmField val CARD = of("CARD")
 
                 @JvmField val EXTERNAL_ACH = of("EXTERNAL_ACH")
@@ -859,6 +869,11 @@ private constructor(
             enum class Known {
                 ACH,
                 BALANCE_OR_FUNDING,
+                FEE,
+                REWARD,
+                ADJUSTMENT,
+                DERECOGNITION,
+                DISPUTE,
                 CARD,
                 EXTERNAL_ACH,
                 EXTERNAL_CHECK,
@@ -886,6 +901,11 @@ private constructor(
             enum class Value {
                 ACH,
                 BALANCE_OR_FUNDING,
+                FEE,
+                REWARD,
+                ADJUSTMENT,
+                DERECOGNITION,
+                DISPUTE,
                 CARD,
                 EXTERNAL_ACH,
                 EXTERNAL_CHECK,
@@ -915,6 +935,11 @@ private constructor(
                 when (this) {
                     ACH -> Value.ACH
                     BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
+                    FEE -> Value.FEE
+                    REWARD -> Value.REWARD
+                    ADJUSTMENT -> Value.ADJUSTMENT
+                    DERECOGNITION -> Value.DERECOGNITION
+                    DISPUTE -> Value.DISPUTE
                     CARD -> Value.CARD
                     EXTERNAL_ACH -> Value.EXTERNAL_ACH
                     EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
@@ -942,6 +967,11 @@ private constructor(
                 when (this) {
                     ACH -> Known.ACH
                     BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
+                    FEE -> Known.FEE
+                    REWARD -> Known.REWARD
+                    ADJUSTMENT -> Known.ADJUSTMENT
+                    DERECOGNITION -> Known.DERECOGNITION
+                    DISPUTE -> Known.DISPUTE
                     CARD -> Known.CARD
                     EXTERNAL_ACH -> Known.EXTERNAL_ACH
                     EXTERNAL_CHECK -> Known.EXTERNAL_CHECK
@@ -1034,6 +1064,8 @@ private constructor(
 
                 @JvmField val ACH_ORIGINATION_RELEASED = of("ACH_ORIGINATION_RELEASED")
 
+                @JvmField val ACH_ORIGINATION_REJECTED = of("ACH_ORIGINATION_REJECTED")
+
                 @JvmField val ACH_ORIGINATION_REVIEWED = of("ACH_ORIGINATION_REVIEWED")
 
                 @JvmField val ACH_ORIGINATION_SETTLED = of("ACH_ORIGINATION_SETTLED")
@@ -1045,6 +1077,8 @@ private constructor(
                 @JvmField val ACH_RETURN_INITIATED = of("ACH_RETURN_INITIATED")
 
                 @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
+
+                @JvmField val ACH_RETURN_REJECTED = of("ACH_RETURN_REJECTED")
 
                 @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
 
@@ -1171,12 +1205,14 @@ private constructor(
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
                 ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_REVIEWED,
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
@@ -1253,12 +1289,14 @@ private constructor(
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
                 ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_REVIEWED,
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
@@ -1337,12 +1375,14 @@ private constructor(
                     ACH_ORIGINATION_INITIATED -> Value.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
                     ACH_ORIGINATION_RELEASED -> Value.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REJECTED -> Value.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_REVIEWED -> Value.ACH_ORIGINATION_REVIEWED
                     ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Value.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Value.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Value.AUTHORIZATION_ADVICE
@@ -1419,12 +1459,14 @@ private constructor(
                     ACH_ORIGINATION_INITIATED -> Known.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
                     ACH_ORIGINATION_RELEASED -> Known.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REJECTED -> Known.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_REVIEWED -> Known.ACH_ORIGINATION_REVIEWED
                     ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Known.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Known.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Known.AUTHORIZATION_ADVICE
