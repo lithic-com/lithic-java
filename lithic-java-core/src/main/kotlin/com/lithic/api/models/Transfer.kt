@@ -1224,6 +1224,8 @@ private constructor(
 
                 @JvmField val ACH_ORIGINATION_RELEASED = of("ACH_ORIGINATION_RELEASED")
 
+                @JvmField val ACH_ORIGINATION_REJECTED = of("ACH_ORIGINATION_REJECTED")
+
                 @JvmField val ACH_ORIGINATION_REVIEWED = of("ACH_ORIGINATION_REVIEWED")
 
                 @JvmField val ACH_ORIGINATION_SETTLED = of("ACH_ORIGINATION_SETTLED")
@@ -1235,6 +1237,8 @@ private constructor(
                 @JvmField val ACH_RETURN_INITIATED = of("ACH_RETURN_INITIATED")
 
                 @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
+
+                @JvmField val ACH_RETURN_REJECTED = of("ACH_RETURN_REJECTED")
 
                 @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
 
@@ -1361,12 +1365,14 @@ private constructor(
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
                 ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_REVIEWED,
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
@@ -1443,12 +1449,14 @@ private constructor(
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
                 ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_REVIEWED,
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
                 AUTHORIZATION,
                 AUTHORIZATION_ADVICE,
@@ -1527,12 +1535,14 @@ private constructor(
                     ACH_ORIGINATION_INITIATED -> Value.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
                     ACH_ORIGINATION_RELEASED -> Value.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REJECTED -> Value.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_REVIEWED -> Value.ACH_ORIGINATION_REVIEWED
                     ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Value.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Value.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Value.AUTHORIZATION_ADVICE
@@ -1609,12 +1619,14 @@ private constructor(
                     ACH_ORIGINATION_INITIATED -> Known.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
                     ACH_ORIGINATION_RELEASED -> Known.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REJECTED -> Known.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_REVIEWED -> Known.ACH_ORIGINATION_REVIEWED
                     ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Known.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
                     AUTHORIZATION -> Known.AUTHORIZATION
                     AUTHORIZATION_ADVICE -> Known.AUTHORIZATION_ADVICE

@@ -35,7 +35,7 @@ internal class BookTransferListPageResponseTest {
                                 .subtype("subtype")
                                 .type(
                                     BookTransferResponse.BookTransferEvent.BookTransferType
-                                        .ATM_WITHDRAWAL
+                                        .ATM_BALANCE_INQUIRY
                                 )
                                 .build()
                         )
@@ -89,7 +89,7 @@ internal class BookTransferListPageResponseTest {
                             .subtype("subtype")
                             .type(
                                 BookTransferResponse.BookTransferEvent.BookTransferType
-                                    .ATM_WITHDRAWAL
+                                    .ATM_BALANCE_INQUIRY
                             )
                             .build()
                     )
@@ -146,7 +146,7 @@ internal class BookTransferListPageResponseTest {
                                 .subtype("subtype")
                                 .type(
                                     BookTransferResponse.BookTransferEvent.BookTransferType
-                                        .ATM_WITHDRAWAL
+                                        .ATM_BALANCE_INQUIRY
                                 )
                                 .build()
                         )

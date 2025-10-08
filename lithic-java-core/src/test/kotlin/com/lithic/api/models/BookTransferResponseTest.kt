@@ -31,7 +31,8 @@ internal class BookTransferResponseTest {
                         .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                         .subtype("subtype")
                         .type(
-                            BookTransferResponse.BookTransferEvent.BookTransferType.ATM_WITHDRAWAL
+                            BookTransferResponse.BookTransferEvent.BookTransferType
+                                .ATM_BALANCE_INQUIRY
                         )
                         .build()
                 )
@@ -77,7 +78,9 @@ internal class BookTransferResponseTest {
                     .memo("memo")
                     .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                     .subtype("subtype")
-                    .type(BookTransferResponse.BookTransferEvent.BookTransferType.ATM_WITHDRAWAL)
+                    .type(
+                        BookTransferResponse.BookTransferEvent.BookTransferType.ATM_BALANCE_INQUIRY
+                    )
                     .build()
             )
         assertThat(bookTransferResponse.externalId()).contains("external_id")
@@ -132,7 +135,8 @@ internal class BookTransferResponseTest {
                         .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                         .subtype("subtype")
                         .type(
-                            BookTransferResponse.BookTransferEvent.BookTransferType.ATM_WITHDRAWAL
+                            BookTransferResponse.BookTransferEvent.BookTransferType
+                                .ATM_BALANCE_INQUIRY
                         )
                         .build()
                 )

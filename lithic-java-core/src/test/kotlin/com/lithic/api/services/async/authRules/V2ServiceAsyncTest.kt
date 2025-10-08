@@ -96,9 +96,11 @@ internal class V2ServiceAsyncTest {
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .body(
-                        AuthRuleV2UpdateParams.Body.UnionMember0.builder()
+                        AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
+                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .name("name")
-                            .state(AuthRuleV2UpdateParams.Body.UnionMember0.State.INACTIVE)
+                            .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
                             .build()
                     )
                     .build()

@@ -11,6 +11,12 @@ internal class FinancialAccountCreditConfigurationUpdateParamsTest {
     fun create() {
         FinancialAccountCreditConfigurationUpdateParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .autoCollectionConfiguration(
+                FinancialAccountCreditConfigurationUpdateParams.AutoCollectionConfigurationRequest
+                    .builder()
+                    .autoCollectionEnabled(true)
+                    .build()
+            )
             .creditLimit(0L)
             .creditProductToken("credit_product_token")
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -35,6 +41,13 @@ internal class FinancialAccountCreditConfigurationUpdateParamsTest {
         val params =
             FinancialAccountCreditConfigurationUpdateParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .autoCollectionConfiguration(
+                    FinancialAccountCreditConfigurationUpdateParams
+                        .AutoCollectionConfigurationRequest
+                        .builder()
+                        .autoCollectionEnabled(true)
+                        .build()
+                )
                 .creditLimit(0L)
                 .creditProductToken("credit_product_token")
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -43,6 +56,13 @@ internal class FinancialAccountCreditConfigurationUpdateParamsTest {
 
         val body = params._body()
 
+        assertThat(body.autoCollectionConfiguration())
+            .contains(
+                FinancialAccountCreditConfigurationUpdateParams.AutoCollectionConfigurationRequest
+                    .builder()
+                    .autoCollectionEnabled(true)
+                    .build()
+            )
         assertThat(body.creditLimit()).contains(0L)
         assertThat(body.creditProductToken()).contains("credit_product_token")
         assertThat(body.externalBankAccountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

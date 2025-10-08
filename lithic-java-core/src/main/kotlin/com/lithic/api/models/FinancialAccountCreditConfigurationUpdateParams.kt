@@ -34,6 +34,13 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
+    fun autoCollectionConfiguration(): Optional<AutoCollectionConfigurationRequest> =
+        body.autoCollectionConfiguration()
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun creditLimit(): Optional<Long> = body.creditLimit()
 
     /**
@@ -57,6 +64,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun tier(): Optional<String> = body.tier()
+
+    /**
+     * Returns the raw JSON value of [autoCollectionConfiguration].
+     *
+     * Unlike [autoCollectionConfiguration], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    fun _autoCollectionConfiguration(): JsonField<AutoCollectionConfigurationRequest> =
+        body._autoCollectionConfiguration()
 
     /**
      * Returns the raw JSON value of [creditLimit].
@@ -148,12 +164,29 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [autoCollectionConfiguration]
          * - [creditLimit]
          * - [creditProductToken]
          * - [externalBankAccountToken]
          * - [tier]
+         * - etc.
          */
         fun body(body: FinancialAccountCreditConfigRequest) = apply { this.body = body.toBuilder() }
+
+        fun autoCollectionConfiguration(
+            autoCollectionConfiguration: AutoCollectionConfigurationRequest
+        ) = apply { body.autoCollectionConfiguration(autoCollectionConfiguration) }
+
+        /**
+         * Sets [Builder.autoCollectionConfiguration] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.autoCollectionConfiguration] with a well-typed
+         * [AutoCollectionConfigurationRequest] value instead. This method is primarily for setting
+         * the field to an undocumented or not yet supported value.
+         */
+        fun autoCollectionConfiguration(
+            autoCollectionConfiguration: JsonField<AutoCollectionConfigurationRequest>
+        ) = apply { body.autoCollectionConfiguration(autoCollectionConfiguration) }
 
         fun creditLimit(creditLimit: Long) = apply { body.creditLimit(creditLimit) }
 
@@ -354,6 +387,7 @@ private constructor(
     class FinancialAccountCreditConfigRequest
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val autoCollectionConfiguration: JsonField<AutoCollectionConfigurationRequest>,
         private val creditLimit: JsonField<Long>,
         private val creditProductToken: JsonField<String>,
         private val externalBankAccountToken: JsonField<String>,
@@ -363,6 +397,10 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("auto_collection_configuration")
+            @ExcludeMissing
+            autoCollectionConfiguration: JsonField<AutoCollectionConfigurationRequest> =
+                JsonMissing.of(),
             @JsonProperty("credit_limit")
             @ExcludeMissing
             creditLimit: JsonField<Long> = JsonMissing.of(),
@@ -373,7 +411,21 @@ private constructor(
             @ExcludeMissing
             externalBankAccountToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("tier") @ExcludeMissing tier: JsonField<String> = JsonMissing.of(),
-        ) : this(creditLimit, creditProductToken, externalBankAccountToken, tier, mutableMapOf())
+        ) : this(
+            autoCollectionConfiguration,
+            creditLimit,
+            creditProductToken,
+            externalBankAccountToken,
+            tier,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun autoCollectionConfiguration(): Optional<AutoCollectionConfigurationRequest> =
+            autoCollectionConfiguration.getOptional("auto_collection_configuration")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -404,6 +456,17 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun tier(): Optional<String> = tier.getOptional("tier")
+
+        /**
+         * Returns the raw JSON value of [autoCollectionConfiguration].
+         *
+         * Unlike [autoCollectionConfiguration], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("auto_collection_configuration")
+        @ExcludeMissing
+        fun _autoCollectionConfiguration(): JsonField<AutoCollectionConfigurationRequest> =
+            autoCollectionConfiguration
 
         /**
          * Returns the raw JSON value of [creditLimit].
@@ -465,6 +528,8 @@ private constructor(
         /** A builder for [FinancialAccountCreditConfigRequest]. */
         class Builder internal constructor() {
 
+            private var autoCollectionConfiguration: JsonField<AutoCollectionConfigurationRequest> =
+                JsonMissing.of()
             private var creditLimit: JsonField<Long> = JsonMissing.of()
             private var creditProductToken: JsonField<String> = JsonMissing.of()
             private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
@@ -475,6 +540,8 @@ private constructor(
             internal fun from(
                 financialAccountCreditConfigRequest: FinancialAccountCreditConfigRequest
             ) = apply {
+                autoCollectionConfiguration =
+                    financialAccountCreditConfigRequest.autoCollectionConfiguration
                 creditLimit = financialAccountCreditConfigRequest.creditLimit
                 creditProductToken = financialAccountCreditConfigRequest.creditProductToken
                 externalBankAccountToken =
@@ -483,6 +550,21 @@ private constructor(
                 additionalProperties =
                     financialAccountCreditConfigRequest.additionalProperties.toMutableMap()
             }
+
+            fun autoCollectionConfiguration(
+                autoCollectionConfiguration: AutoCollectionConfigurationRequest
+            ) = autoCollectionConfiguration(JsonField.of(autoCollectionConfiguration))
+
+            /**
+             * Sets [Builder.autoCollectionConfiguration] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.autoCollectionConfiguration] with a well-typed
+             * [AutoCollectionConfigurationRequest] value instead. This method is primarily for
+             * setting the field to an undocumented or not yet supported value.
+             */
+            fun autoCollectionConfiguration(
+                autoCollectionConfiguration: JsonField<AutoCollectionConfigurationRequest>
+            ) = apply { this.autoCollectionConfiguration = autoCollectionConfiguration }
 
             fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
 
@@ -562,6 +644,7 @@ private constructor(
              */
             fun build(): FinancialAccountCreditConfigRequest =
                 FinancialAccountCreditConfigRequest(
+                    autoCollectionConfiguration,
                     creditLimit,
                     creditProductToken,
                     externalBankAccountToken,
@@ -577,6 +660,7 @@ private constructor(
                 return@apply
             }
 
+            autoCollectionConfiguration().ifPresent { it.validate() }
             creditLimit()
             creditProductToken()
             externalBankAccountToken()
@@ -600,7 +684,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (creditLimit.asKnown().isPresent) 1 else 0) +
+            (autoCollectionConfiguration.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (creditLimit.asKnown().isPresent) 1 else 0) +
                 (if (creditProductToken.asKnown().isPresent) 1 else 0) +
                 (if (externalBankAccountToken.asKnown().isPresent) 1 else 0) +
                 (if (tier.asKnown().isPresent) 1 else 0)
@@ -611,6 +696,7 @@ private constructor(
             }
 
             return other is FinancialAccountCreditConfigRequest &&
+                autoCollectionConfiguration == other.autoCollectionConfiguration &&
                 creditLimit == other.creditLimit &&
                 creditProductToken == other.creditProductToken &&
                 externalBankAccountToken == other.externalBankAccountToken &&
@@ -620,6 +706,7 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                autoCollectionConfiguration,
                 creditLimit,
                 creditProductToken,
                 externalBankAccountToken,
@@ -631,7 +718,170 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "FinancialAccountCreditConfigRequest{creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalProperties=$additionalProperties}"
+            "FinancialAccountCreditConfigRequest{autoCollectionConfiguration=$autoCollectionConfiguration, creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalProperties=$additionalProperties}"
+    }
+
+    class AutoCollectionConfigurationRequest
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val autoCollectionEnabled: JsonField<Boolean>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("auto_collection_enabled")
+            @ExcludeMissing
+            autoCollectionEnabled: JsonField<Boolean> = JsonMissing.of()
+        ) : this(autoCollectionEnabled, mutableMapOf())
+
+        /**
+         * If auto collection is enabled for this account
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun autoCollectionEnabled(): Optional<Boolean> =
+            autoCollectionEnabled.getOptional("auto_collection_enabled")
+
+        /**
+         * Returns the raw JSON value of [autoCollectionEnabled].
+         *
+         * Unlike [autoCollectionEnabled], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("auto_collection_enabled")
+        @ExcludeMissing
+        fun _autoCollectionEnabled(): JsonField<Boolean> = autoCollectionEnabled
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [AutoCollectionConfigurationRequest].
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [AutoCollectionConfigurationRequest]. */
+        class Builder internal constructor() {
+
+            private var autoCollectionEnabled: JsonField<Boolean> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(
+                autoCollectionConfigurationRequest: AutoCollectionConfigurationRequest
+            ) = apply {
+                autoCollectionEnabled = autoCollectionConfigurationRequest.autoCollectionEnabled
+                additionalProperties =
+                    autoCollectionConfigurationRequest.additionalProperties.toMutableMap()
+            }
+
+            /** If auto collection is enabled for this account */
+            fun autoCollectionEnabled(autoCollectionEnabled: Boolean) =
+                autoCollectionEnabled(JsonField.of(autoCollectionEnabled))
+
+            /**
+             * Sets [Builder.autoCollectionEnabled] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.autoCollectionEnabled] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun autoCollectionEnabled(autoCollectionEnabled: JsonField<Boolean>) = apply {
+                this.autoCollectionEnabled = autoCollectionEnabled
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [AutoCollectionConfigurationRequest].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): AutoCollectionConfigurationRequest =
+                AutoCollectionConfigurationRequest(
+                    autoCollectionEnabled,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AutoCollectionConfigurationRequest = apply {
+            if (validated) {
+                return@apply
+            }
+
+            autoCollectionEnabled()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int = (if (autoCollectionEnabled.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AutoCollectionConfigurationRequest &&
+                autoCollectionEnabled == other.autoCollectionEnabled &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(autoCollectionEnabled, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "AutoCollectionConfigurationRequest{autoCollectionEnabled=$autoCollectionEnabled, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

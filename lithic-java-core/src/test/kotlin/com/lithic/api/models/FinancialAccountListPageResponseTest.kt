@@ -35,6 +35,13 @@ internal class FinancialAccountListPageResponseTest {
                                 )
                                 .isSpendBlocked(true)
                                 .tier("tier")
+                                .autoCollectionConfiguration(
+                                    FinancialAccount.FinancialAccountCreditConfig
+                                        .AutoCollectionConfigurationResponse
+                                        .builder()
+                                        .autoCollectionEnabled(true)
+                                        .build()
+                                )
                                 .build()
                         )
                         .isForBenefitOf(true)
@@ -73,6 +80,13 @@ internal class FinancialAccountListPageResponseTest {
                             )
                             .isSpendBlocked(true)
                             .tier("tier")
+                            .autoCollectionConfiguration(
+                                FinancialAccount.FinancialAccountCreditConfig
+                                    .AutoCollectionConfigurationResponse
+                                    .builder()
+                                    .autoCollectionEnabled(true)
+                                    .build()
+                            )
                             .build()
                     )
                     .isForBenefitOf(true)
@@ -114,6 +128,13 @@ internal class FinancialAccountListPageResponseTest {
                                 )
                                 .isSpendBlocked(true)
                                 .tier("tier")
+                                .autoCollectionConfiguration(
+                                    FinancialAccount.FinancialAccountCreditConfig
+                                        .AutoCollectionConfigurationResponse
+                                        .builder()
+                                        .autoCollectionEnabled(true)
+                                        .build()
+                                )
                                 .build()
                         )
                         .isForBenefitOf(true)

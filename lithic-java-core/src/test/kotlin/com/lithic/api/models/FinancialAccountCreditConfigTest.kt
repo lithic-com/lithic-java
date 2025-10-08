@@ -14,6 +14,11 @@ internal class FinancialAccountCreditConfigTest {
         val financialAccountCreditConfig =
             FinancialAccountCreditConfig.builder()
                 .accountToken("b68b7424-aa69-4cbc-a946-30d90181b621")
+                .autoCollectionConfiguration(
+                    FinancialAccountCreditConfig.AutoCollectionConfigurationResponse.builder()
+                        .autoCollectionEnabled(true)
+                        .build()
+                )
                 .chargedOffReason(FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT)
                 .creditLimit(0L)
                 .creditProductToken("credit_product_token")
@@ -25,6 +30,12 @@ internal class FinancialAccountCreditConfigTest {
 
         assertThat(financialAccountCreditConfig.accountToken())
             .isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
+        assertThat(financialAccountCreditConfig.autoCollectionConfiguration())
+            .isEqualTo(
+                FinancialAccountCreditConfig.AutoCollectionConfigurationResponse.builder()
+                    .autoCollectionEnabled(true)
+                    .build()
+            )
         assertThat(financialAccountCreditConfig.chargedOffReason())
             .contains(FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT)
         assertThat(financialAccountCreditConfig.creditLimit()).contains(0L)
@@ -44,6 +55,11 @@ internal class FinancialAccountCreditConfigTest {
         val financialAccountCreditConfig =
             FinancialAccountCreditConfig.builder()
                 .accountToken("b68b7424-aa69-4cbc-a946-30d90181b621")
+                .autoCollectionConfiguration(
+                    FinancialAccountCreditConfig.AutoCollectionConfigurationResponse.builder()
+                        .autoCollectionEnabled(true)
+                        .build()
+                )
                 .chargedOffReason(FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT)
                 .creditLimit(0L)
                 .creditProductToken("credit_product_token")
