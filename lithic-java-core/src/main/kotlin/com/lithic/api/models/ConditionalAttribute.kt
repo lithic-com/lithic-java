@@ -45,6 +45,9 @@ import com.lithic.api.errors.LithicInvalidDataException
  * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates the source of the
  *   token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`,
  *   `OTHER`, `NONE`.
+ * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with the
+ *   cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
+ *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
  */
 class ConditionalAttribute @JsonCreator private constructor(private val value: JsonField<String>) :
     Enum {
@@ -92,6 +95,8 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
 
         @JvmField val WALLET_TYPE = of("WALLET_TYPE")
 
+        @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
+
         @JvmStatic fun of(value: String) = ConditionalAttribute(JsonField.of(value))
     }
 
@@ -113,6 +118,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         PIN_ENTERED,
         PIN_STATUS,
         WALLET_TYPE,
+        ADDRESS_MATCH,
     }
 
     /**
@@ -141,6 +147,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
         PIN_ENTERED,
         PIN_STATUS,
         WALLET_TYPE,
+        ADDRESS_MATCH,
         /**
          * An enum member indicating that [ConditionalAttribute] was instantiated with an unknown
          * value.
@@ -173,6 +180,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             PIN_ENTERED -> Value.PIN_ENTERED
             PIN_STATUS -> Value.PIN_STATUS
             WALLET_TYPE -> Value.WALLET_TYPE
+            ADDRESS_MATCH -> Value.ADDRESS_MATCH
             else -> Value._UNKNOWN
         }
 
@@ -202,6 +210,7 @@ class ConditionalAttribute @JsonCreator private constructor(private val value: J
             PIN_ENTERED -> Known.PIN_ENTERED
             PIN_STATUS -> Known.PIN_STATUS
             WALLET_TYPE -> Known.WALLET_TYPE
+            ADDRESS_MATCH -> Known.ADDRESS_MATCH
             else -> throw LithicInvalidDataException("Unknown ConditionalAttribute: $value")
         }
 

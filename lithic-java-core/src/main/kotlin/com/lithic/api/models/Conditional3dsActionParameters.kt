@@ -390,6 +390,9 @@ private constructor(
          * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
          *   level, with a higher value indicating a higher amount of risk.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
+         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
+         *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
+         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -492,6 +495,9 @@ private constructor(
              * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
              *   level, with a higher value indicating a higher amount of risk.
              * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
+             * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data
+             *   with the cardholder KYC data if it exists. Valid values are `MATCH`,
+             *   `MATCH_ADDRESS_ONLY`, `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -618,6 +624,9 @@ private constructor(
          * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
          *   level, with a higher value indicating a higher amount of risk.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
+         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
+         *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
+         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -650,6 +659,8 @@ private constructor(
 
                 @JvmField val MESSAGE_CATEGORY = of("MESSAGE_CATEGORY")
 
+                @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -663,6 +674,7 @@ private constructor(
                 TRANSACTION_AMOUNT,
                 RISK_SCORE,
                 MESSAGE_CATEGORY,
+                ADDRESS_MATCH,
             }
 
             /**
@@ -683,6 +695,7 @@ private constructor(
                 TRANSACTION_AMOUNT,
                 RISK_SCORE,
                 MESSAGE_CATEGORY,
+                ADDRESS_MATCH,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -707,6 +720,7 @@ private constructor(
                     TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
                     RISK_SCORE -> Value.RISK_SCORE
                     MESSAGE_CATEGORY -> Value.MESSAGE_CATEGORY
+                    ADDRESS_MATCH -> Value.ADDRESS_MATCH
                     else -> Value._UNKNOWN
                 }
 
@@ -729,6 +743,7 @@ private constructor(
                     TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
                     RISK_SCORE -> Known.RISK_SCORE
                     MESSAGE_CATEGORY -> Known.MESSAGE_CATEGORY
+                    ADDRESS_MATCH -> Known.ADDRESS_MATCH
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 

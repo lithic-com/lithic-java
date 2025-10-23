@@ -42,10 +42,7 @@ internal class AccountActivityListPageResponseTest {
                                 )
                                 .build()
                         )
-                        .family(
-                            AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
-                                .CARD
-                        )
+                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
                         .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
                         .pendingAmount(500L)
                         .result(
@@ -65,7 +62,7 @@ internal class AccountActivityListPageResponseTest {
 
         assertThat(accountActivityListPageResponse.data().getOrNull())
             .containsExactly(
-                AccountActivityListResponse.ofFinancialTransaction(
+                AccountActivityListResponse.ofInternal(
                     AccountActivityListResponse.FinancialTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .category(
@@ -92,10 +89,7 @@ internal class AccountActivityListPageResponseTest {
                                 )
                                 .build()
                         )
-                        .family(
-                            AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
-                                .CARD
-                        )
+                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
                         .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
                         .pendingAmount(500L)
                         .result(
@@ -146,10 +140,7 @@ internal class AccountActivityListPageResponseTest {
                                 )
                                 .build()
                         )
-                        .family(
-                            AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes
-                                .CARD
-                        )
+                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
                         .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
                         .pendingAmount(500L)
                         .result(

@@ -127,33 +127,20 @@ private constructor(
                 }
         }
 
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofFinancialTransaction(financialTransaction)`.
-         */
-        fun addData(financialTransaction: AccountActivityListResponse.FinancialTransaction) =
-            addData(AccountActivityListResponse.ofFinancialTransaction(financialTransaction))
+        /** Alias for calling [addData] with `AccountActivityListResponse.ofInternal(internal_)`. */
+        fun addData(internal_: AccountActivityListResponse.FinancialTransaction) =
+            addData(AccountActivityListResponse.ofInternal(internal_))
 
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofBookTransferTransaction(bookTransferTransaction)`.
-         */
-        fun addData(bookTransferTransaction: AccountActivityListResponse.BookTransferTransaction) =
-            addData(AccountActivityListResponse.ofBookTransferTransaction(bookTransferTransaction))
+        /** Alias for calling [addData] with `AccountActivityListResponse.ofTransfer(transfer)`. */
+        fun addData(transfer: BookTransferResponse) =
+            addData(AccountActivityListResponse.ofTransfer(transfer))
 
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofCardTransaction(cardTransaction)`.
-         */
-        fun addData(cardTransaction: AccountActivityListResponse.CardTransaction) =
-            addData(AccountActivityListResponse.ofCardTransaction(cardTransaction))
+        /** Alias for calling [addData] with `AccountActivityListResponse.ofCard(card)`. */
+        fun addData(card: AccountActivityListResponse.CardTransaction) =
+            addData(AccountActivityListResponse.ofCard(card))
 
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofPaymentTransaction(paymentTransaction)`.
-         */
-        fun addData(paymentTransaction: AccountActivityListResponse.PaymentTransaction) =
-            addData(AccountActivityListResponse.ofPaymentTransaction(paymentTransaction))
+        /** Alias for calling [addData] with `AccountActivityListResponse.ofPayment(payment)`. */
+        fun addData(payment: Payment) = addData(AccountActivityListResponse.ofPayment(payment))
 
         /**
          * Alias for calling [addData] with
@@ -164,14 +151,10 @@ private constructor(
 
         /**
          * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofManagementOperationTransaction(managementOperationTransaction)`.
+         * `AccountActivityListResponse.ofManagementOperation(managementOperation)`.
          */
-        fun addData(managementOperationTransaction: ManagementOperationTransaction) =
-            addData(
-                AccountActivityListResponse.ofManagementOperationTransaction(
-                    managementOperationTransaction
-                )
-            )
+        fun addData(managementOperation: ManagementOperationTransaction) =
+            addData(AccountActivityListResponse.ofManagementOperation(managementOperation))
 
         /** Indicates if there are more transactions available for pagination */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))

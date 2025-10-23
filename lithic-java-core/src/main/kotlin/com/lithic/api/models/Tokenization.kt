@@ -1210,7 +1210,7 @@ private constructor(
     private constructor(
         private val token: JsonField<String>,
         private val createdAt: JsonField<OffsetDateTime>,
-        private val result: JsonField<Result>,
+        private val result: JsonField<TokenizationEventOutcome>,
         private val type: JsonField<Type>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -1221,7 +1221,9 @@ private constructor(
             @JsonProperty("created_at")
             @ExcludeMissing
             createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-            @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+            @JsonProperty("result")
+            @ExcludeMissing
+            result: JsonField<TokenizationEventOutcome> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
         ) : this(token, createdAt, result, type, mutableMapOf())
 
@@ -1247,7 +1249,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun result(): Optional<Result> = result.getOptional("result")
+        fun result(): Optional<TokenizationEventOutcome> = result.getOptional("result")
 
         /**
          * Enum representing the type of tokenization event that occurred
@@ -1278,7 +1280,9 @@ private constructor(
          *
          * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
+        @JsonProperty("result")
+        @ExcludeMissing
+        fun _result(): JsonField<TokenizationEventOutcome> = result
 
         /**
          * Returns the raw JSON value of [type].
@@ -1310,7 +1314,7 @@ private constructor(
 
             private var token: JsonField<String> = JsonMissing.of()
             private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var result: JsonField<Result> = JsonMissing.of()
+            private var result: JsonField<TokenizationEventOutcome> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1350,16 +1354,16 @@ private constructor(
             }
 
             /** Enum representing the result of the tokenization event */
-            fun result(result: Result) = result(JsonField.of(result))
+            fun result(result: TokenizationEventOutcome) = result(JsonField.of(result))
 
             /**
              * Sets [Builder.result] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.result] with a well-typed [Result] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.result] with a well-typed [TokenizationEventOutcome]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
-            fun result(result: JsonField<Result>) = apply { this.result = result }
+            fun result(result: JsonField<TokenizationEventOutcome>) = apply { this.result = result }
 
             /** Enum representing the type of tokenization event that occurred */
             fun type(type: Type) = type(JsonField.of(type))
@@ -1443,7 +1447,9 @@ private constructor(
                 (type.asKnown().getOrNull()?.validity() ?: 0)
 
         /** Enum representing the result of the tokenization event */
-        class Result @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+        class TokenizationEventOutcome
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1472,6 +1478,9 @@ private constructor(
 
                 @JvmField val TOKEN_DEACTIVATED = of("TOKEN_DEACTIVATED")
 
+                @JvmField
+                val TOKEN_DELETED_FROM_CONSUMER_APP = of("TOKEN_DELETED_FROM_CONSUMER_APP")
+
                 @JvmField val TOKEN_INACTIVE = of("TOKEN_INACTIVE")
 
                 @JvmField val TOKEN_STATE_UNKNOWN = of("TOKEN_STATE_UNKNOWN")
@@ -1480,10 +1489,10 @@ private constructor(
 
                 @JvmField val TOKEN_UPDATED = of("TOKEN_UPDATED")
 
-                @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+                @JvmStatic fun of(value: String) = TokenizationEventOutcome(JsonField.of(value))
             }
 
-            /** An enum containing [Result]'s known values. */
+            /** An enum containing [TokenizationEventOutcome]'s known values. */
             enum class Known {
                 APPROVED,
                 DECLINED,
@@ -1492,6 +1501,7 @@ private constructor(
                 TOKEN_ACTIVATED,
                 TOKEN_CREATED,
                 TOKEN_DEACTIVATED,
+                TOKEN_DELETED_FROM_CONSUMER_APP,
                 TOKEN_INACTIVE,
                 TOKEN_STATE_UNKNOWN,
                 TOKEN_SUSPENDED,
@@ -1499,9 +1509,11 @@ private constructor(
             }
 
             /**
-             * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
+             * An enum containing [TokenizationEventOutcome]'s known values, as well as an
+             * [_UNKNOWN] member.
              *
-             * An instance of [Result] can contain an unknown value in a couple of cases:
+             * An instance of [TokenizationEventOutcome] can contain an unknown value in a couple of
+             * cases:
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
@@ -1515,12 +1527,14 @@ private constructor(
                 TOKEN_ACTIVATED,
                 TOKEN_CREATED,
                 TOKEN_DEACTIVATED,
+                TOKEN_DELETED_FROM_CONSUMER_APP,
                 TOKEN_INACTIVE,
                 TOKEN_STATE_UNKNOWN,
                 TOKEN_SUSPENDED,
                 TOKEN_UPDATED,
                 /**
-                 * An enum member indicating that [Result] was instantiated with an unknown value.
+                 * An enum member indicating that [TokenizationEventOutcome] was instantiated with
+                 * an unknown value.
                  */
                 _UNKNOWN,
             }
@@ -1541,6 +1555,7 @@ private constructor(
                     TOKEN_ACTIVATED -> Value.TOKEN_ACTIVATED
                     TOKEN_CREATED -> Value.TOKEN_CREATED
                     TOKEN_DEACTIVATED -> Value.TOKEN_DEACTIVATED
+                    TOKEN_DELETED_FROM_CONSUMER_APP -> Value.TOKEN_DELETED_FROM_CONSUMER_APP
                     TOKEN_INACTIVE -> Value.TOKEN_INACTIVE
                     TOKEN_STATE_UNKNOWN -> Value.TOKEN_STATE_UNKNOWN
                     TOKEN_SUSPENDED -> Value.TOKEN_SUSPENDED
@@ -1566,11 +1581,13 @@ private constructor(
                     TOKEN_ACTIVATED -> Known.TOKEN_ACTIVATED
                     TOKEN_CREATED -> Known.TOKEN_CREATED
                     TOKEN_DEACTIVATED -> Known.TOKEN_DEACTIVATED
+                    TOKEN_DELETED_FROM_CONSUMER_APP -> Known.TOKEN_DELETED_FROM_CONSUMER_APP
                     TOKEN_INACTIVE -> Known.TOKEN_INACTIVE
                     TOKEN_STATE_UNKNOWN -> Known.TOKEN_STATE_UNKNOWN
                     TOKEN_SUSPENDED -> Known.TOKEN_SUSPENDED
                     TOKEN_UPDATED -> Known.TOKEN_UPDATED
-                    else -> throw LithicInvalidDataException("Unknown Result: $value")
+                    else ->
+                        throw LithicInvalidDataException("Unknown TokenizationEventOutcome: $value")
                 }
 
             /**
@@ -1589,7 +1606,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): Result = apply {
+            fun validate(): TokenizationEventOutcome = apply {
                 if (validated) {
                     return@apply
                 }
@@ -1619,7 +1636,7 @@ private constructor(
                     return true
                 }
 
-                return other is Result && value == other.value
+                return other is TokenizationEventOutcome && value == other.value
             }
 
             override fun hashCode() = value.hashCode()

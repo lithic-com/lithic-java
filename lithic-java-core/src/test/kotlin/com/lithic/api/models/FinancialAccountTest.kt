@@ -19,19 +19,6 @@ internal class FinancialAccountTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .creditConfiguration(
                     FinancialAccount.FinancialAccountCreditConfig.builder()
-                        .chargedOffReason(
-                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
-                                .DELINQUENT
-                        )
-                        .creditLimit(0L)
-                        .creditProductToken("credit_product_token")
-                        .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .financialAccountState(
-                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
-                                .PENDING
-                        )
-                        .isSpendBlocked(true)
-                        .tier("tier")
                         .autoCollectionConfiguration(
                             FinancialAccount.FinancialAccountCreditConfig
                                 .AutoCollectionConfigurationResponse
@@ -39,6 +26,19 @@ internal class FinancialAccountTest {
                                 .autoCollectionEnabled(true)
                                 .build()
                         )
+                        .creditLimit(0L)
+                        .creditProductToken("credit_product_token")
+                        .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .tier("tier")
+                        .chargedOffReason(
+                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
+                                .DELINQUENT
+                        )
+                        .financialAccountState(
+                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
+                                .PENDING
+                        )
+                        .isSpendBlocked(true)
                         .build()
                 )
                 .isForBenefitOf(true)
@@ -58,17 +58,6 @@ internal class FinancialAccountTest {
         assertThat(financialAccount.creditConfiguration())
             .contains(
                 FinancialAccount.FinancialAccountCreditConfig.builder()
-                    .chargedOffReason(
-                        FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT
-                    )
-                    .creditLimit(0L)
-                    .creditProductToken("credit_product_token")
-                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .financialAccountState(
-                        FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState.PENDING
-                    )
-                    .isSpendBlocked(true)
-                    .tier("tier")
                     .autoCollectionConfiguration(
                         FinancialAccount.FinancialAccountCreditConfig
                             .AutoCollectionConfigurationResponse
@@ -76,6 +65,17 @@ internal class FinancialAccountTest {
                             .autoCollectionEnabled(true)
                             .build()
                     )
+                    .creditLimit(0L)
+                    .creditProductToken("credit_product_token")
+                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .tier("tier")
+                    .chargedOffReason(
+                        FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT
+                    )
+                    .financialAccountState(
+                        FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState.PENDING
+                    )
+                    .isSpendBlocked(true)
                     .build()
             )
         assertThat(financialAccount.isForBenefitOf()).isEqualTo(true)
@@ -101,19 +101,6 @@ internal class FinancialAccountTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .creditConfiguration(
                     FinancialAccount.FinancialAccountCreditConfig.builder()
-                        .chargedOffReason(
-                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
-                                .DELINQUENT
-                        )
-                        .creditLimit(0L)
-                        .creditProductToken("credit_product_token")
-                        .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .financialAccountState(
-                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
-                                .PENDING
-                        )
-                        .isSpendBlocked(true)
-                        .tier("tier")
                         .autoCollectionConfiguration(
                             FinancialAccount.FinancialAccountCreditConfig
                                 .AutoCollectionConfigurationResponse
@@ -121,6 +108,19 @@ internal class FinancialAccountTest {
                                 .autoCollectionEnabled(true)
                                 .build()
                         )
+                        .creditLimit(0L)
+                        .creditProductToken("credit_product_token")
+                        .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .tier("tier")
+                        .chargedOffReason(
+                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
+                                .DELINQUENT
+                        )
+                        .financialAccountState(
+                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
+                                .PENDING
+                        )
+                        .isSpendBlocked(true)
                         .build()
                 )
                 .isForBenefitOf(true)

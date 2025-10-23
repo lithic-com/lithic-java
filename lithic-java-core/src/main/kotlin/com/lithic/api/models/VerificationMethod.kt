@@ -25,8 +25,6 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
 
         @JvmField val MICRO_DEPOSIT = of("MICRO_DEPOSIT")
 
-        @JvmField val PLAID = of("PLAID")
-
         @JvmField val PRENOTE = of("PRENOTE")
 
         @JvmField val EXTERNALLY_VERIFIED = of("EXTERNALLY_VERIFIED")
@@ -40,7 +38,6 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
     enum class Known {
         MANUAL,
         MICRO_DEPOSIT,
-        PLAID,
         PRENOTE,
         EXTERNALLY_VERIFIED,
         UNVERIFIED,
@@ -58,7 +55,6 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
     enum class Value {
         MANUAL,
         MICRO_DEPOSIT,
-        PLAID,
         PRENOTE,
         EXTERNALLY_VERIFIED,
         UNVERIFIED,
@@ -80,7 +76,6 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
         when (this) {
             MANUAL -> Value.MANUAL
             MICRO_DEPOSIT -> Value.MICRO_DEPOSIT
-            PLAID -> Value.PLAID
             PRENOTE -> Value.PRENOTE
             EXTERNALLY_VERIFIED -> Value.EXTERNALLY_VERIFIED
             UNVERIFIED -> Value.UNVERIFIED
@@ -99,7 +94,6 @@ class VerificationMethod @JsonCreator private constructor(private val value: Jso
         when (this) {
             MANUAL -> Known.MANUAL
             MICRO_DEPOSIT -> Known.MICRO_DEPOSIT
-            PLAID -> Known.PLAID
             PRENOTE -> Known.PRENOTE
             EXTERNALLY_VERIFIED -> Known.EXTERNALLY_VERIFIED
             UNVERIFIED -> Known.UNVERIFIED
