@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.109.0 (2025-10-23)
+
+Full Changelog: [v0.108.0...v0.109.0](https://github.com/lithic-com/lithic-java/compare/v0.108.0...v0.109.0)
+
+### Features
+
+* **api:** updates to Auth Rules and Card provisioning ([f6866cc](https://github.com/lithic-com/lithic-java/commit/f6866ccb2402a93cad1dd152bd47cc7ffa74cb81))
+
 ## 0.108.0 (2025-10-08)
 
 Full Changelog: [v0.107.0...v0.108.0](https://github.com/lithic-com/lithic-java/compare/v0.107.0...v0.108.0)
