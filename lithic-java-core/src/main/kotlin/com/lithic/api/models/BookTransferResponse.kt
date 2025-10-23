@@ -21,6 +21,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** Book transfer transaction */
 class BookTransferResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
@@ -29,16 +30,17 @@ private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
     private val events: JsonField<List<BookTransferEvent>>,
-    private val externalId: JsonField<String>,
-    private val externalResource: JsonField<ExternalResource>,
+    private val family: JsonField<Family>,
     private val fromFinancialAccountToken: JsonField<String>,
     private val pendingAmount: JsonField<Long>,
     private val result: JsonField<TransactionResult>,
     private val settledAmount: JsonField<Long>,
-    private val status: JsonField<Status>,
+    private val status: JsonField<TransactionStatus>,
     private val toFinancialAccountToken: JsonField<String>,
-    private val transactionSeries: JsonField<TransactionSeries>,
     private val updated: JsonField<OffsetDateTime>,
+    private val externalId: JsonField<String>,
+    private val externalResource: JsonField<ExternalResource>,
+    private val transactionSeries: JsonField<TransactionSeries>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -55,12 +57,7 @@ private constructor(
         @JsonProperty("events")
         @ExcludeMissing
         events: JsonField<List<BookTransferEvent>> = JsonMissing.of(),
-        @JsonProperty("external_id")
-        @ExcludeMissing
-        externalId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("external_resource")
-        @ExcludeMissing
-        externalResource: JsonField<ExternalResource> = JsonMissing.of(),
+        @JsonProperty("family") @ExcludeMissing family: JsonField<Family> = JsonMissing.of(),
         @JsonProperty("from_financial_account_token")
         @ExcludeMissing
         fromFinancialAccountToken: JsonField<String> = JsonMissing.of(),
@@ -73,38 +70,46 @@ private constructor(
         @JsonProperty("settled_amount")
         @ExcludeMissing
         settledAmount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        status: JsonField<TransactionStatus> = JsonMissing.of(),
         @JsonProperty("to_financial_account_token")
         @ExcludeMissing
         toFinancialAccountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("transaction_series")
-        @ExcludeMissing
-        transactionSeries: JsonField<TransactionSeries> = JsonMissing.of(),
         @JsonProperty("updated")
         @ExcludeMissing
         updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        externalId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("external_resource")
+        @ExcludeMissing
+        externalResource: JsonField<ExternalResource> = JsonMissing.of(),
+        @JsonProperty("transaction_series")
+        @ExcludeMissing
+        transactionSeries: JsonField<TransactionSeries> = JsonMissing.of(),
     ) : this(
         token,
         category,
         created,
         currency,
         events,
-        externalId,
-        externalResource,
+        family,
         fromFinancialAccountToken,
         pendingAmount,
         result,
         settledAmount,
         status,
         toFinancialAccountToken,
-        transactionSeries,
         updated,
+        externalId,
+        externalResource,
+        transactionSeries,
         mutableMapOf(),
     )
 
     /**
-     * Customer-provided token that will serve as an idempotency token. This token will become the
-     * transaction token.
+     * Unique identifier for the transaction
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -118,7 +123,7 @@ private constructor(
     fun category(): BookTransferCategory = category.getRequired("category")
 
     /**
-     * Date and time when the transfer occurred. UTC time zone.
+     * ISO 8601 timestamp of when the transaction was created
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -126,7 +131,7 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
-     * 3-character alphabetic ISO 4217 code for the settling currency of the transaction.
+     * 3-character alphabetic ISO 4217 code for the settling currency of the transaction
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -134,7 +139,7 @@ private constructor(
     fun currency(): String = currency.getRequired("currency")
 
     /**
-     * A list of all financial events that have modified this transfer.
+     * A list of all financial events that have modified this transfer
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -142,25 +147,16 @@ private constructor(
     fun events(): List<BookTransferEvent> = events.getRequired("events")
 
     /**
-     * External ID defined by the customer
+     * TRANSFER - Book Transfer Transaction
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun externalId(): Optional<String> = externalId.getOptional("external_id")
-
-    /**
-     * External resource associated with the management operation
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun externalResource(): Optional<ExternalResource> =
-        externalResource.getOptional("external_resource")
+    fun family(): Family = family.getRequired("family")
 
     /**
      * Globally unique identifier for the financial account or card that will send the funds.
-     * Accepted type dependent on the program's use case.
+     * Accepted type dependent on the program's use case
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -186,8 +182,7 @@ private constructor(
     fun result(): TransactionResult = result.getRequired("result")
 
     /**
-     * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-     * cents).
+     * Amount of the transaction that has been settled in the currency's smallest unit (e.g., cents)
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -195,19 +190,16 @@ private constructor(
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
     /**
-     * Status types:
-     * * `DECLINED` - The transfer was declined.
-     * * `REVERSED` - The transfer was reversed
-     * * `SETTLED` - The transfer is completed.
+     * The status of the transaction
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun status(): Status = status.getRequired("status")
+    fun status(): TransactionStatus = status.getRequired("status")
 
     /**
      * Globally unique identifier for the financial account or card that will receive the funds.
-     * Accepted type dependent on the program's use case.
+     * Accepted type dependent on the program's use case
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -216,21 +208,38 @@ private constructor(
         toFinancialAccountToken.getRequired("to_financial_account_token")
 
     /**
-     * A series of transactions that are grouped together.
+     * ISO 8601 timestamp of when the transaction was last updated
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    /**
+     * External ID defined by the customer
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun externalId(): Optional<String> = externalId.getOptional("external_id")
+
+    /**
+     * External resource associated with the management operation
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun externalResource(): Optional<ExternalResource> =
+        externalResource.getOptional("external_resource")
+
+    /**
+     * A series of transactions that are grouped together
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun transactionSeries(): Optional<TransactionSeries> =
         transactionSeries.getOptional("transaction_series")
-
-    /**
-     * Date and time when the financial transaction was last updated. UTC time zone.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     /**
      * Returns the raw JSON value of [token].
@@ -272,21 +281,11 @@ private constructor(
     fun _events(): JsonField<List<BookTransferEvent>> = events
 
     /**
-     * Returns the raw JSON value of [externalId].
+     * Returns the raw JSON value of [family].
      *
-     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [family], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
-
-    /**
-     * Returns the raw JSON value of [externalResource].
-     *
-     * Unlike [externalResource], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("external_resource")
-    @ExcludeMissing
-    fun _externalResource(): JsonField<ExternalResource> = externalResource
+    @JsonProperty("family") @ExcludeMissing fun _family(): JsonField<Family> = family
 
     /**
      * Returns the raw JSON value of [fromFinancialAccountToken].
@@ -328,7 +327,7 @@ private constructor(
      *
      * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<TransactionStatus> = status
 
     /**
      * Returns the raw JSON value of [toFinancialAccountToken].
@@ -341,6 +340,30 @@ private constructor(
     fun _toFinancialAccountToken(): JsonField<String> = toFinancialAccountToken
 
     /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
+
+    /**
+     * Returns the raw JSON value of [externalId].
+     *
+     * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
+
+    /**
+     * Returns the raw JSON value of [externalResource].
+     *
+     * Unlike [externalResource], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("external_resource")
+    @ExcludeMissing
+    fun _externalResource(): JsonField<ExternalResource> = externalResource
+
+    /**
      * Returns the raw JSON value of [transactionSeries].
      *
      * Unlike [transactionSeries], this method doesn't throw if the JSON field has an unexpected
@@ -349,13 +372,6 @@ private constructor(
     @JsonProperty("transaction_series")
     @ExcludeMissing
     fun _transactionSeries(): JsonField<TransactionSeries> = transactionSeries
-
-    /**
-     * Returns the raw JSON value of [updated].
-     *
-     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -381,15 +397,13 @@ private constructor(
          * .created()
          * .currency()
          * .events()
-         * .externalId()
-         * .externalResource()
+         * .family()
          * .fromFinancialAccountToken()
          * .pendingAmount()
          * .result()
          * .settledAmount()
          * .status()
          * .toFinancialAccountToken()
-         * .transactionSeries()
          * .updated()
          * ```
          */
@@ -404,16 +418,17 @@ private constructor(
         private var created: JsonField<OffsetDateTime>? = null
         private var currency: JsonField<String>? = null
         private var events: JsonField<MutableList<BookTransferEvent>>? = null
-        private var externalId: JsonField<String>? = null
-        private var externalResource: JsonField<ExternalResource>? = null
+        private var family: JsonField<Family>? = null
         private var fromFinancialAccountToken: JsonField<String>? = null
         private var pendingAmount: JsonField<Long>? = null
         private var result: JsonField<TransactionResult>? = null
         private var settledAmount: JsonField<Long>? = null
-        private var status: JsonField<Status>? = null
+        private var status: JsonField<TransactionStatus>? = null
         private var toFinancialAccountToken: JsonField<String>? = null
-        private var transactionSeries: JsonField<TransactionSeries>? = null
         private var updated: JsonField<OffsetDateTime>? = null
+        private var externalId: JsonField<String> = JsonMissing.of()
+        private var externalResource: JsonField<ExternalResource> = JsonMissing.of()
+        private var transactionSeries: JsonField<TransactionSeries> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -423,23 +438,21 @@ private constructor(
             created = bookTransferResponse.created
             currency = bookTransferResponse.currency
             events = bookTransferResponse.events.map { it.toMutableList() }
-            externalId = bookTransferResponse.externalId
-            externalResource = bookTransferResponse.externalResource
+            family = bookTransferResponse.family
             fromFinancialAccountToken = bookTransferResponse.fromFinancialAccountToken
             pendingAmount = bookTransferResponse.pendingAmount
             result = bookTransferResponse.result
             settledAmount = bookTransferResponse.settledAmount
             status = bookTransferResponse.status
             toFinancialAccountToken = bookTransferResponse.toFinancialAccountToken
-            transactionSeries = bookTransferResponse.transactionSeries
             updated = bookTransferResponse.updated
+            externalId = bookTransferResponse.externalId
+            externalResource = bookTransferResponse.externalResource
+            transactionSeries = bookTransferResponse.transactionSeries
             additionalProperties = bookTransferResponse.additionalProperties.toMutableMap()
         }
 
-        /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
-         */
+        /** Unique identifier for the transaction */
         fun token(token: String) = token(JsonField.of(token))
 
         /**
@@ -461,7 +474,7 @@ private constructor(
          */
         fun category(category: JsonField<BookTransferCategory>) = apply { this.category = category }
 
-        /** Date and time when the transfer occurred. UTC time zone. */
+        /** ISO 8601 timestamp of when the transaction was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
@@ -473,7 +486,7 @@ private constructor(
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction. */
+        /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
@@ -484,7 +497,7 @@ private constructor(
          */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
-        /** A list of all financial events that have modified this transfer. */
+        /** A list of all financial events that have modified this transfer */
         fun events(events: List<BookTransferEvent>) = events(JsonField.of(events))
 
         /**
@@ -510,43 +523,20 @@ private constructor(
                 }
         }
 
-        /** External ID defined by the customer */
-        fun externalId(externalId: String?) = externalId(JsonField.ofNullable(externalId))
-
-        /** Alias for calling [Builder.externalId] with `externalId.orElse(null)`. */
-        fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
+        /** TRANSFER - Book Transfer Transaction */
+        fun family(family: Family) = family(JsonField.of(family))
 
         /**
-         * Sets [Builder.externalId] to an arbitrary JSON value.
+         * Sets [Builder.family] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
+         * You should usually call [Builder.family] with a well-typed [Family] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
-
-        /** External resource associated with the management operation */
-        fun externalResource(externalResource: ExternalResource?) =
-            externalResource(JsonField.ofNullable(externalResource))
-
-        /** Alias for calling [Builder.externalResource] with `externalResource.orElse(null)`. */
-        fun externalResource(externalResource: Optional<ExternalResource>) =
-            externalResource(externalResource.getOrNull())
-
-        /**
-         * Sets [Builder.externalResource] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.externalResource] with a well-typed [ExternalResource]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
-         */
-        fun externalResource(externalResource: JsonField<ExternalResource>) = apply {
-            this.externalResource = externalResource
-        }
+        fun family(family: JsonField<Family>) = apply { this.family = family }
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Accepted type dependent on the program's use case
          */
         fun fromFinancialAccountToken(fromFinancialAccountToken: String) =
             fromFinancialAccountToken(JsonField.of(fromFinancialAccountToken))
@@ -595,7 +585,7 @@ private constructor(
 
         /**
          * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-         * cents).
+         * cents)
          */
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
@@ -610,25 +600,21 @@ private constructor(
             this.settledAmount = settledAmount
         }
 
-        /**
-         * Status types:
-         * * `DECLINED` - The transfer was declined.
-         * * `REVERSED` - The transfer was reversed
-         * * `SETTLED` - The transfer is completed.
-         */
-        fun status(status: Status) = status(JsonField.of(status))
+        /** The status of the transaction */
+        fun status(status: TransactionStatus) = status(JsonField.of(status))
 
         /**
          * Sets [Builder.status] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.status] with a well-typed [TransactionStatus] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun status(status: JsonField<Status>) = apply { this.status = status }
+        fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
-         * Accepted type dependent on the program's use case.
+         * Accepted type dependent on the program's use case
          */
         fun toFinancialAccountToken(toFinancialAccountToken: String) =
             toFinancialAccountToken(JsonField.of(toFinancialAccountToken))
@@ -644,7 +630,53 @@ private constructor(
             this.toFinancialAccountToken = toFinancialAccountToken
         }
 
-        /** A series of transactions that are grouped together. */
+        /** ISO 8601 timestamp of when the transaction was last updated */
+        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
+        /** External ID defined by the customer */
+        fun externalId(externalId: String?) = externalId(JsonField.ofNullable(externalId))
+
+        /** Alias for calling [Builder.externalId] with `externalId.orElse(null)`. */
+        fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
+
+        /**
+         * Sets [Builder.externalId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
+        /** External resource associated with the management operation */
+        fun externalResource(externalResource: ExternalResource?) =
+            externalResource(JsonField.ofNullable(externalResource))
+
+        /** Alias for calling [Builder.externalResource] with `externalResource.orElse(null)`. */
+        fun externalResource(externalResource: Optional<ExternalResource>) =
+            externalResource(externalResource.getOrNull())
+
+        /**
+         * Sets [Builder.externalResource] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.externalResource] with a well-typed [ExternalResource]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun externalResource(externalResource: JsonField<ExternalResource>) = apply {
+            this.externalResource = externalResource
+        }
+
+        /** A series of transactions that are grouped together */
         fun transactionSeries(transactionSeries: TransactionSeries?) =
             transactionSeries(JsonField.ofNullable(transactionSeries))
 
@@ -662,18 +694,6 @@ private constructor(
         fun transactionSeries(transactionSeries: JsonField<TransactionSeries>) = apply {
             this.transactionSeries = transactionSeries
         }
-
-        /** Date and time when the financial transaction was last updated. UTC time zone. */
-        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
-
-        /**
-         * Sets [Builder.updated] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -706,15 +726,13 @@ private constructor(
          * .created()
          * .currency()
          * .events()
-         * .externalId()
-         * .externalResource()
+         * .family()
          * .fromFinancialAccountToken()
          * .pendingAmount()
          * .result()
          * .settledAmount()
          * .status()
          * .toFinancialAccountToken()
-         * .transactionSeries()
          * .updated()
          * ```
          *
@@ -727,16 +745,17 @@ private constructor(
                 checkRequired("created", created),
                 checkRequired("currency", currency),
                 checkRequired("events", events).map { it.toImmutable() },
-                checkRequired("externalId", externalId),
-                checkRequired("externalResource", externalResource),
+                checkRequired("family", family),
                 checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
                 checkRequired("pendingAmount", pendingAmount),
                 checkRequired("result", result),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("status", status),
                 checkRequired("toFinancialAccountToken", toFinancialAccountToken),
-                checkRequired("transactionSeries", transactionSeries),
                 checkRequired("updated", updated),
+                externalId,
+                externalResource,
+                transactionSeries,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -753,16 +772,17 @@ private constructor(
         created()
         currency()
         events().forEach { it.validate() }
-        externalId()
-        externalResource().ifPresent { it.validate() }
+        family().validate()
         fromFinancialAccountToken()
         pendingAmount()
         result().validate()
         settledAmount()
         status().validate()
         toFinancialAccountToken()
-        transactionSeries().ifPresent { it.validate() }
         updated()
+        externalId()
+        externalResource().ifPresent { it.validate() }
+        transactionSeries().ifPresent { it.validate() }
         validated = true
     }
 
@@ -786,16 +806,17 @@ private constructor(
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (currency.asKnown().isPresent) 1 else 0) +
             (events.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-            (if (externalId.asKnown().isPresent) 1 else 0) +
-            (externalResource.asKnown().getOrNull()?.validity() ?: 0) +
+            (family.asKnown().getOrNull()?.validity() ?: 0) +
             (if (fromFinancialAccountToken.asKnown().isPresent) 1 else 0) +
             (if (pendingAmount.asKnown().isPresent) 1 else 0) +
             (result.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (toFinancialAccountToken.asKnown().isPresent) 1 else 0) +
-            (transactionSeries.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (updated.asKnown().isPresent) 1 else 0)
+            (if (updated.asKnown().isPresent) 1 else 0) +
+            (if (externalId.asKnown().isPresent) 1 else 0) +
+            (externalResource.asKnown().getOrNull()?.validity() ?: 0) +
+            (transactionSeries.asKnown().getOrNull()?.validity() ?: 0)
 
     class BookTransferCategory
     @JsonCreator
@@ -2033,6 +2054,126 @@ private constructor(
             "BookTransferEvent{token=$token, amount=$amount, created=$created, detailedResults=$detailedResults, memo=$memo, result=$result, subtype=$subtype, type=$type, additionalProperties=$additionalProperties}"
     }
 
+    /** TRANSFER - Book Transfer Transaction */
+    class Family @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val TRANSFER = of("TRANSFER")
+
+            @JvmStatic fun of(value: String) = Family(JsonField.of(value))
+        }
+
+        /** An enum containing [Family]'s known values. */
+        enum class Known {
+            TRANSFER
+        }
+
+        /**
+         * An enum containing [Family]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Family] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            TRANSFER,
+            /** An enum member indicating that [Family] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                TRANSFER -> Value.TRANSFER
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                TRANSFER -> Known.TRANSFER
+                else -> throw LithicInvalidDataException("Unknown Family: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Family = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Family && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     class TransactionResult @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -2162,13 +2303,9 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /**
-     * Status types:
-     * * `DECLINED` - The transfer was declined.
-     * * `REVERSED` - The transfer was reversed
-     * * `SETTLED` - The transfer is completed.
-     */
-    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    /** The status of the transaction */
+    class TransactionStatus @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -2182,36 +2319,47 @@ private constructor(
 
         companion object {
 
+            @JvmField val PENDING = of("PENDING")
+
+            @JvmField val SETTLED = of("SETTLED")
+
             @JvmField val DECLINED = of("DECLINED")
 
             @JvmField val REVERSED = of("REVERSED")
 
-            @JvmField val SETTLED = of("SETTLED")
+            @JvmField val CANCELED = of("CANCELED")
 
-            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+            @JvmStatic fun of(value: String) = TransactionStatus(JsonField.of(value))
         }
 
-        /** An enum containing [Status]'s known values. */
+        /** An enum containing [TransactionStatus]'s known values. */
         enum class Known {
+            PENDING,
+            SETTLED,
             DECLINED,
             REVERSED,
-            SETTLED,
+            CANCELED,
         }
 
         /**
-         * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [TransactionStatus]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Status] can contain an unknown value in a couple of cases:
+         * An instance of [TransactionStatus] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            PENDING,
+            SETTLED,
             DECLINED,
             REVERSED,
-            SETTLED,
-            /** An enum member indicating that [Status] was instantiated with an unknown value. */
+            CANCELED,
+            /**
+             * An enum member indicating that [TransactionStatus] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -2224,9 +2372,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                PENDING -> Value.PENDING
+                SETTLED -> Value.SETTLED
                 DECLINED -> Value.DECLINED
                 REVERSED -> Value.REVERSED
-                SETTLED -> Value.SETTLED
+                CANCELED -> Value.CANCELED
                 else -> Value._UNKNOWN
             }
 
@@ -2241,10 +2391,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                PENDING -> Known.PENDING
+                SETTLED -> Known.SETTLED
                 DECLINED -> Known.DECLINED
                 REVERSED -> Known.REVERSED
-                SETTLED -> Known.SETTLED
-                else -> throw LithicInvalidDataException("Unknown Status: $value")
+                CANCELED -> Known.CANCELED
+                else -> throw LithicInvalidDataException("Unknown TransactionStatus: $value")
             }
 
         /**
@@ -2261,7 +2413,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Status = apply {
+        fun validate(): TransactionStatus = apply {
             if (validated) {
                 return@apply
             }
@@ -2291,7 +2443,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && value == other.value
+            return other is TransactionStatus && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2299,7 +2451,7 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** A series of transactions that are grouped together. */
+    /** A series of transactions that are grouped together */
     class TransactionSeries
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
@@ -2577,16 +2729,17 @@ private constructor(
             created == other.created &&
             currency == other.currency &&
             events == other.events &&
-            externalId == other.externalId &&
-            externalResource == other.externalResource &&
+            family == other.family &&
             fromFinancialAccountToken == other.fromFinancialAccountToken &&
             pendingAmount == other.pendingAmount &&
             result == other.result &&
             settledAmount == other.settledAmount &&
             status == other.status &&
             toFinancialAccountToken == other.toFinancialAccountToken &&
-            transactionSeries == other.transactionSeries &&
             updated == other.updated &&
+            externalId == other.externalId &&
+            externalResource == other.externalResource &&
+            transactionSeries == other.transactionSeries &&
             additionalProperties == other.additionalProperties
     }
 
@@ -2597,16 +2750,17 @@ private constructor(
             created,
             currency,
             events,
-            externalId,
-            externalResource,
+            family,
             fromFinancialAccountToken,
             pendingAmount,
             result,
             settledAmount,
             status,
             toFinancialAccountToken,
-            transactionSeries,
             updated,
+            externalId,
+            externalResource,
+            transactionSeries,
             additionalProperties,
         )
     }
@@ -2614,5 +2768,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BookTransferResponse{token=$token, category=$category, created=$created, currency=$currency, events=$events, externalId=$externalId, externalResource=$externalResource, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, transactionSeries=$transactionSeries, updated=$updated, additionalProperties=$additionalProperties}"
+        "BookTransferResponse{token=$token, category=$category, created=$created, currency=$currency, events=$events, family=$family, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, updated=$updated, externalId=$externalId, externalResource=$externalResource, transactionSeries=$transactionSeries, additionalProperties=$additionalProperties}"
 }

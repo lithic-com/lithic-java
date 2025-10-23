@@ -19,7 +19,6 @@ internal class ManagementOperationListPageResponseTest {
                     ManagementOperationTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
                         .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .category(
@@ -62,6 +61,7 @@ internal class ManagementOperationListPageResponseTest {
                                 .externalResourceSubToken("external_resource_sub_token")
                                 .build()
                         )
+                        .family(ManagementOperationTransaction.Family.MANAGEMENT_OPERATION)
                         .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .result(ManagementOperationTransaction.TransactionResult.APPROVED)
@@ -86,7 +86,6 @@ internal class ManagementOperationListPageResponseTest {
                 ManagementOperationTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
                     .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .category(
@@ -126,6 +125,7 @@ internal class ManagementOperationListPageResponseTest {
                             .externalResourceSubToken("external_resource_sub_token")
                             .build()
                     )
+                    .family(ManagementOperationTransaction.Family.MANAGEMENT_OPERATION)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .pendingAmount(0L)
                     .result(ManagementOperationTransaction.TransactionResult.APPROVED)
@@ -152,7 +152,6 @@ internal class ManagementOperationListPageResponseTest {
                     ManagementOperationTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
                         .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .category(
@@ -195,6 +194,7 @@ internal class ManagementOperationListPageResponseTest {
                                 .externalResourceSubToken("external_resource_sub_token")
                                 .build()
                         )
+                        .family(ManagementOperationTransaction.Family.MANAGEMENT_OPERATION)
                         .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .result(ManagementOperationTransaction.TransactionResult.APPROVED)

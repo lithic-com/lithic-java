@@ -9603,6 +9603,10 @@ private constructor(
 
                 @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
 
+                @JvmField val CARDHOLDER_CHALLENGED = of("CARDHOLDER_CHALLENGED")
+
+                @JvmField val CARDHOLDER_CHALLENGE_FAILED = of("CARDHOLDER_CHALLENGE_FAILED")
+
                 @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
             }
 
@@ -9662,6 +9666,8 @@ private constructor(
                 TRANSACTION_PREVIOUSLY_COMPLETED,
                 UNAUTHORIZED_MERCHANT,
                 VEHICLE_NUMBER_INVALID,
+                CARDHOLDER_CHALLENGED,
+                CARDHOLDER_CHALLENGE_FAILED,
             }
 
             /**
@@ -9728,6 +9734,8 @@ private constructor(
                 TRANSACTION_PREVIOUSLY_COMPLETED,
                 UNAUTHORIZED_MERCHANT,
                 VEHICLE_NUMBER_INVALID,
+                CARDHOLDER_CHALLENGED,
+                CARDHOLDER_CHALLENGE_FAILED,
                 /**
                  * An enum member indicating that [DetailedResult] was instantiated with an unknown
                  * value.
@@ -9803,6 +9811,8 @@ private constructor(
                     TRANSACTION_PREVIOUSLY_COMPLETED -> Value.TRANSACTION_PREVIOUSLY_COMPLETED
                     UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
                     VEHICLE_NUMBER_INVALID -> Value.VEHICLE_NUMBER_INVALID
+                    CARDHOLDER_CHALLENGED -> Value.CARDHOLDER_CHALLENGED
+                    CARDHOLDER_CHALLENGE_FAILED -> Value.CARDHOLDER_CHALLENGE_FAILED
                     else -> Value._UNKNOWN
                 }
 
@@ -9876,6 +9886,8 @@ private constructor(
                     TRANSACTION_PREVIOUSLY_COMPLETED -> Known.TRANSACTION_PREVIOUSLY_COMPLETED
                     UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
                     VEHICLE_NUMBER_INVALID -> Known.VEHICLE_NUMBER_INVALID
+                    CARDHOLDER_CHALLENGED -> Known.CARDHOLDER_CHALLENGED
+                    CARDHOLDER_CHALLENGE_FAILED -> Known.CARDHOLDER_CHALLENGE_FAILED
                     else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
                 }
 
@@ -12218,6 +12230,10 @@ private constructor(
 
                     @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
 
+                    @JvmField val CARDHOLDER_CHALLENGED = of("CARDHOLDER_CHALLENGED")
+
+                    @JvmField val CARDHOLDER_CHALLENGE_FAILED = of("CARDHOLDER_CHALLENGE_FAILED")
+
                     @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
                 }
 
@@ -12277,6 +12293,8 @@ private constructor(
                     TRANSACTION_PREVIOUSLY_COMPLETED,
                     UNAUTHORIZED_MERCHANT,
                     VEHICLE_NUMBER_INVALID,
+                    CARDHOLDER_CHALLENGED,
+                    CARDHOLDER_CHALLENGE_FAILED,
                 }
 
                 /**
@@ -12345,6 +12363,8 @@ private constructor(
                     TRANSACTION_PREVIOUSLY_COMPLETED,
                     UNAUTHORIZED_MERCHANT,
                     VEHICLE_NUMBER_INVALID,
+                    CARDHOLDER_CHALLENGED,
+                    CARDHOLDER_CHALLENGE_FAILED,
                     /**
                      * An enum member indicating that [DetailedResult] was instantiated with an
                      * unknown value.
@@ -12423,6 +12443,8 @@ private constructor(
                         TRANSACTION_PREVIOUSLY_COMPLETED -> Value.TRANSACTION_PREVIOUSLY_COMPLETED
                         UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
                         VEHICLE_NUMBER_INVALID -> Value.VEHICLE_NUMBER_INVALID
+                        CARDHOLDER_CHALLENGED -> Value.CARDHOLDER_CHALLENGED
+                        CARDHOLDER_CHALLENGE_FAILED -> Value.CARDHOLDER_CHALLENGE_FAILED
                         else -> Value._UNKNOWN
                     }
 
@@ -12499,6 +12521,8 @@ private constructor(
                         TRANSACTION_PREVIOUSLY_COMPLETED -> Known.TRANSACTION_PREVIOUSLY_COMPLETED
                         UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
                         VEHICLE_NUMBER_INVALID -> Known.VEHICLE_NUMBER_INVALID
+                        CARDHOLDER_CHALLENGED -> Known.CARDHOLDER_CHALLENGED
+                        CARDHOLDER_CHALLENGE_FAILED -> Known.CARDHOLDER_CHALLENGE_FAILED
                         else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
                     }
 

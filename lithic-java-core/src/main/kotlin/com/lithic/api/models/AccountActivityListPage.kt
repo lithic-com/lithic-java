@@ -46,36 +46,29 @@ private constructor(
                         .first()
                         .accept(
                             object : AccountActivityListResponse.Visitor<Optional<String>> {
-                                override fun visitFinancialTransaction(
-                                    financialTransaction:
-                                        AccountActivityListResponse.FinancialTransaction
-                                ): Optional<String> =
-                                    financialTransaction._token().getOptional("token")
+                                override fun visitInternal(
+                                    internal_: AccountActivityListResponse.FinancialTransaction
+                                ): Optional<String> = internal_._token().getOptional("token")
 
-                                override fun visitBookTransferTransaction(
-                                    bookTransferTransaction:
-                                        AccountActivityListResponse.BookTransferTransaction
-                                ): Optional<String> =
-                                    bookTransferTransaction._token().getOptional("token")
+                                override fun visitTransfer(
+                                    transfer: BookTransferResponse
+                                ): Optional<String> = transfer._token().getOptional("token")
 
-                                override fun visitCardTransaction(
-                                    cardTransaction: AccountActivityListResponse.CardTransaction
-                                ): Optional<String> = cardTransaction._token().getOptional("token")
+                                override fun visitCard(
+                                    card: AccountActivityListResponse.CardTransaction
+                                ): Optional<String> = card._token().getOptional("token")
 
-                                override fun visitPaymentTransaction(
-                                    paymentTransaction:
-                                        AccountActivityListResponse.PaymentTransaction
-                                ): Optional<String> =
-                                    paymentTransaction._token().getOptional("token")
+                                override fun visitPayment(payment: Payment): Optional<String> =
+                                    payment._token().getOptional("token")
 
                                 override fun visitExternalPayment(
                                     externalPayment: ExternalPayment
                                 ): Optional<String> = externalPayment._token().getOptional("token")
 
-                                override fun visitManagementOperationTransaction(
-                                    managementOperationTransaction: ManagementOperationTransaction
+                                override fun visitManagementOperation(
+                                    managementOperation: ManagementOperationTransaction
                                 ): Optional<String> =
-                                    managementOperationTransaction._token().getOptional("token")
+                                    managementOperation._token().getOptional("token")
                             }
                         )
                 )
@@ -88,36 +81,29 @@ private constructor(
                         .last()
                         .accept(
                             object : AccountActivityListResponse.Visitor<Optional<String>> {
-                                override fun visitFinancialTransaction(
-                                    financialTransaction:
-                                        AccountActivityListResponse.FinancialTransaction
-                                ): Optional<String> =
-                                    financialTransaction._token().getOptional("token")
+                                override fun visitInternal(
+                                    internal_: AccountActivityListResponse.FinancialTransaction
+                                ): Optional<String> = internal_._token().getOptional("token")
 
-                                override fun visitBookTransferTransaction(
-                                    bookTransferTransaction:
-                                        AccountActivityListResponse.BookTransferTransaction
-                                ): Optional<String> =
-                                    bookTransferTransaction._token().getOptional("token")
+                                override fun visitTransfer(
+                                    transfer: BookTransferResponse
+                                ): Optional<String> = transfer._token().getOptional("token")
 
-                                override fun visitCardTransaction(
-                                    cardTransaction: AccountActivityListResponse.CardTransaction
-                                ): Optional<String> = cardTransaction._token().getOptional("token")
+                                override fun visitCard(
+                                    card: AccountActivityListResponse.CardTransaction
+                                ): Optional<String> = card._token().getOptional("token")
 
-                                override fun visitPaymentTransaction(
-                                    paymentTransaction:
-                                        AccountActivityListResponse.PaymentTransaction
-                                ): Optional<String> =
-                                    paymentTransaction._token().getOptional("token")
+                                override fun visitPayment(payment: Payment): Optional<String> =
+                                    payment._token().getOptional("token")
 
                                 override fun visitExternalPayment(
                                     externalPayment: ExternalPayment
                                 ): Optional<String> = externalPayment._token().getOptional("token")
 
-                                override fun visitManagementOperationTransaction(
-                                    managementOperationTransaction: ManagementOperationTransaction
+                                override fun visitManagementOperation(
+                                    managementOperation: ManagementOperationTransaction
                                 ): Optional<String> =
-                                    managementOperationTransaction._token().getOptional("token")
+                                    managementOperation._token().getOptional("token")
                             }
                         )
                 )

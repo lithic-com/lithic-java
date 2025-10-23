@@ -22,6 +22,9 @@ internal class AuthenticationRetrieveResponseTest {
                 .cardholder(
                     AuthenticationRetrieveResponse.Cardholder.builder()
                         .addressMatch(true)
+                        .addressOnFileMatch(
+                            AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
+                        )
                         .billingAddress(
                             AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                                 .address1("address1")
@@ -175,6 +178,9 @@ internal class AuthenticationRetrieveResponseTest {
             .isEqualTo(
                 AuthenticationRetrieveResponse.Cardholder.builder()
                     .addressMatch(true)
+                    .addressOnFileMatch(
+                        AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
+                    )
                     .billingAddress(
                         AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                             .address1("address1")
@@ -327,6 +333,9 @@ internal class AuthenticationRetrieveResponseTest {
                 .cardholder(
                     AuthenticationRetrieveResponse.Cardholder.builder()
                         .addressMatch(true)
+                        .addressOnFileMatch(
+                            AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
+                        )
                         .billingAddress(
                             AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
                                 .address1("address1")

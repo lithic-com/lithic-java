@@ -25,7 +25,6 @@ import com.lithic.api.models.AuthRuleV2ListPageAsync
 import com.lithic.api.models.AuthRuleV2ListPageResponse
 import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
-import com.lithic.api.models.AuthRuleV2ReportParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
@@ -34,7 +33,6 @@ import com.lithic.api.models.V2ApplyResponse
 import com.lithic.api.models.V2CreateResponse
 import com.lithic.api.models.V2DraftResponse
 import com.lithic.api.models.V2PromoteResponse
-import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
 import com.lithic.api.models.V2RetrieveReportResponse
 import com.lithic.api.models.V2RetrieveResponse
@@ -117,14 +115,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     ): CompletableFuture<V2PromoteResponse> =
         // post /v2/auth_rules/{auth_rule_token}/promote
         withRawResponse().promote(params, requestOptions).thenApply { it.parse() }
-
-    @Deprecated("deprecated")
-    override fun report(
-        params: AuthRuleV2ReportParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<V2ReportResponse> =
-        // post /v2/auth_rules/{auth_rule_token}/report
-        withRawResponse().report(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveFeatures(
         params: AuthRuleV2RetrieveFeaturesParams,
@@ -416,41 +406,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     errorHandler.handle(response).parseable {
                         response
                             .use { promoteHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
-        private val reportHandler: Handler<V2ReportResponse> =
-            jsonHandler<V2ReportResponse>(clientOptions.jsonMapper)
-
-        @Deprecated("deprecated")
-        override fun report(
-            params: AuthRuleV2ReportParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2ReportResponse>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v2", "auth_rules", params._pathParam(0), "report")
-                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { reportHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

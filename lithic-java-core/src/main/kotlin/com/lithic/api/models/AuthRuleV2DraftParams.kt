@@ -1213,6 +1213,9 @@ private constructor(
                  *   `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
                  * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction indicates
                  *   the source of the token. Valid values are `CARDHOLDER`, `MERCHANT`, `UNKNOWN`.
+                 * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address
+                 *   data with the cardholder KYC data if it exists. Valid values are `MATCH`,
+                 *   `MATCH_ADDRESS_ONLY`, `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
@@ -1349,6 +1352,9 @@ private constructor(
                      * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
                      *   indicates the source of the token. Valid values are `CARDHOLDER`,
                      *   `MERCHANT`, `UNKNOWN`.
+                     * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address
+                     *   data with the cardholder KYC data if it exists. Valid values are `MATCH`,
+                     *   `MATCH_ADDRESS_ONLY`, `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
                      */
                     fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -1514,6 +1520,9 @@ private constructor(
                  *   `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
                  * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction indicates
                  *   the source of the token. Valid values are `CARDHOLDER`, `MERCHANT`, `UNKNOWN`.
+                 * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address
+                 *   data with the cardholder KYC data if it exists. Valid values are `MATCH`,
+                 *   `MATCH_ADDRESS_ONLY`, `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
                  */
                 class Attribute
                 @JsonCreator
@@ -1568,6 +1577,8 @@ private constructor(
 
                         @JvmField val TRANSACTION_INITIATOR = of("TRANSACTION_INITIATOR")
 
+                        @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
+
                         @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
                     }
 
@@ -1591,6 +1602,7 @@ private constructor(
                         PIN_STATUS,
                         WALLET_TYPE,
                         TRANSACTION_INITIATOR,
+                        ADDRESS_MATCH,
                     }
 
                     /**
@@ -1622,6 +1634,7 @@ private constructor(
                         PIN_STATUS,
                         WALLET_TYPE,
                         TRANSACTION_INITIATOR,
+                        ADDRESS_MATCH,
                         /**
                          * An enum member indicating that [Attribute] was instantiated with an
                          * unknown value.
@@ -1656,6 +1669,7 @@ private constructor(
                             PIN_STATUS -> Value.PIN_STATUS
                             WALLET_TYPE -> Value.WALLET_TYPE
                             TRANSACTION_INITIATOR -> Value.TRANSACTION_INITIATOR
+                            ADDRESS_MATCH -> Value.ADDRESS_MATCH
                             else -> Value._UNKNOWN
                         }
 
@@ -1688,6 +1702,7 @@ private constructor(
                             PIN_STATUS -> Known.PIN_STATUS
                             WALLET_TYPE -> Known.WALLET_TYPE
                             TRANSACTION_INITIATOR -> Known.TRANSACTION_INITIATOR
+                            ADDRESS_MATCH -> Known.ADDRESS_MATCH
                             else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                         }
 
