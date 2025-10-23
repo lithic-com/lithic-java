@@ -21,7 +21,6 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
-import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
@@ -95,13 +94,6 @@ private constructor(
                     bankVerifiedCreateBankAccountApiRequest
                 )
             )
-
-        /**
-         * Alias for calling [body] with
-         * `Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)`.
-         */
-        fun body(plaidCreateBankAccountApiRequest: Body.PlaidCreateBankAccountApiRequest) =
-            body(Body.ofPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest))
 
         /** Alias for calling [body] with `Body.ofExternallyVerified(externallyVerified)`. */
         fun body(externallyVerified: Body.ExternallyVerifiedCreateBankAccountApiRequest) =
@@ -235,7 +227,6 @@ private constructor(
         private val bankVerifiedCreateBankAccountApiRequest:
             BankVerifiedCreateBankAccountApiRequest? =
             null,
-        private val plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest? = null,
         private val externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest? = null,
         private val unverified: UnverifiedCreateBankAccountApiRequest? = null,
         private val _json: JsonValue? = null,
@@ -244,9 +235,6 @@ private constructor(
         fun bankVerifiedCreateBankAccountApiRequest():
             Optional<BankVerifiedCreateBankAccountApiRequest> =
             Optional.ofNullable(bankVerifiedCreateBankAccountApiRequest)
-
-        fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
-            Optional.ofNullable(plaidCreateBankAccountApiRequest)
 
         fun externallyVerified(): Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
             Optional.ofNullable(externallyVerified)
@@ -257,8 +245,6 @@ private constructor(
         fun isBankVerifiedCreateBankAccountApiRequest(): Boolean =
             bankVerifiedCreateBankAccountApiRequest != null
 
-        fun isPlaidCreateBankAccountApiRequest(): Boolean = plaidCreateBankAccountApiRequest != null
-
         fun isExternallyVerified(): Boolean = externallyVerified != null
 
         fun isUnverified(): Boolean = unverified != null
@@ -267,9 +253,6 @@ private constructor(
             bankVerifiedCreateBankAccountApiRequest.getOrThrow(
                 "bankVerifiedCreateBankAccountApiRequest"
             )
-
-        fun asPlaidCreateBankAccountApiRequest(): PlaidCreateBankAccountApiRequest =
-            plaidCreateBankAccountApiRequest.getOrThrow("plaidCreateBankAccountApiRequest")
 
         fun asExternallyVerified(): ExternallyVerifiedCreateBankAccountApiRequest =
             externallyVerified.getOrThrow("externallyVerified")
@@ -285,8 +268,6 @@ private constructor(
                     visitor.visitBankVerifiedCreateBankAccountApiRequest(
                         bankVerifiedCreateBankAccountApiRequest
                     )
-                plaidCreateBankAccountApiRequest != null ->
-                    visitor.visitPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)
                 externallyVerified != null -> visitor.visitExternallyVerified(externallyVerified)
                 unverified != null -> visitor.visitUnverified(unverified)
                 else -> visitor.unknown(_json)
@@ -306,12 +287,6 @@ private constructor(
                             BankVerifiedCreateBankAccountApiRequest
                     ) {
                         bankVerifiedCreateBankAccountApiRequest.validate()
-                    }
-
-                    override fun visitPlaidCreateBankAccountApiRequest(
-                        plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
-                    ) {
-                        plaidCreateBankAccountApiRequest.validate()
                     }
 
                     override fun visitExternallyVerified(
@@ -353,10 +328,6 @@ private constructor(
                             BankVerifiedCreateBankAccountApiRequest
                     ) = bankVerifiedCreateBankAccountApiRequest.validity()
 
-                    override fun visitPlaidCreateBankAccountApiRequest(
-                        plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
-                    ) = plaidCreateBankAccountApiRequest.validity()
-
                     override fun visitExternallyVerified(
                         externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
                     ) = externallyVerified.validity()
@@ -377,25 +348,17 @@ private constructor(
             return other is Body &&
                 bankVerifiedCreateBankAccountApiRequest ==
                     other.bankVerifiedCreateBankAccountApiRequest &&
-                plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest &&
                 externallyVerified == other.externallyVerified &&
                 unverified == other.unverified
         }
 
         override fun hashCode(): Int =
-            Objects.hash(
-                bankVerifiedCreateBankAccountApiRequest,
-                plaidCreateBankAccountApiRequest,
-                externallyVerified,
-                unverified,
-            )
+            Objects.hash(bankVerifiedCreateBankAccountApiRequest, externallyVerified, unverified)
 
         override fun toString(): String =
             when {
                 bankVerifiedCreateBankAccountApiRequest != null ->
                     "Body{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest}"
-                plaidCreateBankAccountApiRequest != null ->
-                    "Body{plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest}"
                 externallyVerified != null -> "Body{externallyVerified=$externallyVerified}"
                 unverified != null -> "Body{unverified=$unverified}"
                 _json != null -> "Body{_unknown=$_json}"
@@ -414,11 +377,6 @@ private constructor(
                 )
 
             @JvmStatic
-            fun ofPlaidCreateBankAccountApiRequest(
-                plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
-            ) = Body(plaidCreateBankAccountApiRequest = plaidCreateBankAccountApiRequest)
-
-            @JvmStatic
             fun ofExternallyVerified(
                 externallyVerified: ExternallyVerifiedCreateBankAccountApiRequest
             ) = Body(externallyVerified = externallyVerified)
@@ -433,10 +391,6 @@ private constructor(
 
             fun visitBankVerifiedCreateBankAccountApiRequest(
                 bankVerifiedCreateBankAccountApiRequest: BankVerifiedCreateBankAccountApiRequest
-            ): T
-
-            fun visitPlaidCreateBankAccountApiRequest(
-                plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
             ): T
 
             fun visitExternallyVerified(
@@ -484,31 +438,12 @@ private constructor(
                     }
                 }
 
-                val bestMatches =
-                    sequenceOf(
-                            tryDeserialize(
-                                    node,
-                                    jacksonTypeRef<BankVerifiedCreateBankAccountApiRequest>(),
-                                )
-                                ?.let {
-                                    Body(bankVerifiedCreateBankAccountApiRequest = it, _json = json)
-                                },
-                            tryDeserialize(node, jacksonTypeRef<PlaidCreateBankAccountApiRequest>())
-                                ?.let { Body(plaidCreateBankAccountApiRequest = it, _json = json) },
-                        )
-                        .filterNotNull()
-                        .allMaxBy { it.validity() }
-                        .toList()
-                return when (bestMatches.size) {
-                    // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from boolean).
-                    0 -> Body(_json = json)
-                    1 -> bestMatches.single()
-                    // If there's more than one match with the highest validity, then use the first
-                    // completely valid match, or simply the first match if none are completely
-                    // valid.
-                    else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
-                }
+                return tryDeserialize(
+                        node,
+                        jacksonTypeRef<BankVerifiedCreateBankAccountApiRequest>(),
+                    )
+                    ?.let { Body(bankVerifiedCreateBankAccountApiRequest = it, _json = json) }
+                    ?: Body(_json = json)
             }
         }
 
@@ -522,8 +457,6 @@ private constructor(
                 when {
                     value.bankVerifiedCreateBankAccountApiRequest != null ->
                         generator.writeObject(value.bankVerifiedCreateBankAccountApiRequest)
-                    value.plaidCreateBankAccountApiRequest != null ->
-                        generator.writeObject(value.plaidCreateBankAccountApiRequest)
                     value.externallyVerified != null ->
                         generator.writeObject(value.externallyVerified)
                     value.unverified != null -> generator.writeObject(value.unverified)
@@ -1564,548 +1497,6 @@ private constructor(
 
             override fun toString() =
                 "BankVerifiedCreateBankAccountApiRequest{accountNumber=$accountNumber, country=$country, currency=$currency, financialAccountToken=$financialAccountToken, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, type=$type, verificationMethod=$verificationMethod, accountToken=$accountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, userDefinedId=$userDefinedId, verificationEnforcement=$verificationEnforcement, additionalProperties=$additionalProperties}"
-        }
-
-        class PlaidCreateBankAccountApiRequest
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val owner: JsonField<String>,
-            private val ownerType: JsonField<OwnerType>,
-            private val processorToken: JsonField<String>,
-            private val verificationMethod: JsonField<VerificationMethod>,
-            private val accountToken: JsonField<String>,
-            private val companyId: JsonField<String>,
-            private val dob: JsonField<LocalDate>,
-            private val doingBusinessAs: JsonField<String>,
-            private val userDefinedId: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("owner") @ExcludeMissing owner: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("owner_type")
-                @ExcludeMissing
-                ownerType: JsonField<OwnerType> = JsonMissing.of(),
-                @JsonProperty("processor_token")
-                @ExcludeMissing
-                processorToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("verification_method")
-                @ExcludeMissing
-                verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
-                @JsonProperty("account_token")
-                @ExcludeMissing
-                accountToken: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("company_id")
-                @ExcludeMissing
-                companyId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("dob") @ExcludeMissing dob: JsonField<LocalDate> = JsonMissing.of(),
-                @JsonProperty("doing_business_as")
-                @ExcludeMissing
-                doingBusinessAs: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("user_defined_id")
-                @ExcludeMissing
-                userDefinedId: JsonField<String> = JsonMissing.of(),
-            ) : this(
-                owner,
-                ownerType,
-                processorToken,
-                verificationMethod,
-                accountToken,
-                companyId,
-                dob,
-                doingBusinessAs,
-                userDefinedId,
-                mutableMapOf(),
-            )
-
-            /**
-             * Legal Name of the business or individual who owns the external account. This will
-             * appear in statements
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun owner(): String = owner.getRequired("owner")
-
-            /**
-             * Owner Type
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun ownerType(): OwnerType = ownerType.getRequired("owner_type")
-
-            /**
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun processorToken(): String = processorToken.getRequired("processor_token")
-
-            /**
-             * Verification Method
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun verificationMethod(): VerificationMethod =
-                verificationMethod.getRequired("verification_method")
-
-            /**
-             * Indicates which Lithic account the external account is associated with. For external
-             * accounts that are associated with the program, account_token field returned will be
-             * null
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
-
-            /**
-             * Optional field that helps identify bank accounts in receipts
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun companyId(): Optional<String> = companyId.getOptional("company_id")
-
-            /**
-             * Date of Birth of the Individual that owns the external bank account
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun dob(): Optional<LocalDate> = dob.getOptional("dob")
-
-            /**
-             * Doing Business As
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun doingBusinessAs(): Optional<String> =
-                doingBusinessAs.getOptional("doing_business_as")
-
-            /**
-             * User Defined ID
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun userDefinedId(): Optional<String> = userDefinedId.getOptional("user_defined_id")
-
-            /**
-             * Returns the raw JSON value of [owner].
-             *
-             * Unlike [owner], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("owner") @ExcludeMissing fun _owner(): JsonField<String> = owner
-
-            /**
-             * Returns the raw JSON value of [ownerType].
-             *
-             * Unlike [ownerType], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("owner_type")
-            @ExcludeMissing
-            fun _ownerType(): JsonField<OwnerType> = ownerType
-
-            /**
-             * Returns the raw JSON value of [processorToken].
-             *
-             * Unlike [processorToken], this method doesn't throw if the JSON field has an
-             * unexpected type.
-             */
-            @JsonProperty("processor_token")
-            @ExcludeMissing
-            fun _processorToken(): JsonField<String> = processorToken
-
-            /**
-             * Returns the raw JSON value of [verificationMethod].
-             *
-             * Unlike [verificationMethod], this method doesn't throw if the JSON field has an
-             * unexpected type.
-             */
-            @JsonProperty("verification_method")
-            @ExcludeMissing
-            fun _verificationMethod(): JsonField<VerificationMethod> = verificationMethod
-
-            /**
-             * Returns the raw JSON value of [accountToken].
-             *
-             * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("account_token")
-            @ExcludeMissing
-            fun _accountToken(): JsonField<String> = accountToken
-
-            /**
-             * Returns the raw JSON value of [companyId].
-             *
-             * Unlike [companyId], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("company_id")
-            @ExcludeMissing
-            fun _companyId(): JsonField<String> = companyId
-
-            /**
-             * Returns the raw JSON value of [dob].
-             *
-             * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<LocalDate> = dob
-
-            /**
-             * Returns the raw JSON value of [doingBusinessAs].
-             *
-             * Unlike [doingBusinessAs], this method doesn't throw if the JSON field has an
-             * unexpected type.
-             */
-            @JsonProperty("doing_business_as")
-            @ExcludeMissing
-            fun _doingBusinessAs(): JsonField<String> = doingBusinessAs
-
-            /**
-             * Returns the raw JSON value of [userDefinedId].
-             *
-             * Unlike [userDefinedId], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("user_defined_id")
-            @ExcludeMissing
-            fun _userDefinedId(): JsonField<String> = userDefinedId
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of
-                 * [PlaidCreateBankAccountApiRequest].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .owner()
-                 * .ownerType()
-                 * .processorToken()
-                 * .verificationMethod()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [PlaidCreateBankAccountApiRequest]. */
-            class Builder internal constructor() {
-
-                private var owner: JsonField<String>? = null
-                private var ownerType: JsonField<OwnerType>? = null
-                private var processorToken: JsonField<String>? = null
-                private var verificationMethod: JsonField<VerificationMethod>? = null
-                private var accountToken: JsonField<String> = JsonMissing.of()
-                private var companyId: JsonField<String> = JsonMissing.of()
-                private var dob: JsonField<LocalDate> = JsonMissing.of()
-                private var doingBusinessAs: JsonField<String> = JsonMissing.of()
-                private var userDefinedId: JsonField<String> = JsonMissing.of()
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(
-                    plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
-                ) = apply {
-                    owner = plaidCreateBankAccountApiRequest.owner
-                    ownerType = plaidCreateBankAccountApiRequest.ownerType
-                    processorToken = plaidCreateBankAccountApiRequest.processorToken
-                    verificationMethod = plaidCreateBankAccountApiRequest.verificationMethod
-                    accountToken = plaidCreateBankAccountApiRequest.accountToken
-                    companyId = plaidCreateBankAccountApiRequest.companyId
-                    dob = plaidCreateBankAccountApiRequest.dob
-                    doingBusinessAs = plaidCreateBankAccountApiRequest.doingBusinessAs
-                    userDefinedId = plaidCreateBankAccountApiRequest.userDefinedId
-                    additionalProperties =
-                        plaidCreateBankAccountApiRequest.additionalProperties.toMutableMap()
-                }
-
-                /**
-                 * Legal Name of the business or individual who owns the external account. This will
-                 * appear in statements
-                 */
-                fun owner(owner: String) = owner(JsonField.of(owner))
-
-                /**
-                 * Sets [Builder.owner] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.owner] with a well-typed [String] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun owner(owner: JsonField<String>) = apply { this.owner = owner }
-
-                /** Owner Type */
-                fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
-
-                /**
-                 * Sets [Builder.ownerType] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.ownerType] with a well-typed [OwnerType] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun ownerType(ownerType: JsonField<OwnerType>) = apply {
-                    this.ownerType = ownerType
-                }
-
-                fun processorToken(processorToken: String) =
-                    processorToken(JsonField.of(processorToken))
-
-                /**
-                 * Sets [Builder.processorToken] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.processorToken] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun processorToken(processorToken: JsonField<String>) = apply {
-                    this.processorToken = processorToken
-                }
-
-                /** Verification Method */
-                fun verificationMethod(verificationMethod: VerificationMethod) =
-                    verificationMethod(JsonField.of(verificationMethod))
-
-                /**
-                 * Sets [Builder.verificationMethod] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.verificationMethod] with a well-typed
-                 * [VerificationMethod] value instead. This method is primarily for setting the
-                 * field to an undocumented or not yet supported value.
-                 */
-                fun verificationMethod(verificationMethod: JsonField<VerificationMethod>) = apply {
-                    this.verificationMethod = verificationMethod
-                }
-
-                /**
-                 * Indicates which Lithic account the external account is associated with. For
-                 * external accounts that are associated with the program, account_token field
-                 * returned will be null
-                 */
-                fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
-
-                /**
-                 * Sets [Builder.accountToken] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.accountToken] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun accountToken(accountToken: JsonField<String>) = apply {
-                    this.accountToken = accountToken
-                }
-
-                /** Optional field that helps identify bank accounts in receipts */
-                fun companyId(companyId: String) = companyId(JsonField.of(companyId))
-
-                /**
-                 * Sets [Builder.companyId] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.companyId] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
-
-                /** Date of Birth of the Individual that owns the external bank account */
-                fun dob(dob: LocalDate) = dob(JsonField.of(dob))
-
-                /**
-                 * Sets [Builder.dob] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.dob] with a well-typed [LocalDate] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
-
-                /** Doing Business As */
-                fun doingBusinessAs(doingBusinessAs: String) =
-                    doingBusinessAs(JsonField.of(doingBusinessAs))
-
-                /**
-                 * Sets [Builder.doingBusinessAs] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.doingBusinessAs] with a well-typed [String]
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
-                 */
-                fun doingBusinessAs(doingBusinessAs: JsonField<String>) = apply {
-                    this.doingBusinessAs = doingBusinessAs
-                }
-
-                /** User Defined ID */
-                fun userDefinedId(userDefinedId: String) =
-                    userDefinedId(JsonField.of(userDefinedId))
-
-                /**
-                 * Sets [Builder.userDefinedId] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.userDefinedId] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun userDefinedId(userDefinedId: JsonField<String>) = apply {
-                    this.userDefinedId = userDefinedId
-                }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [PlaidCreateBankAccountApiRequest].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .owner()
-                 * .ownerType()
-                 * .processorToken()
-                 * .verificationMethod()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): PlaidCreateBankAccountApiRequest =
-                    PlaidCreateBankAccountApiRequest(
-                        checkRequired("owner", owner),
-                        checkRequired("ownerType", ownerType),
-                        checkRequired("processorToken", processorToken),
-                        checkRequired("verificationMethod", verificationMethod),
-                        accountToken,
-                        companyId,
-                        dob,
-                        doingBusinessAs,
-                        userDefinedId,
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): PlaidCreateBankAccountApiRequest = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                owner()
-                ownerType().validate()
-                processorToken()
-                verificationMethod().validate()
-                accountToken()
-                companyId()
-                dob()
-                doingBusinessAs()
-                userDefinedId()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (owner.asKnown().isPresent) 1 else 0) +
-                    (ownerType.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (processorToken.asKnown().isPresent) 1 else 0) +
-                    (verificationMethod.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (accountToken.asKnown().isPresent) 1 else 0) +
-                    (if (companyId.asKnown().isPresent) 1 else 0) +
-                    (if (dob.asKnown().isPresent) 1 else 0) +
-                    (if (doingBusinessAs.asKnown().isPresent) 1 else 0) +
-                    (if (userDefinedId.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is PlaidCreateBankAccountApiRequest &&
-                    owner == other.owner &&
-                    ownerType == other.ownerType &&
-                    processorToken == other.processorToken &&
-                    verificationMethod == other.verificationMethod &&
-                    accountToken == other.accountToken &&
-                    companyId == other.companyId &&
-                    dob == other.dob &&
-                    doingBusinessAs == other.doingBusinessAs &&
-                    userDefinedId == other.userDefinedId &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy {
-                Objects.hash(
-                    owner,
-                    ownerType,
-                    processorToken,
-                    verificationMethod,
-                    accountToken,
-                    companyId,
-                    dob,
-                    doingBusinessAs,
-                    userDefinedId,
-                    additionalProperties,
-                )
-            }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "PlaidCreateBankAccountApiRequest{owner=$owner, ownerType=$ownerType, processorToken=$processorToken, verificationMethod=$verificationMethod, accountToken=$accountToken, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
         }
 
         class ExternallyVerifiedCreateBankAccountApiRequest

@@ -88,6 +88,9 @@ private constructor(
      * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates the source of the
      *   token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`,
      *   `OTHER`, `NONE`.
+     * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with the
+     *   cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
+     *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -210,6 +213,9 @@ private constructor(
          * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates the source of
          *   the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`,
          *   `MERCHANT`, `OTHER`, `NONE`.
+         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
+         *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
+         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
          */
         fun attribute(attribute: ConditionalAttribute) = attribute(JsonField.of(attribute))
 

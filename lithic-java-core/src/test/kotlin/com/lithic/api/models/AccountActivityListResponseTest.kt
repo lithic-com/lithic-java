@@ -17,8 +17,8 @@ import org.junit.jupiter.params.provider.EnumSource
 internal class AccountActivityListResponseTest {
 
     @Test
-    fun ofFinancialTransaction() {
-        val financialTransaction =
+    fun ofInternal() {
+        val internal_ =
             AccountActivityListResponse.FinancialTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(AccountActivityListResponse.FinancialTransaction.TransactionCategory.ACH)
@@ -41,9 +41,7 @@ internal class AccountActivityListResponseTest {
                         )
                         .build()
                 )
-                .family(
-                    AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes.CARD
-                )
+                .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
                 .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
                 .pendingAmount(500L)
                 .result(AccountActivityListResponse.FinancialTransaction.TransactionResult.APPROVED)
@@ -52,23 +50,21 @@ internal class AccountActivityListResponseTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
 
-        val accountActivityListResponse =
-            AccountActivityListResponse.ofFinancialTransaction(financialTransaction)
+        val accountActivityListResponse = AccountActivityListResponse.ofInternal(internal_)
 
-        assertThat(accountActivityListResponse.financialTransaction())
-            .contains(financialTransaction)
-        assertThat(accountActivityListResponse.bookTransferTransaction()).isEmpty
-        assertThat(accountActivityListResponse.cardTransaction()).isEmpty
-        assertThat(accountActivityListResponse.paymentTransaction()).isEmpty
+        assertThat(accountActivityListResponse.internal_()).contains(internal_)
+        assertThat(accountActivityListResponse.transfer()).isEmpty
+        assertThat(accountActivityListResponse.card()).isEmpty
+        assertThat(accountActivityListResponse.payment()).isEmpty
         assertThat(accountActivityListResponse.externalPayment()).isEmpty
-        assertThat(accountActivityListResponse.managementOperationTransaction()).isEmpty
+        assertThat(accountActivityListResponse.managementOperation()).isEmpty
     }
 
     @Test
-    fun ofFinancialTransactionRoundtrip() {
+    fun ofInternalRoundtrip() {
         val jsonMapper = jsonMapper()
         val accountActivityListResponse =
-            AccountActivityListResponse.ofFinancialTransaction(
+            AccountActivityListResponse.ofInternal(
                 AccountActivityListResponse.FinancialTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .category(
@@ -94,9 +90,7 @@ internal class AccountActivityListResponseTest {
                             )
                             .build()
                     )
-                    .family(
-                        AccountActivityListResponse.FinancialTransaction.TransactionFamilyTypes.CARD
-                    )
+                    .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
                     .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
                     .pendingAmount(500L)
                     .result(
@@ -120,52 +114,37 @@ internal class AccountActivityListResponseTest {
     }
 
     @Test
-    fun ofBookTransferTransaction() {
-        val bookTransferTransaction =
-            AccountActivityListResponse.BookTransferTransaction.builder()
+    fun ofTransfer() {
+        val transfer =
+            BookTransferResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(
-                    AccountActivityListResponse.BookTransferTransaction.BookTransferCategory
-                        .ADJUSTMENT
-                )
+                .category(BookTransferResponse.BookTransferCategory.ADJUSTMENT)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("USD")
                 .addEvent(
-                    AccountActivityListResponse.BookTransferTransaction.BookTransferEvent.builder()
+                    BookTransferResponse.BookTransferEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .detailedResults(
-                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
-                                .BookTransferDetailedResults
+                            BookTransferResponse.BookTransferEvent.BookTransferDetailedResults
                                 .APPROVED
                         )
                         .memo("memo")
-                        .result(
-                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
-                                .Result
-                                .APPROVED
-                        )
+                        .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                         .subtype("subtype")
                         .type(
-                            AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
-                                .BookTransferType
+                            BookTransferResponse.BookTransferEvent.BookTransferType
                                 .ATM_BALANCE_INQUIRY
                         )
                         .build()
                 )
-                .family(
-                    AccountActivityListResponse.BookTransferTransaction.TransactionFamilyTypes.CARD
-                )
+                .family(BookTransferResponse.Family.TRANSFER)
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(1000L)
-                .result(
-                    AccountActivityListResponse.BookTransferTransaction.TransactionResult.APPROVED
-                )
+                .result(BookTransferResponse.TransactionResult.APPROVED)
                 .settledAmount(500L)
-                .status(
-                    AccountActivityListResponse.BookTransferTransaction.TransactionStatus.PENDING
-                )
+                .status(BookTransferResponse.TransactionStatus.PENDING)
                 .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .externalId("external_id")
@@ -177,7 +156,7 @@ internal class AccountActivityListResponseTest {
                         .build()
                 )
                 .transactionSeries(
-                    AccountActivityListResponse.BookTransferTransaction.TransactionSeries.builder()
+                    BookTransferResponse.TransactionSeries.builder()
                         .relatedTransactionEventToken("123e4567-e89b-12d3-a456-426614174000")
                         .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
                         .type("FEE")
@@ -185,74 +164,50 @@ internal class AccountActivityListResponseTest {
                 )
                 .build()
 
-        val accountActivityListResponse =
-            AccountActivityListResponse.ofBookTransferTransaction(bookTransferTransaction)
+        val accountActivityListResponse = AccountActivityListResponse.ofTransfer(transfer)
 
-        assertThat(accountActivityListResponse.financialTransaction()).isEmpty
-        assertThat(accountActivityListResponse.bookTransferTransaction())
-            .contains(bookTransferTransaction)
-        assertThat(accountActivityListResponse.cardTransaction()).isEmpty
-        assertThat(accountActivityListResponse.paymentTransaction()).isEmpty
+        assertThat(accountActivityListResponse.internal_()).isEmpty
+        assertThat(accountActivityListResponse.transfer()).contains(transfer)
+        assertThat(accountActivityListResponse.card()).isEmpty
+        assertThat(accountActivityListResponse.payment()).isEmpty
         assertThat(accountActivityListResponse.externalPayment()).isEmpty
-        assertThat(accountActivityListResponse.managementOperationTransaction()).isEmpty
+        assertThat(accountActivityListResponse.managementOperation()).isEmpty
     }
 
     @Test
-    fun ofBookTransferTransactionRoundtrip() {
+    fun ofTransferRoundtrip() {
         val jsonMapper = jsonMapper()
         val accountActivityListResponse =
-            AccountActivityListResponse.ofBookTransferTransaction(
-                AccountActivityListResponse.BookTransferTransaction.builder()
+            AccountActivityListResponse.ofTransfer(
+                BookTransferResponse.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .category(
-                        AccountActivityListResponse.BookTransferTransaction.BookTransferCategory
-                            .ADJUSTMENT
-                    )
+                    .category(BookTransferResponse.BookTransferCategory.ADJUSTMENT)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("USD")
                     .addEvent(
-                        AccountActivityListResponse.BookTransferTransaction.BookTransferEvent
-                            .builder()
+                        BookTransferResponse.BookTransferEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .detailedResults(
-                                AccountActivityListResponse.BookTransferTransaction
-                                    .BookTransferEvent
-                                    .BookTransferDetailedResults
+                                BookTransferResponse.BookTransferEvent.BookTransferDetailedResults
                                     .APPROVED
                             )
                             .memo("memo")
-                            .result(
-                                AccountActivityListResponse.BookTransferTransaction
-                                    .BookTransferEvent
-                                    .Result
-                                    .APPROVED
-                            )
+                            .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                             .subtype("subtype")
                             .type(
-                                AccountActivityListResponse.BookTransferTransaction
-                                    .BookTransferEvent
-                                    .BookTransferType
+                                BookTransferResponse.BookTransferEvent.BookTransferType
                                     .ATM_BALANCE_INQUIRY
                             )
                             .build()
                     )
-                    .family(
-                        AccountActivityListResponse.BookTransferTransaction.TransactionFamilyTypes
-                            .CARD
-                    )
+                    .family(BookTransferResponse.Family.TRANSFER)
                     .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .pendingAmount(1000L)
-                    .result(
-                        AccountActivityListResponse.BookTransferTransaction.TransactionResult
-                            .APPROVED
-                    )
+                    .result(BookTransferResponse.TransactionResult.APPROVED)
                     .settledAmount(500L)
-                    .status(
-                        AccountActivityListResponse.BookTransferTransaction.TransactionStatus
-                            .PENDING
-                    )
+                    .status(BookTransferResponse.TransactionStatus.PENDING)
                     .toFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .externalId("external_id")
@@ -264,8 +219,7 @@ internal class AccountActivityListResponseTest {
                             .build()
                     )
                     .transactionSeries(
-                        AccountActivityListResponse.BookTransferTransaction.TransactionSeries
-                            .builder()
+                        BookTransferResponse.TransactionSeries.builder()
                             .relatedTransactionEventToken("123e4567-e89b-12d3-a456-426614174000")
                             .relatedTransactionToken("123e4567-e89b-12d3-a456-426614174000")
                             .type("FEE")
@@ -284,8 +238,8 @@ internal class AccountActivityListResponseTest {
     }
 
     @Test
-    fun ofCardTransaction() {
-        val cardTransaction =
+    fun ofCard() {
+        val card =
             AccountActivityListResponse.CardTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("bd5e5649-1be8-4117-9bc5-3268258d1417")
@@ -515,25 +469,24 @@ internal class AccountActivityListResponseTest {
                         )
                         .build()
                 )
-                .family(AccountActivityListResponse.CardTransaction.TransactionFamilyTypes.CARD)
+                .family(AccountActivityListResponse.CardTransaction.Family.CARD)
                 .build()
 
-        val accountActivityListResponse =
-            AccountActivityListResponse.ofCardTransaction(cardTransaction)
+        val accountActivityListResponse = AccountActivityListResponse.ofCard(card)
 
-        assertThat(accountActivityListResponse.financialTransaction()).isEmpty
-        assertThat(accountActivityListResponse.bookTransferTransaction()).isEmpty
-        assertThat(accountActivityListResponse.cardTransaction()).contains(cardTransaction)
-        assertThat(accountActivityListResponse.paymentTransaction()).isEmpty
+        assertThat(accountActivityListResponse.internal_()).isEmpty
+        assertThat(accountActivityListResponse.transfer()).isEmpty
+        assertThat(accountActivityListResponse.card()).contains(card)
+        assertThat(accountActivityListResponse.payment()).isEmpty
         assertThat(accountActivityListResponse.externalPayment()).isEmpty
-        assertThat(accountActivityListResponse.managementOperationTransaction()).isEmpty
+        assertThat(accountActivityListResponse.managementOperation()).isEmpty
     }
 
     @Test
-    fun ofCardTransactionRoundtrip() {
+    fun ofCardRoundtrip() {
         val jsonMapper = jsonMapper()
         val accountActivityListResponse =
-            AccountActivityListResponse.ofCardTransaction(
+            AccountActivityListResponse.ofCard(
                 AccountActivityListResponse.CardTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .accountToken("bd5e5649-1be8-4117-9bc5-3268258d1417")
@@ -774,7 +727,7 @@ internal class AccountActivityListResponseTest {
                             )
                             .build()
                     )
-                    .family(AccountActivityListResponse.CardTransaction.TransactionFamilyTypes.CARD)
+                    .family(AccountActivityListResponse.CardTransaction.Family.CARD)
                     .build()
             )
 
@@ -788,47 +741,30 @@ internal class AccountActivityListResponseTest {
     }
 
     @Test
-    fun ofPaymentTransaction() {
-        val paymentTransaction =
-            AccountActivityListResponse.PaymentTransaction.builder()
+    fun ofPayment() {
+        val payment =
+            Payment.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(AccountActivityListResponse.PaymentTransaction.TransactionCategory.ACH)
+                .category(Payment.TransactionCategory.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .descriptor("descriptor")
-                .direction(AccountActivityListResponse.PaymentTransaction.Direction.CREDIT)
+                .direction(Payment.Direction.CREDIT)
                 .addEvent(
-                    AccountActivityListResponse.PaymentTransaction.PaymentEvent.builder()
+                    Payment.PaymentEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .result(
-                            AccountActivityListResponse.PaymentTransaction.PaymentEvent.Result
-                                .APPROVED
-                        )
-                        .type(
-                            AccountActivityListResponse.PaymentTransaction.PaymentEvent.Type
-                                .ACH_ORIGINATION_CANCELLED
-                        )
-                        .addDetailedResult(
-                            AccountActivityListResponse.PaymentTransaction.PaymentEvent
-                                .DetailedResult
-                                .APPROVED
-                        )
+                        .result(Payment.PaymentEvent.Result.APPROVED)
+                        .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
+                        .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                         .build()
                 )
-                .family(AccountActivityListResponse.PaymentTransaction.TransactionFamilyTypes.CARD)
+                .family(Payment.Family.PAYMENT)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .method(AccountActivityListResponse.PaymentTransaction.Method.ACH_NEXT_DAY)
+                .method(Payment.Method.ACH_NEXT_DAY)
                 .methodAttributes(
-                    AccountActivityListResponse.PaymentTransaction.MethodAttributes
-                        .AchMethodAttributes
-                        .builder()
-                        .secCode(
-                            AccountActivityListResponse.PaymentTransaction.MethodAttributes
-                                .AchMethodAttributes
-                                .SecCode
-                                .CCD
-                        )
+                    Payment.MethodAttributes.AchMethodAttributes.builder()
+                        .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
                         .addenda("addenda")
                         .companyId("company_id")
                         .receiptRoutingNumber("receipt_routing_number")
@@ -839,84 +775,60 @@ internal class AccountActivityListResponseTest {
                 )
                 .pendingAmount(200L)
                 .relatedAccountTokens(
-                    AccountActivityListResponse.PaymentTransaction.RelatedAccountTokens.builder()
+                    Payment.RelatedAccountTokens.builder()
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
-                .result(AccountActivityListResponse.PaymentTransaction.TransactionResult.APPROVED)
+                .result(Payment.TransactionResult.APPROVED)
                 .settledAmount(500L)
-                .source(AccountActivityListResponse.PaymentTransaction.Source.LITHIC)
-                .status(AccountActivityListResponse.PaymentTransaction.TransactionStatus.PENDING)
+                .source(Payment.Source.LITHIC)
+                .status(Payment.TransactionStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("USD")
                 .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .type(
-                    AccountActivityListResponse.PaymentTransaction.TransferType.ORIGINATION_CREDIT
-                )
+                .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId("user_defined_id")
                 .build()
 
-        val accountActivityListResponse =
-            AccountActivityListResponse.ofPaymentTransaction(paymentTransaction)
+        val accountActivityListResponse = AccountActivityListResponse.ofPayment(payment)
 
-        assertThat(accountActivityListResponse.financialTransaction()).isEmpty
-        assertThat(accountActivityListResponse.bookTransferTransaction()).isEmpty
-        assertThat(accountActivityListResponse.cardTransaction()).isEmpty
-        assertThat(accountActivityListResponse.paymentTransaction()).contains(paymentTransaction)
+        assertThat(accountActivityListResponse.internal_()).isEmpty
+        assertThat(accountActivityListResponse.transfer()).isEmpty
+        assertThat(accountActivityListResponse.card()).isEmpty
+        assertThat(accountActivityListResponse.payment()).contains(payment)
         assertThat(accountActivityListResponse.externalPayment()).isEmpty
-        assertThat(accountActivityListResponse.managementOperationTransaction()).isEmpty
+        assertThat(accountActivityListResponse.managementOperation()).isEmpty
     }
 
     @Test
-    fun ofPaymentTransactionRoundtrip() {
+    fun ofPaymentRoundtrip() {
         val jsonMapper = jsonMapper()
         val accountActivityListResponse =
-            AccountActivityListResponse.ofPaymentTransaction(
-                AccountActivityListResponse.PaymentTransaction.builder()
+            AccountActivityListResponse.ofPayment(
+                Payment.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .category(
-                        AccountActivityListResponse.PaymentTransaction.TransactionCategory.ACH
-                    )
+                    .category(Payment.TransactionCategory.ACH)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .descriptor("descriptor")
-                    .direction(AccountActivityListResponse.PaymentTransaction.Direction.CREDIT)
+                    .direction(Payment.Direction.CREDIT)
                     .addEvent(
-                        AccountActivityListResponse.PaymentTransaction.PaymentEvent.builder()
+                        Payment.PaymentEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .result(
-                                AccountActivityListResponse.PaymentTransaction.PaymentEvent.Result
-                                    .APPROVED
-                            )
-                            .type(
-                                AccountActivityListResponse.PaymentTransaction.PaymentEvent.Type
-                                    .ACH_ORIGINATION_CANCELLED
-                            )
-                            .addDetailedResult(
-                                AccountActivityListResponse.PaymentTransaction.PaymentEvent
-                                    .DetailedResult
-                                    .APPROVED
-                            )
+                            .result(Payment.PaymentEvent.Result.APPROVED)
+                            .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
+                            .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                             .build()
                     )
-                    .family(
-                        AccountActivityListResponse.PaymentTransaction.TransactionFamilyTypes.CARD
-                    )
+                    .family(Payment.Family.PAYMENT)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .method(AccountActivityListResponse.PaymentTransaction.Method.ACH_NEXT_DAY)
+                    .method(Payment.Method.ACH_NEXT_DAY)
                     .methodAttributes(
-                        AccountActivityListResponse.PaymentTransaction.MethodAttributes
-                            .AchMethodAttributes
-                            .builder()
-                            .secCode(
-                                AccountActivityListResponse.PaymentTransaction.MethodAttributes
-                                    .AchMethodAttributes
-                                    .SecCode
-                                    .CCD
-                            )
+                        Payment.MethodAttributes.AchMethodAttributes.builder()
+                            .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
                             .addenda("addenda")
                             .companyId("company_id")
                             .receiptRoutingNumber("receipt_routing_number")
@@ -927,28 +839,20 @@ internal class AccountActivityListResponseTest {
                     )
                     .pendingAmount(200L)
                     .relatedAccountTokens(
-                        AccountActivityListResponse.PaymentTransaction.RelatedAccountTokens
-                            .builder()
+                        Payment.RelatedAccountTokens.builder()
                             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
-                    .result(
-                        AccountActivityListResponse.PaymentTransaction.TransactionResult.APPROVED
-                    )
+                    .result(Payment.TransactionResult.APPROVED)
                     .settledAmount(500L)
-                    .source(AccountActivityListResponse.PaymentTransaction.Source.LITHIC)
-                    .status(
-                        AccountActivityListResponse.PaymentTransaction.TransactionStatus.PENDING
-                    )
+                    .source(Payment.Source.LITHIC)
+                    .status(Payment.TransactionStatus.PENDING)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("USD")
                     .expectedReleaseDate(LocalDate.parse("2019-12-27"))
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .type(
-                        AccountActivityListResponse.PaymentTransaction.TransferType
-                            .ORIGINATION_CREDIT
-                    )
+                    .type(Payment.TransferType.ORIGINATION_CREDIT)
                     .userDefinedId("user_defined_id")
                     .build()
             )
@@ -968,7 +872,6 @@ internal class AccountActivityListResponseTest {
             ExternalPayment.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .family(ExternalPayment.TransactionFamilyTypes.CARD)
                 .status(ExternalPayment.TransactionStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
@@ -990,6 +893,7 @@ internal class AccountActivityListResponseTest {
                         )
                         .build()
                 )
+                .family(ExternalPayment.Family.EXTERNAL_PAYMENT)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentType(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
                 .pendingAmount(0L)
@@ -1001,12 +905,12 @@ internal class AccountActivityListResponseTest {
         val accountActivityListResponse =
             AccountActivityListResponse.ofExternalPayment(externalPayment)
 
-        assertThat(accountActivityListResponse.financialTransaction()).isEmpty
-        assertThat(accountActivityListResponse.bookTransferTransaction()).isEmpty
-        assertThat(accountActivityListResponse.cardTransaction()).isEmpty
-        assertThat(accountActivityListResponse.paymentTransaction()).isEmpty
+        assertThat(accountActivityListResponse.internal_()).isEmpty
+        assertThat(accountActivityListResponse.transfer()).isEmpty
+        assertThat(accountActivityListResponse.card()).isEmpty
+        assertThat(accountActivityListResponse.payment()).isEmpty
         assertThat(accountActivityListResponse.externalPayment()).contains(externalPayment)
-        assertThat(accountActivityListResponse.managementOperationTransaction()).isEmpty
+        assertThat(accountActivityListResponse.managementOperation()).isEmpty
     }
 
     @Test
@@ -1017,7 +921,6 @@ internal class AccountActivityListResponseTest {
                 ExternalPayment.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .family(ExternalPayment.TransactionFamilyTypes.CARD)
                     .status(ExternalPayment.TransactionStatus.PENDING)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .category(ExternalPayment.ExternalPaymentCategory.EXTERNAL_WIRE)
@@ -1039,6 +942,7 @@ internal class AccountActivityListResponseTest {
                             )
                             .build()
                     )
+                    .family(ExternalPayment.Family.EXTERNAL_PAYMENT)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .paymentType(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
                     .pendingAmount(0L)
@@ -1058,12 +962,11 @@ internal class AccountActivityListResponseTest {
     }
 
     @Test
-    fun ofManagementOperationTransaction() {
-        val managementOperationTransaction =
+    fun ofManagementOperation() {
+        val managementOperation =
             ManagementOperationTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
                 .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .category(ManagementOperationTransaction.ManagementOperationCategory.MANAGEMENT_FEE)
@@ -1100,6 +1003,7 @@ internal class AccountActivityListResponseTest {
                         .externalResourceSubToken("external_resource_sub_token")
                         .build()
                 )
+                .family(ManagementOperationTransaction.Family.MANAGEMENT_OPERATION)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(0L)
                 .result(ManagementOperationTransaction.TransactionResult.APPROVED)
@@ -1115,28 +1019,24 @@ internal class AccountActivityListResponseTest {
                 .build()
 
         val accountActivityListResponse =
-            AccountActivityListResponse.ofManagementOperationTransaction(
-                managementOperationTransaction
-            )
+            AccountActivityListResponse.ofManagementOperation(managementOperation)
 
-        assertThat(accountActivityListResponse.financialTransaction()).isEmpty
-        assertThat(accountActivityListResponse.bookTransferTransaction()).isEmpty
-        assertThat(accountActivityListResponse.cardTransaction()).isEmpty
-        assertThat(accountActivityListResponse.paymentTransaction()).isEmpty
+        assertThat(accountActivityListResponse.internal_()).isEmpty
+        assertThat(accountActivityListResponse.transfer()).isEmpty
+        assertThat(accountActivityListResponse.card()).isEmpty
+        assertThat(accountActivityListResponse.payment()).isEmpty
         assertThat(accountActivityListResponse.externalPayment()).isEmpty
-        assertThat(accountActivityListResponse.managementOperationTransaction())
-            .contains(managementOperationTransaction)
+        assertThat(accountActivityListResponse.managementOperation()).contains(managementOperation)
     }
 
     @Test
-    fun ofManagementOperationTransactionRoundtrip() {
+    fun ofManagementOperationRoundtrip() {
         val jsonMapper = jsonMapper()
         val accountActivityListResponse =
-            AccountActivityListResponse.ofManagementOperationTransaction(
+            AccountActivityListResponse.ofManagementOperation(
                 ManagementOperationTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .family(ManagementOperationTransaction.TransactionFamilyTypes.CARD)
                     .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .category(
@@ -1176,6 +1076,7 @@ internal class AccountActivityListResponseTest {
                             .externalResourceSubToken("external_resource_sub_token")
                             .build()
                     )
+                    .family(ManagementOperationTransaction.Family.MANAGEMENT_OPERATION)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .pendingAmount(0L)
                     .result(ManagementOperationTransaction.TransactionResult.APPROVED)
