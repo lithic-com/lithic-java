@@ -1421,7 +1421,7 @@ private constructor(
         private val amount: JsonField<Long>,
         private val created: JsonField<OffsetDateTime>,
         private val result: JsonField<Result>,
-        private val type: JsonField<Type>,
+        private val type: JsonField<PaymentEventType>,
         private val detailedResults: JsonField<List<DetailedResult>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -1434,7 +1434,9 @@ private constructor(
             @ExcludeMissing
             created: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
-            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            @JsonProperty("type")
+            @ExcludeMissing
+            type: JsonField<PaymentEventType> = JsonMissing.of(),
             @JsonProperty("detailed_results")
             @ExcludeMissing
             detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
@@ -1485,19 +1487,23 @@ private constructor(
          * * `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
          * * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
          *   balance.
-         * * `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-         *   Institution.
+         * * `ACH_ORIGINATION_REJECTED` - ACH origination was rejected and not sent to the Federal
+         *   Reserve.
          * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
-         * * `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
          * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
-         * * `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
+         * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
+         * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
+         *   Institution.
+         * * `ACH_RETURN_SETTLED` - ACH return settled by the Receiving Depository Financial
+         *   Institution.
+         * * `ACH_RETURN_REJECTED` - ACH return was rejected by the Receiving Depository Financial
          *   Institution.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun type(): Type = type.getRequired("type")
+        fun type(): PaymentEventType = type.getRequired("type")
 
         /**
          * More detailed reasons for the event
@@ -1541,7 +1547,7 @@ private constructor(
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<PaymentEventType> = type
 
         /**
          * Returns the raw JSON value of [detailedResults].
@@ -1589,7 +1595,7 @@ private constructor(
             private var amount: JsonField<Long>? = null
             private var created: JsonField<OffsetDateTime>? = null
             private var result: JsonField<Result>? = null
-            private var type: JsonField<Type>? = null
+            private var type: JsonField<PaymentEventType>? = null
             private var detailedResults: JsonField<MutableList<DetailedResult>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1669,25 +1675,29 @@ private constructor(
              * * `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
              * * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
              *   balance.
-             * * `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository
-             *   Financial Institution.
+             * * `ACH_ORIGINATION_REJECTED` - ACH origination was rejected and not sent to the
+             *   Federal Reserve.
              * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
-             * * `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
              * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
              * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
-             * * `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository
+             * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
+             * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
+             *   Institution.
+             * * `ACH_RETURN_SETTLED` - ACH return settled by the Receiving Depository Financial
+             *   Institution.
+             * * `ACH_RETURN_REJECTED` - ACH return was rejected by the Receiving Depository
              *   Financial Institution.
              */
-            fun type(type: Type) = type(JsonField.of(type))
+            fun type(type: PaymentEventType) = type(JsonField.of(type))
 
             /**
              * Sets [Builder.type] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.type] with a well-typed [PaymentEventType] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
 
             /** More detailed reasons for the event */
             fun detailedResults(detailedResults: List<DetailedResult>) =
@@ -1946,16 +1956,22 @@ private constructor(
          * * `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
          * * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
          *   balance.
-         * * `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-         *   Institution.
+         * * `ACH_ORIGINATION_REJECTED` - ACH origination was rejected and not sent to the Federal
+         *   Reserve.
          * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
-         * * `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
          * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
-         * * `ACH_RETURN_SETTLED` - ACH receipt return settled by the Receiving Depository Financial
+         * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
+         * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
+         *   Institution.
+         * * `ACH_RETURN_SETTLED` - ACH return settled by the Receiving Depository Financial
+         *   Institution.
+         * * `ACH_RETURN_REJECTED` - ACH return was rejected by the Receiving Depository Financial
          *   Institution.
          */
-        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+        class PaymentEventType
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -1975,13 +1991,17 @@ private constructor(
 
                 @JvmField val ACH_ORIGINATION_PROCESSED = of("ACH_ORIGINATION_PROCESSED")
 
-                @JvmField val ACH_ORIGINATION_SETTLED = of("ACH_ORIGINATION_SETTLED")
+                @JvmField val ACH_ORIGINATION_REJECTED = of("ACH_ORIGINATION_REJECTED")
 
                 @JvmField val ACH_ORIGINATION_RELEASED = of("ACH_ORIGINATION_RELEASED")
 
                 @JvmField val ACH_ORIGINATION_REVIEWED = of("ACH_ORIGINATION_REVIEWED")
 
+                @JvmField val ACH_ORIGINATION_SETTLED = of("ACH_ORIGINATION_SETTLED")
+
                 @JvmField val ACH_RECEIPT_PROCESSED = of("ACH_RECEIPT_PROCESSED")
+
+                @JvmField val ACH_RECEIPT_RELEASED = of("ACH_RECEIPT_RELEASED")
 
                 @JvmField val ACH_RECEIPT_SETTLED = of("ACH_RECEIPT_SETTLED")
 
@@ -1989,30 +2009,36 @@ private constructor(
 
                 @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
 
+                @JvmField val ACH_RETURN_REJECTED = of("ACH_RETURN_REJECTED")
+
                 @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
 
-                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
             }
 
-            /** An enum containing [Type]'s known values. */
+            /** An enum containing [PaymentEventType]'s known values. */
             enum class Known {
                 ACH_ORIGINATION_CANCELLED,
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
-                ACH_ORIGINATION_SETTLED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_RELEASED,
                 ACH_ORIGINATION_REVIEWED,
+                ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
+                ACH_RECEIPT_RELEASED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
             }
 
             /**
-             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+             * An enum containing [PaymentEventType]'s known values, as well as an [_UNKNOWN]
+             * member.
              *
-             * An instance of [Type] can contain an unknown value in a couple of cases:
+             * An instance of [PaymentEventType] can contain an unknown value in a couple of cases:
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
@@ -2022,15 +2048,21 @@ private constructor(
                 ACH_ORIGINATION_CANCELLED,
                 ACH_ORIGINATION_INITIATED,
                 ACH_ORIGINATION_PROCESSED,
-                ACH_ORIGINATION_SETTLED,
+                ACH_ORIGINATION_REJECTED,
                 ACH_ORIGINATION_RELEASED,
                 ACH_ORIGINATION_REVIEWED,
+                ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
+                ACH_RECEIPT_RELEASED,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
+                ACH_RETURN_REJECTED,
                 ACH_RETURN_SETTLED,
-                /** An enum member indicating that [Type] was instantiated with an unknown value. */
+                /**
+                 * An enum member indicating that [PaymentEventType] was instantiated with an
+                 * unknown value.
+                 */
                 _UNKNOWN,
             }
 
@@ -2046,13 +2078,16 @@ private constructor(
                     ACH_ORIGINATION_CANCELLED -> Value.ACH_ORIGINATION_CANCELLED
                     ACH_ORIGINATION_INITIATED -> Value.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
-                    ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
+                    ACH_ORIGINATION_REJECTED -> Value.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_RELEASED -> Value.ACH_ORIGINATION_RELEASED
                     ACH_ORIGINATION_REVIEWED -> Value.ACH_ORIGINATION_REVIEWED
+                    ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
+                    ACH_RECEIPT_RELEASED -> Value.ACH_RECEIPT_RELEASED
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Value.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
                     else -> Value._UNKNOWN
                 }
@@ -2071,15 +2106,18 @@ private constructor(
                     ACH_ORIGINATION_CANCELLED -> Known.ACH_ORIGINATION_CANCELLED
                     ACH_ORIGINATION_INITIATED -> Known.ACH_ORIGINATION_INITIATED
                     ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
-                    ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
+                    ACH_ORIGINATION_REJECTED -> Known.ACH_ORIGINATION_REJECTED
                     ACH_ORIGINATION_RELEASED -> Known.ACH_ORIGINATION_RELEASED
                     ACH_ORIGINATION_REVIEWED -> Known.ACH_ORIGINATION_REVIEWED
+                    ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
+                    ACH_RECEIPT_RELEASED -> Known.ACH_RECEIPT_RELEASED
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    ACH_RETURN_REJECTED -> Known.ACH_RETURN_REJECTED
                     ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
-                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                    else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
                 }
 
             /**
@@ -2098,7 +2136,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): Type = apply {
+            fun validate(): PaymentEventType = apply {
                 if (validated) {
                     return@apply
                 }
@@ -2128,7 +2166,7 @@ private constructor(
                     return true
                 }
 
-                return other is Type && value == other.value
+                return other is PaymentEventType && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
