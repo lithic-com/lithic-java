@@ -28,7 +28,9 @@ internal class PaymentListPageResponseTest {
                                 .amount(0L)
                                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .result(Payment.PaymentEvent.Result.APPROVED)
-                                .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED
+                                )
                                 .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                                 .build()
                         )
@@ -82,7 +84,7 @@ internal class PaymentListPageResponseTest {
                             .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .result(Payment.PaymentEvent.Result.APPROVED)
-                            .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
+                            .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED)
                             .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                             .build()
                     )
@@ -140,7 +142,9 @@ internal class PaymentListPageResponseTest {
                                 .amount(0L)
                                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .result(Payment.PaymentEvent.Result.APPROVED)
-                                .type(Payment.PaymentEvent.Type.ACH_ORIGINATION_CANCELLED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_CANCELLED
+                                )
                                 .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                                 .build()
                         )
