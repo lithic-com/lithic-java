@@ -32,7 +32,14 @@ internal class V2RetrieveFeaturesResponseTest {
                                 )
                                 .build()
                         )
-                        .period(10L)
+                        .period(
+                            VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                                .duration(10L)
+                                .type(
+                                    VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM
+                                )
+                                .build()
+                        )
                         .scope(V2RetrieveFeaturesResponse.SpendFeatureState.VelocityScope.CARD)
                         .value(
                             V2RetrieveFeaturesResponse.SpendFeatureState.Value.builder()
@@ -62,7 +69,12 @@ internal class V2RetrieveFeaturesResponseTest {
                             )
                             .build()
                     )
-                    .period(10L)
+                    .period(
+                        VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                            .duration(10L)
+                            .type(VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM)
+                            .build()
+                    )
                     .scope(V2RetrieveFeaturesResponse.SpendFeatureState.VelocityScope.CARD)
                     .value(
                         V2RetrieveFeaturesResponse.SpendFeatureState.Value.builder()
@@ -97,7 +109,14 @@ internal class V2RetrieveFeaturesResponseTest {
                                 )
                                 .build()
                         )
-                        .period(10L)
+                        .period(
+                            VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                                .duration(10L)
+                                .type(
+                                    VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM
+                                )
+                                .build()
+                        )
                         .scope(V2RetrieveFeaturesResponse.SpendFeatureState.VelocityScope.CARD)
                         .value(
                             V2RetrieveFeaturesResponse.SpendFeatureState.Value.builder()

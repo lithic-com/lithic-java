@@ -11,7 +11,10 @@ internal class EventSubscriptionSendSimulatedExampleParamsTest {
     fun create() {
         EventSubscriptionSendSimulatedExampleParams.builder()
             .eventSubscriptionToken("event_subscription_token")
-            .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
+            .eventType(
+                EventSubscriptionSendSimulatedExampleParams.EventType
+                    .ACCOUNT_HOLDER_DOCUMENT_UPDATED
+            )
             .build()
     }
 
@@ -33,14 +36,18 @@ internal class EventSubscriptionSendSimulatedExampleParamsTest {
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .eventType(
-                    EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
+                    EventSubscriptionSendSimulatedExampleParams.EventType
+                        .ACCOUNT_HOLDER_DOCUMENT_UPDATED
                 )
                 .build()
 
         val body = params._body()
 
         assertThat(body.eventType())
-            .contains(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
+            .contains(
+                EventSubscriptionSendSimulatedExampleParams.EventType
+                    .ACCOUNT_HOLDER_DOCUMENT_UPDATED
+            )
     }
 
     @Test

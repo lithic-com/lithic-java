@@ -5,7 +5,6 @@ package com.lithic.api.services.blocking.authRules
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AuthRuleCondition
-import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
@@ -131,31 +130,6 @@ internal class V2ServiceTest {
         val v2Service = client.authRules().v2()
 
         v2Service.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    }
-
-    @Test
-    fun apply() {
-        val client =
-            LithicOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val v2Service = client.authRules().v2()
-
-        val response =
-            v2Service.apply(
-                AuthRuleV2ApplyParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .body(
-                        AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .build()
-                    )
-                    .build()
-            )
-
-        response.validate()
     }
 
     @Test

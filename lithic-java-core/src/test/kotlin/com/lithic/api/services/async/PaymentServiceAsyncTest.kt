@@ -9,6 +9,7 @@ import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateReceiptParams
 import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReturnParams
+import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -110,10 +111,12 @@ internal class PaymentServiceAsyncTest {
                         PaymentSimulateActionParams.SupportedSimulationTypes
                             .ACH_ORIGINATION_REVIEWED
                     )
+                    .dateOfDeath(LocalDate.parse("2019-12-27"))
                     .declineReason(
                         PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                             .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                     )
+                    .returnAddenda("return_addenda")
                     .returnReasonCode("return_reason_code")
                     .build()
             )

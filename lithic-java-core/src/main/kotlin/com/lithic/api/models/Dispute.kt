@@ -6,13 +6,24 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
+import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
@@ -21,103 +32,75 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Dispute. */
+/** The Dispute object tracks the progression of a dispute throughout its lifecycle. */
 class Dispute
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
-    private val amount: JsonField<Long>,
-    private val arbitrationDate: JsonField<OffsetDateTime>,
+    private val accountToken: JsonField<String>,
+    private val cardToken: JsonField<String>,
+    private val caseId: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
-    private val customerFiledDate: JsonField<OffsetDateTime>,
-    private val customerNote: JsonField<String>,
-    private val networkClaimIds: JsonField<List<String>>,
-    private val networkFiledDate: JsonField<OffsetDateTime>,
-    private val networkReasonCode: JsonField<String>,
-    private val prearbitrationDate: JsonField<OffsetDateTime>,
-    private val primaryClaimId: JsonField<String>,
-    private val reason: JsonField<Reason>,
-    private val representmentDate: JsonField<OffsetDateTime>,
-    private val resolutionDate: JsonField<OffsetDateTime>,
-    private val resolutionNote: JsonField<String>,
-    private val resolutionReason: JsonField<ResolutionReason>,
+    private val currency: JsonField<String>,
+    private val disposition: JsonField<Disposition>,
+    private val events: JsonField<List<Event>>,
+    private val liabilityAllocation: JsonField<LiabilityAllocation>,
+    private val merchant: JsonField<Merchant>,
+    private val network: JsonField<Network>,
     private val status: JsonField<Status>,
-    private val transactionToken: JsonField<String>,
+    private val transactionSeries: JsonField<TransactionSeries>,
+    private val updated: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
         @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("arbitration_date")
+        @JsonProperty("account_token")
         @ExcludeMissing
-        arbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("card_token") @ExcludeMissing cardToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("case_id") @ExcludeMissing caseId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("customer_filed_date")
+        @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("disposition")
         @ExcludeMissing
-        customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("customer_note")
+        disposition: JsonField<Disposition> = JsonMissing.of(),
+        @JsonProperty("events") @ExcludeMissing events: JsonField<List<Event>> = JsonMissing.of(),
+        @JsonProperty("liability_allocation")
         @ExcludeMissing
-        customerNote: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("network_claim_ids")
-        @ExcludeMissing
-        networkClaimIds: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("network_filed_date")
-        @ExcludeMissing
-        networkFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("network_reason_code")
-        @ExcludeMissing
-        networkReasonCode: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("prearbitration_date")
-        @ExcludeMissing
-        prearbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("primary_claim_id")
-        @ExcludeMissing
-        primaryClaimId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("reason") @ExcludeMissing reason: JsonField<Reason> = JsonMissing.of(),
-        @JsonProperty("representment_date")
-        @ExcludeMissing
-        representmentDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("resolution_date")
-        @ExcludeMissing
-        resolutionDate: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("resolution_note")
-        @ExcludeMissing
-        resolutionNote: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("resolution_reason")
-        @ExcludeMissing
-        resolutionReason: JsonField<ResolutionReason> = JsonMissing.of(),
+        liabilityAllocation: JsonField<LiabilityAllocation> = JsonMissing.of(),
+        @JsonProperty("merchant") @ExcludeMissing merchant: JsonField<Merchant> = JsonMissing.of(),
+        @JsonProperty("network") @ExcludeMissing network: JsonField<Network> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
-        @JsonProperty("transaction_token")
+        @JsonProperty("transaction_series")
         @ExcludeMissing
-        transactionToken: JsonField<String> = JsonMissing.of(),
+        transactionSeries: JsonField<TransactionSeries> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     ) : this(
         token,
-        amount,
-        arbitrationDate,
+        accountToken,
+        cardToken,
+        caseId,
         created,
-        customerFiledDate,
-        customerNote,
-        networkClaimIds,
-        networkFiledDate,
-        networkReasonCode,
-        prearbitrationDate,
-        primaryClaimId,
-        reason,
-        representmentDate,
-        resolutionDate,
-        resolutionNote,
-        resolutionReason,
+        currency,
+        disposition,
+        events,
+        liabilityAllocation,
+        merchant,
+        network,
         status,
-        transactionToken,
+        transactionSeries,
+        updated,
         mutableMapOf(),
     )
 
     /**
-     * Globally unique identifier.
+     * Token assigned by Lithic for the dispute, in UUID format.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -125,24 +108,31 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * Amount under dispute. May be different from the original transaction amount.
+     * Token for the account associated with the dispute, in UUID format.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun amount(): Long = amount.getRequired("amount")
+    fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
-     * Date dispute entered arbitration.
+     * Token for the card used in the dispute, in UUID format.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun cardToken(): String = cardToken.getRequired("card_token")
+
+    /**
+     * Identifier assigned by the network for this dispute.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun arbitrationDate(): Optional<OffsetDateTime> =
-        arbitrationDate.getOptional("arbitration_date")
+    fun caseId(): Optional<String> = caseId.getOptional("case_id")
 
     /**
-     * Timestamp of when first Dispute was reported.
+     * When the dispute was created.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -150,162 +140,77 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
-     * Date that the dispute was filed by the customer making the dispute.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun customerFiledDate(): Optional<OffsetDateTime> =
-        customerFiledDate.getOptional("customer_filed_date")
-
-    /**
-     * End customer description of the reason for the dispute.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun customerNote(): Optional<String> = customerNote.getOptional("customer_note")
-
-    /**
-     * Unique identifiers for the dispute from the network.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun networkClaimIds(): Optional<List<String>> = networkClaimIds.getOptional("network_claim_ids")
-
-    /**
-     * Date that the dispute was submitted to the network.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun networkFiledDate(): Optional<OffsetDateTime> =
-        networkFiledDate.getOptional("network_filed_date")
-
-    /**
-     * Network reason code used to file the dispute.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun networkReasonCode(): Optional<String> = networkReasonCode.getOptional("network_reason_code")
-
-    /**
-     * Date dispute entered pre-arbitration.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun prearbitrationDate(): Optional<OffsetDateTime> =
-        prearbitrationDate.getOptional("prearbitration_date")
-
-    /**
-     * Unique identifier for the dispute from the network. If there are multiple, this will be the
-     * first claim id set by the network
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun primaryClaimId(): Optional<String> = primaryClaimId.getOptional("primary_claim_id")
-
-    /**
-     * Dispute reason:
-     * * `ATM_CASH_MISDISPENSE`: ATM cash misdispense.
-     * * `CANCELLED`: Transaction was cancelled by the customer.
-     * * `DUPLICATED`: The transaction was a duplicate.
-     * * `FRAUD_CARD_NOT_PRESENT`: Fraudulent transaction, card not present.
-     * * `FRAUD_CARD_PRESENT`: Fraudulent transaction, card present.
-     * * `FRAUD_OTHER`: Fraudulent transaction, other types such as questionable merchant activity.
-     * * `GOODS_SERVICES_NOT_AS_DESCRIBED`: The goods or services were not as described.
-     * * `GOODS_SERVICES_NOT_RECEIVED`: The goods or services were not received.
-     * * `INCORRECT_AMOUNT`: The transaction amount was incorrect.
-     * * `MISSING_AUTH`: The transaction was missing authorization.
-     * * `OTHER`: Other reason.
-     * * `PROCESSING_ERROR`: Processing error.
-     * * `REFUND_NOT_PROCESSED`: The refund was not processed.
-     * * `RECURRING_TRANSACTION_NOT_CANCELLED`: The recurring transaction was not cancelled.
+     * Three-letter ISO 4217 currency code.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun reason(): Reason = reason.getRequired("reason")
+    fun currency(): String = currency.getRequired("currency")
 
     /**
-     * Date the representment was received.
+     * Dispute resolution outcome
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun representmentDate(): Optional<OffsetDateTime> =
-        representmentDate.getOptional("representment_date")
+    fun disposition(): Optional<Disposition> = disposition.getOptional("disposition")
 
     /**
-     * Date that the dispute was resolved.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun resolutionDate(): Optional<OffsetDateTime> = resolutionDate.getOptional("resolution_date")
-
-    /**
-     * Note by Dispute team on the case resolution.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun resolutionNote(): Optional<String> = resolutionNote.getOptional("resolution_note")
-
-    /**
-     * Reason for the dispute resolution:
-     * * `CASE_LOST`: This case was lost at final arbitration.
-     * * `NETWORK_REJECTED`: Network rejected.
-     * * `NO_DISPUTE_RIGHTS_3DS`: No dispute rights, 3DS.
-     * * `NO_DISPUTE_RIGHTS_BELOW_THRESHOLD`: No dispute rights, below threshold.
-     * * `NO_DISPUTE_RIGHTS_CONTACTLESS`: No dispute rights, contactless.
-     * * `NO_DISPUTE_RIGHTS_HYBRID`: No dispute rights, hybrid.
-     * * `NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS`: No dispute rights, max chargebacks.
-     * * `NO_DISPUTE_RIGHTS_OTHER`: No dispute rights, other.
-     * * `PAST_FILING_DATE`: Past filing date.
-     * * `PREARBITRATION_REJECTED`: Prearbitration rejected.
-     * * `PROCESSOR_REJECTED_OTHER`: Processor rejected, other.
-     * * `REFUNDED`: Refunded.
-     * * `REFUNDED_AFTER_CHARGEBACK`: Refunded after chargeback.
-     * * `WITHDRAWN`: Withdrawn.
-     * * `WON_ARBITRATION`: Won arbitration.
-     * * `WON_FIRST_CHARGEBACK`: Won first chargeback.
-     * * `WON_PREARBITRATION`: Won prearbitration.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun resolutionReason(): Optional<ResolutionReason> =
-        resolutionReason.getOptional("resolution_reason")
-
-    /**
-     * Status types:
-     * * `NEW` - New dispute case is opened.
-     * * `PENDING_CUSTOMER` - Lithic is waiting for customer to provide more information.
-     * * `SUBMITTED` - Dispute is submitted to the card network.
-     * * `REPRESENTMENT` - Case has entered second presentment.
-     * * `PREARBITRATION` - Case has entered prearbitration.
-     * * `ARBITRATION` - Case has entered arbitration.
-     * * `CASE_WON` - Case was won and credit will be issued.
-     * * `CASE_CLOSED` - Case was lost or withdrawn.
+     * Chronological list of events that have occurred in the dispute lifecycle
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun status(): Status = status.getRequired("status")
+    fun events(): List<Event> = events.getRequired("events")
 
     /**
-     * The transaction that is being disputed. A transaction can only be disputed once but may have
-     * multiple dispute cases.
+     * Current breakdown of how liability is allocated for the disputed amount
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun transactionToken(): String = transactionToken.getRequired("transaction_token")
+    fun liabilityAllocation(): LiabilityAllocation =
+        liabilityAllocation.getRequired("liability_allocation")
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun merchant(): Merchant = merchant.getRequired("merchant")
+
+    /**
+     * Card network handling the dispute.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun network(): Network = network.getRequired("network")
+
+    /**
+     * Current status of the dispute.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun status(): Optional<Status> = status.getOptional("status")
+
+    /**
+     * Contains identifiers for the transaction and specific event within being disputed; null if no
+     * transaction can be identified
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun transactionSeries(): Optional<TransactionSeries> =
+        transactionSeries.getOptional("transaction_series")
+
+    /**
+     * When the dispute was last updated.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     /**
      * Returns the raw JSON value of [token].
@@ -315,20 +220,27 @@ private constructor(
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
-     * Returns the raw JSON value of [amount].
+     * Returns the raw JSON value of [accountToken].
      *
-     * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * Returns the raw JSON value of [arbitrationDate].
+     * Returns the raw JSON value of [cardToken].
      *
-     * Unlike [arbitrationDate], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [cardToken], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("arbitration_date")
-    @ExcludeMissing
-    fun _arbitrationDate(): JsonField<OffsetDateTime> = arbitrationDate
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
+
+    /**
+     * Returns the raw JSON value of [caseId].
+     *
+     * Unlike [caseId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("case_id") @ExcludeMissing fun _caseId(): JsonField<String> = caseId
 
     /**
      * Returns the raw JSON value of [created].
@@ -338,116 +250,51 @@ private constructor(
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
-     * Returns the raw JSON value of [customerFiledDate].
+     * Returns the raw JSON value of [currency].
      *
-     * Unlike [customerFiledDate], this method doesn't throw if the JSON field has an unexpected
+     * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
+
+    /**
+     * Returns the raw JSON value of [disposition].
+     *
+     * Unlike [disposition], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("disposition")
+    @ExcludeMissing
+    fun _disposition(): JsonField<Disposition> = disposition
+
+    /**
+     * Returns the raw JSON value of [events].
+     *
+     * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("events") @ExcludeMissing fun _events(): JsonField<List<Event>> = events
+
+    /**
+     * Returns the raw JSON value of [liabilityAllocation].
+     *
+     * Unlike [liabilityAllocation], this method doesn't throw if the JSON field has an unexpected
      * type.
      */
-    @JsonProperty("customer_filed_date")
+    @JsonProperty("liability_allocation")
     @ExcludeMissing
-    fun _customerFiledDate(): JsonField<OffsetDateTime> = customerFiledDate
+    fun _liabilityAllocation(): JsonField<LiabilityAllocation> = liabilityAllocation
 
     /**
-     * Returns the raw JSON value of [customerNote].
+     * Returns the raw JSON value of [merchant].
      *
-     * Unlike [customerNote], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("customer_note")
-    @ExcludeMissing
-    fun _customerNote(): JsonField<String> = customerNote
+    @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
 
     /**
-     * Returns the raw JSON value of [networkClaimIds].
+     * Returns the raw JSON value of [network].
      *
-     * Unlike [networkClaimIds], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [network], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("network_claim_ids")
-    @ExcludeMissing
-    fun _networkClaimIds(): JsonField<List<String>> = networkClaimIds
-
-    /**
-     * Returns the raw JSON value of [networkFiledDate].
-     *
-     * Unlike [networkFiledDate], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("network_filed_date")
-    @ExcludeMissing
-    fun _networkFiledDate(): JsonField<OffsetDateTime> = networkFiledDate
-
-    /**
-     * Returns the raw JSON value of [networkReasonCode].
-     *
-     * Unlike [networkReasonCode], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("network_reason_code")
-    @ExcludeMissing
-    fun _networkReasonCode(): JsonField<String> = networkReasonCode
-
-    /**
-     * Returns the raw JSON value of [prearbitrationDate].
-     *
-     * Unlike [prearbitrationDate], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("prearbitration_date")
-    @ExcludeMissing
-    fun _prearbitrationDate(): JsonField<OffsetDateTime> = prearbitrationDate
-
-    /**
-     * Returns the raw JSON value of [primaryClaimId].
-     *
-     * Unlike [primaryClaimId], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("primary_claim_id")
-    @ExcludeMissing
-    fun _primaryClaimId(): JsonField<String> = primaryClaimId
-
-    /**
-     * Returns the raw JSON value of [reason].
-     *
-     * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
-
-    /**
-     * Returns the raw JSON value of [representmentDate].
-     *
-     * Unlike [representmentDate], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("representment_date")
-    @ExcludeMissing
-    fun _representmentDate(): JsonField<OffsetDateTime> = representmentDate
-
-    /**
-     * Returns the raw JSON value of [resolutionDate].
-     *
-     * Unlike [resolutionDate], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("resolution_date")
-    @ExcludeMissing
-    fun _resolutionDate(): JsonField<OffsetDateTime> = resolutionDate
-
-    /**
-     * Returns the raw JSON value of [resolutionNote].
-     *
-     * Unlike [resolutionNote], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("resolution_note")
-    @ExcludeMissing
-    fun _resolutionNote(): JsonField<String> = resolutionNote
-
-    /**
-     * Returns the raw JSON value of [resolutionReason].
-     *
-     * Unlike [resolutionReason], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("resolution_reason")
-    @ExcludeMissing
-    fun _resolutionReason(): JsonField<ResolutionReason> = resolutionReason
+    @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
     /**
      * Returns the raw JSON value of [status].
@@ -457,14 +304,21 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /**
-     * Returns the raw JSON value of [transactionToken].
+     * Returns the raw JSON value of [transactionSeries].
      *
-     * Unlike [transactionToken], this method doesn't throw if the JSON field has an unexpected
+     * Unlike [transactionSeries], this method doesn't throw if the JSON field has an unexpected
      * type.
      */
-    @JsonProperty("transaction_token")
+    @JsonProperty("transaction_series")
     @ExcludeMissing
-    fun _transactionToken(): JsonField<String> = transactionToken
+    fun _transactionSeries(): JsonField<TransactionSeries> = transactionSeries
+
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -486,23 +340,19 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
-         * .amount()
-         * .arbitrationDate()
+         * .accountToken()
+         * .cardToken()
+         * .caseId()
          * .created()
-         * .customerFiledDate()
-         * .customerNote()
-         * .networkClaimIds()
-         * .networkFiledDate()
-         * .networkReasonCode()
-         * .prearbitrationDate()
-         * .primaryClaimId()
-         * .reason()
-         * .representmentDate()
-         * .resolutionDate()
-         * .resolutionNote()
-         * .resolutionReason()
+         * .currency()
+         * .disposition()
+         * .events()
+         * .liabilityAllocation()
+         * .merchant()
+         * .network()
          * .status()
-         * .transactionToken()
+         * .transactionSeries()
+         * .updated()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -512,49 +362,41 @@ private constructor(
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
-        private var amount: JsonField<Long>? = null
-        private var arbitrationDate: JsonField<OffsetDateTime>? = null
+        private var accountToken: JsonField<String>? = null
+        private var cardToken: JsonField<String>? = null
+        private var caseId: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
-        private var customerFiledDate: JsonField<OffsetDateTime>? = null
-        private var customerNote: JsonField<String>? = null
-        private var networkClaimIds: JsonField<MutableList<String>>? = null
-        private var networkFiledDate: JsonField<OffsetDateTime>? = null
-        private var networkReasonCode: JsonField<String>? = null
-        private var prearbitrationDate: JsonField<OffsetDateTime>? = null
-        private var primaryClaimId: JsonField<String>? = null
-        private var reason: JsonField<Reason>? = null
-        private var representmentDate: JsonField<OffsetDateTime>? = null
-        private var resolutionDate: JsonField<OffsetDateTime>? = null
-        private var resolutionNote: JsonField<String>? = null
-        private var resolutionReason: JsonField<ResolutionReason>? = null
+        private var currency: JsonField<String>? = null
+        private var disposition: JsonField<Disposition>? = null
+        private var events: JsonField<MutableList<Event>>? = null
+        private var liabilityAllocation: JsonField<LiabilityAllocation>? = null
+        private var merchant: JsonField<Merchant>? = null
+        private var network: JsonField<Network>? = null
         private var status: JsonField<Status>? = null
-        private var transactionToken: JsonField<String>? = null
+        private var transactionSeries: JsonField<TransactionSeries>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(dispute: Dispute) = apply {
             token = dispute.token
-            amount = dispute.amount
-            arbitrationDate = dispute.arbitrationDate
+            accountToken = dispute.accountToken
+            cardToken = dispute.cardToken
+            caseId = dispute.caseId
             created = dispute.created
-            customerFiledDate = dispute.customerFiledDate
-            customerNote = dispute.customerNote
-            networkClaimIds = dispute.networkClaimIds.map { it.toMutableList() }
-            networkFiledDate = dispute.networkFiledDate
-            networkReasonCode = dispute.networkReasonCode
-            prearbitrationDate = dispute.prearbitrationDate
-            primaryClaimId = dispute.primaryClaimId
-            reason = dispute.reason
-            representmentDate = dispute.representmentDate
-            resolutionDate = dispute.resolutionDate
-            resolutionNote = dispute.resolutionNote
-            resolutionReason = dispute.resolutionReason
+            currency = dispute.currency
+            disposition = dispute.disposition
+            events = dispute.events.map { it.toMutableList() }
+            liabilityAllocation = dispute.liabilityAllocation
+            merchant = dispute.merchant
+            network = dispute.network
             status = dispute.status
-            transactionToken = dispute.transactionToken
+            transactionSeries = dispute.transactionSeries
+            updated = dispute.updated
             additionalProperties = dispute.additionalProperties.toMutableMap()
         }
 
-        /** Globally unique identifier. */
+        /** Token assigned by Lithic for the dispute, in UUID format. */
         fun token(token: String) = token(JsonField.of(token))
 
         /**
@@ -565,37 +407,47 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** Amount under dispute. May be different from the original transaction amount. */
-        fun amount(amount: Long) = amount(JsonField.of(amount))
+        /** Token for the account associated with the dispute, in UUID format. */
+        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /**
-         * Sets [Builder.amount] to an arbitrary JSON value.
+         * Sets [Builder.accountToken] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.accountToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
-
-        /** Date dispute entered arbitration. */
-        fun arbitrationDate(arbitrationDate: OffsetDateTime?) =
-            arbitrationDate(JsonField.ofNullable(arbitrationDate))
-
-        /** Alias for calling [Builder.arbitrationDate] with `arbitrationDate.orElse(null)`. */
-        fun arbitrationDate(arbitrationDate: Optional<OffsetDateTime>) =
-            arbitrationDate(arbitrationDate.getOrNull())
-
-        /**
-         * Sets [Builder.arbitrationDate] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.arbitrationDate] with a well-typed [OffsetDateTime]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
-         */
-        fun arbitrationDate(arbitrationDate: JsonField<OffsetDateTime>) = apply {
-            this.arbitrationDate = arbitrationDate
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            this.accountToken = accountToken
         }
 
-        /** Timestamp of when first Dispute was reported. */
+        /** Token for the card used in the dispute, in UUID format. */
+        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
+
+        /**
+         * Sets [Builder.cardToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cardToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+
+        /** Identifier assigned by the network for this dispute. */
+        fun caseId(caseId: String?) = caseId(JsonField.ofNullable(caseId))
+
+        /** Alias for calling [Builder.caseId] with `caseId.orElse(null)`. */
+        fun caseId(caseId: Optional<String>) = caseId(caseId.getOrNull())
+
+        /**
+         * Sets [Builder.caseId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.caseId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun caseId(caseId: JsonField<String>) = apply { this.caseId = caseId }
+
+        /** When the dispute was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
@@ -607,289 +459,102 @@ private constructor(
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** Date that the dispute was filed by the customer making the dispute. */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime?) =
-            customerFiledDate(JsonField.ofNullable(customerFiledDate))
-
-        /** Alias for calling [Builder.customerFiledDate] with `customerFiledDate.orElse(null)`. */
-        fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
-            customerFiledDate(customerFiledDate.getOrNull())
+        /** Three-letter ISO 4217 currency code. */
+        fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
-         * Sets [Builder.customerFiledDate] to an arbitrary JSON value.
+         * Sets [Builder.currency] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.customerFiledDate] with a well-typed [OffsetDateTime]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.currency] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
-            this.customerFiledDate = customerFiledDate
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+
+        /** Dispute resolution outcome */
+        fun disposition(disposition: Disposition?) = disposition(JsonField.ofNullable(disposition))
+
+        /** Alias for calling [Builder.disposition] with `disposition.orElse(null)`. */
+        fun disposition(disposition: Optional<Disposition>) = disposition(disposition.getOrNull())
+
+        /**
+         * Sets [Builder.disposition] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.disposition] with a well-typed [Disposition] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun disposition(disposition: JsonField<Disposition>) = apply {
+            this.disposition = disposition
         }
 
-        /** End customer description of the reason for the dispute. */
-        fun customerNote(customerNote: String?) = customerNote(JsonField.ofNullable(customerNote))
-
-        /** Alias for calling [Builder.customerNote] with `customerNote.orElse(null)`. */
-        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.getOrNull())
+        /** Chronological list of events that have occurred in the dispute lifecycle */
+        fun events(events: List<Event>) = events(JsonField.of(events))
 
         /**
-         * Sets [Builder.customerNote] to an arbitrary JSON value.
+         * Sets [Builder.events] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.customerNote] with a well-typed [String] value instead.
+         * You should usually call [Builder.events] with a well-typed `List<Event>` value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun customerNote(customerNote: JsonField<String>) = apply {
-            this.customerNote = customerNote
-        }
-
-        /** Unique identifiers for the dispute from the network. */
-        fun networkClaimIds(networkClaimIds: List<String>?) =
-            networkClaimIds(JsonField.ofNullable(networkClaimIds))
-
-        /** Alias for calling [Builder.networkClaimIds] with `networkClaimIds.orElse(null)`. */
-        fun networkClaimIds(networkClaimIds: Optional<List<String>>) =
-            networkClaimIds(networkClaimIds.getOrNull())
-
-        /**
-         * Sets [Builder.networkClaimIds] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.networkClaimIds] with a well-typed `List<String>` value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun networkClaimIds(networkClaimIds: JsonField<List<String>>) = apply {
-            this.networkClaimIds = networkClaimIds.map { it.toMutableList() }
+        fun events(events: JsonField<List<Event>>) = apply {
+            this.events = events.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [String] to [networkClaimIds].
+         * Adds a single [Event] to [events].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addNetworkClaimId(networkClaimId: String) = apply {
-            networkClaimIds =
-                (networkClaimIds ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("networkClaimIds", it).add(networkClaimId)
+        fun addEvent(event: Event) = apply {
+            events =
+                (events ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("events", it).add(event)
                 }
         }
 
-        /** Date that the dispute was submitted to the network. */
-        fun networkFiledDate(networkFiledDate: OffsetDateTime?) =
-            networkFiledDate(JsonField.ofNullable(networkFiledDate))
-
-        /** Alias for calling [Builder.networkFiledDate] with `networkFiledDate.orElse(null)`. */
-        fun networkFiledDate(networkFiledDate: Optional<OffsetDateTime>) =
-            networkFiledDate(networkFiledDate.getOrNull())
+        /** Current breakdown of how liability is allocated for the disputed amount */
+        fun liabilityAllocation(liabilityAllocation: LiabilityAllocation) =
+            liabilityAllocation(JsonField.of(liabilityAllocation))
 
         /**
-         * Sets [Builder.networkFiledDate] to an arbitrary JSON value.
+         * Sets [Builder.liabilityAllocation] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.networkFiledDate] with a well-typed [OffsetDateTime]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.liabilityAllocation] with a well-typed
+         * [LiabilityAllocation] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
          */
-        fun networkFiledDate(networkFiledDate: JsonField<OffsetDateTime>) = apply {
-            this.networkFiledDate = networkFiledDate
+        fun liabilityAllocation(liabilityAllocation: JsonField<LiabilityAllocation>) = apply {
+            this.liabilityAllocation = liabilityAllocation
         }
 
-        /** Network reason code used to file the dispute. */
-        fun networkReasonCode(networkReasonCode: String?) =
-            networkReasonCode(JsonField.ofNullable(networkReasonCode))
-
-        /** Alias for calling [Builder.networkReasonCode] with `networkReasonCode.orElse(null)`. */
-        fun networkReasonCode(networkReasonCode: Optional<String>) =
-            networkReasonCode(networkReasonCode.getOrNull())
+        fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
         /**
-         * Sets [Builder.networkReasonCode] to an arbitrary JSON value.
+         * Sets [Builder.merchant] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.networkReasonCode] with a well-typed [String] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.merchant] with a well-typed [Merchant] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun networkReasonCode(networkReasonCode: JsonField<String>) = apply {
-            this.networkReasonCode = networkReasonCode
-        }
+        fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
-        /** Date dispute entered pre-arbitration. */
-        fun prearbitrationDate(prearbitrationDate: OffsetDateTime?) =
-            prearbitrationDate(JsonField.ofNullable(prearbitrationDate))
+        /** Card network handling the dispute. */
+        fun network(network: Network) = network(JsonField.of(network))
 
         /**
-         * Alias for calling [Builder.prearbitrationDate] with `prearbitrationDate.orElse(null)`.
-         */
-        fun prearbitrationDate(prearbitrationDate: Optional<OffsetDateTime>) =
-            prearbitrationDate(prearbitrationDate.getOrNull())
-
-        /**
-         * Sets [Builder.prearbitrationDate] to an arbitrary JSON value.
+         * Sets [Builder.network] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.prearbitrationDate] with a well-typed [OffsetDateTime]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
-         */
-        fun prearbitrationDate(prearbitrationDate: JsonField<OffsetDateTime>) = apply {
-            this.prearbitrationDate = prearbitrationDate
-        }
-
-        /**
-         * Unique identifier for the dispute from the network. If there are multiple, this will be
-         * the first claim id set by the network
-         */
-        fun primaryClaimId(primaryClaimId: String?) =
-            primaryClaimId(JsonField.ofNullable(primaryClaimId))
-
-        /** Alias for calling [Builder.primaryClaimId] with `primaryClaimId.orElse(null)`. */
-        fun primaryClaimId(primaryClaimId: Optional<String>) =
-            primaryClaimId(primaryClaimId.getOrNull())
-
-        /**
-         * Sets [Builder.primaryClaimId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.primaryClaimId] with a well-typed [String] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun primaryClaimId(primaryClaimId: JsonField<String>) = apply {
-            this.primaryClaimId = primaryClaimId
-        }
-
-        /**
-         * Dispute reason:
-         * * `ATM_CASH_MISDISPENSE`: ATM cash misdispense.
-         * * `CANCELLED`: Transaction was cancelled by the customer.
-         * * `DUPLICATED`: The transaction was a duplicate.
-         * * `FRAUD_CARD_NOT_PRESENT`: Fraudulent transaction, card not present.
-         * * `FRAUD_CARD_PRESENT`: Fraudulent transaction, card present.
-         * * `FRAUD_OTHER`: Fraudulent transaction, other types such as questionable merchant
-         *   activity.
-         * * `GOODS_SERVICES_NOT_AS_DESCRIBED`: The goods or services were not as described.
-         * * `GOODS_SERVICES_NOT_RECEIVED`: The goods or services were not received.
-         * * `INCORRECT_AMOUNT`: The transaction amount was incorrect.
-         * * `MISSING_AUTH`: The transaction was missing authorization.
-         * * `OTHER`: Other reason.
-         * * `PROCESSING_ERROR`: Processing error.
-         * * `REFUND_NOT_PROCESSED`: The refund was not processed.
-         * * `RECURRING_TRANSACTION_NOT_CANCELLED`: The recurring transaction was not cancelled.
-         */
-        fun reason(reason: Reason) = reason(JsonField.of(reason))
-
-        /**
-         * Sets [Builder.reason] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.reason] with a well-typed [Reason] value instead. This
+         * You should usually call [Builder.network] with a well-typed [Network] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
+        fun network(network: JsonField<Network>) = apply { this.network = network }
 
-        /** Date the representment was received. */
-        fun representmentDate(representmentDate: OffsetDateTime?) =
-            representmentDate(JsonField.ofNullable(representmentDate))
+        /** Current status of the dispute. */
+        fun status(status: Status?) = status(JsonField.ofNullable(status))
 
-        /** Alias for calling [Builder.representmentDate] with `representmentDate.orElse(null)`. */
-        fun representmentDate(representmentDate: Optional<OffsetDateTime>) =
-            representmentDate(representmentDate.getOrNull())
-
-        /**
-         * Sets [Builder.representmentDate] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.representmentDate] with a well-typed [OffsetDateTime]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
-         */
-        fun representmentDate(representmentDate: JsonField<OffsetDateTime>) = apply {
-            this.representmentDate = representmentDate
-        }
-
-        /** Date that the dispute was resolved. */
-        fun resolutionDate(resolutionDate: OffsetDateTime?) =
-            resolutionDate(JsonField.ofNullable(resolutionDate))
-
-        /** Alias for calling [Builder.resolutionDate] with `resolutionDate.orElse(null)`. */
-        fun resolutionDate(resolutionDate: Optional<OffsetDateTime>) =
-            resolutionDate(resolutionDate.getOrNull())
-
-        /**
-         * Sets [Builder.resolutionDate] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.resolutionDate] with a well-typed [OffsetDateTime] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun resolutionDate(resolutionDate: JsonField<OffsetDateTime>) = apply {
-            this.resolutionDate = resolutionDate
-        }
-
-        /** Note by Dispute team on the case resolution. */
-        fun resolutionNote(resolutionNote: String?) =
-            resolutionNote(JsonField.ofNullable(resolutionNote))
-
-        /** Alias for calling [Builder.resolutionNote] with `resolutionNote.orElse(null)`. */
-        fun resolutionNote(resolutionNote: Optional<String>) =
-            resolutionNote(resolutionNote.getOrNull())
-
-        /**
-         * Sets [Builder.resolutionNote] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.resolutionNote] with a well-typed [String] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun resolutionNote(resolutionNote: JsonField<String>) = apply {
-            this.resolutionNote = resolutionNote
-        }
-
-        /**
-         * Reason for the dispute resolution:
-         * * `CASE_LOST`: This case was lost at final arbitration.
-         * * `NETWORK_REJECTED`: Network rejected.
-         * * `NO_DISPUTE_RIGHTS_3DS`: No dispute rights, 3DS.
-         * * `NO_DISPUTE_RIGHTS_BELOW_THRESHOLD`: No dispute rights, below threshold.
-         * * `NO_DISPUTE_RIGHTS_CONTACTLESS`: No dispute rights, contactless.
-         * * `NO_DISPUTE_RIGHTS_HYBRID`: No dispute rights, hybrid.
-         * * `NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS`: No dispute rights, max chargebacks.
-         * * `NO_DISPUTE_RIGHTS_OTHER`: No dispute rights, other.
-         * * `PAST_FILING_DATE`: Past filing date.
-         * * `PREARBITRATION_REJECTED`: Prearbitration rejected.
-         * * `PROCESSOR_REJECTED_OTHER`: Processor rejected, other.
-         * * `REFUNDED`: Refunded.
-         * * `REFUNDED_AFTER_CHARGEBACK`: Refunded after chargeback.
-         * * `WITHDRAWN`: Withdrawn.
-         * * `WON_ARBITRATION`: Won arbitration.
-         * * `WON_FIRST_CHARGEBACK`: Won first chargeback.
-         * * `WON_PREARBITRATION`: Won prearbitration.
-         */
-        fun resolutionReason(resolutionReason: ResolutionReason?) =
-            resolutionReason(JsonField.ofNullable(resolutionReason))
-
-        /** Alias for calling [Builder.resolutionReason] with `resolutionReason.orElse(null)`. */
-        fun resolutionReason(resolutionReason: Optional<ResolutionReason>) =
-            resolutionReason(resolutionReason.getOrNull())
-
-        /**
-         * Sets [Builder.resolutionReason] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.resolutionReason] with a well-typed [ResolutionReason]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
-         */
-        fun resolutionReason(resolutionReason: JsonField<ResolutionReason>) = apply {
-            this.resolutionReason = resolutionReason
-        }
-
-        /**
-         * Status types:
-         * * `NEW` - New dispute case is opened.
-         * * `PENDING_CUSTOMER` - Lithic is waiting for customer to provide more information.
-         * * `SUBMITTED` - Dispute is submitted to the card network.
-         * * `REPRESENTMENT` - Case has entered second presentment.
-         * * `PREARBITRATION` - Case has entered prearbitration.
-         * * `ARBITRATION` - Case has entered arbitration.
-         * * `CASE_WON` - Case was won and credit will be issued.
-         * * `CASE_CLOSED` - Case was lost or withdrawn.
-         */
-        fun status(status: Status) = status(JsonField.of(status))
+        /** Alias for calling [Builder.status] with `status.orElse(null)`. */
+        fun status(status: Optional<Status>) = status(status.getOrNull())
 
         /**
          * Sets [Builder.status] to an arbitrary JSON value.
@@ -900,22 +565,38 @@ private constructor(
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /**
-         * The transaction that is being disputed. A transaction can only be disputed once but may
-         * have multiple dispute cases.
+         * Contains identifiers for the transaction and specific event within being disputed; null
+         * if no transaction can be identified
          */
-        fun transactionToken(transactionToken: String) =
-            transactionToken(JsonField.of(transactionToken))
+        fun transactionSeries(transactionSeries: TransactionSeries?) =
+            transactionSeries(JsonField.ofNullable(transactionSeries))
+
+        /** Alias for calling [Builder.transactionSeries] with `transactionSeries.orElse(null)`. */
+        fun transactionSeries(transactionSeries: Optional<TransactionSeries>) =
+            transactionSeries(transactionSeries.getOrNull())
 
         /**
-         * Sets [Builder.transactionToken] to an arbitrary JSON value.
+         * Sets [Builder.transactionSeries] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.transactionToken] with a well-typed [String] value
+         * You should usually call [Builder.transactionSeries] with a well-typed [TransactionSeries]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun transactionSeries(transactionSeries: JsonField<TransactionSeries>) = apply {
+            this.transactionSeries = transactionSeries
+        }
+
+        /** When the dispute was last updated. */
+        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun transactionToken(transactionToken: JsonField<String>) = apply {
-            this.transactionToken = transactionToken
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -944,23 +625,19 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
-         * .amount()
-         * .arbitrationDate()
+         * .accountToken()
+         * .cardToken()
+         * .caseId()
          * .created()
-         * .customerFiledDate()
-         * .customerNote()
-         * .networkClaimIds()
-         * .networkFiledDate()
-         * .networkReasonCode()
-         * .prearbitrationDate()
-         * .primaryClaimId()
-         * .reason()
-         * .representmentDate()
-         * .resolutionDate()
-         * .resolutionNote()
-         * .resolutionReason()
+         * .currency()
+         * .disposition()
+         * .events()
+         * .liabilityAllocation()
+         * .merchant()
+         * .network()
          * .status()
-         * .transactionToken()
+         * .transactionSeries()
+         * .updated()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -968,23 +645,19 @@ private constructor(
         fun build(): Dispute =
             Dispute(
                 checkRequired("token", token),
-                checkRequired("amount", amount),
-                checkRequired("arbitrationDate", arbitrationDate),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("caseId", caseId),
                 checkRequired("created", created),
-                checkRequired("customerFiledDate", customerFiledDate),
-                checkRequired("customerNote", customerNote),
-                checkRequired("networkClaimIds", networkClaimIds).map { it.toImmutable() },
-                checkRequired("networkFiledDate", networkFiledDate),
-                checkRequired("networkReasonCode", networkReasonCode),
-                checkRequired("prearbitrationDate", prearbitrationDate),
-                checkRequired("primaryClaimId", primaryClaimId),
-                checkRequired("reason", reason),
-                checkRequired("representmentDate", representmentDate),
-                checkRequired("resolutionDate", resolutionDate),
-                checkRequired("resolutionNote", resolutionNote),
-                checkRequired("resolutionReason", resolutionReason),
+                checkRequired("currency", currency),
+                checkRequired("disposition", disposition),
+                checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("liabilityAllocation", liabilityAllocation),
+                checkRequired("merchant", merchant),
+                checkRequired("network", network),
                 checkRequired("status", status),
-                checkRequired("transactionToken", transactionToken),
+                checkRequired("transactionSeries", transactionSeries),
+                checkRequired("updated", updated),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -997,23 +670,19 @@ private constructor(
         }
 
         token()
-        amount()
-        arbitrationDate()
+        accountToken()
+        cardToken()
+        caseId()
         created()
-        customerFiledDate()
-        customerNote()
-        networkClaimIds()
-        networkFiledDate()
-        networkReasonCode()
-        prearbitrationDate()
-        primaryClaimId()
-        reason().validate()
-        representmentDate()
-        resolutionDate()
-        resolutionNote()
-        resolutionReason().ifPresent { it.validate() }
-        status().validate()
-        transactionToken()
+        currency()
+        disposition().ifPresent { it.validate() }
+        events().forEach { it.validate() }
+        liabilityAllocation().validate()
+        merchant().validate()
+        network().validate()
+        status().ifPresent { it.validate() }
+        transactionSeries().ifPresent { it.validate() }
+        updated()
         validated = true
     }
 
@@ -1033,260 +702,22 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (token.asKnown().isPresent) 1 else 0) +
-            (if (amount.asKnown().isPresent) 1 else 0) +
-            (if (arbitrationDate.asKnown().isPresent) 1 else 0) +
+            (if (accountToken.asKnown().isPresent) 1 else 0) +
+            (if (cardToken.asKnown().isPresent) 1 else 0) +
+            (if (caseId.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
-            (if (customerFiledDate.asKnown().isPresent) 1 else 0) +
-            (if (customerNote.asKnown().isPresent) 1 else 0) +
-            (networkClaimIds.asKnown().getOrNull()?.size ?: 0) +
-            (if (networkFiledDate.asKnown().isPresent) 1 else 0) +
-            (if (networkReasonCode.asKnown().isPresent) 1 else 0) +
-            (if (prearbitrationDate.asKnown().isPresent) 1 else 0) +
-            (if (primaryClaimId.asKnown().isPresent) 1 else 0) +
-            (reason.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (representmentDate.asKnown().isPresent) 1 else 0) +
-            (if (resolutionDate.asKnown().isPresent) 1 else 0) +
-            (if (resolutionNote.asKnown().isPresent) 1 else 0) +
-            (resolutionReason.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (currency.asKnown().isPresent) 1 else 0) +
+            (disposition.asKnown().getOrNull()?.validity() ?: 0) +
+            (events.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (liabilityAllocation.asKnown().getOrNull()?.validity() ?: 0) +
+            (merchant.asKnown().getOrNull()?.validity() ?: 0) +
+            (network.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (transactionToken.asKnown().isPresent) 1 else 0)
+            (transactionSeries.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (updated.asKnown().isPresent) 1 else 0)
 
-    /**
-     * Dispute reason:
-     * * `ATM_CASH_MISDISPENSE`: ATM cash misdispense.
-     * * `CANCELLED`: Transaction was cancelled by the customer.
-     * * `DUPLICATED`: The transaction was a duplicate.
-     * * `FRAUD_CARD_NOT_PRESENT`: Fraudulent transaction, card not present.
-     * * `FRAUD_CARD_PRESENT`: Fraudulent transaction, card present.
-     * * `FRAUD_OTHER`: Fraudulent transaction, other types such as questionable merchant activity.
-     * * `GOODS_SERVICES_NOT_AS_DESCRIBED`: The goods or services were not as described.
-     * * `GOODS_SERVICES_NOT_RECEIVED`: The goods or services were not received.
-     * * `INCORRECT_AMOUNT`: The transaction amount was incorrect.
-     * * `MISSING_AUTH`: The transaction was missing authorization.
-     * * `OTHER`: Other reason.
-     * * `PROCESSING_ERROR`: Processing error.
-     * * `REFUND_NOT_PROCESSED`: The refund was not processed.
-     * * `RECURRING_TRANSACTION_NOT_CANCELLED`: The recurring transaction was not cancelled.
-     */
-    class Reason @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
-
-        /**
-         * Returns this class instance's raw value.
-         *
-         * This is usually only useful if this instance was deserialized from data that doesn't
-         * match any known member, and you want to know that value. For example, if the SDK is on an
-         * older version than the API, then the API may respond with new members that the SDK is
-         * unaware of.
-         */
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        companion object {
-
-            @JvmField val ATM_CASH_MISDISPENSE = of("ATM_CASH_MISDISPENSE")
-
-            @JvmField val CANCELLED = of("CANCELLED")
-
-            @JvmField val DUPLICATED = of("DUPLICATED")
-
-            @JvmField val FRAUD_CARD_NOT_PRESENT = of("FRAUD_CARD_NOT_PRESENT")
-
-            @JvmField val FRAUD_CARD_PRESENT = of("FRAUD_CARD_PRESENT")
-
-            @JvmField val FRAUD_OTHER = of("FRAUD_OTHER")
-
-            @JvmField val GOODS_SERVICES_NOT_AS_DESCRIBED = of("GOODS_SERVICES_NOT_AS_DESCRIBED")
-
-            @JvmField val GOODS_SERVICES_NOT_RECEIVED = of("GOODS_SERVICES_NOT_RECEIVED")
-
-            @JvmField val INCORRECT_AMOUNT = of("INCORRECT_AMOUNT")
-
-            @JvmField val MISSING_AUTH = of("MISSING_AUTH")
-
-            @JvmField val OTHER = of("OTHER")
-
-            @JvmField val PROCESSING_ERROR = of("PROCESSING_ERROR")
-
-            @JvmField
-            val RECURRING_TRANSACTION_NOT_CANCELLED = of("RECURRING_TRANSACTION_NOT_CANCELLED")
-
-            @JvmField val REFUND_NOT_PROCESSED = of("REFUND_NOT_PROCESSED")
-
-            @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
-        }
-
-        /** An enum containing [Reason]'s known values. */
-        enum class Known {
-            ATM_CASH_MISDISPENSE,
-            CANCELLED,
-            DUPLICATED,
-            FRAUD_CARD_NOT_PRESENT,
-            FRAUD_CARD_PRESENT,
-            FRAUD_OTHER,
-            GOODS_SERVICES_NOT_AS_DESCRIBED,
-            GOODS_SERVICES_NOT_RECEIVED,
-            INCORRECT_AMOUNT,
-            MISSING_AUTH,
-            OTHER,
-            PROCESSING_ERROR,
-            RECURRING_TRANSACTION_NOT_CANCELLED,
-            REFUND_NOT_PROCESSED,
-        }
-
-        /**
-         * An enum containing [Reason]'s known values, as well as an [_UNKNOWN] member.
-         *
-         * An instance of [Reason] can contain an unknown value in a couple of cases:
-         * - It was deserialized from data that doesn't match any known member. For example, if the
-         *   SDK is on an older version than the API, then the API may respond with new members that
-         *   the SDK is unaware of.
-         * - It was constructed with an arbitrary value using the [of] method.
-         */
-        enum class Value {
-            ATM_CASH_MISDISPENSE,
-            CANCELLED,
-            DUPLICATED,
-            FRAUD_CARD_NOT_PRESENT,
-            FRAUD_CARD_PRESENT,
-            FRAUD_OTHER,
-            GOODS_SERVICES_NOT_AS_DESCRIBED,
-            GOODS_SERVICES_NOT_RECEIVED,
-            INCORRECT_AMOUNT,
-            MISSING_AUTH,
-            OTHER,
-            PROCESSING_ERROR,
-            RECURRING_TRANSACTION_NOT_CANCELLED,
-            REFUND_NOT_PROCESSED,
-            /** An enum member indicating that [Reason] was instantiated with an unknown value. */
-            _UNKNOWN,
-        }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
-         * if the class was instantiated with an unknown value.
-         *
-         * Use the [known] method instead if you're certain the value is always known or if you want
-         * to throw for the unknown case.
-         */
-        fun value(): Value =
-            when (this) {
-                ATM_CASH_MISDISPENSE -> Value.ATM_CASH_MISDISPENSE
-                CANCELLED -> Value.CANCELLED
-                DUPLICATED -> Value.DUPLICATED
-                FRAUD_CARD_NOT_PRESENT -> Value.FRAUD_CARD_NOT_PRESENT
-                FRAUD_CARD_PRESENT -> Value.FRAUD_CARD_PRESENT
-                FRAUD_OTHER -> Value.FRAUD_OTHER
-                GOODS_SERVICES_NOT_AS_DESCRIBED -> Value.GOODS_SERVICES_NOT_AS_DESCRIBED
-                GOODS_SERVICES_NOT_RECEIVED -> Value.GOODS_SERVICES_NOT_RECEIVED
-                INCORRECT_AMOUNT -> Value.INCORRECT_AMOUNT
-                MISSING_AUTH -> Value.MISSING_AUTH
-                OTHER -> Value.OTHER
-                PROCESSING_ERROR -> Value.PROCESSING_ERROR
-                RECURRING_TRANSACTION_NOT_CANCELLED -> Value.RECURRING_TRANSACTION_NOT_CANCELLED
-                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
-                else -> Value._UNKNOWN
-            }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value.
-         *
-         * Use the [value] method instead if you're uncertain the value is always known and don't
-         * want to throw for the unknown case.
-         *
-         * @throws LithicInvalidDataException if this class instance's value is a not a known
-         *   member.
-         */
-        fun known(): Known =
-            when (this) {
-                ATM_CASH_MISDISPENSE -> Known.ATM_CASH_MISDISPENSE
-                CANCELLED -> Known.CANCELLED
-                DUPLICATED -> Known.DUPLICATED
-                FRAUD_CARD_NOT_PRESENT -> Known.FRAUD_CARD_NOT_PRESENT
-                FRAUD_CARD_PRESENT -> Known.FRAUD_CARD_PRESENT
-                FRAUD_OTHER -> Known.FRAUD_OTHER
-                GOODS_SERVICES_NOT_AS_DESCRIBED -> Known.GOODS_SERVICES_NOT_AS_DESCRIBED
-                GOODS_SERVICES_NOT_RECEIVED -> Known.GOODS_SERVICES_NOT_RECEIVED
-                INCORRECT_AMOUNT -> Known.INCORRECT_AMOUNT
-                MISSING_AUTH -> Known.MISSING_AUTH
-                OTHER -> Known.OTHER
-                PROCESSING_ERROR -> Known.PROCESSING_ERROR
-                RECURRING_TRANSACTION_NOT_CANCELLED -> Known.RECURRING_TRANSACTION_NOT_CANCELLED
-                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
-                else -> throw LithicInvalidDataException("Unknown Reason: $value")
-            }
-
-        /**
-         * Returns this class instance's primitive wire representation.
-         *
-         * This differs from the [toString] method because that method is primarily for debugging
-         * and generally doesn't throw.
-         *
-         * @throws LithicInvalidDataException if this class instance's value does not have the
-         *   expected primitive type.
-         */
-        fun asString(): String =
-            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
-
-        private var validated: Boolean = false
-
-        fun validate(): Reason = apply {
-            if (validated) {
-                return@apply
-            }
-
-            known()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Reason && value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-    }
-
-    /**
-     * Reason for the dispute resolution:
-     * * `CASE_LOST`: This case was lost at final arbitration.
-     * * `NETWORK_REJECTED`: Network rejected.
-     * * `NO_DISPUTE_RIGHTS_3DS`: No dispute rights, 3DS.
-     * * `NO_DISPUTE_RIGHTS_BELOW_THRESHOLD`: No dispute rights, below threshold.
-     * * `NO_DISPUTE_RIGHTS_CONTACTLESS`: No dispute rights, contactless.
-     * * `NO_DISPUTE_RIGHTS_HYBRID`: No dispute rights, hybrid.
-     * * `NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS`: No dispute rights, max chargebacks.
-     * * `NO_DISPUTE_RIGHTS_OTHER`: No dispute rights, other.
-     * * `PAST_FILING_DATE`: Past filing date.
-     * * `PREARBITRATION_REJECTED`: Prearbitration rejected.
-     * * `PROCESSOR_REJECTED_OTHER`: Processor rejected, other.
-     * * `REFUNDED`: Refunded.
-     * * `REFUNDED_AFTER_CHARGEBACK`: Refunded after chargeback.
-     * * `WITHDRAWN`: Withdrawn.
-     * * `WON_ARBITRATION`: Won arbitration.
-     * * `WON_FIRST_CHARGEBACK`: Won first chargeback.
-     * * `WON_PREARBITRATION`: Won prearbitration.
-     */
-    class ResolutionReason @JsonCreator private constructor(private val value: JsonField<String>) :
+    /** Dispute resolution outcome */
+    class Disposition @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
         /**
@@ -1301,96 +732,45 @@ private constructor(
 
         companion object {
 
-            @JvmField val CASE_LOST = of("CASE_LOST")
+            @JvmField val WON = of("WON")
 
-            @JvmField val NETWORK_REJECTED = of("NETWORK_REJECTED")
+            @JvmField val LOST = of("LOST")
 
-            @JvmField val NO_DISPUTE_RIGHTS_3DS = of("NO_DISPUTE_RIGHTS_3DS")
-
-            @JvmField
-            val NO_DISPUTE_RIGHTS_BELOW_THRESHOLD = of("NO_DISPUTE_RIGHTS_BELOW_THRESHOLD")
-
-            @JvmField val NO_DISPUTE_RIGHTS_CONTACTLESS = of("NO_DISPUTE_RIGHTS_CONTACTLESS")
-
-            @JvmField val NO_DISPUTE_RIGHTS_HYBRID = of("NO_DISPUTE_RIGHTS_HYBRID")
-
-            @JvmField
-            val NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS = of("NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS")
-
-            @JvmField val NO_DISPUTE_RIGHTS_OTHER = of("NO_DISPUTE_RIGHTS_OTHER")
-
-            @JvmField val PAST_FILING_DATE = of("PAST_FILING_DATE")
-
-            @JvmField val PREARBITRATION_REJECTED = of("PREARBITRATION_REJECTED")
-
-            @JvmField val PROCESSOR_REJECTED_OTHER = of("PROCESSOR_REJECTED_OTHER")
-
-            @JvmField val REFUNDED = of("REFUNDED")
-
-            @JvmField val REFUNDED_AFTER_CHARGEBACK = of("REFUNDED_AFTER_CHARGEBACK")
+            @JvmField val PARTIALLY_WON = of("PARTIALLY_WON")
 
             @JvmField val WITHDRAWN = of("WITHDRAWN")
 
-            @JvmField val WON_ARBITRATION = of("WON_ARBITRATION")
+            @JvmField val DENIED = of("DENIED")
 
-            @JvmField val WON_FIRST_CHARGEBACK = of("WON_FIRST_CHARGEBACK")
-
-            @JvmField val WON_PREARBITRATION = of("WON_PREARBITRATION")
-
-            @JvmStatic fun of(value: String) = ResolutionReason(JsonField.of(value))
+            @JvmStatic fun of(value: String) = Disposition(JsonField.of(value))
         }
 
-        /** An enum containing [ResolutionReason]'s known values. */
+        /** An enum containing [Disposition]'s known values. */
         enum class Known {
-            CASE_LOST,
-            NETWORK_REJECTED,
-            NO_DISPUTE_RIGHTS_3DS,
-            NO_DISPUTE_RIGHTS_BELOW_THRESHOLD,
-            NO_DISPUTE_RIGHTS_CONTACTLESS,
-            NO_DISPUTE_RIGHTS_HYBRID,
-            NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS,
-            NO_DISPUTE_RIGHTS_OTHER,
-            PAST_FILING_DATE,
-            PREARBITRATION_REJECTED,
-            PROCESSOR_REJECTED_OTHER,
-            REFUNDED,
-            REFUNDED_AFTER_CHARGEBACK,
+            WON,
+            LOST,
+            PARTIALLY_WON,
             WITHDRAWN,
-            WON_ARBITRATION,
-            WON_FIRST_CHARGEBACK,
-            WON_PREARBITRATION,
+            DENIED,
         }
 
         /**
-         * An enum containing [ResolutionReason]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [Disposition]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [ResolutionReason] can contain an unknown value in a couple of cases:
+         * An instance of [Disposition] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            CASE_LOST,
-            NETWORK_REJECTED,
-            NO_DISPUTE_RIGHTS_3DS,
-            NO_DISPUTE_RIGHTS_BELOW_THRESHOLD,
-            NO_DISPUTE_RIGHTS_CONTACTLESS,
-            NO_DISPUTE_RIGHTS_HYBRID,
-            NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS,
-            NO_DISPUTE_RIGHTS_OTHER,
-            PAST_FILING_DATE,
-            PREARBITRATION_REJECTED,
-            PROCESSOR_REJECTED_OTHER,
-            REFUNDED,
-            REFUNDED_AFTER_CHARGEBACK,
+            WON,
+            LOST,
+            PARTIALLY_WON,
             WITHDRAWN,
-            WON_ARBITRATION,
-            WON_FIRST_CHARGEBACK,
-            WON_PREARBITRATION,
+            DENIED,
             /**
-             * An enum member indicating that [ResolutionReason] was instantiated with an unknown
-             * value.
+             * An enum member indicating that [Disposition] was instantiated with an unknown value.
              */
             _UNKNOWN,
         }
@@ -1404,23 +784,11 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                CASE_LOST -> Value.CASE_LOST
-                NETWORK_REJECTED -> Value.NETWORK_REJECTED
-                NO_DISPUTE_RIGHTS_3DS -> Value.NO_DISPUTE_RIGHTS_3DS
-                NO_DISPUTE_RIGHTS_BELOW_THRESHOLD -> Value.NO_DISPUTE_RIGHTS_BELOW_THRESHOLD
-                NO_DISPUTE_RIGHTS_CONTACTLESS -> Value.NO_DISPUTE_RIGHTS_CONTACTLESS
-                NO_DISPUTE_RIGHTS_HYBRID -> Value.NO_DISPUTE_RIGHTS_HYBRID
-                NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS -> Value.NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS
-                NO_DISPUTE_RIGHTS_OTHER -> Value.NO_DISPUTE_RIGHTS_OTHER
-                PAST_FILING_DATE -> Value.PAST_FILING_DATE
-                PREARBITRATION_REJECTED -> Value.PREARBITRATION_REJECTED
-                PROCESSOR_REJECTED_OTHER -> Value.PROCESSOR_REJECTED_OTHER
-                REFUNDED -> Value.REFUNDED
-                REFUNDED_AFTER_CHARGEBACK -> Value.REFUNDED_AFTER_CHARGEBACK
+                WON -> Value.WON
+                LOST -> Value.LOST
+                PARTIALLY_WON -> Value.PARTIALLY_WON
                 WITHDRAWN -> Value.WITHDRAWN
-                WON_ARBITRATION -> Value.WON_ARBITRATION
-                WON_FIRST_CHARGEBACK -> Value.WON_FIRST_CHARGEBACK
-                WON_PREARBITRATION -> Value.WON_PREARBITRATION
+                DENIED -> Value.DENIED
                 else -> Value._UNKNOWN
             }
 
@@ -1435,24 +803,12 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                CASE_LOST -> Known.CASE_LOST
-                NETWORK_REJECTED -> Known.NETWORK_REJECTED
-                NO_DISPUTE_RIGHTS_3DS -> Known.NO_DISPUTE_RIGHTS_3DS
-                NO_DISPUTE_RIGHTS_BELOW_THRESHOLD -> Known.NO_DISPUTE_RIGHTS_BELOW_THRESHOLD
-                NO_DISPUTE_RIGHTS_CONTACTLESS -> Known.NO_DISPUTE_RIGHTS_CONTACTLESS
-                NO_DISPUTE_RIGHTS_HYBRID -> Known.NO_DISPUTE_RIGHTS_HYBRID
-                NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS -> Known.NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS
-                NO_DISPUTE_RIGHTS_OTHER -> Known.NO_DISPUTE_RIGHTS_OTHER
-                PAST_FILING_DATE -> Known.PAST_FILING_DATE
-                PREARBITRATION_REJECTED -> Known.PREARBITRATION_REJECTED
-                PROCESSOR_REJECTED_OTHER -> Known.PROCESSOR_REJECTED_OTHER
-                REFUNDED -> Known.REFUNDED
-                REFUNDED_AFTER_CHARGEBACK -> Known.REFUNDED_AFTER_CHARGEBACK
+                WON -> Known.WON
+                LOST -> Known.LOST
+                PARTIALLY_WON -> Known.PARTIALLY_WON
                 WITHDRAWN -> Known.WITHDRAWN
-                WON_ARBITRATION -> Known.WON_ARBITRATION
-                WON_FIRST_CHARGEBACK -> Known.WON_FIRST_CHARGEBACK
-                WON_PREARBITRATION -> Known.WON_PREARBITRATION
-                else -> throw LithicInvalidDataException("Unknown ResolutionReason: $value")
+                DENIED -> Known.DENIED
+                else -> throw LithicInvalidDataException("Unknown Disposition: $value")
             }
 
         /**
@@ -1469,7 +825,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): ResolutionReason = apply {
+        fun validate(): Disposition = apply {
             if (validated) {
                 return@apply
             }
@@ -1499,7 +855,7 @@ private constructor(
                 return true
             }
 
-            return other is ResolutionReason && value == other.value
+            return other is Disposition && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1507,18 +863,3188 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /**
-     * Status types:
-     * * `NEW` - New dispute case is opened.
-     * * `PENDING_CUSTOMER` - Lithic is waiting for customer to provide more information.
-     * * `SUBMITTED` - Dispute is submitted to the card network.
-     * * `REPRESENTMENT` - Case has entered second presentment.
-     * * `PREARBITRATION` - Case has entered prearbitration.
-     * * `ARBITRATION` - Case has entered arbitration.
-     * * `CASE_WON` - Case was won and credit will be issued.
-     * * `CASE_CLOSED` - Case was lost or withdrawn.
-     */
-    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    /** Event that occurred in the dispute lifecycle */
+    class Event
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val token: JsonField<String>,
+        private val created: JsonField<OffsetDateTime>,
+        private val data: JsonField<Data>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        ) : this(token, created, data, type, mutableMapOf())
+
+        /**
+         * Unique identifier for the event, in UUID format
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun token(): String = token.getRequired("token")
+
+        /**
+         * When the event occurred
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun created(): OffsetDateTime = created.getRequired("created")
+
+        /**
+         * Details specific to the event type
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun data(): Data = data.getRequired("data")
+
+        /**
+         * Type of event
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun type(): Type = type.getRequired("type")
+
+        /**
+         * Returns the raw JSON value of [token].
+         *
+         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
+
+        /**
+         * Returns the raw JSON value of [data].
+         *
+         * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Event].
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .created()
+             * .data()
+             * .type()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Event]. */
+        class Builder internal constructor() {
+
+            private var token: JsonField<String>? = null
+            private var created: JsonField<OffsetDateTime>? = null
+            private var data: JsonField<Data>? = null
+            private var type: JsonField<Type>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(event: Event) = apply {
+                token = event.token
+                created = event.created
+                data = event.data
+                type = event.type
+                additionalProperties = event.additionalProperties.toMutableMap()
+            }
+
+            /** Unique identifier for the event, in UUID format */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /**
+             * Sets [Builder.token] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.token] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
+            /** When the event occurred */
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            /** Details specific to the event type */
+            fun data(data: Data) = data(JsonField.of(data))
+
+            /**
+             * Sets [Builder.data] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.data] with a well-typed [Data] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun data(data: JsonField<Data>) = apply { this.data = data }
+
+            /** Alias for calling [data] with `Data.ofWorkflowEvent(workflowEvent)`. */
+            fun data(workflowEvent: Data.WorkflowEventData) =
+                data(Data.ofWorkflowEvent(workflowEvent))
+
+            /** Alias for calling [data] with `Data.ofFinancialEvent(financialEvent)`. */
+            fun data(financialEvent: Data.FinancialEventData) =
+                data(Data.ofFinancialEvent(financialEvent))
+
+            /**
+             * Alias for calling [data] with
+             * `Data.ofCardholderLiabilityEvent(cardholderLiabilityEvent)`.
+             */
+            fun data(cardholderLiabilityEvent: Data.CardholderLiabilityEventData) =
+                data(Data.ofCardholderLiabilityEvent(cardholderLiabilityEvent))
+
+            /** Type of event */
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Event].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .token()
+             * .created()
+             * .data()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Event =
+                Event(
+                    checkRequired("token", token),
+                    checkRequired("created", created),
+                    checkRequired("data", data),
+                    checkRequired("type", type),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Event = apply {
+            if (validated) {
+                return@apply
+            }
+
+            token()
+            created()
+            data().validate()
+            type().validate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (token.asKnown().isPresent) 1 else 0) +
+                (if (created.asKnown().isPresent) 1 else 0) +
+                (data.asKnown().getOrNull()?.validity() ?: 0) +
+                (type.asKnown().getOrNull()?.validity() ?: 0)
+
+        /** Details specific to the event type */
+        @JsonDeserialize(using = Data.Deserializer::class)
+        @JsonSerialize(using = Data.Serializer::class)
+        class Data
+        private constructor(
+            private val workflowEvent: WorkflowEventData? = null,
+            private val financialEvent: FinancialEventData? = null,
+            private val cardholderLiabilityEvent: CardholderLiabilityEventData? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            /** Details specific to workflow events */
+            fun workflowEvent(): Optional<WorkflowEventData> = Optional.ofNullable(workflowEvent)
+
+            /** Details specific to financial events */
+            fun financialEvent(): Optional<FinancialEventData> = Optional.ofNullable(financialEvent)
+
+            /** Details specific to cardholder liability events */
+            fun cardholderLiabilityEvent(): Optional<CardholderLiabilityEventData> =
+                Optional.ofNullable(cardholderLiabilityEvent)
+
+            fun isWorkflowEvent(): Boolean = workflowEvent != null
+
+            fun isFinancialEvent(): Boolean = financialEvent != null
+
+            fun isCardholderLiabilityEvent(): Boolean = cardholderLiabilityEvent != null
+
+            /** Details specific to workflow events */
+            fun asWorkflowEvent(): WorkflowEventData = workflowEvent.getOrThrow("workflowEvent")
+
+            /** Details specific to financial events */
+            fun asFinancialEvent(): FinancialEventData = financialEvent.getOrThrow("financialEvent")
+
+            /** Details specific to cardholder liability events */
+            fun asCardholderLiabilityEvent(): CardholderLiabilityEventData =
+                cardholderLiabilityEvent.getOrThrow("cardholderLiabilityEvent")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    workflowEvent != null -> visitor.visitWorkflowEvent(workflowEvent)
+                    financialEvent != null -> visitor.visitFinancialEvent(financialEvent)
+                    cardholderLiabilityEvent != null ->
+                        visitor.visitCardholderLiabilityEvent(cardholderLiabilityEvent)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Data = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitWorkflowEvent(workflowEvent: WorkflowEventData) {
+                            workflowEvent.validate()
+                        }
+
+                        override fun visitFinancialEvent(financialEvent: FinancialEventData) {
+                            financialEvent.validate()
+                        }
+
+                        override fun visitCardholderLiabilityEvent(
+                            cardholderLiabilityEvent: CardholderLiabilityEventData
+                        ) {
+                            cardholderLiabilityEvent.validate()
+                        }
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitWorkflowEvent(workflowEvent: WorkflowEventData) =
+                            workflowEvent.validity()
+
+                        override fun visitFinancialEvent(financialEvent: FinancialEventData) =
+                            financialEvent.validity()
+
+                        override fun visitCardholderLiabilityEvent(
+                            cardholderLiabilityEvent: CardholderLiabilityEventData
+                        ) = cardholderLiabilityEvent.validity()
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Data &&
+                    workflowEvent == other.workflowEvent &&
+                    financialEvent == other.financialEvent &&
+                    cardholderLiabilityEvent == other.cardholderLiabilityEvent
+            }
+
+            override fun hashCode(): Int =
+                Objects.hash(workflowEvent, financialEvent, cardholderLiabilityEvent)
+
+            override fun toString(): String =
+                when {
+                    workflowEvent != null -> "Data{workflowEvent=$workflowEvent}"
+                    financialEvent != null -> "Data{financialEvent=$financialEvent}"
+                    cardholderLiabilityEvent != null ->
+                        "Data{cardholderLiabilityEvent=$cardholderLiabilityEvent}"
+                    _json != null -> "Data{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid Data")
+                }
+
+            companion object {
+
+                /** Details specific to workflow events */
+                @JvmStatic
+                fun ofWorkflowEvent(workflowEvent: WorkflowEventData) =
+                    Data(workflowEvent = workflowEvent)
+
+                /** Details specific to financial events */
+                @JvmStatic
+                fun ofFinancialEvent(financialEvent: FinancialEventData) =
+                    Data(financialEvent = financialEvent)
+
+                /** Details specific to cardholder liability events */
+                @JvmStatic
+                fun ofCardholderLiabilityEvent(
+                    cardholderLiabilityEvent: CardholderLiabilityEventData
+                ) = Data(cardholderLiabilityEvent = cardholderLiabilityEvent)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [Data] to a value of type [T].
+             */
+            interface Visitor<out T> {
+
+                /** Details specific to workflow events */
+                fun visitWorkflowEvent(workflowEvent: WorkflowEventData): T
+
+                /** Details specific to financial events */
+                fun visitFinancialEvent(financialEvent: FinancialEventData): T
+
+                /** Details specific to cardholder liability events */
+                fun visitCardholderLiabilityEvent(
+                    cardholderLiabilityEvent: CardholderLiabilityEventData
+                ): T
+
+                /**
+                 * Maps an unknown variant of [Data] to a value of type [T].
+                 *
+                 * An instance of [Data] can contain an unknown variant if it was deserialized from
+                 * data that doesn't match any known variant. For example, if the SDK is on an older
+                 * version than the API, then the API may respond with new variants that the SDK is
+                 * unaware of.
+                 *
+                 * @throws LithicInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw LithicInvalidDataException("Unknown Data: $json")
+                }
+            }
+
+            internal class Deserializer : BaseDeserializer<Data>(Data::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): Data {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<WorkflowEventData>())?.let {
+                                    Data(workflowEvent = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<FinancialEventData>())?.let {
+                                    Data(financialEvent = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<CardholderLiabilityEventData>())
+                                    ?.let { Data(cardholderLiabilityEvent = it, _json = json) },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from boolean).
+                        0 -> Data(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<Data>(Data::class) {
+
+                override fun serialize(
+                    value: Data,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.workflowEvent != null -> generator.writeObject(value.workflowEvent)
+                        value.financialEvent != null -> generator.writeObject(value.financialEvent)
+                        value.cardholderLiabilityEvent != null ->
+                            generator.writeObject(value.cardholderLiabilityEvent)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid Data")
+                    }
+                }
+            }
+
+            /** Details specific to workflow events */
+            class WorkflowEventData
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val action: JsonField<Action>,
+                private val amount: JsonField<Long>,
+                private val disposition: JsonField<Disposition>,
+                private val reason: JsonField<String>,
+                private val stage: JsonField<Stage>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("action")
+                    @ExcludeMissing
+                    action: JsonField<Action> = JsonMissing.of(),
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    amount: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("disposition")
+                    @ExcludeMissing
+                    disposition: JsonField<Disposition> = JsonMissing.of(),
+                    @JsonProperty("reason")
+                    @ExcludeMissing
+                    reason: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("stage")
+                    @ExcludeMissing
+                    stage: JsonField<Stage> = JsonMissing.of(),
+                ) : this(action, amount, disposition, reason, stage, mutableMapOf())
+
+                /**
+                 * Action taken in this stage
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun action(): Action = action.getRequired("action")
+
+                /**
+                 * Amount in minor units
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun amount(): Optional<Long> = amount.getOptional("amount")
+
+                /**
+                 * Dispute resolution outcome
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun disposition(): Optional<Disposition> = disposition.getOptional("disposition")
+
+                /**
+                 * Reason for the action
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun reason(): Optional<String> = reason.getOptional("reason")
+
+                /**
+                 * Current stage of the dispute workflow
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun stage(): Stage = stage.getRequired("stage")
+
+                /**
+                 * Returns the raw JSON value of [action].
+                 *
+                 * Unlike [action], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("action") @ExcludeMissing fun _action(): JsonField<Action> = action
+
+                /**
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+                /**
+                 * Returns the raw JSON value of [disposition].
+                 *
+                 * Unlike [disposition], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
+                @JsonProperty("disposition")
+                @ExcludeMissing
+                fun _disposition(): JsonField<Disposition> = disposition
+
+                /**
+                 * Returns the raw JSON value of [reason].
+                 *
+                 * Unlike [reason], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+                /**
+                 * Returns the raw JSON value of [stage].
+                 *
+                 * Unlike [stage], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("stage") @ExcludeMissing fun _stage(): JsonField<Stage> = stage
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [WorkflowEventData].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .action()
+                     * .amount()
+                     * .disposition()
+                     * .reason()
+                     * .stage()
+                     * ```
+                     */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [WorkflowEventData]. */
+                class Builder internal constructor() {
+
+                    private var action: JsonField<Action>? = null
+                    private var amount: JsonField<Long>? = null
+                    private var disposition: JsonField<Disposition>? = null
+                    private var reason: JsonField<String>? = null
+                    private var stage: JsonField<Stage>? = null
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(workflowEventData: WorkflowEventData) = apply {
+                        action = workflowEventData.action
+                        amount = workflowEventData.amount
+                        disposition = workflowEventData.disposition
+                        reason = workflowEventData.reason
+                        stage = workflowEventData.stage
+                        additionalProperties = workflowEventData.additionalProperties.toMutableMap()
+                    }
+
+                    /** Action taken in this stage */
+                    fun action(action: Action) = action(JsonField.of(action))
+
+                    /**
+                     * Sets [Builder.action] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.action] with a well-typed [Action] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun action(action: JsonField<Action>) = apply { this.action = action }
+
+                    /** Amount in minor units */
+                    fun amount(amount: Long?) = amount(JsonField.ofNullable(amount))
+
+                    /**
+                     * Alias for [Builder.amount].
+                     *
+                     * This unboxed primitive overload exists for backwards compatibility.
+                     */
+                    fun amount(amount: Long) = amount(amount as Long?)
+
+                    /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                    fun amount(amount: Optional<Long>) = amount(amount.getOrNull())
+
+                    /**
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    /** Dispute resolution outcome */
+                    fun disposition(disposition: Disposition?) =
+                        disposition(JsonField.ofNullable(disposition))
+
+                    /** Alias for calling [Builder.disposition] with `disposition.orElse(null)`. */
+                    fun disposition(disposition: Optional<Disposition>) =
+                        disposition(disposition.getOrNull())
+
+                    /**
+                     * Sets [Builder.disposition] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.disposition] with a well-typed [Disposition]
+                     * value instead. This method is primarily for setting the field to an
+                     * undocumented or not yet supported value.
+                     */
+                    fun disposition(disposition: JsonField<Disposition>) = apply {
+                        this.disposition = disposition
+                    }
+
+                    /** Reason for the action */
+                    fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                    /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                    fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+                    /**
+                     * Sets [Builder.reason] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.reason] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                    /** Current stage of the dispute workflow */
+                    fun stage(stage: Stage) = stage(JsonField.of(stage))
+
+                    /**
+                     * Sets [Builder.stage] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.stage] with a well-typed [Stage] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun stage(stage: JsonField<Stage>) = apply { this.stage = stage }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [WorkflowEventData].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .action()
+                     * .amount()
+                     * .disposition()
+                     * .reason()
+                     * .stage()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
+                    fun build(): WorkflowEventData =
+                        WorkflowEventData(
+                            checkRequired("action", action),
+                            checkRequired("amount", amount),
+                            checkRequired("disposition", disposition),
+                            checkRequired("reason", reason),
+                            checkRequired("stage", stage),
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): WorkflowEventData = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    action().validate()
+                    amount()
+                    disposition().ifPresent { it.validate() }
+                    reason()
+                    stage().validate()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (action.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (amount.asKnown().isPresent) 1 else 0) +
+                        (disposition.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (reason.asKnown().isPresent) 1 else 0) +
+                        (stage.asKnown().getOrNull()?.validity() ?: 0)
+
+                /** Action taken in this stage */
+                class Action
+                @JsonCreator
+                private constructor(private val value: JsonField<String>) : Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val OPENED = of("OPENED")
+
+                        @JvmField val CLOSED = of("CLOSED")
+
+                        @JvmField val REOPENED = of("REOPENED")
+
+                        @JvmStatic fun of(value: String) = Action(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Action]'s known values. */
+                    enum class Known {
+                        OPENED,
+                        CLOSED,
+                        REOPENED,
+                    }
+
+                    /**
+                     * An enum containing [Action]'s known values, as well as an [_UNKNOWN] member.
+                     *
+                     * An instance of [Action] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        OPENED,
+                        CLOSED,
+                        REOPENED,
+                        /**
+                         * An enum member indicating that [Action] was instantiated with an unknown
+                         * value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            OPENED -> Value.OPENED
+                            CLOSED -> Value.CLOSED
+                            REOPENED -> Value.REOPENED
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            OPENED -> Known.OPENED
+                            CLOSED -> Known.CLOSED
+                            REOPENED -> Known.REOPENED
+                            else -> throw LithicInvalidDataException("Unknown Action: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Action = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Action && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                /** Dispute resolution outcome */
+                class Disposition
+                @JsonCreator
+                private constructor(private val value: JsonField<String>) : Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val WON = of("WON")
+
+                        @JvmField val LOST = of("LOST")
+
+                        @JvmField val PARTIALLY_WON = of("PARTIALLY_WON")
+
+                        @JvmField val WITHDRAWN = of("WITHDRAWN")
+
+                        @JvmField val DENIED = of("DENIED")
+
+                        @JvmStatic fun of(value: String) = Disposition(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Disposition]'s known values. */
+                    enum class Known {
+                        WON,
+                        LOST,
+                        PARTIALLY_WON,
+                        WITHDRAWN,
+                        DENIED,
+                    }
+
+                    /**
+                     * An enum containing [Disposition]'s known values, as well as an [_UNKNOWN]
+                     * member.
+                     *
+                     * An instance of [Disposition] can contain an unknown value in a couple of
+                     * cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        WON,
+                        LOST,
+                        PARTIALLY_WON,
+                        WITHDRAWN,
+                        DENIED,
+                        /**
+                         * An enum member indicating that [Disposition] was instantiated with an
+                         * unknown value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            WON -> Value.WON
+                            LOST -> Value.LOST
+                            PARTIALLY_WON -> Value.PARTIALLY_WON
+                            WITHDRAWN -> Value.WITHDRAWN
+                            DENIED -> Value.DENIED
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            WON -> Known.WON
+                            LOST -> Known.LOST
+                            PARTIALLY_WON -> Known.PARTIALLY_WON
+                            WITHDRAWN -> Known.WITHDRAWN
+                            DENIED -> Known.DENIED
+                            else -> throw LithicInvalidDataException("Unknown Disposition: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Disposition = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Disposition && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                /** Current stage of the dispute workflow */
+                class Stage @JsonCreator private constructor(private val value: JsonField<String>) :
+                    Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val CLAIM = of("CLAIM")
+
+                        @JvmStatic fun of(value: String) = Stage(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Stage]'s known values. */
+                    enum class Known {
+                        CLAIM
+                    }
+
+                    /**
+                     * An enum containing [Stage]'s known values, as well as an [_UNKNOWN] member.
+                     *
+                     * An instance of [Stage] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        CLAIM,
+                        /**
+                         * An enum member indicating that [Stage] was instantiated with an unknown
+                         * value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            CLAIM -> Value.CLAIM
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            CLAIM -> Known.CLAIM
+                            else -> throw LithicInvalidDataException("Unknown Stage: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Stage = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Stage && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is WorkflowEventData &&
+                        action == other.action &&
+                        amount == other.amount &&
+                        disposition == other.disposition &&
+                        reason == other.reason &&
+                        stage == other.stage &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(action, amount, disposition, reason, stage, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "WorkflowEventData{action=$action, amount=$amount, disposition=$disposition, reason=$reason, stage=$stage, additionalProperties=$additionalProperties}"
+            }
+
+            /** Details specific to financial events */
+            class FinancialEventData
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val amount: JsonField<Long>,
+                private val polarity: JsonField<Polarity>,
+                private val stage: JsonField<Stage>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    amount: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("polarity")
+                    @ExcludeMissing
+                    polarity: JsonField<Polarity> = JsonMissing.of(),
+                    @JsonProperty("stage")
+                    @ExcludeMissing
+                    stage: JsonField<Stage> = JsonMissing.of(),
+                ) : this(amount, polarity, stage, mutableMapOf())
+
+                /**
+                 * Amount in minor units
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun amount(): Long = amount.getRequired("amount")
+
+                /**
+                 * Direction of funds flow
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun polarity(): Polarity = polarity.getRequired("polarity")
+
+                /**
+                 * Stage at which the financial event occurred
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun stage(): Stage = stage.getRequired("stage")
+
+                /**
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+                /**
+                 * Returns the raw JSON value of [polarity].
+                 *
+                 * Unlike [polarity], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("polarity")
+                @ExcludeMissing
+                fun _polarity(): JsonField<Polarity> = polarity
+
+                /**
+                 * Returns the raw JSON value of [stage].
+                 *
+                 * Unlike [stage], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("stage") @ExcludeMissing fun _stage(): JsonField<Stage> = stage
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [FinancialEventData].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .amount()
+                     * .polarity()
+                     * .stage()
+                     * ```
+                     */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [FinancialEventData]. */
+                class Builder internal constructor() {
+
+                    private var amount: JsonField<Long>? = null
+                    private var polarity: JsonField<Polarity>? = null
+                    private var stage: JsonField<Stage>? = null
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(financialEventData: FinancialEventData) = apply {
+                        amount = financialEventData.amount
+                        polarity = financialEventData.polarity
+                        stage = financialEventData.stage
+                        additionalProperties =
+                            financialEventData.additionalProperties.toMutableMap()
+                    }
+
+                    /** Amount in minor units */
+                    fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                    /**
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    /** Direction of funds flow */
+                    fun polarity(polarity: Polarity) = polarity(JsonField.of(polarity))
+
+                    /**
+                     * Sets [Builder.polarity] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.polarity] with a well-typed [Polarity] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun polarity(polarity: JsonField<Polarity>) = apply { this.polarity = polarity }
+
+                    /** Stage at which the financial event occurred */
+                    fun stage(stage: Stage) = stage(JsonField.of(stage))
+
+                    /**
+                     * Sets [Builder.stage] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.stage] with a well-typed [Stage] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun stage(stage: JsonField<Stage>) = apply { this.stage = stage }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [FinancialEventData].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .amount()
+                     * .polarity()
+                     * .stage()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
+                    fun build(): FinancialEventData =
+                        FinancialEventData(
+                            checkRequired("amount", amount),
+                            checkRequired("polarity", polarity),
+                            checkRequired("stage", stage),
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): FinancialEventData = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    amount()
+                    polarity().validate()
+                    stage().validate()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (amount.asKnown().isPresent) 1 else 0) +
+                        (polarity.asKnown().getOrNull()?.validity() ?: 0) +
+                        (stage.asKnown().getOrNull()?.validity() ?: 0)
+
+                /** Direction of funds flow */
+                class Polarity
+                @JsonCreator
+                private constructor(private val value: JsonField<String>) : Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val CREDIT = of("CREDIT")
+
+                        @JvmField val DEBIT = of("DEBIT")
+
+                        @JvmStatic fun of(value: String) = Polarity(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Polarity]'s known values. */
+                    enum class Known {
+                        CREDIT,
+                        DEBIT,
+                    }
+
+                    /**
+                     * An enum containing [Polarity]'s known values, as well as an [_UNKNOWN]
+                     * member.
+                     *
+                     * An instance of [Polarity] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        CREDIT,
+                        DEBIT,
+                        /**
+                         * An enum member indicating that [Polarity] was instantiated with an
+                         * unknown value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            CREDIT -> Value.CREDIT
+                            DEBIT -> Value.DEBIT
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            CREDIT -> Known.CREDIT
+                            DEBIT -> Known.DEBIT
+                            else -> throw LithicInvalidDataException("Unknown Polarity: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Polarity = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Polarity && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                /** Stage at which the financial event occurred */
+                class Stage @JsonCreator private constructor(private val value: JsonField<String>) :
+                    Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val CHARGEBACK = of("CHARGEBACK")
+
+                        @JvmField val REPRESENTMENT = of("REPRESENTMENT")
+
+                        @JvmField val PREARBITRATION = of("PREARBITRATION")
+
+                        @JvmField val ARBITRATION = of("ARBITRATION")
+
+                        @JvmField val COLLABORATION = of("COLLABORATION")
+
+                        @JvmStatic fun of(value: String) = Stage(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Stage]'s known values. */
+                    enum class Known {
+                        CHARGEBACK,
+                        REPRESENTMENT,
+                        PREARBITRATION,
+                        ARBITRATION,
+                        COLLABORATION,
+                    }
+
+                    /**
+                     * An enum containing [Stage]'s known values, as well as an [_UNKNOWN] member.
+                     *
+                     * An instance of [Stage] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        CHARGEBACK,
+                        REPRESENTMENT,
+                        PREARBITRATION,
+                        ARBITRATION,
+                        COLLABORATION,
+                        /**
+                         * An enum member indicating that [Stage] was instantiated with an unknown
+                         * value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            CHARGEBACK -> Value.CHARGEBACK
+                            REPRESENTMENT -> Value.REPRESENTMENT
+                            PREARBITRATION -> Value.PREARBITRATION
+                            ARBITRATION -> Value.ARBITRATION
+                            COLLABORATION -> Value.COLLABORATION
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            CHARGEBACK -> Known.CHARGEBACK
+                            REPRESENTMENT -> Known.REPRESENTMENT
+                            PREARBITRATION -> Known.PREARBITRATION
+                            ARBITRATION -> Known.ARBITRATION
+                            COLLABORATION -> Known.COLLABORATION
+                            else -> throw LithicInvalidDataException("Unknown Stage: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Stage = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Stage && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is FinancialEventData &&
+                        amount == other.amount &&
+                        polarity == other.polarity &&
+                        stage == other.stage &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(amount, polarity, stage, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "FinancialEventData{amount=$amount, polarity=$polarity, stage=$stage, additionalProperties=$additionalProperties}"
+            }
+
+            /** Details specific to cardholder liability events */
+            class CardholderLiabilityEventData
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val action: JsonField<Action>,
+                private val amount: JsonField<Long>,
+                private val reason: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("action")
+                    @ExcludeMissing
+                    action: JsonField<Action> = JsonMissing.of(),
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    amount: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("reason")
+                    @ExcludeMissing
+                    reason: JsonField<String> = JsonMissing.of(),
+                ) : this(action, amount, reason, mutableMapOf())
+
+                /**
+                 * Action taken regarding cardholder liability
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun action(): Action = action.getRequired("action")
+
+                /**
+                 * Amount in minor units
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun amount(): Long = amount.getRequired("amount")
+
+                /**
+                 * Reason for the action
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+                 *   value).
+                 */
+                fun reason(): String = reason.getRequired("reason")
+
+                /**
+                 * Returns the raw JSON value of [action].
+                 *
+                 * Unlike [action], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("action") @ExcludeMissing fun _action(): JsonField<Action> = action
+
+                /**
+                 * Returns the raw JSON value of [amount].
+                 *
+                 * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+                /**
+                 * Returns the raw JSON value of [reason].
+                 *
+                 * Unlike [reason], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [CardholderLiabilityEventData].
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .action()
+                     * .amount()
+                     * .reason()
+                     * ```
+                     */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [CardholderLiabilityEventData]. */
+                class Builder internal constructor() {
+
+                    private var action: JsonField<Action>? = null
+                    private var amount: JsonField<Long>? = null
+                    private var reason: JsonField<String>? = null
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(cardholderLiabilityEventData: CardholderLiabilityEventData) =
+                        apply {
+                            action = cardholderLiabilityEventData.action
+                            amount = cardholderLiabilityEventData.amount
+                            reason = cardholderLiabilityEventData.reason
+                            additionalProperties =
+                                cardholderLiabilityEventData.additionalProperties.toMutableMap()
+                        }
+
+                    /** Action taken regarding cardholder liability */
+                    fun action(action: Action) = action(JsonField.of(action))
+
+                    /**
+                     * Sets [Builder.action] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.action] with a well-typed [Action] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun action(action: JsonField<Action>) = apply { this.action = action }
+
+                    /** Amount in minor units */
+                    fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                    /**
+                     * Sets [Builder.amount] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.amount] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    /** Reason for the action */
+                    fun reason(reason: String) = reason(JsonField.of(reason))
+
+                    /**
+                     * Sets [Builder.reason] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.reason] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [CardholderLiabilityEventData].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```java
+                     * .action()
+                     * .amount()
+                     * .reason()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
+                    fun build(): CardholderLiabilityEventData =
+                        CardholderLiabilityEventData(
+                            checkRequired("action", action),
+                            checkRequired("amount", amount),
+                            checkRequired("reason", reason),
+                            additionalProperties.toMutableMap(),
+                        )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): CardholderLiabilityEventData = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    action().validate()
+                    amount()
+                    reason()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (action.asKnown().getOrNull()?.validity() ?: 0) +
+                        (if (amount.asKnown().isPresent) 1 else 0) +
+                        (if (reason.asKnown().isPresent) 1 else 0)
+
+                /** Action taken regarding cardholder liability */
+                class Action
+                @JsonCreator
+                private constructor(private val value: JsonField<String>) : Enum {
+
+                    /**
+                     * Returns this class instance's raw value.
+                     *
+                     * This is usually only useful if this instance was deserialized from data that
+                     * doesn't match any known member, and you want to know that value. For example,
+                     * if the SDK is on an older version than the API, then the API may respond with
+                     * new members that the SDK is unaware of.
+                     */
+                    @com.fasterxml.jackson.annotation.JsonValue
+                    fun _value(): JsonField<String> = value
+
+                    companion object {
+
+                        @JvmField val PROVISIONAL_CREDIT_GRANTED = of("PROVISIONAL_CREDIT_GRANTED")
+
+                        @JvmField
+                        val PROVISIONAL_CREDIT_REVERSED = of("PROVISIONAL_CREDIT_REVERSED")
+
+                        @JvmField val WRITTEN_OFF = of("WRITTEN_OFF")
+
+                        @JvmStatic fun of(value: String) = Action(JsonField.of(value))
+                    }
+
+                    /** An enum containing [Action]'s known values. */
+                    enum class Known {
+                        PROVISIONAL_CREDIT_GRANTED,
+                        PROVISIONAL_CREDIT_REVERSED,
+                        WRITTEN_OFF,
+                    }
+
+                    /**
+                     * An enum containing [Action]'s known values, as well as an [_UNKNOWN] member.
+                     *
+                     * An instance of [Action] can contain an unknown value in a couple of cases:
+                     * - It was deserialized from data that doesn't match any known member. For
+                     *   example, if the SDK is on an older version than the API, then the API may
+                     *   respond with new members that the SDK is unaware of.
+                     * - It was constructed with an arbitrary value using the [of] method.
+                     */
+                    enum class Value {
+                        PROVISIONAL_CREDIT_GRANTED,
+                        PROVISIONAL_CREDIT_REVERSED,
+                        WRITTEN_OFF,
+                        /**
+                         * An enum member indicating that [Action] was instantiated with an unknown
+                         * value.
+                         */
+                        _UNKNOWN,
+                    }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value, or
+                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                     *
+                     * Use the [known] method instead if you're certain the value is always known or
+                     * if you want to throw for the unknown case.
+                     */
+                    fun value(): Value =
+                        when (this) {
+                            PROVISIONAL_CREDIT_GRANTED -> Value.PROVISIONAL_CREDIT_GRANTED
+                            PROVISIONAL_CREDIT_REVERSED -> Value.PROVISIONAL_CREDIT_REVERSED
+                            WRITTEN_OFF -> Value.WRITTEN_OFF
+                            else -> Value._UNKNOWN
+                        }
+
+                    /**
+                     * Returns an enum member corresponding to this class instance's value.
+                     *
+                     * Use the [value] method instead if you're uncertain the value is always known
+                     * and don't want to throw for the unknown case.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value is a not a
+                     *   known member.
+                     */
+                    fun known(): Known =
+                        when (this) {
+                            PROVISIONAL_CREDIT_GRANTED -> Known.PROVISIONAL_CREDIT_GRANTED
+                            PROVISIONAL_CREDIT_REVERSED -> Known.PROVISIONAL_CREDIT_REVERSED
+                            WRITTEN_OFF -> Known.WRITTEN_OFF
+                            else -> throw LithicInvalidDataException("Unknown Action: $value")
+                        }
+
+                    /**
+                     * Returns this class instance's primitive wire representation.
+                     *
+                     * This differs from the [toString] method because that method is primarily for
+                     * debugging and generally doesn't throw.
+                     *
+                     * @throws LithicInvalidDataException if this class instance's value does not
+                     *   have the expected primitive type.
+                     */
+                    fun asString(): String =
+                        _value().asString().orElseThrow {
+                            LithicInvalidDataException("Value is not a String")
+                        }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Action = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        known()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: LithicInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Action && value == other.value
+                    }
+
+                    override fun hashCode() = value.hashCode()
+
+                    override fun toString() = value.toString()
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is CardholderLiabilityEventData &&
+                        action == other.action &&
+                        amount == other.amount &&
+                        reason == other.reason &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(action, amount, reason, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "CardholderLiabilityEventData{action=$action, amount=$amount, reason=$reason, additionalProperties=$additionalProperties}"
+            }
+        }
+
+        /** Type of event */
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val WORKFLOW = of("WORKFLOW")
+
+                @JvmField val FINANCIAL = of("FINANCIAL")
+
+                @JvmField val CARDHOLDER_LIABILITY = of("CARDHOLDER_LIABILITY")
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            /** An enum containing [Type]'s known values. */
+            enum class Known {
+                WORKFLOW,
+                FINANCIAL,
+                CARDHOLDER_LIABILITY,
+            }
+
+            /**
+             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Type] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                WORKFLOW,
+                FINANCIAL,
+                CARDHOLDER_LIABILITY,
+                /** An enum member indicating that [Type] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    WORKFLOW -> Value.WORKFLOW
+                    FINANCIAL -> Value.FINANCIAL
+                    CARDHOLDER_LIABILITY -> Value.CARDHOLDER_LIABILITY
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    WORKFLOW -> Known.WORKFLOW
+                    FINANCIAL -> Known.FINANCIAL
+                    CARDHOLDER_LIABILITY -> Known.CARDHOLDER_LIABILITY
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Type = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Type && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Event &&
+                token == other.token &&
+                created == other.created &&
+                data == other.data &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(token, created, data, type, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Event{token=$token, created=$created, data=$data, type=$type, additionalProperties=$additionalProperties}"
+    }
+
+    /** Current breakdown of how liability is allocated for the disputed amount */
+    class LiabilityAllocation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val deniedAmount: JsonField<Long>,
+        private val originalAmount: JsonField<Long>,
+        private val recoveredAmount: JsonField<Long>,
+        private val remainingAmount: JsonField<Long>,
+        private val writtenOffAmount: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("denied_amount")
+            @ExcludeMissing
+            deniedAmount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("original_amount")
+            @ExcludeMissing
+            originalAmount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("recovered_amount")
+            @ExcludeMissing
+            recoveredAmount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("remaining_amount")
+            @ExcludeMissing
+            remainingAmount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("written_off_amount")
+            @ExcludeMissing
+            writtenOffAmount: JsonField<Long> = JsonMissing.of(),
+        ) : this(
+            deniedAmount,
+            originalAmount,
+            recoveredAmount,
+            remainingAmount,
+            writtenOffAmount,
+            mutableMapOf(),
+        )
+
+        /**
+         * The amount that has been denied to the cardholder
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun deniedAmount(): Long = deniedAmount.getRequired("denied_amount")
+
+        /**
+         * The initial amount disputed
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun originalAmount(): Long = originalAmount.getRequired("original_amount")
+
+        /**
+         * The amount that has been recovered from the merchant through the dispute process
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun recoveredAmount(): Long = recoveredAmount.getRequired("recovered_amount")
+
+        /**
+         * Any disputed amount that is still outstanding, i.e. has not been recovered, written off,
+         * or denied
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun remainingAmount(): Long = remainingAmount.getRequired("remaining_amount")
+
+        /**
+         * The amount the issuer has chosen to write off
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun writtenOffAmount(): Long = writtenOffAmount.getRequired("written_off_amount")
+
+        /**
+         * Returns the raw JSON value of [deniedAmount].
+         *
+         * Unlike [deniedAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("denied_amount")
+        @ExcludeMissing
+        fun _deniedAmount(): JsonField<Long> = deniedAmount
+
+        /**
+         * Returns the raw JSON value of [originalAmount].
+         *
+         * Unlike [originalAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("original_amount")
+        @ExcludeMissing
+        fun _originalAmount(): JsonField<Long> = originalAmount
+
+        /**
+         * Returns the raw JSON value of [recoveredAmount].
+         *
+         * Unlike [recoveredAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("recovered_amount")
+        @ExcludeMissing
+        fun _recoveredAmount(): JsonField<Long> = recoveredAmount
+
+        /**
+         * Returns the raw JSON value of [remainingAmount].
+         *
+         * Unlike [remainingAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("remaining_amount")
+        @ExcludeMissing
+        fun _remainingAmount(): JsonField<Long> = remainingAmount
+
+        /**
+         * Returns the raw JSON value of [writtenOffAmount].
+         *
+         * Unlike [writtenOffAmount], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("written_off_amount")
+        @ExcludeMissing
+        fun _writtenOffAmount(): JsonField<Long> = writtenOffAmount
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [LiabilityAllocation].
+             *
+             * The following fields are required:
+             * ```java
+             * .deniedAmount()
+             * .originalAmount()
+             * .recoveredAmount()
+             * .remainingAmount()
+             * .writtenOffAmount()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [LiabilityAllocation]. */
+        class Builder internal constructor() {
+
+            private var deniedAmount: JsonField<Long>? = null
+            private var originalAmount: JsonField<Long>? = null
+            private var recoveredAmount: JsonField<Long>? = null
+            private var remainingAmount: JsonField<Long>? = null
+            private var writtenOffAmount: JsonField<Long>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(liabilityAllocation: LiabilityAllocation) = apply {
+                deniedAmount = liabilityAllocation.deniedAmount
+                originalAmount = liabilityAllocation.originalAmount
+                recoveredAmount = liabilityAllocation.recoveredAmount
+                remainingAmount = liabilityAllocation.remainingAmount
+                writtenOffAmount = liabilityAllocation.writtenOffAmount
+                additionalProperties = liabilityAllocation.additionalProperties.toMutableMap()
+            }
+
+            /** The amount that has been denied to the cardholder */
+            fun deniedAmount(deniedAmount: Long) = deniedAmount(JsonField.of(deniedAmount))
+
+            /**
+             * Sets [Builder.deniedAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.deniedAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun deniedAmount(deniedAmount: JsonField<Long>) = apply {
+                this.deniedAmount = deniedAmount
+            }
+
+            /** The initial amount disputed */
+            fun originalAmount(originalAmount: Long) = originalAmount(JsonField.of(originalAmount))
+
+            /**
+             * Sets [Builder.originalAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.originalAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun originalAmount(originalAmount: JsonField<Long>) = apply {
+                this.originalAmount = originalAmount
+            }
+
+            /** The amount that has been recovered from the merchant through the dispute process */
+            fun recoveredAmount(recoveredAmount: Long) =
+                recoveredAmount(JsonField.of(recoveredAmount))
+
+            /**
+             * Sets [Builder.recoveredAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.recoveredAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun recoveredAmount(recoveredAmount: JsonField<Long>) = apply {
+                this.recoveredAmount = recoveredAmount
+            }
+
+            /**
+             * Any disputed amount that is still outstanding, i.e. has not been recovered, written
+             * off, or denied
+             */
+            fun remainingAmount(remainingAmount: Long) =
+                remainingAmount(JsonField.of(remainingAmount))
+
+            /**
+             * Sets [Builder.remainingAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.remainingAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun remainingAmount(remainingAmount: JsonField<Long>) = apply {
+                this.remainingAmount = remainingAmount
+            }
+
+            /** The amount the issuer has chosen to write off */
+            fun writtenOffAmount(writtenOffAmount: Long) =
+                writtenOffAmount(JsonField.of(writtenOffAmount))
+
+            /**
+             * Sets [Builder.writtenOffAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.writtenOffAmount] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun writtenOffAmount(writtenOffAmount: JsonField<Long>) = apply {
+                this.writtenOffAmount = writtenOffAmount
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [LiabilityAllocation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .deniedAmount()
+             * .originalAmount()
+             * .recoveredAmount()
+             * .remainingAmount()
+             * .writtenOffAmount()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): LiabilityAllocation =
+                LiabilityAllocation(
+                    checkRequired("deniedAmount", deniedAmount),
+                    checkRequired("originalAmount", originalAmount),
+                    checkRequired("recoveredAmount", recoveredAmount),
+                    checkRequired("remainingAmount", remainingAmount),
+                    checkRequired("writtenOffAmount", writtenOffAmount),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): LiabilityAllocation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            deniedAmount()
+            originalAmount()
+            recoveredAmount()
+            remainingAmount()
+            writtenOffAmount()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (deniedAmount.asKnown().isPresent) 1 else 0) +
+                (if (originalAmount.asKnown().isPresent) 1 else 0) +
+                (if (recoveredAmount.asKnown().isPresent) 1 else 0) +
+                (if (remainingAmount.asKnown().isPresent) 1 else 0) +
+                (if (writtenOffAmount.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is LiabilityAllocation &&
+                deniedAmount == other.deniedAmount &&
+                originalAmount == other.originalAmount &&
+                recoveredAmount == other.recoveredAmount &&
+                remainingAmount == other.remainingAmount &&
+                writtenOffAmount == other.writtenOffAmount &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                deniedAmount,
+                originalAmount,
+                recoveredAmount,
+                remainingAmount,
+                writtenOffAmount,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "LiabilityAllocation{deniedAmount=$deniedAmount, originalAmount=$originalAmount, recoveredAmount=$recoveredAmount, remainingAmount=$remainingAmount, writtenOffAmount=$writtenOffAmount, additionalProperties=$additionalProperties}"
+    }
+
+    class Merchant
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val acceptorId: JsonField<String>,
+        private val acquiringInstitutionId: JsonField<String>,
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val descriptor: JsonField<String>,
+        private val mcc: JsonField<String>,
+        private val state: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("acceptor_id")
+            @ExcludeMissing
+            acceptorId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("acquiring_institution_id")
+            @ExcludeMissing
+            acquiringInstitutionId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("descriptor")
+            @ExcludeMissing
+            descriptor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            acceptorId,
+            acquiringInstitutionId,
+            city,
+            country,
+            descriptor,
+            mcc,
+            state,
+            mutableMapOf(),
+        )
+
+        /**
+         * Unique alphanumeric identifier for the payment card acceptor (merchant).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun acceptorId(): String = acceptorId.getRequired("acceptor_id")
+
+        /**
+         * Unique numeric identifier of the acquiring institution.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun acquiringInstitutionId(): String =
+            acquiringInstitutionId.getRequired("acquiring_institution_id")
+
+        /**
+         * City of card acceptor. Note that in many cases, particularly in card-not-present
+         * transactions, merchants may send through a phone number or URL in this field.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun city(): String = city.getRequired("city")
+
+        /**
+         * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
+         * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun country(): String = country.getRequired("country")
+
+        /**
+         * Short description of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun descriptor(): String = descriptor.getRequired("descriptor")
+
+        /**
+         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
+         * classify a business by the types of goods or services it provides.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun mcc(): String = mcc.getRequired("mcc")
+
+        /**
+         * Geographic state of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun state(): String = state.getRequired("state")
+
+        /**
+         * Returns the raw JSON value of [acceptorId].
+         *
+         * Unlike [acceptorId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("acceptor_id")
+        @ExcludeMissing
+        fun _acceptorId(): JsonField<String> = acceptorId
+
+        /**
+         * Returns the raw JSON value of [acquiringInstitutionId].
+         *
+         * Unlike [acquiringInstitutionId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("acquiring_institution_id")
+        @ExcludeMissing
+        fun _acquiringInstitutionId(): JsonField<String> = acquiringInstitutionId
+
+        /**
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
+
+        /**
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
+
+        /**
+         * Returns the raw JSON value of [descriptor].
+         *
+         * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        fun _descriptor(): JsonField<String> = descriptor
+
+        /**
+         * Returns the raw JSON value of [mcc].
+         *
+         * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
+
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [Merchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .acceptorId()
+             * .acquiringInstitutionId()
+             * .city()
+             * .country()
+             * .descriptor()
+             * .mcc()
+             * .state()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Merchant]. */
+        class Builder internal constructor() {
+
+            private var acceptorId: JsonField<String>? = null
+            private var acquiringInstitutionId: JsonField<String>? = null
+            private var city: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var descriptor: JsonField<String>? = null
+            private var mcc: JsonField<String>? = null
+            private var state: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(merchant: Merchant) = apply {
+                acceptorId = merchant.acceptorId
+                acquiringInstitutionId = merchant.acquiringInstitutionId
+                city = merchant.city
+                country = merchant.country
+                descriptor = merchant.descriptor
+                mcc = merchant.mcc
+                state = merchant.state
+                additionalProperties = merchant.additionalProperties.toMutableMap()
+            }
+
+            /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
+            fun acceptorId(acceptorId: String) = acceptorId(JsonField.of(acceptorId))
+
+            /**
+             * Sets [Builder.acceptorId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acceptorId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun acceptorId(acceptorId: JsonField<String>) = apply { this.acceptorId = acceptorId }
+
+            /** Unique numeric identifier of the acquiring institution. */
+            fun acquiringInstitutionId(acquiringInstitutionId: String) =
+                acquiringInstitutionId(JsonField.of(acquiringInstitutionId))
+
+            /**
+             * Sets [Builder.acquiringInstitutionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acquiringInstitutionId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun acquiringInstitutionId(acquiringInstitutionId: JsonField<String>) = apply {
+                this.acquiringInstitutionId = acquiringInstitutionId
+            }
+
+            /**
+             * City of card acceptor. Note that in many cases, particularly in card-not-present
+             * transactions, merchants may send through a phone number or URL in this field.
+             */
+            fun city(city: String) = city(JsonField.of(city))
+
+            /**
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun city(city: JsonField<String>) = apply { this.city = city }
+
+            /**
+             * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
+             * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+             */
+            fun country(country: String) = country(JsonField.of(country))
+
+            /**
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun country(country: JsonField<String>) = apply { this.country = country }
+
+            /** Short description of card acceptor. */
+            fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
+
+            /**
+             * Sets [Builder.descriptor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.descriptor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
+
+            /**
+             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used
+             * to classify a business by the types of goods or services it provides.
+             */
+            fun mcc(mcc: String) = mcc(JsonField.of(mcc))
+
+            /**
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
+
+            /** Geographic state of card acceptor. */
+            fun state(state: String) = state(JsonField.of(state))
+
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun state(state: JsonField<String>) = apply { this.state = state }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Merchant].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .acceptorId()
+             * .acquiringInstitutionId()
+             * .city()
+             * .country()
+             * .descriptor()
+             * .mcc()
+             * .state()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): Merchant =
+                Merchant(
+                    checkRequired("acceptorId", acceptorId),
+                    checkRequired("acquiringInstitutionId", acquiringInstitutionId),
+                    checkRequired("city", city),
+                    checkRequired("country", country),
+                    checkRequired("descriptor", descriptor),
+                    checkRequired("mcc", mcc),
+                    checkRequired("state", state),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Merchant = apply {
+            if (validated) {
+                return@apply
+            }
+
+            acceptorId()
+            acquiringInstitutionId()
+            city()
+            country()
+            descriptor()
+            mcc()
+            state()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (acceptorId.asKnown().isPresent) 1 else 0) +
+                (if (acquiringInstitutionId.asKnown().isPresent) 1 else 0) +
+                (if (city.asKnown().isPresent) 1 else 0) +
+                (if (country.asKnown().isPresent) 1 else 0) +
+                (if (descriptor.asKnown().isPresent) 1 else 0) +
+                (if (mcc.asKnown().isPresent) 1 else 0) +
+                (if (state.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Merchant &&
+                acceptorId == other.acceptorId &&
+                acquiringInstitutionId == other.acquiringInstitutionId &&
+                city == other.city &&
+                country == other.country &&
+                descriptor == other.descriptor &&
+                mcc == other.mcc &&
+                state == other.state &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                acceptorId,
+                acquiringInstitutionId,
+                city,
+                country,
+                descriptor,
+                mcc,
+                state,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Merchant{acceptorId=$acceptorId, acquiringInstitutionId=$acquiringInstitutionId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, additionalProperties=$additionalProperties}"
+    }
+
+    /** Card network handling the dispute. */
+    class Network @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -1532,56 +4058,32 @@ private constructor(
 
         companion object {
 
-            @JvmField val ARBITRATION = of("ARBITRATION")
+            @JvmField val VISA = of("VISA")
 
-            @JvmField val CASE_CLOSED = of("CASE_CLOSED")
+            @JvmField val MASTERCARD = of("MASTERCARD")
 
-            @JvmField val CASE_WON = of("CASE_WON")
-
-            @JvmField val NEW = of("NEW")
-
-            @JvmField val PENDING_CUSTOMER = of("PENDING_CUSTOMER")
-
-            @JvmField val PREARBITRATION = of("PREARBITRATION")
-
-            @JvmField val REPRESENTMENT = of("REPRESENTMENT")
-
-            @JvmField val SUBMITTED = of("SUBMITTED")
-
-            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+            @JvmStatic fun of(value: String) = Network(JsonField.of(value))
         }
 
-        /** An enum containing [Status]'s known values. */
+        /** An enum containing [Network]'s known values. */
         enum class Known {
-            ARBITRATION,
-            CASE_CLOSED,
-            CASE_WON,
-            NEW,
-            PENDING_CUSTOMER,
-            PREARBITRATION,
-            REPRESENTMENT,
-            SUBMITTED,
+            VISA,
+            MASTERCARD,
         }
 
         /**
-         * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [Network]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Status] can contain an unknown value in a couple of cases:
+         * An instance of [Network] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            ARBITRATION,
-            CASE_CLOSED,
-            CASE_WON,
-            NEW,
-            PENDING_CUSTOMER,
-            PREARBITRATION,
-            REPRESENTMENT,
-            SUBMITTED,
-            /** An enum member indicating that [Status] was instantiated with an unknown value. */
+            VISA,
+            MASTERCARD,
+            /** An enum member indicating that [Network] was instantiated with an unknown value. */
             _UNKNOWN,
         }
 
@@ -1594,14 +4096,8 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                ARBITRATION -> Value.ARBITRATION
-                CASE_CLOSED -> Value.CASE_CLOSED
-                CASE_WON -> Value.CASE_WON
-                NEW -> Value.NEW
-                PENDING_CUSTOMER -> Value.PENDING_CUSTOMER
-                PREARBITRATION -> Value.PREARBITRATION
-                REPRESENTMENT -> Value.REPRESENTMENT
-                SUBMITTED -> Value.SUBMITTED
+                VISA -> Value.VISA
+                MASTERCARD -> Value.MASTERCARD
                 else -> Value._UNKNOWN
             }
 
@@ -1616,14 +4112,134 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                ARBITRATION -> Known.ARBITRATION
-                CASE_CLOSED -> Known.CASE_CLOSED
-                CASE_WON -> Known.CASE_WON
-                NEW -> Known.NEW
-                PENDING_CUSTOMER -> Known.PENDING_CUSTOMER
-                PREARBITRATION -> Known.PREARBITRATION
-                REPRESENTMENT -> Known.REPRESENTMENT
-                SUBMITTED -> Known.SUBMITTED
+                VISA -> Known.VISA
+                MASTERCARD -> Known.MASTERCARD
+                else -> throw LithicInvalidDataException("Unknown Network: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): Network = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Network && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** Current status of the dispute. */
+    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val OPEN = of("OPEN")
+
+            @JvmField val CLOSED = of("CLOSED")
+
+            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+        }
+
+        /** An enum containing [Status]'s known values. */
+        enum class Known {
+            OPEN,
+            CLOSED,
+        }
+
+        /**
+         * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Status] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            OPEN,
+            CLOSED,
+            /** An enum member indicating that [Status] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                OPEN -> Value.OPEN
+                CLOSED -> Value.CLOSED
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                OPEN -> Known.OPEN
+                CLOSED -> Known.CLOSED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
@@ -1679,6 +4295,411 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Contains identifiers for the transaction and specific event within being disputed; null if no
+     * transaction can be identified
+     */
+    class TransactionSeries
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val relatedTransactionEventToken: JsonField<String>,
+        private val relatedTransactionToken: JsonField<String>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("related_transaction_event_token")
+            @ExcludeMissing
+            relatedTransactionEventToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("related_transaction_token")
+            @ExcludeMissing
+            relatedTransactionToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+        ) : this(relatedTransactionEventToken, relatedTransactionToken, type, mutableMapOf())
+
+        /**
+         * Token of the specific event in the original transaction being disputed, in UUID format;
+         * null if no event can be identified
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun relatedTransactionEventToken(): Optional<String> =
+            relatedTransactionEventToken.getOptional("related_transaction_event_token")
+
+        /**
+         * Token of the original transaction being disputed, in UUID format
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun relatedTransactionToken(): String =
+            relatedTransactionToken.getRequired("related_transaction_token")
+
+        /**
+         * The type of transaction series associating the dispute and the original transaction.
+         * Always set to DISPUTE
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun type(): Type = type.getRequired("type")
+
+        /**
+         * Returns the raw JSON value of [relatedTransactionEventToken].
+         *
+         * Unlike [relatedTransactionEventToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("related_transaction_event_token")
+        @ExcludeMissing
+        fun _relatedTransactionEventToken(): JsonField<String> = relatedTransactionEventToken
+
+        /**
+         * Returns the raw JSON value of [relatedTransactionToken].
+         *
+         * Unlike [relatedTransactionToken], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("related_transaction_token")
+        @ExcludeMissing
+        fun _relatedTransactionToken(): JsonField<String> = relatedTransactionToken
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [TransactionSeries].
+             *
+             * The following fields are required:
+             * ```java
+             * .relatedTransactionEventToken()
+             * .relatedTransactionToken()
+             * .type()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [TransactionSeries]. */
+        class Builder internal constructor() {
+
+            private var relatedTransactionEventToken: JsonField<String>? = null
+            private var relatedTransactionToken: JsonField<String>? = null
+            private var type: JsonField<Type>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transactionSeries: TransactionSeries) = apply {
+                relatedTransactionEventToken = transactionSeries.relatedTransactionEventToken
+                relatedTransactionToken = transactionSeries.relatedTransactionToken
+                type = transactionSeries.type
+                additionalProperties = transactionSeries.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Token of the specific event in the original transaction being disputed, in UUID
+             * format; null if no event can be identified
+             */
+            fun relatedTransactionEventToken(relatedTransactionEventToken: String?) =
+                relatedTransactionEventToken(JsonField.ofNullable(relatedTransactionEventToken))
+
+            /**
+             * Alias for calling [Builder.relatedTransactionEventToken] with
+             * `relatedTransactionEventToken.orElse(null)`.
+             */
+            fun relatedTransactionEventToken(relatedTransactionEventToken: Optional<String>) =
+                relatedTransactionEventToken(relatedTransactionEventToken.getOrNull())
+
+            /**
+             * Sets [Builder.relatedTransactionEventToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.relatedTransactionEventToken] with a well-typed
+             * [String] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun relatedTransactionEventToken(relatedTransactionEventToken: JsonField<String>) =
+                apply {
+                    this.relatedTransactionEventToken = relatedTransactionEventToken
+                }
+
+            /** Token of the original transaction being disputed, in UUID format */
+            fun relatedTransactionToken(relatedTransactionToken: String) =
+                relatedTransactionToken(JsonField.of(relatedTransactionToken))
+
+            /**
+             * Sets [Builder.relatedTransactionToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.relatedTransactionToken] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun relatedTransactionToken(relatedTransactionToken: JsonField<String>) = apply {
+                this.relatedTransactionToken = relatedTransactionToken
+            }
+
+            /**
+             * The type of transaction series associating the dispute and the original transaction.
+             * Always set to DISPUTE
+             */
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [TransactionSeries].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .relatedTransactionEventToken()
+             * .relatedTransactionToken()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): TransactionSeries =
+                TransactionSeries(
+                    checkRequired("relatedTransactionEventToken", relatedTransactionEventToken),
+                    checkRequired("relatedTransactionToken", relatedTransactionToken),
+                    checkRequired("type", type),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSeries = apply {
+            if (validated) {
+                return@apply
+            }
+
+            relatedTransactionEventToken()
+            relatedTransactionToken()
+            type().validate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (relatedTransactionEventToken.asKnown().isPresent) 1 else 0) +
+                (if (relatedTransactionToken.asKnown().isPresent) 1 else 0) +
+                (type.asKnown().getOrNull()?.validity() ?: 0)
+
+        /**
+         * The type of transaction series associating the dispute and the original transaction.
+         * Always set to DISPUTE
+         */
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val DISPUTE = of("DISPUTE")
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            /** An enum containing [Type]'s known values. */
+            enum class Known {
+                DISPUTE
+            }
+
+            /**
+             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Type] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                DISPUTE,
+                /** An enum member indicating that [Type] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    DISPUTE -> Value.DISPUTE
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    DISPUTE -> Known.DISPUTE
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Type = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Type && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TransactionSeries &&
+                relatedTransactionEventToken == other.relatedTransactionEventToken &&
+                relatedTransactionToken == other.relatedTransactionToken &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                relatedTransactionEventToken,
+                relatedTransactionToken,
+                type,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "TransactionSeries{relatedTransactionEventToken=$relatedTransactionEventToken, relatedTransactionToken=$relatedTransactionToken, type=$type, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -1686,46 +4707,38 @@ private constructor(
 
         return other is Dispute &&
             token == other.token &&
-            amount == other.amount &&
-            arbitrationDate == other.arbitrationDate &&
+            accountToken == other.accountToken &&
+            cardToken == other.cardToken &&
+            caseId == other.caseId &&
             created == other.created &&
-            customerFiledDate == other.customerFiledDate &&
-            customerNote == other.customerNote &&
-            networkClaimIds == other.networkClaimIds &&
-            networkFiledDate == other.networkFiledDate &&
-            networkReasonCode == other.networkReasonCode &&
-            prearbitrationDate == other.prearbitrationDate &&
-            primaryClaimId == other.primaryClaimId &&
-            reason == other.reason &&
-            representmentDate == other.representmentDate &&
-            resolutionDate == other.resolutionDate &&
-            resolutionNote == other.resolutionNote &&
-            resolutionReason == other.resolutionReason &&
+            currency == other.currency &&
+            disposition == other.disposition &&
+            events == other.events &&
+            liabilityAllocation == other.liabilityAllocation &&
+            merchant == other.merchant &&
+            network == other.network &&
             status == other.status &&
-            transactionToken == other.transactionToken &&
+            transactionSeries == other.transactionSeries &&
+            updated == other.updated &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
         Objects.hash(
             token,
-            amount,
-            arbitrationDate,
+            accountToken,
+            cardToken,
+            caseId,
             created,
-            customerFiledDate,
-            customerNote,
-            networkClaimIds,
-            networkFiledDate,
-            networkReasonCode,
-            prearbitrationDate,
-            primaryClaimId,
-            reason,
-            representmentDate,
-            resolutionDate,
-            resolutionNote,
-            resolutionReason,
+            currency,
+            disposition,
+            events,
+            liabilityAllocation,
+            merchant,
+            network,
             status,
-            transactionToken,
+            transactionSeries,
+            updated,
             additionalProperties,
         )
     }
@@ -1733,5 +4746,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Dispute{token=$token, amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+        "Dispute{token=$token, accountToken=$accountToken, cardToken=$cardToken, caseId=$caseId, created=$created, currency=$currency, disposition=$disposition, events=$events, liabilityAllocation=$liabilityAllocation, merchant=$merchant, network=$network, status=$status, transactionSeries=$transactionSeries, updated=$updated, additionalProperties=$additionalProperties}"
 }

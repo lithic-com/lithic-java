@@ -23,7 +23,7 @@ internal class BookTransferResponseTest {
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .detailedResults(
+                        .addDetailedResult(
                             BookTransferResponse.BookTransferEvent.BookTransferDetailedResults
                                 .APPROVED
                         )
@@ -73,7 +73,7 @@ internal class BookTransferResponseTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .detailedResults(
+                    .addDetailedResult(
                         BookTransferResponse.BookTransferEvent.BookTransferDetailedResults.APPROVED
                     )
                     .memo("memo")
@@ -130,7 +130,7 @@ internal class BookTransferResponseTest {
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .detailedResults(
+                        .addDetailedResult(
                             BookTransferResponse.BookTransferEvent.BookTransferDetailedResults
                                 .APPROVED
                         )

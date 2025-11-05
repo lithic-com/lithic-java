@@ -11,7 +11,7 @@ internal class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
     @Test
     fun create() {
         AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
-            .documentUploadToken("document_upload_token")
+            .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
             .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
             .addAcceptedEntityStatusReason("string")
             .statusReason(
@@ -25,7 +25,7 @@ internal class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
     fun body() {
         val params =
             AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
-                .documentUploadToken("document_upload_token")
+                .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
                 .addAcceptedEntityStatusReason("string")
                 .statusReason(
@@ -36,7 +36,7 @@ internal class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
 
         val body = params._body()
 
-        assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
+        assertThat(body.documentUploadToken()).isEqualTo("b11cd67b-0a52-4180-8365-314f3def5426")
         assertThat(body.status())
             .isEqualTo(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
         assertThat(body.acceptedEntityStatusReasons().getOrNull()).containsExactly("string")
@@ -51,13 +51,13 @@ internal class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
     fun bodyWithoutOptionalFields() {
         val params =
             AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
-                .documentUploadToken("document_upload_token")
+                .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
                 .build()
 
         val body = params._body()
 
-        assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
+        assertThat(body.documentUploadToken()).isEqualTo("b11cd67b-0a52-4180-8365-314f3def5426")
         assertThat(body.status())
             .isEqualTo(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
     }

@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,10 +15,12 @@ internal class PaymentSimulateActionParamsTest {
             .eventType(
                 PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
             )
+            .dateOfDeath(LocalDate.parse("2019-12-27"))
             .declineReason(
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                     .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
+            .returnAddenda("return_addenda")
             .returnReasonCode("return_reason_code")
             .build()
     }
@@ -45,10 +48,12 @@ internal class PaymentSimulateActionParamsTest {
                 .eventType(
                     PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
                 )
+                .dateOfDeath(LocalDate.parse("2019-12-27"))
                 .declineReason(
                     PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                         .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                 )
+                .returnAddenda("return_addenda")
                 .returnReasonCode("return_reason_code")
                 .build()
 
@@ -58,11 +63,13 @@ internal class PaymentSimulateActionParamsTest {
             .isEqualTo(
                 PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
             )
+        assertThat(body.dateOfDeath()).contains(LocalDate.parse("2019-12-27"))
         assertThat(body.declineReason())
             .contains(
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                     .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
+        assertThat(body.returnAddenda()).contains("return_addenda")
         assertThat(body.returnReasonCode()).contains("return_reason_code")
     }
 

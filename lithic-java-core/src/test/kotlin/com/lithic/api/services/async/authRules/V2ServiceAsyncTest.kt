@@ -5,7 +5,6 @@ package com.lithic.api.services.async.authRules
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.AuthRuleCondition
-import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
@@ -137,32 +136,6 @@ internal class V2ServiceAsyncTest {
         val future = v2ServiceAsync.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = future.get()
-    }
-
-    @Test
-    fun apply() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val v2ServiceAsync = client.authRules().v2()
-
-        val responseFuture =
-            v2ServiceAsync.apply(
-                AuthRuleV2ApplyParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .body(
-                        AuthRuleV2ApplyParams.Body.ApplyAuthRuleRequestAccountTokens.builder()
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .build()
-                    )
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
     }
 
     @Test

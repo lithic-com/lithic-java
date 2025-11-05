@@ -9,69 +9,10 @@ import com.lithic.api.errors.LithicInvalidDataException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class VelocityLimitParamsPeriodWindowTest {
-
-    @Test
-    fun ofTrailing() {
-        val trailing = 10L
-
-        val velocityLimitParamsPeriodWindow = VelocityLimitParamsPeriodWindow.ofTrailing(trailing)
-
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).contains(trailing)
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowMonth()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowYear()).isEmpty
-    }
-
-    @Test
-    fun ofTrailingRoundtrip() {
-        val jsonMapper = jsonMapper()
-        val velocityLimitParamsPeriodWindow = VelocityLimitParamsPeriodWindow.ofTrailing(10L)
-
-        val roundtrippedVelocityLimitParamsPeriodWindow =
-            jsonMapper.readValue(
-                jsonMapper.writeValueAsString(velocityLimitParamsPeriodWindow),
-                jacksonTypeRef<VelocityLimitParamsPeriodWindow>(),
-            )
-
-        assertThat(roundtrippedVelocityLimitParamsPeriodWindow)
-            .isEqualTo(velocityLimitParamsPeriodWindow)
-    }
-
-    @Test
-    fun ofFixed() {
-        val fixed = VelocityLimitParamsPeriodWindow.FixedWindow.DAY
-
-        val velocityLimitParamsPeriodWindow = VelocityLimitParamsPeriodWindow.ofFixed(fixed)
-
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).contains(fixed)
-        assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowMonth()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixedWindowYear()).isEmpty
-    }
-
-    @Test
-    fun ofFixedRoundtrip() {
-        val jsonMapper = jsonMapper()
-        val velocityLimitParamsPeriodWindow =
-            VelocityLimitParamsPeriodWindow.ofFixed(VelocityLimitParamsPeriodWindow.FixedWindow.DAY)
-
-        val roundtrippedVelocityLimitParamsPeriodWindow =
-            jsonMapper.readValue(
-                jsonMapper.writeValueAsString(velocityLimitParamsPeriodWindow),
-                jacksonTypeRef<VelocityLimitParamsPeriodWindow>(),
-            )
-
-        assertThat(roundtrippedVelocityLimitParamsPeriodWindow)
-            .isEqualTo(velocityLimitParamsPeriodWindow)
-    }
 
     @Test
     fun ofTrailingWindowObject() {
@@ -84,8 +25,6 @@ internal class VelocityLimitParamsPeriodWindowTest {
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(trailingWindowObject)
 
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject())
             .contains(trailingWindowObject)
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
@@ -125,8 +64,6 @@ internal class VelocityLimitParamsPeriodWindowTest {
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowDay(fixedWindowDay)
 
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).contains(fixedWindowDay)
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).isEmpty
@@ -158,15 +95,13 @@ internal class VelocityLimitParamsPeriodWindowTest {
     fun ofFixedWindowWeek() {
         val fixedWindowWeek =
             VelocityLimitParamsPeriodWindow.FixedWindowWeek.builder()
-                .dayOfWeek(1L)
                 .type(VelocityLimitParamsPeriodWindow.FixedWindowWeek.Type.WEEK)
+                .dayOfWeek(1L)
                 .build()
 
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(fixedWindowWeek)
 
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).contains(fixedWindowWeek)
@@ -180,8 +115,8 @@ internal class VelocityLimitParamsPeriodWindowTest {
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(
                 VelocityLimitParamsPeriodWindow.FixedWindowWeek.builder()
-                    .dayOfWeek(1L)
                     .type(VelocityLimitParamsPeriodWindow.FixedWindowWeek.Type.WEEK)
+                    .dayOfWeek(1L)
                     .build()
             )
 
@@ -199,15 +134,13 @@ internal class VelocityLimitParamsPeriodWindowTest {
     fun ofFixedWindowMonth() {
         val fixedWindowMonth =
             VelocityLimitParamsPeriodWindow.FixedWindowMonth.builder()
-                .dayOfMonth(1L)
                 .type(VelocityLimitParamsPeriodWindow.FixedWindowMonth.Type.MONTH)
+                .dayOfMonth(1L)
                 .build()
 
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(fixedWindowMonth)
 
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).isEmpty
@@ -221,8 +154,8 @@ internal class VelocityLimitParamsPeriodWindowTest {
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(
                 VelocityLimitParamsPeriodWindow.FixedWindowMonth.builder()
-                    .dayOfMonth(1L)
                     .type(VelocityLimitParamsPeriodWindow.FixedWindowMonth.Type.MONTH)
+                    .dayOfMonth(1L)
                     .build()
             )
 
@@ -240,16 +173,14 @@ internal class VelocityLimitParamsPeriodWindowTest {
     fun ofFixedWindowYear() {
         val fixedWindowYear =
             VelocityLimitParamsPeriodWindow.FixedWindowYear.builder()
+                .type(VelocityLimitParamsPeriodWindow.FixedWindowYear.Type.YEAR)
                 .dayOfMonth(1L)
                 .month(1L)
-                .type(VelocityLimitParamsPeriodWindow.FixedWindowYear.Type.YEAR)
                 .build()
 
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear)
 
-        assertThat(velocityLimitParamsPeriodWindow.trailing()).isEmpty
-        assertThat(velocityLimitParamsPeriodWindow.fixed()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.trailingWindowObject()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowDay()).isEmpty
         assertThat(velocityLimitParamsPeriodWindow.fixedWindowWeek()).isEmpty
@@ -263,9 +194,9 @@ internal class VelocityLimitParamsPeriodWindowTest {
         val velocityLimitParamsPeriodWindow =
             VelocityLimitParamsPeriodWindow.ofFixedWindowYear(
                 VelocityLimitParamsPeriodWindow.FixedWindowYear.builder()
+                    .type(VelocityLimitParamsPeriodWindow.FixedWindowYear.Type.YEAR)
                     .dayOfMonth(1L)
                     .month(1L)
-                    .type(VelocityLimitParamsPeriodWindow.FixedWindowYear.Type.YEAR)
                     .build()
             )
 
@@ -279,11 +210,20 @@ internal class VelocityLimitParamsPeriodWindowTest {
             .isEqualTo(velocityLimitParamsPeriodWindow)
     }
 
-    @Test
-    fun incompatibleJsonShapeDeserializesToUnknown() {
-        val value = JsonValue.from(listOf("invalid", "array"))
+    enum class IncompatibleJsonShapeTestCase(val value: JsonValue) {
+        BOOLEAN(JsonValue.from(false)),
+        STRING(JsonValue.from("invalid")),
+        INTEGER(JsonValue.from(-1)),
+        FLOAT(JsonValue.from(3.14)),
+        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+    }
+
+    @ParameterizedTest
+    @EnumSource
+    fun incompatibleJsonShapeDeserializesToUnknown(testCase: IncompatibleJsonShapeTestCase) {
         val velocityLimitParamsPeriodWindow =
-            jsonMapper().convertValue(value, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())
+            jsonMapper()
+                .convertValue(testCase.value, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())
 
         val e =
             assertThrows<LithicInvalidDataException> { velocityLimitParamsPeriodWindow.validate() }

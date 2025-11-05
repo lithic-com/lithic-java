@@ -18,7 +18,7 @@ internal class EventSubscriptionTest {
                 .description("description")
                 .disabled(true)
                 .url("https://example.com")
-                .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
+                .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_DOCUMENT_UPDATED)
                 .build()
 
         assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
@@ -26,7 +26,7 @@ internal class EventSubscriptionTest {
         assertThat(eventSubscription.disabled()).isEqualTo(true)
         assertThat(eventSubscription.url()).isEqualTo("https://example.com")
         assertThat(eventSubscription.eventTypes().getOrNull())
-            .containsExactly(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
+            .containsExactly(EventSubscription.EventType.ACCOUNT_HOLDER_DOCUMENT_UPDATED)
     }
 
     @Test
@@ -38,7 +38,7 @@ internal class EventSubscriptionTest {
                 .description("description")
                 .disabled(true)
                 .url("https://example.com")
-                .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
+                .addEventType(EventSubscription.EventType.ACCOUNT_HOLDER_DOCUMENT_UPDATED)
                 .build()
 
         val roundtrippedEventSubscription =

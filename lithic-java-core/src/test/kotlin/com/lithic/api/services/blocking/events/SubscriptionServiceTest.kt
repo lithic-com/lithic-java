@@ -32,7 +32,9 @@ internal class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .addEventType(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    .addEventType(
+                        EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_DOCUMENT_UPDATED
+                    )
                     .build()
             )
 
@@ -69,7 +71,9 @@ internal class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("description")
                     .disabled(true)
-                    .addEventType(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    .addEventType(
+                        EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_DOCUMENT_UPDATED
+                    )
                     .build()
             )
 
@@ -195,7 +199,8 @@ internal class SubscriptionServiceTest {
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("event_subscription_token")
                 .eventType(
-                    EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
+                    EventSubscriptionSendSimulatedExampleParams.EventType
+                        .ACCOUNT_HOLDER_DOCUMENT_UPDATED
                 )
                 .build()
         )

@@ -6,7 +6,6 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
@@ -17,7 +16,6 @@ import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.V2ApplyResponse
 import com.lithic.api.models.V2CreateResponse
 import com.lithic.api.models.V2DraftResponse
 import com.lithic.api.models.V2PromoteResponse
@@ -169,38 +167,6 @@ interface V2ServiceAsync {
     /** @see delete */
     fun delete(authRuleToken: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
         delete(authRuleToken, AuthRuleV2DeleteParams.none(), requestOptions)
-
-    /**
-     * Associates a V2 Auth rule with a card program, the provided account(s) or card(s).
-     *
-     * Prefer using the `PATCH` method for this operation.
-     */
-    @Deprecated("deprecated")
-    fun apply(
-        authRuleToken: String,
-        params: AuthRuleV2ApplyParams,
-    ): CompletableFuture<V2ApplyResponse> = apply(authRuleToken, params, RequestOptions.none())
-
-    /** @see apply */
-    @Deprecated("deprecated")
-    fun apply(
-        authRuleToken: String,
-        params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<V2ApplyResponse> =
-        apply(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
-
-    /** @see apply */
-    @Deprecated("deprecated")
-    fun apply(params: AuthRuleV2ApplyParams): CompletableFuture<V2ApplyResponse> =
-        apply(params, RequestOptions.none())
-
-    /** @see apply */
-    @Deprecated("deprecated")
-    fun apply(
-        params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<V2ApplyResponse>
 
     /**
      * Creates a new draft version of a rule that will be ran in shadow mode.
@@ -526,40 +492,6 @@ interface V2ServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
             delete(authRuleToken, AuthRuleV2DeleteParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/apply`, but is
-         * otherwise the same as [V2ServiceAsync.apply].
-         */
-        @Deprecated("deprecated")
-        fun apply(
-            authRuleToken: String,
-            params: AuthRuleV2ApplyParams,
-        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> =
-            apply(authRuleToken, params, RequestOptions.none())
-
-        /** @see apply */
-        @Deprecated("deprecated")
-        fun apply(
-            authRuleToken: String,
-            params: AuthRuleV2ApplyParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> =
-            apply(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
-
-        /** @see apply */
-        @Deprecated("deprecated")
-        fun apply(
-            params: AuthRuleV2ApplyParams
-        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> =
-            apply(params, RequestOptions.none())
-
-        /** @see apply */
-        @Deprecated("deprecated")
-        fun apply(
-            params: AuthRuleV2ApplyParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>>
 
         /**
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/draft`, but is
