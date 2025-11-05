@@ -6,10 +6,11 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
+import com.lithic.api.models.DisputeCreateResponse
 import com.lithic.api.models.DisputeDeleteEvidenceParams
 import com.lithic.api.models.DisputeDeleteParams
+import com.lithic.api.models.DisputeDeleteResponse
 import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
 import com.lithic.api.models.DisputeListEvidencesPage
@@ -18,7 +19,9 @@ import com.lithic.api.models.DisputeListPage
 import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
+import com.lithic.api.models.DisputeRetrieveResponse
 import com.lithic.api.models.DisputeUpdateParams
+import com.lithic.api.models.DisputeUpdateResponse
 import java.util.function.Consumer
 
 interface DisputeService {
@@ -36,16 +39,17 @@ interface DisputeService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): DisputeService
 
     /** Initiate a dispute. */
-    fun create(params: DisputeCreateParams): Dispute = create(params, RequestOptions.none())
+    fun create(params: DisputeCreateParams): DisputeCreateResponse =
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: DisputeCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute
+    ): DisputeCreateResponse
 
     /** Get dispute. */
-    fun retrieve(disputeToken: String): Dispute =
+    fun retrieve(disputeToken: String): DisputeRetrieveResponse =
         retrieve(disputeToken, DisputeRetrieveParams.none())
 
     /** @see retrieve */
@@ -53,54 +57,59 @@ interface DisputeService {
         disputeToken: String,
         params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute = retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+    ): DisputeRetrieveResponse =
+        retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
-    ): Dispute = retrieve(disputeToken, params, RequestOptions.none())
+    ): DisputeRetrieveResponse = retrieve(disputeToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: DisputeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute
+    ): DisputeRetrieveResponse
 
     /** @see retrieve */
-    fun retrieve(params: DisputeRetrieveParams): Dispute = retrieve(params, RequestOptions.none())
+    fun retrieve(params: DisputeRetrieveParams): DisputeRetrieveResponse =
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(disputeToken: String, requestOptions: RequestOptions): Dispute =
+    fun retrieve(disputeToken: String, requestOptions: RequestOptions): DisputeRetrieveResponse =
         retrieve(disputeToken, DisputeRetrieveParams.none(), requestOptions)
 
     /** Update dispute. Can only be modified if status is `NEW`. */
-    fun update(disputeToken: String): Dispute = update(disputeToken, DisputeUpdateParams.none())
+    fun update(disputeToken: String): DisputeUpdateResponse =
+        update(disputeToken, DisputeUpdateParams.none())
 
     /** @see update */
     fun update(
         disputeToken: String,
         params: DisputeUpdateParams = DisputeUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute = update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+    ): DisputeUpdateResponse =
+        update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see update */
     fun update(
         disputeToken: String,
         params: DisputeUpdateParams = DisputeUpdateParams.none(),
-    ): Dispute = update(disputeToken, params, RequestOptions.none())
+    ): DisputeUpdateResponse = update(disputeToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
         params: DisputeUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute
+    ): DisputeUpdateResponse
 
     /** @see update */
-    fun update(params: DisputeUpdateParams): Dispute = update(params, RequestOptions.none())
+    fun update(params: DisputeUpdateParams): DisputeUpdateResponse =
+        update(params, RequestOptions.none())
 
     /** @see update */
-    fun update(disputeToken: String, requestOptions: RequestOptions): Dispute =
+    fun update(disputeToken: String, requestOptions: RequestOptions): DisputeUpdateResponse =
         update(disputeToken, DisputeUpdateParams.none(), requestOptions)
 
     /** List disputes. */
@@ -121,32 +130,35 @@ interface DisputeService {
         list(DisputeListParams.none(), requestOptions)
 
     /** Withdraw dispute. */
-    fun delete(disputeToken: String): Dispute = delete(disputeToken, DisputeDeleteParams.none())
+    fun delete(disputeToken: String): DisputeDeleteResponse =
+        delete(disputeToken, DisputeDeleteParams.none())
 
     /** @see delete */
     fun delete(
         disputeToken: String,
         params: DisputeDeleteParams = DisputeDeleteParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute = delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+    ): DisputeDeleteResponse =
+        delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see delete */
     fun delete(
         disputeToken: String,
         params: DisputeDeleteParams = DisputeDeleteParams.none(),
-    ): Dispute = delete(disputeToken, params, RequestOptions.none())
+    ): DisputeDeleteResponse = delete(disputeToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
         params: DisputeDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Dispute
+    ): DisputeDeleteResponse
 
     /** @see delete */
-    fun delete(params: DisputeDeleteParams): Dispute = delete(params, RequestOptions.none())
+    fun delete(params: DisputeDeleteParams): DisputeDeleteResponse =
+        delete(params, RequestOptions.none())
 
     /** @see delete */
-    fun delete(disputeToken: String, requestOptions: RequestOptions): Dispute =
+    fun delete(disputeToken: String, requestOptions: RequestOptions): DisputeDeleteResponse =
         delete(disputeToken, DisputeDeleteParams.none(), requestOptions)
 
     /**
@@ -298,7 +310,7 @@ interface DisputeService {
          * [DisputeService.create].
          */
         @MustBeClosed
-        fun create(params: DisputeCreateParams): HttpResponseFor<Dispute> =
+        fun create(params: DisputeCreateParams): HttpResponseFor<DisputeCreateResponse> =
             create(params, RequestOptions.none())
 
         /** @see create */
@@ -306,14 +318,14 @@ interface DisputeService {
         fun create(
             params: DisputeCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute>
+        ): HttpResponseFor<DisputeCreateResponse>
 
         /**
          * Returns a raw HTTP response for `get /v1/disputes/{dispute_token}`, but is otherwise the
          * same as [DisputeService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(disputeToken: String): HttpResponseFor<Dispute> =
+        fun retrieve(disputeToken: String): HttpResponseFor<DisputeRetrieveResponse> =
             retrieve(disputeToken, DisputeRetrieveParams.none())
 
         /** @see retrieve */
@@ -322,7 +334,7 @@ interface DisputeService {
             disputeToken: String,
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute> =
+        ): HttpResponseFor<DisputeRetrieveResponse> =
             retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see retrieve */
@@ -330,18 +342,19 @@ interface DisputeService {
         fun retrieve(
             disputeToken: String,
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
-        ): HttpResponseFor<Dispute> = retrieve(disputeToken, params, RequestOptions.none())
+        ): HttpResponseFor<DisputeRetrieveResponse> =
+            retrieve(disputeToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: DisputeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute>
+        ): HttpResponseFor<DisputeRetrieveResponse>
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(params: DisputeRetrieveParams): HttpResponseFor<Dispute> =
+        fun retrieve(params: DisputeRetrieveParams): HttpResponseFor<DisputeRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
@@ -349,7 +362,7 @@ interface DisputeService {
         fun retrieve(
             disputeToken: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Dispute> =
+        ): HttpResponseFor<DisputeRetrieveResponse> =
             retrieve(disputeToken, DisputeRetrieveParams.none(), requestOptions)
 
         /**
@@ -357,7 +370,7 @@ interface DisputeService {
          * the same as [DisputeService.update].
          */
         @MustBeClosed
-        fun update(disputeToken: String): HttpResponseFor<Dispute> =
+        fun update(disputeToken: String): HttpResponseFor<DisputeUpdateResponse> =
             update(disputeToken, DisputeUpdateParams.none())
 
         /** @see update */
@@ -366,7 +379,7 @@ interface DisputeService {
             disputeToken: String,
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute> =
+        ): HttpResponseFor<DisputeUpdateResponse> =
             update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see update */
@@ -374,23 +387,27 @@ interface DisputeService {
         fun update(
             disputeToken: String,
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
-        ): HttpResponseFor<Dispute> = update(disputeToken, params, RequestOptions.none())
+        ): HttpResponseFor<DisputeUpdateResponse> =
+            update(disputeToken, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
         fun update(
             params: DisputeUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute>
+        ): HttpResponseFor<DisputeUpdateResponse>
 
         /** @see update */
         @MustBeClosed
-        fun update(params: DisputeUpdateParams): HttpResponseFor<Dispute> =
+        fun update(params: DisputeUpdateParams): HttpResponseFor<DisputeUpdateResponse> =
             update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
-        fun update(disputeToken: String, requestOptions: RequestOptions): HttpResponseFor<Dispute> =
+        fun update(
+            disputeToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeUpdateResponse> =
             update(disputeToken, DisputeUpdateParams.none(), requestOptions)
 
         /**
@@ -422,7 +439,7 @@ interface DisputeService {
          * the same as [DisputeService.delete].
          */
         @MustBeClosed
-        fun delete(disputeToken: String): HttpResponseFor<Dispute> =
+        fun delete(disputeToken: String): HttpResponseFor<DisputeDeleteResponse> =
             delete(disputeToken, DisputeDeleteParams.none())
 
         /** @see delete */
@@ -431,7 +448,7 @@ interface DisputeService {
             disputeToken: String,
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute> =
+        ): HttpResponseFor<DisputeDeleteResponse> =
             delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see delete */
@@ -439,23 +456,27 @@ interface DisputeService {
         fun delete(
             disputeToken: String,
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
-        ): HttpResponseFor<Dispute> = delete(disputeToken, params, RequestOptions.none())
+        ): HttpResponseFor<DisputeDeleteResponse> =
+            delete(disputeToken, params, RequestOptions.none())
 
         /** @see delete */
         @MustBeClosed
         fun delete(
             params: DisputeDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Dispute>
+        ): HttpResponseFor<DisputeDeleteResponse>
 
         /** @see delete */
         @MustBeClosed
-        fun delete(params: DisputeDeleteParams): HttpResponseFor<Dispute> =
+        fun delete(params: DisputeDeleteParams): HttpResponseFor<DisputeDeleteResponse> =
             delete(params, RequestOptions.none())
 
         /** @see delete */
         @MustBeClosed
-        fun delete(disputeToken: String, requestOptions: RequestOptions): HttpResponseFor<Dispute> =
+        fun delete(
+            disputeToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DisputeDeleteResponse> =
             delete(disputeToken, DisputeDeleteParams.none(), requestOptions)
 
         /**

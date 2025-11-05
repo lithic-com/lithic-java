@@ -3423,17 +3423,20 @@ private constructor(
         class WireMethodAttributes
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val wireMessageType: JsonField<String>,
             private val wireNetwork: JsonField<WireNetwork>,
             private val creditor: JsonField<WirePartyDetails>,
             private val debtor: JsonField<WirePartyDetails>,
             private val messageId: JsonField<String>,
             private val remittanceInformation: JsonField<String>,
-            private val wireMessageType: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
+                @JsonProperty("wire_message_type")
+                @ExcludeMissing
+                wireMessageType: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("wire_network")
                 @ExcludeMissing
                 wireNetwork: JsonField<WireNetwork> = JsonMissing.of(),
@@ -3449,18 +3452,24 @@ private constructor(
                 @JsonProperty("remittance_information")
                 @ExcludeMissing
                 remittanceInformation: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("wire_message_type")
-                @ExcludeMissing
-                wireMessageType: JsonField<String> = JsonMissing.of(),
             ) : this(
+                wireMessageType,
                 wireNetwork,
                 creditor,
                 debtor,
                 messageId,
                 remittanceInformation,
-                wireMessageType,
                 mutableMapOf(),
             )
+
+            /**
+             * Type of wire message
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun wireMessageType(): Optional<String> =
+                wireMessageType.getOptional("wire_message_type")
 
             /**
              * Type of wire transfer
@@ -3502,13 +3511,14 @@ private constructor(
                 remittanceInformation.getOptional("remittance_information")
 
             /**
-             * Type of wire message
+             * Returns the raw JSON value of [wireMessageType].
              *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
+             * Unlike [wireMessageType], this method doesn't throw if the JSON field has an
+             * unexpected type.
              */
-            fun wireMessageType(): Optional<String> =
-                wireMessageType.getOptional("wire_message_type")
+            @JsonProperty("wire_message_type")
+            @ExcludeMissing
+            fun _wireMessageType(): JsonField<String> = wireMessageType
 
             /**
              * Returns the raw JSON value of [wireNetwork].
@@ -3559,16 +3569,6 @@ private constructor(
             @ExcludeMissing
             fun _remittanceInformation(): JsonField<String> = remittanceInformation
 
-            /**
-             * Returns the raw JSON value of [wireMessageType].
-             *
-             * Unlike [wireMessageType], this method doesn't throw if the JSON field has an
-             * unexpected type.
-             */
-            @JsonProperty("wire_message_type")
-            @ExcludeMissing
-            fun _wireMessageType(): JsonField<String> = wireMessageType
-
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -3588,6 +3588,7 @@ private constructor(
                  *
                  * The following fields are required:
                  * ```java
+                 * .wireMessageType()
                  * .wireNetwork()
                  * ```
                  */
@@ -3597,23 +3598,44 @@ private constructor(
             /** A builder for [WireMethodAttributes]. */
             class Builder internal constructor() {
 
+                private var wireMessageType: JsonField<String>? = null
                 private var wireNetwork: JsonField<WireNetwork>? = null
                 private var creditor: JsonField<WirePartyDetails> = JsonMissing.of()
                 private var debtor: JsonField<WirePartyDetails> = JsonMissing.of()
                 private var messageId: JsonField<String> = JsonMissing.of()
                 private var remittanceInformation: JsonField<String> = JsonMissing.of()
-                private var wireMessageType: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(wireMethodAttributes: WireMethodAttributes) = apply {
+                    wireMessageType = wireMethodAttributes.wireMessageType
                     wireNetwork = wireMethodAttributes.wireNetwork
                     creditor = wireMethodAttributes.creditor
                     debtor = wireMethodAttributes.debtor
                     messageId = wireMethodAttributes.messageId
                     remittanceInformation = wireMethodAttributes.remittanceInformation
-                    wireMessageType = wireMethodAttributes.wireMessageType
                     additionalProperties = wireMethodAttributes.additionalProperties.toMutableMap()
+                }
+
+                /** Type of wire message */
+                fun wireMessageType(wireMessageType: String?) =
+                    wireMessageType(JsonField.ofNullable(wireMessageType))
+
+                /**
+                 * Alias for calling [Builder.wireMessageType] with `wireMessageType.orElse(null)`.
+                 */
+                fun wireMessageType(wireMessageType: Optional<String>) =
+                    wireMessageType(wireMessageType.getOrNull())
+
+                /**
+                 * Sets [Builder.wireMessageType] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.wireMessageType] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun wireMessageType(wireMessageType: JsonField<String>) = apply {
+                    this.wireMessageType = wireMessageType
                 }
 
                 /** Type of wire transfer */
@@ -3694,21 +3716,6 @@ private constructor(
                     this.remittanceInformation = remittanceInformation
                 }
 
-                /** Type of wire message */
-                fun wireMessageType(wireMessageType: String) =
-                    wireMessageType(JsonField.of(wireMessageType))
-
-                /**
-                 * Sets [Builder.wireMessageType] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.wireMessageType] with a well-typed [String]
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
-                 */
-                fun wireMessageType(wireMessageType: JsonField<String>) = apply {
-                    this.wireMessageType = wireMessageType
-                }
-
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -3738,6 +3745,7 @@ private constructor(
                  *
                  * The following fields are required:
                  * ```java
+                 * .wireMessageType()
                  * .wireNetwork()
                  * ```
                  *
@@ -3745,12 +3753,12 @@ private constructor(
                  */
                 fun build(): WireMethodAttributes =
                     WireMethodAttributes(
+                        checkRequired("wireMessageType", wireMessageType),
                         checkRequired("wireNetwork", wireNetwork),
                         creditor,
                         debtor,
                         messageId,
                         remittanceInformation,
-                        wireMessageType,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -3762,12 +3770,12 @@ private constructor(
                     return@apply
                 }
 
+                wireMessageType()
                 wireNetwork().validate()
                 creditor().ifPresent { it.validate() }
                 debtor().ifPresent { it.validate() }
                 messageId()
                 remittanceInformation()
-                wireMessageType()
                 validated = true
             }
 
@@ -3787,12 +3795,12 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (wireNetwork.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (wireMessageType.asKnown().isPresent) 1 else 0) +
+                    (wireNetwork.asKnown().getOrNull()?.validity() ?: 0) +
                     (creditor.asKnown().getOrNull()?.validity() ?: 0) +
                     (debtor.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (messageId.asKnown().isPresent) 1 else 0) +
-                    (if (remittanceInformation.asKnown().isPresent) 1 else 0) +
-                    (if (wireMessageType.asKnown().isPresent) 1 else 0)
+                    (if (remittanceInformation.asKnown().isPresent) 1 else 0)
 
             /** Type of wire transfer */
             class WireNetwork
@@ -3933,23 +3941,23 @@ private constructor(
                 }
 
                 return other is WireMethodAttributes &&
+                    wireMessageType == other.wireMessageType &&
                     wireNetwork == other.wireNetwork &&
                     creditor == other.creditor &&
                     debtor == other.debtor &&
                     messageId == other.messageId &&
                     remittanceInformation == other.remittanceInformation &&
-                    wireMessageType == other.wireMessageType &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
                 Objects.hash(
+                    wireMessageType,
                     wireNetwork,
                     creditor,
                     debtor,
                     messageId,
                     remittanceInformation,
-                    wireMessageType,
                     additionalProperties,
                 )
             }
@@ -3957,7 +3965,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "WireMethodAttributes{wireNetwork=$wireNetwork, creditor=$creditor, debtor=$debtor, messageId=$messageId, remittanceInformation=$remittanceInformation, wireMessageType=$wireMessageType, additionalProperties=$additionalProperties}"
+                "WireMethodAttributes{wireMessageType=$wireMessageType, wireNetwork=$wireNetwork, creditor=$creditor, debtor=$debtor, messageId=$messageId, remittanceInformation=$remittanceInformation, additionalProperties=$additionalProperties}"
         }
     }
 

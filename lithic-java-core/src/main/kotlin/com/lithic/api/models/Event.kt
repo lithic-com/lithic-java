@@ -61,34 +61,90 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
-     * Event types:
-     * * `account_holder.created` - Notification that a new account holder has been created and was
-     *   not rejected.
-     * * `account_holder.updated` - Notification that an account holder was updated.
-     * * `account_holder.verification` - Notification than an account holder's identity verification
-     *   is complete.
-     * * `card.created` - Notification that a card has been created.
-     * * `card.renewed` - Notification that a card has been renewed.
-     * * `card.reissued` - Notification that a card has been reissued.
-     * * `card.shipped` - Physical card shipment notification. See
-     *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-     * * `card.converted` - Notification that a virtual card has been converted to a physical card.
-     * * `card_transaction.updated` - Transaction Lifecycle webhook. See
-     *   https://docs.lithic.com/docs/transaction-webhooks.
-     * * `dispute.updated` - A dispute has been updated.
-     * * `dispute_transaction.created` - A new dispute transaction has been created.
-     * * `dispute_transaction.updated` - A dispute transaction has been updated.
-     * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     *   activate a digital wallet token.
-     * * `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
-     *   whether successful or failed.
-     * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
-     *   end user to complete digital wallet authentication. See
-     *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-     * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
-     *   factor authentication code for activating a digital wallet has been sent to the end user.
-     * * `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
-     *   status has changed.
+     * The type of event that occurred. Possible values:
+     * - account_holder_document.updated: Occurs when an account holder's document upload status has
+     *   been updated
+     * - account_holder.created: Occurs when a new account_holder is created.
+     * - account_holder.updated: Occurs when an account_holder is updated.
+     * - account_holder.verification: Occurs when an asynchronous account_holder's verification is
+     *   completed.
+     * - auth_rules.backtest_report.created: Auth Rules backtest report created.
+     * - balance.updated: Financial Account Balance Update
+     * - book_transfer_transaction.created: Occurs when a book transfer transaction is created.
+     * - book_transfer_transaction.updated: Occurs when a book transfer transaction is updated.
+     * - card_transaction.enhanced_data.created: Occurs when L2/L3 enhanced commercial data is
+     *   processed for a transaction event.
+     * - card_transaction.enhanced_data.updated: Occurs when L2/L3 enhanced commercial data is
+     *   reprocessed for a transaction event.
+     * - card_transaction.updated: Occurs when a card transaction happens.
+     * - card.converted: Occurs when a card is converted from virtual to physical cards.
+     * - card.created: Occurs when a new card is created.
+     * - card.reissued: Occurs when a card is reissued.
+     * - card.renewed: Occurs when a card is renewed.
+     * - card.shipped: Occurs when a card is shipped.
+     * - digital_wallet.tokenization_approval_request: Occurs when a tokenization approval request
+     *   is made. This event will be deprecated in the future. We recommend using
+     *   `tokenization.approval_request` instead.
+     * - digital_wallet.tokenization_result: Occurs when a tokenization request succeeded or failed.
+     *
+     * This event will be deprecated in the future. We recommend using `tokenization.result`
+     * instead.
+     * - digital_wallet.tokenization_two_factor_authentication_code: Occurs when a tokenization
+     *   request 2FA code is sent to the Lithic customer for self serve delivery.
+     *
+     * This event will be deprecated in the future. We recommend using
+     * `tokenization.two_factor_authentication_code` instead.
+     * - digital_wallet.tokenization_two_factor_authentication_code_sent: Occurs when a tokenization
+     *   request 2FA code is sent to our downstream messaging providers for delivery.
+     *
+     * This event will be deprecated in the future. We recommend using
+     * `tokenization.two_factor_authentication_code_sent` instead.
+     * - digital_wallet.tokenization_updated: Occurs when a tokenization's status has changed.
+     *
+     * This event will be deprecated in the future. We recommend using `tokenization.updated`
+     * instead.
+     * - dispute_evidence.upload_failed: Occurs when a dispute evidence upload fails.
+     * - dispute_transaction.created: Occurs when a new dispute transaction is created
+     * - dispute_transaction.updated: Occurs when a dispute transaction is updated
+     * - dispute.updated: Occurs when a dispute is updated.
+     * - external_bank_account.created: Occurs when an external bank account is created.
+     * - external_bank_account.updated: Occurs when an external bank account is updated.
+     * - external_payment.created: Occurs when an external payment is created.
+     * - external_payment.updated: Occurs when an external payment is updated.
+     * - financial_account.created: Occurs when a financial account is created.
+     * - financial_account.updated: Occurs when a financial account is updated.
+     * - funding_event.created: Occurs when a funding event is created.
+     * - internal_transaction.created: Occurs when an internal adjustment is created.
+     * - internal_transaction.updated: Occurs when an internal adjustment is updated.
+     * - loan_tape.created: Occurs when a loan tape is created.
+     * - loan_tape.updated: Occurs when a loan tape is updated.
+     * - management_operation.created: Occurs when an management operation is created.
+     * - management_operation.updated: Occurs when an management operation is updated.
+     * - network_total.created: Occurs when a network total is created.
+     * - network_total.updated: Occurs when a network total is updated.
+     * - payment_transaction.created: Occurs when a payment transaction is created.
+     * - payment_transaction.updated: Occurs when a payment transaction is updated.
+     * - settlement_report.updated: Occurs when a settlement report is created or updated.
+     * - statements.created: Occurs when a statement has been created
+     * - three_ds_authentication.challenge: The `three_ds_authentication.challenge` event. Upon
+     *   receiving this request, the Card Program should issue its own challenge to the cardholder.
+     *   After a cardholder challenge is successfully completed, the Card Program needs to respond
+     *   back to Lithic by call to
+     *   [/v1/three_ds_decisioning/challenge_response](https://docs.lithic.com/reference/post_v1-three-ds-decisioning-challenge-response).
+     *   Then the cardholder must navigate back to the merchant checkout flow to complete the
+     *   transaction. Some merchants will include an `app_requestor_url` for app-based purchases;
+     *   Lithic recommends triggering a redirect to that URL after the cardholder completes an
+     *   app-based challenge.
+     * - three_ds_authentication.created: Occurs when a 3DS authentication is created.
+     * - three_ds_authentication.updated: Occurs when a 3DS authentication is updated (eg. challenge
+     *   is completed).
+     * - tokenization.approval_request: Occurs when a tokenization approval request is made.
+     * - tokenization.result: Occurs when a tokenization request succeeded or failed.
+     * - tokenization.two_factor_authentication_code: Occurs when a tokenization request 2FA code is
+     *   sent to the Lithic customer for self serve delivery.
+     * - tokenization.two_factor_authentication_code_sent: Occurs when a tokenization request 2FA
+     *   code is sent to our downstream messaging providers for delivery.
+     * - tokenization.updated: Occurs when a tokenization's status has changed.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -203,36 +259,92 @@ private constructor(
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
-         * Event types:
-         * * `account_holder.created` - Notification that a new account holder has been created and
-         *   was not rejected.
-         * * `account_holder.updated` - Notification that an account holder was updated.
-         * * `account_holder.verification` - Notification than an account holder's identity
-         *   verification is complete.
-         * * `card.created` - Notification that a card has been created.
-         * * `card.renewed` - Notification that a card has been renewed.
-         * * `card.reissued` - Notification that a card has been reissued.
-         * * `card.shipped` - Physical card shipment notification. See
-         *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-         * * `card.converted` - Notification that a virtual card has been converted to a physical
-         *   card.
-         * * `card_transaction.updated` - Transaction Lifecycle webhook. See
-         *   https://docs.lithic.com/docs/transaction-webhooks.
-         * * `dispute.updated` - A dispute has been updated.
-         * * `dispute_transaction.created` - A new dispute transaction has been created.
-         * * `dispute_transaction.updated` - A dispute transaction has been updated.
-         * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         *   activate a digital wallet token.
-         * * `digital_wallet.tokenization_result` - Notification of the end result of a
-         *   tokenization, whether successful or failed.
-         * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
-         *   an end user to complete digital wallet authentication. See
-         *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-         * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
-         *   two factor authentication code for activating a digital wallet has been sent to the end
-         *   user.
-         * * `digital_wallet.tokenization_updated` - Notification that a digital wallet
-         *   tokenization's status has changed.
+         * The type of event that occurred. Possible values:
+         * - account_holder_document.updated: Occurs when an account holder's document upload status
+         *   has been updated
+         * - account_holder.created: Occurs when a new account_holder is created.
+         * - account_holder.updated: Occurs when an account_holder is updated.
+         * - account_holder.verification: Occurs when an asynchronous account_holder's verification
+         *   is completed.
+         * - auth_rules.backtest_report.created: Auth Rules backtest report created.
+         * - balance.updated: Financial Account Balance Update
+         * - book_transfer_transaction.created: Occurs when a book transfer transaction is created.
+         * - book_transfer_transaction.updated: Occurs when a book transfer transaction is updated.
+         * - card_transaction.enhanced_data.created: Occurs when L2/L3 enhanced commercial data is
+         *   processed for a transaction event.
+         * - card_transaction.enhanced_data.updated: Occurs when L2/L3 enhanced commercial data is
+         *   reprocessed for a transaction event.
+         * - card_transaction.updated: Occurs when a card transaction happens.
+         * - card.converted: Occurs when a card is converted from virtual to physical cards.
+         * - card.created: Occurs when a new card is created.
+         * - card.reissued: Occurs when a card is reissued.
+         * - card.renewed: Occurs when a card is renewed.
+         * - card.shipped: Occurs when a card is shipped.
+         * - digital_wallet.tokenization_approval_request: Occurs when a tokenization approval
+         *   request is made. This event will be deprecated in the future. We recommend using
+         *   `tokenization.approval_request` instead.
+         * - digital_wallet.tokenization_result: Occurs when a tokenization request succeeded or
+         *   failed.
+         *
+         * This event will be deprecated in the future. We recommend using `tokenization.result`
+         * instead.
+         * - digital_wallet.tokenization_two_factor_authentication_code: Occurs when a tokenization
+         *   request 2FA code is sent to the Lithic customer for self serve delivery.
+         *
+         * This event will be deprecated in the future. We recommend using
+         * `tokenization.two_factor_authentication_code` instead.
+         * - digital_wallet.tokenization_two_factor_authentication_code_sent: Occurs when a
+         *   tokenization request 2FA code is sent to our downstream messaging providers for
+         *   delivery.
+         *
+         * This event will be deprecated in the future. We recommend using
+         * `tokenization.two_factor_authentication_code_sent` instead.
+         * - digital_wallet.tokenization_updated: Occurs when a tokenization's status has changed.
+         *
+         * This event will be deprecated in the future. We recommend using `tokenization.updated`
+         * instead.
+         * - dispute_evidence.upload_failed: Occurs when a dispute evidence upload fails.
+         * - dispute_transaction.created: Occurs when a new dispute transaction is created
+         * - dispute_transaction.updated: Occurs when a dispute transaction is updated
+         * - dispute.updated: Occurs when a dispute is updated.
+         * - external_bank_account.created: Occurs when an external bank account is created.
+         * - external_bank_account.updated: Occurs when an external bank account is updated.
+         * - external_payment.created: Occurs when an external payment is created.
+         * - external_payment.updated: Occurs when an external payment is updated.
+         * - financial_account.created: Occurs when a financial account is created.
+         * - financial_account.updated: Occurs when a financial account is updated.
+         * - funding_event.created: Occurs when a funding event is created.
+         * - internal_transaction.created: Occurs when an internal adjustment is created.
+         * - internal_transaction.updated: Occurs when an internal adjustment is updated.
+         * - loan_tape.created: Occurs when a loan tape is created.
+         * - loan_tape.updated: Occurs when a loan tape is updated.
+         * - management_operation.created: Occurs when an management operation is created.
+         * - management_operation.updated: Occurs when an management operation is updated.
+         * - network_total.created: Occurs when a network total is created.
+         * - network_total.updated: Occurs when a network total is updated.
+         * - payment_transaction.created: Occurs when a payment transaction is created.
+         * - payment_transaction.updated: Occurs when a payment transaction is updated.
+         * - settlement_report.updated: Occurs when a settlement report is created or updated.
+         * - statements.created: Occurs when a statement has been created
+         * - three_ds_authentication.challenge: The `three_ds_authentication.challenge` event. Upon
+         *   receiving this request, the Card Program should issue its own challenge to the
+         *   cardholder. After a cardholder challenge is successfully completed, the Card Program
+         *   needs to respond back to Lithic by call to
+         *   [/v1/three_ds_decisioning/challenge_response](https://docs.lithic.com/reference/post_v1-three-ds-decisioning-challenge-response).
+         *   Then the cardholder must navigate back to the merchant checkout flow to complete the
+         *   transaction. Some merchants will include an `app_requestor_url` for app-based
+         *   purchases; Lithic recommends triggering a redirect to that URL after the cardholder
+         *   completes an app-based challenge.
+         * - three_ds_authentication.created: Occurs when a 3DS authentication is created.
+         * - three_ds_authentication.updated: Occurs when a 3DS authentication is updated (eg.
+         *   challenge is completed).
+         * - tokenization.approval_request: Occurs when a tokenization approval request is made.
+         * - tokenization.result: Occurs when a tokenization request succeeded or failed.
+         * - tokenization.two_factor_authentication_code: Occurs when a tokenization request 2FA
+         *   code is sent to the Lithic customer for self serve delivery.
+         * - tokenization.two_factor_authentication_code_sent: Occurs when a tokenization request
+         *   2FA code is sent to our downstream messaging providers for delivery.
+         * - tokenization.updated: Occurs when a tokenization's status has changed.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
@@ -334,34 +446,90 @@ private constructor(
             (payload.asKnown().getOrNull()?.validity() ?: 0)
 
     /**
-     * Event types:
-     * * `account_holder.created` - Notification that a new account holder has been created and was
-     *   not rejected.
-     * * `account_holder.updated` - Notification that an account holder was updated.
-     * * `account_holder.verification` - Notification than an account holder's identity verification
-     *   is complete.
-     * * `card.created` - Notification that a card has been created.
-     * * `card.renewed` - Notification that a card has been renewed.
-     * * `card.reissued` - Notification that a card has been reissued.
-     * * `card.shipped` - Physical card shipment notification. See
-     *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
-     * * `card.converted` - Notification that a virtual card has been converted to a physical card.
-     * * `card_transaction.updated` - Transaction Lifecycle webhook. See
-     *   https://docs.lithic.com/docs/transaction-webhooks.
-     * * `dispute.updated` - A dispute has been updated.
-     * * `dispute_transaction.created` - A new dispute transaction has been created.
-     * * `dispute_transaction.updated` - A dispute transaction has been updated.
-     * * `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     *   activate a digital wallet token.
-     * * `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
-     *   whether successful or failed.
-     * * `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
-     *   end user to complete digital wallet authentication. See
-     *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
-     * * `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
-     *   factor authentication code for activating a digital wallet has been sent to the end user.
-     * * `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
-     *   status has changed.
+     * The type of event that occurred. Possible values:
+     * - account_holder_document.updated: Occurs when an account holder's document upload status has
+     *   been updated
+     * - account_holder.created: Occurs when a new account_holder is created.
+     * - account_holder.updated: Occurs when an account_holder is updated.
+     * - account_holder.verification: Occurs when an asynchronous account_holder's verification is
+     *   completed.
+     * - auth_rules.backtest_report.created: Auth Rules backtest report created.
+     * - balance.updated: Financial Account Balance Update
+     * - book_transfer_transaction.created: Occurs when a book transfer transaction is created.
+     * - book_transfer_transaction.updated: Occurs when a book transfer transaction is updated.
+     * - card_transaction.enhanced_data.created: Occurs when L2/L3 enhanced commercial data is
+     *   processed for a transaction event.
+     * - card_transaction.enhanced_data.updated: Occurs when L2/L3 enhanced commercial data is
+     *   reprocessed for a transaction event.
+     * - card_transaction.updated: Occurs when a card transaction happens.
+     * - card.converted: Occurs when a card is converted from virtual to physical cards.
+     * - card.created: Occurs when a new card is created.
+     * - card.reissued: Occurs when a card is reissued.
+     * - card.renewed: Occurs when a card is renewed.
+     * - card.shipped: Occurs when a card is shipped.
+     * - digital_wallet.tokenization_approval_request: Occurs when a tokenization approval request
+     *   is made. This event will be deprecated in the future. We recommend using
+     *   `tokenization.approval_request` instead.
+     * - digital_wallet.tokenization_result: Occurs when a tokenization request succeeded or failed.
+     *
+     * This event will be deprecated in the future. We recommend using `tokenization.result`
+     * instead.
+     * - digital_wallet.tokenization_two_factor_authentication_code: Occurs when a tokenization
+     *   request 2FA code is sent to the Lithic customer for self serve delivery.
+     *
+     * This event will be deprecated in the future. We recommend using
+     * `tokenization.two_factor_authentication_code` instead.
+     * - digital_wallet.tokenization_two_factor_authentication_code_sent: Occurs when a tokenization
+     *   request 2FA code is sent to our downstream messaging providers for delivery.
+     *
+     * This event will be deprecated in the future. We recommend using
+     * `tokenization.two_factor_authentication_code_sent` instead.
+     * - digital_wallet.tokenization_updated: Occurs when a tokenization's status has changed.
+     *
+     * This event will be deprecated in the future. We recommend using `tokenization.updated`
+     * instead.
+     * - dispute_evidence.upload_failed: Occurs when a dispute evidence upload fails.
+     * - dispute_transaction.created: Occurs when a new dispute transaction is created
+     * - dispute_transaction.updated: Occurs when a dispute transaction is updated
+     * - dispute.updated: Occurs when a dispute is updated.
+     * - external_bank_account.created: Occurs when an external bank account is created.
+     * - external_bank_account.updated: Occurs when an external bank account is updated.
+     * - external_payment.created: Occurs when an external payment is created.
+     * - external_payment.updated: Occurs when an external payment is updated.
+     * - financial_account.created: Occurs when a financial account is created.
+     * - financial_account.updated: Occurs when a financial account is updated.
+     * - funding_event.created: Occurs when a funding event is created.
+     * - internal_transaction.created: Occurs when an internal adjustment is created.
+     * - internal_transaction.updated: Occurs when an internal adjustment is updated.
+     * - loan_tape.created: Occurs when a loan tape is created.
+     * - loan_tape.updated: Occurs when a loan tape is updated.
+     * - management_operation.created: Occurs when an management operation is created.
+     * - management_operation.updated: Occurs when an management operation is updated.
+     * - network_total.created: Occurs when a network total is created.
+     * - network_total.updated: Occurs when a network total is updated.
+     * - payment_transaction.created: Occurs when a payment transaction is created.
+     * - payment_transaction.updated: Occurs when a payment transaction is updated.
+     * - settlement_report.updated: Occurs when a settlement report is created or updated.
+     * - statements.created: Occurs when a statement has been created
+     * - three_ds_authentication.challenge: The `three_ds_authentication.challenge` event. Upon
+     *   receiving this request, the Card Program should issue its own challenge to the cardholder.
+     *   After a cardholder challenge is successfully completed, the Card Program needs to respond
+     *   back to Lithic by call to
+     *   [/v1/three_ds_decisioning/challenge_response](https://docs.lithic.com/reference/post_v1-three-ds-decisioning-challenge-response).
+     *   Then the cardholder must navigate back to the merchant checkout flow to complete the
+     *   transaction. Some merchants will include an `app_requestor_url` for app-based purchases;
+     *   Lithic recommends triggering a redirect to that URL after the cardholder completes an
+     *   app-based challenge.
+     * - three_ds_authentication.created: Occurs when a 3DS authentication is created.
+     * - three_ds_authentication.updated: Occurs when a 3DS authentication is updated (eg. challenge
+     *   is completed).
+     * - tokenization.approval_request: Occurs when a tokenization approval request is made.
+     * - tokenization.result: Occurs when a tokenization request succeeded or failed.
+     * - tokenization.two_factor_authentication_code: Occurs when a tokenization request 2FA code is
+     *   sent to the Lithic customer for self serve delivery.
+     * - tokenization.two_factor_authentication_code_sent: Occurs when a tokenization request 2FA
+     *   code is sent to our downstream messaging providers for delivery.
+     * - tokenization.updated: Occurs when a tokenization's status has changed.
      */
     class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -377,28 +545,44 @@ private constructor(
 
         companion object {
 
+            @JvmField val ACCOUNT_HOLDER_DOCUMENT_UPDATED = of("account_holder_document.updated")
+
             @JvmField val ACCOUNT_HOLDER_CREATED = of("account_holder.created")
 
             @JvmField val ACCOUNT_HOLDER_UPDATED = of("account_holder.updated")
 
             @JvmField val ACCOUNT_HOLDER_VERIFICATION = of("account_holder.verification")
 
+            @JvmField
+            val AUTH_RULES_BACKTEST_REPORT_CREATED = of("auth_rules.backtest_report.created")
+
             @JvmField val BALANCE_UPDATED = of("balance.updated")
 
             @JvmField
             val BOOK_TRANSFER_TRANSACTION_CREATED = of("book_transfer_transaction.created")
 
-            @JvmField val CARD_CREATED = of("card.created")
+            @JvmField
+            val BOOK_TRANSFER_TRANSACTION_UPDATED = of("book_transfer_transaction.updated")
 
-            @JvmField val CARD_RENEWED = of("card.renewed")
+            @JvmField
+            val CARD_TRANSACTION_ENHANCED_DATA_CREATED =
+                of("card_transaction.enhanced_data.created")
 
-            @JvmField val CARD_REISSUED = of("card.reissued")
+            @JvmField
+            val CARD_TRANSACTION_ENHANCED_DATA_UPDATED =
+                of("card_transaction.enhanced_data.updated")
+
+            @JvmField val CARD_TRANSACTION_UPDATED = of("card_transaction.updated")
 
             @JvmField val CARD_CONVERTED = of("card.converted")
 
-            @JvmField val CARD_SHIPPED = of("card.shipped")
+            @JvmField val CARD_CREATED = of("card.created")
 
-            @JvmField val CARD_TRANSACTION_UPDATED = of("card_transaction.updated")
+            @JvmField val CARD_REISSUED = of("card.reissued")
+
+            @JvmField val CARD_RENEWED = of("card.renewed")
+
+            @JvmField val CARD_SHIPPED = of("card.shipped")
 
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
@@ -418,13 +602,13 @@ private constructor(
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_UPDATED = of("digital_wallet.tokenization_updated")
 
-            @JvmField val DISPUTE_UPDATED = of("dispute.updated")
-
             @JvmField val DISPUTE_EVIDENCE_UPLOAD_FAILED = of("dispute_evidence.upload_failed")
 
             @JvmField val DISPUTE_TRANSACTION_CREATED = of("dispute_transaction.created")
 
             @JvmField val DISPUTE_TRANSACTION_UPDATED = of("dispute_transaction.updated")
+
+            @JvmField val DISPUTE_UPDATED = of("dispute.updated")
 
             @JvmField val EXTERNAL_BANK_ACCOUNT_CREATED = of("external_bank_account.created")
 
@@ -439,6 +623,10 @@ private constructor(
             @JvmField val FINANCIAL_ACCOUNT_UPDATED = of("financial_account.updated")
 
             @JvmField val FUNDING_EVENT_CREATED = of("funding_event.created")
+
+            @JvmField val INTERNAL_TRANSACTION_CREATED = of("internal_transaction.created")
+
+            @JvmField val INTERNAL_TRANSACTION_UPDATED = of("internal_transaction.updated")
 
             @JvmField val LOAN_TAPE_CREATED = of("loan_tape.created")
 
@@ -456,13 +644,12 @@ private constructor(
 
             @JvmField val PAYMENT_TRANSACTION_UPDATED = of("payment_transaction.updated")
 
-            @JvmField val INTERNAL_TRANSACTION_CREATED = of("internal_transaction.created")
-
-            @JvmField val INTERNAL_TRANSACTION_UPDATED = of("internal_transaction.updated")
-
             @JvmField val SETTLEMENT_REPORT_UPDATED = of("settlement_report.updated")
 
             @JvmField val STATEMENTS_CREATED = of("statements.created")
+
+            @JvmField
+            val THREE_DS_AUTHENTICATION_CHALLENGE = of("three_ds_authentication.challenge")
 
             @JvmField val THREE_DS_AUTHENTICATION_CREATED = of("three_ds_authentication.created")
 
@@ -487,26 +674,31 @@ private constructor(
 
         /** An enum containing [EventType]'s known values. */
         enum class Known {
+            ACCOUNT_HOLDER_DOCUMENT_UPDATED,
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_BACKTEST_REPORT_CREATED,
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
-            CARD_CREATED,
-            CARD_RENEWED,
-            CARD_REISSUED,
-            CARD_CONVERTED,
-            CARD_SHIPPED,
+            BOOK_TRANSFER_TRANSACTION_UPDATED,
+            CARD_TRANSACTION_ENHANCED_DATA_CREATED,
+            CARD_TRANSACTION_ENHANCED_DATA_UPDATED,
             CARD_TRANSACTION_UPDATED,
+            CARD_CONVERTED,
+            CARD_CREATED,
+            CARD_REISSUED,
+            CARD_RENEWED,
+            CARD_SHIPPED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
             DIGITAL_WALLET_TOKENIZATION_UPDATED,
-            DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             DISPUTE_TRANSACTION_CREATED,
             DISPUTE_TRANSACTION_UPDATED,
+            DISPUTE_UPDATED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -514,6 +706,8 @@ private constructor(
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
             FUNDING_EVENT_CREATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             LOAN_TAPE_CREATED,
             LOAN_TAPE_UPDATED,
             MANAGEMENT_OPERATION_CREATED,
@@ -522,10 +716,9 @@ private constructor(
             NETWORK_TOTAL_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
-            INTERNAL_TRANSACTION_CREATED,
-            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
+            THREE_DS_AUTHENTICATION_CHALLENGE,
             THREE_DS_AUTHENTICATION_CREATED,
             THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
@@ -545,26 +738,31 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            ACCOUNT_HOLDER_DOCUMENT_UPDATED,
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_BACKTEST_REPORT_CREATED,
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
-            CARD_CREATED,
-            CARD_RENEWED,
-            CARD_REISSUED,
-            CARD_CONVERTED,
-            CARD_SHIPPED,
+            BOOK_TRANSFER_TRANSACTION_UPDATED,
+            CARD_TRANSACTION_ENHANCED_DATA_CREATED,
+            CARD_TRANSACTION_ENHANCED_DATA_UPDATED,
             CARD_TRANSACTION_UPDATED,
+            CARD_CONVERTED,
+            CARD_CREATED,
+            CARD_REISSUED,
+            CARD_RENEWED,
+            CARD_SHIPPED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
             DIGITAL_WALLET_TOKENIZATION_UPDATED,
-            DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             DISPUTE_TRANSACTION_CREATED,
             DISPUTE_TRANSACTION_UPDATED,
+            DISPUTE_UPDATED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -572,6 +770,8 @@ private constructor(
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
             FUNDING_EVENT_CREATED,
+            INTERNAL_TRANSACTION_CREATED,
+            INTERNAL_TRANSACTION_UPDATED,
             LOAN_TAPE_CREATED,
             LOAN_TAPE_UPDATED,
             MANAGEMENT_OPERATION_CREATED,
@@ -580,10 +780,9 @@ private constructor(
             NETWORK_TOTAL_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
-            INTERNAL_TRANSACTION_CREATED,
-            INTERNAL_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
+            THREE_DS_AUTHENTICATION_CHALLENGE,
             THREE_DS_AUTHENTICATION_CREATED,
             THREE_DS_AUTHENTICATION_UPDATED,
             TOKENIZATION_APPROVAL_REQUEST,
@@ -606,17 +805,24 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                ACCOUNT_HOLDER_DOCUMENT_UPDATED -> Value.ACCOUNT_HOLDER_DOCUMENT_UPDATED
                 ACCOUNT_HOLDER_CREATED -> Value.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_BACKTEST_REPORT_CREATED -> Value.AUTH_RULES_BACKTEST_REPORT_CREATED
                 BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Value.BOOK_TRANSFER_TRANSACTION_CREATED
-                CARD_CREATED -> Value.CARD_CREATED
-                CARD_RENEWED -> Value.CARD_RENEWED
-                CARD_REISSUED -> Value.CARD_REISSUED
-                CARD_CONVERTED -> Value.CARD_CONVERTED
-                CARD_SHIPPED -> Value.CARD_SHIPPED
+                BOOK_TRANSFER_TRANSACTION_UPDATED -> Value.BOOK_TRANSFER_TRANSACTION_UPDATED
+                CARD_TRANSACTION_ENHANCED_DATA_CREATED ->
+                    Value.CARD_TRANSACTION_ENHANCED_DATA_CREATED
+                CARD_TRANSACTION_ENHANCED_DATA_UPDATED ->
+                    Value.CARD_TRANSACTION_ENHANCED_DATA_UPDATED
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
+                CARD_CONVERTED -> Value.CARD_CONVERTED
+                CARD_CREATED -> Value.CARD_CREATED
+                CARD_REISSUED -> Value.CARD_REISSUED
+                CARD_RENEWED -> Value.CARD_RENEWED
+                CARD_SHIPPED -> Value.CARD_SHIPPED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Value.DIGITAL_WALLET_TOKENIZATION_RESULT
@@ -625,10 +831,10 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
                 DIGITAL_WALLET_TOKENIZATION_UPDATED -> Value.DIGITAL_WALLET_TOKENIZATION_UPDATED
-                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 DISPUTE_TRANSACTION_CREATED -> Value.DISPUTE_TRANSACTION_CREATED
                 DISPUTE_TRANSACTION_UPDATED -> Value.DISPUTE_TRANSACTION_UPDATED
+                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Value.EXTERNAL_PAYMENT_CREATED
@@ -636,6 +842,8 @@ private constructor(
                 FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Value.FINANCIAL_ACCOUNT_UPDATED
                 FUNDING_EVENT_CREATED -> Value.FUNDING_EVENT_CREATED
+                INTERNAL_TRANSACTION_CREATED -> Value.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Value.INTERNAL_TRANSACTION_UPDATED
                 LOAN_TAPE_CREATED -> Value.LOAN_TAPE_CREATED
                 LOAN_TAPE_UPDATED -> Value.LOAN_TAPE_UPDATED
                 MANAGEMENT_OPERATION_CREATED -> Value.MANAGEMENT_OPERATION_CREATED
@@ -644,10 +852,9 @@ private constructor(
                 NETWORK_TOTAL_UPDATED -> Value.NETWORK_TOTAL_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
-                INTERNAL_TRANSACTION_CREATED -> Value.INTERNAL_TRANSACTION_CREATED
-                INTERNAL_TRANSACTION_UPDATED -> Value.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
+                THREE_DS_AUTHENTICATION_CHALLENGE -> Value.THREE_DS_AUTHENTICATION_CHALLENGE
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 THREE_DS_AUTHENTICATION_UPDATED -> Value.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Value.TOKENIZATION_APPROVAL_REQUEST
@@ -671,17 +878,24 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                ACCOUNT_HOLDER_DOCUMENT_UPDATED -> Known.ACCOUNT_HOLDER_DOCUMENT_UPDATED
                 ACCOUNT_HOLDER_CREATED -> Known.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_BACKTEST_REPORT_CREATED -> Known.AUTH_RULES_BACKTEST_REPORT_CREATED
                 BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Known.BOOK_TRANSFER_TRANSACTION_CREATED
-                CARD_CREATED -> Known.CARD_CREATED
-                CARD_RENEWED -> Known.CARD_RENEWED
-                CARD_REISSUED -> Known.CARD_REISSUED
-                CARD_CONVERTED -> Known.CARD_CONVERTED
-                CARD_SHIPPED -> Known.CARD_SHIPPED
+                BOOK_TRANSFER_TRANSACTION_UPDATED -> Known.BOOK_TRANSFER_TRANSACTION_UPDATED
+                CARD_TRANSACTION_ENHANCED_DATA_CREATED ->
+                    Known.CARD_TRANSACTION_ENHANCED_DATA_CREATED
+                CARD_TRANSACTION_ENHANCED_DATA_UPDATED ->
+                    Known.CARD_TRANSACTION_ENHANCED_DATA_UPDATED
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
+                CARD_CONVERTED -> Known.CARD_CONVERTED
+                CARD_CREATED -> Known.CARD_CREATED
+                CARD_REISSUED -> Known.CARD_REISSUED
+                CARD_RENEWED -> Known.CARD_RENEWED
+                CARD_SHIPPED -> Known.CARD_SHIPPED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Known.DIGITAL_WALLET_TOKENIZATION_RESULT
@@ -690,10 +904,10 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
                 DIGITAL_WALLET_TOKENIZATION_UPDATED -> Known.DIGITAL_WALLET_TOKENIZATION_UPDATED
-                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 DISPUTE_TRANSACTION_CREATED -> Known.DISPUTE_TRANSACTION_CREATED
                 DISPUTE_TRANSACTION_UPDATED -> Known.DISPUTE_TRANSACTION_UPDATED
+                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Known.EXTERNAL_PAYMENT_CREATED
@@ -701,6 +915,8 @@ private constructor(
                 FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Known.FINANCIAL_ACCOUNT_UPDATED
                 FUNDING_EVENT_CREATED -> Known.FUNDING_EVENT_CREATED
+                INTERNAL_TRANSACTION_CREATED -> Known.INTERNAL_TRANSACTION_CREATED
+                INTERNAL_TRANSACTION_UPDATED -> Known.INTERNAL_TRANSACTION_UPDATED
                 LOAN_TAPE_CREATED -> Known.LOAN_TAPE_CREATED
                 LOAN_TAPE_UPDATED -> Known.LOAN_TAPE_UPDATED
                 MANAGEMENT_OPERATION_CREATED -> Known.MANAGEMENT_OPERATION_CREATED
@@ -709,10 +925,9 @@ private constructor(
                 NETWORK_TOTAL_UPDATED -> Known.NETWORK_TOTAL_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
-                INTERNAL_TRANSACTION_CREATED -> Known.INTERNAL_TRANSACTION_CREATED
-                INTERNAL_TRANSACTION_UPDATED -> Known.INTERNAL_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
+                THREE_DS_AUTHENTICATION_CHALLENGE -> Known.THREE_DS_AUTHENTICATION_CHALLENGE
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 THREE_DS_AUTHENTICATION_UPDATED -> Known.THREE_DS_AUTHENTICATION_UPDATED
                 TOKENIZATION_APPROVAL_REQUEST -> Known.TOKENIZATION_APPROVAL_REQUEST

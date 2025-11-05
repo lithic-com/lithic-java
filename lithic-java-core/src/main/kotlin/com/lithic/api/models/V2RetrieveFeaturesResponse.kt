@@ -252,10 +252,7 @@ private constructor(
         fun filters(): VelocityLimitFilters = filters.getRequired("filters")
 
         /**
-         * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
-         *
-         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
-         * value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
+         * Velocity over the current day since 00:00 / 12 AM in Eastern Time
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -365,12 +362,7 @@ private constructor(
              */
             fun filters(filters: JsonField<VelocityLimitFilters>) = apply { this.filters = filters }
 
-            /**
-             * DEPRECATED: This has been deprecated in favor of the Trailing Window Objects
-             *
-             * The size of the trailing window to calculate Spend Velocity over in seconds. The
-             * minimum value is 10 seconds, and the maximum value is 2678400 seconds (31 days).
-             */
+            /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
             fun period(period: VelocityLimitParamsPeriodWindow) = period(JsonField.of(period))
 
             /**
@@ -383,19 +375,6 @@ private constructor(
             fun period(period: JsonField<VelocityLimitParamsPeriodWindow>) = apply {
                 this.period = period
             }
-
-            /**
-             * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofTrailing(trailing)`.
-             */
-            @Deprecated("deprecated")
-            fun period(trailing: Long) =
-                period(VelocityLimitParamsPeriodWindow.ofTrailing(trailing))
-
-            /** Alias for calling [period] with `VelocityLimitParamsPeriodWindow.ofFixed(fixed)`. */
-            @Deprecated("deprecated")
-            fun period(fixed: VelocityLimitParamsPeriodWindow.FixedWindow) =
-                period(VelocityLimitParamsPeriodWindow.ofFixed(fixed))
 
             /**
              * Alias for calling [period] with

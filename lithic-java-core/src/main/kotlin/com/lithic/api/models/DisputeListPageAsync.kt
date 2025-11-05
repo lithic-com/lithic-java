@@ -19,14 +19,15 @@ private constructor(
     private val streamHandlerExecutor: Executor,
     private val params: DisputeListParams,
     private val response: DisputeListPageResponse,
-) : PageAsync<Dispute> {
+) : PageAsync<DisputeListResponse> {
 
     /**
      * Delegates to [DisputeListPageResponse], but gracefully handles missing data.
      *
      * @see DisputeListPageResponse.data
      */
-    fun data(): List<Dispute> = response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<DisputeListResponse> =
+        response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [DisputeListPageResponse], but gracefully handles missing data.
@@ -35,7 +36,7 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    override fun items(): List<Dispute> = data()
+    override fun items(): List<DisputeListResponse> = data()
 
     override fun hasNextPage(): Boolean = items().isNotEmpty()
 
@@ -49,7 +50,8 @@ private constructor(
     override fun nextPage(): CompletableFuture<DisputeListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<Dispute> = AutoPagerAsync.from(this, streamHandlerExecutor)
+    fun autoPager(): AutoPagerAsync<DisputeListResponse> =
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): DisputeListParams = params

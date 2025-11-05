@@ -323,7 +323,7 @@ internal class AccountHolderServiceAsyncTest {
         val documentFuture =
             accountHolderServiceAsync.simulateEnrollmentDocumentReview(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
-                    .documentUploadToken("document_upload_token")
+                    .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
                     .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
                     .addAcceptedEntityStatusReason("string")
                     .statusReason(

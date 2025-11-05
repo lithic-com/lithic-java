@@ -16,6 +16,7 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -41,12 +42,28 @@ private constructor(
     fun eventType(): SupportedSimulationTypes = body.eventType()
 
     /**
+     * Date of Death for ACH Return
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun dateOfDeath(): Optional<LocalDate> = body.dateOfDeath()
+
+    /**
      * Decline reason
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun declineReason(): Optional<SupportedSimulationDeclineReasons> = body.declineReason()
+
+    /**
+     * Return Addenda
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun returnAddenda(): Optional<String> = body.returnAddenda()
 
     /**
      * Return Reason Code
@@ -64,11 +81,25 @@ private constructor(
     fun _eventType(): JsonField<SupportedSimulationTypes> = body._eventType()
 
     /**
+     * Returns the raw JSON value of [dateOfDeath].
+     *
+     * Unlike [dateOfDeath], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _dateOfDeath(): JsonField<LocalDate> = body._dateOfDeath()
+
+    /**
      * Returns the raw JSON value of [declineReason].
      *
      * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = body._declineReason()
+
+    /**
+     * Returns the raw JSON value of [returnAddenda].
+     *
+     * Unlike [returnAddenda], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _returnAddenda(): JsonField<String> = body._returnAddenda()
 
     /**
      * Returns the raw JSON value of [returnReasonCode].
@@ -128,8 +159,11 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [eventType]
+         * - [dateOfDeath]
          * - [declineReason]
+         * - [returnAddenda]
          * - [returnReasonCode]
+         * - etc.
          */
         fun body(body: SimulateActionRequest) = apply { this.body = body.toBuilder() }
 
@@ -147,6 +181,18 @@ private constructor(
             body.eventType(eventType)
         }
 
+        /** Date of Death for ACH Return */
+        fun dateOfDeath(dateOfDeath: LocalDate) = apply { body.dateOfDeath(dateOfDeath) }
+
+        /**
+         * Sets [Builder.dateOfDeath] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.dateOfDeath] with a well-typed [LocalDate] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun dateOfDeath(dateOfDeath: JsonField<LocalDate>) = apply { body.dateOfDeath(dateOfDeath) }
+
         /** Decline reason */
         fun declineReason(declineReason: SupportedSimulationDeclineReasons) = apply {
             body.declineReason(declineReason)
@@ -161,6 +207,20 @@ private constructor(
          */
         fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
             body.declineReason(declineReason)
+        }
+
+        /** Return Addenda */
+        fun returnAddenda(returnAddenda: String) = apply { body.returnAddenda(returnAddenda) }
+
+        /**
+         * Sets [Builder.returnAddenda] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.returnAddenda] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun returnAddenda(returnAddenda: JsonField<String>) = apply {
+            body.returnAddenda(returnAddenda)
         }
 
         /** Return Reason Code */
@@ -333,7 +393,9 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val eventType: JsonField<SupportedSimulationTypes>,
+        private val dateOfDeath: JsonField<LocalDate>,
         private val declineReason: JsonField<SupportedSimulationDeclineReasons>,
+        private val returnAddenda: JsonField<String>,
         private val returnReasonCode: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -343,13 +405,26 @@ private constructor(
             @JsonProperty("event_type")
             @ExcludeMissing
             eventType: JsonField<SupportedSimulationTypes> = JsonMissing.of(),
+            @JsonProperty("date_of_death")
+            @ExcludeMissing
+            dateOfDeath: JsonField<LocalDate> = JsonMissing.of(),
             @JsonProperty("decline_reason")
             @ExcludeMissing
             declineReason: JsonField<SupportedSimulationDeclineReasons> = JsonMissing.of(),
+            @JsonProperty("return_addenda")
+            @ExcludeMissing
+            returnAddenda: JsonField<String> = JsonMissing.of(),
             @JsonProperty("return_reason_code")
             @ExcludeMissing
             returnReasonCode: JsonField<String> = JsonMissing.of(),
-        ) : this(eventType, declineReason, returnReasonCode, mutableMapOf())
+        ) : this(
+            eventType,
+            dateOfDeath,
+            declineReason,
+            returnAddenda,
+            returnReasonCode,
+            mutableMapOf(),
+        )
 
         /**
          * Event Type
@@ -360,6 +435,14 @@ private constructor(
         fun eventType(): SupportedSimulationTypes = eventType.getRequired("event_type")
 
         /**
+         * Date of Death for ACH Return
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun dateOfDeath(): Optional<LocalDate> = dateOfDeath.getOptional("date_of_death")
+
+        /**
          * Decline reason
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -367,6 +450,14 @@ private constructor(
          */
         fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
             declineReason.getOptional("decline_reason")
+
+        /**
+         * Return Addenda
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun returnAddenda(): Optional<String> = returnAddenda.getOptional("return_addenda")
 
         /**
          * Return Reason Code
@@ -387,6 +478,15 @@ private constructor(
         fun _eventType(): JsonField<SupportedSimulationTypes> = eventType
 
         /**
+         * Returns the raw JSON value of [dateOfDeath].
+         *
+         * Unlike [dateOfDeath], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("date_of_death")
+        @ExcludeMissing
+        fun _dateOfDeath(): JsonField<LocalDate> = dateOfDeath
+
+        /**
          * Returns the raw JSON value of [declineReason].
          *
          * Unlike [declineReason], this method doesn't throw if the JSON field has an unexpected
@@ -395,6 +495,16 @@ private constructor(
         @JsonProperty("decline_reason")
         @ExcludeMissing
         fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = declineReason
+
+        /**
+         * Returns the raw JSON value of [returnAddenda].
+         *
+         * Unlike [returnAddenda], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("return_addenda")
+        @ExcludeMissing
+        fun _returnAddenda(): JsonField<String> = returnAddenda
 
         /**
          * Returns the raw JSON value of [returnReasonCode].
@@ -435,15 +545,19 @@ private constructor(
         class Builder internal constructor() {
 
             private var eventType: JsonField<SupportedSimulationTypes>? = null
+            private var dateOfDeath: JsonField<LocalDate> = JsonMissing.of()
             private var declineReason: JsonField<SupportedSimulationDeclineReasons> =
                 JsonMissing.of()
+            private var returnAddenda: JsonField<String> = JsonMissing.of()
             private var returnReasonCode: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(simulateActionRequest: SimulateActionRequest) = apply {
                 eventType = simulateActionRequest.eventType
+                dateOfDeath = simulateActionRequest.dateOfDeath
                 declineReason = simulateActionRequest.declineReason
+                returnAddenda = simulateActionRequest.returnAddenda
                 returnReasonCode = simulateActionRequest.returnReasonCode
                 additionalProperties = simulateActionRequest.additionalProperties.toMutableMap()
             }
@@ -462,6 +576,20 @@ private constructor(
                 this.eventType = eventType
             }
 
+            /** Date of Death for ACH Return */
+            fun dateOfDeath(dateOfDeath: LocalDate) = dateOfDeath(JsonField.of(dateOfDeath))
+
+            /**
+             * Sets [Builder.dateOfDeath] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dateOfDeath] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun dateOfDeath(dateOfDeath: JsonField<LocalDate>) = apply {
+                this.dateOfDeath = dateOfDeath
+            }
+
             /** Decline reason */
             fun declineReason(declineReason: SupportedSimulationDeclineReasons) =
                 declineReason(JsonField.of(declineReason))
@@ -475,6 +603,20 @@ private constructor(
              */
             fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
                 this.declineReason = declineReason
+            }
+
+            /** Return Addenda */
+            fun returnAddenda(returnAddenda: String) = returnAddenda(JsonField.of(returnAddenda))
+
+            /**
+             * Sets [Builder.returnAddenda] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.returnAddenda] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun returnAddenda(returnAddenda: JsonField<String>) = apply {
+                this.returnAddenda = returnAddenda
             }
 
             /** Return Reason Code */
@@ -526,7 +668,9 @@ private constructor(
             fun build(): SimulateActionRequest =
                 SimulateActionRequest(
                     checkRequired("eventType", eventType),
+                    dateOfDeath,
                     declineReason,
+                    returnAddenda,
                     returnReasonCode,
                     additionalProperties.toMutableMap(),
                 )
@@ -540,7 +684,9 @@ private constructor(
             }
 
             eventType().validate()
+            dateOfDeath()
             declineReason().ifPresent { it.validate() }
+            returnAddenda()
             returnReasonCode()
             validated = true
         }
@@ -562,7 +708,9 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (eventType.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (dateOfDeath.asKnown().isPresent) 1 else 0) +
                 (declineReason.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (returnAddenda.asKnown().isPresent) 1 else 0) +
                 (if (returnReasonCode.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
@@ -572,19 +720,28 @@ private constructor(
 
             return other is SimulateActionRequest &&
                 eventType == other.eventType &&
+                dateOfDeath == other.dateOfDeath &&
                 declineReason == other.declineReason &&
+                returnAddenda == other.returnAddenda &&
                 returnReasonCode == other.returnReasonCode &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(eventType, declineReason, returnReasonCode, additionalProperties)
+            Objects.hash(
+                eventType,
+                dateOfDeath,
+                declineReason,
+                returnAddenda,
+                returnReasonCode,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SimulateActionRequest{eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
+            "SimulateActionRequest{eventType=$eventType, dateOfDeath=$dateOfDeath, declineReason=$declineReason, returnAddenda=$returnAddenda, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
     }
 
     /** Event Type */
