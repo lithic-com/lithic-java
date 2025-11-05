@@ -17,7 +17,6 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.AuthRuleV2ApplyParams
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
@@ -29,7 +28,6 @@ import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.V2ApplyResponse
 import com.lithic.api.models.V2CreateResponse
 import com.lithic.api.models.V2DraftResponse
 import com.lithic.api.models.V2PromoteResponse
@@ -93,14 +91,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     ): CompletableFuture<Void?> =
         // delete /v2/auth_rules/{auth_rule_token}
         withRawResponse().delete(params, requestOptions).thenAccept {}
-
-    @Deprecated("deprecated")
-    override fun apply(
-        params: AuthRuleV2ApplyParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<V2ApplyResponse> =
-        // post /v2/auth_rules/{auth_rule_token}/apply
-        withRawResponse().apply(params, requestOptions).thenApply { it.parse() }
 
     override fun draft(
         params: AuthRuleV2DraftParams,
@@ -308,41 +298,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response.use { deleteHandler.handle(it) }
-                    }
-                }
-        }
-
-        private val applyHandler: Handler<V2ApplyResponse> =
-            jsonHandler<V2ApplyResponse>(clientOptions.jsonMapper)
-
-        @Deprecated("deprecated")
-        override fun apply(
-            params: AuthRuleV2ApplyParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2ApplyResponse>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v2", "auth_rules", params._pathParam(0), "apply")
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { applyHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
                     }
                 }
         }

@@ -998,7 +998,7 @@ private constructor(
         private val token: JsonField<String>,
         private val amount: JsonField<Long>,
         private val created: JsonField<OffsetDateTime>,
-        private val detailedResults: JsonField<BookTransferDetailedResults>,
+        private val detailedResults: JsonField<List<BookTransferDetailedResults>>,
         private val memo: JsonField<String>,
         private val result: JsonField<Result>,
         private val subtype: JsonField<String>,
@@ -1015,7 +1015,7 @@ private constructor(
             created: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("detailed_results")
             @ExcludeMissing
-            detailedResults: JsonField<BookTransferDetailedResults> = JsonMissing.of(),
+            detailedResults: JsonField<List<BookTransferDetailedResults>> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
             @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
             @JsonProperty("subtype") @ExcludeMissing subtype: JsonField<String> = JsonMissing.of(),
@@ -1063,7 +1063,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun detailedResults(): BookTransferDetailedResults =
+        fun detailedResults(): List<BookTransferDetailedResults> =
             detailedResults.getRequired("detailed_results")
 
         /**
@@ -1128,7 +1128,7 @@ private constructor(
          */
         @JsonProperty("detailed_results")
         @ExcludeMissing
-        fun _detailedResults(): JsonField<BookTransferDetailedResults> = detailedResults
+        fun _detailedResults(): JsonField<List<BookTransferDetailedResults>> = detailedResults
 
         /**
          * Returns the raw JSON value of [memo].
@@ -1196,7 +1196,7 @@ private constructor(
             private var token: JsonField<String>? = null
             private var amount: JsonField<Long>? = null
             private var created: JsonField<OffsetDateTime>? = null
-            private var detailedResults: JsonField<BookTransferDetailedResults>? = null
+            private var detailedResults: JsonField<MutableList<BookTransferDetailedResults>>? = null
             private var memo: JsonField<String>? = null
             private var result: JsonField<Result>? = null
             private var subtype: JsonField<String>? = null
@@ -1208,7 +1208,7 @@ private constructor(
                 token = bookTransferEvent.token
                 amount = bookTransferEvent.amount
                 created = bookTransferEvent.created
-                detailedResults = bookTransferEvent.detailedResults
+                detailedResults = bookTransferEvent.detailedResults.map { it.toMutableList() }
                 memo = bookTransferEvent.memo
                 result = bookTransferEvent.result
                 subtype = bookTransferEvent.subtype
@@ -1255,18 +1255,31 @@ private constructor(
              */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-            fun detailedResults(detailedResults: BookTransferDetailedResults) =
+            fun detailedResults(detailedResults: List<BookTransferDetailedResults>) =
                 detailedResults(JsonField.of(detailedResults))
 
             /**
              * Sets [Builder.detailedResults] to an arbitrary JSON value.
              *
              * You should usually call [Builder.detailedResults] with a well-typed
-             * [BookTransferDetailedResults] value instead. This method is primarily for setting the
-             * field to an undocumented or not yet supported value.
+             * `List<BookTransferDetailedResults>` value instead. This method is primarily for
+             * setting the field to an undocumented or not yet supported value.
              */
-            fun detailedResults(detailedResults: JsonField<BookTransferDetailedResults>) = apply {
-                this.detailedResults = detailedResults
+            fun detailedResults(detailedResults: JsonField<List<BookTransferDetailedResults>>) =
+                apply {
+                    this.detailedResults = detailedResults.map { it.toMutableList() }
+                }
+
+            /**
+             * Adds a single [BookTransferDetailedResults] to [detailedResults].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addDetailedResult(detailedResult: BookTransferDetailedResults) = apply {
+                detailedResults =
+                    (detailedResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("detailedResults", it).add(detailedResult)
+                    }
             }
 
             /** Memo for the transfer. */
@@ -1363,7 +1376,7 @@ private constructor(
                     checkRequired("token", token),
                     checkRequired("amount", amount),
                     checkRequired("created", created),
-                    checkRequired("detailedResults", detailedResults),
+                    checkRequired("detailedResults", detailedResults).map { it.toImmutable() },
                     checkRequired("memo", memo),
                     checkRequired("result", result),
                     checkRequired("subtype", subtype),
@@ -1382,7 +1395,7 @@ private constructor(
             token()
             amount()
             created()
-            detailedResults().validate()
+            detailedResults().forEach { it.validate() }
             memo()
             result().validate()
             subtype()
@@ -1409,7 +1422,7 @@ private constructor(
             (if (token.asKnown().isPresent) 1 else 0) +
                 (if (amount.asKnown().isPresent) 1 else 0) +
                 (if (created.asKnown().isPresent) 1 else 0) +
-                (detailedResults.asKnown().getOrNull()?.validity() ?: 0) +
+                (detailedResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (memo.asKnown().isPresent) 1 else 0) +
                 (result.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (subtype.asKnown().isPresent) 1 else 0) +

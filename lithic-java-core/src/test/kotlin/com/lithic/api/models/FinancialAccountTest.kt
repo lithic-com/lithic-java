@@ -30,15 +30,6 @@ internal class FinancialAccountTest {
                         .creditProductToken("credit_product_token")
                         .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .tier("tier")
-                        .chargedOffReason(
-                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
-                                .DELINQUENT
-                        )
-                        .financialAccountState(
-                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
-                                .PENDING
-                        )
-                        .isSpendBlocked(true)
                         .build()
                 )
                 .isForBenefitOf(true)
@@ -69,13 +60,6 @@ internal class FinancialAccountTest {
                     .creditProductToken("credit_product_token")
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .tier("tier")
-                    .chargedOffReason(
-                        FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT
-                    )
-                    .financialAccountState(
-                        FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState.PENDING
-                    )
-                    .isSpendBlocked(true)
                     .build()
             )
         assertThat(financialAccount.isForBenefitOf()).isEqualTo(true)
@@ -112,15 +96,6 @@ internal class FinancialAccountTest {
                         .creditProductToken("credit_product_token")
                         .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .tier("tier")
-                        .chargedOffReason(
-                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
-                                .DELINQUENT
-                        )
-                        .financialAccountState(
-                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
-                                .PENDING
-                        )
-                        .isSpendBlocked(true)
                         .build()
                 )
                 .isForBenefitOf(true)
