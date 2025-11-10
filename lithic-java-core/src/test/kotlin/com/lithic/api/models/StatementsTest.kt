@@ -65,6 +65,7 @@ internal class StatementsTest {
                                 .purchases(0L)
                                 .creditDetails(JsonValue.from(mapOf<String, Any>()))
                                 .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                                .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                                 .build()
                         )
                         .startingBalance(0L)
@@ -84,6 +85,7 @@ internal class StatementsTest {
                                 .purchases(0L)
                                 .creditDetails(JsonValue.from(mapOf<String, Any>()))
                                 .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                                .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                                 .build()
                         )
                         .interestDetails(
@@ -174,6 +176,7 @@ internal class StatementsTest {
                             .purchases(0L)
                             .creditDetails(JsonValue.from(mapOf<String, Any>()))
                             .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                            .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                             .build()
                     )
                     .startingBalance(0L)
@@ -193,6 +196,7 @@ internal class StatementsTest {
                             .purchases(0L)
                             .creditDetails(JsonValue.from(mapOf<String, Any>()))
                             .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                            .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                             .build()
                     )
                     .interestDetails(
@@ -287,6 +291,7 @@ internal class StatementsTest {
                                 .purchases(0L)
                                 .creditDetails(JsonValue.from(mapOf<String, Any>()))
                                 .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                                .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                                 .build()
                         )
                         .startingBalance(0L)
@@ -306,6 +311,7 @@ internal class StatementsTest {
                                 .purchases(0L)
                                 .creditDetails(JsonValue.from(mapOf<String, Any>()))
                                 .debitDetails(JsonValue.from(mapOf<String, Any>()))
+                                .paymentDetails(JsonValue.from(mapOf<String, Any>()))
                                 .build()
                         )
                         .interestDetails(
