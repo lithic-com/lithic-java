@@ -650,10 +650,10 @@ private constructor(
         class LineItem
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
-            private val amount: JsonField<Double>,
+            private val amount: JsonField<String>,
             private val description: JsonField<String>,
             private val productCode: JsonField<String>,
-            private val quantity: JsonField<Double>,
+            private val quantity: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -661,7 +661,7 @@ private constructor(
             private constructor(
                 @JsonProperty("amount")
                 @ExcludeMissing
-                amount: JsonField<Double> = JsonMissing.of(),
+                amount: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("description")
                 @ExcludeMissing
                 description: JsonField<String> = JsonMissing.of(),
@@ -670,7 +670,7 @@ private constructor(
                 productCode: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("quantity")
                 @ExcludeMissing
-                quantity: JsonField<Double> = JsonMissing.of(),
+                quantity: JsonField<String> = JsonMissing.of(),
             ) : this(amount, description, productCode, quantity, mutableMapOf())
 
             /**
@@ -679,7 +679,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun amount(): Optional<Double> = amount.getOptional("amount")
+            fun amount(): Optional<String> = amount.getOptional("amount")
 
             /**
              * A human-readable description of the item.
@@ -703,14 +703,14 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun quantity(): Optional<Double> = quantity.getOptional("quantity")
+            fun quantity(): Optional<String> = quantity.getOptional("quantity")
 
             /**
              * Returns the raw JSON value of [amount].
              *
              * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Double> = amount
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
 
             /**
              * Returns the raw JSON value of [description].
@@ -738,7 +738,7 @@ private constructor(
              * Unlike [quantity], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
-            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
+            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<String> = quantity
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -761,10 +761,10 @@ private constructor(
             /** A builder for [LineItem]. */
             class Builder internal constructor() {
 
-                private var amount: JsonField<Double> = JsonMissing.of()
+                private var amount: JsonField<String> = JsonMissing.of()
                 private var description: JsonField<String> = JsonMissing.of()
                 private var productCode: JsonField<String> = JsonMissing.of()
-                private var quantity: JsonField<Double> = JsonMissing.of()
+                private var quantity: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -777,16 +777,16 @@ private constructor(
                 }
 
                 /** The price of the item purchased in merchant currency. */
-                fun amount(amount: Double) = amount(JsonField.of(amount))
+                fun amount(amount: String) = amount(JsonField.of(amount))
 
                 /**
                  * Sets [Builder.amount] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.amount] with a well-typed [Double] value
+                 * You should usually call [Builder.amount] with a well-typed [String] value
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
+                fun amount(amount: JsonField<String>) = apply { this.amount = amount }
 
                 /** A human-readable description of the item. */
                 fun description(description: String) = description(JsonField.of(description))
@@ -817,16 +817,16 @@ private constructor(
                 }
 
                 /** The quantity of the item purchased. */
-                fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
+                fun quantity(quantity: String) = quantity(JsonField.of(quantity))
 
                 /**
                  * Sets [Builder.quantity] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.quantity] with a well-typed [Double] value
+                 * You should usually call [Builder.quantity] with a well-typed [String] value
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
+                fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1907,7 +1907,7 @@ private constructor(
         class FuelData
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
-            private val quantity: JsonField<Double>,
+            private val quantity: JsonField<String>,
             private val type: JsonField<FuelType>,
             private val unitOfMeasure: JsonField<FuelUnitOfMeasure>,
             private val unitPrice: JsonField<Long>,
@@ -1918,7 +1918,7 @@ private constructor(
             private constructor(
                 @JsonProperty("quantity")
                 @ExcludeMissing
-                quantity: JsonField<Double> = JsonMissing.of(),
+                quantity: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("type") @ExcludeMissing type: JsonField<FuelType> = JsonMissing.of(),
                 @JsonProperty("unit_of_measure")
                 @ExcludeMissing
@@ -1934,7 +1934,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun quantity(): Optional<Double> = quantity.getOptional("quantity")
+            fun quantity(): Optional<String> = quantity.getOptional("quantity")
 
             /**
              * The type of fuel purchased.
@@ -1967,7 +1967,7 @@ private constructor(
              * Unlike [quantity], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
-            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
+            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<String> = quantity
 
             /**
              * Returns the raw JSON value of [type].
@@ -2017,7 +2017,7 @@ private constructor(
             /** A builder for [FuelData]. */
             class Builder internal constructor() {
 
-                private var quantity: JsonField<Double> = JsonMissing.of()
+                private var quantity: JsonField<String> = JsonMissing.of()
                 private var type: JsonField<FuelType> = JsonMissing.of()
                 private var unitOfMeasure: JsonField<FuelUnitOfMeasure> = JsonMissing.of()
                 private var unitPrice: JsonField<Long> = JsonMissing.of()
@@ -2033,16 +2033,16 @@ private constructor(
                 }
 
                 /** The quantity of fuel purchased. */
-                fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
+                fun quantity(quantity: String) = quantity(JsonField.of(quantity))
 
                 /**
                  * Sets [Builder.quantity] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.quantity] with a well-typed [Double] value
+                 * You should usually call [Builder.quantity] with a well-typed [String] value
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
+                fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
                 /** The type of fuel purchased. */
                 fun type(type: FuelType) = type(JsonField.of(type))
