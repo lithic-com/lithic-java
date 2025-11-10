@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.110.0 (2025-11-10)
+
+Full Changelog: [v0.109.0...v0.110.0](https://github.com/lithic-com/lithic-java/compare/v0.109.0...v0.110.0)
+
+### Features
+
+* **api:** add payment_details ([6040598](https://github.com/lithic-com/lithic-java/commit/6040598e95a76273ab4f3ed790a7fbe28605ad4c))
+* **api:** deprecate auth rule apply endpoint and fix several schemas ([b21d55c](https://github.com/lithic-com/lithic-java/commit/b21d55ce251d33366456db9f99bb4c4ac2cbc9fc))
+* **api:** new fields in Statements APIs ([ea05274](https://github.com/lithic-com/lithic-java/commit/ea052742fedfd9e39df7f080d3530caf8cc3e515))
+
+
+### Bug Fixes
+
+* **api:** fix oneOf -&gt; anyOf in account holder update ([6040598](https://github.com/lithic-com/lithic-java/commit/6040598e95a76273ab4f3ed790a7fbe28605ad4c))
+* **api:** fixing spec for Tokenizations and Enhanced data ([ea05274](https://github.com/lithic-com/lithic-java/commit/ea052742fedfd9e39df7f080d3530caf8cc3e515))
+
+
+### Chores
+
+* **api:** adds support for new ACH_RECEIPT_RELEASED event ([a2bbd13](https://github.com/lithic-com/lithic-java/commit/a2bbd1301f29e85cdec582a799ef91255f35ddfa))
+
+
+### Documentation
+
+* **client:** update readme timeout snippet ([7757427](https://github.com/lithic-com/lithic-java/commit/77574272ea9690f4822524663854b13be0b4a5f1))
+
 ## 0.109.0 (2025-10-23)
 
 Full Changelog: [v0.108.0...v0.109.0](https://github.com/lithic-com/lithic-java/compare/v0.108.0...v0.109.0)
