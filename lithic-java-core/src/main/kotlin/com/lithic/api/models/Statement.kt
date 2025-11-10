@@ -2399,6 +2399,7 @@ private constructor(
         private val purchases: JsonField<Long>,
         private val creditDetails: JsonValue,
         private val debitDetails: JsonValue,
+        private val paymentDetails: JsonValue,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -2424,6 +2425,9 @@ private constructor(
             @JsonProperty("debit_details")
             @ExcludeMissing
             debitDetails: JsonValue = JsonMissing.of(),
+            @JsonProperty("payment_details")
+            @ExcludeMissing
+            paymentDetails: JsonValue = JsonMissing.of(),
         ) : this(
             balanceTransfers,
             cashAdvances,
@@ -2435,6 +2439,7 @@ private constructor(
             purchases,
             creditDetails,
             debitDetails,
+            paymentDetails,
             mutableMapOf(),
         )
 
@@ -2509,6 +2514,11 @@ private constructor(
 
         /** Breakdown of debits */
         @JsonProperty("debit_details") @ExcludeMissing fun _debitDetails(): JsonValue = debitDetails
+
+        /** Breakdown of payments */
+        @JsonProperty("payment_details")
+        @ExcludeMissing
+        fun _paymentDetails(): JsonValue = paymentDetails
 
         /**
          * Returns the raw JSON value of [balanceTransfers].
@@ -2617,6 +2627,7 @@ private constructor(
             private var purchases: JsonField<Long>? = null
             private var creditDetails: JsonValue = JsonMissing.of()
             private var debitDetails: JsonValue = JsonMissing.of()
+            private var paymentDetails: JsonValue = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -2631,6 +2642,7 @@ private constructor(
                 purchases = statementTotals.purchases
                 creditDetails = statementTotals.creditDetails
                 debitDetails = statementTotals.debitDetails
+                paymentDetails = statementTotals.paymentDetails
                 additionalProperties = statementTotals.additionalProperties.toMutableMap()
             }
 
@@ -2746,6 +2758,11 @@ private constructor(
             /** Breakdown of debits */
             fun debitDetails(debitDetails: JsonValue) = apply { this.debitDetails = debitDetails }
 
+            /** Breakdown of payments */
+            fun paymentDetails(paymentDetails: JsonValue) = apply {
+                this.paymentDetails = paymentDetails
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -2796,6 +2813,7 @@ private constructor(
                     checkRequired("purchases", purchases),
                     creditDetails,
                     debitDetails,
+                    paymentDetails,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -2859,6 +2877,7 @@ private constructor(
                 purchases == other.purchases &&
                 creditDetails == other.creditDetails &&
                 debitDetails == other.debitDetails &&
+                paymentDetails == other.paymentDetails &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -2874,6 +2893,7 @@ private constructor(
                 purchases,
                 creditDetails,
                 debitDetails,
+                paymentDetails,
                 additionalProperties,
             )
         }
@@ -2881,7 +2901,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "StatementTotals{balanceTransfers=$balanceTransfers, cashAdvances=$cashAdvances, credits=$credits, debits=$debits, fees=$fees, interest=$interest, payments=$payments, purchases=$purchases, creditDetails=$creditDetails, debitDetails=$debitDetails, additionalProperties=$additionalProperties}"
+            "StatementTotals{balanceTransfers=$balanceTransfers, cashAdvances=$cashAdvances, credits=$credits, debits=$debits, fees=$fees, interest=$interest, payments=$payments, purchases=$purchases, creditDetails=$creditDetails, debitDetails=$debitDetails, paymentDetails=$paymentDetails, additionalProperties=$additionalProperties}"
     }
 
     class StatementType @JsonCreator private constructor(private val value: JsonField<String>) :
