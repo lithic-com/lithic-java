@@ -19,10 +19,10 @@ internal class EnhancedDataTest {
                     EnhancedData.CommonData.builder()
                         .addLineItem(
                             EnhancedData.CommonData.LineItem.builder()
-                                .amount(0.0)
+                                .amount("amount")
                                 .description("description")
                                 .productCode("product_code")
-                                .quantity(0.0)
+                                .quantity("quantity")
                                 .build()
                         )
                         .tax(
@@ -51,7 +51,7 @@ internal class EnhancedDataTest {
                         )
                         .fuel(
                             EnhancedData.Fleet.FuelData.builder()
-                                .quantity(0.0)
+                                .quantity("quantity")
                                 .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
                                 .unitOfMeasure(
                                     EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS
@@ -74,10 +74,10 @@ internal class EnhancedDataTest {
                 EnhancedData.CommonData.builder()
                     .addLineItem(
                         EnhancedData.CommonData.LineItem.builder()
-                            .amount(0.0)
+                            .amount("amount")
                             .description("description")
                             .productCode("product_code")
-                            .quantity(0.0)
+                            .quantity("quantity")
                             .build()
                     )
                     .tax(
@@ -105,7 +105,7 @@ internal class EnhancedDataTest {
                     )
                     .fuel(
                         EnhancedData.Fleet.FuelData.builder()
-                            .quantity(0.0)
+                            .quantity("quantity")
                             .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
                             .unitOfMeasure(EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS)
                             .unitPrice(0L)
@@ -131,10 +131,10 @@ internal class EnhancedDataTest {
                     EnhancedData.CommonData.builder()
                         .addLineItem(
                             EnhancedData.CommonData.LineItem.builder()
-                                .amount(0.0)
+                                .amount("amount")
                                 .description("description")
                                 .productCode("product_code")
-                                .quantity(0.0)
+                                .quantity("quantity")
                                 .build()
                         )
                         .tax(
@@ -163,7 +163,7 @@ internal class EnhancedDataTest {
                         )
                         .fuel(
                             EnhancedData.Fleet.FuelData.builder()
-                                .quantity(0.0)
+                                .quantity("quantity")
                                 .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
                                 .unitOfMeasure(
                                     EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS
