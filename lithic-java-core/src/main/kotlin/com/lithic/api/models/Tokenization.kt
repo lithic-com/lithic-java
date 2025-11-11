@@ -1236,6 +1236,9 @@ private constructor(
         private val token: JsonField<String>,
         private val createdAt: JsonField<OffsetDateTime>,
         private val result: JsonField<TokenizationEventOutcome>,
+        private val ruleResults: JsonField<List<TokenizationRuleResult>>,
+        private val tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>>,
+        private val tokenizationTfaReasons: JsonField<List<TokenizationTfaReason>>,
         private val type: JsonField<Type>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -1249,8 +1252,27 @@ private constructor(
             @JsonProperty("result")
             @ExcludeMissing
             result: JsonField<TokenizationEventOutcome> = JsonMissing.of(),
+            @JsonProperty("rule_results")
+            @ExcludeMissing
+            ruleResults: JsonField<List<TokenizationRuleResult>> = JsonMissing.of(),
+            @JsonProperty("tokenization_decline_reasons")
+            @ExcludeMissing
+            tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>> =
+                JsonMissing.of(),
+            @JsonProperty("tokenization_tfa_reasons")
+            @ExcludeMissing
+            tokenizationTfaReasons: JsonField<List<TokenizationTfaReason>> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(token, createdAt, result, type, mutableMapOf())
+        ) : this(
+            token,
+            createdAt,
+            result,
+            ruleResults,
+            tokenizationDeclineReasons,
+            tokenizationTfaReasons,
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * Globally unique identifier for a Tokenization Event
@@ -1275,6 +1297,33 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun result(): Optional<TokenizationEventOutcome> = result.getOptional("result")
+
+        /**
+         * Results from rules that were evaluated for this tokenization
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun ruleResults(): Optional<List<TokenizationRuleResult>> =
+            ruleResults.getOptional("rule_results")
+
+        /**
+         * List of reasons why the tokenization was declined
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun tokenizationDeclineReasons(): Optional<List<TokenizationDeclineReason>> =
+            tokenizationDeclineReasons.getOptional("tokenization_decline_reasons")
+
+        /**
+         * List of reasons why two-factor authentication was required
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun tokenizationTfaReasons(): Optional<List<TokenizationTfaReason>> =
+            tokenizationTfaReasons.getOptional("tokenization_tfa_reasons")
 
         /**
          * Enum representing the type of tokenization event that occurred
@@ -1310,6 +1359,37 @@ private constructor(
         fun _result(): JsonField<TokenizationEventOutcome> = result
 
         /**
+         * Returns the raw JSON value of [ruleResults].
+         *
+         * Unlike [ruleResults], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("rule_results")
+        @ExcludeMissing
+        fun _ruleResults(): JsonField<List<TokenizationRuleResult>> = ruleResults
+
+        /**
+         * Returns the raw JSON value of [tokenizationDeclineReasons].
+         *
+         * Unlike [tokenizationDeclineReasons], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("tokenization_decline_reasons")
+        @ExcludeMissing
+        fun _tokenizationDeclineReasons(): JsonField<List<TokenizationDeclineReason>> =
+            tokenizationDeclineReasons
+
+        /**
+         * Returns the raw JSON value of [tokenizationTfaReasons].
+         *
+         * Unlike [tokenizationTfaReasons], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("tokenization_tfa_reasons")
+        @ExcludeMissing
+        fun _tokenizationTfaReasons(): JsonField<List<TokenizationTfaReason>> =
+            tokenizationTfaReasons
+
+        /**
          * Returns the raw JSON value of [type].
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -1340,6 +1420,12 @@ private constructor(
             private var token: JsonField<String> = JsonMissing.of()
             private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var result: JsonField<TokenizationEventOutcome> = JsonMissing.of()
+            private var ruleResults: JsonField<MutableList<TokenizationRuleResult>>? = null
+            private var tokenizationDeclineReasons:
+                JsonField<MutableList<TokenizationDeclineReason>>? =
+                null
+            private var tokenizationTfaReasons: JsonField<MutableList<TokenizationTfaReason>>? =
+                null
             private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1348,6 +1434,11 @@ private constructor(
                 token = tokenizationEvent.token
                 createdAt = tokenizationEvent.createdAt
                 result = tokenizationEvent.result
+                ruleResults = tokenizationEvent.ruleResults.map { it.toMutableList() }
+                tokenizationDeclineReasons =
+                    tokenizationEvent.tokenizationDeclineReasons.map { it.toMutableList() }
+                tokenizationTfaReasons =
+                    tokenizationEvent.tokenizationTfaReasons.map { it.toMutableList() }
                 type = tokenizationEvent.type
                 additionalProperties = tokenizationEvent.additionalProperties.toMutableMap()
             }
@@ -1390,6 +1481,95 @@ private constructor(
              */
             fun result(result: JsonField<TokenizationEventOutcome>) = apply { this.result = result }
 
+            /** Results from rules that were evaluated for this tokenization */
+            fun ruleResults(ruleResults: List<TokenizationRuleResult>) =
+                ruleResults(JsonField.of(ruleResults))
+
+            /**
+             * Sets [Builder.ruleResults] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.ruleResults] with a well-typed
+             * `List<TokenizationRuleResult>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
+             */
+            fun ruleResults(ruleResults: JsonField<List<TokenizationRuleResult>>) = apply {
+                this.ruleResults = ruleResults.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [TokenizationRuleResult] to [ruleResults].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addRuleResult(ruleResult: TokenizationRuleResult) = apply {
+                ruleResults =
+                    (ruleResults ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("ruleResults", it).add(ruleResult)
+                    }
+            }
+
+            /** List of reasons why the tokenization was declined */
+            fun tokenizationDeclineReasons(
+                tokenizationDeclineReasons: List<TokenizationDeclineReason>
+            ) = tokenizationDeclineReasons(JsonField.of(tokenizationDeclineReasons))
+
+            /**
+             * Sets [Builder.tokenizationDeclineReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tokenizationDeclineReasons] with a well-typed
+             * `List<TokenizationDeclineReason>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
+             */
+            fun tokenizationDeclineReasons(
+                tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>>
+            ) = apply {
+                this.tokenizationDeclineReasons =
+                    tokenizationDeclineReasons.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [TokenizationDeclineReason] to [tokenizationDeclineReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addTokenizationDeclineReason(tokenizationDeclineReason: TokenizationDeclineReason) =
+                apply {
+                    tokenizationDeclineReasons =
+                        (tokenizationDeclineReasons ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("tokenizationDeclineReasons", it)
+                                .add(tokenizationDeclineReason)
+                        }
+                }
+
+            /** List of reasons why two-factor authentication was required */
+            fun tokenizationTfaReasons(tokenizationTfaReasons: List<TokenizationTfaReason>) =
+                tokenizationTfaReasons(JsonField.of(tokenizationTfaReasons))
+
+            /**
+             * Sets [Builder.tokenizationTfaReasons] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tokenizationTfaReasons] with a well-typed
+             * `List<TokenizationTfaReason>` value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
+            fun tokenizationTfaReasons(
+                tokenizationTfaReasons: JsonField<List<TokenizationTfaReason>>
+            ) = apply {
+                this.tokenizationTfaReasons = tokenizationTfaReasons.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [TokenizationTfaReason] to [tokenizationTfaReasons].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addTokenizationTfaReason(tokenizationTfaReason: TokenizationTfaReason) = apply {
+                tokenizationTfaReasons =
+                    (tokenizationTfaReasons ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("tokenizationTfaReasons", it).add(tokenizationTfaReason)
+                    }
+            }
+
             /** Enum representing the type of tokenization event that occurred */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1431,6 +1611,9 @@ private constructor(
                     token,
                     createdAt,
                     result,
+                    (ruleResults ?: JsonMissing.of()).map { it.toImmutable() },
+                    (tokenizationDeclineReasons ?: JsonMissing.of()).map { it.toImmutable() },
+                    (tokenizationTfaReasons ?: JsonMissing.of()).map { it.toImmutable() },
                     type,
                     additionalProperties.toMutableMap(),
                 )
@@ -1446,6 +1629,9 @@ private constructor(
             token()
             createdAt()
             result().ifPresent { it.validate() }
+            ruleResults().ifPresent { it.forEach { it.validate() } }
+            tokenizationDeclineReasons().ifPresent { it.forEach { it.validate() } }
+            tokenizationTfaReasons().ifPresent { it.forEach { it.validate() } }
             type().ifPresent { it.validate() }
             validated = true
         }
@@ -1469,6 +1655,11 @@ private constructor(
             (if (token.asKnown().isPresent) 1 else 0) +
                 (if (createdAt.asKnown().isPresent) 1 else 0) +
                 (result.asKnown().getOrNull()?.validity() ?: 0) +
+                (ruleResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (tokenizationDeclineReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
+                    ?: 0) +
+                (tokenizationTfaReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
+                    ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0)
 
         /** Enum representing the result of the tokenization event */
@@ -1669,6 +1860,885 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        class TokenizationRuleResult
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val authRuleToken: JsonField<String>,
+            private val explanation: JsonField<String>,
+            private val name: JsonField<String>,
+            private val result: JsonField<Result>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("auth_rule_token")
+                @ExcludeMissing
+                authRuleToken: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("explanation")
+                @ExcludeMissing
+                explanation: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
+            ) : this(authRuleToken, explanation, name, result, mutableMapOf())
+
+            /**
+             * The Auth Rule Token associated with the rule. If this is set to null, then the result
+             * was not associated with a customer-configured rule. This may happen in cases where a
+             * tokenization is declined or requires TFA due to a Lithic-configured security or
+             * compliance rule, for example.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun authRuleToken(): Optional<String> = authRuleToken.getOptional("auth_rule_token")
+
+            /**
+             * A human-readable explanation outlining the motivation for the rule's result
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun explanation(): Optional<String> = explanation.getOptional("explanation")
+
+            /**
+             * The name for the rule, if any was configured
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * The result associated with this rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun result(): Result = result.getRequired("result")
+
+            /**
+             * Returns the raw JSON value of [authRuleToken].
+             *
+             * Unlike [authRuleToken], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("auth_rule_token")
+            @ExcludeMissing
+            fun _authRuleToken(): JsonField<String> = authRuleToken
+
+            /**
+             * Returns the raw JSON value of [explanation].
+             *
+             * Unlike [explanation], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("explanation")
+            @ExcludeMissing
+            fun _explanation(): JsonField<String> = explanation
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [result].
+             *
+             * Unlike [result], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [TokenizationRuleResult].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .authRuleToken()
+                 * .explanation()
+                 * .name()
+                 * .result()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [TokenizationRuleResult]. */
+            class Builder internal constructor() {
+
+                private var authRuleToken: JsonField<String>? = null
+                private var explanation: JsonField<String>? = null
+                private var name: JsonField<String>? = null
+                private var result: JsonField<Result>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(tokenizationRuleResult: TokenizationRuleResult) = apply {
+                    authRuleToken = tokenizationRuleResult.authRuleToken
+                    explanation = tokenizationRuleResult.explanation
+                    name = tokenizationRuleResult.name
+                    result = tokenizationRuleResult.result
+                    additionalProperties =
+                        tokenizationRuleResult.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * The Auth Rule Token associated with the rule. If this is set to null, then the
+                 * result was not associated with a customer-configured rule. This may happen in
+                 * cases where a tokenization is declined or requires TFA due to a Lithic-configured
+                 * security or compliance rule, for example.
+                 */
+                fun authRuleToken(authRuleToken: String?) =
+                    authRuleToken(JsonField.ofNullable(authRuleToken))
+
+                /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
+                fun authRuleToken(authRuleToken: Optional<String>) =
+                    authRuleToken(authRuleToken.getOrNull())
+
+                /**
+                 * Sets [Builder.authRuleToken] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.authRuleToken] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun authRuleToken(authRuleToken: JsonField<String>) = apply {
+                    this.authRuleToken = authRuleToken
+                }
+
+                /** A human-readable explanation outlining the motivation for the rule's result */
+                fun explanation(explanation: String?) =
+                    explanation(JsonField.ofNullable(explanation))
+
+                /** Alias for calling [Builder.explanation] with `explanation.orElse(null)`. */
+                fun explanation(explanation: Optional<String>) =
+                    explanation(explanation.getOrNull())
+
+                /**
+                 * Sets [Builder.explanation] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.explanation] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun explanation(explanation: JsonField<String>) = apply {
+                    this.explanation = explanation
+                }
+
+                /** The name for the rule, if any was configured */
+                fun name(name: String?) = name(JsonField.ofNullable(name))
+
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+                fun name(name: Optional<String>) = name(name.getOrNull())
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** The result associated with this rule */
+                fun result(result: Result) = result(JsonField.of(result))
+
+                /**
+                 * Sets [Builder.result] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.result] with a well-typed [Result] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun result(result: JsonField<Result>) = apply { this.result = result }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [TokenizationRuleResult].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .authRuleToken()
+                 * .explanation()
+                 * .name()
+                 * .result()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): TokenizationRuleResult =
+                    TokenizationRuleResult(
+                        checkRequired("authRuleToken", authRuleToken),
+                        checkRequired("explanation", explanation),
+                        checkRequired("name", name),
+                        checkRequired("result", result),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): TokenizationRuleResult = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                authRuleToken()
+                explanation()
+                name()
+                result().validate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (authRuleToken.asKnown().isPresent) 1 else 0) +
+                    (if (explanation.asKnown().isPresent) 1 else 0) +
+                    (if (name.asKnown().isPresent) 1 else 0) +
+                    (result.asKnown().getOrNull()?.validity() ?: 0)
+
+            /** The result associated with this rule */
+            class Result @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val APPROVED = of("APPROVED")
+
+                    @JvmField val DECLINED = of("DECLINED")
+
+                    @JvmField val REQUIRE_TFA = of("REQUIRE_TFA")
+
+                    @JvmField val ERROR = of("ERROR")
+
+                    @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+                }
+
+                /** An enum containing [Result]'s known values. */
+                enum class Known {
+                    APPROVED,
+                    DECLINED,
+                    REQUIRE_TFA,
+                    ERROR,
+                }
+
+                /**
+                 * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Result] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    APPROVED,
+                    DECLINED,
+                    REQUIRE_TFA,
+                    ERROR,
+                    /**
+                     * An enum member indicating that [Result] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        APPROVED -> Value.APPROVED
+                        DECLINED -> Value.DECLINED
+                        REQUIRE_TFA -> Value.REQUIRE_TFA
+                        ERROR -> Value.ERROR
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        APPROVED -> Known.APPROVED
+                        DECLINED -> Known.DECLINED
+                        REQUIRE_TFA -> Known.REQUIRE_TFA
+                        ERROR -> Known.ERROR
+                        else -> throw LithicInvalidDataException("Unknown Result: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Result = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Result && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TokenizationRuleResult &&
+                    authRuleToken == other.authRuleToken &&
+                    explanation == other.explanation &&
+                    name == other.name &&
+                    result == other.result &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(authRuleToken, explanation, name, result, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "TokenizationRuleResult{authRuleToken=$authRuleToken, explanation=$explanation, name=$name, result=$result, additionalProperties=$additionalProperties}"
+        }
+
+        /** Reason code for why a tokenization was declined */
+        class TokenizationDeclineReason
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val ACCOUNT_SCORE_1 = of("ACCOUNT_SCORE_1")
+
+                @JvmField val DEVICE_SCORE_1 = of("DEVICE_SCORE_1")
+
+                @JvmField
+                val ALL_WALLET_DECLINE_REASONS_PRESENT = of("ALL_WALLET_DECLINE_REASONS_PRESENT")
+
+                @JvmField
+                val WALLET_RECOMMENDED_DECISION_RED = of("WALLET_RECOMMENDED_DECISION_RED")
+
+                @JvmField val CVC_MISMATCH = of("CVC_MISMATCH")
+
+                @JvmField val CARD_EXPIRY_MONTH_MISMATCH = of("CARD_EXPIRY_MONTH_MISMATCH")
+
+                @JvmField val CARD_EXPIRY_YEAR_MISMATCH = of("CARD_EXPIRY_YEAR_MISMATCH")
+
+                @JvmField val CARD_INVALID_STATE = of("CARD_INVALID_STATE")
+
+                @JvmField val CUSTOMER_RED_PATH = of("CUSTOMER_RED_PATH")
+
+                @JvmField val INVALID_CUSTOMER_RESPONSE = of("INVALID_CUSTOMER_RESPONSE")
+
+                @JvmField val NETWORK_FAILURE = of("NETWORK_FAILURE")
+
+                @JvmField val GENERIC_DECLINE = of("GENERIC_DECLINE")
+
+                @JvmField val DIGITAL_CARD_ART_REQUIRED = of("DIGITAL_CARD_ART_REQUIRED")
+
+                @JvmStatic fun of(value: String) = TokenizationDeclineReason(JsonField.of(value))
+            }
+
+            /** An enum containing [TokenizationDeclineReason]'s known values. */
+            enum class Known {
+                ACCOUNT_SCORE_1,
+                DEVICE_SCORE_1,
+                ALL_WALLET_DECLINE_REASONS_PRESENT,
+                WALLET_RECOMMENDED_DECISION_RED,
+                CVC_MISMATCH,
+                CARD_EXPIRY_MONTH_MISMATCH,
+                CARD_EXPIRY_YEAR_MISMATCH,
+                CARD_INVALID_STATE,
+                CUSTOMER_RED_PATH,
+                INVALID_CUSTOMER_RESPONSE,
+                NETWORK_FAILURE,
+                GENERIC_DECLINE,
+                DIGITAL_CARD_ART_REQUIRED,
+            }
+
+            /**
+             * An enum containing [TokenizationDeclineReason]'s known values, as well as an
+             * [_UNKNOWN] member.
+             *
+             * An instance of [TokenizationDeclineReason] can contain an unknown value in a couple
+             * of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                ACCOUNT_SCORE_1,
+                DEVICE_SCORE_1,
+                ALL_WALLET_DECLINE_REASONS_PRESENT,
+                WALLET_RECOMMENDED_DECISION_RED,
+                CVC_MISMATCH,
+                CARD_EXPIRY_MONTH_MISMATCH,
+                CARD_EXPIRY_YEAR_MISMATCH,
+                CARD_INVALID_STATE,
+                CUSTOMER_RED_PATH,
+                INVALID_CUSTOMER_RESPONSE,
+                NETWORK_FAILURE,
+                GENERIC_DECLINE,
+                DIGITAL_CARD_ART_REQUIRED,
+                /**
+                 * An enum member indicating that [TokenizationDeclineReason] was instantiated with
+                 * an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    ACCOUNT_SCORE_1 -> Value.ACCOUNT_SCORE_1
+                    DEVICE_SCORE_1 -> Value.DEVICE_SCORE_1
+                    ALL_WALLET_DECLINE_REASONS_PRESENT -> Value.ALL_WALLET_DECLINE_REASONS_PRESENT
+                    WALLET_RECOMMENDED_DECISION_RED -> Value.WALLET_RECOMMENDED_DECISION_RED
+                    CVC_MISMATCH -> Value.CVC_MISMATCH
+                    CARD_EXPIRY_MONTH_MISMATCH -> Value.CARD_EXPIRY_MONTH_MISMATCH
+                    CARD_EXPIRY_YEAR_MISMATCH -> Value.CARD_EXPIRY_YEAR_MISMATCH
+                    CARD_INVALID_STATE -> Value.CARD_INVALID_STATE
+                    CUSTOMER_RED_PATH -> Value.CUSTOMER_RED_PATH
+                    INVALID_CUSTOMER_RESPONSE -> Value.INVALID_CUSTOMER_RESPONSE
+                    NETWORK_FAILURE -> Value.NETWORK_FAILURE
+                    GENERIC_DECLINE -> Value.GENERIC_DECLINE
+                    DIGITAL_CARD_ART_REQUIRED -> Value.DIGITAL_CARD_ART_REQUIRED
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    ACCOUNT_SCORE_1 -> Known.ACCOUNT_SCORE_1
+                    DEVICE_SCORE_1 -> Known.DEVICE_SCORE_1
+                    ALL_WALLET_DECLINE_REASONS_PRESENT -> Known.ALL_WALLET_DECLINE_REASONS_PRESENT
+                    WALLET_RECOMMENDED_DECISION_RED -> Known.WALLET_RECOMMENDED_DECISION_RED
+                    CVC_MISMATCH -> Known.CVC_MISMATCH
+                    CARD_EXPIRY_MONTH_MISMATCH -> Known.CARD_EXPIRY_MONTH_MISMATCH
+                    CARD_EXPIRY_YEAR_MISMATCH -> Known.CARD_EXPIRY_YEAR_MISMATCH
+                    CARD_INVALID_STATE -> Known.CARD_INVALID_STATE
+                    CUSTOMER_RED_PATH -> Known.CUSTOMER_RED_PATH
+                    INVALID_CUSTOMER_RESPONSE -> Known.INVALID_CUSTOMER_RESPONSE
+                    NETWORK_FAILURE -> Known.NETWORK_FAILURE
+                    GENERIC_DECLINE -> Known.GENERIC_DECLINE
+                    DIGITAL_CARD_ART_REQUIRED -> Known.DIGITAL_CARD_ART_REQUIRED
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown TokenizationDeclineReason: $value"
+                        )
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TokenizationDeclineReason = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TokenizationDeclineReason && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /** Reason code for why a tokenization required two-factor authentication */
+        class TokenizationTfaReason
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val WALLET_RECOMMENDED_TFA = of("WALLET_RECOMMENDED_TFA")
+
+                @JvmField val SUSPICIOUS_ACTIVITY = of("SUSPICIOUS_ACTIVITY")
+
+                @JvmField val DEVICE_RECENTLY_LOST = of("DEVICE_RECENTLY_LOST")
+
+                @JvmField val TOO_MANY_RECENT_ATTEMPTS = of("TOO_MANY_RECENT_ATTEMPTS")
+
+                @JvmField val TOO_MANY_RECENT_TOKENS = of("TOO_MANY_RECENT_TOKENS")
+
+                @JvmField val TOO_MANY_DIFFERENT_CARDHOLDERS = of("TOO_MANY_DIFFERENT_CARDHOLDERS")
+
+                @JvmField val OUTSIDE_HOME_TERRITORY = of("OUTSIDE_HOME_TERRITORY")
+
+                @JvmField val HAS_SUSPENDED_TOKENS = of("HAS_SUSPENDED_TOKENS")
+
+                @JvmField val HIGH_RISK = of("HIGH_RISK")
+
+                @JvmField val ACCOUNT_SCORE_LOW = of("ACCOUNT_SCORE_LOW")
+
+                @JvmField val DEVICE_SCORE_LOW = of("DEVICE_SCORE_LOW")
+
+                @JvmField val CARD_STATE_TFA = of("CARD_STATE_TFA")
+
+                @JvmField val HARDCODED_TFA = of("HARDCODED_TFA")
+
+                @JvmField val CUSTOMER_RULE_TFA = of("CUSTOMER_RULE_TFA")
+
+                @JvmField val DEVICE_HOST_CARD_EMULATION = of("DEVICE_HOST_CARD_EMULATION")
+
+                @JvmStatic fun of(value: String) = TokenizationTfaReason(JsonField.of(value))
+            }
+
+            /** An enum containing [TokenizationTfaReason]'s known values. */
+            enum class Known {
+                WALLET_RECOMMENDED_TFA,
+                SUSPICIOUS_ACTIVITY,
+                DEVICE_RECENTLY_LOST,
+                TOO_MANY_RECENT_ATTEMPTS,
+                TOO_MANY_RECENT_TOKENS,
+                TOO_MANY_DIFFERENT_CARDHOLDERS,
+                OUTSIDE_HOME_TERRITORY,
+                HAS_SUSPENDED_TOKENS,
+                HIGH_RISK,
+                ACCOUNT_SCORE_LOW,
+                DEVICE_SCORE_LOW,
+                CARD_STATE_TFA,
+                HARDCODED_TFA,
+                CUSTOMER_RULE_TFA,
+                DEVICE_HOST_CARD_EMULATION,
+            }
+
+            /**
+             * An enum containing [TokenizationTfaReason]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [TokenizationTfaReason] can contain an unknown value in a couple of
+             * cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                WALLET_RECOMMENDED_TFA,
+                SUSPICIOUS_ACTIVITY,
+                DEVICE_RECENTLY_LOST,
+                TOO_MANY_RECENT_ATTEMPTS,
+                TOO_MANY_RECENT_TOKENS,
+                TOO_MANY_DIFFERENT_CARDHOLDERS,
+                OUTSIDE_HOME_TERRITORY,
+                HAS_SUSPENDED_TOKENS,
+                HIGH_RISK,
+                ACCOUNT_SCORE_LOW,
+                DEVICE_SCORE_LOW,
+                CARD_STATE_TFA,
+                HARDCODED_TFA,
+                CUSTOMER_RULE_TFA,
+                DEVICE_HOST_CARD_EMULATION,
+                /**
+                 * An enum member indicating that [TokenizationTfaReason] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    WALLET_RECOMMENDED_TFA -> Value.WALLET_RECOMMENDED_TFA
+                    SUSPICIOUS_ACTIVITY -> Value.SUSPICIOUS_ACTIVITY
+                    DEVICE_RECENTLY_LOST -> Value.DEVICE_RECENTLY_LOST
+                    TOO_MANY_RECENT_ATTEMPTS -> Value.TOO_MANY_RECENT_ATTEMPTS
+                    TOO_MANY_RECENT_TOKENS -> Value.TOO_MANY_RECENT_TOKENS
+                    TOO_MANY_DIFFERENT_CARDHOLDERS -> Value.TOO_MANY_DIFFERENT_CARDHOLDERS
+                    OUTSIDE_HOME_TERRITORY -> Value.OUTSIDE_HOME_TERRITORY
+                    HAS_SUSPENDED_TOKENS -> Value.HAS_SUSPENDED_TOKENS
+                    HIGH_RISK -> Value.HIGH_RISK
+                    ACCOUNT_SCORE_LOW -> Value.ACCOUNT_SCORE_LOW
+                    DEVICE_SCORE_LOW -> Value.DEVICE_SCORE_LOW
+                    CARD_STATE_TFA -> Value.CARD_STATE_TFA
+                    HARDCODED_TFA -> Value.HARDCODED_TFA
+                    CUSTOMER_RULE_TFA -> Value.CUSTOMER_RULE_TFA
+                    DEVICE_HOST_CARD_EMULATION -> Value.DEVICE_HOST_CARD_EMULATION
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    WALLET_RECOMMENDED_TFA -> Known.WALLET_RECOMMENDED_TFA
+                    SUSPICIOUS_ACTIVITY -> Known.SUSPICIOUS_ACTIVITY
+                    DEVICE_RECENTLY_LOST -> Known.DEVICE_RECENTLY_LOST
+                    TOO_MANY_RECENT_ATTEMPTS -> Known.TOO_MANY_RECENT_ATTEMPTS
+                    TOO_MANY_RECENT_TOKENS -> Known.TOO_MANY_RECENT_TOKENS
+                    TOO_MANY_DIFFERENT_CARDHOLDERS -> Known.TOO_MANY_DIFFERENT_CARDHOLDERS
+                    OUTSIDE_HOME_TERRITORY -> Known.OUTSIDE_HOME_TERRITORY
+                    HAS_SUSPENDED_TOKENS -> Known.HAS_SUSPENDED_TOKENS
+                    HIGH_RISK -> Known.HIGH_RISK
+                    ACCOUNT_SCORE_LOW -> Known.ACCOUNT_SCORE_LOW
+                    DEVICE_SCORE_LOW -> Known.DEVICE_SCORE_LOW
+                    CARD_STATE_TFA -> Known.CARD_STATE_TFA
+                    HARDCODED_TFA -> Known.HARDCODED_TFA
+                    CUSTOMER_RULE_TFA -> Known.CUSTOMER_RULE_TFA
+                    DEVICE_HOST_CARD_EMULATION -> Known.DEVICE_HOST_CARD_EMULATION
+                    else ->
+                        throw LithicInvalidDataException("Unknown TokenizationTfaReason: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TokenizationTfaReason = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TokenizationTfaReason && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
         /** Enum representing the type of tokenization event that occurred */
         class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1824,18 +2894,30 @@ private constructor(
                 token == other.token &&
                 createdAt == other.createdAt &&
                 result == other.result &&
+                ruleResults == other.ruleResults &&
+                tokenizationDeclineReasons == other.tokenizationDeclineReasons &&
+                tokenizationTfaReasons == other.tokenizationTfaReasons &&
                 type == other.type &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(token, createdAt, result, type, additionalProperties)
+            Objects.hash(
+                token,
+                createdAt,
+                result,
+                ruleResults,
+                tokenizationDeclineReasons,
+                tokenizationTfaReasons,
+                type,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TokenizationEvent{token=$token, createdAt=$createdAt, result=$result, type=$type, additionalProperties=$additionalProperties}"
+            "TokenizationEvent{token=$token, createdAt=$createdAt, result=$result, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationTfaReasons=$tokenizationTfaReasons, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

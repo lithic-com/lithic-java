@@ -281,9 +281,8 @@ internal class AccountActivityListResponseTest {
                 .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
                 .cardholderAuthentication(
                     Transaction.CardholderAuthentication.builder()
-                        .threeDSVersion("2")
-                        .acquirerExemption(
-                            Transaction.CardholderAuthentication.AcquirerExemption.NONE
+                        .authenticationMethod(
+                            Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
                         )
                         .authenticationResult(
                             Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
@@ -295,15 +294,6 @@ internal class AccountActivityListResponseTest {
                             Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                         )
                         .threeDSAuthenticationToken("a6e372d0-b40a-43eb-b0d1-4e1aebef5875")
-                        .verificationAttempted(
-                            Transaction.CardholderAuthentication.VerificationAttempted.NONE
-                        )
-                        .verificationResult(
-                            Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
-                        )
-                        .authenticationMethod(
-                            Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
-                        )
                         .build()
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -528,9 +518,9 @@ internal class AccountActivityListResponseTest {
                     .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
                     .cardholderAuthentication(
                         Transaction.CardholderAuthentication.builder()
-                            .threeDSVersion("2")
-                            .acquirerExemption(
-                                Transaction.CardholderAuthentication.AcquirerExemption.NONE
+                            .authenticationMethod(
+                                Transaction.CardholderAuthentication.AuthenticationMethod
+                                    .FRICTIONLESS
                             )
                             .authenticationResult(
                                 Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
@@ -543,16 +533,6 @@ internal class AccountActivityListResponseTest {
                                     ._3DS_AUTHENTICATED
                             )
                             .threeDSAuthenticationToken("a6e372d0-b40a-43eb-b0d1-4e1aebef5875")
-                            .verificationAttempted(
-                                Transaction.CardholderAuthentication.VerificationAttempted.NONE
-                            )
-                            .verificationResult(
-                                Transaction.CardholderAuthentication.VerificationResult.FRICTIONLESS
-                            )
-                            .authenticationMethod(
-                                Transaction.CardholderAuthentication.AuthenticationMethod
-                                    .FRICTIONLESS
-                            )
                             .build()
                     )
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
