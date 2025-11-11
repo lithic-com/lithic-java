@@ -32,15 +32,7 @@ internal class V2ServiceAsyncTest {
             v2ServiceAsync.create(
                 AuthRuleV2CreateParams.builder()
                     .body(
-                        AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .eventStream(
-                                AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                    .EventStream
-                                    .AUTHORIZATION
-                            )
-                            .name("name")
+                        AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                             .parameters(
                                 ConditionalBlockParameters.builder()
                                     .addCondition(
@@ -53,10 +45,16 @@ internal class V2ServiceAsyncTest {
                                     .build()
                             )
                             .type(
-                                AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                    .AuthRuleType
+                                AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
                                     .CONDITIONAL_BLOCK
                             )
+                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .eventStream(
+                                AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream
+                                    .AUTHORIZATION
+                            )
+                            .name("name")
                             .build()
                     )
                     .build()

@@ -2698,26 +2698,19 @@ private constructor(
     class CardholderAuthentication
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val threeDSVersion: JsonField<String>,
-        private val acquirerExemption: JsonField<AcquirerExemption>,
+        private val authenticationMethod: JsonField<AuthenticationMethod>,
         private val authenticationResult: JsonField<AuthenticationResult>,
         private val decisionMadeBy: JsonField<DecisionMadeBy>,
         private val liabilityShift: JsonField<LiabilityShift>,
         private val threeDSAuthenticationToken: JsonField<String>,
-        private val verificationAttempted: JsonField<VerificationAttempted>,
-        private val verificationResult: JsonField<VerificationResult>,
-        private val authenticationMethod: JsonField<AuthenticationMethod>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("3ds_version")
+            @JsonProperty("authentication_method")
             @ExcludeMissing
-            threeDSVersion: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("acquirer_exemption")
-            @ExcludeMissing
-            acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of(),
+            authenticationMethod: JsonField<AuthenticationMethod> = JsonMissing.of(),
             @JsonProperty("authentication_result")
             @ExcludeMissing
             authenticationResult: JsonField<AuthenticationResult> = JsonMissing.of(),
@@ -2730,47 +2723,23 @@ private constructor(
             @JsonProperty("three_ds_authentication_token")
             @ExcludeMissing
             threeDSAuthenticationToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("verification_attempted")
-            @ExcludeMissing
-            verificationAttempted: JsonField<VerificationAttempted> = JsonMissing.of(),
-            @JsonProperty("verification_result")
-            @ExcludeMissing
-            verificationResult: JsonField<VerificationResult> = JsonMissing.of(),
-            @JsonProperty("authentication_method")
-            @ExcludeMissing
-            authenticationMethod: JsonField<AuthenticationMethod> = JsonMissing.of(),
         ) : this(
-            threeDSVersion,
-            acquirerExemption,
+            authenticationMethod,
             authenticationResult,
             decisionMadeBy,
             liabilityShift,
             threeDSAuthenticationToken,
-            verificationAttempted,
-            verificationResult,
-            authenticationMethod,
             mutableMapOf(),
         )
 
         /**
-         * The 3DS version used for the authentication
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        @Deprecated("deprecated")
-        fun threeDSVersion(): Optional<String> = threeDSVersion.getOptional("3ds_version")
-
-        /**
-         * Whether an acquirer exemption applied to the transaction. Not currently populated and
-         * will be removed in the future.
+         * Indicates the method used to authenticate the cardholder.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        @Deprecated("deprecated")
-        fun acquirerExemption(): AcquirerExemption =
-            acquirerExemption.getRequired("acquirer_exemption")
+        fun authenticationMethod(): AuthenticationMethod =
+            authenticationMethod.getRequired("authentication_method")
 
         /**
          * Indicates the outcome of the 3DS authentication process.
@@ -2817,57 +2786,14 @@ private constructor(
             threeDSAuthenticationToken.getOptional("three_ds_authentication_token")
 
         /**
-         * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
-         * was. (deprecated, use `authentication_result`)
+         * Returns the raw JSON value of [authenticationMethod].
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         * Unlike [authenticationMethod], this method doesn't throw if the JSON field has an
+         * unexpected type.
          */
-        @Deprecated("deprecated")
-        fun verificationAttempted(): VerificationAttempted =
-            verificationAttempted.getRequired("verification_attempted")
-
-        /**
-         * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
-         * `authentication_result`)
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        @Deprecated("deprecated")
-        fun verificationResult(): VerificationResult =
-            verificationResult.getRequired("verification_result")
-
-        /**
-         * Indicates the method used to authenticate the cardholder.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun authenticationMethod(): Optional<AuthenticationMethod> =
-            authenticationMethod.getOptional("authentication_method")
-
-        /**
-         * Returns the raw JSON value of [threeDSVersion].
-         *
-         * Unlike [threeDSVersion], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("3ds_version")
+        @JsonProperty("authentication_method")
         @ExcludeMissing
-        fun _threeDSVersion(): JsonField<String> = threeDSVersion
-
-        /**
-         * Returns the raw JSON value of [acquirerExemption].
-         *
-         * Unlike [acquirerExemption], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("acquirer_exemption")
-        @ExcludeMissing
-        fun _acquirerExemption(): JsonField<AcquirerExemption> = acquirerExemption
+        fun _authenticationMethod(): JsonField<AuthenticationMethod> = authenticationMethod
 
         /**
          * Returns the raw JSON value of [authenticationResult].
@@ -2909,38 +2835,6 @@ private constructor(
         @ExcludeMissing
         fun _threeDSAuthenticationToken(): JsonField<String> = threeDSAuthenticationToken
 
-        /**
-         * Returns the raw JSON value of [verificationAttempted].
-         *
-         * Unlike [verificationAttempted], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("verification_attempted")
-        @ExcludeMissing
-        fun _verificationAttempted(): JsonField<VerificationAttempted> = verificationAttempted
-
-        /**
-         * Returns the raw JSON value of [verificationResult].
-         *
-         * Unlike [verificationResult], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("verification_result")
-        @ExcludeMissing
-        fun _verificationResult(): JsonField<VerificationResult> = verificationResult
-
-        /**
-         * Returns the raw JSON value of [authenticationMethod].
-         *
-         * Unlike [authenticationMethod], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("authentication_method")
-        @ExcludeMissing
-        fun _authenticationMethod(): JsonField<AuthenticationMethod> = authenticationMethod
-
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -2960,14 +2854,11 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .threeDSVersion()
-             * .acquirerExemption()
+             * .authenticationMethod()
              * .authenticationResult()
              * .decisionMadeBy()
              * .liabilityShift()
              * .threeDSAuthenticationToken()
-             * .verificationAttempted()
-             * .verificationResult()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -2976,72 +2867,38 @@ private constructor(
         /** A builder for [CardholderAuthentication]. */
         class Builder internal constructor() {
 
-            private var threeDSVersion: JsonField<String>? = null
-            private var acquirerExemption: JsonField<AcquirerExemption>? = null
+            private var authenticationMethod: JsonField<AuthenticationMethod>? = null
             private var authenticationResult: JsonField<AuthenticationResult>? = null
             private var decisionMadeBy: JsonField<DecisionMadeBy>? = null
             private var liabilityShift: JsonField<LiabilityShift>? = null
             private var threeDSAuthenticationToken: JsonField<String>? = null
-            private var verificationAttempted: JsonField<VerificationAttempted>? = null
-            private var verificationResult: JsonField<VerificationResult>? = null
-            private var authenticationMethod: JsonField<AuthenticationMethod> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(cardholderAuthentication: CardholderAuthentication) = apply {
-                threeDSVersion = cardholderAuthentication.threeDSVersion
-                acquirerExemption = cardholderAuthentication.acquirerExemption
+                authenticationMethod = cardholderAuthentication.authenticationMethod
                 authenticationResult = cardholderAuthentication.authenticationResult
                 decisionMadeBy = cardholderAuthentication.decisionMadeBy
                 liabilityShift = cardholderAuthentication.liabilityShift
                 threeDSAuthenticationToken = cardholderAuthentication.threeDSAuthenticationToken
-                verificationAttempted = cardholderAuthentication.verificationAttempted
-                verificationResult = cardholderAuthentication.verificationResult
-                authenticationMethod = cardholderAuthentication.authenticationMethod
                 additionalProperties = cardholderAuthentication.additionalProperties.toMutableMap()
             }
 
-            /** The 3DS version used for the authentication */
-            @Deprecated("deprecated")
-            fun threeDSVersion(threeDSVersion: String?) =
-                threeDSVersion(JsonField.ofNullable(threeDSVersion))
-
-            /** Alias for calling [Builder.threeDSVersion] with `threeDSVersion.orElse(null)`. */
-            @Deprecated("deprecated")
-            fun threeDSVersion(threeDSVersion: Optional<String>) =
-                threeDSVersion(threeDSVersion.getOrNull())
+            /** Indicates the method used to authenticate the cardholder. */
+            fun authenticationMethod(authenticationMethod: AuthenticationMethod) =
+                authenticationMethod(JsonField.of(authenticationMethod))
 
             /**
-             * Sets [Builder.threeDSVersion] to an arbitrary JSON value.
+             * Sets [Builder.authenticationMethod] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.threeDSVersion] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.authenticationMethod] with a well-typed
+             * [AuthenticationMethod] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
              */
-            @Deprecated("deprecated")
-            fun threeDSVersion(threeDSVersion: JsonField<String>) = apply {
-                this.threeDSVersion = threeDSVersion
-            }
-
-            /**
-             * Whether an acquirer exemption applied to the transaction. Not currently populated and
-             * will be removed in the future.
-             */
-            @Deprecated("deprecated")
-            fun acquirerExemption(acquirerExemption: AcquirerExemption) =
-                acquirerExemption(JsonField.of(acquirerExemption))
-
-            /**
-             * Sets [Builder.acquirerExemption] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.acquirerExemption] with a well-typed
-             * [AcquirerExemption] value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
-             */
-            @Deprecated("deprecated")
-            fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
-                this.acquirerExemption = acquirerExemption
-            }
+            fun authenticationMethod(authenticationMethod: JsonField<AuthenticationMethod>) =
+                apply {
+                    this.authenticationMethod = authenticationMethod
+                }
 
             /** Indicates the outcome of the 3DS authentication process. */
             fun authenticationResult(authenticationResult: AuthenticationResult) =
@@ -3125,63 +2982,6 @@ private constructor(
                 this.threeDSAuthenticationToken = threeDSAuthenticationToken
             }
 
-            /**
-             * Indicates whether a 3DS challenge flow was used, and if so, what the verification
-             * method was. (deprecated, use `authentication_result`)
-             */
-            @Deprecated("deprecated")
-            fun verificationAttempted(verificationAttempted: VerificationAttempted) =
-                verificationAttempted(JsonField.of(verificationAttempted))
-
-            /**
-             * Sets [Builder.verificationAttempted] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.verificationAttempted] with a well-typed
-             * [VerificationAttempted] value instead. This method is primarily for setting the field
-             * to an undocumented or not yet supported value.
-             */
-            @Deprecated("deprecated")
-            fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
-                apply {
-                    this.verificationAttempted = verificationAttempted
-                }
-
-            /**
-             * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
-             * `authentication_result`)
-             */
-            @Deprecated("deprecated")
-            fun verificationResult(verificationResult: VerificationResult) =
-                verificationResult(JsonField.of(verificationResult))
-
-            /**
-             * Sets [Builder.verificationResult] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.verificationResult] with a well-typed
-             * [VerificationResult] value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
-             */
-            @Deprecated("deprecated")
-            fun verificationResult(verificationResult: JsonField<VerificationResult>) = apply {
-                this.verificationResult = verificationResult
-            }
-
-            /** Indicates the method used to authenticate the cardholder. */
-            fun authenticationMethod(authenticationMethod: AuthenticationMethod) =
-                authenticationMethod(JsonField.of(authenticationMethod))
-
-            /**
-             * Sets [Builder.authenticationMethod] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.authenticationMethod] with a well-typed
-             * [AuthenticationMethod] value instead. This method is primarily for setting the field
-             * to an undocumented or not yet supported value.
-             */
-            fun authenticationMethod(authenticationMethod: JsonField<AuthenticationMethod>) =
-                apply {
-                    this.authenticationMethod = authenticationMethod
-                }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -3208,29 +3008,22 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .threeDSVersion()
-             * .acquirerExemption()
+             * .authenticationMethod()
              * .authenticationResult()
              * .decisionMadeBy()
              * .liabilityShift()
              * .threeDSAuthenticationToken()
-             * .verificationAttempted()
-             * .verificationResult()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): CardholderAuthentication =
                 CardholderAuthentication(
-                    checkRequired("threeDSVersion", threeDSVersion),
-                    checkRequired("acquirerExemption", acquirerExemption),
+                    checkRequired("authenticationMethod", authenticationMethod),
                     checkRequired("authenticationResult", authenticationResult),
                     checkRequired("decisionMadeBy", decisionMadeBy),
                     checkRequired("liabilityShift", liabilityShift),
                     checkRequired("threeDSAuthenticationToken", threeDSAuthenticationToken),
-                    checkRequired("verificationAttempted", verificationAttempted),
-                    checkRequired("verificationResult", verificationResult),
-                    authenticationMethod,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -3242,15 +3035,11 @@ private constructor(
                 return@apply
             }
 
-            threeDSVersion()
-            acquirerExemption().validate()
+            authenticationMethod().validate()
             authenticationResult().validate()
             decisionMadeBy().validate()
             liabilityShift().validate()
             threeDSAuthenticationToken()
-            verificationAttempted().validate()
-            verificationResult().validate()
-            authenticationMethod().ifPresent { it.validate() }
             validated = true
         }
 
@@ -3270,22 +3059,14 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (threeDSVersion.asKnown().isPresent) 1 else 0) +
-                (acquirerExemption.asKnown().getOrNull()?.validity() ?: 0) +
+            (authenticationMethod.asKnown().getOrNull()?.validity() ?: 0) +
                 (authenticationResult.asKnown().getOrNull()?.validity() ?: 0) +
                 (decisionMadeBy.asKnown().getOrNull()?.validity() ?: 0) +
                 (liabilityShift.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (threeDSAuthenticationToken.asKnown().isPresent) 1 else 0) +
-                (verificationAttempted.asKnown().getOrNull()?.validity() ?: 0) +
-                (verificationResult.asKnown().getOrNull()?.validity() ?: 0) +
-                (authenticationMethod.asKnown().getOrNull()?.validity() ?: 0)
+                (if (threeDSAuthenticationToken.asKnown().isPresent) 1 else 0)
 
-        /**
-         * Whether an acquirer exemption applied to the transaction. Not currently populated and
-         * will be removed in the future.
-         */
-        @Deprecated("deprecated")
-        class AcquirerExemption
+        /** Indicates the method used to authenticate the cardholder. */
+        class AuthenticationMethod
         @JsonCreator
         private constructor(private val value: JsonField<String>) : Enum {
 
@@ -3301,61 +3082,39 @@ private constructor(
 
             companion object {
 
-                @JvmField
-                val AUTHENTICATION_OUTAGE_EXCEPTION = of("AUTHENTICATION_OUTAGE_EXCEPTION")
+                @JvmField val FRICTIONLESS = of("FRICTIONLESS")
 
-                @JvmField val LOW_VALUE = of("LOW_VALUE")
-
-                @JvmField val MERCHANT_INITIATED_TRANSACTION = of("MERCHANT_INITIATED_TRANSACTION")
+                @JvmField val CHALLENGE = of("CHALLENGE")
 
                 @JvmField val NONE = of("NONE")
 
-                @JvmField val RECURRING_PAYMENT = of("RECURRING_PAYMENT")
-
-                @JvmField val SECURE_CORPORATE_PAYMENT = of("SECURE_CORPORATE_PAYMENT")
-
-                @JvmField
-                val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
-                    of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION")
-
-                @JvmField val TRANSACTION_RISK_ANALYSIS = of("TRANSACTION_RISK_ANALYSIS")
-
-                @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
+                @JvmStatic fun of(value: String) = AuthenticationMethod(JsonField.of(value))
             }
 
-            /** An enum containing [AcquirerExemption]'s known values. */
+            /** An enum containing [AuthenticationMethod]'s known values. */
             enum class Known {
-                AUTHENTICATION_OUTAGE_EXCEPTION,
-                LOW_VALUE,
-                MERCHANT_INITIATED_TRANSACTION,
+                FRICTIONLESS,
+                CHALLENGE,
                 NONE,
-                RECURRING_PAYMENT,
-                SECURE_CORPORATE_PAYMENT,
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
-                TRANSACTION_RISK_ANALYSIS,
             }
 
             /**
-             * An enum containing [AcquirerExemption]'s known values, as well as an [_UNKNOWN]
+             * An enum containing [AuthenticationMethod]'s known values, as well as an [_UNKNOWN]
              * member.
              *
-             * An instance of [AcquirerExemption] can contain an unknown value in a couple of cases:
+             * An instance of [AuthenticationMethod] can contain an unknown value in a couple of
+             * cases:
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                AUTHENTICATION_OUTAGE_EXCEPTION,
-                LOW_VALUE,
-                MERCHANT_INITIATED_TRANSACTION,
+                FRICTIONLESS,
+                CHALLENGE,
                 NONE,
-                RECURRING_PAYMENT,
-                SECURE_CORPORATE_PAYMENT,
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
-                TRANSACTION_RISK_ANALYSIS,
                 /**
-                 * An enum member indicating that [AcquirerExemption] was instantiated with an
+                 * An enum member indicating that [AuthenticationMethod] was instantiated with an
                  * unknown value.
                  */
                 _UNKNOWN,
@@ -3370,15 +3129,9 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
-                    LOW_VALUE -> Value.LOW_VALUE
-                    MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
+                    FRICTIONLESS -> Value.FRICTIONLESS
+                    CHALLENGE -> Value.CHALLENGE
                     NONE -> Value.NONE
-                    RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
-                    SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
-                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
-                        Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                    TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
                     else -> Value._UNKNOWN
                 }
 
@@ -3393,16 +3146,10 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
-                    LOW_VALUE -> Known.LOW_VALUE
-                    MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
+                    FRICTIONLESS -> Known.FRICTIONLESS
+                    CHALLENGE -> Known.CHALLENGE
                     NONE -> Known.NONE
-                    RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
-                    SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
-                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
-                        Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                    TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
-                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
+                    else -> throw LithicInvalidDataException("Unknown AuthenticationMethod: $value")
                 }
 
             /**
@@ -3421,7 +3168,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): AcquirerExemption = apply {
+            fun validate(): AuthenticationMethod = apply {
                 if (validated) {
                     return@apply
                 }
@@ -3451,7 +3198,7 @@ private constructor(
                     return true
                 }
 
-                return other is AcquirerExemption && value == other.value
+                return other is AuthenticationMethod && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -3911,479 +3658,27 @@ private constructor(
             override fun toString() = value.toString()
         }
 
-        /**
-         * Indicates whether a 3DS challenge flow was used, and if so, what the verification method
-         * was. (deprecated, use `authentication_result`)
-         */
-        @Deprecated("deprecated")
-        class VerificationAttempted
-        @JsonCreator
-        private constructor(private val value: JsonField<String>) : Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val NONE = of("NONE")
-
-                @JvmField val OTHER = of("OTHER")
-
-                @JvmStatic fun of(value: String) = VerificationAttempted(JsonField.of(value))
-            }
-
-            /** An enum containing [VerificationAttempted]'s known values. */
-            enum class Known {
-                NONE,
-                OTHER,
-            }
-
-            /**
-             * An enum containing [VerificationAttempted]'s known values, as well as an [_UNKNOWN]
-             * member.
-             *
-             * An instance of [VerificationAttempted] can contain an unknown value in a couple of
-             * cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                NONE,
-                OTHER,
-                /**
-                 * An enum member indicating that [VerificationAttempted] was instantiated with an
-                 * unknown value.
-                 */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    NONE -> Value.NONE
-                    OTHER -> Value.OTHER
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws LithicInvalidDataException if this class instance's value is a not a known
-             *   member.
-             */
-            fun known(): Known =
-                when (this) {
-                    NONE -> Known.NONE
-                    OTHER -> Known.OTHER
-                    else ->
-                        throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws LithicInvalidDataException if this class instance's value does not have the
-             *   expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    LithicInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            fun validate(): VerificationAttempted = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is VerificationAttempted && value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-        }
-
-        /**
-         * Indicates whether a transaction is considered 3DS authenticated. (deprecated, use
-         * `authentication_result`)
-         */
-        @Deprecated("deprecated")
-        class VerificationResult
-        @JsonCreator
-        private constructor(private val value: JsonField<String>) : Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val CANCELLED = of("CANCELLED")
-
-                @JvmField val FAILED = of("FAILED")
-
-                @JvmField val FRICTIONLESS = of("FRICTIONLESS")
-
-                @JvmField val NOT_ATTEMPTED = of("NOT_ATTEMPTED")
-
-                @JvmField val REJECTED = of("REJECTED")
-
-                @JvmField val SUCCESS = of("SUCCESS")
-
-                @JvmStatic fun of(value: String) = VerificationResult(JsonField.of(value))
-            }
-
-            /** An enum containing [VerificationResult]'s known values. */
-            enum class Known {
-                CANCELLED,
-                FAILED,
-                FRICTIONLESS,
-                NOT_ATTEMPTED,
-                REJECTED,
-                SUCCESS,
-            }
-
-            /**
-             * An enum containing [VerificationResult]'s known values, as well as an [_UNKNOWN]
-             * member.
-             *
-             * An instance of [VerificationResult] can contain an unknown value in a couple of
-             * cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                CANCELLED,
-                FAILED,
-                FRICTIONLESS,
-                NOT_ATTEMPTED,
-                REJECTED,
-                SUCCESS,
-                /**
-                 * An enum member indicating that [VerificationResult] was instantiated with an
-                 * unknown value.
-                 */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    CANCELLED -> Value.CANCELLED
-                    FAILED -> Value.FAILED
-                    FRICTIONLESS -> Value.FRICTIONLESS
-                    NOT_ATTEMPTED -> Value.NOT_ATTEMPTED
-                    REJECTED -> Value.REJECTED
-                    SUCCESS -> Value.SUCCESS
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws LithicInvalidDataException if this class instance's value is a not a known
-             *   member.
-             */
-            fun known(): Known =
-                when (this) {
-                    CANCELLED -> Known.CANCELLED
-                    FAILED -> Known.FAILED
-                    FRICTIONLESS -> Known.FRICTIONLESS
-                    NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
-                    REJECTED -> Known.REJECTED
-                    SUCCESS -> Known.SUCCESS
-                    else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws LithicInvalidDataException if this class instance's value does not have the
-             *   expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    LithicInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            fun validate(): VerificationResult = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is VerificationResult && value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-        }
-
-        /** Indicates the method used to authenticate the cardholder. */
-        class AuthenticationMethod
-        @JsonCreator
-        private constructor(private val value: JsonField<String>) : Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val FRICTIONLESS = of("FRICTIONLESS")
-
-                @JvmField val CHALLENGE = of("CHALLENGE")
-
-                @JvmField val NONE = of("NONE")
-
-                @JvmStatic fun of(value: String) = AuthenticationMethod(JsonField.of(value))
-            }
-
-            /** An enum containing [AuthenticationMethod]'s known values. */
-            enum class Known {
-                FRICTIONLESS,
-                CHALLENGE,
-                NONE,
-            }
-
-            /**
-             * An enum containing [AuthenticationMethod]'s known values, as well as an [_UNKNOWN]
-             * member.
-             *
-             * An instance of [AuthenticationMethod] can contain an unknown value in a couple of
-             * cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                FRICTIONLESS,
-                CHALLENGE,
-                NONE,
-                /**
-                 * An enum member indicating that [AuthenticationMethod] was instantiated with an
-                 * unknown value.
-                 */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    FRICTIONLESS -> Value.FRICTIONLESS
-                    CHALLENGE -> Value.CHALLENGE
-                    NONE -> Value.NONE
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws LithicInvalidDataException if this class instance's value is a not a known
-             *   member.
-             */
-            fun known(): Known =
-                when (this) {
-                    FRICTIONLESS -> Known.FRICTIONLESS
-                    CHALLENGE -> Known.CHALLENGE
-                    NONE -> Known.NONE
-                    else -> throw LithicInvalidDataException("Unknown AuthenticationMethod: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws LithicInvalidDataException if this class instance's value does not have the
-             *   expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    LithicInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            fun validate(): AuthenticationMethod = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is AuthenticationMethod && value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-        }
-
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
             return other is CardholderAuthentication &&
-                threeDSVersion == other.threeDSVersion &&
-                acquirerExemption == other.acquirerExemption &&
+                authenticationMethod == other.authenticationMethod &&
                 authenticationResult == other.authenticationResult &&
                 decisionMadeBy == other.decisionMadeBy &&
                 liabilityShift == other.liabilityShift &&
                 threeDSAuthenticationToken == other.threeDSAuthenticationToken &&
-                verificationAttempted == other.verificationAttempted &&
-                verificationResult == other.verificationResult &&
-                authenticationMethod == other.authenticationMethod &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
             Objects.hash(
-                threeDSVersion,
-                acquirerExemption,
+                authenticationMethod,
                 authenticationResult,
                 decisionMadeBy,
                 liabilityShift,
                 threeDSAuthenticationToken,
-                verificationAttempted,
-                verificationResult,
-                authenticationMethod,
                 additionalProperties,
             )
         }
@@ -4391,7 +3686,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardholderAuthentication{threeDSVersion=$threeDSVersion, acquirerExemption=$acquirerExemption, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, threeDSAuthenticationToken=$threeDSAuthenticationToken, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, authenticationMethod=$authenticationMethod, additionalProperties=$additionalProperties}"
+            "CardholderAuthentication{authenticationMethod=$authenticationMethod, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalProperties=$additionalProperties}"
     }
 
     class Merchant

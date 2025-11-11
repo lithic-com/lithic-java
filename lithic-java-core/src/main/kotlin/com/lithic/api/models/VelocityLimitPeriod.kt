@@ -30,9 +30,9 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
-@JsonDeserialize(using = VelocityLimitParamsPeriodWindow.Deserializer::class)
-@JsonSerialize(using = VelocityLimitParamsPeriodWindow.Serializer::class)
-class VelocityLimitParamsPeriodWindow
+@JsonDeserialize(using = VelocityLimitPeriod.Deserializer::class)
+@JsonSerialize(using = VelocityLimitPeriod.Serializer::class)
+class VelocityLimitPeriod
 private constructor(
     private val trailingWindowObject: TrailingWindowObject? = null,
     private val fixedWindowDay: FixedWindowDay? = null,
@@ -116,7 +116,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): VelocityLimitParamsPeriodWindow = apply {
+    fun validate(): VelocityLimitPeriod = apply {
         if (validated) {
             return@apply
         }
@@ -188,7 +188,7 @@ private constructor(
             return true
         }
 
-        return other is VelocityLimitParamsPeriodWindow &&
+        return other is VelocityLimitPeriod &&
             trailingWindowObject == other.trailingWindowObject &&
             fixedWindowDay == other.fixedWindowDay &&
             fixedWindowWeek == other.fixedWindowWeek &&
@@ -208,29 +208,25 @@ private constructor(
     override fun toString(): String =
         when {
             trailingWindowObject != null ->
-                "VelocityLimitParamsPeriodWindow{trailingWindowObject=$trailingWindowObject}"
-            fixedWindowDay != null ->
-                "VelocityLimitParamsPeriodWindow{fixedWindowDay=$fixedWindowDay}"
-            fixedWindowWeek != null ->
-                "VelocityLimitParamsPeriodWindow{fixedWindowWeek=$fixedWindowWeek}"
-            fixedWindowMonth != null ->
-                "VelocityLimitParamsPeriodWindow{fixedWindowMonth=$fixedWindowMonth}"
-            fixedWindowYear != null ->
-                "VelocityLimitParamsPeriodWindow{fixedWindowYear=$fixedWindowYear}"
-            _json != null -> "VelocityLimitParamsPeriodWindow{_unknown=$_json}"
-            else -> throw IllegalStateException("Invalid VelocityLimitParamsPeriodWindow")
+                "VelocityLimitPeriod{trailingWindowObject=$trailingWindowObject}"
+            fixedWindowDay != null -> "VelocityLimitPeriod{fixedWindowDay=$fixedWindowDay}"
+            fixedWindowWeek != null -> "VelocityLimitPeriod{fixedWindowWeek=$fixedWindowWeek}"
+            fixedWindowMonth != null -> "VelocityLimitPeriod{fixedWindowMonth=$fixedWindowMonth}"
+            fixedWindowYear != null -> "VelocityLimitPeriod{fixedWindowYear=$fixedWindowYear}"
+            _json != null -> "VelocityLimitPeriod{_unknown=$_json}"
+            else -> throw IllegalStateException("Invalid VelocityLimitPeriod")
         }
 
     companion object {
 
         @JvmStatic
         fun ofTrailingWindowObject(trailingWindowObject: TrailingWindowObject) =
-            VelocityLimitParamsPeriodWindow(trailingWindowObject = trailingWindowObject)
+            VelocityLimitPeriod(trailingWindowObject = trailingWindowObject)
 
         /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
         @JvmStatic
         fun ofFixedWindowDay(fixedWindowDay: FixedWindowDay) =
-            VelocityLimitParamsPeriodWindow(fixedWindowDay = fixedWindowDay)
+            VelocityLimitPeriod(fixedWindowDay = fixedWindowDay)
 
         /**
          * Velocity over the current week since 00:00 / 12 AM in Eastern Time on specified
@@ -238,7 +234,7 @@ private constructor(
          */
         @JvmStatic
         fun ofFixedWindowWeek(fixedWindowWeek: FixedWindowWeek) =
-            VelocityLimitParamsPeriodWindow(fixedWindowWeek = fixedWindowWeek)
+            VelocityLimitPeriod(fixedWindowWeek = fixedWindowWeek)
 
         /**
          * Velocity over the current month since 00:00 / 12 AM in Eastern Time on specified
@@ -246,7 +242,7 @@ private constructor(
          */
         @JvmStatic
         fun ofFixedWindowMonth(fixedWindowMonth: FixedWindowMonth) =
-            VelocityLimitParamsPeriodWindow(fixedWindowMonth = fixedWindowMonth)
+            VelocityLimitPeriod(fixedWindowMonth = fixedWindowMonth)
 
         /**
          * Velocity over the current year since 00:00 / 12 AM in Eastern Time on specified `month`
@@ -256,12 +252,12 @@ private constructor(
          */
         @JvmStatic
         fun ofFixedWindowYear(fixedWindowYear: FixedWindowYear) =
-            VelocityLimitParamsPeriodWindow(fixedWindowYear = fixedWindowYear)
+            VelocityLimitPeriod(fixedWindowYear = fixedWindowYear)
     }
 
     /**
-     * An interface that defines how to map each variant of [VelocityLimitParamsPeriodWindow] to a
-     * value of type [T].
+     * An interface that defines how to map each variant of [VelocityLimitPeriod] to a value of type
+     * [T].
      */
     interface Visitor<out T> {
 
@@ -291,9 +287,9 @@ private constructor(
         fun visitFixedWindowYear(fixedWindowYear: FixedWindowYear): T
 
         /**
-         * Maps an unknown variant of [VelocityLimitParamsPeriodWindow] to a value of type [T].
+         * Maps an unknown variant of [VelocityLimitPeriod] to a value of type [T].
          *
-         * An instance of [VelocityLimitParamsPeriodWindow] can contain an unknown variant if it was
+         * An instance of [VelocityLimitPeriod] can contain an unknown variant if it was
          * deserialized from data that doesn't match any known variant. For example, if the SDK is
          * on an older version than the API, then the API may respond with new variants that the SDK
          * is unaware of.
@@ -301,32 +297,32 @@ private constructor(
          * @throws LithicInvalidDataException in the default implementation.
          */
         fun unknown(json: JsonValue?): T {
-            throw LithicInvalidDataException("Unknown VelocityLimitParamsPeriodWindow: $json")
+            throw LithicInvalidDataException("Unknown VelocityLimitPeriod: $json")
         }
     }
 
     internal class Deserializer :
-        BaseDeserializer<VelocityLimitParamsPeriodWindow>(VelocityLimitParamsPeriodWindow::class) {
+        BaseDeserializer<VelocityLimitPeriod>(VelocityLimitPeriod::class) {
 
-        override fun ObjectCodec.deserialize(node: JsonNode): VelocityLimitParamsPeriodWindow {
+        override fun ObjectCodec.deserialize(node: JsonNode): VelocityLimitPeriod {
             val json = JsonValue.fromJsonNode(node)
 
             val bestMatches =
                 sequenceOf(
                         tryDeserialize(node, jacksonTypeRef<TrailingWindowObject>())?.let {
-                            VelocityLimitParamsPeriodWindow(trailingWindowObject = it, _json = json)
+                            VelocityLimitPeriod(trailingWindowObject = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<FixedWindowDay>())?.let {
-                            VelocityLimitParamsPeriodWindow(fixedWindowDay = it, _json = json)
+                            VelocityLimitPeriod(fixedWindowDay = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<FixedWindowWeek>())?.let {
-                            VelocityLimitParamsPeriodWindow(fixedWindowWeek = it, _json = json)
+                            VelocityLimitPeriod(fixedWindowWeek = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<FixedWindowMonth>())?.let {
-                            VelocityLimitParamsPeriodWindow(fixedWindowMonth = it, _json = json)
+                            VelocityLimitPeriod(fixedWindowMonth = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<FixedWindowYear>())?.let {
-                            VelocityLimitParamsPeriodWindow(fixedWindowYear = it, _json = json)
+                            VelocityLimitPeriod(fixedWindowYear = it, _json = json)
                         },
                     )
                     .filterNotNull()
@@ -335,7 +331,7 @@ private constructor(
             return when (bestMatches.size) {
                 // This can happen if what we're deserializing is completely incompatible with all
                 // the possible variants (e.g. deserializing from boolean).
-                0 -> VelocityLimitParamsPeriodWindow(_json = json)
+                0 -> VelocityLimitPeriod(_json = json)
                 1 -> bestMatches.single()
                 // If there's more than one match with the highest validity, then use the first
                 // completely valid match, or simply the first match if none are completely valid.
@@ -344,11 +340,10 @@ private constructor(
         }
     }
 
-    internal class Serializer :
-        BaseSerializer<VelocityLimitParamsPeriodWindow>(VelocityLimitParamsPeriodWindow::class) {
+    internal class Serializer : BaseSerializer<VelocityLimitPeriod>(VelocityLimitPeriod::class) {
 
         override fun serialize(
-            value: VelocityLimitParamsPeriodWindow,
+            value: VelocityLimitPeriod,
             generator: JsonGenerator,
             provider: SerializerProvider,
         ) {
@@ -360,7 +355,7 @@ private constructor(
                 value.fixedWindowMonth != null -> generator.writeObject(value.fixedWindowMonth)
                 value.fixedWindowYear != null -> generator.writeObject(value.fixedWindowYear)
                 value._json != null -> generator.writeObject(value._json)
-                else -> throw IllegalStateException("Invalid VelocityLimitParamsPeriodWindow")
+                else -> throw IllegalStateException("Invalid VelocityLimitPeriod")
             }
         }
     }

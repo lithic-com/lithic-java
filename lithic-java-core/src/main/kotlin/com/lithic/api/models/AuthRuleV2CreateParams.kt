@@ -81,26 +81,16 @@ private constructor(
 
         fun body(body: Body) = apply { this.body = body }
 
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens)`.
-         */
-        fun body(createAuthRuleRequestAccountTokens: Body.CreateAuthRuleRequestAccountTokens) =
-            body(Body.ofCreateAuthRuleRequestAccountTokens(createAuthRuleRequestAccountTokens))
+        /** Alias for calling [body] with `Body.ofAccountLevelRule(accountLevelRule)`. */
+        fun body(accountLevelRule: Body.AccountLevelRule) =
+            body(Body.ofAccountLevelRule(accountLevelRule))
 
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens)`.
-         */
-        fun body(createAuthRuleRequestCardTokens: Body.CreateAuthRuleRequestCardTokens) =
-            body(Body.ofCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens))
+        /** Alias for calling [body] with `Body.ofCardLevelRule(cardLevelRule)`. */
+        fun body(cardLevelRule: Body.CardLevelRule) = body(Body.ofCardLevelRule(cardLevelRule))
 
-        /**
-         * Alias for calling [body] with
-         * `Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel)`.
-         */
-        fun body(createAuthRuleRequestProgramLevel: Body.CreateAuthRuleRequestProgramLevel) =
-            body(Body.ofCreateAuthRuleRequestProgramLevel(createAuthRuleRequestProgramLevel))
+        /** Alias for calling [body] with `Body.ofProgramLevelRule(programLevelRule)`. */
+        fun body(programLevelRule: Body.ProgramLevelRule) =
+            body(Body.ofProgramLevelRule(programLevelRule))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -230,52 +220,37 @@ private constructor(
     @JsonSerialize(using = Body.Serializer::class)
     class Body
     private constructor(
-        private val createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens? = null,
-        private val createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens? = null,
-        private val createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel? = null,
+        private val accountLevelRule: AccountLevelRule? = null,
+        private val cardLevelRule: CardLevelRule? = null,
+        private val programLevelRule: ProgramLevelRule? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        fun createAuthRuleRequestAccountTokens(): Optional<CreateAuthRuleRequestAccountTokens> =
-            Optional.ofNullable(createAuthRuleRequestAccountTokens)
+        fun accountLevelRule(): Optional<AccountLevelRule> = Optional.ofNullable(accountLevelRule)
 
-        fun createAuthRuleRequestCardTokens(): Optional<CreateAuthRuleRequestCardTokens> =
-            Optional.ofNullable(createAuthRuleRequestCardTokens)
+        fun cardLevelRule(): Optional<CardLevelRule> = Optional.ofNullable(cardLevelRule)
 
-        fun createAuthRuleRequestProgramLevel(): Optional<CreateAuthRuleRequestProgramLevel> =
-            Optional.ofNullable(createAuthRuleRequestProgramLevel)
+        fun programLevelRule(): Optional<ProgramLevelRule> = Optional.ofNullable(programLevelRule)
 
-        fun isCreateAuthRuleRequestAccountTokens(): Boolean =
-            createAuthRuleRequestAccountTokens != null
+        fun isAccountLevelRule(): Boolean = accountLevelRule != null
 
-        fun isCreateAuthRuleRequestCardTokens(): Boolean = createAuthRuleRequestCardTokens != null
+        fun isCardLevelRule(): Boolean = cardLevelRule != null
 
-        fun isCreateAuthRuleRequestProgramLevel(): Boolean =
-            createAuthRuleRequestProgramLevel != null
+        fun isProgramLevelRule(): Boolean = programLevelRule != null
 
-        fun asCreateAuthRuleRequestAccountTokens(): CreateAuthRuleRequestAccountTokens =
-            createAuthRuleRequestAccountTokens.getOrThrow("createAuthRuleRequestAccountTokens")
+        fun asAccountLevelRule(): AccountLevelRule = accountLevelRule.getOrThrow("accountLevelRule")
 
-        fun asCreateAuthRuleRequestCardTokens(): CreateAuthRuleRequestCardTokens =
-            createAuthRuleRequestCardTokens.getOrThrow("createAuthRuleRequestCardTokens")
+        fun asCardLevelRule(): CardLevelRule = cardLevelRule.getOrThrow("cardLevelRule")
 
-        fun asCreateAuthRuleRequestProgramLevel(): CreateAuthRuleRequestProgramLevel =
-            createAuthRuleRequestProgramLevel.getOrThrow("createAuthRuleRequestProgramLevel")
+        fun asProgramLevelRule(): ProgramLevelRule = programLevelRule.getOrThrow("programLevelRule")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                createAuthRuleRequestAccountTokens != null ->
-                    visitor.visitCreateAuthRuleRequestAccountTokens(
-                        createAuthRuleRequestAccountTokens
-                    )
-                createAuthRuleRequestCardTokens != null ->
-                    visitor.visitCreateAuthRuleRequestCardTokens(createAuthRuleRequestCardTokens)
-                createAuthRuleRequestProgramLevel != null ->
-                    visitor.visitCreateAuthRuleRequestProgramLevel(
-                        createAuthRuleRequestProgramLevel
-                    )
+                accountLevelRule != null -> visitor.visitAccountLevelRule(accountLevelRule)
+                cardLevelRule != null -> visitor.visitCardLevelRule(cardLevelRule)
+                programLevelRule != null -> visitor.visitProgramLevelRule(programLevelRule)
                 else -> visitor.unknown(_json)
             }
 
@@ -288,22 +263,16 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitCreateAuthRuleRequestAccountTokens(
-                        createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
-                    ) {
-                        createAuthRuleRequestAccountTokens.validate()
+                    override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) {
+                        accountLevelRule.validate()
                     }
 
-                    override fun visitCreateAuthRuleRequestCardTokens(
-                        createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
-                    ) {
-                        createAuthRuleRequestCardTokens.validate()
+                    override fun visitCardLevelRule(cardLevelRule: CardLevelRule) {
+                        cardLevelRule.validate()
                     }
 
-                    override fun visitCreateAuthRuleRequestProgramLevel(
-                        createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
-                    ) {
-                        createAuthRuleRequestProgramLevel.validate()
+                    override fun visitProgramLevelRule(programLevelRule: ProgramLevelRule) {
+                        programLevelRule.validate()
                     }
                 }
             )
@@ -328,17 +297,14 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitCreateAuthRuleRequestAccountTokens(
-                        createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
-                    ) = createAuthRuleRequestAccountTokens.validity()
+                    override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) =
+                        accountLevelRule.validity()
 
-                    override fun visitCreateAuthRuleRequestCardTokens(
-                        createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
-                    ) = createAuthRuleRequestCardTokens.validity()
+                    override fun visitCardLevelRule(cardLevelRule: CardLevelRule) =
+                        cardLevelRule.validity()
 
-                    override fun visitCreateAuthRuleRequestProgramLevel(
-                        createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
-                    ) = createAuthRuleRequestProgramLevel.validity()
+                    override fun visitProgramLevelRule(programLevelRule: ProgramLevelRule) =
+                        programLevelRule.validity()
 
                     override fun unknown(json: JsonValue?) = 0
                 }
@@ -350,26 +316,19 @@ private constructor(
             }
 
             return other is Body &&
-                createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens &&
-                createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens &&
-                createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel
+                accountLevelRule == other.accountLevelRule &&
+                cardLevelRule == other.cardLevelRule &&
+                programLevelRule == other.programLevelRule
         }
 
         override fun hashCode(): Int =
-            Objects.hash(
-                createAuthRuleRequestAccountTokens,
-                createAuthRuleRequestCardTokens,
-                createAuthRuleRequestProgramLevel,
-            )
+            Objects.hash(accountLevelRule, cardLevelRule, programLevelRule)
 
         override fun toString(): String =
             when {
-                createAuthRuleRequestAccountTokens != null ->
-                    "Body{createAuthRuleRequestAccountTokens=$createAuthRuleRequestAccountTokens}"
-                createAuthRuleRequestCardTokens != null ->
-                    "Body{createAuthRuleRequestCardTokens=$createAuthRuleRequestCardTokens}"
-                createAuthRuleRequestProgramLevel != null ->
-                    "Body{createAuthRuleRequestProgramLevel=$createAuthRuleRequestProgramLevel}"
+                accountLevelRule != null -> "Body{accountLevelRule=$accountLevelRule}"
+                cardLevelRule != null -> "Body{cardLevelRule=$cardLevelRule}"
+                programLevelRule != null -> "Body{programLevelRule=$programLevelRule}"
                 _json != null -> "Body{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Body")
             }
@@ -377,35 +336,25 @@ private constructor(
         companion object {
 
             @JvmStatic
-            fun ofCreateAuthRuleRequestAccountTokens(
-                createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
-            ) = Body(createAuthRuleRequestAccountTokens = createAuthRuleRequestAccountTokens)
+            fun ofAccountLevelRule(accountLevelRule: AccountLevelRule) =
+                Body(accountLevelRule = accountLevelRule)
 
             @JvmStatic
-            fun ofCreateAuthRuleRequestCardTokens(
-                createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
-            ) = Body(createAuthRuleRequestCardTokens = createAuthRuleRequestCardTokens)
+            fun ofCardLevelRule(cardLevelRule: CardLevelRule) = Body(cardLevelRule = cardLevelRule)
 
             @JvmStatic
-            fun ofCreateAuthRuleRequestProgramLevel(
-                createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
-            ) = Body(createAuthRuleRequestProgramLevel = createAuthRuleRequestProgramLevel)
+            fun ofProgramLevelRule(programLevelRule: ProgramLevelRule) =
+                Body(programLevelRule = programLevelRule)
         }
 
         /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
         interface Visitor<out T> {
 
-            fun visitCreateAuthRuleRequestAccountTokens(
-                createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
-            ): T
+            fun visitAccountLevelRule(accountLevelRule: AccountLevelRule): T
 
-            fun visitCreateAuthRuleRequestCardTokens(
-                createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
-            ): T
+            fun visitCardLevelRule(cardLevelRule: CardLevelRule): T
 
-            fun visitCreateAuthRuleRequestProgramLevel(
-                createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
-            ): T
+            fun visitProgramLevelRule(programLevelRule: ProgramLevelRule): T
 
             /**
              * Maps an unknown variant of [Body] to a value of type [T].
@@ -428,20 +377,15 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(
-                                    node,
-                                    jacksonTypeRef<CreateAuthRuleRequestAccountTokens>(),
-                                )
-                                ?.let {
-                                    Body(createAuthRuleRequestAccountTokens = it, _json = json)
-                                },
-                            tryDeserialize(node, jacksonTypeRef<CreateAuthRuleRequestCardTokens>())
-                                ?.let { Body(createAuthRuleRequestCardTokens = it, _json = json) },
-                            tryDeserialize(
-                                    node,
-                                    jacksonTypeRef<CreateAuthRuleRequestProgramLevel>(),
-                                )
-                                ?.let { Body(createAuthRuleRequestProgramLevel = it, _json = json) },
+                            tryDeserialize(node, jacksonTypeRef<AccountLevelRule>())?.let {
+                                Body(accountLevelRule = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<CardLevelRule>())?.let {
+                                Body(cardLevelRule = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<ProgramLevelRule>())?.let {
+                                Body(programLevelRule = it, _json = json)
+                            },
                         )
                         .filterNotNull()
                         .allMaxBy { it.validity() }
@@ -467,32 +411,35 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.createAuthRuleRequestAccountTokens != null ->
-                        generator.writeObject(value.createAuthRuleRequestAccountTokens)
-                    value.createAuthRuleRequestCardTokens != null ->
-                        generator.writeObject(value.createAuthRuleRequestCardTokens)
-                    value.createAuthRuleRequestProgramLevel != null ->
-                        generator.writeObject(value.createAuthRuleRequestProgramLevel)
+                    value.accountLevelRule != null -> generator.writeObject(value.accountLevelRule)
+                    value.cardLevelRule != null -> generator.writeObject(value.cardLevelRule)
+                    value.programLevelRule != null -> generator.writeObject(value.programLevelRule)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Body")
                 }
             }
         }
 
-        class CreateAuthRuleRequestAccountTokens
+        class AccountLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val parameters: JsonField<Parameters>,
+            private val type: JsonField<AuthRuleType>,
             private val accountTokens: JsonField<List<String>>,
             private val businessAccountTokens: JsonField<List<String>>,
             private val eventStream: JsonField<EventStream>,
             private val name: JsonField<String>,
-            private val parameters: JsonField<Parameters>,
-            private val type: JsonField<AuthRuleType>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
                 @JsonProperty("account_tokens")
                 @ExcludeMissing
                 accountTokens: JsonField<List<String>> = JsonMissing.of(),
@@ -503,21 +450,39 @@ private constructor(
                 @ExcludeMissing
                 eventStream: JsonField<EventStream> = JsonMissing.of(),
                 @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("parameters")
-                @ExcludeMissing
-                parameters: JsonField<Parameters> = JsonMissing.of(),
-                @JsonProperty("type")
-                @ExcludeMissing
-                type: JsonField<AuthRuleType> = JsonMissing.of(),
             ) : this(
+                parameters,
+                type,
                 accountTokens,
                 businessAccountTokens,
                 eventStream,
                 name,
-                parameters,
-                type,
                 mutableMapOf(),
             )
+
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun parameters(): Parameters = parameters.getRequired("parameters")
+
+            /**
+             * The type of Auth Rule. For certain rule types, this determines the event stream
+             * during which it will be evaluated. For rules that can be applied to one of several
+             * event streams, the effective one is defined by the separate `event_stream` field.
+             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): AuthRuleType = type.getRequired("type")
 
             /**
              * Account tokens to which the Auth Rule applies.
@@ -554,26 +519,21 @@ private constructor(
             fun name(): Optional<String> = name.getOptional("name")
 
             /**
-             * Parameters for the Auth Rule
+             * Returns the raw JSON value of [parameters].
              *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
-            fun parameters(): Optional<Parameters> = parameters.getOptional("parameters")
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            fun _parameters(): JsonField<Parameters> = parameters
 
             /**
-             * The type of Auth Rule. For certain rule types, this determines the event stream
-             * during which it will be evaluated. For rules that can be applied to one of several
-             * event streams, the effective one is defined by the separate `event_stream` field.
-             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+             * Returns the raw JSON value of [type].
              *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
              */
-            fun type(): Optional<AuthRuleType> = type.getOptional("type")
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
             /**
              * Returns the raw JSON value of [accountTokens].
@@ -612,23 +572,6 @@ private constructor(
              */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /**
-             * Returns the raw JSON value of [parameters].
-             *
-             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("parameters")
-            @ExcludeMissing
-            fun _parameters(): JsonField<Parameters> = parameters
-
-            /**
-             * Returns the raw JSON value of [type].
-             *
-             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
-
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -644,40 +587,112 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of
-                 * [CreateAuthRuleRequestAccountTokens].
+                 * Returns a mutable builder for constructing an instance of [AccountLevelRule].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .parameters()
+                 * .type()
+                 * ```
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [CreateAuthRuleRequestAccountTokens]. */
+            /** A builder for [AccountLevelRule]. */
             class Builder internal constructor() {
 
+                private var parameters: JsonField<Parameters>? = null
+                private var type: JsonField<AuthRuleType>? = null
                 private var accountTokens: JsonField<MutableList<String>>? = null
                 private var businessAccountTokens: JsonField<MutableList<String>>? = null
                 private var eventStream: JsonField<EventStream> = JsonMissing.of()
                 private var name: JsonField<String> = JsonMissing.of()
-                private var parameters: JsonField<Parameters> = JsonMissing.of()
-                private var type: JsonField<AuthRuleType> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(
-                    createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
-                ) = apply {
-                    accountTokens =
-                        createAuthRuleRequestAccountTokens.accountTokens.map { it.toMutableList() }
+                internal fun from(accountLevelRule: AccountLevelRule) = apply {
+                    parameters = accountLevelRule.parameters
+                    type = accountLevelRule.type
+                    accountTokens = accountLevelRule.accountTokens.map { it.toMutableList() }
                     businessAccountTokens =
-                        createAuthRuleRequestAccountTokens.businessAccountTokens.map {
-                            it.toMutableList()
-                        }
-                    eventStream = createAuthRuleRequestAccountTokens.eventStream
-                    name = createAuthRuleRequestAccountTokens.name
-                    parameters = createAuthRuleRequestAccountTokens.parameters
-                    type = createAuthRuleRequestAccountTokens.type
-                    additionalProperties =
-                        createAuthRuleRequestAccountTokens.additionalProperties.toMutableMap()
+                        accountLevelRule.businessAccountTokens.map { it.toMutableList() }
+                    eventStream = accountLevelRule.eventStream
+                    name = accountLevelRule.name
+                    additionalProperties = accountLevelRule.additionalProperties.toMutableMap()
                 }
+
+                /** Parameters for the Auth Rule */
+                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
+
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun parameters(parameters: JsonField<Parameters>) = apply {
+                    this.parameters = parameters
+                }
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
+                fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
+                fun parameters(velocityLimitParams: VelocityLimitParams) =
+                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
+
+                /**
+                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
+                 */
+                fun parameters(merchantLock: MerchantLockParameters) =
+                    parameters(Parameters.ofMerchantLock(merchantLock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
+                 */
+                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
+                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
+                 */
+                fun parameters(
+                    conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
+                    )
+
+                /**
+                 * The type of Auth Rule. For certain rule types, this determines the event stream
+                 * during which it will be evaluated. For rules that can be applied to one of
+                 * several event streams, the effective one is defined by the separate
+                 * `event_stream` field.
+                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+                 */
+                fun type(type: AuthRuleType) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 /** Account tokens to which the Auth Rule applies. */
                 fun accountTokens(accountTokens: List<String>) =
@@ -762,80 +777,6 @@ private constructor(
                  */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
-                /** Parameters for the Auth Rule */
-                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
-
-                /**
-                 * Sets [Builder.parameters] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun parameters(parameters: JsonField<Parameters>) = apply {
-                    this.parameters = parameters
-                }
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
-                 */
-                fun parameters(conditionalBlock: ConditionalBlockParameters) =
-                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
-                 */
-                fun parameters(velocityLimitParams: VelocityLimitParams) =
-                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
-
-                /**
-                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
-                 */
-                fun parameters(merchantLock: MerchantLockParameters) =
-                    parameters(Parameters.ofMerchantLock(merchantLock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
-                 */
-                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
-                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
-                 */
-                fun parameters(
-                    conditionalAuthorizationAction:
-                        Parameters.ConditionalAuthorizationActionParameters
-                ) =
-                    parameters(
-                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
-                    )
-
-                /**
-                 * The type of Auth Rule. For certain rule types, this determines the event stream
-                 * during which it will be evaluated. For rules that can be applied to one of
-                 * several event streams, the effective one is defined by the separate
-                 * `event_stream` field.
-                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
-                 */
-                fun type(type: AuthRuleType) = type(JsonField.of(type))
-
-                /**
-                 * Sets [Builder.type] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
-
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -859,35 +800,43 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [CreateAuthRuleRequestAccountTokens].
+                 * Returns an immutable instance of [AccountLevelRule].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .parameters()
+                 * .type()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): CreateAuthRuleRequestAccountTokens =
-                    CreateAuthRuleRequestAccountTokens(
+                fun build(): AccountLevelRule =
+                    AccountLevelRule(
+                        checkRequired("parameters", parameters),
+                        checkRequired("type", type),
                         (accountTokens ?: JsonMissing.of()).map { it.toImmutable() },
                         (businessAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
                         eventStream,
                         name,
-                        parameters,
-                        type,
                         additionalProperties.toMutableMap(),
                     )
             }
 
             private var validated: Boolean = false
 
-            fun validate(): CreateAuthRuleRequestAccountTokens = apply {
+            fun validate(): AccountLevelRule = apply {
                 if (validated) {
                     return@apply
                 }
 
+                parameters().validate()
+                type().validate()
                 accountTokens()
                 businessAccountTokens()
                 eventStream().ifPresent { it.validate() }
                 name()
-                parameters().ifPresent { it.validate() }
-                type().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -907,145 +856,12 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (accountTokens.asKnown().getOrNull()?.size ?: 0) +
+                (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
+                    (accountTokens.asKnown().getOrNull()?.size ?: 0) +
                     (businessAccountTokens.asKnown().getOrNull()?.size ?: 0) +
                     (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (name.asKnown().isPresent) 1 else 0) +
-                    (parameters.asKnown().getOrNull()?.validity() ?: 0) +
-                    (type.asKnown().getOrNull()?.validity() ?: 0)
-
-            /** The event stream during which the rule will be evaluated. */
-            class EventStream
-            @JsonCreator
-            private constructor(private val value: JsonField<String>) : Enum {
-
-                /**
-                 * Returns this class instance's raw value.
-                 *
-                 * This is usually only useful if this instance was deserialized from data that
-                 * doesn't match any known member, and you want to know that value. For example, if
-                 * the SDK is on an older version than the API, then the API may respond with new
-                 * members that the SDK is unaware of.
-                 */
-                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-                companion object {
-
-                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
-
-                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
-
-                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
-                }
-
-                /** An enum containing [EventStream]'s known values. */
-                enum class Known {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                }
-
-                /**
-                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
-                 *
-                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
-                 * - It was deserialized from data that doesn't match any known member. For example,
-                 *   if the SDK is on an older version than the API, then the API may respond with
-                 *   new members that the SDK is unaware of.
-                 * - It was constructed with an arbitrary value using the [of] method.
-                 */
-                enum class Value {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                    /**
-                     * An enum member indicating that [EventStream] was instantiated with an unknown
-                     * value.
-                     */
-                    _UNKNOWN,
-                }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value, or
-                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                 *
-                 * Use the [known] method instead if you're certain the value is always known or if
-                 * you want to throw for the unknown case.
-                 */
-                fun value(): Value =
-                    when (this) {
-                        AUTHORIZATION -> Value.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
-                        else -> Value._UNKNOWN
-                    }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value.
-                 *
-                 * Use the [value] method instead if you're uncertain the value is always known and
-                 * don't want to throw for the unknown case.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value is a not a
-                 *   known member.
-                 */
-                fun known(): Known =
-                    when (this) {
-                        AUTHORIZATION -> Known.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
-                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
-                    }
-
-                /**
-                 * Returns this class instance's primitive wire representation.
-                 *
-                 * This differs from the [toString] method because that method is primarily for
-                 * debugging and generally doesn't throw.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value does not have
-                 *   the expected primitive type.
-                 */
-                fun asString(): String =
-                    _value().asString().orElseThrow {
-                        LithicInvalidDataException("Value is not a String")
-                    }
-
-                private var validated: Boolean = false
-
-                fun validate(): EventStream = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    known()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LithicInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is EventStream && value == other.value
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-            }
+                    (if (name.asKnown().isPresent) 1 else 0)
 
             /** Parameters for the Auth Rule */
             @JsonDeserialize(using = Parameters.Deserializer::class)
@@ -1378,1500 +1194,6 @@ private constructor(
                         }
                     }
                 }
-
-                class ConditionalAuthorizationActionParameters
-                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                private constructor(
-                    private val action: JsonField<Action>,
-                    private val conditions: JsonField<List<Condition>>,
-                    private val additionalProperties: MutableMap<String, JsonValue>,
-                ) {
-
-                    @JsonCreator
-                    private constructor(
-                        @JsonProperty("action")
-                        @ExcludeMissing
-                        action: JsonField<Action> = JsonMissing.of(),
-                        @JsonProperty("conditions")
-                        @ExcludeMissing
-                        conditions: JsonField<List<Condition>> = JsonMissing.of(),
-                    ) : this(action, conditions, mutableMapOf())
-
-                    /**
-                     * The action to take if the conditions are met.
-                     *
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun action(): Action = action.getRequired("action")
-
-                    /**
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun conditions(): List<Condition> = conditions.getRequired("conditions")
-
-                    /**
-                     * Returns the raw JSON value of [action].
-                     *
-                     * Unlike [action], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("action")
-                    @ExcludeMissing
-                    fun _action(): JsonField<Action> = action
-
-                    /**
-                     * Returns the raw JSON value of [conditions].
-                     *
-                     * Unlike [conditions], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("conditions")
-                    @ExcludeMissing
-                    fun _conditions(): JsonField<List<Condition>> = conditions
-
-                    @JsonAnySetter
-                    private fun putAdditionalProperty(key: String, value: JsonValue) {
-                        additionalProperties.put(key, value)
-                    }
-
-                    @JsonAnyGetter
-                    @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> =
-                        Collections.unmodifiableMap(additionalProperties)
-
-                    fun toBuilder() = Builder().from(this)
-
-                    companion object {
-
-                        /**
-                         * Returns a mutable builder for constructing an instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         */
-                        @JvmStatic fun builder() = Builder()
-                    }
-
-                    /** A builder for [ConditionalAuthorizationActionParameters]. */
-                    class Builder internal constructor() {
-
-                        private var action: JsonField<Action>? = null
-                        private var conditions: JsonField<MutableList<Condition>>? = null
-                        private var additionalProperties: MutableMap<String, JsonValue> =
-                            mutableMapOf()
-
-                        @JvmSynthetic
-                        internal fun from(
-                            conditionalAuthorizationActionParameters:
-                                ConditionalAuthorizationActionParameters
-                        ) = apply {
-                            action = conditionalAuthorizationActionParameters.action
-                            conditions =
-                                conditionalAuthorizationActionParameters.conditions.map {
-                                    it.toMutableList()
-                                }
-                            additionalProperties =
-                                conditionalAuthorizationActionParameters.additionalProperties
-                                    .toMutableMap()
-                        }
-
-                        /** The action to take if the conditions are met. */
-                        fun action(action: Action) = action(JsonField.of(action))
-
-                        /**
-                         * Sets [Builder.action] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.action] with a well-typed [Action] value
-                         * instead. This method is primarily for setting the field to an
-                         * undocumented or not yet supported value.
-                         */
-                        fun action(action: JsonField<Action>) = apply { this.action = action }
-
-                        fun conditions(conditions: List<Condition>) =
-                            conditions(JsonField.of(conditions))
-
-                        /**
-                         * Sets [Builder.conditions] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.conditions] with a well-typed
-                         * `List<Condition>` value instead. This method is primarily for setting the
-                         * field to an undocumented or not yet supported value.
-                         */
-                        fun conditions(conditions: JsonField<List<Condition>>) = apply {
-                            this.conditions = conditions.map { it.toMutableList() }
-                        }
-
-                        /**
-                         * Adds a single [Condition] to [conditions].
-                         *
-                         * @throws IllegalStateException if the field was previously set to a
-                         *   non-list.
-                         */
-                        fun addCondition(condition: Condition) = apply {
-                            conditions =
-                                (conditions ?: JsonField.of(mutableListOf())).also {
-                                    checkKnown("conditions", it).add(condition)
-                                }
-                        }
-
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.clear()
-                                putAllAdditionalProperties(additionalProperties)
-                            }
-
-                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            additionalProperties.put(key, value)
-                        }
-
-                        fun putAllAdditionalProperties(
-                            additionalProperties: Map<String, JsonValue>
-                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                        fun removeAdditionalProperty(key: String) = apply {
-                            additionalProperties.remove(key)
-                        }
-
-                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
-
-                        /**
-                         * Returns an immutable instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * Further updates to this [Builder] will not mutate the returned instance.
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         *
-                         * @throws IllegalStateException if any required field is unset.
-                         */
-                        fun build(): ConditionalAuthorizationActionParameters =
-                            ConditionalAuthorizationActionParameters(
-                                checkRequired("action", action),
-                                checkRequired("conditions", conditions).map { it.toImmutable() },
-                                additionalProperties.toMutableMap(),
-                            )
-                    }
-
-                    private var validated: Boolean = false
-
-                    fun validate(): ConditionalAuthorizationActionParameters = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        action().validate()
-                        conditions().forEach { it.validate() }
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int =
-                        (action.asKnown().getOrNull()?.validity() ?: 0) +
-                            (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
-
-                    /** The action to take if the conditions are met. */
-                    class Action
-                    @JsonCreator
-                    private constructor(private val value: JsonField<String>) : Enum {
-
-                        /**
-                         * Returns this class instance's raw value.
-                         *
-                         * This is usually only useful if this instance was deserialized from data
-                         * that doesn't match any known member, and you want to know that value. For
-                         * example, if the SDK is on an older version than the API, then the API may
-                         * respond with new members that the SDK is unaware of.
-                         */
-                        @com.fasterxml.jackson.annotation.JsonValue
-                        fun _value(): JsonField<String> = value
-
-                        companion object {
-
-                            @JvmField val DECLINE = of("DECLINE")
-
-                            @JvmField val CHALLENGE = of("CHALLENGE")
-
-                            @JvmStatic fun of(value: String) = Action(JsonField.of(value))
-                        }
-
-                        /** An enum containing [Action]'s known values. */
-                        enum class Known {
-                            DECLINE,
-                            CHALLENGE,
-                        }
-
-                        /**
-                         * An enum containing [Action]'s known values, as well as an [_UNKNOWN]
-                         * member.
-                         *
-                         * An instance of [Action] can contain an unknown value in a couple of
-                         * cases:
-                         * - It was deserialized from data that doesn't match any known member. For
-                         *   example, if the SDK is on an older version than the API, then the API
-                         *   may respond with new members that the SDK is unaware of.
-                         * - It was constructed with an arbitrary value using the [of] method.
-                         */
-                        enum class Value {
-                            DECLINE,
-                            CHALLENGE,
-                            /**
-                             * An enum member indicating that [Action] was instantiated with an
-                             * unknown value.
-                             */
-                            _UNKNOWN,
-                        }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value, or
-                         * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                         *
-                         * Use the [known] method instead if you're certain the value is always
-                         * known or if you want to throw for the unknown case.
-                         */
-                        fun value(): Value =
-                            when (this) {
-                                DECLINE -> Value.DECLINE
-                                CHALLENGE -> Value.CHALLENGE
-                                else -> Value._UNKNOWN
-                            }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value.
-                         *
-                         * Use the [value] method instead if you're uncertain the value is always
-                         * known and don't want to throw for the unknown case.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value is a
-                         *   not a known member.
-                         */
-                        fun known(): Known =
-                            when (this) {
-                                DECLINE -> Known.DECLINE
-                                CHALLENGE -> Known.CHALLENGE
-                                else -> throw LithicInvalidDataException("Unknown Action: $value")
-                            }
-
-                        /**
-                         * Returns this class instance's primitive wire representation.
-                         *
-                         * This differs from the [toString] method because that method is primarily
-                         * for debugging and generally doesn't throw.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value does
-                         *   not have the expected primitive type.
-                         */
-                        fun asString(): String =
-                            _value().asString().orElseThrow {
-                                LithicInvalidDataException("Value is not a String")
-                            }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Action = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            known()
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Action && value == other.value
-                        }
-
-                        override fun hashCode() = value.hashCode()
-
-                        override fun toString() = value.toString()
-                    }
-
-                    class Condition
-                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                    private constructor(
-                        private val attribute: JsonField<Attribute>,
-                        private val operation: JsonField<Operation>,
-                        private val value: JsonField<Value>,
-                        private val additionalProperties: MutableMap<String, JsonValue>,
-                    ) {
-
-                        @JsonCreator
-                        private constructor(
-                            @JsonProperty("attribute")
-                            @ExcludeMissing
-                            attribute: JsonField<Attribute> = JsonMissing.of(),
-                            @JsonProperty("operation")
-                            @ExcludeMissing
-                            operation: JsonField<Operation> = JsonMissing.of(),
-                            @JsonProperty("value")
-                            @ExcludeMissing
-                            value: JsonField<Value> = JsonMissing.of(),
-                        ) : this(attribute, operation, value, mutableMapOf())
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun attribute(): Optional<Attribute> = attribute.getOptional("attribute")
-
-                        /**
-                         * The operation to apply to the attribute
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun operation(): Optional<Operation> = operation.getOptional("operation")
-
-                        /**
-                         * A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH`
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun value(): Optional<Value> = value.getOptional("value")
-
-                        /**
-                         * Returns the raw JSON value of [attribute].
-                         *
-                         * Unlike [attribute], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("attribute")
-                        @ExcludeMissing
-                        fun _attribute(): JsonField<Attribute> = attribute
-
-                        /**
-                         * Returns the raw JSON value of [operation].
-                         *
-                         * Unlike [operation], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("operation")
-                        @ExcludeMissing
-                        fun _operation(): JsonField<Operation> = operation
-
-                        /**
-                         * Returns the raw JSON value of [value].
-                         *
-                         * Unlike [value], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("value")
-                        @ExcludeMissing
-                        fun _value(): JsonField<Value> = value
-
-                        @JsonAnySetter
-                        private fun putAdditionalProperty(key: String, value: JsonValue) {
-                            additionalProperties.put(key, value)
-                        }
-
-                        @JsonAnyGetter
-                        @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> =
-                            Collections.unmodifiableMap(additionalProperties)
-
-                        fun toBuilder() = Builder().from(this)
-
-                        companion object {
-
-                            /**
-                             * Returns a mutable builder for constructing an instance of
-                             * [Condition].
-                             */
-                            @JvmStatic fun builder() = Builder()
-                        }
-
-                        /** A builder for [Condition]. */
-                        class Builder internal constructor() {
-
-                            private var attribute: JsonField<Attribute> = JsonMissing.of()
-                            private var operation: JsonField<Operation> = JsonMissing.of()
-                            private var value: JsonField<Value> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
-
-                            @JvmSynthetic
-                            internal fun from(condition: Condition) = apply {
-                                attribute = condition.attribute
-                                operation = condition.operation
-                                value = condition.value
-                                additionalProperties = condition.additionalProperties.toMutableMap()
-                            }
-
-                            /**
-                             * The attribute to target.
-                             *
-                             * The following attributes may be targeted:
-                             * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                             *   classify a business by the types of goods or services it provides.
-                             * * `COUNTRY`: Country of entity of card acceptor. Possible values are:
-                             *   (1) all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and
-                             *   (3) ANT for Netherlands Antilles.
-                             * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                             *   currency of the transaction.
-                             * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                             *   acceptor (merchant).
-                             * * `DESCRIPTOR`: Short description of card acceptor.
-                             * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to
-                             *   the issuer applies to the transaction. Valid values are `NONE`,
-                             *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                             * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary
-                             *   account number (PAN) was entered. Valid values are `AUTO_ENTRY`,
-                             *   `BAR_CODE`, `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`,
-                             *   `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`,
-                             *   `MANUAL`, `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`,
-                             *   `CREDENTIAL_ON_FILE`, or `ECOMMERCE`.
-                             * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus
-                             *   the acquirer fee field in the settlement/cardholder billing
-                             *   currency. This is the amount the issuer should authorize against
-                             *   unless the issuer is paying the acquirer fee on behalf of the
-                             *   cardholder.
-                             * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                             *   (cents). This represents the amount of cash being withdrawn or
-                             *   advanced.
-                             * * `RISK_SCORE`: Network-provided score assessing risk level
-                             *   associated with a given authorization. Scores are on a range of
-                             *   0-999, with 0 representing the lowest risk and 999 representing the
-                             *   highest risk. For Visa transactions, where the raw score has a
-                             *   range of 0-99, Lithic will normalize the score by multiplying the
-                             *   raw score by 10x.
-                             * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the
-                             *   card in the trailing 15 minutes before the authorization.
-                             * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card
-                             *   in the trailing hour up and until the authorization.
-                             * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the
-                             *   card in the trailing 24 hours up and until the authorization.
-                             * * `CARD_STATE`: The current state of the card associated with the
-                             *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                             *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                             * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                             *   transaction. Valid values are `TRUE`, `FALSE`.
-                             * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                             *   `NOT_SET`, `OK`, `BLOCKED`.
-                             * * `WALLET_TYPE`: For transactions using a digital wallet token,
-                             *   indicates the source of the token. Valid values are `APPLE_PAY`,
-                             *   `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`,
-                             *   `NONE`.
-                             * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                             *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                             *   `MERCHANT`, `UNKNOWN`.
-                             * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                             *   address data with the cardholder KYC data if it exists. Valid
-                             *   values are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                             *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                             */
-                            fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
-
-                            /**
-                             * Sets [Builder.attribute] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.attribute] with a well-typed
-                             * [Attribute] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun attribute(attribute: JsonField<Attribute>) = apply {
-                                this.attribute = attribute
-                            }
-
-                            /** The operation to apply to the attribute */
-                            fun operation(operation: Operation) = operation(JsonField.of(operation))
-
-                            /**
-                             * Sets [Builder.operation] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.operation] with a well-typed
-                             * [Operation] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun operation(operation: JsonField<Operation>) = apply {
-                                this.operation = operation
-                            }
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun value(value: Value) = value(JsonField.of(value))
-
-                            /**
-                             * Sets [Builder.value] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.value] with a well-typed [Value]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun value(value: JsonField<Value>) = apply { this.value = value }
-
-                            /** Alias for calling [value] with `Value.ofRegex(regex)`. */
-                            fun value(regex: String) = value(Value.ofRegex(regex))
-
-                            /** Alias for calling [value] with `Value.ofNumber(number)`. */
-                            fun value(number: Long) = value(Value.ofNumber(number))
-
-                            /**
-                             * Alias for calling [value] with
-                             * `Value.ofListOfStrings(listOfStrings)`.
-                             */
-                            fun valueOfListOfStrings(listOfStrings: List<String>) =
-                                value(Value.ofListOfStrings(listOfStrings))
-
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    putAllAdditionalProperties(additionalProperties)
-                                }
-
-                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                                additionalProperties.put(key, value)
-                            }
-
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                            fun removeAdditionalProperty(key: String) = apply {
-                                additionalProperties.remove(key)
-                            }
-
-                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
-
-                            /**
-                             * Returns an immutable instance of [Condition].
-                             *
-                             * Further updates to this [Builder] will not mutate the returned
-                             * instance.
-                             */
-                            fun build(): Condition =
-                                Condition(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties.toMutableMap(),
-                                )
-                        }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Condition = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            attribute().ifPresent { it.validate() }
-                            operation().ifPresent { it.validate() }
-                            value().ifPresent { it.validate() }
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int =
-                            (attribute.asKnown().getOrNull()?.validity() ?: 0) +
-                                (operation.asKnown().getOrNull()?.validity() ?: 0) +
-                                (value.asKnown().getOrNull()?.validity() ?: 0)
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         */
-                        class Attribute
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val MCC = of("MCC")
-
-                                @JvmField val COUNTRY = of("COUNTRY")
-
-                                @JvmField val CURRENCY = of("CURRENCY")
-
-                                @JvmField val MERCHANT_ID = of("MERCHANT_ID")
-
-                                @JvmField val DESCRIPTOR = of("DESCRIPTOR")
-
-                                @JvmField val LIABILITY_SHIFT = of("LIABILITY_SHIFT")
-
-                                @JvmField val PAN_ENTRY_MODE = of("PAN_ENTRY_MODE")
-
-                                @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
-
-                                @JvmField val CASH_AMOUNT = of("CASH_AMOUNT")
-
-                                @JvmField val RISK_SCORE = of("RISK_SCORE")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_15_M = of("CARD_TRANSACTION_COUNT_15M")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
-
-                                @JvmField val CARD_STATE = of("CARD_STATE")
-
-                                @JvmField val PIN_ENTERED = of("PIN_ENTERED")
-
-                                @JvmField val PIN_STATUS = of("PIN_STATUS")
-
-                                @JvmField val WALLET_TYPE = of("WALLET_TYPE")
-
-                                @JvmField val TRANSACTION_INITIATOR = of("TRANSACTION_INITIATOR")
-
-                                @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
-
-                                @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Attribute]'s known values. */
-                            enum class Known {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                            }
-
-                            /**
-                             * An enum containing [Attribute]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Attribute] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                                /**
-                                 * An enum member indicating that [Attribute] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    MCC -> Value.MCC
-                                    COUNTRY -> Value.COUNTRY
-                                    CURRENCY -> Value.CURRENCY
-                                    MERCHANT_ID -> Value.MERCHANT_ID
-                                    DESCRIPTOR -> Value.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Value.CASH_AMOUNT
-                                    RISK_SCORE -> Value.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Value.CARD_STATE
-                                    PIN_ENTERED -> Value.PIN_ENTERED
-                                    PIN_STATUS -> Value.PIN_STATUS
-                                    WALLET_TYPE -> Value.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Value.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Value.ADDRESS_MATCH
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    MCC -> Known.MCC
-                                    COUNTRY -> Known.COUNTRY
-                                    CURRENCY -> Known.CURRENCY
-                                    MERCHANT_ID -> Known.MERCHANT_ID
-                                    DESCRIPTOR -> Known.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Known.CASH_AMOUNT
-                                    RISK_SCORE -> Known.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Known.CARD_STATE
-                                    PIN_ENTERED -> Known.PIN_ENTERED
-                                    PIN_STATUS -> Known.PIN_STATUS
-                                    WALLET_TYPE -> Known.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Known.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Known.ADDRESS_MATCH
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Attribute: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Attribute = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Attribute && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** The operation to apply to the attribute */
-                        class Operation
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val IS_ONE_OF = of("IS_ONE_OF")
-
-                                @JvmField val IS_NOT_ONE_OF = of("IS_NOT_ONE_OF")
-
-                                @JvmField val MATCHES = of("MATCHES")
-
-                                @JvmField val DOES_NOT_MATCH = of("DOES_NOT_MATCH")
-
-                                @JvmField val IS_EQUAL_TO = of("IS_EQUAL_TO")
-
-                                @JvmField val IS_NOT_EQUAL_TO = of("IS_NOT_EQUAL_TO")
-
-                                @JvmField val IS_GREATER_THAN = of("IS_GREATER_THAN")
-
-                                @JvmField
-                                val IS_GREATER_THAN_OR_EQUAL_TO = of("IS_GREATER_THAN_OR_EQUAL_TO")
-
-                                @JvmField val IS_LESS_THAN = of("IS_LESS_THAN")
-
-                                @JvmField
-                                val IS_LESS_THAN_OR_EQUAL_TO = of("IS_LESS_THAN_OR_EQUAL_TO")
-
-                                @JvmStatic fun of(value: String) = Operation(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Operation]'s known values. */
-                            enum class Known {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                            }
-
-                            /**
-                             * An enum containing [Operation]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Operation] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                                /**
-                                 * An enum member indicating that [Operation] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    IS_ONE_OF -> Value.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Value.IS_NOT_ONE_OF
-                                    MATCHES -> Value.MATCHES
-                                    DOES_NOT_MATCH -> Value.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Value.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Value.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Value.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Value.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Value.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Value.IS_LESS_THAN_OR_EQUAL_TO
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    IS_ONE_OF -> Known.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Known.IS_NOT_ONE_OF
-                                    MATCHES -> Known.MATCHES
-                                    DOES_NOT_MATCH -> Known.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Known.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Known.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Known.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Known.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Known.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Known.IS_LESS_THAN_OR_EQUAL_TO
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Operation: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Operation = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Operation && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonDeserialize(using = Value.Deserializer::class)
-                        @JsonSerialize(using = Value.Serializer::class)
-                        class Value
-                        private constructor(
-                            private val regex: String? = null,
-                            private val number: Long? = null,
-                            private val listOfStrings: List<String>? = null,
-                            private val _json: JsonValue? = null,
-                        ) {
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun regex(): Optional<String> = Optional.ofNullable(regex)
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun number(): Optional<Long> = Optional.ofNullable(number)
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun listOfStrings(): Optional<List<String>> =
-                                Optional.ofNullable(listOfStrings)
-
-                            fun isRegex(): Boolean = regex != null
-
-                            fun isNumber(): Boolean = number != null
-
-                            fun isListOfStrings(): Boolean = listOfStrings != null
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun asRegex(): String = regex.getOrThrow("regex")
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun asNumber(): Long = number.getOrThrow("number")
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun asListOfStrings(): List<String> =
-                                listOfStrings.getOrThrow("listOfStrings")
-
-                            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
-
-                            fun <T> accept(visitor: Visitor<T>): T =
-                                when {
-                                    regex != null -> visitor.visitRegex(regex)
-                                    number != null -> visitor.visitNumber(number)
-                                    listOfStrings != null ->
-                                        visitor.visitListOfStrings(listOfStrings)
-                                    else -> visitor.unknown(_json)
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Value = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                accept(
-                                    object : Visitor<Unit> {
-                                        override fun visitRegex(regex: String) {}
-
-                                        override fun visitNumber(number: Long) {}
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) {}
-                                    }
-                                )
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int =
-                                accept(
-                                    object : Visitor<Int> {
-                                        override fun visitRegex(regex: String) = 1
-
-                                        override fun visitNumber(number: Long) = 1
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) = listOfStrings.size
-
-                                        override fun unknown(json: JsonValue?) = 0
-                                    }
-                                )
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Value &&
-                                    regex == other.regex &&
-                                    number == other.number &&
-                                    listOfStrings == other.listOfStrings
-                            }
-
-                            override fun hashCode(): Int =
-                                Objects.hash(regex, number, listOfStrings)
-
-                            override fun toString(): String =
-                                when {
-                                    regex != null -> "Value{regex=$regex}"
-                                    number != null -> "Value{number=$number}"
-                                    listOfStrings != null -> "Value{listOfStrings=$listOfStrings}"
-                                    _json != null -> "Value{_unknown=$_json}"
-                                    else -> throw IllegalStateException("Invalid Value")
-                                }
-
-                            companion object {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                @JvmStatic fun ofRegex(regex: String) = Value(regex = regex)
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                @JvmStatic fun ofNumber(number: Long) = Value(number = number)
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                @JvmStatic
-                                fun ofListOfStrings(listOfStrings: List<String>) =
-                                    Value(listOfStrings = listOfStrings.toImmutable())
-                            }
-
-                            /**
-                             * An interface that defines how to map each variant of [Value] to a
-                             * value of type [T].
-                             */
-                            interface Visitor<out T> {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                fun visitRegex(regex: String): T
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                fun visitNumber(number: Long): T
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                fun visitListOfStrings(listOfStrings: List<String>): T
-
-                                /**
-                                 * Maps an unknown variant of [Value] to a value of type [T].
-                                 *
-                                 * An instance of [Value] can contain an unknown variant if it was
-                                 * deserialized from data that doesn't match any known variant. For
-                                 * example, if the SDK is on an older version than the API, then the
-                                 * API may respond with new variants that the SDK is unaware of.
-                                 *
-                                 * @throws LithicInvalidDataException in the default implementation.
-                                 */
-                                fun unknown(json: JsonValue?): T {
-                                    throw LithicInvalidDataException("Unknown Value: $json")
-                                }
-                            }
-
-                            internal class Deserializer : BaseDeserializer<Value>(Value::class) {
-
-                                override fun ObjectCodec.deserialize(node: JsonNode): Value {
-                                    val json = JsonValue.fromJsonNode(node)
-
-                                    val bestMatches =
-                                        sequenceOf(
-                                                tryDeserialize(node, jacksonTypeRef<String>())
-                                                    ?.let { Value(regex = it, _json = json) },
-                                                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                                                    Value(number = it, _json = json)
-                                                },
-                                                tryDeserialize(node, jacksonTypeRef<List<String>>())
-                                                    ?.let {
-                                                        Value(listOfStrings = it, _json = json)
-                                                    },
-                                            )
-                                            .filterNotNull()
-                                            .allMaxBy { it.validity() }
-                                            .toList()
-                                    return when (bestMatches.size) {
-                                        // This can happen if what we're deserializing is completely
-                                        // incompatible with all the possible variants (e.g.
-                                        // deserializing from object).
-                                        0 -> Value(_json = json)
-                                        1 -> bestMatches.single()
-                                        // If there's more than one match with the highest validity,
-                                        // then use the first completely valid match, or simply the
-                                        // first match if none are completely valid.
-                                        else ->
-                                            bestMatches.firstOrNull { it.isValid() }
-                                                ?: bestMatches.first()
-                                    }
-                                }
-                            }
-
-                            internal class Serializer : BaseSerializer<Value>(Value::class) {
-
-                                override fun serialize(
-                                    value: Value,
-                                    generator: JsonGenerator,
-                                    provider: SerializerProvider,
-                                ) {
-                                    when {
-                                        value.regex != null -> generator.writeObject(value.regex)
-                                        value.number != null -> generator.writeObject(value.number)
-                                        value.listOfStrings != null ->
-                                            generator.writeObject(value.listOfStrings)
-                                        value._json != null -> generator.writeObject(value._json)
-                                        else -> throw IllegalStateException("Invalid Value")
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Condition &&
-                                attribute == other.attribute &&
-                                operation == other.operation &&
-                                value == other.value &&
-                                additionalProperties == other.additionalProperties
-                        }
-
-                        private val hashCode: Int by lazy {
-                            Objects.hash(attribute, operation, value, additionalProperties)
-                        }
-
-                        override fun hashCode(): Int = hashCode
-
-                        override fun toString() =
-                            "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
-                    }
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is ConditionalAuthorizationActionParameters &&
-                            action == other.action &&
-                            conditions == other.conditions &&
-                            additionalProperties == other.additionalProperties
-                    }
-
-                    private val hashCode: Int by lazy {
-                        Objects.hash(action, conditions, additionalProperties)
-                    }
-
-                    override fun hashCode(): Int = hashCode
-
-                    override fun toString() =
-                        "ConditionalAuthorizationActionParameters{action=$action, conditions=$conditions, additionalProperties=$additionalProperties}"
-                }
             }
 
             /**
@@ -3028,29 +1350,162 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /** The event stream during which the rule will be evaluated. */
+            class EventStream
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
+
+                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
+
+                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
+                }
+
+                /** An enum containing [EventStream]'s known values. */
+                enum class Known {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                }
+
+                /**
+                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                    /**
+                     * An enum member indicating that [EventStream] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AUTHORIZATION -> Value.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AUTHORIZATION -> Known.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
+                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): EventStream = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is EventStream && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return other is CreateAuthRuleRequestAccountTokens &&
+                return other is AccountLevelRule &&
+                    parameters == other.parameters &&
+                    type == other.type &&
                     accountTokens == other.accountTokens &&
                     businessAccountTokens == other.businessAccountTokens &&
                     eventStream == other.eventStream &&
                     name == other.name &&
-                    parameters == other.parameters &&
-                    type == other.type &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
                 Objects.hash(
+                    parameters,
+                    type,
                     accountTokens,
                     businessAccountTokens,
                     eventStream,
                     name,
-                    parameters,
-                    type,
                     additionalProperties,
                 )
             }
@@ -3058,17 +1513,17 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, eventStream=$eventStream, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
+                "AccountLevelRule{parameters=$parameters, type=$type, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, eventStream=$eventStream, name=$name, additionalProperties=$additionalProperties}"
         }
 
-        class CreateAuthRuleRequestCardTokens
+        class CardLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val cardTokens: JsonField<List<String>>,
-            private val eventStream: JsonField<EventStream>,
-            private val name: JsonField<String>,
             private val parameters: JsonField<Parameters>,
             private val type: JsonField<AuthRuleType>,
+            private val eventStream: JsonField<EventStream>,
+            private val name: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -3077,17 +1532,17 @@ private constructor(
                 @JsonProperty("card_tokens")
                 @ExcludeMissing
                 cardTokens: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("event_stream")
-                @ExcludeMissing
-                eventStream: JsonField<EventStream> = JsonMissing.of(),
-                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("parameters")
                 @ExcludeMissing
                 parameters: JsonField<Parameters> = JsonMissing.of(),
                 @JsonProperty("type")
                 @ExcludeMissing
                 type: JsonField<AuthRuleType> = JsonMissing.of(),
-            ) : this(cardTokens, eventStream, name, parameters, type, mutableMapOf())
+                @JsonProperty("event_stream")
+                @ExcludeMissing
+                eventStream: JsonField<EventStream> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            ) : this(cardTokens, parameters, type, eventStream, name, mutableMapOf())
 
             /**
              * Card tokens to which the Auth Rule applies.
@@ -3097,6 +1552,30 @@ private constructor(
              *   value).
              */
             fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
+
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun parameters(): Parameters = parameters.getRequired("parameters")
+
+            /**
+             * The type of Auth Rule. For certain rule types, this determines the event stream
+             * during which it will be evaluated. For rules that can be applied to one of several
+             * event streams, the effective one is defined by the separate `event_stream` field.
+             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): AuthRuleType = type.getRequired("type")
 
             /**
              * The event stream during which the rule will be evaluated.
@@ -3115,28 +1594,6 @@ private constructor(
             fun name(): Optional<String> = name.getOptional("name")
 
             /**
-             * Parameters for the Auth Rule
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun parameters(): Optional<Parameters> = parameters.getOptional("parameters")
-
-            /**
-             * The type of Auth Rule. For certain rule types, this determines the event stream
-             * during which it will be evaluated. For rules that can be applied to one of several
-             * event streams, the effective one is defined by the separate `event_stream` field.
-             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun type(): Optional<AuthRuleType> = type.getOptional("type")
-
-            /**
              * Returns the raw JSON value of [cardTokens].
              *
              * Unlike [cardTokens], this method doesn't throw if the JSON field has an unexpected
@@ -3145,23 +1602,6 @@ private constructor(
             @JsonProperty("card_tokens")
             @ExcludeMissing
             fun _cardTokens(): JsonField<List<String>> = cardTokens
-
-            /**
-             * Returns the raw JSON value of [eventStream].
-             *
-             * Unlike [eventStream], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("event_stream")
-            @ExcludeMissing
-            fun _eventStream(): JsonField<EventStream> = eventStream
-
-            /**
-             * Returns the raw JSON value of [name].
-             *
-             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
             /**
              * Returns the raw JSON value of [parameters].
@@ -3180,6 +1620,23 @@ private constructor(
              */
             @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
+            /**
+             * Returns the raw JSON value of [eventStream].
+             *
+             * Unlike [eventStream], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("event_stream")
+            @ExcludeMissing
+            fun _eventStream(): JsonField<EventStream> = eventStream
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -3195,39 +1652,36 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of
-                 * [CreateAuthRuleRequestCardTokens].
+                 * Returns a mutable builder for constructing an instance of [CardLevelRule].
                  *
                  * The following fields are required:
                  * ```java
                  * .cardTokens()
+                 * .parameters()
+                 * .type()
                  * ```
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [CreateAuthRuleRequestCardTokens]. */
+            /** A builder for [CardLevelRule]. */
             class Builder internal constructor() {
 
                 private var cardTokens: JsonField<MutableList<String>>? = null
+                private var parameters: JsonField<Parameters>? = null
+                private var type: JsonField<AuthRuleType>? = null
                 private var eventStream: JsonField<EventStream> = JsonMissing.of()
                 private var name: JsonField<String> = JsonMissing.of()
-                private var parameters: JsonField<Parameters> = JsonMissing.of()
-                private var type: JsonField<AuthRuleType> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(
-                    createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
-                ) = apply {
-                    cardTokens =
-                        createAuthRuleRequestCardTokens.cardTokens.map { it.toMutableList() }
-                    eventStream = createAuthRuleRequestCardTokens.eventStream
-                    name = createAuthRuleRequestCardTokens.name
-                    parameters = createAuthRuleRequestCardTokens.parameters
-                    type = createAuthRuleRequestCardTokens.type
-                    additionalProperties =
-                        createAuthRuleRequestCardTokens.additionalProperties.toMutableMap()
+                internal fun from(cardLevelRule: CardLevelRule) = apply {
+                    cardTokens = cardLevelRule.cardTokens.map { it.toMutableList() }
+                    parameters = cardLevelRule.parameters
+                    type = cardLevelRule.type
+                    eventStream = cardLevelRule.eventStream
+                    name = cardLevelRule.name
+                    additionalProperties = cardLevelRule.additionalProperties.toMutableMap()
                 }
 
                 /** Card tokens to which the Auth Rule applies. */
@@ -3255,6 +1709,79 @@ private constructor(
                             checkKnown("cardTokens", it).add(cardToken)
                         }
                 }
+
+                /** Parameters for the Auth Rule */
+                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
+
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun parameters(parameters: JsonField<Parameters>) = apply {
+                    this.parameters = parameters
+                }
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
+                fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
+                fun parameters(velocityLimitParams: VelocityLimitParams) =
+                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
+
+                /**
+                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
+                 */
+                fun parameters(merchantLock: MerchantLockParameters) =
+                    parameters(Parameters.ofMerchantLock(merchantLock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
+                 */
+                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
+                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
+                 */
+                fun parameters(
+                    conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
+                    )
+
+                /**
+                 * The type of Auth Rule. For certain rule types, this determines the event stream
+                 * during which it will be evaluated. For rules that can be applied to one of
+                 * several event streams, the effective one is defined by the separate
+                 * `event_stream` field.
+                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+                 */
+                fun type(type: AuthRuleType) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 /** The event stream during which the rule will be evaluated. */
                 fun eventStream(eventStream: EventStream) = eventStream(JsonField.of(eventStream))
@@ -3285,80 +1812,6 @@ private constructor(
                  */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
-                /** Parameters for the Auth Rule */
-                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
-
-                /**
-                 * Sets [Builder.parameters] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun parameters(parameters: JsonField<Parameters>) = apply {
-                    this.parameters = parameters
-                }
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
-                 */
-                fun parameters(conditionalBlock: ConditionalBlockParameters) =
-                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
-                 */
-                fun parameters(velocityLimitParams: VelocityLimitParams) =
-                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
-
-                /**
-                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
-                 */
-                fun parameters(merchantLock: MerchantLockParameters) =
-                    parameters(Parameters.ofMerchantLock(merchantLock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
-                 */
-                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
-                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
-                 */
-                fun parameters(
-                    conditionalAuthorizationAction:
-                        Parameters.ConditionalAuthorizationActionParameters
-                ) =
-                    parameters(
-                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
-                    )
-
-                /**
-                 * The type of Auth Rule. For certain rule types, this determines the event stream
-                 * during which it will be evaluated. For rules that can be applied to one of
-                 * several event streams, the effective one is defined by the separate
-                 * `event_stream` field.
-                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
-                 */
-                fun type(type: AuthRuleType) = type(JsonField.of(type))
-
-                /**
-                 * Sets [Builder.type] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
-
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -3382,40 +1835,42 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [CreateAuthRuleRequestCardTokens].
+                 * Returns an immutable instance of [CardLevelRule].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
                  * The following fields are required:
                  * ```java
                  * .cardTokens()
+                 * .parameters()
+                 * .type()
                  * ```
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): CreateAuthRuleRequestCardTokens =
-                    CreateAuthRuleRequestCardTokens(
+                fun build(): CardLevelRule =
+                    CardLevelRule(
                         checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
+                        checkRequired("parameters", parameters),
+                        checkRequired("type", type),
                         eventStream,
                         name,
-                        parameters,
-                        type,
                         additionalProperties.toMutableMap(),
                     )
             }
 
             private var validated: Boolean = false
 
-            fun validate(): CreateAuthRuleRequestCardTokens = apply {
+            fun validate(): CardLevelRule = apply {
                 if (validated) {
                     return@apply
                 }
 
                 cardTokens()
+                parameters().validate()
+                type().validate()
                 eventStream().ifPresent { it.validate() }
                 name()
-                parameters().ifPresent { it.validate() }
-                type().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -3436,143 +1891,10 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (cardTokens.asKnown().getOrNull()?.size ?: 0) +
-                    (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (name.asKnown().isPresent) 1 else 0) +
                     (parameters.asKnown().getOrNull()?.validity() ?: 0) +
-                    (type.asKnown().getOrNull()?.validity() ?: 0)
-
-            /** The event stream during which the rule will be evaluated. */
-            class EventStream
-            @JsonCreator
-            private constructor(private val value: JsonField<String>) : Enum {
-
-                /**
-                 * Returns this class instance's raw value.
-                 *
-                 * This is usually only useful if this instance was deserialized from data that
-                 * doesn't match any known member, and you want to know that value. For example, if
-                 * the SDK is on an older version than the API, then the API may respond with new
-                 * members that the SDK is unaware of.
-                 */
-                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-                companion object {
-
-                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
-
-                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
-
-                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
-                }
-
-                /** An enum containing [EventStream]'s known values. */
-                enum class Known {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                }
-
-                /**
-                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
-                 *
-                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
-                 * - It was deserialized from data that doesn't match any known member. For example,
-                 *   if the SDK is on an older version than the API, then the API may respond with
-                 *   new members that the SDK is unaware of.
-                 * - It was constructed with an arbitrary value using the [of] method.
-                 */
-                enum class Value {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                    /**
-                     * An enum member indicating that [EventStream] was instantiated with an unknown
-                     * value.
-                     */
-                    _UNKNOWN,
-                }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value, or
-                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                 *
-                 * Use the [known] method instead if you're certain the value is always known or if
-                 * you want to throw for the unknown case.
-                 */
-                fun value(): Value =
-                    when (this) {
-                        AUTHORIZATION -> Value.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
-                        else -> Value._UNKNOWN
-                    }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value.
-                 *
-                 * Use the [value] method instead if you're uncertain the value is always known and
-                 * don't want to throw for the unknown case.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value is a not a
-                 *   known member.
-                 */
-                fun known(): Known =
-                    when (this) {
-                        AUTHORIZATION -> Known.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
-                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
-                    }
-
-                /**
-                 * Returns this class instance's primitive wire representation.
-                 *
-                 * This differs from the [toString] method because that method is primarily for
-                 * debugging and generally doesn't throw.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value does not have
-                 *   the expected primitive type.
-                 */
-                fun asString(): String =
-                    _value().asString().orElseThrow {
-                        LithicInvalidDataException("Value is not a String")
-                    }
-
-                private var validated: Boolean = false
-
-                fun validate(): EventStream = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    known()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LithicInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is EventStream && value == other.value
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-            }
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
+                    (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (name.asKnown().isPresent) 1 else 0)
 
             /** Parameters for the Auth Rule */
             @JsonDeserialize(using = Parameters.Deserializer::class)
@@ -3905,1500 +2227,6 @@ private constructor(
                         }
                     }
                 }
-
-                class ConditionalAuthorizationActionParameters
-                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                private constructor(
-                    private val action: JsonField<Action>,
-                    private val conditions: JsonField<List<Condition>>,
-                    private val additionalProperties: MutableMap<String, JsonValue>,
-                ) {
-
-                    @JsonCreator
-                    private constructor(
-                        @JsonProperty("action")
-                        @ExcludeMissing
-                        action: JsonField<Action> = JsonMissing.of(),
-                        @JsonProperty("conditions")
-                        @ExcludeMissing
-                        conditions: JsonField<List<Condition>> = JsonMissing.of(),
-                    ) : this(action, conditions, mutableMapOf())
-
-                    /**
-                     * The action to take if the conditions are met.
-                     *
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun action(): Action = action.getRequired("action")
-
-                    /**
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun conditions(): List<Condition> = conditions.getRequired("conditions")
-
-                    /**
-                     * Returns the raw JSON value of [action].
-                     *
-                     * Unlike [action], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("action")
-                    @ExcludeMissing
-                    fun _action(): JsonField<Action> = action
-
-                    /**
-                     * Returns the raw JSON value of [conditions].
-                     *
-                     * Unlike [conditions], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("conditions")
-                    @ExcludeMissing
-                    fun _conditions(): JsonField<List<Condition>> = conditions
-
-                    @JsonAnySetter
-                    private fun putAdditionalProperty(key: String, value: JsonValue) {
-                        additionalProperties.put(key, value)
-                    }
-
-                    @JsonAnyGetter
-                    @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> =
-                        Collections.unmodifiableMap(additionalProperties)
-
-                    fun toBuilder() = Builder().from(this)
-
-                    companion object {
-
-                        /**
-                         * Returns a mutable builder for constructing an instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         */
-                        @JvmStatic fun builder() = Builder()
-                    }
-
-                    /** A builder for [ConditionalAuthorizationActionParameters]. */
-                    class Builder internal constructor() {
-
-                        private var action: JsonField<Action>? = null
-                        private var conditions: JsonField<MutableList<Condition>>? = null
-                        private var additionalProperties: MutableMap<String, JsonValue> =
-                            mutableMapOf()
-
-                        @JvmSynthetic
-                        internal fun from(
-                            conditionalAuthorizationActionParameters:
-                                ConditionalAuthorizationActionParameters
-                        ) = apply {
-                            action = conditionalAuthorizationActionParameters.action
-                            conditions =
-                                conditionalAuthorizationActionParameters.conditions.map {
-                                    it.toMutableList()
-                                }
-                            additionalProperties =
-                                conditionalAuthorizationActionParameters.additionalProperties
-                                    .toMutableMap()
-                        }
-
-                        /** The action to take if the conditions are met. */
-                        fun action(action: Action) = action(JsonField.of(action))
-
-                        /**
-                         * Sets [Builder.action] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.action] with a well-typed [Action] value
-                         * instead. This method is primarily for setting the field to an
-                         * undocumented or not yet supported value.
-                         */
-                        fun action(action: JsonField<Action>) = apply { this.action = action }
-
-                        fun conditions(conditions: List<Condition>) =
-                            conditions(JsonField.of(conditions))
-
-                        /**
-                         * Sets [Builder.conditions] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.conditions] with a well-typed
-                         * `List<Condition>` value instead. This method is primarily for setting the
-                         * field to an undocumented or not yet supported value.
-                         */
-                        fun conditions(conditions: JsonField<List<Condition>>) = apply {
-                            this.conditions = conditions.map { it.toMutableList() }
-                        }
-
-                        /**
-                         * Adds a single [Condition] to [conditions].
-                         *
-                         * @throws IllegalStateException if the field was previously set to a
-                         *   non-list.
-                         */
-                        fun addCondition(condition: Condition) = apply {
-                            conditions =
-                                (conditions ?: JsonField.of(mutableListOf())).also {
-                                    checkKnown("conditions", it).add(condition)
-                                }
-                        }
-
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.clear()
-                                putAllAdditionalProperties(additionalProperties)
-                            }
-
-                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            additionalProperties.put(key, value)
-                        }
-
-                        fun putAllAdditionalProperties(
-                            additionalProperties: Map<String, JsonValue>
-                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                        fun removeAdditionalProperty(key: String) = apply {
-                            additionalProperties.remove(key)
-                        }
-
-                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
-
-                        /**
-                         * Returns an immutable instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * Further updates to this [Builder] will not mutate the returned instance.
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         *
-                         * @throws IllegalStateException if any required field is unset.
-                         */
-                        fun build(): ConditionalAuthorizationActionParameters =
-                            ConditionalAuthorizationActionParameters(
-                                checkRequired("action", action),
-                                checkRequired("conditions", conditions).map { it.toImmutable() },
-                                additionalProperties.toMutableMap(),
-                            )
-                    }
-
-                    private var validated: Boolean = false
-
-                    fun validate(): ConditionalAuthorizationActionParameters = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        action().validate()
-                        conditions().forEach { it.validate() }
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int =
-                        (action.asKnown().getOrNull()?.validity() ?: 0) +
-                            (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
-
-                    /** The action to take if the conditions are met. */
-                    class Action
-                    @JsonCreator
-                    private constructor(private val value: JsonField<String>) : Enum {
-
-                        /**
-                         * Returns this class instance's raw value.
-                         *
-                         * This is usually only useful if this instance was deserialized from data
-                         * that doesn't match any known member, and you want to know that value. For
-                         * example, if the SDK is on an older version than the API, then the API may
-                         * respond with new members that the SDK is unaware of.
-                         */
-                        @com.fasterxml.jackson.annotation.JsonValue
-                        fun _value(): JsonField<String> = value
-
-                        companion object {
-
-                            @JvmField val DECLINE = of("DECLINE")
-
-                            @JvmField val CHALLENGE = of("CHALLENGE")
-
-                            @JvmStatic fun of(value: String) = Action(JsonField.of(value))
-                        }
-
-                        /** An enum containing [Action]'s known values. */
-                        enum class Known {
-                            DECLINE,
-                            CHALLENGE,
-                        }
-
-                        /**
-                         * An enum containing [Action]'s known values, as well as an [_UNKNOWN]
-                         * member.
-                         *
-                         * An instance of [Action] can contain an unknown value in a couple of
-                         * cases:
-                         * - It was deserialized from data that doesn't match any known member. For
-                         *   example, if the SDK is on an older version than the API, then the API
-                         *   may respond with new members that the SDK is unaware of.
-                         * - It was constructed with an arbitrary value using the [of] method.
-                         */
-                        enum class Value {
-                            DECLINE,
-                            CHALLENGE,
-                            /**
-                             * An enum member indicating that [Action] was instantiated with an
-                             * unknown value.
-                             */
-                            _UNKNOWN,
-                        }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value, or
-                         * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                         *
-                         * Use the [known] method instead if you're certain the value is always
-                         * known or if you want to throw for the unknown case.
-                         */
-                        fun value(): Value =
-                            when (this) {
-                                DECLINE -> Value.DECLINE
-                                CHALLENGE -> Value.CHALLENGE
-                                else -> Value._UNKNOWN
-                            }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value.
-                         *
-                         * Use the [value] method instead if you're uncertain the value is always
-                         * known and don't want to throw for the unknown case.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value is a
-                         *   not a known member.
-                         */
-                        fun known(): Known =
-                            when (this) {
-                                DECLINE -> Known.DECLINE
-                                CHALLENGE -> Known.CHALLENGE
-                                else -> throw LithicInvalidDataException("Unknown Action: $value")
-                            }
-
-                        /**
-                         * Returns this class instance's primitive wire representation.
-                         *
-                         * This differs from the [toString] method because that method is primarily
-                         * for debugging and generally doesn't throw.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value does
-                         *   not have the expected primitive type.
-                         */
-                        fun asString(): String =
-                            _value().asString().orElseThrow {
-                                LithicInvalidDataException("Value is not a String")
-                            }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Action = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            known()
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Action && value == other.value
-                        }
-
-                        override fun hashCode() = value.hashCode()
-
-                        override fun toString() = value.toString()
-                    }
-
-                    class Condition
-                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                    private constructor(
-                        private val attribute: JsonField<Attribute>,
-                        private val operation: JsonField<Operation>,
-                        private val value: JsonField<Value>,
-                        private val additionalProperties: MutableMap<String, JsonValue>,
-                    ) {
-
-                        @JsonCreator
-                        private constructor(
-                            @JsonProperty("attribute")
-                            @ExcludeMissing
-                            attribute: JsonField<Attribute> = JsonMissing.of(),
-                            @JsonProperty("operation")
-                            @ExcludeMissing
-                            operation: JsonField<Operation> = JsonMissing.of(),
-                            @JsonProperty("value")
-                            @ExcludeMissing
-                            value: JsonField<Value> = JsonMissing.of(),
-                        ) : this(attribute, operation, value, mutableMapOf())
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun attribute(): Optional<Attribute> = attribute.getOptional("attribute")
-
-                        /**
-                         * The operation to apply to the attribute
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun operation(): Optional<Operation> = operation.getOptional("operation")
-
-                        /**
-                         * A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH`
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun value(): Optional<Value> = value.getOptional("value")
-
-                        /**
-                         * Returns the raw JSON value of [attribute].
-                         *
-                         * Unlike [attribute], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("attribute")
-                        @ExcludeMissing
-                        fun _attribute(): JsonField<Attribute> = attribute
-
-                        /**
-                         * Returns the raw JSON value of [operation].
-                         *
-                         * Unlike [operation], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("operation")
-                        @ExcludeMissing
-                        fun _operation(): JsonField<Operation> = operation
-
-                        /**
-                         * Returns the raw JSON value of [value].
-                         *
-                         * Unlike [value], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("value")
-                        @ExcludeMissing
-                        fun _value(): JsonField<Value> = value
-
-                        @JsonAnySetter
-                        private fun putAdditionalProperty(key: String, value: JsonValue) {
-                            additionalProperties.put(key, value)
-                        }
-
-                        @JsonAnyGetter
-                        @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> =
-                            Collections.unmodifiableMap(additionalProperties)
-
-                        fun toBuilder() = Builder().from(this)
-
-                        companion object {
-
-                            /**
-                             * Returns a mutable builder for constructing an instance of
-                             * [Condition].
-                             */
-                            @JvmStatic fun builder() = Builder()
-                        }
-
-                        /** A builder for [Condition]. */
-                        class Builder internal constructor() {
-
-                            private var attribute: JsonField<Attribute> = JsonMissing.of()
-                            private var operation: JsonField<Operation> = JsonMissing.of()
-                            private var value: JsonField<Value> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
-
-                            @JvmSynthetic
-                            internal fun from(condition: Condition) = apply {
-                                attribute = condition.attribute
-                                operation = condition.operation
-                                value = condition.value
-                                additionalProperties = condition.additionalProperties.toMutableMap()
-                            }
-
-                            /**
-                             * The attribute to target.
-                             *
-                             * The following attributes may be targeted:
-                             * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                             *   classify a business by the types of goods or services it provides.
-                             * * `COUNTRY`: Country of entity of card acceptor. Possible values are:
-                             *   (1) all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and
-                             *   (3) ANT for Netherlands Antilles.
-                             * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                             *   currency of the transaction.
-                             * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                             *   acceptor (merchant).
-                             * * `DESCRIPTOR`: Short description of card acceptor.
-                             * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to
-                             *   the issuer applies to the transaction. Valid values are `NONE`,
-                             *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                             * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary
-                             *   account number (PAN) was entered. Valid values are `AUTO_ENTRY`,
-                             *   `BAR_CODE`, `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`,
-                             *   `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`,
-                             *   `MANUAL`, `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`,
-                             *   `CREDENTIAL_ON_FILE`, or `ECOMMERCE`.
-                             * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus
-                             *   the acquirer fee field in the settlement/cardholder billing
-                             *   currency. This is the amount the issuer should authorize against
-                             *   unless the issuer is paying the acquirer fee on behalf of the
-                             *   cardholder.
-                             * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                             *   (cents). This represents the amount of cash being withdrawn or
-                             *   advanced.
-                             * * `RISK_SCORE`: Network-provided score assessing risk level
-                             *   associated with a given authorization. Scores are on a range of
-                             *   0-999, with 0 representing the lowest risk and 999 representing the
-                             *   highest risk. For Visa transactions, where the raw score has a
-                             *   range of 0-99, Lithic will normalize the score by multiplying the
-                             *   raw score by 10x.
-                             * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the
-                             *   card in the trailing 15 minutes before the authorization.
-                             * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card
-                             *   in the trailing hour up and until the authorization.
-                             * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the
-                             *   card in the trailing 24 hours up and until the authorization.
-                             * * `CARD_STATE`: The current state of the card associated with the
-                             *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                             *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                             * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                             *   transaction. Valid values are `TRUE`, `FALSE`.
-                             * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                             *   `NOT_SET`, `OK`, `BLOCKED`.
-                             * * `WALLET_TYPE`: For transactions using a digital wallet token,
-                             *   indicates the source of the token. Valid values are `APPLE_PAY`,
-                             *   `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`,
-                             *   `NONE`.
-                             * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                             *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                             *   `MERCHANT`, `UNKNOWN`.
-                             * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                             *   address data with the cardholder KYC data if it exists. Valid
-                             *   values are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                             *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                             */
-                            fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
-
-                            /**
-                             * Sets [Builder.attribute] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.attribute] with a well-typed
-                             * [Attribute] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun attribute(attribute: JsonField<Attribute>) = apply {
-                                this.attribute = attribute
-                            }
-
-                            /** The operation to apply to the attribute */
-                            fun operation(operation: Operation) = operation(JsonField.of(operation))
-
-                            /**
-                             * Sets [Builder.operation] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.operation] with a well-typed
-                             * [Operation] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun operation(operation: JsonField<Operation>) = apply {
-                                this.operation = operation
-                            }
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun value(value: Value) = value(JsonField.of(value))
-
-                            /**
-                             * Sets [Builder.value] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.value] with a well-typed [Value]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun value(value: JsonField<Value>) = apply { this.value = value }
-
-                            /** Alias for calling [value] with `Value.ofRegex(regex)`. */
-                            fun value(regex: String) = value(Value.ofRegex(regex))
-
-                            /** Alias for calling [value] with `Value.ofNumber(number)`. */
-                            fun value(number: Long) = value(Value.ofNumber(number))
-
-                            /**
-                             * Alias for calling [value] with
-                             * `Value.ofListOfStrings(listOfStrings)`.
-                             */
-                            fun valueOfListOfStrings(listOfStrings: List<String>) =
-                                value(Value.ofListOfStrings(listOfStrings))
-
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    putAllAdditionalProperties(additionalProperties)
-                                }
-
-                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                                additionalProperties.put(key, value)
-                            }
-
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                            fun removeAdditionalProperty(key: String) = apply {
-                                additionalProperties.remove(key)
-                            }
-
-                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
-
-                            /**
-                             * Returns an immutable instance of [Condition].
-                             *
-                             * Further updates to this [Builder] will not mutate the returned
-                             * instance.
-                             */
-                            fun build(): Condition =
-                                Condition(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties.toMutableMap(),
-                                )
-                        }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Condition = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            attribute().ifPresent { it.validate() }
-                            operation().ifPresent { it.validate() }
-                            value().ifPresent { it.validate() }
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int =
-                            (attribute.asKnown().getOrNull()?.validity() ?: 0) +
-                                (operation.asKnown().getOrNull()?.validity() ?: 0) +
-                                (value.asKnown().getOrNull()?.validity() ?: 0)
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         */
-                        class Attribute
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val MCC = of("MCC")
-
-                                @JvmField val COUNTRY = of("COUNTRY")
-
-                                @JvmField val CURRENCY = of("CURRENCY")
-
-                                @JvmField val MERCHANT_ID = of("MERCHANT_ID")
-
-                                @JvmField val DESCRIPTOR = of("DESCRIPTOR")
-
-                                @JvmField val LIABILITY_SHIFT = of("LIABILITY_SHIFT")
-
-                                @JvmField val PAN_ENTRY_MODE = of("PAN_ENTRY_MODE")
-
-                                @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
-
-                                @JvmField val CASH_AMOUNT = of("CASH_AMOUNT")
-
-                                @JvmField val RISK_SCORE = of("RISK_SCORE")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_15_M = of("CARD_TRANSACTION_COUNT_15M")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
-
-                                @JvmField val CARD_STATE = of("CARD_STATE")
-
-                                @JvmField val PIN_ENTERED = of("PIN_ENTERED")
-
-                                @JvmField val PIN_STATUS = of("PIN_STATUS")
-
-                                @JvmField val WALLET_TYPE = of("WALLET_TYPE")
-
-                                @JvmField val TRANSACTION_INITIATOR = of("TRANSACTION_INITIATOR")
-
-                                @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
-
-                                @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Attribute]'s known values. */
-                            enum class Known {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                            }
-
-                            /**
-                             * An enum containing [Attribute]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Attribute] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                                /**
-                                 * An enum member indicating that [Attribute] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    MCC -> Value.MCC
-                                    COUNTRY -> Value.COUNTRY
-                                    CURRENCY -> Value.CURRENCY
-                                    MERCHANT_ID -> Value.MERCHANT_ID
-                                    DESCRIPTOR -> Value.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Value.CASH_AMOUNT
-                                    RISK_SCORE -> Value.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Value.CARD_STATE
-                                    PIN_ENTERED -> Value.PIN_ENTERED
-                                    PIN_STATUS -> Value.PIN_STATUS
-                                    WALLET_TYPE -> Value.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Value.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Value.ADDRESS_MATCH
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    MCC -> Known.MCC
-                                    COUNTRY -> Known.COUNTRY
-                                    CURRENCY -> Known.CURRENCY
-                                    MERCHANT_ID -> Known.MERCHANT_ID
-                                    DESCRIPTOR -> Known.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Known.CASH_AMOUNT
-                                    RISK_SCORE -> Known.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Known.CARD_STATE
-                                    PIN_ENTERED -> Known.PIN_ENTERED
-                                    PIN_STATUS -> Known.PIN_STATUS
-                                    WALLET_TYPE -> Known.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Known.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Known.ADDRESS_MATCH
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Attribute: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Attribute = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Attribute && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** The operation to apply to the attribute */
-                        class Operation
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val IS_ONE_OF = of("IS_ONE_OF")
-
-                                @JvmField val IS_NOT_ONE_OF = of("IS_NOT_ONE_OF")
-
-                                @JvmField val MATCHES = of("MATCHES")
-
-                                @JvmField val DOES_NOT_MATCH = of("DOES_NOT_MATCH")
-
-                                @JvmField val IS_EQUAL_TO = of("IS_EQUAL_TO")
-
-                                @JvmField val IS_NOT_EQUAL_TO = of("IS_NOT_EQUAL_TO")
-
-                                @JvmField val IS_GREATER_THAN = of("IS_GREATER_THAN")
-
-                                @JvmField
-                                val IS_GREATER_THAN_OR_EQUAL_TO = of("IS_GREATER_THAN_OR_EQUAL_TO")
-
-                                @JvmField val IS_LESS_THAN = of("IS_LESS_THAN")
-
-                                @JvmField
-                                val IS_LESS_THAN_OR_EQUAL_TO = of("IS_LESS_THAN_OR_EQUAL_TO")
-
-                                @JvmStatic fun of(value: String) = Operation(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Operation]'s known values. */
-                            enum class Known {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                            }
-
-                            /**
-                             * An enum containing [Operation]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Operation] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                                /**
-                                 * An enum member indicating that [Operation] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    IS_ONE_OF -> Value.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Value.IS_NOT_ONE_OF
-                                    MATCHES -> Value.MATCHES
-                                    DOES_NOT_MATCH -> Value.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Value.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Value.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Value.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Value.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Value.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Value.IS_LESS_THAN_OR_EQUAL_TO
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    IS_ONE_OF -> Known.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Known.IS_NOT_ONE_OF
-                                    MATCHES -> Known.MATCHES
-                                    DOES_NOT_MATCH -> Known.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Known.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Known.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Known.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Known.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Known.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Known.IS_LESS_THAN_OR_EQUAL_TO
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Operation: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Operation = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Operation && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonDeserialize(using = Value.Deserializer::class)
-                        @JsonSerialize(using = Value.Serializer::class)
-                        class Value
-                        private constructor(
-                            private val regex: String? = null,
-                            private val number: Long? = null,
-                            private val listOfStrings: List<String>? = null,
-                            private val _json: JsonValue? = null,
-                        ) {
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun regex(): Optional<String> = Optional.ofNullable(regex)
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun number(): Optional<Long> = Optional.ofNullable(number)
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun listOfStrings(): Optional<List<String>> =
-                                Optional.ofNullable(listOfStrings)
-
-                            fun isRegex(): Boolean = regex != null
-
-                            fun isNumber(): Boolean = number != null
-
-                            fun isListOfStrings(): Boolean = listOfStrings != null
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun asRegex(): String = regex.getOrThrow("regex")
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun asNumber(): Long = number.getOrThrow("number")
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun asListOfStrings(): List<String> =
-                                listOfStrings.getOrThrow("listOfStrings")
-
-                            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
-
-                            fun <T> accept(visitor: Visitor<T>): T =
-                                when {
-                                    regex != null -> visitor.visitRegex(regex)
-                                    number != null -> visitor.visitNumber(number)
-                                    listOfStrings != null ->
-                                        visitor.visitListOfStrings(listOfStrings)
-                                    else -> visitor.unknown(_json)
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Value = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                accept(
-                                    object : Visitor<Unit> {
-                                        override fun visitRegex(regex: String) {}
-
-                                        override fun visitNumber(number: Long) {}
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) {}
-                                    }
-                                )
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int =
-                                accept(
-                                    object : Visitor<Int> {
-                                        override fun visitRegex(regex: String) = 1
-
-                                        override fun visitNumber(number: Long) = 1
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) = listOfStrings.size
-
-                                        override fun unknown(json: JsonValue?) = 0
-                                    }
-                                )
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Value &&
-                                    regex == other.regex &&
-                                    number == other.number &&
-                                    listOfStrings == other.listOfStrings
-                            }
-
-                            override fun hashCode(): Int =
-                                Objects.hash(regex, number, listOfStrings)
-
-                            override fun toString(): String =
-                                when {
-                                    regex != null -> "Value{regex=$regex}"
-                                    number != null -> "Value{number=$number}"
-                                    listOfStrings != null -> "Value{listOfStrings=$listOfStrings}"
-                                    _json != null -> "Value{_unknown=$_json}"
-                                    else -> throw IllegalStateException("Invalid Value")
-                                }
-
-                            companion object {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                @JvmStatic fun ofRegex(regex: String) = Value(regex = regex)
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                @JvmStatic fun ofNumber(number: Long) = Value(number = number)
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                @JvmStatic
-                                fun ofListOfStrings(listOfStrings: List<String>) =
-                                    Value(listOfStrings = listOfStrings.toImmutable())
-                            }
-
-                            /**
-                             * An interface that defines how to map each variant of [Value] to a
-                             * value of type [T].
-                             */
-                            interface Visitor<out T> {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                fun visitRegex(regex: String): T
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                fun visitNumber(number: Long): T
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                fun visitListOfStrings(listOfStrings: List<String>): T
-
-                                /**
-                                 * Maps an unknown variant of [Value] to a value of type [T].
-                                 *
-                                 * An instance of [Value] can contain an unknown variant if it was
-                                 * deserialized from data that doesn't match any known variant. For
-                                 * example, if the SDK is on an older version than the API, then the
-                                 * API may respond with new variants that the SDK is unaware of.
-                                 *
-                                 * @throws LithicInvalidDataException in the default implementation.
-                                 */
-                                fun unknown(json: JsonValue?): T {
-                                    throw LithicInvalidDataException("Unknown Value: $json")
-                                }
-                            }
-
-                            internal class Deserializer : BaseDeserializer<Value>(Value::class) {
-
-                                override fun ObjectCodec.deserialize(node: JsonNode): Value {
-                                    val json = JsonValue.fromJsonNode(node)
-
-                                    val bestMatches =
-                                        sequenceOf(
-                                                tryDeserialize(node, jacksonTypeRef<String>())
-                                                    ?.let { Value(regex = it, _json = json) },
-                                                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                                                    Value(number = it, _json = json)
-                                                },
-                                                tryDeserialize(node, jacksonTypeRef<List<String>>())
-                                                    ?.let {
-                                                        Value(listOfStrings = it, _json = json)
-                                                    },
-                                            )
-                                            .filterNotNull()
-                                            .allMaxBy { it.validity() }
-                                            .toList()
-                                    return when (bestMatches.size) {
-                                        // This can happen if what we're deserializing is completely
-                                        // incompatible with all the possible variants (e.g.
-                                        // deserializing from object).
-                                        0 -> Value(_json = json)
-                                        1 -> bestMatches.single()
-                                        // If there's more than one match with the highest validity,
-                                        // then use the first completely valid match, or simply the
-                                        // first match if none are completely valid.
-                                        else ->
-                                            bestMatches.firstOrNull { it.isValid() }
-                                                ?: bestMatches.first()
-                                    }
-                                }
-                            }
-
-                            internal class Serializer : BaseSerializer<Value>(Value::class) {
-
-                                override fun serialize(
-                                    value: Value,
-                                    generator: JsonGenerator,
-                                    provider: SerializerProvider,
-                                ) {
-                                    when {
-                                        value.regex != null -> generator.writeObject(value.regex)
-                                        value.number != null -> generator.writeObject(value.number)
-                                        value.listOfStrings != null ->
-                                            generator.writeObject(value.listOfStrings)
-                                        value._json != null -> generator.writeObject(value._json)
-                                        else -> throw IllegalStateException("Invalid Value")
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Condition &&
-                                attribute == other.attribute &&
-                                operation == other.operation &&
-                                value == other.value &&
-                                additionalProperties == other.additionalProperties
-                        }
-
-                        private val hashCode: Int by lazy {
-                            Objects.hash(attribute, operation, value, additionalProperties)
-                        }
-
-                        override fun hashCode(): Int = hashCode
-
-                        override fun toString() =
-                            "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
-                    }
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is ConditionalAuthorizationActionParameters &&
-                            action == other.action &&
-                            conditions == other.conditions &&
-                            additionalProperties == other.additionalProperties
-                    }
-
-                    private val hashCode: Int by lazy {
-                        Objects.hash(action, conditions, additionalProperties)
-                    }
-
-                    override fun hashCode(): Int = hashCode
-
-                    override fun toString() =
-                        "ConditionalAuthorizationActionParameters{action=$action, conditions=$conditions, additionalProperties=$additionalProperties}"
-                }
             }
 
             /**
@@ -5555,47 +2383,186 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /** The event stream during which the rule will be evaluated. */
+            class EventStream
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
+
+                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
+
+                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
+                }
+
+                /** An enum containing [EventStream]'s known values. */
+                enum class Known {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                }
+
+                /**
+                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                    /**
+                     * An enum member indicating that [EventStream] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AUTHORIZATION -> Value.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AUTHORIZATION -> Known.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
+                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): EventStream = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is EventStream && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return other is CreateAuthRuleRequestCardTokens &&
+                return other is CardLevelRule &&
                     cardTokens == other.cardTokens &&
-                    eventStream == other.eventStream &&
-                    name == other.name &&
                     parameters == other.parameters &&
                     type == other.type &&
+                    eventStream == other.eventStream &&
+                    name == other.name &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(cardTokens, eventStream, name, parameters, type, additionalProperties)
+                Objects.hash(cardTokens, parameters, type, eventStream, name, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, eventStream=$eventStream, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
+                "CardLevelRule{cardTokens=$cardTokens, parameters=$parameters, type=$type, eventStream=$eventStream, name=$name, additionalProperties=$additionalProperties}"
         }
 
-        class CreateAuthRuleRequestProgramLevel
+        class ProgramLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val parameters: JsonField<Parameters>,
             private val programLevel: JsonField<Boolean>,
+            private val type: JsonField<AuthRuleType>,
             private val eventStream: JsonField<EventStream>,
             private val excludedCardTokens: JsonField<List<String>>,
             private val name: JsonField<String>,
-            private val parameters: JsonField<Parameters>,
-            private val type: JsonField<AuthRuleType>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
                 @JsonProperty("program_level")
                 @ExcludeMissing
                 programLevel: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
                 @JsonProperty("event_stream")
                 @ExcludeMissing
                 eventStream: JsonField<EventStream> = JsonMissing.of(),
@@ -5603,21 +2570,24 @@ private constructor(
                 @ExcludeMissing
                 excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("parameters")
-                @ExcludeMissing
-                parameters: JsonField<Parameters> = JsonMissing.of(),
-                @JsonProperty("type")
-                @ExcludeMissing
-                type: JsonField<AuthRuleType> = JsonMissing.of(),
             ) : this(
+                parameters,
                 programLevel,
+                type,
                 eventStream,
                 excludedCardTokens,
                 name,
-                parameters,
-                type,
                 mutableMapOf(),
             )
+
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun parameters(): Parameters = parameters.getRequired("parameters")
 
             /**
              * Whether the Auth Rule applies to all authorizations on the card program.
@@ -5627,6 +2597,21 @@ private constructor(
              *   value).
              */
             fun programLevel(): Boolean = programLevel.getRequired("program_level")
+
+            /**
+             * The type of Auth Rule. For certain rule types, this determines the event stream
+             * during which it will be evaluated. For rules that can be applied to one of several
+             * event streams, the effective one is defined by the separate `event_stream` field.
+             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): AuthRuleType = type.getRequired("type")
 
             /**
              * The event stream during which the rule will be evaluated.
@@ -5654,26 +2639,14 @@ private constructor(
             fun name(): Optional<String> = name.getOptional("name")
 
             /**
-             * Parameters for the Auth Rule
+             * Returns the raw JSON value of [parameters].
              *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
              */
-            fun parameters(): Optional<Parameters> = parameters.getOptional("parameters")
-
-            /**
-             * The type of Auth Rule. For certain rule types, this determines the event stream
-             * during which it will be evaluated. For rules that can be applied to one of several
-             * event streams, the effective one is defined by the separate `event_stream` field.
-             * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-             * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            fun type(): Optional<AuthRuleType> = type.getOptional("type")
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            fun _parameters(): JsonField<Parameters> = parameters
 
             /**
              * Returns the raw JSON value of [programLevel].
@@ -5684,6 +2657,13 @@ private constructor(
             @JsonProperty("program_level")
             @ExcludeMissing
             fun _programLevel(): JsonField<Boolean> = programLevel
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
             /**
              * Returns the raw JSON value of [eventStream].
@@ -5712,23 +2692,6 @@ private constructor(
              */
             @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            /**
-             * Returns the raw JSON value of [parameters].
-             *
-             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("parameters")
-            @ExcludeMissing
-            fun _parameters(): JsonField<Parameters> = parameters
-
-            /**
-             * Returns the raw JSON value of [type].
-             *
-             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
-
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -5744,44 +2707,92 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of
-                 * [CreateAuthRuleRequestProgramLevel].
+                 * Returns a mutable builder for constructing an instance of [ProgramLevelRule].
                  *
                  * The following fields are required:
                  * ```java
+                 * .parameters()
                  * .programLevel()
+                 * .type()
                  * ```
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [CreateAuthRuleRequestProgramLevel]. */
+            /** A builder for [ProgramLevelRule]. */
             class Builder internal constructor() {
 
+                private var parameters: JsonField<Parameters>? = null
                 private var programLevel: JsonField<Boolean>? = null
+                private var type: JsonField<AuthRuleType>? = null
                 private var eventStream: JsonField<EventStream> = JsonMissing.of()
                 private var excludedCardTokens: JsonField<MutableList<String>>? = null
                 private var name: JsonField<String> = JsonMissing.of()
-                private var parameters: JsonField<Parameters> = JsonMissing.of()
-                private var type: JsonField<AuthRuleType> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(
-                    createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
-                ) = apply {
-                    programLevel = createAuthRuleRequestProgramLevel.programLevel
-                    eventStream = createAuthRuleRequestProgramLevel.eventStream
+                internal fun from(programLevelRule: ProgramLevelRule) = apply {
+                    parameters = programLevelRule.parameters
+                    programLevel = programLevelRule.programLevel
+                    type = programLevelRule.type
+                    eventStream = programLevelRule.eventStream
                     excludedCardTokens =
-                        createAuthRuleRequestProgramLevel.excludedCardTokens.map {
-                            it.toMutableList()
-                        }
-                    name = createAuthRuleRequestProgramLevel.name
-                    parameters = createAuthRuleRequestProgramLevel.parameters
-                    type = createAuthRuleRequestProgramLevel.type
-                    additionalProperties =
-                        createAuthRuleRequestProgramLevel.additionalProperties.toMutableMap()
+                        programLevelRule.excludedCardTokens.map { it.toMutableList() }
+                    name = programLevelRule.name
+                    additionalProperties = programLevelRule.additionalProperties.toMutableMap()
                 }
+
+                /** Parameters for the Auth Rule */
+                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
+
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun parameters(parameters: JsonField<Parameters>) = apply {
+                    this.parameters = parameters
+                }
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
+                 */
+                fun parameters(conditionalBlock: ConditionalBlockParameters) =
+                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
+                fun parameters(velocityLimitParams: VelocityLimitParams) =
+                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
+
+                /**
+                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
+                 */
+                fun parameters(merchantLock: MerchantLockParameters) =
+                    parameters(Parameters.ofMerchantLock(merchantLock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
+                 */
+                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
+                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
+                 */
+                fun parameters(
+                    conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
+                    )
 
                 /** Whether the Auth Rule applies to all authorizations on the card program. */
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
@@ -5796,6 +2807,27 @@ private constructor(
                 fun programLevel(programLevel: JsonField<Boolean>) = apply {
                     this.programLevel = programLevel
                 }
+
+                /**
+                 * The type of Auth Rule. For certain rule types, this determines the event stream
+                 * during which it will be evaluated. For rules that can be applied to one of
+                 * several event streams, the effective one is defined by the separate
+                 * `event_stream` field.
+                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
+                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
+                 */
+                fun type(type: AuthRuleType) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
                 /** The event stream during which the rule will be evaluated. */
                 fun eventStream(eventStream: EventStream) = eventStream(JsonField.of(eventStream))
@@ -5853,80 +2885,6 @@ private constructor(
                  */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
-                /** Parameters for the Auth Rule */
-                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
-
-                /**
-                 * Sets [Builder.parameters] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun parameters(parameters: JsonField<Parameters>) = apply {
-                    this.parameters = parameters
-                }
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalBlock(conditionalBlock)`.
-                 */
-                fun parameters(conditionalBlock: ConditionalBlockParameters) =
-                    parameters(Parameters.ofConditionalBlock(conditionalBlock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
-                 */
-                fun parameters(velocityLimitParams: VelocityLimitParams) =
-                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
-
-                /**
-                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
-                 */
-                fun parameters(merchantLock: MerchantLockParameters) =
-                    parameters(Parameters.ofMerchantLock(merchantLock))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
-                 */
-                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
-                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
-
-                /**
-                 * Alias for calling [parameters] with
-                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
-                 */
-                fun parameters(
-                    conditionalAuthorizationAction:
-                        Parameters.ConditionalAuthorizationActionParameters
-                ) =
-                    parameters(
-                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
-                    )
-
-                /**
-                 * The type of Auth Rule. For certain rule types, this determines the event stream
-                 * during which it will be evaluated. For rules that can be applied to one of
-                 * several event streams, the effective one is defined by the separate
-                 * `event_stream` field.
-                 * - `CONDITIONAL_BLOCK`: AUTHORIZATION event stream.
-                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
-                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
-                 * - `CONDITIONAL_ACTION`: AUTHORIZATION or THREE_DS_AUTHENTICATION event stream.
-                 */
-                fun type(type: AuthRuleType) = type(JsonField.of(type))
-
-                /**
-                 * Sets [Builder.type] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
-
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -5950,42 +2908,44 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [CreateAuthRuleRequestProgramLevel].
+                 * Returns an immutable instance of [ProgramLevelRule].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
                  * The following fields are required:
                  * ```java
+                 * .parameters()
                  * .programLevel()
+                 * .type()
                  * ```
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): CreateAuthRuleRequestProgramLevel =
-                    CreateAuthRuleRequestProgramLevel(
+                fun build(): ProgramLevelRule =
+                    ProgramLevelRule(
+                        checkRequired("parameters", parameters),
                         checkRequired("programLevel", programLevel),
+                        checkRequired("type", type),
                         eventStream,
                         (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                         name,
-                        parameters,
-                        type,
                         additionalProperties.toMutableMap(),
                     )
             }
 
             private var validated: Boolean = false
 
-            fun validate(): CreateAuthRuleRequestProgramLevel = apply {
+            fun validate(): ProgramLevelRule = apply {
                 if (validated) {
                     return@apply
                 }
 
+                parameters().validate()
                 programLevel()
+                type().validate()
                 eventStream().ifPresent { it.validate() }
                 excludedCardTokens()
                 name()
-                parameters().ifPresent { it.validate() }
-                type().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -6005,145 +2965,12 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (if (programLevel.asKnown().isPresent) 1 else 0) +
+                (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (programLevel.asKnown().isPresent) 1 else 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
                     (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
                     (excludedCardTokens.asKnown().getOrNull()?.size ?: 0) +
-                    (if (name.asKnown().isPresent) 1 else 0) +
-                    (parameters.asKnown().getOrNull()?.validity() ?: 0) +
-                    (type.asKnown().getOrNull()?.validity() ?: 0)
-
-            /** The event stream during which the rule will be evaluated. */
-            class EventStream
-            @JsonCreator
-            private constructor(private val value: JsonField<String>) : Enum {
-
-                /**
-                 * Returns this class instance's raw value.
-                 *
-                 * This is usually only useful if this instance was deserialized from data that
-                 * doesn't match any known member, and you want to know that value. For example, if
-                 * the SDK is on an older version than the API, then the API may respond with new
-                 * members that the SDK is unaware of.
-                 */
-                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-                companion object {
-
-                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
-
-                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
-
-                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
-                }
-
-                /** An enum containing [EventStream]'s known values. */
-                enum class Known {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                }
-
-                /**
-                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
-                 *
-                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
-                 * - It was deserialized from data that doesn't match any known member. For example,
-                 *   if the SDK is on an older version than the API, then the API may respond with
-                 *   new members that the SDK is unaware of.
-                 * - It was constructed with an arbitrary value using the [of] method.
-                 */
-                enum class Value {
-                    AUTHORIZATION,
-                    THREE_DS_AUTHENTICATION,
-                    /**
-                     * An enum member indicating that [EventStream] was instantiated with an unknown
-                     * value.
-                     */
-                    _UNKNOWN,
-                }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value, or
-                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                 *
-                 * Use the [known] method instead if you're certain the value is always known or if
-                 * you want to throw for the unknown case.
-                 */
-                fun value(): Value =
-                    when (this) {
-                        AUTHORIZATION -> Value.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
-                        else -> Value._UNKNOWN
-                    }
-
-                /**
-                 * Returns an enum member corresponding to this class instance's value.
-                 *
-                 * Use the [value] method instead if you're uncertain the value is always known and
-                 * don't want to throw for the unknown case.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value is a not a
-                 *   known member.
-                 */
-                fun known(): Known =
-                    when (this) {
-                        AUTHORIZATION -> Known.AUTHORIZATION
-                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
-                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
-                    }
-
-                /**
-                 * Returns this class instance's primitive wire representation.
-                 *
-                 * This differs from the [toString] method because that method is primarily for
-                 * debugging and generally doesn't throw.
-                 *
-                 * @throws LithicInvalidDataException if this class instance's value does not have
-                 *   the expected primitive type.
-                 */
-                fun asString(): String =
-                    _value().asString().orElseThrow {
-                        LithicInvalidDataException("Value is not a String")
-                    }
-
-                private var validated: Boolean = false
-
-                fun validate(): EventStream = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    known()
-                    validated = true
-                }
-
-                fun isValid(): Boolean =
-                    try {
-                        validate()
-                        true
-                    } catch (e: LithicInvalidDataException) {
-                        false
-                    }
-
-                /**
-                 * Returns a score indicating how many valid values are contained in this object
-                 * recursively.
-                 *
-                 * Used for best match union deserialization.
-                 */
-                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is EventStream && value == other.value
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-            }
+                    (if (name.asKnown().isPresent) 1 else 0)
 
             /** Parameters for the Auth Rule */
             @JsonDeserialize(using = Parameters.Deserializer::class)
@@ -6476,1500 +3303,6 @@ private constructor(
                         }
                     }
                 }
-
-                class ConditionalAuthorizationActionParameters
-                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                private constructor(
-                    private val action: JsonField<Action>,
-                    private val conditions: JsonField<List<Condition>>,
-                    private val additionalProperties: MutableMap<String, JsonValue>,
-                ) {
-
-                    @JsonCreator
-                    private constructor(
-                        @JsonProperty("action")
-                        @ExcludeMissing
-                        action: JsonField<Action> = JsonMissing.of(),
-                        @JsonProperty("conditions")
-                        @ExcludeMissing
-                        conditions: JsonField<List<Condition>> = JsonMissing.of(),
-                    ) : this(action, conditions, mutableMapOf())
-
-                    /**
-                     * The action to take if the conditions are met.
-                     *
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun action(): Action = action.getRequired("action")
-
-                    /**
-                     * @throws LithicInvalidDataException if the JSON field has an unexpected type
-                     *   or is unexpectedly missing or null (e.g. if the server responded with an
-                     *   unexpected value).
-                     */
-                    fun conditions(): List<Condition> = conditions.getRequired("conditions")
-
-                    /**
-                     * Returns the raw JSON value of [action].
-                     *
-                     * Unlike [action], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("action")
-                    @ExcludeMissing
-                    fun _action(): JsonField<Action> = action
-
-                    /**
-                     * Returns the raw JSON value of [conditions].
-                     *
-                     * Unlike [conditions], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("conditions")
-                    @ExcludeMissing
-                    fun _conditions(): JsonField<List<Condition>> = conditions
-
-                    @JsonAnySetter
-                    private fun putAdditionalProperty(key: String, value: JsonValue) {
-                        additionalProperties.put(key, value)
-                    }
-
-                    @JsonAnyGetter
-                    @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> =
-                        Collections.unmodifiableMap(additionalProperties)
-
-                    fun toBuilder() = Builder().from(this)
-
-                    companion object {
-
-                        /**
-                         * Returns a mutable builder for constructing an instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         */
-                        @JvmStatic fun builder() = Builder()
-                    }
-
-                    /** A builder for [ConditionalAuthorizationActionParameters]. */
-                    class Builder internal constructor() {
-
-                        private var action: JsonField<Action>? = null
-                        private var conditions: JsonField<MutableList<Condition>>? = null
-                        private var additionalProperties: MutableMap<String, JsonValue> =
-                            mutableMapOf()
-
-                        @JvmSynthetic
-                        internal fun from(
-                            conditionalAuthorizationActionParameters:
-                                ConditionalAuthorizationActionParameters
-                        ) = apply {
-                            action = conditionalAuthorizationActionParameters.action
-                            conditions =
-                                conditionalAuthorizationActionParameters.conditions.map {
-                                    it.toMutableList()
-                                }
-                            additionalProperties =
-                                conditionalAuthorizationActionParameters.additionalProperties
-                                    .toMutableMap()
-                        }
-
-                        /** The action to take if the conditions are met. */
-                        fun action(action: Action) = action(JsonField.of(action))
-
-                        /**
-                         * Sets [Builder.action] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.action] with a well-typed [Action] value
-                         * instead. This method is primarily for setting the field to an
-                         * undocumented or not yet supported value.
-                         */
-                        fun action(action: JsonField<Action>) = apply { this.action = action }
-
-                        fun conditions(conditions: List<Condition>) =
-                            conditions(JsonField.of(conditions))
-
-                        /**
-                         * Sets [Builder.conditions] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.conditions] with a well-typed
-                         * `List<Condition>` value instead. This method is primarily for setting the
-                         * field to an undocumented or not yet supported value.
-                         */
-                        fun conditions(conditions: JsonField<List<Condition>>) = apply {
-                            this.conditions = conditions.map { it.toMutableList() }
-                        }
-
-                        /**
-                         * Adds a single [Condition] to [conditions].
-                         *
-                         * @throws IllegalStateException if the field was previously set to a
-                         *   non-list.
-                         */
-                        fun addCondition(condition: Condition) = apply {
-                            conditions =
-                                (conditions ?: JsonField.of(mutableListOf())).also {
-                                    checkKnown("conditions", it).add(condition)
-                                }
-                        }
-
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.clear()
-                                putAllAdditionalProperties(additionalProperties)
-                            }
-
-                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            additionalProperties.put(key, value)
-                        }
-
-                        fun putAllAdditionalProperties(
-                            additionalProperties: Map<String, JsonValue>
-                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                        fun removeAdditionalProperty(key: String) = apply {
-                            additionalProperties.remove(key)
-                        }
-
-                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
-
-                        /**
-                         * Returns an immutable instance of
-                         * [ConditionalAuthorizationActionParameters].
-                         *
-                         * Further updates to this [Builder] will not mutate the returned instance.
-                         *
-                         * The following fields are required:
-                         * ```java
-                         * .action()
-                         * .conditions()
-                         * ```
-                         *
-                         * @throws IllegalStateException if any required field is unset.
-                         */
-                        fun build(): ConditionalAuthorizationActionParameters =
-                            ConditionalAuthorizationActionParameters(
-                                checkRequired("action", action),
-                                checkRequired("conditions", conditions).map { it.toImmutable() },
-                                additionalProperties.toMutableMap(),
-                            )
-                    }
-
-                    private var validated: Boolean = false
-
-                    fun validate(): ConditionalAuthorizationActionParameters = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        action().validate()
-                        conditions().forEach { it.validate() }
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int =
-                        (action.asKnown().getOrNull()?.validity() ?: 0) +
-                            (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
-
-                    /** The action to take if the conditions are met. */
-                    class Action
-                    @JsonCreator
-                    private constructor(private val value: JsonField<String>) : Enum {
-
-                        /**
-                         * Returns this class instance's raw value.
-                         *
-                         * This is usually only useful if this instance was deserialized from data
-                         * that doesn't match any known member, and you want to know that value. For
-                         * example, if the SDK is on an older version than the API, then the API may
-                         * respond with new members that the SDK is unaware of.
-                         */
-                        @com.fasterxml.jackson.annotation.JsonValue
-                        fun _value(): JsonField<String> = value
-
-                        companion object {
-
-                            @JvmField val DECLINE = of("DECLINE")
-
-                            @JvmField val CHALLENGE = of("CHALLENGE")
-
-                            @JvmStatic fun of(value: String) = Action(JsonField.of(value))
-                        }
-
-                        /** An enum containing [Action]'s known values. */
-                        enum class Known {
-                            DECLINE,
-                            CHALLENGE,
-                        }
-
-                        /**
-                         * An enum containing [Action]'s known values, as well as an [_UNKNOWN]
-                         * member.
-                         *
-                         * An instance of [Action] can contain an unknown value in a couple of
-                         * cases:
-                         * - It was deserialized from data that doesn't match any known member. For
-                         *   example, if the SDK is on an older version than the API, then the API
-                         *   may respond with new members that the SDK is unaware of.
-                         * - It was constructed with an arbitrary value using the [of] method.
-                         */
-                        enum class Value {
-                            DECLINE,
-                            CHALLENGE,
-                            /**
-                             * An enum member indicating that [Action] was instantiated with an
-                             * unknown value.
-                             */
-                            _UNKNOWN,
-                        }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value, or
-                         * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                         *
-                         * Use the [known] method instead if you're certain the value is always
-                         * known or if you want to throw for the unknown case.
-                         */
-                        fun value(): Value =
-                            when (this) {
-                                DECLINE -> Value.DECLINE
-                                CHALLENGE -> Value.CHALLENGE
-                                else -> Value._UNKNOWN
-                            }
-
-                        /**
-                         * Returns an enum member corresponding to this class instance's value.
-                         *
-                         * Use the [value] method instead if you're uncertain the value is always
-                         * known and don't want to throw for the unknown case.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value is a
-                         *   not a known member.
-                         */
-                        fun known(): Known =
-                            when (this) {
-                                DECLINE -> Known.DECLINE
-                                CHALLENGE -> Known.CHALLENGE
-                                else -> throw LithicInvalidDataException("Unknown Action: $value")
-                            }
-
-                        /**
-                         * Returns this class instance's primitive wire representation.
-                         *
-                         * This differs from the [toString] method because that method is primarily
-                         * for debugging and generally doesn't throw.
-                         *
-                         * @throws LithicInvalidDataException if this class instance's value does
-                         *   not have the expected primitive type.
-                         */
-                        fun asString(): String =
-                            _value().asString().orElseThrow {
-                                LithicInvalidDataException("Value is not a String")
-                            }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Action = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            known()
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Action && value == other.value
-                        }
-
-                        override fun hashCode() = value.hashCode()
-
-                        override fun toString() = value.toString()
-                    }
-
-                    class Condition
-                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                    private constructor(
-                        private val attribute: JsonField<Attribute>,
-                        private val operation: JsonField<Operation>,
-                        private val value: JsonField<Value>,
-                        private val additionalProperties: MutableMap<String, JsonValue>,
-                    ) {
-
-                        @JsonCreator
-                        private constructor(
-                            @JsonProperty("attribute")
-                            @ExcludeMissing
-                            attribute: JsonField<Attribute> = JsonMissing.of(),
-                            @JsonProperty("operation")
-                            @ExcludeMissing
-                            operation: JsonField<Operation> = JsonMissing.of(),
-                            @JsonProperty("value")
-                            @ExcludeMissing
-                            value: JsonField<Value> = JsonMissing.of(),
-                        ) : this(attribute, operation, value, mutableMapOf())
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun attribute(): Optional<Attribute> = attribute.getOptional("attribute")
-
-                        /**
-                         * The operation to apply to the attribute
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun operation(): Optional<Operation> = operation.getOptional("operation")
-
-                        /**
-                         * A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH`
-                         *
-                         * @throws LithicInvalidDataException if the JSON field has an unexpected
-                         *   type (e.g. if the server responded with an unexpected value).
-                         */
-                        fun value(): Optional<Value> = value.getOptional("value")
-
-                        /**
-                         * Returns the raw JSON value of [attribute].
-                         *
-                         * Unlike [attribute], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("attribute")
-                        @ExcludeMissing
-                        fun _attribute(): JsonField<Attribute> = attribute
-
-                        /**
-                         * Returns the raw JSON value of [operation].
-                         *
-                         * Unlike [operation], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("operation")
-                        @ExcludeMissing
-                        fun _operation(): JsonField<Operation> = operation
-
-                        /**
-                         * Returns the raw JSON value of [value].
-                         *
-                         * Unlike [value], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("value")
-                        @ExcludeMissing
-                        fun _value(): JsonField<Value> = value
-
-                        @JsonAnySetter
-                        private fun putAdditionalProperty(key: String, value: JsonValue) {
-                            additionalProperties.put(key, value)
-                        }
-
-                        @JsonAnyGetter
-                        @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> =
-                            Collections.unmodifiableMap(additionalProperties)
-
-                        fun toBuilder() = Builder().from(this)
-
-                        companion object {
-
-                            /**
-                             * Returns a mutable builder for constructing an instance of
-                             * [Condition].
-                             */
-                            @JvmStatic fun builder() = Builder()
-                        }
-
-                        /** A builder for [Condition]. */
-                        class Builder internal constructor() {
-
-                            private var attribute: JsonField<Attribute> = JsonMissing.of()
-                            private var operation: JsonField<Operation> = JsonMissing.of()
-                            private var value: JsonField<Value> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
-
-                            @JvmSynthetic
-                            internal fun from(condition: Condition) = apply {
-                                attribute = condition.attribute
-                                operation = condition.operation
-                                value = condition.value
-                                additionalProperties = condition.additionalProperties.toMutableMap()
-                            }
-
-                            /**
-                             * The attribute to target.
-                             *
-                             * The following attributes may be targeted:
-                             * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                             *   classify a business by the types of goods or services it provides.
-                             * * `COUNTRY`: Country of entity of card acceptor. Possible values are:
-                             *   (1) all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and
-                             *   (3) ANT for Netherlands Antilles.
-                             * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                             *   currency of the transaction.
-                             * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                             *   acceptor (merchant).
-                             * * `DESCRIPTOR`: Short description of card acceptor.
-                             * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to
-                             *   the issuer applies to the transaction. Valid values are `NONE`,
-                             *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                             * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary
-                             *   account number (PAN) was entered. Valid values are `AUTO_ENTRY`,
-                             *   `BAR_CODE`, `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`,
-                             *   `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`,
-                             *   `MANUAL`, `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`,
-                             *   `CREDENTIAL_ON_FILE`, or `ECOMMERCE`.
-                             * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus
-                             *   the acquirer fee field in the settlement/cardholder billing
-                             *   currency. This is the amount the issuer should authorize against
-                             *   unless the issuer is paying the acquirer fee on behalf of the
-                             *   cardholder.
-                             * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                             *   (cents). This represents the amount of cash being withdrawn or
-                             *   advanced.
-                             * * `RISK_SCORE`: Network-provided score assessing risk level
-                             *   associated with a given authorization. Scores are on a range of
-                             *   0-999, with 0 representing the lowest risk and 999 representing the
-                             *   highest risk. For Visa transactions, where the raw score has a
-                             *   range of 0-99, Lithic will normalize the score by multiplying the
-                             *   raw score by 10x.
-                             * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the
-                             *   card in the trailing 15 minutes before the authorization.
-                             * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card
-                             *   in the trailing hour up and until the authorization.
-                             * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the
-                             *   card in the trailing 24 hours up and until the authorization.
-                             * * `CARD_STATE`: The current state of the card associated with the
-                             *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                             *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                             * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                             *   transaction. Valid values are `TRUE`, `FALSE`.
-                             * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                             *   `NOT_SET`, `OK`, `BLOCKED`.
-                             * * `WALLET_TYPE`: For transactions using a digital wallet token,
-                             *   indicates the source of the token. Valid values are `APPLE_PAY`,
-                             *   `GOOGLE_PAY`, `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`,
-                             *   `NONE`.
-                             * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                             *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                             *   `MERCHANT`, `UNKNOWN`.
-                             * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                             *   address data with the cardholder KYC data if it exists. Valid
-                             *   values are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                             *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                             */
-                            fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
-
-                            /**
-                             * Sets [Builder.attribute] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.attribute] with a well-typed
-                             * [Attribute] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun attribute(attribute: JsonField<Attribute>) = apply {
-                                this.attribute = attribute
-                            }
-
-                            /** The operation to apply to the attribute */
-                            fun operation(operation: Operation) = operation(JsonField.of(operation))
-
-                            /**
-                             * Sets [Builder.operation] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.operation] with a well-typed
-                             * [Operation] value instead. This method is primarily for setting the
-                             * field to an undocumented or not yet supported value.
-                             */
-                            fun operation(operation: JsonField<Operation>) = apply {
-                                this.operation = operation
-                            }
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun value(value: Value) = value(JsonField.of(value))
-
-                            /**
-                             * Sets [Builder.value] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.value] with a well-typed [Value]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun value(value: JsonField<Value>) = apply { this.value = value }
-
-                            /** Alias for calling [value] with `Value.ofRegex(regex)`. */
-                            fun value(regex: String) = value(Value.ofRegex(regex))
-
-                            /** Alias for calling [value] with `Value.ofNumber(number)`. */
-                            fun value(number: Long) = value(Value.ofNumber(number))
-
-                            /**
-                             * Alias for calling [value] with
-                             * `Value.ofListOfStrings(listOfStrings)`.
-                             */
-                            fun valueOfListOfStrings(listOfStrings: List<String>) =
-                                value(Value.ofListOfStrings(listOfStrings))
-
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    putAllAdditionalProperties(additionalProperties)
-                                }
-
-                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                                additionalProperties.put(key, value)
-                            }
-
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                            fun removeAdditionalProperty(key: String) = apply {
-                                additionalProperties.remove(key)
-                            }
-
-                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
-
-                            /**
-                             * Returns an immutable instance of [Condition].
-                             *
-                             * Further updates to this [Builder] will not mutate the returned
-                             * instance.
-                             */
-                            fun build(): Condition =
-                                Condition(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties.toMutableMap(),
-                                )
-                        }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Condition = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            attribute().ifPresent { it.validate() }
-                            operation().ifPresent { it.validate() }
-                            value().ifPresent { it.validate() }
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: LithicInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int =
-                            (attribute.asKnown().getOrNull()?.validity() ?: 0) +
-                                (operation.asKnown().getOrNull()?.validity() ?: 0) +
-                                (value.asKnown().getOrNull()?.validity() ?: 0)
-
-                        /**
-                         * The attribute to target.
-                         *
-                         * The following attributes may be targeted:
-                         * * `MCC`: A four-digit number listed in ISO 18245. An MCC is used to
-                         *   classify a business by the types of goods or services it provides.
-                         * * `COUNTRY`: Country of entity of card acceptor. Possible values are: (1)
-                         *   all ISO 3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT
-                         *   for Netherlands Antilles.
-                         * * `CURRENCY`: 3-character alphabetic ISO 4217 code for the merchant
-                         *   currency of the transaction.
-                         * * `MERCHANT_ID`: Unique alphanumeric identifier for the payment card
-                         *   acceptor (merchant).
-                         * * `DESCRIPTOR`: Short description of card acceptor.
-                         * * `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the
-                         *   issuer applies to the transaction. Valid values are `NONE`,
-                         *   `3DS_AUTHENTICATED`, or `TOKEN_AUTHENTICATED`.
-                         * * `PAN_ENTRY_MODE`: The method by which the cardholder's primary account
-                         *   number (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`,
-                         *   `CONTACTLESS`, `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`,
-                         *   `ICC`, `KEY_ENTERED`, `MAGNETIC_STRIPE`, `MANUAL`, `OCR`,
-                         *   `SECURE_CARDLESS`, `UNSPECIFIED`, `UNKNOWN`, `CREDENTIAL_ON_FILE`, or
-                         *   `ECOMMERCE`.
-                         * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the
-                         *   acquirer fee field in the settlement/cardholder billing currency. This
-                         *   is the amount the issuer should authorize against unless the issuer is
-                         *   paying the acquirer fee on behalf of the cardholder.
-                         * * `CASH_AMOUNT`: The cash amount of the transaction in minor units
-                         *   (cents). This represents the amount of cash being withdrawn or
-                         *   advanced.
-                         * * `RISK_SCORE`: Network-provided score assessing risk level associated
-                         *   with a given authorization. Scores are on a range of 0-999, with 0
-                         *   representing the lowest risk and 999 representing the highest risk. For
-                         *   Visa transactions, where the raw score has a range of 0-99, Lithic will
-                         *   normalize the score by multiplying the raw score by 10x.
-                         * * `CARD_TRANSACTION_COUNT_15M`: The number of transactions on the card in
-                         *   the trailing 15 minutes before the authorization.
-                         * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
-                         *   the trailing hour up and until the authorization.
-                         * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
-                         *   the trailing 24 hours up and until the authorization.
-                         * * `CARD_STATE`: The current state of the card associated with the
-                         *   transaction. Valid values are `CLOSED`, `OPEN`, `PAUSED`,
-                         *   `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
-                         * * `PIN_ENTERED`: Indicates whether a PIN was entered during the
-                         *   transaction. Valid values are `TRUE`, `FALSE`.
-                         * * `PIN_STATUS`: The current state of card's PIN. Valid values are
-                         *   `NOT_SET`, `OK`, `BLOCKED`.
-                         * * `WALLET_TYPE`: For transactions using a digital wallet token, indicates
-                         *   the source of the token. Valid values are `APPLE_PAY`, `GOOGLE_PAY`,
-                         *   `SAMSUNG_PAY`, `MASTERPASS`, `MERCHANT`, `OTHER`, `NONE`.
-                         * * `TRANSACTION_INITIATOR`: The entity that initiated the transaction
-                         *   indicates the source of the token. Valid values are `CARDHOLDER`,
-                         *   `MERCHANT`, `UNKNOWN`.
-                         * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's
-                         *   address data with the cardholder KYC data if it exists. Valid values
-                         *   are `MATCH`, `MATCH_ADDRESS_ONLY`,
-                         *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
-                         */
-                        class Attribute
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val MCC = of("MCC")
-
-                                @JvmField val COUNTRY = of("COUNTRY")
-
-                                @JvmField val CURRENCY = of("CURRENCY")
-
-                                @JvmField val MERCHANT_ID = of("MERCHANT_ID")
-
-                                @JvmField val DESCRIPTOR = of("DESCRIPTOR")
-
-                                @JvmField val LIABILITY_SHIFT = of("LIABILITY_SHIFT")
-
-                                @JvmField val PAN_ENTRY_MODE = of("PAN_ENTRY_MODE")
-
-                                @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
-
-                                @JvmField val CASH_AMOUNT = of("CASH_AMOUNT")
-
-                                @JvmField val RISK_SCORE = of("RISK_SCORE")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_15_M = of("CARD_TRANSACTION_COUNT_15M")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
-
-                                @JvmField
-                                val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
-
-                                @JvmField val CARD_STATE = of("CARD_STATE")
-
-                                @JvmField val PIN_ENTERED = of("PIN_ENTERED")
-
-                                @JvmField val PIN_STATUS = of("PIN_STATUS")
-
-                                @JvmField val WALLET_TYPE = of("WALLET_TYPE")
-
-                                @JvmField val TRANSACTION_INITIATOR = of("TRANSACTION_INITIATOR")
-
-                                @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
-
-                                @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Attribute]'s known values. */
-                            enum class Known {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                            }
-
-                            /**
-                             * An enum containing [Attribute]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Attribute] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                MCC,
-                                COUNTRY,
-                                CURRENCY,
-                                MERCHANT_ID,
-                                DESCRIPTOR,
-                                LIABILITY_SHIFT,
-                                PAN_ENTRY_MODE,
-                                TRANSACTION_AMOUNT,
-                                CASH_AMOUNT,
-                                RISK_SCORE,
-                                CARD_TRANSACTION_COUNT_15_M,
-                                CARD_TRANSACTION_COUNT_1_H,
-                                CARD_TRANSACTION_COUNT_24_H,
-                                CARD_STATE,
-                                PIN_ENTERED,
-                                PIN_STATUS,
-                                WALLET_TYPE,
-                                TRANSACTION_INITIATOR,
-                                ADDRESS_MATCH,
-                                /**
-                                 * An enum member indicating that [Attribute] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    MCC -> Value.MCC
-                                    COUNTRY -> Value.COUNTRY
-                                    CURRENCY -> Value.CURRENCY
-                                    MERCHANT_ID -> Value.MERCHANT_ID
-                                    DESCRIPTOR -> Value.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Value.CASH_AMOUNT
-                                    RISK_SCORE -> Value.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Value.CARD_STATE
-                                    PIN_ENTERED -> Value.PIN_ENTERED
-                                    PIN_STATUS -> Value.PIN_STATUS
-                                    WALLET_TYPE -> Value.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Value.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Value.ADDRESS_MATCH
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    MCC -> Known.MCC
-                                    COUNTRY -> Known.COUNTRY
-                                    CURRENCY -> Known.CURRENCY
-                                    MERCHANT_ID -> Known.MERCHANT_ID
-                                    DESCRIPTOR -> Known.DESCRIPTOR
-                                    LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
-                                    PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
-                                    TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
-                                    CASH_AMOUNT -> Known.CASH_AMOUNT
-                                    RISK_SCORE -> Known.RISK_SCORE
-                                    CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
-                                    CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
-                                    CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
-                                    CARD_STATE -> Known.CARD_STATE
-                                    PIN_ENTERED -> Known.PIN_ENTERED
-                                    PIN_STATUS -> Known.PIN_STATUS
-                                    WALLET_TYPE -> Known.WALLET_TYPE
-                                    TRANSACTION_INITIATOR -> Known.TRANSACTION_INITIATOR
-                                    ADDRESS_MATCH -> Known.ADDRESS_MATCH
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Attribute: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Attribute = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Attribute && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** The operation to apply to the attribute */
-                        class Operation
-                        @JsonCreator
-                        private constructor(private val value: JsonField<String>) : Enum {
-
-                            /**
-                             * Returns this class instance's raw value.
-                             *
-                             * This is usually only useful if this instance was deserialized from
-                             * data that doesn't match any known member, and you want to know that
-                             * value. For example, if the SDK is on an older version than the API,
-                             * then the API may respond with new members that the SDK is unaware of.
-                             */
-                            @com.fasterxml.jackson.annotation.JsonValue
-                            fun _value(): JsonField<String> = value
-
-                            companion object {
-
-                                @JvmField val IS_ONE_OF = of("IS_ONE_OF")
-
-                                @JvmField val IS_NOT_ONE_OF = of("IS_NOT_ONE_OF")
-
-                                @JvmField val MATCHES = of("MATCHES")
-
-                                @JvmField val DOES_NOT_MATCH = of("DOES_NOT_MATCH")
-
-                                @JvmField val IS_EQUAL_TO = of("IS_EQUAL_TO")
-
-                                @JvmField val IS_NOT_EQUAL_TO = of("IS_NOT_EQUAL_TO")
-
-                                @JvmField val IS_GREATER_THAN = of("IS_GREATER_THAN")
-
-                                @JvmField
-                                val IS_GREATER_THAN_OR_EQUAL_TO = of("IS_GREATER_THAN_OR_EQUAL_TO")
-
-                                @JvmField val IS_LESS_THAN = of("IS_LESS_THAN")
-
-                                @JvmField
-                                val IS_LESS_THAN_OR_EQUAL_TO = of("IS_LESS_THAN_OR_EQUAL_TO")
-
-                                @JvmStatic fun of(value: String) = Operation(JsonField.of(value))
-                            }
-
-                            /** An enum containing [Operation]'s known values. */
-                            enum class Known {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                            }
-
-                            /**
-                             * An enum containing [Operation]'s known values, as well as an
-                             * [_UNKNOWN] member.
-                             *
-                             * An instance of [Operation] can contain an unknown value in a couple
-                             * of cases:
-                             * - It was deserialized from data that doesn't match any known member.
-                             *   For example, if the SDK is on an older version than the API, then
-                             *   the API may respond with new members that the SDK is unaware of.
-                             * - It was constructed with an arbitrary value using the [of] method.
-                             */
-                            enum class Value {
-                                IS_ONE_OF,
-                                IS_NOT_ONE_OF,
-                                MATCHES,
-                                DOES_NOT_MATCH,
-                                IS_EQUAL_TO,
-                                IS_NOT_EQUAL_TO,
-                                IS_GREATER_THAN,
-                                IS_GREATER_THAN_OR_EQUAL_TO,
-                                IS_LESS_THAN,
-                                IS_LESS_THAN_OR_EQUAL_TO,
-                                /**
-                                 * An enum member indicating that [Operation] was instantiated with
-                                 * an unknown value.
-                                 */
-                                _UNKNOWN,
-                            }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value,
-                             * or [Value._UNKNOWN] if the class was instantiated with an unknown
-                             * value.
-                             *
-                             * Use the [known] method instead if you're certain the value is always
-                             * known or if you want to throw for the unknown case.
-                             */
-                            fun value(): Value =
-                                when (this) {
-                                    IS_ONE_OF -> Value.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Value.IS_NOT_ONE_OF
-                                    MATCHES -> Value.MATCHES
-                                    DOES_NOT_MATCH -> Value.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Value.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Value.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Value.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Value.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Value.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Value.IS_LESS_THAN_OR_EQUAL_TO
-                                    else -> Value._UNKNOWN
-                                }
-
-                            /**
-                             * Returns an enum member corresponding to this class instance's value.
-                             *
-                             * Use the [value] method instead if you're uncertain the value is
-                             * always known and don't want to throw for the unknown case.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value is
-                             *   a not a known member.
-                             */
-                            fun known(): Known =
-                                when (this) {
-                                    IS_ONE_OF -> Known.IS_ONE_OF
-                                    IS_NOT_ONE_OF -> Known.IS_NOT_ONE_OF
-                                    MATCHES -> Known.MATCHES
-                                    DOES_NOT_MATCH -> Known.DOES_NOT_MATCH
-                                    IS_EQUAL_TO -> Known.IS_EQUAL_TO
-                                    IS_NOT_EQUAL_TO -> Known.IS_NOT_EQUAL_TO
-                                    IS_GREATER_THAN -> Known.IS_GREATER_THAN
-                                    IS_GREATER_THAN_OR_EQUAL_TO -> Known.IS_GREATER_THAN_OR_EQUAL_TO
-                                    IS_LESS_THAN -> Known.IS_LESS_THAN
-                                    IS_LESS_THAN_OR_EQUAL_TO -> Known.IS_LESS_THAN_OR_EQUAL_TO
-                                    else ->
-                                        throw LithicInvalidDataException(
-                                            "Unknown Operation: $value"
-                                        )
-                                }
-
-                            /**
-                             * Returns this class instance's primitive wire representation.
-                             *
-                             * This differs from the [toString] method because that method is
-                             * primarily for debugging and generally doesn't throw.
-                             *
-                             * @throws LithicInvalidDataException if this class instance's value
-                             *   does not have the expected primitive type.
-                             */
-                            fun asString(): String =
-                                _value().asString().orElseThrow {
-                                    LithicInvalidDataException("Value is not a String")
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Operation = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                known()
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Operation && value == other.value
-                            }
-
-                            override fun hashCode() = value.hashCode()
-
-                            override fun toString() = value.toString()
-                        }
-
-                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonDeserialize(using = Value.Deserializer::class)
-                        @JsonSerialize(using = Value.Serializer::class)
-                        class Value
-                        private constructor(
-                            private val regex: String? = null,
-                            private val number: Long? = null,
-                            private val listOfStrings: List<String>? = null,
-                            private val _json: JsonValue? = null,
-                        ) {
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun regex(): Optional<String> = Optional.ofNullable(regex)
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun number(): Optional<Long> = Optional.ofNullable(number)
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun listOfStrings(): Optional<List<String>> =
-                                Optional.ofNullable(listOfStrings)
-
-                            fun isRegex(): Boolean = regex != null
-
-                            fun isNumber(): Boolean = number != null
-
-                            fun isListOfStrings(): Boolean = listOfStrings != null
-
-                            /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                            fun asRegex(): String = regex.getOrThrow("regex")
-
-                            /**
-                             * A number, to be used with `IS_GREATER_THAN`,
-                             * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                             * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                             */
-                            fun asNumber(): Long = number.getOrThrow("number")
-
-                            /**
-                             * An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF`
-                             */
-                            fun asListOfStrings(): List<String> =
-                                listOfStrings.getOrThrow("listOfStrings")
-
-                            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
-
-                            fun <T> accept(visitor: Visitor<T>): T =
-                                when {
-                                    regex != null -> visitor.visitRegex(regex)
-                                    number != null -> visitor.visitNumber(number)
-                                    listOfStrings != null ->
-                                        visitor.visitListOfStrings(listOfStrings)
-                                    else -> visitor.unknown(_json)
-                                }
-
-                            private var validated: Boolean = false
-
-                            fun validate(): Value = apply {
-                                if (validated) {
-                                    return@apply
-                                }
-
-                                accept(
-                                    object : Visitor<Unit> {
-                                        override fun visitRegex(regex: String) {}
-
-                                        override fun visitNumber(number: Long) {}
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) {}
-                                    }
-                                )
-                                validated = true
-                            }
-
-                            fun isValid(): Boolean =
-                                try {
-                                    validate()
-                                    true
-                                } catch (e: LithicInvalidDataException) {
-                                    false
-                                }
-
-                            /**
-                             * Returns a score indicating how many valid values are contained in
-                             * this object recursively.
-                             *
-                             * Used for best match union deserialization.
-                             */
-                            @JvmSynthetic
-                            internal fun validity(): Int =
-                                accept(
-                                    object : Visitor<Int> {
-                                        override fun visitRegex(regex: String) = 1
-
-                                        override fun visitNumber(number: Long) = 1
-
-                                        override fun visitListOfStrings(
-                                            listOfStrings: List<String>
-                                        ) = listOfStrings.size
-
-                                        override fun unknown(json: JsonValue?) = 0
-                                    }
-                                )
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is Value &&
-                                    regex == other.regex &&
-                                    number == other.number &&
-                                    listOfStrings == other.listOfStrings
-                            }
-
-                            override fun hashCode(): Int =
-                                Objects.hash(regex, number, listOfStrings)
-
-                            override fun toString(): String =
-                                when {
-                                    regex != null -> "Value{regex=$regex}"
-                                    number != null -> "Value{number=$number}"
-                                    listOfStrings != null -> "Value{listOfStrings=$listOfStrings}"
-                                    _json != null -> "Value{_unknown=$_json}"
-                                    else -> throw IllegalStateException("Invalid Value")
-                                }
-
-                            companion object {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                @JvmStatic fun ofRegex(regex: String) = Value(regex = regex)
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                @JvmStatic fun ofNumber(number: Long) = Value(number = number)
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                @JvmStatic
-                                fun ofListOfStrings(listOfStrings: List<String>) =
-                                    Value(listOfStrings = listOfStrings.toImmutable())
-                            }
-
-                            /**
-                             * An interface that defines how to map each variant of [Value] to a
-                             * value of type [T].
-                             */
-                            interface Visitor<out T> {
-
-                                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                                fun visitRegex(regex: String): T
-
-                                /**
-                                 * A number, to be used with `IS_GREATER_THAN`,
-                                 * `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-                                 * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-                                 */
-                                fun visitNumber(number: Long): T
-
-                                /**
-                                 * An array of strings, to be used with `IS_ONE_OF` or
-                                 * `IS_NOT_ONE_OF`
-                                 */
-                                fun visitListOfStrings(listOfStrings: List<String>): T
-
-                                /**
-                                 * Maps an unknown variant of [Value] to a value of type [T].
-                                 *
-                                 * An instance of [Value] can contain an unknown variant if it was
-                                 * deserialized from data that doesn't match any known variant. For
-                                 * example, if the SDK is on an older version than the API, then the
-                                 * API may respond with new variants that the SDK is unaware of.
-                                 *
-                                 * @throws LithicInvalidDataException in the default implementation.
-                                 */
-                                fun unknown(json: JsonValue?): T {
-                                    throw LithicInvalidDataException("Unknown Value: $json")
-                                }
-                            }
-
-                            internal class Deserializer : BaseDeserializer<Value>(Value::class) {
-
-                                override fun ObjectCodec.deserialize(node: JsonNode): Value {
-                                    val json = JsonValue.fromJsonNode(node)
-
-                                    val bestMatches =
-                                        sequenceOf(
-                                                tryDeserialize(node, jacksonTypeRef<String>())
-                                                    ?.let { Value(regex = it, _json = json) },
-                                                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                                                    Value(number = it, _json = json)
-                                                },
-                                                tryDeserialize(node, jacksonTypeRef<List<String>>())
-                                                    ?.let {
-                                                        Value(listOfStrings = it, _json = json)
-                                                    },
-                                            )
-                                            .filterNotNull()
-                                            .allMaxBy { it.validity() }
-                                            .toList()
-                                    return when (bestMatches.size) {
-                                        // This can happen if what we're deserializing is completely
-                                        // incompatible with all the possible variants (e.g.
-                                        // deserializing from object).
-                                        0 -> Value(_json = json)
-                                        1 -> bestMatches.single()
-                                        // If there's more than one match with the highest validity,
-                                        // then use the first completely valid match, or simply the
-                                        // first match if none are completely valid.
-                                        else ->
-                                            bestMatches.firstOrNull { it.isValid() }
-                                                ?: bestMatches.first()
-                                    }
-                                }
-                            }
-
-                            internal class Serializer : BaseSerializer<Value>(Value::class) {
-
-                                override fun serialize(
-                                    value: Value,
-                                    generator: JsonGenerator,
-                                    provider: SerializerProvider,
-                                ) {
-                                    when {
-                                        value.regex != null -> generator.writeObject(value.regex)
-                                        value.number != null -> generator.writeObject(value.number)
-                                        value.listOfStrings != null ->
-                                            generator.writeObject(value.listOfStrings)
-                                        value._json != null -> generator.writeObject(value._json)
-                                        else -> throw IllegalStateException("Invalid Value")
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Condition &&
-                                attribute == other.attribute &&
-                                operation == other.operation &&
-                                value == other.value &&
-                                additionalProperties == other.additionalProperties
-                        }
-
-                        private val hashCode: Int by lazy {
-                            Objects.hash(attribute, operation, value, additionalProperties)
-                        }
-
-                        override fun hashCode(): Int = hashCode
-
-                        override fun toString() =
-                            "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
-                    }
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is ConditionalAuthorizationActionParameters &&
-                            action == other.action &&
-                            conditions == other.conditions &&
-                            additionalProperties == other.additionalProperties
-                    }
-
-                    private val hashCode: Int by lazy {
-                        Objects.hash(action, conditions, additionalProperties)
-                    }
-
-                    override fun hashCode(): Int = hashCode
-
-                    override fun toString() =
-                        "ConditionalAuthorizationActionParameters{action=$action, conditions=$conditions, additionalProperties=$additionalProperties}"
-                }
             }
 
             /**
@@ -8126,29 +3459,162 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /** The event stream during which the rule will be evaluated. */
+            class EventStream
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
+
+                    @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
+
+                    @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
+                }
+
+                /** An enum containing [EventStream]'s known values. */
+                enum class Known {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                }
+
+                /**
+                 * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [EventStream] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AUTHORIZATION,
+                    THREE_DS_AUTHENTICATION,
+                    /**
+                     * An enum member indicating that [EventStream] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AUTHORIZATION -> Value.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AUTHORIZATION -> Known.AUTHORIZATION
+                        THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
+                        else -> throw LithicInvalidDataException("Unknown EventStream: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): EventStream = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is EventStream && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return other is CreateAuthRuleRequestProgramLevel &&
+                return other is ProgramLevelRule &&
+                    parameters == other.parameters &&
                     programLevel == other.programLevel &&
+                    type == other.type &&
                     eventStream == other.eventStream &&
                     excludedCardTokens == other.excludedCardTokens &&
                     name == other.name &&
-                    parameters == other.parameters &&
-                    type == other.type &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
                 Objects.hash(
+                    parameters,
                     programLevel,
+                    type,
                     eventStream,
                     excludedCardTokens,
                     name,
-                    parameters,
-                    type,
                     additionalProperties,
                 )
             }
@@ -8156,7 +3622,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, eventStream=$eventStream, excludedCardTokens=$excludedCardTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
+                "ProgramLevelRule{parameters=$parameters, programLevel=$programLevel, type=$type, eventStream=$eventStream, excludedCardTokens=$excludedCardTokens, name=$name, additionalProperties=$additionalProperties}"
         }
     }
 
