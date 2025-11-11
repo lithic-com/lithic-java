@@ -25,9 +25,9 @@ internal class VelocityLimitParamsTest {
                         .build()
                 )
                 .period(
-                    VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                    VelocityLimitPeriod.TrailingWindowObject.builder()
                         .duration(10L)
-                        .type(VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM)
+                        .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                         .build()
                 )
                 .scope(VelocityLimitParams.VelocityScope.CARD)
@@ -49,10 +49,10 @@ internal class VelocityLimitParamsTest {
             )
         assertThat(velocityLimitParams.period())
             .isEqualTo(
-                VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(
-                    VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                VelocityLimitPeriod.ofTrailingWindowObject(
+                    VelocityLimitPeriod.TrailingWindowObject.builder()
                         .duration(10L)
-                        .type(VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM)
+                        .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                         .build()
                 )
             )
@@ -78,9 +78,9 @@ internal class VelocityLimitParamsTest {
                         .build()
                 )
                 .period(
-                    VelocityLimitParamsPeriodWindow.TrailingWindowObject.builder()
+                    VelocityLimitPeriod.TrailingWindowObject.builder()
                         .duration(10L)
-                        .type(VelocityLimitParamsPeriodWindow.TrailingWindowObject.Type.CUSTOM)
+                        .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                         .build()
                 )
                 .scope(VelocityLimitParams.VelocityScope.CARD)

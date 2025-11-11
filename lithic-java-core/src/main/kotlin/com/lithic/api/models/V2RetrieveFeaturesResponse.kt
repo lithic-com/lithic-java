@@ -225,7 +225,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val filters: JsonField<VelocityLimitFilters>,
-        private val period: JsonField<VelocityLimitParamsPeriodWindow>,
+        private val period: JsonField<VelocityLimitPeriod>,
         private val scope: JsonField<VelocityScope>,
         private val value: JsonField<Value>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -238,7 +238,7 @@ private constructor(
             filters: JsonField<VelocityLimitFilters> = JsonMissing.of(),
             @JsonProperty("period")
             @ExcludeMissing
-            period: JsonField<VelocityLimitParamsPeriodWindow> = JsonMissing.of(),
+            period: JsonField<VelocityLimitPeriod> = JsonMissing.of(),
             @JsonProperty("scope")
             @ExcludeMissing
             scope: JsonField<VelocityScope> = JsonMissing.of(),
@@ -257,7 +257,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun period(): VelocityLimitParamsPeriodWindow = period.getRequired("period")
+        fun period(): VelocityLimitPeriod = period.getRequired("period")
 
         /**
          * The scope the velocity is calculated for
@@ -289,7 +289,7 @@ private constructor(
          */
         @JsonProperty("period")
         @ExcludeMissing
-        fun _period(): JsonField<VelocityLimitParamsPeriodWindow> = period
+        fun _period(): JsonField<VelocityLimitPeriod> = period
 
         /**
          * Returns the raw JSON value of [scope].
@@ -337,7 +337,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var filters: JsonField<VelocityLimitFilters>? = null
-            private var period: JsonField<VelocityLimitParamsPeriodWindow>? = null
+            private var period: JsonField<VelocityLimitPeriod>? = null
             private var scope: JsonField<VelocityScope>? = null
             private var value: JsonField<Value>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -363,53 +363,51 @@ private constructor(
             fun filters(filters: JsonField<VelocityLimitFilters>) = apply { this.filters = filters }
 
             /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
-            fun period(period: VelocityLimitParamsPeriodWindow) = period(JsonField.of(period))
+            fun period(period: VelocityLimitPeriod) = period(JsonField.of(period))
 
             /**
              * Sets [Builder.period] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.period] with a well-typed
-             * [VelocityLimitParamsPeriodWindow] value instead. This method is primarily for setting
-             * the field to an undocumented or not yet supported value.
+             * You should usually call [Builder.period] with a well-typed [VelocityLimitPeriod]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
-            fun period(period: JsonField<VelocityLimitParamsPeriodWindow>) = apply {
-                this.period = period
-            }
+            fun period(period: JsonField<VelocityLimitPeriod>) = apply { this.period = period }
 
             /**
              * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(trailingWindowObject)`.
+             * `VelocityLimitPeriod.ofTrailingWindowObject(trailingWindowObject)`.
              */
-            fun period(trailingWindowObject: VelocityLimitParamsPeriodWindow.TrailingWindowObject) =
-                period(VelocityLimitParamsPeriodWindow.ofTrailingWindowObject(trailingWindowObject))
+            fun period(trailingWindowObject: VelocityLimitPeriod.TrailingWindowObject) =
+                period(VelocityLimitPeriod.ofTrailingWindowObject(trailingWindowObject))
 
             /**
              * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofFixedWindowDay(fixedWindowDay)`.
+             * `VelocityLimitPeriod.ofFixedWindowDay(fixedWindowDay)`.
              */
-            fun period(fixedWindowDay: VelocityLimitParamsPeriodWindow.FixedWindowDay) =
-                period(VelocityLimitParamsPeriodWindow.ofFixedWindowDay(fixedWindowDay))
+            fun period(fixedWindowDay: VelocityLimitPeriod.FixedWindowDay) =
+                period(VelocityLimitPeriod.ofFixedWindowDay(fixedWindowDay))
 
             /**
              * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(fixedWindowWeek)`.
+             * `VelocityLimitPeriod.ofFixedWindowWeek(fixedWindowWeek)`.
              */
-            fun period(fixedWindowWeek: VelocityLimitParamsPeriodWindow.FixedWindowWeek) =
-                period(VelocityLimitParamsPeriodWindow.ofFixedWindowWeek(fixedWindowWeek))
+            fun period(fixedWindowWeek: VelocityLimitPeriod.FixedWindowWeek) =
+                period(VelocityLimitPeriod.ofFixedWindowWeek(fixedWindowWeek))
 
             /**
              * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(fixedWindowMonth)`.
+             * `VelocityLimitPeriod.ofFixedWindowMonth(fixedWindowMonth)`.
              */
-            fun period(fixedWindowMonth: VelocityLimitParamsPeriodWindow.FixedWindowMonth) =
-                period(VelocityLimitParamsPeriodWindow.ofFixedWindowMonth(fixedWindowMonth))
+            fun period(fixedWindowMonth: VelocityLimitPeriod.FixedWindowMonth) =
+                period(VelocityLimitPeriod.ofFixedWindowMonth(fixedWindowMonth))
 
             /**
              * Alias for calling [period] with
-             * `VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear)`.
+             * `VelocityLimitPeriod.ofFixedWindowYear(fixedWindowYear)`.
              */
-            fun period(fixedWindowYear: VelocityLimitParamsPeriodWindow.FixedWindowYear) =
-                period(VelocityLimitParamsPeriodWindow.ofFixedWindowYear(fixedWindowYear))
+            fun period(fixedWindowYear: VelocityLimitPeriod.FixedWindowYear) =
+                period(VelocityLimitPeriod.ofFixedWindowYear(fixedWindowYear))
 
             /** The scope the velocity is calculated for */
             fun scope(scope: VelocityScope) = scope(JsonField.of(scope))

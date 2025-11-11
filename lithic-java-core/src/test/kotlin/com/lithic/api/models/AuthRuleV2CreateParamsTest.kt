@@ -11,14 +11,7 @@ internal class AuthRuleV2CreateParamsTest {
     fun create() {
         AuthRuleV2CreateParams.builder()
             .body(
-                AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .eventStream(
-                        AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.EventStream
-                            .AUTHORIZATION
-                    )
-                    .name("name")
+                AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                     .parameters(
                         ConditionalBlockParameters.builder()
                             .addCondition(
@@ -31,9 +24,14 @@ internal class AuthRuleV2CreateParamsTest {
                             .build()
                     )
                     .type(
-                        AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.AuthRuleType
-                            .CONDITIONAL_BLOCK
+                        AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.CONDITIONAL_BLOCK
                     )
+                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .eventStream(
+                        AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
+                    )
+                    .name("name")
                     .build()
             )
             .build()
@@ -44,15 +42,7 @@ internal class AuthRuleV2CreateParamsTest {
         val params =
             AuthRuleV2CreateParams.builder()
                 .body(
-                    AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .eventStream(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .EventStream
-                                .AUTHORIZATION
-                        )
-                        .name("name")
+                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(
@@ -65,10 +55,15 @@ internal class AuthRuleV2CreateParamsTest {
                                 .build()
                         )
                         .type(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .AuthRuleType
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
                                 .CONDITIONAL_BLOCK
                         )
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .eventStream(
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
+                        )
+                        .name("name")
                         .build()
                 )
                 .build()
@@ -77,16 +72,8 @@ internal class AuthRuleV2CreateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2CreateParams.Body.ofCreateAuthRuleRequestAccountTokens(
-                    AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .eventStream(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .EventStream
-                                .AUTHORIZATION
-                        )
-                        .name("name")
+                AuthRuleV2CreateParams.Body.ofAccountLevelRule(
+                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(
@@ -99,10 +86,15 @@ internal class AuthRuleV2CreateParamsTest {
                                 .build()
                         )
                         .type(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .AuthRuleType
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
                                 .CONDITIONAL_BLOCK
                         )
+                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .eventStream(
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
+                        )
+                        .name("name")
                         .build()
                 )
             )
@@ -113,15 +105,14 @@ internal class AuthRuleV2CreateParamsTest {
         val params =
             AuthRuleV2CreateParams.builder()
                 .body(
-                    AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
+                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(AuthRuleCondition.builder().build())
                                 .build()
                         )
                         .type(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .AuthRuleType
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
                                 .CONDITIONAL_BLOCK
                         )
                         .build()
@@ -132,16 +123,15 @@ internal class AuthRuleV2CreateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2CreateParams.Body.ofCreateAuthRuleRequestAccountTokens(
-                    AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens.builder()
+                AuthRuleV2CreateParams.Body.ofAccountLevelRule(
+                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
                                 .addCondition(AuthRuleCondition.builder().build())
                                 .build()
                         )
                         .type(
-                            AuthRuleV2CreateParams.Body.CreateAuthRuleRequestAccountTokens
-                                .AuthRuleType
+                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
                                 .CONDITIONAL_BLOCK
                         )
                         .build()
