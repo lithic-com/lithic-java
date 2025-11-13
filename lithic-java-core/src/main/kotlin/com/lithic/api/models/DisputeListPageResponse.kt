@@ -21,16 +21,14 @@ import kotlin.jvm.optionals.getOrNull
 class DisputeListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<DisputeListResponse>>,
+    private val data: JsonField<List<Dispute>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("data")
-        @ExcludeMissing
-        data: JsonField<List<DisputeListResponse>> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<Dispute>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
@@ -38,7 +36,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): List<DisputeListResponse> = data.getRequired("data")
+    fun data(): List<Dispute> = data.getRequired("data")
 
     /**
      * More data exists.
@@ -53,7 +51,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<DisputeListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Dispute>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -91,7 +89,7 @@ private constructor(
     /** A builder for [DisputeListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<DisputeListResponse>>? = null
+        private var data: JsonField<MutableList<Dispute>>? = null
         private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -102,25 +100,25 @@ private constructor(
             additionalProperties = disputeListPageResponse.additionalProperties.toMutableMap()
         }
 
-        fun data(data: List<DisputeListResponse>) = data(JsonField.of(data))
+        fun data(data: List<Dispute>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<DisputeListResponse>`
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.data] with a well-typed `List<Dispute>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun data(data: JsonField<List<DisputeListResponse>>) = apply {
+        fun data(data: JsonField<List<Dispute>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [DisputeListResponse] to [Builder.data].
+         * Adds a single [Dispute] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: DisputeListResponse) = apply {
+        fun addData(data: Dispute) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)
