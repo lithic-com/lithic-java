@@ -25,6 +25,8 @@ import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
+import com.lithic.api.models.PaymentReturnParams
+import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -76,6 +78,13 @@ class PaymentServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<PaymentRetryResponse> =
         // post /v1/payments/{payment_token}/retry
         withRawResponse().retry(params, requestOptions).thenApply { it.parse() }
+
+    override fun return_(
+        params: PaymentReturnParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<PaymentReturnResponse> =
+        // post /v1/payments/{payment_token}/return
+        withRawResponse().return_(params, requestOptions).thenApply { it.parse() }
 
     override fun simulateAction(
         params: PaymentSimulateActionParams,
@@ -245,6 +254,40 @@ class PaymentServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     errorHandler.handle(response).parseable {
                         response
                             .use { retryHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val returnHandler: Handler<PaymentReturnResponse> =
+            jsonHandler<PaymentReturnResponse>(clientOptions.jsonMapper)
+
+        override fun return_(
+            params: PaymentReturnParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("paymentToken", params.paymentToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "payments", params._pathParam(0), "return")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { returnHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

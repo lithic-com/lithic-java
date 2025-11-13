@@ -525,8 +525,15 @@ private constructor(
             fun tax(tax: JsonField<TaxData>) = apply { this.tax = tax }
 
             /** A customer identifier. */
-            fun customerReferenceNumber(customerReferenceNumber: String) =
-                customerReferenceNumber(JsonField.of(customerReferenceNumber))
+            fun customerReferenceNumber(customerReferenceNumber: String?) =
+                customerReferenceNumber(JsonField.ofNullable(customerReferenceNumber))
+
+            /**
+             * Alias for calling [Builder.customerReferenceNumber] with
+             * `customerReferenceNumber.orElse(null)`.
+             */
+            fun customerReferenceNumber(customerReferenceNumber: Optional<String>) =
+                customerReferenceNumber(customerReferenceNumber.getOrNull())
 
             /**
              * Sets [Builder.customerReferenceNumber] to an arbitrary JSON value.
@@ -540,8 +547,15 @@ private constructor(
             }
 
             /** A merchant identifier. */
-            fun merchantReferenceNumber(merchantReferenceNumber: String) =
-                merchantReferenceNumber(JsonField.of(merchantReferenceNumber))
+            fun merchantReferenceNumber(merchantReferenceNumber: String?) =
+                merchantReferenceNumber(JsonField.ofNullable(merchantReferenceNumber))
+
+            /**
+             * Alias for calling [Builder.merchantReferenceNumber] with
+             * `merchantReferenceNumber.orElse(null)`.
+             */
+            fun merchantReferenceNumber(merchantReferenceNumber: Optional<String>) =
+                merchantReferenceNumber(merchantReferenceNumber.getOrNull())
 
             /**
              * Sets [Builder.merchantReferenceNumber] to an arbitrary JSON value.
@@ -555,7 +569,10 @@ private constructor(
             }
 
             /** The date of the order. */
-            fun orderDate(orderDate: LocalDate) = orderDate(JsonField.of(orderDate))
+            fun orderDate(orderDate: LocalDate?) = orderDate(JsonField.ofNullable(orderDate))
+
+            /** Alias for calling [Builder.orderDate] with `orderDate.orElse(null)`. */
+            fun orderDate(orderDate: Optional<LocalDate>) = orderDate(orderDate.getOrNull())
 
             /**
              * Sets [Builder.orderDate] to an arbitrary JSON value.
@@ -777,7 +794,10 @@ private constructor(
                 }
 
                 /** The price of the item purchased in merchant currency. */
-                fun amount(amount: String) = amount(JsonField.of(amount))
+                fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<String>) = amount(amount.getOrNull())
 
                 /**
                  * Sets [Builder.amount] to an arbitrary JSON value.
@@ -789,7 +809,12 @@ private constructor(
                 fun amount(amount: JsonField<String>) = apply { this.amount = amount }
 
                 /** A human-readable description of the item. */
-                fun description(description: String) = description(JsonField.of(description))
+                fun description(description: String?) =
+                    description(JsonField.ofNullable(description))
+
+                /** Alias for calling [Builder.description] with `description.orElse(null)`. */
+                fun description(description: Optional<String>) =
+                    description(description.getOrNull())
 
                 /**
                  * Sets [Builder.description] to an arbitrary JSON value.
@@ -803,7 +828,12 @@ private constructor(
                 }
 
                 /** An identifier for the item purchased. */
-                fun productCode(productCode: String) = productCode(JsonField.of(productCode))
+                fun productCode(productCode: String?) =
+                    productCode(JsonField.ofNullable(productCode))
+
+                /** Alias for calling [Builder.productCode] with `productCode.orElse(null)`. */
+                fun productCode(productCode: Optional<String>) =
+                    productCode(productCode.getOrNull())
 
                 /**
                  * Sets [Builder.productCode] to an arbitrary JSON value.
@@ -817,7 +847,10 @@ private constructor(
                 }
 
                 /** The quantity of the item purchased. */
-                fun quantity(quantity: String) = quantity(JsonField.of(quantity))
+                fun quantity(quantity: String?) = quantity(JsonField.ofNullable(quantity))
+
+                /** Alias for calling [Builder.quantity] with `quantity.orElse(null)`. */
+                fun quantity(quantity: Optional<String>) = quantity(quantity.getOrNull())
 
                 /**
                  * Sets [Builder.quantity] to an arbitrary JSON value.
@@ -1028,7 +1061,17 @@ private constructor(
                 }
 
                 /** The amount of tax collected. */
-                fun amount(amount: Long) = amount(JsonField.of(amount))
+                fun amount(amount: Long?) = amount(JsonField.ofNullable(amount))
+
+                /**
+                 * Alias for [Builder.amount].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun amount(amount: Long) = amount(amount as Long?)
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<Long>) = amount(amount.getOrNull())
 
                 /**
                  * Sets [Builder.amount] to an arbitrary JSON value.
@@ -1040,7 +1083,10 @@ private constructor(
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** A flag indicating whether the transaction is tax exempt or not. */
-                fun exempt(exempt: TaxExemptIndicator) = exempt(JsonField.of(exempt))
+                fun exempt(exempt: TaxExemptIndicator?) = exempt(JsonField.ofNullable(exempt))
+
+                /** Alias for calling [Builder.exempt] with `exempt.orElse(null)`. */
+                fun exempt(exempt: Optional<TaxExemptIndicator>) = exempt(exempt.getOrNull())
 
                 /**
                  * Sets [Builder.exempt] to an arbitrary JSON value.
@@ -1052,8 +1098,12 @@ private constructor(
                 fun exempt(exempt: JsonField<TaxExemptIndicator>) = apply { this.exempt = exempt }
 
                 /** The tax ID of the merchant. */
-                fun merchantTaxId(merchantTaxId: String) =
-                    merchantTaxId(JsonField.of(merchantTaxId))
+                fun merchantTaxId(merchantTaxId: String?) =
+                    merchantTaxId(JsonField.ofNullable(merchantTaxId))
+
+                /** Alias for calling [Builder.merchantTaxId] with `merchantTaxId.orElse(null)`. */
+                fun merchantTaxId(merchantTaxId: Optional<String>) =
+                    merchantTaxId(merchantTaxId.getOrNull())
 
                 /**
                  * Sets [Builder.merchantTaxId] to an arbitrary JSON value.
@@ -1538,7 +1588,12 @@ private constructor(
              * The driver number entered into the terminal at the time of sale, with leading zeros
              * stripped.
              */
-            fun driverNumber(driverNumber: String) = driverNumber(JsonField.of(driverNumber))
+            fun driverNumber(driverNumber: String?) =
+                driverNumber(JsonField.ofNullable(driverNumber))
+
+            /** Alias for calling [Builder.driverNumber] with `driverNumber.orElse(null)`. */
+            fun driverNumber(driverNumber: Optional<String>) =
+                driverNumber(driverNumber.getOrNull())
 
             /**
              * Sets [Builder.driverNumber] to an arbitrary JSON value.
@@ -1552,7 +1607,17 @@ private constructor(
             }
 
             /** The odometer reading entered into the terminal at the time of sale. */
-            fun odometer(odometer: Long) = odometer(JsonField.of(odometer))
+            fun odometer(odometer: Long?) = odometer(JsonField.ofNullable(odometer))
+
+            /**
+             * Alias for [Builder.odometer].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun odometer(odometer: Long) = odometer(odometer as Long?)
+
+            /** Alias for calling [Builder.odometer] with `odometer.orElse(null)`. */
+            fun odometer(odometer: Optional<Long>) = odometer(odometer.getOrNull())
 
             /**
              * Sets [Builder.odometer] to an arbitrary JSON value.
@@ -1581,7 +1646,12 @@ private constructor(
              * The vehicle number entered into the terminal at the time of sale, with leading zeros
              * stripped.
              */
-            fun vehicleNumber(vehicleNumber: String) = vehicleNumber(JsonField.of(vehicleNumber))
+            fun vehicleNumber(vehicleNumber: String?) =
+                vehicleNumber(JsonField.ofNullable(vehicleNumber))
+
+            /** Alias for calling [Builder.vehicleNumber] with `vehicleNumber.orElse(null)`. */
+            fun vehicleNumber(vehicleNumber: Optional<String>) =
+                vehicleNumber(vehicleNumber.getOrNull())
 
             /**
              * Sets [Builder.vehicleNumber] to an arbitrary JSON value.
@@ -1783,7 +1853,17 @@ private constructor(
                 }
 
                 /** The discount applied to the gross sale amount. */
-                fun discount(discount: Long) = discount(JsonField.of(discount))
+                fun discount(discount: Long?) = discount(JsonField.ofNullable(discount))
+
+                /**
+                 * Alias for [Builder.discount].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun discount(discount: Long) = discount(discount as Long?)
+
+                /** Alias for calling [Builder.discount] with `discount.orElse(null)`. */
+                fun discount(discount: Optional<Long>) = discount(discount.getOrNull())
 
                 /**
                  * Sets [Builder.discount] to an arbitrary JSON value.
@@ -1795,7 +1875,17 @@ private constructor(
                 fun discount(discount: JsonField<Long>) = apply { this.discount = discount }
 
                 /** The gross sale amount. */
-                fun grossSale(grossSale: Long) = grossSale(JsonField.of(grossSale))
+                fun grossSale(grossSale: Long?) = grossSale(JsonField.ofNullable(grossSale))
+
+                /**
+                 * Alias for [Builder.grossSale].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun grossSale(grossSale: Long) = grossSale(grossSale as Long?)
+
+                /** Alias for calling [Builder.grossSale] with `grossSale.orElse(null)`. */
+                fun grossSale(grossSale: Optional<Long>) = grossSale(grossSale.getOrNull())
 
                 /**
                  * Sets [Builder.grossSale] to an arbitrary JSON value.
@@ -1807,7 +1897,17 @@ private constructor(
                 fun grossSale(grossSale: JsonField<Long>) = apply { this.grossSale = grossSale }
 
                 /** The amount after discount. */
-                fun netSale(netSale: Long) = netSale(JsonField.of(netSale))
+                fun netSale(netSale: Long?) = netSale(JsonField.ofNullable(netSale))
+
+                /**
+                 * Alias for [Builder.netSale].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun netSale(netSale: Long) = netSale(netSale as Long?)
+
+                /** Alias for calling [Builder.netSale] with `netSale.orElse(null)`. */
+                fun netSale(netSale: Optional<Long>) = netSale(netSale.getOrNull())
 
                 /**
                  * Sets [Builder.netSale] to an arbitrary JSON value.
@@ -2033,7 +2133,10 @@ private constructor(
                 }
 
                 /** The quantity of fuel purchased. */
-                fun quantity(quantity: String) = quantity(JsonField.of(quantity))
+                fun quantity(quantity: String?) = quantity(JsonField.ofNullable(quantity))
+
+                /** Alias for calling [Builder.quantity] with `quantity.orElse(null)`. */
+                fun quantity(quantity: Optional<String>) = quantity(quantity.getOrNull())
 
                 /**
                  * Sets [Builder.quantity] to an arbitrary JSON value.
@@ -2045,7 +2148,10 @@ private constructor(
                 fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
                 /** The type of fuel purchased. */
-                fun type(type: FuelType) = type(JsonField.of(type))
+                fun type(type: FuelType?) = type(JsonField.ofNullable(type))
+
+                /** Alias for calling [Builder.type] with `type.orElse(null)`. */
+                fun type(type: Optional<FuelType>) = type(type.getOrNull())
 
                 /**
                  * Sets [Builder.type] to an arbitrary JSON value.
@@ -2057,8 +2163,12 @@ private constructor(
                 fun type(type: JsonField<FuelType>) = apply { this.type = type }
 
                 /** Unit of measure for fuel disbursement. */
-                fun unitOfMeasure(unitOfMeasure: FuelUnitOfMeasure) =
-                    unitOfMeasure(JsonField.of(unitOfMeasure))
+                fun unitOfMeasure(unitOfMeasure: FuelUnitOfMeasure?) =
+                    unitOfMeasure(JsonField.ofNullable(unitOfMeasure))
+
+                /** Alias for calling [Builder.unitOfMeasure] with `unitOfMeasure.orElse(null)`. */
+                fun unitOfMeasure(unitOfMeasure: Optional<FuelUnitOfMeasure>) =
+                    unitOfMeasure(unitOfMeasure.getOrNull())
 
                 /**
                  * Sets [Builder.unitOfMeasure] to an arbitrary JSON value.
@@ -2072,7 +2182,17 @@ private constructor(
                 }
 
                 /** The price per unit of fuel. */
-                fun unitPrice(unitPrice: Long) = unitPrice(JsonField.of(unitPrice))
+                fun unitPrice(unitPrice: Long?) = unitPrice(JsonField.ofNullable(unitPrice))
+
+                /**
+                 * Alias for [Builder.unitPrice].
+                 *
+                 * This unboxed primitive overload exists for backwards compatibility.
+                 */
+                fun unitPrice(unitPrice: Long) = unitPrice(unitPrice as Long?)
+
+                /** Alias for calling [Builder.unitPrice] with `unitPrice.orElse(null)`. */
+                fun unitPrice(unitPrice: Optional<Long>) = unitPrice(unitPrice.getOrNull())
 
                 /**
                  * Sets [Builder.unitPrice] to an arbitrary JSON value.

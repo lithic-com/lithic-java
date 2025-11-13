@@ -20,15 +20,12 @@ internal class FinancialTransactionTest {
                 .currency("currency")
                 .descriptor("descriptor")
                 .addEvent(
-                    FinancialTransaction.FinancialEvent.builder()
+                    FinancialEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                        .type(
-                            FinancialTransaction.FinancialEvent.FinancialEventType
-                                .ACH_ORIGINATION_CANCELLED
-                        )
+                        .result(FinancialEvent.Result.APPROVED)
+                        .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                         .build()
                 )
                 .pendingAmount(0L)
@@ -46,15 +43,12 @@ internal class FinancialTransactionTest {
         assertThat(financialTransaction.descriptor()).isEqualTo("descriptor")
         assertThat(financialTransaction.events())
             .containsExactly(
-                FinancialTransaction.FinancialEvent.builder()
+                FinancialEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                    .type(
-                        FinancialTransaction.FinancialEvent.FinancialEventType
-                            .ACH_ORIGINATION_CANCELLED
-                    )
+                    .result(FinancialEvent.Result.APPROVED)
+                    .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                     .build()
             )
         assertThat(financialTransaction.pendingAmount()).isEqualTo(0L)
@@ -76,15 +70,12 @@ internal class FinancialTransactionTest {
                 .currency("currency")
                 .descriptor("descriptor")
                 .addEvent(
-                    FinancialTransaction.FinancialEvent.builder()
+                    FinancialEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                        .type(
-                            FinancialTransaction.FinancialEvent.FinancialEventType
-                                .ACH_ORIGINATION_CANCELLED
-                        )
+                        .result(FinancialEvent.Result.APPROVED)
+                        .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                         .build()
                 )
                 .pendingAmount(0L)

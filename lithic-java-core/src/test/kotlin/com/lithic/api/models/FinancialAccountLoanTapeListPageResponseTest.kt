@@ -48,28 +48,28 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .balances(
                             LoanTape.Balances.builder()
                                 .due(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .nextStatementDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .pastDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .pastStatementsDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
@@ -82,7 +82,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .creditProductToken("credit_product_token")
                         .date(LocalDate.parse("2019-12-27"))
                         .dayTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)
@@ -103,14 +103,14 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                             LoanTape.InterestDetails.builder()
                                 .actualInterestCharged(0L)
                                 .dailyBalanceAmounts(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
                                         .build()
                                 )
                                 .effectiveApr(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
@@ -120,7 +120,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                     LoanTape.InterestDetails.InterestCalculationMethod.DAILY
                                 )
                                 .interestForPeriod(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
@@ -134,14 +134,10 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                             LoanTape.BalanceDetails.builder().amount(0L).remaining(0L).build()
                         )
                         .paymentAllocation(
-                            LoanTape.CategoryBalances.builder()
-                                .fees(0L)
-                                .interest(0L)
-                                .principal(0L)
-                                .build()
+                            CategoryBalances.builder().fees(0L).interest(0L).principal(0L).build()
                         )
                         .periodTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)
@@ -162,7 +158,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .version(0L)
                         .ytdTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)
@@ -215,28 +211,28 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                     .balances(
                         LoanTape.Balances.builder()
                             .due(
-                                LoanTape.Balances.CategoryBalances.builder()
+                                CategoryBalances.builder()
                                     .fees(0L)
                                     .interest(0L)
                                     .principal(0L)
                                     .build()
                             )
                             .nextStatementDue(
-                                LoanTape.Balances.CategoryBalances.builder()
+                                CategoryBalances.builder()
                                     .fees(0L)
                                     .interest(0L)
                                     .principal(0L)
                                     .build()
                             )
                             .pastDue(
-                                LoanTape.Balances.CategoryBalances.builder()
+                                CategoryBalances.builder()
                                     .fees(0L)
                                     .interest(0L)
                                     .principal(0L)
                                     .build()
                             )
                             .pastStatementsDue(
-                                LoanTape.Balances.CategoryBalances.builder()
+                                CategoryBalances.builder()
                                     .fees(0L)
                                     .interest(0L)
                                     .principal(0L)
@@ -249,7 +245,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                     .creditProductToken("credit_product_token")
                     .date(LocalDate.parse("2019-12-27"))
                     .dayTotals(
-                        LoanTape.StatementTotals.builder()
+                        StatementTotals.builder()
                             .balanceTransfers(0L)
                             .cashAdvances(0L)
                             .credits(0L)
@@ -270,14 +266,14 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         LoanTape.InterestDetails.builder()
                             .actualInterestCharged(0L)
                             .dailyBalanceAmounts(
-                                LoanTape.InterestDetails.CategoryDetails.builder()
+                                CategoryDetails.builder()
                                     .balanceTransfers("balance_transfers")
                                     .cashAdvances("cash_advances")
                                     .purchases("purchases")
                                     .build()
                             )
                             .effectiveApr(
-                                LoanTape.InterestDetails.CategoryDetails.builder()
+                                CategoryDetails.builder()
                                     .balanceTransfers("balance_transfers")
                                     .cashAdvances("cash_advances")
                                     .purchases("purchases")
@@ -287,7 +283,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                 LoanTape.InterestDetails.InterestCalculationMethod.DAILY
                             )
                             .interestForPeriod(
-                                LoanTape.InterestDetails.CategoryDetails.builder()
+                                CategoryDetails.builder()
                                     .balanceTransfers("balance_transfers")
                                     .cashAdvances("cash_advances")
                                     .purchases("purchases")
@@ -301,14 +297,10 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         LoanTape.BalanceDetails.builder().amount(0L).remaining(0L).build()
                     )
                     .paymentAllocation(
-                        LoanTape.CategoryBalances.builder()
-                            .fees(0L)
-                            .interest(0L)
-                            .principal(0L)
-                            .build()
+                        CategoryBalances.builder().fees(0L).interest(0L).principal(0L).build()
                     )
                     .periodTotals(
-                        LoanTape.StatementTotals.builder()
+                        StatementTotals.builder()
                             .balanceTransfers(0L)
                             .cashAdvances(0L)
                             .credits(0L)
@@ -329,7 +321,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .version(0L)
                     .ytdTotals(
-                        LoanTape.StatementTotals.builder()
+                        StatementTotals.builder()
                             .balanceTransfers(0L)
                             .cashAdvances(0L)
                             .credits(0L)
@@ -386,28 +378,28 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .balances(
                             LoanTape.Balances.builder()
                                 .due(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .nextStatementDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .pastDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
                                         .build()
                                 )
                                 .pastStatementsDue(
-                                    LoanTape.Balances.CategoryBalances.builder()
+                                    CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
                                         .principal(0L)
@@ -420,7 +412,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .creditProductToken("credit_product_token")
                         .date(LocalDate.parse("2019-12-27"))
                         .dayTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)
@@ -441,14 +433,14 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                             LoanTape.InterestDetails.builder()
                                 .actualInterestCharged(0L)
                                 .dailyBalanceAmounts(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
                                         .build()
                                 )
                                 .effectiveApr(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
@@ -458,7 +450,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                     LoanTape.InterestDetails.InterestCalculationMethod.DAILY
                                 )
                                 .interestForPeriod(
-                                    LoanTape.InterestDetails.CategoryDetails.builder()
+                                    CategoryDetails.builder()
                                         .balanceTransfers("balance_transfers")
                                         .cashAdvances("cash_advances")
                                         .purchases("purchases")
@@ -472,14 +464,10 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                             LoanTape.BalanceDetails.builder().amount(0L).remaining(0L).build()
                         )
                         .paymentAllocation(
-                            LoanTape.CategoryBalances.builder()
-                                .fees(0L)
-                                .interest(0L)
-                                .principal(0L)
-                                .build()
+                            CategoryBalances.builder().fees(0L).interest(0L).principal(0L).build()
                         )
                         .periodTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)
@@ -500,7 +488,7 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .version(0L)
                         .ytdTotals(
-                            LoanTape.StatementTotals.builder()
+                            StatementTotals.builder()
                                 .balanceTransfers(0L)
                                 .cashAdvances(0L)
                                 .credits(0L)

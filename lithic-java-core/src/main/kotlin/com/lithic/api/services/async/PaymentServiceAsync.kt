@@ -13,6 +13,8 @@ import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
+import com.lithic.api.models.PaymentReturnParams
+import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -132,6 +134,45 @@ interface PaymentServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<PaymentRetryResponse> =
         retry(paymentToken, PaymentRetryParams.none(), requestOptions)
+
+    /**
+     * Return an ACH payment with a specified return reason code. Returns must be initiated within
+     * the time window specified by NACHA rules for each return code (typically 2 banking days for
+     * most codes, 60 calendar days for unauthorized debits). For a complete list of return codes
+     * and their meanings, see the
+     * [ACH Return Reasons documentation](https://docs.lithic.com/docs/ach-overview#ach-return-reasons).
+     *
+     * Note:
+     * * This endpoint does not modify the state of the financial account associated with the
+     *   payment. If you would like to change the account state, use the
+     *   [Update financial account status](https://docs.lithic.com/reference/updatefinancialaccountstatus)
+     *   endpoint.
+     * * By default this endpoint is not enabled for your account. Please contact your
+     *   implementations manager to enable this feature.
+     */
+    fun return_(
+        paymentToken: String,
+        params: PaymentReturnParams,
+    ): CompletableFuture<PaymentReturnResponse> =
+        return_(paymentToken, params, RequestOptions.none())
+
+    /** @see return_ */
+    fun return_(
+        paymentToken: String,
+        params: PaymentReturnParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<PaymentReturnResponse> =
+        return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+
+    /** @see return_ */
+    fun return_(params: PaymentReturnParams): CompletableFuture<PaymentReturnResponse> =
+        return_(params, RequestOptions.none())
+
+    /** @see return_ */
+    fun return_(
+        params: PaymentReturnParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<PaymentReturnResponse>
 
     /** Simulate payment lifecycle event */
     fun simulateAction(
@@ -329,6 +370,36 @@ interface PaymentServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<PaymentRetryResponse>> =
             retry(paymentToken, PaymentRetryParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /v1/payments/{payment_token}/return`, but is
+         * otherwise the same as [PaymentServiceAsync.return_].
+         */
+        fun return_(
+            paymentToken: String,
+            params: PaymentReturnParams,
+        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+            return_(paymentToken, params, RequestOptions.none())
+
+        /** @see return_ */
+        fun return_(
+            paymentToken: String,
+            params: PaymentReturnParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+            return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+
+        /** @see return_ */
+        fun return_(
+            params: PaymentReturnParams
+        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+            return_(params, RequestOptions.none())
+
+        /** @see return_ */
+        fun return_(
+            params: PaymentReturnParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but

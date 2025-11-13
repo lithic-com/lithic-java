@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.PaymentCreateParams
+import com.lithic.api.models.PaymentReturnParams
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateReceiptParams
 import com.lithic.api.models.PaymentSimulateReleaseParams
@@ -86,6 +87,30 @@ internal class PaymentServiceTest {
         val paymentService = client.payments()
 
         val response = paymentService.retry("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        response.validate()
+    }
+
+    @Test
+    fun return_() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val paymentService = client.payments()
+
+        val response =
+            paymentService.return_(
+                PaymentReturnParams.builder()
+                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .returnReasonCode("R01")
+                    .addenda("addenda")
+                    .dateOfDeath(LocalDate.parse("2025-01-15"))
+                    .memo("memo")
+                    .build()
+            )
 
         response.validate()
     }

@@ -52,7 +52,7 @@ internal class StatementTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentDueDate(LocalDate.parse("2019-12-27"))
                 .periodTotals(
-                    Statement.StatementTotals.builder()
+                    StatementTotals.builder()
                         .balanceTransfers(0L)
                         .cashAdvances(0L)
                         .credits(0L)
@@ -72,7 +72,7 @@ internal class StatementTest {
                 .statementType(Statement.StatementType.INITIAL)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .ytdTotals(
-                    Statement.StatementTotals.builder()
+                    StatementTotals.builder()
                         .balanceTransfers(0L)
                         .cashAdvances(0L)
                         .credits(0L)
@@ -90,14 +90,14 @@ internal class StatementTest {
                     Statement.InterestDetails.builder()
                         .actualInterestCharged(0L)
                         .dailyBalanceAmounts(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")
                                 .build()
                         )
                         .effectiveApr(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")
@@ -107,7 +107,7 @@ internal class StatementTest {
                             Statement.InterestDetails.InterestCalculationMethod.DAILY
                         )
                         .interestForPeriod(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")
@@ -161,7 +161,7 @@ internal class StatementTest {
         assertThat(statement.paymentDueDate()).contains(LocalDate.parse("2019-12-27"))
         assertThat(statement.periodTotals())
             .isEqualTo(
-                Statement.StatementTotals.builder()
+                StatementTotals.builder()
                     .balanceTransfers(0L)
                     .cashAdvances(0L)
                     .credits(0L)
@@ -182,7 +182,7 @@ internal class StatementTest {
         assertThat(statement.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(statement.ytdTotals())
             .isEqualTo(
-                Statement.StatementTotals.builder()
+                StatementTotals.builder()
                     .balanceTransfers(0L)
                     .cashAdvances(0L)
                     .credits(0L)
@@ -201,14 +201,14 @@ internal class StatementTest {
                 Statement.InterestDetails.builder()
                     .actualInterestCharged(0L)
                     .dailyBalanceAmounts(
-                        Statement.InterestDetails.CategoryDetails.builder()
+                        CategoryDetails.builder()
                             .balanceTransfers("balance_transfers")
                             .cashAdvances("cash_advances")
                             .purchases("purchases")
                             .build()
                     )
                     .effectiveApr(
-                        Statement.InterestDetails.CategoryDetails.builder()
+                        CategoryDetails.builder()
                             .balanceTransfers("balance_transfers")
                             .cashAdvances("cash_advances")
                             .purchases("purchases")
@@ -218,7 +218,7 @@ internal class StatementTest {
                         Statement.InterestDetails.InterestCalculationMethod.DAILY
                     )
                     .interestForPeriod(
-                        Statement.InterestDetails.CategoryDetails.builder()
+                        CategoryDetails.builder()
                             .balanceTransfers("balance_transfers")
                             .cashAdvances("cash_advances")
                             .purchases("purchases")
@@ -273,7 +273,7 @@ internal class StatementTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentDueDate(LocalDate.parse("2019-12-27"))
                 .periodTotals(
-                    Statement.StatementTotals.builder()
+                    StatementTotals.builder()
                         .balanceTransfers(0L)
                         .cashAdvances(0L)
                         .credits(0L)
@@ -293,7 +293,7 @@ internal class StatementTest {
                 .statementType(Statement.StatementType.INITIAL)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .ytdTotals(
-                    Statement.StatementTotals.builder()
+                    StatementTotals.builder()
                         .balanceTransfers(0L)
                         .cashAdvances(0L)
                         .credits(0L)
@@ -311,14 +311,14 @@ internal class StatementTest {
                     Statement.InterestDetails.builder()
                         .actualInterestCharged(0L)
                         .dailyBalanceAmounts(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")
                                 .build()
                         )
                         .effectiveApr(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")
@@ -328,7 +328,7 @@ internal class StatementTest {
                             Statement.InterestDetails.InterestCalculationMethod.DAILY
                         )
                         .interestForPeriod(
-                            Statement.InterestDetails.CategoryDetails.builder()
+                            CategoryDetails.builder()
                                 .balanceTransfers("balance_transfers")
                                 .cashAdvances("cash_advances")
                                 .purchases("purchases")

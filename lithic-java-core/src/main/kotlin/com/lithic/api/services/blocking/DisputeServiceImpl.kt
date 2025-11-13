@@ -20,11 +20,11 @@ import com.lithic.api.core.http.multipartFormData
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.errors.LithicInvalidDataException
+
+import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
-import com.lithic.api.models.DisputeCreateResponse
 import com.lithic.api.models.DisputeDeleteEvidenceParams
 import com.lithic.api.models.DisputeDeleteParams
-import com.lithic.api.models.DisputeDeleteResponse
 import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
 import com.lithic.api.models.DisputeListEvidencesPage
@@ -35,9 +35,7 @@ import com.lithic.api.models.DisputeListPageResponse
 import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
-import com.lithic.api.models.DisputeRetrieveResponse
 import com.lithic.api.models.DisputeUpdateParams
-import com.lithic.api.models.DisputeUpdateResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -53,24 +51,15 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DisputeService =
         DisputeServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun create(
-        params: DisputeCreateParams,
-        requestOptions: RequestOptions,
-    ): DisputeCreateResponse =
+    override fun create(params: DisputeCreateParams, requestOptions: RequestOptions): Dispute =
         // post /v1/disputes
         withRawResponse().create(params, requestOptions).parse()
 
-    override fun retrieve(
-        params: DisputeRetrieveParams,
-        requestOptions: RequestOptions,
-    ): DisputeRetrieveResponse =
+    override fun retrieve(params: DisputeRetrieveParams, requestOptions: RequestOptions): Dispute =
         // get /v1/disputes/{dispute_token}
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    override fun update(
-        params: DisputeUpdateParams,
-        requestOptions: RequestOptions,
-    ): DisputeUpdateResponse =
+    override fun update(params: DisputeUpdateParams, requestOptions: RequestOptions): Dispute =
         // patch /v1/disputes/{dispute_token}
         withRawResponse().update(params, requestOptions).parse()
 
@@ -78,10 +67,7 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
         // get /v1/disputes
         withRawResponse().list(params, requestOptions).parse()
 
-    override fun delete(
-        params: DisputeDeleteParams,
-        requestOptions: RequestOptions,
-    ): DisputeDeleteResponse =
+    override fun delete(params: DisputeDeleteParams, requestOptions: RequestOptions): Dispute =
         // delete /v1/disputes/{dispute_token}
         withRawResponse().delete(params, requestOptions).parse()
 
@@ -126,13 +112,12 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<DisputeCreateResponse> =
-            jsonHandler<DisputeCreateResponse>(clientOptions.jsonMapper)
+        private val createHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun create(
             params: DisputeCreateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<DisputeCreateResponse> {
+        ): HttpResponseFor<Dispute> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -154,13 +139,13 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val retrieveHandler: Handler<DisputeRetrieveResponse> =
-            jsonHandler<DisputeRetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<Dispute> =
+            jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: DisputeRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<DisputeRetrieveResponse> {
+        ): HttpResponseFor<Dispute> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("disputeToken", params.disputeToken().getOrNull())
@@ -184,13 +169,12 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val updateHandler: Handler<DisputeUpdateResponse> =
-            jsonHandler<DisputeUpdateResponse>(clientOptions.jsonMapper)
+        private val updateHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun update(
             params: DisputeUpdateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<DisputeUpdateResponse> {
+        ): HttpResponseFor<Dispute> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("disputeToken", params.disputeToken().getOrNull())
@@ -249,13 +233,12 @@ class DisputeServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val deleteHandler: Handler<DisputeDeleteResponse> =
-            jsonHandler<DisputeDeleteResponse>(clientOptions.jsonMapper)
+        private val deleteHandler: Handler<Dispute> = jsonHandler<Dispute>(clientOptions.jsonMapper)
 
         override fun delete(
             params: DisputeDeleteParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<DisputeDeleteResponse> {
+        ): HttpResponseFor<Dispute> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("disputeToken", params.disputeToken().getOrNull())

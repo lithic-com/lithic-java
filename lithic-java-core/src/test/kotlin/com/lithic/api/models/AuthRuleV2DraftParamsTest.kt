@@ -16,7 +16,7 @@ internal class AuthRuleV2DraftParamsTest {
                     .addCondition(
                         AuthRuleCondition.builder()
                             .attribute(ConditionalAttribute.MCC)
-                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                            .operation(ConditionalOperation.IS_ONE_OF)
                             .value("string")
                             .build()
                     )
@@ -47,7 +47,7 @@ internal class AuthRuleV2DraftParamsTest {
                         .addCondition(
                             AuthRuleCondition.builder()
                                 .attribute(ConditionalAttribute.MCC)
-                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                .operation(ConditionalOperation.IS_ONE_OF)
                                 .value("string")
                                 .build()
                         )
@@ -64,7 +64,7 @@ internal class AuthRuleV2DraftParamsTest {
                         .addCondition(
                             AuthRuleCondition.builder()
                                 .attribute(ConditionalAttribute.MCC)
-                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                .operation(ConditionalOperation.IS_ONE_OF)
                                 .value("string")
                                 .build()
                         )

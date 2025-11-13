@@ -15,6 +15,8 @@ import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
+import com.lithic.api.models.ExternalBankAccountUnpauseParams
+import com.lithic.api.models.ExternalBankAccountUnpauseResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
@@ -261,6 +263,49 @@ interface ExternalBankAccountServiceAsync {
             ExternalBankAccountRetryPrenoteParams.none(),
             requestOptions,
         )
+
+    /** Unpause an external bank account */
+    fun unpause(
+        externalBankAccountToken: String
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse> =
+        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+
+    /** @see unpause */
+    fun unpause(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse> =
+        unpause(
+            params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see unpause */
+    fun unpause(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse> =
+        unpause(externalBankAccountToken, params, RequestOptions.none())
+
+    /** @see unpause */
+    fun unpause(
+        params: ExternalBankAccountUnpauseParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse>
+
+    /** @see unpause */
+    fun unpause(
+        params: ExternalBankAccountUnpauseParams
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse> =
+        unpause(params, RequestOptions.none())
+
+    /** @see unpause */
+    fun unpause(
+        externalBankAccountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ExternalBankAccountUnpauseResponse> =
+        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none(), requestOptions)
 
     /**
      * A view of [ExternalBankAccountServiceAsync] that provides access to raw HTTP responses for
@@ -533,6 +578,57 @@ interface ExternalBankAccountServiceAsync {
             retryPrenote(
                 externalBankAccountToken,
                 ExternalBankAccountRetryPrenoteParams.none(),
+                requestOptions,
+            )
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/external_bank_accounts/{external_bank_account_token}/unpause`, but is otherwise the
+         * same as [ExternalBankAccountServiceAsync.unpause].
+         */
+        fun unpause(
+            externalBankAccountToken: String
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>> =
+            unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+
+        /** @see unpause */
+        fun unpause(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>> =
+            unpause(
+                params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see unpause */
+        fun unpause(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>> =
+            unpause(externalBankAccountToken, params, RequestOptions.none())
+
+        /** @see unpause */
+        fun unpause(
+            params: ExternalBankAccountUnpauseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>>
+
+        /** @see unpause */
+        fun unpause(
+            params: ExternalBankAccountUnpauseParams
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>> =
+            unpause(params, RequestOptions.none())
+
+        /** @see unpause */
+        fun unpause(
+            externalBankAccountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountUnpauseResponse>> =
+            unpause(
+                externalBankAccountToken,
+                ExternalBankAccountUnpauseParams.none(),
                 requestOptions,
             )
     }

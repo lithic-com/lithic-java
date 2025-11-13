@@ -27,6 +27,8 @@ import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
+import com.lithic.api.models.ExternalBankAccountUnpauseParams
+import com.lithic.api.models.ExternalBankAccountUnpauseResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
@@ -95,6 +97,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     ): ExternalBankAccountRetryPrenoteResponse =
         // post /v1/external_bank_accounts/{external_bank_account_token}/retry_prenote
         withRawResponse().retryPrenote(params, requestOptions).parse()
+
+    override fun unpause(
+        params: ExternalBankAccountUnpauseParams,
+        requestOptions: RequestOptions,
+    ): ExternalBankAccountUnpauseResponse =
+        // post /v1/external_bank_accounts/{external_bank_account_token}/unpause
+        withRawResponse().unpause(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ExternalBankAccountService.WithRawResponse {
@@ -303,6 +312,42 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             return errorHandler.handle(response).parseable {
                 response
                     .use { retryPrenoteHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val unpauseHandler: Handler<ExternalBankAccountUnpauseResponse> =
+            jsonHandler<ExternalBankAccountUnpauseResponse>(clientOptions.jsonMapper)
+
+        override fun unpause(
+            params: ExternalBankAccountUnpauseParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ExternalBankAccountUnpauseResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "v1",
+                        "external_bank_accounts",
+                        params._pathParam(0),
+                        "unpause",
+                    )
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { unpauseHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
