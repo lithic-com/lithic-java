@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.111.0 (2025-11-13)
+
+Full Changelog: [v0.110.0...v0.111.0](https://github.com/lithic-com/lithic-java/compare/v0.110.0...v0.111.0)
+
+### Features
+
+* **api:** re-add rules metadata to tokenization events ([a6c8aab](https://github.com/lithic-com/lithic-java/commit/a6c8aabdecb7f8fdd1bb3c979a6d9550c3d420bb))
+* **api:** remove deprecated fields from Cardholder Authentication object ([a6c8aab](https://github.com/lithic-com/lithic-java/commit/a6c8aabdecb7f8fdd1bb3c979a6d9550c3d420bb))
+
+
+### Bug Fixes
+
+* **api:** adjust Auth Rules spec for better SDK structure ([a6c8aab](https://github.com/lithic-com/lithic-java/commit/a6c8aabdecb7f8fdd1bb3c979a6d9550c3d420bb))
+* **client:** multi-value header serialization ([26cec99](https://github.com/lithic-com/lithic-java/commit/26cec993b5d2d2ed0ee382726743d5573a942426))
+
 ## 0.110.0 (2025-11-10)
 
 Full Changelog: [v0.109.0...v0.110.0](https://github.com/lithic-com/lithic-java/compare/v0.109.0...v0.110.0)
