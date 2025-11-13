@@ -757,7 +757,10 @@ private constructor(
          * Indicates which Lithic account the external account is associated with. For external
          * accounts that are associated with the program, account_token field returned will be null
          */
-        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+        fun accountToken(accountToken: String?) = accountToken(JsonField.ofNullable(accountToken))
+
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /**
          * Sets [Builder.accountToken] to an arbitrary JSON value.
@@ -771,7 +774,10 @@ private constructor(
         }
 
         /** Address */
-        fun address(address: ExternalBankAccountAddress) = address(JsonField.of(address))
+        fun address(address: ExternalBankAccountAddress?) = address(JsonField.ofNullable(address))
+
+        /** Alias for calling [Builder.address] with `address.orElse(null)`. */
+        fun address(address: Optional<ExternalBankAccountAddress>) = address(address.getOrNull())
 
         /**
          * Sets [Builder.address] to an arbitrary JSON value.
@@ -785,7 +791,10 @@ private constructor(
         }
 
         /** Optional field that helps identify bank accounts in receipts */
-        fun companyId(companyId: String) = companyId(JsonField.of(companyId))
+        fun companyId(companyId: String?) = companyId(JsonField.ofNullable(companyId))
+
+        /** Alias for calling [Builder.companyId] with `companyId.orElse(null)`. */
+        fun companyId(companyId: Optional<String>) = companyId(companyId.getOrNull())
 
         /**
          * Sets [Builder.companyId] to an arbitrary JSON value.
@@ -797,7 +806,10 @@ private constructor(
         fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
         /** Date of Birth of the Individual that owns the external bank account */
-        fun dob(dob: LocalDate) = dob(JsonField.of(dob))
+        fun dob(dob: LocalDate?) = dob(JsonField.ofNullable(dob))
+
+        /** Alias for calling [Builder.dob] with `dob.orElse(null)`. */
+        fun dob(dob: Optional<LocalDate>) = dob(dob.getOrNull())
 
         /**
          * Sets [Builder.dob] to an arbitrary JSON value.
@@ -808,8 +820,12 @@ private constructor(
         fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
         /** Doing Business As */
-        fun doingBusinessAs(doingBusinessAs: String) =
-            doingBusinessAs(JsonField.of(doingBusinessAs))
+        fun doingBusinessAs(doingBusinessAs: String?) =
+            doingBusinessAs(JsonField.ofNullable(doingBusinessAs))
+
+        /** Alias for calling [Builder.doingBusinessAs] with `doingBusinessAs.orElse(null)`. */
+        fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+            doingBusinessAs(doingBusinessAs.getOrNull())
 
         /**
          * Sets [Builder.doingBusinessAs] to an arbitrary JSON value.
@@ -823,8 +839,15 @@ private constructor(
         }
 
         /** The financial account token of the operating account to fund the micro deposits */
-        fun financialAccountToken(financialAccountToken: String) =
-            financialAccountToken(JsonField.of(financialAccountToken))
+        fun financialAccountToken(financialAccountToken: String?) =
+            financialAccountToken(JsonField.ofNullable(financialAccountToken))
+
+        /**
+         * Alias for calling [Builder.financialAccountToken] with
+         * `financialAccountToken.orElse(null)`.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.getOrNull())
 
         /**
          * Sets [Builder.financialAccountToken] to an arbitrary JSON value.
@@ -838,7 +861,10 @@ private constructor(
         }
 
         /** The nickname for this External Bank Account */
-        fun name(name: String) = name(JsonField.of(name))
+        fun name(name: String?) = name(JsonField.ofNullable(name))
+
+        /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+        fun name(name: Optional<String>) = name(name.getOrNull())
 
         /**
          * Sets [Builder.name] to an arbitrary JSON value.
@@ -849,7 +875,12 @@ private constructor(
         fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** User Defined ID */
-        fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
+        fun userDefinedId(userDefinedId: String?) =
+            userDefinedId(JsonField.ofNullable(userDefinedId))
+
+        /** Alias for calling [Builder.userDefinedId] with `userDefinedId.orElse(null)`. */
+        fun userDefinedId(userDefinedId: Optional<String>) =
+            userDefinedId(userDefinedId.getOrNull())
 
         /**
          * Sets [Builder.userDefinedId] to an arbitrary JSON value.
@@ -867,8 +898,15 @@ private constructor(
          * micro-deposits returned, this field will display the reason return code sent by the ACH
          * network
          */
-        fun verificationFailedReason(verificationFailedReason: String) =
-            verificationFailedReason(JsonField.of(verificationFailedReason))
+        fun verificationFailedReason(verificationFailedReason: String?) =
+            verificationFailedReason(JsonField.ofNullable(verificationFailedReason))
+
+        /**
+         * Alias for calling [Builder.verificationFailedReason] with
+         * `verificationFailedReason.orElse(null)`.
+         */
+        fun verificationFailedReason(verificationFailedReason: Optional<String>) =
+            verificationFailedReason(verificationFailedReason.getOrNull())
 
         /**
          * Sets [Builder.verificationFailedReason] to an arbitrary JSON value.
