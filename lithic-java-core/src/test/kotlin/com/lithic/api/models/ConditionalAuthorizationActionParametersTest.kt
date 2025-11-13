@@ -17,9 +17,7 @@ internal class ConditionalAuthorizationActionParametersTest {
                 .addCondition(
                     ConditionalAuthorizationActionParameters.Condition.builder()
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
-                        .operation(
-                            ConditionalAuthorizationActionParameters.Condition.Operation.IS_ONE_OF
-                        )
+                        .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .build()
                 )
@@ -31,9 +29,7 @@ internal class ConditionalAuthorizationActionParametersTest {
             .containsExactly(
                 ConditionalAuthorizationActionParameters.Condition.builder()
                     .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
-                    .operation(
-                        ConditionalAuthorizationActionParameters.Condition.Operation.IS_ONE_OF
-                    )
+                    .operation(ConditionalOperation.IS_ONE_OF)
                     .value("string")
                     .build()
             )
@@ -48,9 +44,7 @@ internal class ConditionalAuthorizationActionParametersTest {
                 .addCondition(
                     ConditionalAuthorizationActionParameters.Condition.builder()
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
-                        .operation(
-                            ConditionalAuthorizationActionParameters.Condition.Operation.IS_ONE_OF
-                        )
+                        .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .build()
                 )

@@ -17,7 +17,7 @@ internal class AuthRuleV2CreateParamsTest {
                             .addCondition(
                                 AuthRuleCondition.builder()
                                     .attribute(ConditionalAttribute.MCC)
-                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .operation(ConditionalOperation.IS_ONE_OF)
                                     .value("string")
                                     .build()
                             )
@@ -48,7 +48,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .addCondition(
                                     AuthRuleCondition.builder()
                                         .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .operation(ConditionalOperation.IS_ONE_OF)
                                         .value("string")
                                         .build()
                                 )
@@ -79,7 +79,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .addCondition(
                                     AuthRuleCondition.builder()
                                         .attribute(ConditionalAttribute.MCC)
-                                        .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                        .operation(ConditionalOperation.IS_ONE_OF)
                                         .value("string")
                                         .build()
                                 )
@@ -108,7 +108,13 @@ internal class AuthRuleV2CreateParamsTest {
                     AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
-                                .addCondition(AuthRuleCondition.builder().build())
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(ConditionalOperation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
                                 .build()
                         )
                         .type(
@@ -127,7 +133,13 @@ internal class AuthRuleV2CreateParamsTest {
                     AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                         .parameters(
                             ConditionalBlockParameters.builder()
-                                .addCondition(AuthRuleCondition.builder().build())
+                                .addCondition(
+                                    AuthRuleCondition.builder()
+                                        .attribute(ConditionalAttribute.MCC)
+                                        .operation(ConditionalOperation.IS_ONE_OF)
+                                        .value("string")
+                                        .build()
+                                )
                                 .build()
                         )
                         .type(

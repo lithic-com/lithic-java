@@ -15,6 +15,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountAddress
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -220,7 +221,10 @@ private constructor(
          */
         fun state(state: JsonField<String>) = apply { this.state = state }
 
-        fun address2(address2: String) = address2(JsonField.of(address2))
+        fun address2(address2: String?) = address2(JsonField.ofNullable(address2))
+
+        /** Alias for calling [Builder.address2] with `address2.orElse(null)`. */
+        fun address2(address2: Optional<String>) = address2(address2.getOrNull())
 
         /**
          * Sets [Builder.address2] to an arbitrary JSON value.

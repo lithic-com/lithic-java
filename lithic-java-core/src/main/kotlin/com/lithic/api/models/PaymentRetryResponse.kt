@@ -260,13 +260,13 @@ private constructor(
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
     /**
-     * Related account tokens for the transaction
+     * Account tokens related to a payment transaction
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun relatedAccountTokens(): Payment.RelatedAccountTokens =
-        relatedAccountTokens.getRequired("related_account_tokens")
+    fun relatedAccountTokens(): Optional<Payment.RelatedAccountTokens> =
+        relatedAccountTokens.getOptional("related_account_tokens")
 
     /**
      * Transaction result
@@ -810,9 +810,16 @@ private constructor(
             this.pendingAmount = pendingAmount
         }
 
-        /** Related account tokens for the transaction */
-        fun relatedAccountTokens(relatedAccountTokens: Payment.RelatedAccountTokens) =
-            relatedAccountTokens(JsonField.of(relatedAccountTokens))
+        /** Account tokens related to a payment transaction */
+        fun relatedAccountTokens(relatedAccountTokens: Payment.RelatedAccountTokens?) =
+            relatedAccountTokens(JsonField.ofNullable(relatedAccountTokens))
+
+        /**
+         * Alias for calling [Builder.relatedAccountTokens] with
+         * `relatedAccountTokens.orElse(null)`.
+         */
+        fun relatedAccountTokens(relatedAccountTokens: Optional<Payment.RelatedAccountTokens>) =
+            relatedAccountTokens(relatedAccountTokens.getOrNull())
 
         /**
          * Sets [Builder.relatedAccountTokens] to an arbitrary JSON value.
@@ -1077,7 +1084,7 @@ private constructor(
         method().validate()
         methodAttributes().validate()
         pendingAmount()
-        relatedAccountTokens().validate()
+        relatedAccountTokens().ifPresent { it.validate() }
         result().validate()
         settledAmount()
         source().validate()

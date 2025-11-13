@@ -17,7 +17,7 @@ internal class Conditional3dsActionParametersTest {
                 .addCondition(
                     Conditional3dsActionParameters.Condition.builder()
                         .attribute(Conditional3dsActionParameters.Condition.Attribute.MCC)
-                        .operation(Conditional3dsActionParameters.Condition.Operation.IS_ONE_OF)
+                        .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .build()
                 )
@@ -29,7 +29,7 @@ internal class Conditional3dsActionParametersTest {
             .containsExactly(
                 Conditional3dsActionParameters.Condition.builder()
                     .attribute(Conditional3dsActionParameters.Condition.Attribute.MCC)
-                    .operation(Conditional3dsActionParameters.Condition.Operation.IS_ONE_OF)
+                    .operation(ConditionalOperation.IS_ONE_OF)
                     .value("string")
                     .build()
             )
@@ -44,7 +44,7 @@ internal class Conditional3dsActionParametersTest {
                 .addCondition(
                     Conditional3dsActionParameters.Condition.builder()
                         .attribute(Conditional3dsActionParameters.Condition.Attribute.MCC)
-                        .operation(Conditional3dsActionParameters.Condition.Operation.IS_ONE_OF)
+                        .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .build()
                 )

@@ -30,23 +30,12 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .currency("USD")
                 .descriptor("descriptor")
                 .addEvent(
-                    AccountActivityRetrieveTransactionResponse.FinancialTransaction.FinancialEvent
-                        .builder()
+                    FinancialEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .amount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .result(
-                            AccountActivityRetrieveTransactionResponse.FinancialTransaction
-                                .FinancialEvent
-                                .Result
-                                .APPROVED
-                        )
-                        .type(
-                            AccountActivityRetrieveTransactionResponse.FinancialTransaction
-                                .FinancialEvent
-                                .FinancialEventType
-                                .ACH_ORIGINATION_CANCELLED
-                        )
+                        .result(FinancialEvent.Result.APPROVED)
+                        .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                         .build()
                 )
                 .family(
@@ -95,24 +84,12 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .currency("USD")
                     .descriptor("descriptor")
                     .addEvent(
-                        AccountActivityRetrieveTransactionResponse.FinancialTransaction
-                            .FinancialEvent
-                            .builder()
+                        FinancialEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .result(
-                                AccountActivityRetrieveTransactionResponse.FinancialTransaction
-                                    .FinancialEvent
-                                    .Result
-                                    .APPROVED
-                            )
-                            .type(
-                                AccountActivityRetrieveTransactionResponse.FinancialTransaction
-                                    .FinancialEvent
-                                    .FinancialEventType
-                                    .ACH_ORIGINATION_CANCELLED
-                            )
+                            .result(FinancialEvent.Result.APPROVED)
+                            .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                             .build()
                     )
                     .family(
@@ -277,43 +254,48 @@ internal class AccountActivityRetrieveTransactionResponseTest {
         val card =
             AccountActivityRetrieveTransactionResponse.CardTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountToken("bd5e5649-1be8-4117-9bc5-3268258d1417")
+                .accountToken("db3942f0-0627-4887-a190-1ea83b46d091")
                 .acquirerFee(0L)
-                .acquirerReferenceNumber("12345678987654321234567")
-                .amount(1000L)
+                .acquirerReferenceNumber(null)
+                .amount(1800L)
                 .amounts(
                     Transaction.TransactionAmounts.builder()
                         .cardholder(
                             Transaction.TransactionAmounts.Cardholder.builder()
-                                .amount(-1000L)
+                                .amount(0L)
                                 .conversionRate("1.000000")
                                 .currency("USD")
                                 .build()
                         )
                         .hold(
                             Transaction.TransactionAmounts.Hold.builder()
-                                .amount(0L)
+                                .amount(-1800L)
                                 .currency("USD")
                                 .build()
                         )
                         .merchant(
                             Transaction.TransactionAmounts.Merchant.builder()
-                                .amount(-1000L)
+                                .amount(0L)
                                 .currency("USD")
                                 .build()
                         )
                         .settlement(
                             Transaction.TransactionAmounts.Settlement.builder()
-                                .amount(-1000L)
+                                .amount(0L)
                                 .currency("USD")
                                 .build()
                         )
                         .build()
                 )
-                .authorizationAmount(1000L)
-                .authorizationCode("123456")
-                .avs(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
-                .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
+                .authorizationAmount(1800L)
+                .authorizationCode("071471")
+                .avs(
+                    Transaction.Avs.builder()
+                        .address("123 Evergreen Terrace")
+                        .zipcode("95006")
+                        .build()
+                )
+                .cardToken("aac502f9-aecc-458a-954e-4bcf6edb6123")
                 .cardholderAuthentication(
                     Transaction.CardholderAuthentication.builder()
                         .authenticationMethod(
@@ -322,61 +304,59 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                         .authenticationResult(
                             Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
                         )
-                        .decisionMadeBy(
-                            Transaction.CardholderAuthentication.DecisionMadeBy.LITHIC_RULES
-                        )
+                        .decisionMadeBy(Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK)
                         .liabilityShift(
                             Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                         )
-                        .threeDSAuthenticationToken("a6e372d0-b40a-43eb-b0d1-4e1aebef5875")
+                        .threeDSAuthenticationToken("fc60d37d-95f7-419c-b628-dd9fbf9d80d0")
                         .build()
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .financialAccountToken("a3b113e8-01fe-42d3-b900-b9adf3f15496")
                 .merchant(
-                    Transaction.Merchant.builder()
-                        .acceptorId("333301802529120")
-                        .acquiringInstitutionId("191231")
-                        .city("NEW YORK")
+                    Merchant.builder()
+                        .acceptorId("452322000053360")
+                        .acquiringInstitutionId("333301802529120")
+                        .city("gosq.com")
                         .country("USA")
-                        .descriptor("COFFEE SHOP")
+                        .descriptor("SQ *SOMA EATS")
                         .mcc("5812")
-                        .state("NY")
+                        .state("CA")
                         .build()
                 )
-                .merchantAmount(1000L)
-                .merchantAuthorizationAmount(1000L)
+                .merchantAmount(1800L)
+                .merchantAuthorizationAmount(1800L)
                 .merchantCurrency("USD")
                 .network(Transaction.Network.MASTERCARD)
-                .networkRiskScore(0L)
+                .networkRiskScore(5L)
                 .pos(
                     Transaction.Pos.builder()
                         .entryMode(
                             Transaction.Pos.PosEntryMode.builder()
                                 .card(Transaction.Pos.PosEntryMode.Card.NOT_PRESENT)
-                                .cardholder(
-                                    Transaction.Pos.PosEntryMode.Cardholder.DEFERRED_BILLING
-                                )
-                                .pan(Transaction.Pos.PosEntryMode.Pan.AUTO_ENTRY)
-                                .pinEntered(true)
+                                .cardholder(Transaction.Pos.PosEntryMode.Cardholder.NOT_PRESENT)
+                                .pan(Transaction.Pos.PosEntryMode.Pan.ECOMMERCE)
+                                .pinEntered(false)
                                 .build()
                         )
                         .terminal(
                             Transaction.Pos.PosTerminal.builder()
-                                .attended(true)
-                                .cardRetentionCapable(true)
-                                .onPremise(true)
-                                .operator(Transaction.Pos.PosTerminal.Operator.ADMINISTRATIVE)
-                                .partialApprovalCapable(true)
-                                .pinCapability(Transaction.Pos.PosTerminal.PinCapability.CAPABLE)
-                                .type(Transaction.Pos.PosTerminal.Type.ADMINISTRATIVE)
+                                .attended(false)
+                                .cardRetentionCapable(false)
+                                .onPremise(false)
+                                .operator(Transaction.Pos.PosTerminal.Operator.UNKNOWN)
+                                .partialApprovalCapable(false)
+                                .pinCapability(
+                                    Transaction.Pos.PosTerminal.PinCapability.NOT_CAPABLE
+                                )
+                                .type(Transaction.Pos.PosTerminal.Type.UNKNOWN)
                                 .acceptorTerminalId("acceptor_terminal_id")
                                 .build()
                         )
                         .build()
                 )
                 .result(Transaction.DeclineResult.APPROVED)
-                .settledAmount(1000L)
+                .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
                 .tokenInfo(
                     Transaction.TokenInfo.builder()
@@ -386,14 +366,14 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addEvent(
                     Transaction.TransactionEvent.builder()
-                        .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
-                        .amount(1000L)
+                        .token("bbbf1e86-322d-11ee-9779-00505685a123")
+                        .amount(1800L)
                         .amounts(
                             Transaction.TransactionEvent.TransactionEventAmounts.builder()
                                 .cardholder(
                                     Transaction.TransactionEvent.TransactionEventAmounts.Cardholder
                                         .builder()
-                                        .amount(1000L)
+                                        .amount(1800L)
                                         .conversionRate("1.000000")
                                         .currency("USD")
                                         .build()
@@ -401,7 +381,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 .merchant(
                                     Transaction.TransactionEvent.TransactionEventAmounts.Merchant
                                         .builder()
-                                        .amount(1000L)
+                                        .amount(1800L)
                                         .currency("USD")
                                         .build()
                                 )
@@ -415,15 +395,15 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 )
                                 .build()
                         )
-                        .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
+                        .created(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
                         .addDetailedResult(Transaction.TransactionEvent.DetailedResult.APPROVED)
                         .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.DEBIT)
                         .networkInfo(
                             Transaction.TransactionEvent.NetworkInfo.builder()
                                 .acquirer(
                                     Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
-                                        .acquirerReferenceNumber("acquirer_reference_number")
-                                        .retrievalReferenceNumber("retrieval_reference_number")
+                                        .acquirerReferenceNumber(null)
+                                        .retrievalReferenceNumber("064386558597")
                                         .build()
                                 )
                                 .amex(
@@ -434,12 +414,10 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 )
                                 .mastercard(
                                     Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
-                                        .banknetReferenceNumber("banknet_reference_number")
-                                        .originalBanknetReferenceNumber(
-                                            "original_banknet_reference_number"
-                                        )
-                                        .originalSwitchSerialNumber("original_switch_serial_number")
-                                        .switchSerialNumber("switch_serial_number")
+                                        .banknetReferenceNumber("U1HSCJ")
+                                        .originalBanknetReferenceNumber(null)
+                                        .originalSwitchSerialNumber(null)
+                                        .switchSerialNumber(null)
                                         .build()
                                 )
                                 .visa(
@@ -461,7 +439,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 )
                                 .build()
                         )
-                        .type(Transaction.TransactionEvent.Type.CLEARING)
+                        .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                         .accountType(Transaction.TransactionEvent.AccountType.CHECKING)
                         .networkSpecificData(
                             Transaction.TransactionEvent.NetworkSpecificData.builder()
@@ -515,43 +493,48 @@ internal class AccountActivityRetrieveTransactionResponseTest {
             AccountActivityRetrieveTransactionResponse.ofCard(
                 AccountActivityRetrieveTransactionResponse.CardTransaction.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountToken("bd5e5649-1be8-4117-9bc5-3268258d1417")
+                    .accountToken("db3942f0-0627-4887-a190-1ea83b46d091")
                     .acquirerFee(0L)
-                    .acquirerReferenceNumber("12345678987654321234567")
-                    .amount(1000L)
+                    .acquirerReferenceNumber(null)
+                    .amount(1800L)
                     .amounts(
                         Transaction.TransactionAmounts.builder()
                             .cardholder(
                                 Transaction.TransactionAmounts.Cardholder.builder()
-                                    .amount(-1000L)
+                                    .amount(0L)
                                     .conversionRate("1.000000")
                                     .currency("USD")
                                     .build()
                             )
                             .hold(
                                 Transaction.TransactionAmounts.Hold.builder()
-                                    .amount(0L)
+                                    .amount(-1800L)
                                     .currency("USD")
                                     .build()
                             )
                             .merchant(
                                 Transaction.TransactionAmounts.Merchant.builder()
-                                    .amount(-1000L)
+                                    .amount(0L)
                                     .currency("USD")
                                     .build()
                             )
                             .settlement(
                                 Transaction.TransactionAmounts.Settlement.builder()
-                                    .amount(-1000L)
+                                    .amount(0L)
                                     .currency("USD")
                                     .build()
                             )
                             .build()
                     )
-                    .authorizationAmount(1000L)
-                    .authorizationCode("123456")
-                    .avs(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
-                    .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
+                    .authorizationAmount(1800L)
+                    .authorizationCode("071471")
+                    .avs(
+                        Transaction.Avs.builder()
+                            .address("123 Evergreen Terrace")
+                            .zipcode("95006")
+                            .build()
+                    )
+                    .cardToken("aac502f9-aecc-458a-954e-4bcf6edb6123")
                     .cardholderAuthentication(
                         Transaction.CardholderAuthentication.builder()
                             .authenticationMethod(
@@ -562,63 +545,61 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                 Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
                             )
                             .decisionMadeBy(
-                                Transaction.CardholderAuthentication.DecisionMadeBy.LITHIC_RULES
+                                Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK
                             )
                             .liabilityShift(
                                 Transaction.CardholderAuthentication.LiabilityShift
                                     ._3DS_AUTHENTICATED
                             )
-                            .threeDSAuthenticationToken("a6e372d0-b40a-43eb-b0d1-4e1aebef5875")
+                            .threeDSAuthenticationToken("fc60d37d-95f7-419c-b628-dd9fbf9d80d0")
                             .build()
                     )
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .financialAccountToken("a3b113e8-01fe-42d3-b900-b9adf3f15496")
                     .merchant(
-                        Transaction.Merchant.builder()
-                            .acceptorId("333301802529120")
-                            .acquiringInstitutionId("191231")
-                            .city("NEW YORK")
+                        Merchant.builder()
+                            .acceptorId("452322000053360")
+                            .acquiringInstitutionId("333301802529120")
+                            .city("gosq.com")
                             .country("USA")
-                            .descriptor("COFFEE SHOP")
+                            .descriptor("SQ *SOMA EATS")
                             .mcc("5812")
-                            .state("NY")
+                            .state("CA")
                             .build()
                     )
-                    .merchantAmount(1000L)
-                    .merchantAuthorizationAmount(1000L)
+                    .merchantAmount(1800L)
+                    .merchantAuthorizationAmount(1800L)
                     .merchantCurrency("USD")
                     .network(Transaction.Network.MASTERCARD)
-                    .networkRiskScore(0L)
+                    .networkRiskScore(5L)
                     .pos(
                         Transaction.Pos.builder()
                             .entryMode(
                                 Transaction.Pos.PosEntryMode.builder()
                                     .card(Transaction.Pos.PosEntryMode.Card.NOT_PRESENT)
-                                    .cardholder(
-                                        Transaction.Pos.PosEntryMode.Cardholder.DEFERRED_BILLING
-                                    )
-                                    .pan(Transaction.Pos.PosEntryMode.Pan.AUTO_ENTRY)
-                                    .pinEntered(true)
+                                    .cardholder(Transaction.Pos.PosEntryMode.Cardholder.NOT_PRESENT)
+                                    .pan(Transaction.Pos.PosEntryMode.Pan.ECOMMERCE)
+                                    .pinEntered(false)
                                     .build()
                             )
                             .terminal(
                                 Transaction.Pos.PosTerminal.builder()
-                                    .attended(true)
-                                    .cardRetentionCapable(true)
-                                    .onPremise(true)
-                                    .operator(Transaction.Pos.PosTerminal.Operator.ADMINISTRATIVE)
-                                    .partialApprovalCapable(true)
+                                    .attended(false)
+                                    .cardRetentionCapable(false)
+                                    .onPremise(false)
+                                    .operator(Transaction.Pos.PosTerminal.Operator.UNKNOWN)
+                                    .partialApprovalCapable(false)
                                     .pinCapability(
-                                        Transaction.Pos.PosTerminal.PinCapability.CAPABLE
+                                        Transaction.Pos.PosTerminal.PinCapability.NOT_CAPABLE
                                     )
-                                    .type(Transaction.Pos.PosTerminal.Type.ADMINISTRATIVE)
+                                    .type(Transaction.Pos.PosTerminal.Type.UNKNOWN)
                                     .acceptorTerminalId("acceptor_terminal_id")
                                     .build()
                             )
                             .build()
                     )
                     .result(Transaction.DeclineResult.APPROVED)
-                    .settledAmount(1000L)
+                    .settledAmount(0L)
                     .status(Transaction.Status.PENDING)
                     .tokenInfo(
                         Transaction.TokenInfo.builder()
@@ -628,15 +609,15 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .addEvent(
                         Transaction.TransactionEvent.builder()
-                            .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
-                            .amount(1000L)
+                            .token("bbbf1e86-322d-11ee-9779-00505685a123")
+                            .amount(1800L)
                             .amounts(
                                 Transaction.TransactionEvent.TransactionEventAmounts.builder()
                                     .cardholder(
                                         Transaction.TransactionEvent.TransactionEventAmounts
                                             .Cardholder
                                             .builder()
-                                            .amount(1000L)
+                                            .amount(1800L)
                                             .conversionRate("1.000000")
                                             .currency("USD")
                                             .build()
@@ -645,7 +626,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                         Transaction.TransactionEvent.TransactionEventAmounts
                                             .Merchant
                                             .builder()
-                                            .amount(1000L)
+                                            .amount(1800L)
                                             .currency("USD")
                                             .build()
                                     )
@@ -660,15 +641,15 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                     )
                                     .build()
                             )
-                            .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
+                            .created(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
                             .addDetailedResult(Transaction.TransactionEvent.DetailedResult.APPROVED)
                             .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.DEBIT)
                             .networkInfo(
                                 Transaction.TransactionEvent.NetworkInfo.builder()
                                     .acquirer(
                                         Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
-                                            .acquirerReferenceNumber("acquirer_reference_number")
-                                            .retrievalReferenceNumber("retrieval_reference_number")
+                                            .acquirerReferenceNumber(null)
+                                            .retrievalReferenceNumber("064386558597")
                                             .build()
                                     )
                                     .amex(
@@ -680,14 +661,10 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                     .mastercard(
                                         Transaction.TransactionEvent.NetworkInfo.Mastercard
                                             .builder()
-                                            .banknetReferenceNumber("banknet_reference_number")
-                                            .originalBanknetReferenceNumber(
-                                                "original_banknet_reference_number"
-                                            )
-                                            .originalSwitchSerialNumber(
-                                                "original_switch_serial_number"
-                                            )
-                                            .switchSerialNumber("switch_serial_number")
+                                            .banknetReferenceNumber("U1HSCJ")
+                                            .originalBanknetReferenceNumber(null)
+                                            .originalSwitchSerialNumber(null)
+                                            .switchSerialNumber(null)
                                             .build()
                                     )
                                     .visa(
@@ -710,7 +687,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                                     )
                                     .build()
                             )
-                            .type(Transaction.TransactionEvent.Type.CLEARING)
+                            .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .accountType(Transaction.TransactionEvent.AccountType.CHECKING)
                             .networkSpecificData(
                                 Transaction.TransactionEvent.NetworkSpecificData.builder()
@@ -761,16 +738,16 @@ internal class AccountActivityRetrieveTransactionResponseTest {
     fun ofPayment() {
         val payment =
             Payment.builder()
-                .token("cb35759d-8c18-4b7f-bb91-7c37936662c2")
+                .token("bd4efddb-771b-49e3-9af9-49b077ab5eb8")
                 .category(Payment.TransactionCategory.ACH)
-                .created(OffsetDateTime.parse("2025-10-27T20:12:15Z"))
-                .descriptor("ach_origination_debit")
-                .direction(Payment.Direction.DEBIT)
+                .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                .descriptor("ach_origination_credit")
+                .direction(Payment.Direction.CREDIT)
                 .addEvent(
                     Payment.PaymentEvent.builder()
-                        .token("38dc6bc5-d18f-594e-9ab9-ef1cfdcfbf82")
-                        .amount(1588L)
-                        .created(OffsetDateTime.parse("2025-10-27T20:12:15Z"))
+                        .token("327dccc3-fe42-54d2-962c-7f8135805464")
+                        .amount(-1588L)
+                        .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
@@ -778,16 +755,16 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 )
                 .addEvent(
                     Payment.PaymentEvent.builder()
-                        .token("e466f34a-d648-5a8f-8bc7-1d4d1e703db3")
-                        .amount(1588L)
-                        .created(OffsetDateTime.parse("2025-10-27T20:12:18Z"))
+                        .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
+                        .amount(-1588L)
+                        .created(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)
-                .financialAccountToken("f012262b-d18f-5c26-ad63-a09a11e633a6")
+                .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
                 .method(Payment.Method.ACH_NEXT_DAY)
                 .methodAttributes(
                     Payment.MethodAttributes.AchMethodAttributes.builder()
@@ -800,22 +777,22 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                         .addTraceNumber("string")
                         .build()
                 )
-                .pendingAmount(1588L)
+                .pendingAmount(-1588L)
                 .relatedAccountTokens(
                     Payment.RelatedAccountTokens.builder()
-                        .accountToken("d11bca22-39e2-475c-bbb3-6ba21e38b0d3")
-                        .businessAccountToken(null)
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
                 .result(Payment.TransactionResult.APPROVED)
                 .settledAmount(0L)
                 .source(Payment.Source.LITHIC)
                 .status(Payment.TransactionStatus.PENDING)
-                .updated(OffsetDateTime.parse("2025-10-27T20:12:18Z"))
+                .updated(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
-                .type(Payment.TransferType.ORIGINATION_DEBIT)
+                .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .build()
 
@@ -836,16 +813,16 @@ internal class AccountActivityRetrieveTransactionResponseTest {
         val accountActivityRetrieveTransactionResponse =
             AccountActivityRetrieveTransactionResponse.ofPayment(
                 Payment.builder()
-                    .token("cb35759d-8c18-4b7f-bb91-7c37936662c2")
+                    .token("bd4efddb-771b-49e3-9af9-49b077ab5eb8")
                     .category(Payment.TransactionCategory.ACH)
-                    .created(OffsetDateTime.parse("2025-10-27T20:12:15Z"))
-                    .descriptor("ach_origination_debit")
-                    .direction(Payment.Direction.DEBIT)
+                    .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                    .descriptor("ach_origination_credit")
+                    .direction(Payment.Direction.CREDIT)
                     .addEvent(
                         Payment.PaymentEvent.builder()
-                            .token("38dc6bc5-d18f-594e-9ab9-ef1cfdcfbf82")
-                            .amount(1588L)
-                            .created(OffsetDateTime.parse("2025-10-27T20:12:15Z"))
+                            .token("327dccc3-fe42-54d2-962c-7f8135805464")
+                            .amount(-1588L)
+                            .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
                             .result(Payment.PaymentEvent.Result.APPROVED)
                             .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                             .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
@@ -853,16 +830,16 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     )
                     .addEvent(
                         Payment.PaymentEvent.builder()
-                            .token("e466f34a-d648-5a8f-8bc7-1d4d1e703db3")
-                            .amount(1588L)
-                            .created(OffsetDateTime.parse("2025-10-27T20:12:18Z"))
+                            .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
+                            .amount(-1588L)
+                            .created(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
                             .result(Payment.PaymentEvent.Result.APPROVED)
                             .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                             .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
                             .build()
                     )
                     .family(Payment.Family.PAYMENT)
-                    .financialAccountToken("f012262b-d18f-5c26-ad63-a09a11e633a6")
+                    .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
                     .method(Payment.Method.ACH_NEXT_DAY)
                     .methodAttributes(
                         Payment.MethodAttributes.AchMethodAttributes.builder()
@@ -875,22 +852,22 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                             .addTraceNumber("string")
                             .build()
                     )
-                    .pendingAmount(1588L)
+                    .pendingAmount(-1588L)
                     .relatedAccountTokens(
                         Payment.RelatedAccountTokens.builder()
-                            .accountToken("d11bca22-39e2-475c-bbb3-6ba21e38b0d3")
-                            .businessAccountToken(null)
+                            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .result(Payment.TransactionResult.APPROVED)
                     .settledAmount(0L)
                     .source(Payment.Source.LITHIC)
                     .status(Payment.TransactionStatus.PENDING)
-                    .updated(OffsetDateTime.parse("2025-10-27T20:12:18Z"))
+                    .updated(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
                     .currency("USD")
                     .expectedReleaseDate(null)
                     .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
-                    .type(Payment.TransferType.ORIGINATION_DEBIT)
+                    .type(Payment.TransferType.ORIGINATION_CREDIT)
                     .userDefinedId(null)
                     .build()
             )

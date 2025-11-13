@@ -12,6 +12,7 @@ import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.ConditionalAttribute
 import com.lithic.api.models.ConditionalBlockParameters
+import com.lithic.api.models.ConditionalOperation
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -38,7 +39,7 @@ internal class V2ServiceAsyncTest {
                                     .addCondition(
                                         AuthRuleCondition.builder()
                                             .attribute(ConditionalAttribute.MCC)
-                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .operation(ConditionalOperation.IS_ONE_OF)
                                             .value("string")
                                             .build()
                                     )
@@ -154,7 +155,7 @@ internal class V2ServiceAsyncTest {
                             .addCondition(
                                 AuthRuleCondition.builder()
                                     .attribute(ConditionalAttribute.MCC)
-                                    .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                    .operation(ConditionalOperation.IS_ONE_OF)
                                     .value("string")
                                     .build()
                             )

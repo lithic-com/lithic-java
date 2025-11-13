@@ -14,13 +14,13 @@ internal class AuthRuleConditionTest {
         val authRuleCondition =
             AuthRuleCondition.builder()
                 .attribute(ConditionalAttribute.MCC)
-                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                .operation(ConditionalOperation.IS_ONE_OF)
                 .value("string")
                 .build()
 
-        assertThat(authRuleCondition.attribute()).contains(ConditionalAttribute.MCC)
-        assertThat(authRuleCondition.operation()).contains(AuthRuleCondition.Operation.IS_ONE_OF)
-        assertThat(authRuleCondition.value()).contains(AuthRuleCondition.Value.ofRegex("string"))
+        assertThat(authRuleCondition.attribute()).isEqualTo(ConditionalAttribute.MCC)
+        assertThat(authRuleCondition.operation()).isEqualTo(ConditionalOperation.IS_ONE_OF)
+        assertThat(authRuleCondition.value()).isEqualTo(ConditionalValue.ofRegex("string"))
     }
 
     @Test
@@ -29,7 +29,7 @@ internal class AuthRuleConditionTest {
         val authRuleCondition =
             AuthRuleCondition.builder()
                 .attribute(ConditionalAttribute.MCC)
-                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                .operation(ConditionalOperation.IS_ONE_OF)
                 .value("string")
                 .build()
 
