@@ -195,14 +195,26 @@ private constructor(
 
             val bestMatches =
                 sequenceOf(
-                        tryDeserialize(node, jacksonTypeRef<String>())?.let {
-                            ConditionalValue(regex = it, _json = json)
+                        if (node.isTextual) {
+                            tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                ConditionalValue(regex = it, _json = json)
+                            }
+                        } else {
+                            null
                         },
-                        tryDeserialize(node, jacksonTypeRef<Long>())?.let {
-                            ConditionalValue(number = it, _json = json)
+                        if (node.isNumber) {
+                            tryDeserialize(node, jacksonTypeRef<Long>())?.let {
+                                ConditionalValue(number = it, _json = json)
+                            }
+                        } else {
+                            null
                         },
-                        tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
-                            ConditionalValue(listOfStrings = it, _json = json)
+                        if (node.isArray) {
+                            tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
+                                ConditionalValue(listOfStrings = it, _json = json)
+                            }
+                        } else {
+                            null
                         },
                     )
                     .filterNotNull()
