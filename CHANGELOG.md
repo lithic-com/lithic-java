@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.112.0 (2025-11-17)
+
+Full Changelog: [v0.111.0...v0.112.0](https://github.com/lithic-com/lithic-java/compare/v0.111.0...v0.112.0)
+
+### Features
+
+* **api:** add disputes V2 endpoints ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **api:** add return payment method ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **api:** add Tokenization and ACH Rules ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **api:** add unpause external_bank_accounts API method ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **api:** extract some common schemas into models ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+
+
+### Bug Fixes
+
+* **api:** add type guards to ConditionalValue deserializer ([dbd6653](https://github.com/lithic-com/lithic-java/commit/dbd665344d8cc3213a31c65b8bd22a2490085be4))
+* **api:** change allowed phone number length from 18 to 16 ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **api:** mark certain optional fields as nullable ([ff8ebce](https://github.com/lithic-com/lithic-java/commit/ff8ebce11768f9f6993d13140fdd906d725d8b44))
+* **format:** remove extraneous blank line in dispute service imports ([57ec41a](https://github.com/lithic-com/lithic-java/commit/57ec41a0bfbd4385ec76dbb4d4d6901c7b838ce0))
+
 ## 0.111.0 (2025-11-13)
 
 Full Changelog: [v0.110.0...v0.111.0](https://github.com/lithic-com/lithic-java/compare/v0.110.0...v0.111.0)
