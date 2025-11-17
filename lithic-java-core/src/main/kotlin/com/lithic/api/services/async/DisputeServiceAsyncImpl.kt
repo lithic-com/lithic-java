@@ -20,7 +20,6 @@ import com.lithic.api.core.http.multipartFormData
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
 import com.lithic.api.errors.LithicInvalidDataException
-
 import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
 import com.lithic.api.models.DisputeDeleteEvidenceParams
