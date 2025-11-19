@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import kotlin.reflect.KClass
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
@@ -98,5 +99,20 @@ internal class ObjectMappersTest {
         val json = jsonMapper.writeValueAsString(testCase.string)
 
         assertDoesNotThrow { jsonMapper().readValue<LocalDateTime>(json) }
+    }
+
+    enum class LenientOffsetDateTimeTestCase(val string: String) {
+        DATE_TIME("1998-04-21T04:00:00"),
+        ZONED_DATE_TIME_1("1998-04-21T04:00:00+03:00"),
+        ZONED_DATE_TIME_2("1998-04-21T04:00:00Z"),
+    }
+
+    @ParameterizedTest
+    @EnumSource
+    fun readOffsetDateTime_lenient(testCase: LenientOffsetDateTimeTestCase) {
+        val jsonMapper = jsonMapper()
+        val json = jsonMapper.writeValueAsString(testCase.string)
+
+        assertDoesNotThrow { jsonMapper().readValue<OffsetDateTime>(json) }
     }
 }
