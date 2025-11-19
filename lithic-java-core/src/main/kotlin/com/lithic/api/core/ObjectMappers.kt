@@ -126,33 +126,6 @@ private object InputStreamSerializer : BaseSerializer<InputStream>(InputStream::
 }
 
 /**
- * A deserializer that can deserialize [OffsetDateTime], assuming UTC when a timezone isn't given.
- */
-private class LenientOffsetDateTimeDeserializer : StdDeserializer<OffsetDateTime>(OffsetDateTime::class.java) {
-    override fun logicalType(): LogicalType = LogicalType.DateTime
-
-    override fun deserialize(p: JsonParser, context: DeserializationContext?): OffsetDateTime {
-        val exceptions = mutableListOf<Exception>()
-
-        try {
-            return OffsetDateTime.parse(p.text)
-        } catch (e: DateTimeException) {
-            exceptions.add(e)
-        }
-
-        try {
-            return OffsetDateTime.parse(p.text + 'Z')
-        } catch (e: DateTimeException) {
-            exceptions.add(e)
-        }
-
-        throw JsonParseException(p, "Cannot parse `OffsetDateTime` from value: ${p.text}").apply {
-            exceptions.forEach { addSuppressed(it) }
-        }
-    }
-}
-
-/**
  * A deserializer that can deserialize [LocalDateTime] from datetimes, dates, and zoned datetimes.
  */
 private class LenientLocalDateTimeDeserializer :
@@ -190,6 +163,34 @@ private class LenientLocalDateTimeDeserializer :
         }
 
         throw JsonParseException(p, "Cannot parse `LocalDateTime` from value: ${p.text}").apply {
+            exceptions.forEach { addSuppressed(it) }
+        }
+    }
+}
+
+/**
+ * A deserializer that can deserialize [OffsetDateTime], assuming UTC when a timezone isn't given.
+ */
+private class LenientOffsetDateTimeDeserializer :
+    StdDeserializer<OffsetDateTime>(OffsetDateTime::class.java) {
+    override fun logicalType(): LogicalType = LogicalType.DateTime
+
+    override fun deserialize(p: JsonParser, context: DeserializationContext?): OffsetDateTime {
+        val exceptions = mutableListOf<Exception>()
+
+        try {
+            return OffsetDateTime.parse(p.text)
+        } catch (e: DateTimeException) {
+            exceptions.add(e)
+        }
+
+        try {
+            return OffsetDateTime.parse(p.text + 'Z')
+        } catch (e: DateTimeException) {
+            exceptions.add(e)
+        }
+
+        throw JsonParseException(p, "Cannot parse `OffsetDateTime` from value: ${p.text}").apply {
             exceptions.forEach { addSuppressed(it) }
         }
     }
