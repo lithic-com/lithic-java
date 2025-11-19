@@ -24,6 +24,7 @@ import java.io.InputStream
 import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
@@ -37,6 +38,7 @@ fun jsonMapper(): JsonMapper =
             SimpleModule()
                 .addSerializer(InputStreamSerializer)
                 .addDeserializer(LocalDateTime::class.java, LenientLocalDateTimeDeserializer())
+                .addDeserializer(OffsetDateTime::class.java, LenientOffsetDateTimeDeserializer())
         )
         .withCoercionConfig(LogicalType.Boolean) {
             it.setCoercion(CoercionInputShape.Integer, CoercionAction.Fail)
@@ -161,6 +163,34 @@ private class LenientLocalDateTimeDeserializer :
         }
 
         throw JsonParseException(p, "Cannot parse `LocalDateTime` from value: ${p.text}").apply {
+            exceptions.forEach { addSuppressed(it) }
+        }
+    }
+}
+
+/**
+ * A deserializer that can deserialize [OffsetDateTime], assuming UTC when a timezone isn't given.
+ */
+private class LenientOffsetDateTimeDeserializer :
+    StdDeserializer<OffsetDateTime>(OffsetDateTime::class.java) {
+    override fun logicalType(): LogicalType = LogicalType.DateTime
+
+    override fun deserialize(p: JsonParser, context: DeserializationContext?): OffsetDateTime {
+        val exceptions = mutableListOf<Exception>()
+
+        try {
+            return OffsetDateTime.parse(p.text)
+        } catch (e: DateTimeException) {
+            exceptions.add(e)
+        }
+
+        try {
+            return OffsetDateTime.parse(p.text + 'Z')
+        } catch (e: DateTimeException) {
+            exceptions.add(e)
+        }
+
+        throw JsonParseException(p, "Cannot parse `OffsetDateTime` from value: ${p.text}").apply {
             exceptions.forEach { addSuppressed(it) }
         }
     }
