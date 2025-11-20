@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.113.0 (2025-11-20)
+
+Full Changelog: [v0.112.0...v0.113.0](https://github.com/lithic-com/lithic-java/compare/v0.112.0...v0.113.0)
+
+### Features
+
+* **api:** Add Payoff Details ([d1ee88a](https://github.com/lithic-com/lithic-java/commit/d1ee88a985345da5724757142198d696169347d1))
+
+
+### Bug Fixes
+
+* **api:** Modify return type of returns API to payment-transaction ([d1ee88a](https://github.com/lithic-com/lithic-java/commit/d1ee88a985345da5724757142198d696169347d1))
+
 ## 0.112.0 (2025-11-17)
 
 Full Changelog: [v0.111.0...v0.112.0](https://github.com/lithic-com/lithic-java/compare/v0.111.0...v0.112.0)
