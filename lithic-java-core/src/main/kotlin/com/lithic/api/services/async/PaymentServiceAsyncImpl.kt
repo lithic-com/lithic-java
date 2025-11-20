@@ -26,7 +26,6 @@ import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
 import com.lithic.api.models.PaymentReturnParams
-import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -82,7 +81,7 @@ class PaymentServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun return_(
         params: PaymentReturnParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<PaymentReturnResponse> =
+    ): CompletableFuture<Payment> =
         // post /v1/payments/{payment_token}/return
         withRawResponse().return_(params, requestOptions).thenApply { it.parse() }
 
@@ -263,13 +262,12 @@ class PaymentServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val returnHandler: Handler<PaymentReturnResponse> =
-            jsonHandler<PaymentReturnResponse>(clientOptions.jsonMapper)
+        private val returnHandler: Handler<Payment> = jsonHandler<Payment>(clientOptions.jsonMapper)
 
         override fun return_(
             params: PaymentReturnParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> {
+        ): CompletableFuture<HttpResponseFor<Payment>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("paymentToken", params.paymentToken().getOrNull())

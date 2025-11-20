@@ -15,7 +15,6 @@ import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
 import com.lithic.api.models.PaymentReturnParams
-import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -144,7 +143,7 @@ interface PaymentService {
      * * By default this endpoint is not enabled for your account. Please contact your
      *   implementations manager to enable this feature.
      */
-    fun return_(paymentToken: String, params: PaymentReturnParams): PaymentReturnResponse =
+    fun return_(paymentToken: String, params: PaymentReturnParams): Payment =
         return_(paymentToken, params, RequestOptions.none())
 
     /** @see return_ */
@@ -152,18 +151,16 @@ interface PaymentService {
         paymentToken: String,
         params: PaymentReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): PaymentReturnResponse =
-        return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+    ): Payment = return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
     /** @see return_ */
-    fun return_(params: PaymentReturnParams): PaymentReturnResponse =
-        return_(params, RequestOptions.none())
+    fun return_(params: PaymentReturnParams): Payment = return_(params, RequestOptions.none())
 
     /** @see return_ */
     fun return_(
         params: PaymentReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): PaymentReturnResponse
+    ): Payment
 
     /** Simulate payment lifecycle event */
     fun simulateAction(
@@ -362,10 +359,7 @@ interface PaymentService {
          * otherwise the same as [PaymentService.return_].
          */
         @MustBeClosed
-        fun return_(
-            paymentToken: String,
-            params: PaymentReturnParams,
-        ): HttpResponseFor<PaymentReturnResponse> =
+        fun return_(paymentToken: String, params: PaymentReturnParams): HttpResponseFor<Payment> =
             return_(paymentToken, params, RequestOptions.none())
 
         /** @see return_ */
@@ -374,12 +368,12 @@ interface PaymentService {
             paymentToken: String,
             params: PaymentReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<PaymentReturnResponse> =
+        ): HttpResponseFor<Payment> =
             return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
         /** @see return_ */
         @MustBeClosed
-        fun return_(params: PaymentReturnParams): HttpResponseFor<PaymentReturnResponse> =
+        fun return_(params: PaymentReturnParams): HttpResponseFor<Payment> =
             return_(params, RequestOptions.none())
 
         /** @see return_ */
@@ -387,7 +381,7 @@ interface PaymentService {
         fun return_(
             params: PaymentReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<PaymentReturnResponse>
+        ): HttpResponseFor<Payment>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but
