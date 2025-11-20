@@ -44,6 +44,7 @@ private constructor(
     private val interestDetails: JsonField<InterestDetails>,
     private val nextPaymentDueDate: JsonField<LocalDate>,
     private val nextStatementEndDate: JsonField<LocalDate>,
+    private val payoffDetails: JsonField<PayoffDetails>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -110,6 +111,9 @@ private constructor(
         @JsonProperty("next_statement_end_date")
         @ExcludeMissing
         nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("payoff_details")
+        @ExcludeMissing
+        payoffDetails: JsonField<PayoffDetails> = JsonMissing.of(),
     ) : this(
         token,
         accountStanding,
@@ -132,6 +136,7 @@ private constructor(
         interestDetails,
         nextPaymentDueDate,
         nextStatementEndDate,
+        payoffDetails,
         mutableMapOf(),
     )
 
@@ -295,6 +300,14 @@ private constructor(
      */
     fun nextStatementEndDate(): Optional<LocalDate> =
         nextStatementEndDate.getOptional("next_statement_end_date")
+
+    /**
+     * Details on number and size of payments to pay off balance
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun payoffDetails(): Optional<PayoffDetails> = payoffDetails.getOptional("payoff_details")
 
     /**
      * Returns the raw JSON value of [token].
@@ -482,6 +495,15 @@ private constructor(
     @ExcludeMissing
     fun _nextStatementEndDate(): JsonField<LocalDate> = nextStatementEndDate
 
+    /**
+     * Returns the raw JSON value of [payoffDetails].
+     *
+     * Unlike [payoffDetails], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("payoff_details")
+    @ExcludeMissing
+    fun _payoffDetails(): JsonField<PayoffDetails> = payoffDetails
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -548,6 +570,7 @@ private constructor(
         private var interestDetails: JsonField<InterestDetails> = JsonMissing.of()
         private var nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of()
         private var nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of()
+        private var payoffDetails: JsonField<PayoffDetails> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -573,6 +596,7 @@ private constructor(
             interestDetails = statement.interestDetails
             nextPaymentDueDate = statement.nextPaymentDueDate
             nextStatementEndDate = statement.nextStatementEndDate
+            payoffDetails = statement.payoffDetails
             additionalProperties = statement.additionalProperties.toMutableMap()
         }
 
@@ -872,6 +896,25 @@ private constructor(
             this.nextStatementEndDate = nextStatementEndDate
         }
 
+        /** Details on number and size of payments to pay off balance */
+        fun payoffDetails(payoffDetails: PayoffDetails?) =
+            payoffDetails(JsonField.ofNullable(payoffDetails))
+
+        /** Alias for calling [Builder.payoffDetails] with `payoffDetails.orElse(null)`. */
+        fun payoffDetails(payoffDetails: Optional<PayoffDetails>) =
+            payoffDetails(payoffDetails.getOrNull())
+
+        /**
+         * Sets [Builder.payoffDetails] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.payoffDetails] with a well-typed [PayoffDetails] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun payoffDetails(payoffDetails: JsonField<PayoffDetails>) = apply {
+            this.payoffDetails = payoffDetails
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -943,6 +986,7 @@ private constructor(
                 interestDetails,
                 nextPaymentDueDate,
                 nextStatementEndDate,
+                payoffDetails,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -975,6 +1019,7 @@ private constructor(
         interestDetails().ifPresent { it.validate() }
         nextPaymentDueDate()
         nextStatementEndDate()
+        payoffDetails().ifPresent { it.validate() }
         validated = true
     }
 
@@ -1013,7 +1058,8 @@ private constructor(
             (ytdTotals.asKnown().getOrNull()?.validity() ?: 0) +
             (interestDetails.asKnown().getOrNull()?.validity() ?: 0) +
             (if (nextPaymentDueDate.asKnown().isPresent) 1 else 0) +
-            (if (nextStatementEndDate.asKnown().isPresent) 1 else 0)
+            (if (nextStatementEndDate.asKnown().isPresent) 1 else 0) +
+            (payoffDetails.asKnown().getOrNull()?.validity() ?: 0)
 
     class AccountStanding
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -3127,6 +3173,395 @@ private constructor(
             "InterestDetails{actualInterestCharged=$actualInterestCharged, dailyBalanceAmounts=$dailyBalanceAmounts, effectiveApr=$effectiveApr, interestCalculationMethod=$interestCalculationMethod, interestForPeriod=$interestForPeriod, primeRate=$primeRate, minimumInterestCharged=$minimumInterestCharged, additionalProperties=$additionalProperties}"
     }
 
+    /** Details on number and size of payments to pay off balance */
+    class PayoffDetails
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val minimumPaymentMonths: JsonField<String>,
+        private val minimumPaymentTotal: JsonField<String>,
+        private val payoffPeriodLengthMonths: JsonField<Long>,
+        private val payoffPeriodMonthlyPaymentAmount: JsonField<Long>,
+        private val payoffPeriodPaymentTotal: JsonField<Long>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("minimum_payment_months")
+            @ExcludeMissing
+            minimumPaymentMonths: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("minimum_payment_total")
+            @ExcludeMissing
+            minimumPaymentTotal: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("payoff_period_length_months")
+            @ExcludeMissing
+            payoffPeriodLengthMonths: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("payoff_period_monthly_payment_amount")
+            @ExcludeMissing
+            payoffPeriodMonthlyPaymentAmount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("payoff_period_payment_total")
+            @ExcludeMissing
+            payoffPeriodPaymentTotal: JsonField<Long> = JsonMissing.of(),
+        ) : this(
+            minimumPaymentMonths,
+            minimumPaymentTotal,
+            payoffPeriodLengthMonths,
+            payoffPeriodMonthlyPaymentAmount,
+            payoffPeriodPaymentTotal,
+            mutableMapOf(),
+        )
+
+        /**
+         * The number of months it would take to pay off the balance in full by only paying the
+         * minimum payment. "NA" will signal negative or zero amortization
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun minimumPaymentMonths(): String =
+            minimumPaymentMonths.getRequired("minimum_payment_months")
+
+        /**
+         * The sum of all interest and principal paid, in cents, when only paying minimum monthly
+         * payment. "NA" will signal negative or zero amortization
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun minimumPaymentTotal(): String = minimumPaymentTotal.getRequired("minimum_payment_total")
+
+        /**
+         * Number of months to full pay off
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun payoffPeriodLengthMonths(): Long =
+            payoffPeriodLengthMonths.getRequired("payoff_period_length_months")
+
+        /**
+         * The amount needed to be paid, in cents, each month in order to pay off current balance in
+         * the payoff period
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun payoffPeriodMonthlyPaymentAmount(): Long =
+            payoffPeriodMonthlyPaymentAmount.getRequired("payoff_period_monthly_payment_amount")
+
+        /**
+         * The sum of all interest and principal paid, in cents, when paying off in the payoff
+         * period
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun payoffPeriodPaymentTotal(): Long =
+            payoffPeriodPaymentTotal.getRequired("payoff_period_payment_total")
+
+        /**
+         * Returns the raw JSON value of [minimumPaymentMonths].
+         *
+         * Unlike [minimumPaymentMonths], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("minimum_payment_months")
+        @ExcludeMissing
+        fun _minimumPaymentMonths(): JsonField<String> = minimumPaymentMonths
+
+        /**
+         * Returns the raw JSON value of [minimumPaymentTotal].
+         *
+         * Unlike [minimumPaymentTotal], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("minimum_payment_total")
+        @ExcludeMissing
+        fun _minimumPaymentTotal(): JsonField<String> = minimumPaymentTotal
+
+        /**
+         * Returns the raw JSON value of [payoffPeriodLengthMonths].
+         *
+         * Unlike [payoffPeriodLengthMonths], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("payoff_period_length_months")
+        @ExcludeMissing
+        fun _payoffPeriodLengthMonths(): JsonField<Long> = payoffPeriodLengthMonths
+
+        /**
+         * Returns the raw JSON value of [payoffPeriodMonthlyPaymentAmount].
+         *
+         * Unlike [payoffPeriodMonthlyPaymentAmount], this method doesn't throw if the JSON field
+         * has an unexpected type.
+         */
+        @JsonProperty("payoff_period_monthly_payment_amount")
+        @ExcludeMissing
+        fun _payoffPeriodMonthlyPaymentAmount(): JsonField<Long> = payoffPeriodMonthlyPaymentAmount
+
+        /**
+         * Returns the raw JSON value of [payoffPeriodPaymentTotal].
+         *
+         * Unlike [payoffPeriodPaymentTotal], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("payoff_period_payment_total")
+        @ExcludeMissing
+        fun _payoffPeriodPaymentTotal(): JsonField<Long> = payoffPeriodPaymentTotal
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [PayoffDetails].
+             *
+             * The following fields are required:
+             * ```java
+             * .minimumPaymentMonths()
+             * .minimumPaymentTotal()
+             * .payoffPeriodLengthMonths()
+             * .payoffPeriodMonthlyPaymentAmount()
+             * .payoffPeriodPaymentTotal()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [PayoffDetails]. */
+        class Builder internal constructor() {
+
+            private var minimumPaymentMonths: JsonField<String>? = null
+            private var minimumPaymentTotal: JsonField<String>? = null
+            private var payoffPeriodLengthMonths: JsonField<Long>? = null
+            private var payoffPeriodMonthlyPaymentAmount: JsonField<Long>? = null
+            private var payoffPeriodPaymentTotal: JsonField<Long>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(payoffDetails: PayoffDetails) = apply {
+                minimumPaymentMonths = payoffDetails.minimumPaymentMonths
+                minimumPaymentTotal = payoffDetails.minimumPaymentTotal
+                payoffPeriodLengthMonths = payoffDetails.payoffPeriodLengthMonths
+                payoffPeriodMonthlyPaymentAmount = payoffDetails.payoffPeriodMonthlyPaymentAmount
+                payoffPeriodPaymentTotal = payoffDetails.payoffPeriodPaymentTotal
+                additionalProperties = payoffDetails.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * The number of months it would take to pay off the balance in full by only paying the
+             * minimum payment. "NA" will signal negative or zero amortization
+             */
+            fun minimumPaymentMonths(minimumPaymentMonths: String) =
+                minimumPaymentMonths(JsonField.of(minimumPaymentMonths))
+
+            /**
+             * Sets [Builder.minimumPaymentMonths] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.minimumPaymentMonths] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun minimumPaymentMonths(minimumPaymentMonths: JsonField<String>) = apply {
+                this.minimumPaymentMonths = minimumPaymentMonths
+            }
+
+            /**
+             * The sum of all interest and principal paid, in cents, when only paying minimum
+             * monthly payment. "NA" will signal negative or zero amortization
+             */
+            fun minimumPaymentTotal(minimumPaymentTotal: String) =
+                minimumPaymentTotal(JsonField.of(minimumPaymentTotal))
+
+            /**
+             * Sets [Builder.minimumPaymentTotal] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.minimumPaymentTotal] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun minimumPaymentTotal(minimumPaymentTotal: JsonField<String>) = apply {
+                this.minimumPaymentTotal = minimumPaymentTotal
+            }
+
+            /** Number of months to full pay off */
+            fun payoffPeriodLengthMonths(payoffPeriodLengthMonths: Long) =
+                payoffPeriodLengthMonths(JsonField.of(payoffPeriodLengthMonths))
+
+            /**
+             * Sets [Builder.payoffPeriodLengthMonths] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.payoffPeriodLengthMonths] with a well-typed [Long]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun payoffPeriodLengthMonths(payoffPeriodLengthMonths: JsonField<Long>) = apply {
+                this.payoffPeriodLengthMonths = payoffPeriodLengthMonths
+            }
+
+            /**
+             * The amount needed to be paid, in cents, each month in order to pay off current
+             * balance in the payoff period
+             */
+            fun payoffPeriodMonthlyPaymentAmount(payoffPeriodMonthlyPaymentAmount: Long) =
+                payoffPeriodMonthlyPaymentAmount(JsonField.of(payoffPeriodMonthlyPaymentAmount))
+
+            /**
+             * Sets [Builder.payoffPeriodMonthlyPaymentAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.payoffPeriodMonthlyPaymentAmount] with a well-typed
+             * [Long] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun payoffPeriodMonthlyPaymentAmount(
+                payoffPeriodMonthlyPaymentAmount: JsonField<Long>
+            ) = apply { this.payoffPeriodMonthlyPaymentAmount = payoffPeriodMonthlyPaymentAmount }
+
+            /**
+             * The sum of all interest and principal paid, in cents, when paying off in the payoff
+             * period
+             */
+            fun payoffPeriodPaymentTotal(payoffPeriodPaymentTotal: Long) =
+                payoffPeriodPaymentTotal(JsonField.of(payoffPeriodPaymentTotal))
+
+            /**
+             * Sets [Builder.payoffPeriodPaymentTotal] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.payoffPeriodPaymentTotal] with a well-typed [Long]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun payoffPeriodPaymentTotal(payoffPeriodPaymentTotal: JsonField<Long>) = apply {
+                this.payoffPeriodPaymentTotal = payoffPeriodPaymentTotal
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [PayoffDetails].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .minimumPaymentMonths()
+             * .minimumPaymentTotal()
+             * .payoffPeriodLengthMonths()
+             * .payoffPeriodMonthlyPaymentAmount()
+             * .payoffPeriodPaymentTotal()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): PayoffDetails =
+                PayoffDetails(
+                    checkRequired("minimumPaymentMonths", minimumPaymentMonths),
+                    checkRequired("minimumPaymentTotal", minimumPaymentTotal),
+                    checkRequired("payoffPeriodLengthMonths", payoffPeriodLengthMonths),
+                    checkRequired(
+                        "payoffPeriodMonthlyPaymentAmount",
+                        payoffPeriodMonthlyPaymentAmount,
+                    ),
+                    checkRequired("payoffPeriodPaymentTotal", payoffPeriodPaymentTotal),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): PayoffDetails = apply {
+            if (validated) {
+                return@apply
+            }
+
+            minimumPaymentMonths()
+            minimumPaymentTotal()
+            payoffPeriodLengthMonths()
+            payoffPeriodMonthlyPaymentAmount()
+            payoffPeriodPaymentTotal()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (minimumPaymentMonths.asKnown().isPresent) 1 else 0) +
+                (if (minimumPaymentTotal.asKnown().isPresent) 1 else 0) +
+                (if (payoffPeriodLengthMonths.asKnown().isPresent) 1 else 0) +
+                (if (payoffPeriodMonthlyPaymentAmount.asKnown().isPresent) 1 else 0) +
+                (if (payoffPeriodPaymentTotal.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PayoffDetails &&
+                minimumPaymentMonths == other.minimumPaymentMonths &&
+                minimumPaymentTotal == other.minimumPaymentTotal &&
+                payoffPeriodLengthMonths == other.payoffPeriodLengthMonths &&
+                payoffPeriodMonthlyPaymentAmount == other.payoffPeriodMonthlyPaymentAmount &&
+                payoffPeriodPaymentTotal == other.payoffPeriodPaymentTotal &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                minimumPaymentMonths,
+                minimumPaymentTotal,
+                payoffPeriodLengthMonths,
+                payoffPeriodMonthlyPaymentAmount,
+                payoffPeriodPaymentTotal,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "PayoffDetails{minimumPaymentMonths=$minimumPaymentMonths, minimumPaymentTotal=$minimumPaymentTotal, payoffPeriodLengthMonths=$payoffPeriodLengthMonths, payoffPeriodMonthlyPaymentAmount=$payoffPeriodMonthlyPaymentAmount, payoffPeriodPaymentTotal=$payoffPeriodPaymentTotal, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -3154,6 +3589,7 @@ private constructor(
             interestDetails == other.interestDetails &&
             nextPaymentDueDate == other.nextPaymentDueDate &&
             nextStatementEndDate == other.nextStatementEndDate &&
+            payoffDetails == other.payoffDetails &&
             additionalProperties == other.additionalProperties
     }
 
@@ -3180,6 +3616,7 @@ private constructor(
             interestDetails,
             nextPaymentDueDate,
             nextStatementEndDate,
+            payoffDetails,
             additionalProperties,
         )
     }
@@ -3187,5 +3624,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Statement{token=$token, accountStanding=$accountStanding, amountDue=$amountDue, availableCredit=$availableCredit, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, daysInBillingCycle=$daysInBillingCycle, endingBalance=$endingBalance, financialAccountToken=$financialAccountToken, paymentDueDate=$paymentDueDate, periodTotals=$periodTotals, startingBalance=$startingBalance, statementEndDate=$statementEndDate, statementStartDate=$statementStartDate, statementType=$statementType, updated=$updated, ytdTotals=$ytdTotals, interestDetails=$interestDetails, nextPaymentDueDate=$nextPaymentDueDate, nextStatementEndDate=$nextStatementEndDate, additionalProperties=$additionalProperties}"
+        "Statement{token=$token, accountStanding=$accountStanding, amountDue=$amountDue, availableCredit=$availableCredit, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, daysInBillingCycle=$daysInBillingCycle, endingBalance=$endingBalance, financialAccountToken=$financialAccountToken, paymentDueDate=$paymentDueDate, periodTotals=$periodTotals, startingBalance=$startingBalance, statementEndDate=$statementEndDate, statementStartDate=$statementStartDate, statementType=$statementType, updated=$updated, ytdTotals=$ytdTotals, interestDetails=$interestDetails, nextPaymentDueDate=$nextPaymentDueDate, nextStatementEndDate=$nextStatementEndDate, payoffDetails=$payoffDetails, additionalProperties=$additionalProperties}"
 }

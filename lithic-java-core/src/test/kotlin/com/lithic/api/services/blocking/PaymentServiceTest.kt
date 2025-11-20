@@ -100,7 +100,7 @@ internal class PaymentServiceTest {
                 .build()
         val paymentService = client.payments()
 
-        val response =
+        val payment =
             paymentService.return_(
                 PaymentReturnParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -112,7 +112,7 @@ internal class PaymentServiceTest {
                     .build()
             )
 
-        response.validate()
+        payment.validate()
     }
 
     @Test
