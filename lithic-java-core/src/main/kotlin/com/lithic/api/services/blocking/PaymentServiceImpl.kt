@@ -26,7 +26,6 @@ import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
 import com.lithic.api.models.PaymentReturnParams
-import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -72,10 +71,7 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
         // post /v1/payments/{payment_token}/retry
         withRawResponse().retry(params, requestOptions).parse()
 
-    override fun return_(
-        params: PaymentReturnParams,
-        requestOptions: RequestOptions,
-    ): PaymentReturnResponse =
+    override fun return_(params: PaymentReturnParams, requestOptions: RequestOptions): Payment =
         // post /v1/payments/{payment_token}/return
         withRawResponse().return_(params, requestOptions).parse()
 
@@ -243,13 +239,12 @@ class PaymentServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val returnHandler: Handler<PaymentReturnResponse> =
-            jsonHandler<PaymentReturnResponse>(clientOptions.jsonMapper)
+        private val returnHandler: Handler<Payment> = jsonHandler<Payment>(clientOptions.jsonMapper)
 
         override fun return_(
             params: PaymentReturnParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<PaymentReturnResponse> {
+        ): HttpResponseFor<Payment> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("paymentToken", params.paymentToken().getOrNull())

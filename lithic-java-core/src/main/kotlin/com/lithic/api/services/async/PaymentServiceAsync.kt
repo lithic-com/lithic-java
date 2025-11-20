@@ -14,7 +14,6 @@ import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
 import com.lithic.api.models.PaymentReturnParams
-import com.lithic.api.models.PaymentReturnResponse
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateActionResponse
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -150,10 +149,7 @@ interface PaymentServiceAsync {
      * * By default this endpoint is not enabled for your account. Please contact your
      *   implementations manager to enable this feature.
      */
-    fun return_(
-        paymentToken: String,
-        params: PaymentReturnParams,
-    ): CompletableFuture<PaymentReturnResponse> =
+    fun return_(paymentToken: String, params: PaymentReturnParams): CompletableFuture<Payment> =
         return_(paymentToken, params, RequestOptions.none())
 
     /** @see return_ */
@@ -161,18 +157,18 @@ interface PaymentServiceAsync {
         paymentToken: String,
         params: PaymentReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<PaymentReturnResponse> =
+    ): CompletableFuture<Payment> =
         return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
     /** @see return_ */
-    fun return_(params: PaymentReturnParams): CompletableFuture<PaymentReturnResponse> =
+    fun return_(params: PaymentReturnParams): CompletableFuture<Payment> =
         return_(params, RequestOptions.none())
 
     /** @see return_ */
     fun return_(
         params: PaymentReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<PaymentReturnResponse>
+    ): CompletableFuture<Payment>
 
     /** Simulate payment lifecycle event */
     fun simulateAction(
@@ -378,7 +374,7 @@ interface PaymentServiceAsync {
         fun return_(
             paymentToken: String,
             params: PaymentReturnParams,
-        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+        ): CompletableFuture<HttpResponseFor<Payment>> =
             return_(paymentToken, params, RequestOptions.none())
 
         /** @see return_ */
@@ -386,20 +382,18 @@ interface PaymentServiceAsync {
             paymentToken: String,
             params: PaymentReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+        ): CompletableFuture<HttpResponseFor<Payment>> =
             return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
 
         /** @see return_ */
-        fun return_(
-            params: PaymentReturnParams
-        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>> =
+        fun return_(params: PaymentReturnParams): CompletableFuture<HttpResponseFor<Payment>> =
             return_(params, RequestOptions.none())
 
         /** @see return_ */
         fun return_(
             params: PaymentReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<PaymentReturnResponse>>
+        ): CompletableFuture<HttpResponseFor<Payment>>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/payments/{payment_token}/action`, but

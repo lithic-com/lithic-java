@@ -119,6 +119,15 @@ internal class StatementTest {
                 )
                 .nextPaymentDueDate(LocalDate.parse("2019-12-27"))
                 .nextStatementEndDate(LocalDate.parse("2019-12-27"))
+                .payoffDetails(
+                    Statement.PayoffDetails.builder()
+                        .minimumPaymentMonths("minimum_payment_months")
+                        .minimumPaymentTotal("minimum_payment_total")
+                        .payoffPeriodLengthMonths(0L)
+                        .payoffPeriodMonthlyPaymentAmount(0L)
+                        .payoffPeriodPaymentTotal(0L)
+                        .build()
+                )
                 .build()
 
         assertThat(statement.token()).isEqualTo("token")
@@ -230,6 +239,16 @@ internal class StatementTest {
             )
         assertThat(statement.nextPaymentDueDate()).contains(LocalDate.parse("2019-12-27"))
         assertThat(statement.nextStatementEndDate()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(statement.payoffDetails())
+            .contains(
+                Statement.PayoffDetails.builder()
+                    .minimumPaymentMonths("minimum_payment_months")
+                    .minimumPaymentTotal("minimum_payment_total")
+                    .payoffPeriodLengthMonths(0L)
+                    .payoffPeriodMonthlyPaymentAmount(0L)
+                    .payoffPeriodPaymentTotal(0L)
+                    .build()
+            )
     }
 
     @Test
@@ -340,6 +359,15 @@ internal class StatementTest {
                 )
                 .nextPaymentDueDate(LocalDate.parse("2019-12-27"))
                 .nextStatementEndDate(LocalDate.parse("2019-12-27"))
+                .payoffDetails(
+                    Statement.PayoffDetails.builder()
+                        .minimumPaymentMonths("minimum_payment_months")
+                        .minimumPaymentTotal("minimum_payment_total")
+                        .payoffPeriodLengthMonths(0L)
+                        .payoffPeriodMonthlyPaymentAmount(0L)
+                        .payoffPeriodPaymentTotal(0L)
+                        .build()
+                )
                 .build()
 
         val roundtrippedStatement =

@@ -104,7 +104,7 @@ internal class PaymentServiceAsyncTest {
                 .build()
         val paymentServiceAsync = client.payments()
 
-        val responseFuture =
+        val paymentFuture =
             paymentServiceAsync.return_(
                 PaymentReturnParams.builder()
                     .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -116,8 +116,8 @@ internal class PaymentServiceAsyncTest {
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val payment = paymentFuture.get()
+        payment.validate()
     }
 
     @Test
