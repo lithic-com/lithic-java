@@ -11,6 +11,7 @@ import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Address
+import com.lithic.api.models.AddressUpdate
 import com.lithic.api.models.Kyb
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -67,7 +68,7 @@ internal class AccountHolderServiceTest {
                                     .governmentId("12-3456789")
                                     .legalBusinessName("Busy Business, Inc.")
                                     .addPhoneNumber("+15555555555")
-                                    .dbaBusinessName("dba_business_name")
+                                    .dbaBusinessName("Example Business Solutions")
                                     .parentCompany("parent_company")
                                     .build()
                             )
@@ -95,7 +96,7 @@ internal class AccountHolderServiceTest {
                                 "Software company selling solutions to the restaurant industry"
                             )
                             .tosTimestamp("2022-03-08T08:00:00Z")
-                            .workflow(Kyb.Workflow.KYB_BASIC)
+                            .workflow(Kyb.Workflow.KYB_BYO)
                             .addBeneficialOwnerEntity(
                                 Kyb.BusinessEntity.builder()
                                     .address(
@@ -111,7 +112,7 @@ internal class AccountHolderServiceTest {
                                     .governmentId("98-7654321")
                                     .legalBusinessName("Majority Holdings LLC")
                                     .addPhoneNumber("+15555555555")
-                                    .dbaBusinessName("dba_business_name")
+                                    .dbaBusinessName("MHoldings")
                                     .parentCompany("parent_company")
                                     .build()
                             )
@@ -155,7 +156,97 @@ internal class AccountHolderServiceTest {
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .body(
                         AccountHolderUpdateParams.Body.KybPatchRequest.builder()
+                            .addBeneficialOwnerEntity(
+                                AccountHolderUpdateParams.Body.KybPatchRequest
+                                    .KybBusinessEntityPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dbaBusinessName("dba_business_name")
+                                    .governmentId("114-123-1513")
+                                    .legalBusinessName("Acme, Inc.")
+                                    .parentCompany("parent_company")
+                                    .addPhoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .addBeneficialOwnerIndividual(
+                                AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch
+                                    .builder()
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68022")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dob("1991-03-08 08:00:00")
+                                    .email("tom@middle-earth.com")
+                                    .firstName("Tom")
+                                    .lastName("Bombadil")
+                                    .phoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .businessEntity(
+                                AccountHolderUpdateParams.Body.KybPatchRequest
+                                    .KybBusinessEntityPatch
+                                    .builder()
+                                    .entityToken("83cf25ae-c14f-4d10-9fa2-0119f36c7286")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("61023")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dbaBusinessName("dba_business_name")
+                                    .governmentId("114-123-1513")
+                                    .legalBusinessName("Acme, Inc.")
+                                    .parentCompany("parent_company")
+                                    .addPhoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .controlPerson(
+                                AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch
+                                    .builder()
+                                    .entityToken("fd771a07-c5c2-42f3-a53c-a6c79c6c0d07")
+                                    .address(
+                                        AddressUpdate.builder()
+                                            .address1("123 Old Forest Way")
+                                            .address2("address2")
+                                            .city("Omaha")
+                                            .country("USA")
+                                            .postalCode("68023")
+                                            .state("NE")
+                                            .build()
+                                    )
+                                    .dob("1991-03-08 08:00:00")
+                                    .email("tom@middle-earth.com")
+                                    .firstName("Tom")
+                                    .lastName("Bombadil")
+                                    .phoneNumber("+15555555555")
+                                    .build()
+                            )
                             .externalId("external_id")
+                            .natureOfBusiness(
+                                "Software company selling solutions to the restaurant industry"
+                            )
+                            .websiteUrl("https://www.mynewbusiness.com")
                             .build()
                     )
                     .build()
@@ -276,7 +367,7 @@ internal class AccountHolderServiceTest {
                 AccountHolderUploadDocumentParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .entityToken("83cf25ae-c14f-4d10-9fa2-0119f36c7286")
                     .build()
             )
 

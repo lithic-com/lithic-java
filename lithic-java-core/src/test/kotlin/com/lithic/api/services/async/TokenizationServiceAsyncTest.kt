@@ -118,7 +118,7 @@ internal class TokenizationServiceAsyncTest {
                 .build()
         val tokenizationServiceAsync = client.tokenizations()
 
-        val responseFuture =
+        val tokenizationFuture =
             tokenizationServiceAsync.simulate(
                 TokenizationSimulateParams.builder()
                     .cvv("776")
@@ -134,8 +134,8 @@ internal class TokenizationServiceAsyncTest {
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val tokenization = tokenizationFuture.get()
+        tokenization.validate()
     }
 
     @Test
@@ -161,15 +161,15 @@ internal class TokenizationServiceAsyncTest {
                 .build()
         val tokenizationServiceAsync = client.tokenizations()
 
-        val responseFuture =
+        val tokenizationFuture =
             tokenizationServiceAsync.updateDigitalCardArt(
                 TokenizationUpdateDigitalCardArtParams.builder()
                     .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .digitalCardArtToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val tokenization = tokenizationFuture.get()
+        tokenization.validate()
     }
 }

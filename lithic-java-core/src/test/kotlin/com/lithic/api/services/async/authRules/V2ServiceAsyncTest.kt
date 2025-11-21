@@ -29,7 +29,7 @@ internal class V2ServiceAsyncTest {
                 .build()
         val v2ServiceAsync = client.authRules().v2()
 
-        val v2Future =
+        val authRuleFuture =
             v2ServiceAsync.create(
                 AuthRuleV2CreateParams.builder()
                     .body(
@@ -61,8 +61,8 @@ internal class V2ServiceAsyncTest {
                     .build()
             )
 
-        val v2 = v2Future.get()
-        v2.validate()
+        val authRule = authRuleFuture.get()
+        authRule.validate()
     }
 
     @Test
@@ -74,10 +74,10 @@ internal class V2ServiceAsyncTest {
                 .build()
         val v2ServiceAsync = client.authRules().v2()
 
-        val v2Future = v2ServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val authRuleFuture = v2ServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        val v2 = v2Future.get()
-        v2.validate()
+        val authRule = authRuleFuture.get()
+        authRule.validate()
     }
 
     @Test
@@ -89,7 +89,7 @@ internal class V2ServiceAsyncTest {
                 .build()
         val v2ServiceAsync = client.authRules().v2()
 
-        val v2Future =
+        val authRuleFuture =
             v2ServiceAsync.update(
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -104,8 +104,8 @@ internal class V2ServiceAsyncTest {
                     .build()
             )
 
-        val v2 = v2Future.get()
-        v2.validate()
+        val authRule = authRuleFuture.get()
+        authRule.validate()
     }
 
     @Test
@@ -146,7 +146,7 @@ internal class V2ServiceAsyncTest {
                 .build()
         val v2ServiceAsync = client.authRules().v2()
 
-        val responseFuture =
+        val authRuleFuture =
             v2ServiceAsync.draft(
                 AuthRuleV2DraftParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -164,8 +164,8 @@ internal class V2ServiceAsyncTest {
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val authRule = authRuleFuture.get()
+        authRule.validate()
     }
 
     @Test
@@ -177,10 +177,10 @@ internal class V2ServiceAsyncTest {
                 .build()
         val v2ServiceAsync = client.authRules().v2()
 
-        val responseFuture = v2ServiceAsync.promote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val authRuleFuture = v2ServiceAsync.promote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        val response = responseFuture.get()
-        response.validate()
+        val authRule = authRuleFuture.get()
+        authRule.validate()
     }
 
     @Test
