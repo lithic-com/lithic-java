@@ -19,15 +19,14 @@ private constructor(
     private val streamHandlerExecutor: Executor,
     private val params: AuthRuleV2ListParams,
     private val response: AuthRuleV2ListPageResponse,
-) : PageAsync<V2ListResponse> {
+) : PageAsync<AuthRule> {
 
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
      *
      * @see AuthRuleV2ListPageResponse.data
      */
-    fun data(): List<V2ListResponse> =
-        response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<AuthRule> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [AuthRuleV2ListPageResponse], but gracefully handles missing data.
@@ -36,7 +35,7 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    override fun items(): List<V2ListResponse> = data()
+    override fun items(): List<AuthRule> = data()
 
     override fun hasNextPage(): Boolean = items().isNotEmpty()
 
@@ -50,8 +49,7 @@ private constructor(
     override fun nextPage(): CompletableFuture<AuthRuleV2ListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<V2ListResponse> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+    fun autoPager(): AutoPagerAsync<AuthRule> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): AuthRuleV2ListParams = params

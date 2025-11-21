@@ -42,6 +42,12 @@ class ConditionalOperation @JsonCreator private constructor(private val value: J
 
         @JvmField val IS_LESS_THAN_OR_EQUAL_TO = of("IS_LESS_THAN_OR_EQUAL_TO")
 
+        @JvmField val CONTAINS_ANY = of("CONTAINS_ANY")
+
+        @JvmField val CONTAINS_ALL = of("CONTAINS_ALL")
+
+        @JvmField val CONTAINS_NONE = of("CONTAINS_NONE")
+
         @JvmStatic fun of(value: String) = ConditionalOperation(JsonField.of(value))
     }
 
@@ -57,6 +63,9 @@ class ConditionalOperation @JsonCreator private constructor(private val value: J
         IS_GREATER_THAN_OR_EQUAL_TO,
         IS_LESS_THAN,
         IS_LESS_THAN_OR_EQUAL_TO,
+        CONTAINS_ANY,
+        CONTAINS_ALL,
+        CONTAINS_NONE,
     }
 
     /**
@@ -79,6 +88,9 @@ class ConditionalOperation @JsonCreator private constructor(private val value: J
         IS_GREATER_THAN_OR_EQUAL_TO,
         IS_LESS_THAN,
         IS_LESS_THAN_OR_EQUAL_TO,
+        CONTAINS_ANY,
+        CONTAINS_ALL,
+        CONTAINS_NONE,
         /**
          * An enum member indicating that [ConditionalOperation] was instantiated with an unknown
          * value.
@@ -105,6 +117,9 @@ class ConditionalOperation @JsonCreator private constructor(private val value: J
             IS_GREATER_THAN_OR_EQUAL_TO -> Value.IS_GREATER_THAN_OR_EQUAL_TO
             IS_LESS_THAN -> Value.IS_LESS_THAN
             IS_LESS_THAN_OR_EQUAL_TO -> Value.IS_LESS_THAN_OR_EQUAL_TO
+            CONTAINS_ANY -> Value.CONTAINS_ANY
+            CONTAINS_ALL -> Value.CONTAINS_ALL
+            CONTAINS_NONE -> Value.CONTAINS_NONE
             else -> Value._UNKNOWN
         }
 
@@ -128,6 +143,9 @@ class ConditionalOperation @JsonCreator private constructor(private val value: J
             IS_GREATER_THAN_OR_EQUAL_TO -> Known.IS_GREATER_THAN_OR_EQUAL_TO
             IS_LESS_THAN -> Known.IS_LESS_THAN
             IS_LESS_THAN_OR_EQUAL_TO -> Known.IS_LESS_THAN_OR_EQUAL_TO
+            CONTAINS_ANY -> Known.CONTAINS_ANY
+            CONTAINS_ALL -> Known.CONTAINS_ALL
+            CONTAINS_NONE -> Known.CONTAINS_NONE
             else -> throw LithicInvalidDataException("Unknown ConditionalOperation: $value")
         }
 
