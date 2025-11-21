@@ -16,10 +16,8 @@ import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
-import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 import java.util.function.Consumer
 
 interface TokenizationService {
@@ -254,14 +252,14 @@ interface TokenizationService {
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
      * tokenization ecosystem.
      */
-    fun simulate(params: TokenizationSimulateParams): TokenizationSimulateResponse =
+    fun simulate(params: TokenizationSimulateParams): Tokenization =
         simulate(params, RequestOptions.none())
 
     /** @see simulate */
     fun simulate(
         params: TokenizationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationSimulateResponse
+    ): Tokenization
 
     /**
      * This endpoint is used to ask the card network to unpause a tokenization. A successful
@@ -309,7 +307,7 @@ interface TokenizationService {
      * with the art referenced in the card object's `digital_card_art_token` field. Reach out at
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
-    fun updateDigitalCardArt(tokenizationToken: String): TokenizationUpdateDigitalCardArtResponse =
+    fun updateDigitalCardArt(tokenizationToken: String): Tokenization =
         updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
 
     /** @see updateDigitalCardArt */
@@ -318,7 +316,7 @@ interface TokenizationService {
         params: TokenizationUpdateDigitalCardArtParams =
             TokenizationUpdateDigitalCardArtParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationUpdateDigitalCardArtResponse =
+    ): Tokenization =
         updateDigitalCardArt(
             params.toBuilder().tokenizationToken(tokenizationToken).build(),
             requestOptions,
@@ -329,26 +327,23 @@ interface TokenizationService {
         tokenizationToken: String,
         params: TokenizationUpdateDigitalCardArtParams =
             TokenizationUpdateDigitalCardArtParams.none(),
-    ): TokenizationUpdateDigitalCardArtResponse =
-        updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
+    ): Tokenization = updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationUpdateDigitalCardArtResponse
+    ): Tokenization
 
     /** @see updateDigitalCardArt */
-    fun updateDigitalCardArt(
-        params: TokenizationUpdateDigitalCardArtParams
-    ): TokenizationUpdateDigitalCardArtResponse =
+    fun updateDigitalCardArt(params: TokenizationUpdateDigitalCardArtParams): Tokenization =
         updateDigitalCardArt(params, RequestOptions.none())
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
         tokenizationToken: String,
         requestOptions: RequestOptions,
-    ): TokenizationUpdateDigitalCardArtResponse =
+    ): Tokenization =
         updateDigitalCardArt(
             tokenizationToken,
             TokenizationUpdateDigitalCardArtParams.none(),
@@ -630,16 +625,15 @@ interface TokenizationService {
          * same as [TokenizationService.simulate].
          */
         @MustBeClosed
-        fun simulate(
-            params: TokenizationSimulateParams
-        ): HttpResponseFor<TokenizationSimulateResponse> = simulate(params, RequestOptions.none())
+        fun simulate(params: TokenizationSimulateParams): HttpResponseFor<Tokenization> =
+            simulate(params, RequestOptions.none())
 
         /** @see simulate */
         @MustBeClosed
         fun simulate(
             params: TokenizationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationSimulateResponse>
+        ): HttpResponseFor<Tokenization>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,
@@ -688,9 +682,7 @@ interface TokenizationService {
          * same as [TokenizationService.updateDigitalCardArt].
          */
         @MustBeClosed
-        fun updateDigitalCardArt(
-            tokenizationToken: String
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse> =
+        fun updateDigitalCardArt(tokenizationToken: String): HttpResponseFor<Tokenization> =
             updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
 
         /** @see updateDigitalCardArt */
@@ -700,7 +692,7 @@ interface TokenizationService {
             params: TokenizationUpdateDigitalCardArtParams =
                 TokenizationUpdateDigitalCardArtParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse> =
+        ): HttpResponseFor<Tokenization> =
             updateDigitalCardArt(
                 params.toBuilder().tokenizationToken(tokenizationToken).build(),
                 requestOptions,
@@ -712,7 +704,7 @@ interface TokenizationService {
             tokenizationToken: String,
             params: TokenizationUpdateDigitalCardArtParams =
                 TokenizationUpdateDigitalCardArtParams.none(),
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse> =
+        ): HttpResponseFor<Tokenization> =
             updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
         /** @see updateDigitalCardArt */
@@ -720,21 +712,20 @@ interface TokenizationService {
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>
+        ): HttpResponseFor<Tokenization>
 
         /** @see updateDigitalCardArt */
         @MustBeClosed
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse> =
-            updateDigitalCardArt(params, RequestOptions.none())
+        ): HttpResponseFor<Tokenization> = updateDigitalCardArt(params, RequestOptions.none())
 
         /** @see updateDigitalCardArt */
         @MustBeClosed
         fun updateDigitalCardArt(
             tokenizationToken: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<TokenizationUpdateDigitalCardArtResponse> =
+        ): HttpResponseFor<Tokenization> =
             updateDigitalCardArt(
                 tokenizationToken,
                 TokenizationUpdateDigitalCardArtParams.none(),

@@ -21,16 +21,14 @@ import kotlin.jvm.optionals.getOrNull
 class AuthRuleV2ListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<V2ListResponse>>,
+    private val data: JsonField<List<AuthRule>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("data")
-        @ExcludeMissing
-        data: JsonField<List<V2ListResponse>> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<AuthRule>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
@@ -38,7 +36,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): List<V2ListResponse> = data.getRequired("data")
+    fun data(): List<AuthRule> = data.getRequired("data")
 
     /**
      * Indicates whether there are more Auth Rules to be retrieved by paging through the results.
@@ -53,7 +51,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<V2ListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<AuthRule>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -91,7 +89,7 @@ private constructor(
     /** A builder for [AuthRuleV2ListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<V2ListResponse>>? = null
+        private var data: JsonField<MutableList<AuthRule>>? = null
         private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -102,25 +100,25 @@ private constructor(
             additionalProperties = authRuleV2ListPageResponse.additionalProperties.toMutableMap()
         }
 
-        fun data(data: List<V2ListResponse>) = data(JsonField.of(data))
+        fun data(data: List<AuthRule>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<V2ListResponse>` value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.data] with a well-typed `List<AuthRule>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun data(data: JsonField<List<V2ListResponse>>) = apply {
+        fun data(data: JsonField<List<AuthRule>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [V2ListResponse] to [Builder.data].
+         * Adds a single [AuthRule] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: V2ListResponse) = apply {
+        fun addData(data: AuthRule) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)

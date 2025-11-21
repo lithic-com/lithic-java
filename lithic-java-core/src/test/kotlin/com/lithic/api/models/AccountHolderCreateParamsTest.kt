@@ -47,7 +47,7 @@ internal class AccountHolderCreateParamsTest {
                             .governmentId("12-3456789")
                             .legalBusinessName("Busy Business, Inc.")
                             .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
+                            .dbaBusinessName("Example Business Solutions")
                             .parentCompany("parent_company")
                             .build()
                     )
@@ -75,7 +75,7 @@ internal class AccountHolderCreateParamsTest {
                         "Software company selling solutions to the restaurant industry"
                     )
                     .tosTimestamp("2022-03-08T08:00:00Z")
-                    .workflow(Kyb.Workflow.KYB_BASIC)
+                    .workflow(Kyb.Workflow.KYB_BYO)
                     .addBeneficialOwnerEntity(
                         Kyb.BusinessEntity.builder()
                             .address(
@@ -91,7 +91,7 @@ internal class AccountHolderCreateParamsTest {
                             .governmentId("98-7654321")
                             .legalBusinessName("Majority Holdings LLC")
                             .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
+                            .dbaBusinessName("MHoldings")
                             .parentCompany("parent_company")
                             .build()
                     )
@@ -144,7 +144,7 @@ internal class AccountHolderCreateParamsTest {
                                 .governmentId("12-3456789")
                                 .legalBusinessName("Busy Business, Inc.")
                                 .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
+                                .dbaBusinessName("Example Business Solutions")
                                 .parentCompany("parent_company")
                                 .build()
                         )
@@ -172,7 +172,7 @@ internal class AccountHolderCreateParamsTest {
                             "Software company selling solutions to the restaurant industry"
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
-                        .workflow(Kyb.Workflow.KYB_BASIC)
+                        .workflow(Kyb.Workflow.KYB_BYO)
                         .addBeneficialOwnerEntity(
                             Kyb.BusinessEntity.builder()
                                 .address(
@@ -188,7 +188,7 @@ internal class AccountHolderCreateParamsTest {
                                 .governmentId("98-7654321")
                                 .legalBusinessName("Majority Holdings LLC")
                                 .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
+                                .dbaBusinessName("MHoldings")
                                 .parentCompany("parent_company")
                                 .build()
                         )
@@ -240,7 +240,7 @@ internal class AccountHolderCreateParamsTest {
                                 .governmentId("12-3456789")
                                 .legalBusinessName("Busy Business, Inc.")
                                 .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
+                                .dbaBusinessName("Example Business Solutions")
                                 .parentCompany("parent_company")
                                 .build()
                         )
@@ -268,7 +268,7 @@ internal class AccountHolderCreateParamsTest {
                             "Software company selling solutions to the restaurant industry"
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
-                        .workflow(Kyb.Workflow.KYB_BASIC)
+                        .workflow(Kyb.Workflow.KYB_BYO)
                         .addBeneficialOwnerEntity(
                             Kyb.BusinessEntity.builder()
                                 .address(
@@ -284,7 +284,7 @@ internal class AccountHolderCreateParamsTest {
                                 .governmentId("98-7654321")
                                 .legalBusinessName("Majority Holdings LLC")
                                 .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
+                                .dbaBusinessName("MHoldings")
                                 .parentCompany("parent_company")
                                 .build()
                         )
@@ -358,7 +358,7 @@ internal class AccountHolderCreateParamsTest {
                             "Software company selling solutions to the restaurant industry"
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
-                        .workflow(Kyb.Workflow.KYB_BASIC)
+                        .workflow(Kyb.Workflow.KYB_BYO)
                         .build()
                 )
                 .build()
@@ -425,7 +425,7 @@ internal class AccountHolderCreateParamsTest {
                             "Software company selling solutions to the restaurant industry"
                         )
                         .tosTimestamp("2022-03-08T08:00:00Z")
-                        .workflow(Kyb.Workflow.KYB_BASIC)
+                        .workflow(Kyb.Workflow.KYB_BYO)
                         .build()
                 )
             )

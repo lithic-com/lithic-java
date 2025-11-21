@@ -24,11 +24,11 @@ class CardProgram
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
+    private val accountLevelManagementEnabled: JsonField<Boolean>,
     private val created: JsonField<OffsetDateTime>,
     private val name: JsonField<String>,
     private val panRangeEnd: JsonField<String>,
     private val panRangeStart: JsonField<String>,
-    private val accountLevelManagementEnabled: JsonField<Boolean>,
     private val cardholderCurrency: JsonField<String>,
     private val settlementCurrencies: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -37,6 +37,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_level_management_enabled")
+        @ExcludeMissing
+        accountLevelManagementEnabled: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -47,9 +50,6 @@ private constructor(
         @JsonProperty("pan_range_start")
         @ExcludeMissing
         panRangeStart: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("account_level_management_enabled")
-        @ExcludeMissing
-        accountLevelManagementEnabled: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("cardholder_currency")
         @ExcludeMissing
         cardholderCurrency: JsonField<String> = JsonMissing.of(),
@@ -58,11 +58,11 @@ private constructor(
         settlementCurrencies: JsonField<List<String>> = JsonMissing.of(),
     ) : this(
         token,
+        accountLevelManagementEnabled,
         created,
         name,
         panRangeEnd,
         panRangeStart,
-        accountLevelManagementEnabled,
         cardholderCurrency,
         settlementCurrencies,
         mutableMapOf(),
@@ -75,6 +75,16 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun token(): String = token.getRequired("token")
+
+    /**
+     * Whether the card program is participating in Account Level Management. Currently applicable
+     * to Visa card programs only.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun accountLevelManagementEnabled(): Boolean =
+        accountLevelManagementEnabled.getRequired("account_level_management_enabled")
 
     /**
      * Timestamp of when the card program was created.
@@ -109,16 +119,6 @@ private constructor(
     fun panRangeStart(): String = panRangeStart.getRequired("pan_range_start")
 
     /**
-     * Whether the card program is participating in Account Level Management. Currently applicable
-     * to Visa card programs only.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun accountLevelManagementEnabled(): Optional<Boolean> =
-        accountLevelManagementEnabled.getOptional("account_level_management_enabled")
-
-    /**
      * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -143,6 +143,16 @@ private constructor(
      * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+    /**
+     * Returns the raw JSON value of [accountLevelManagementEnabled].
+     *
+     * Unlike [accountLevelManagementEnabled], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("account_level_management_enabled")
+    @ExcludeMissing
+    fun _accountLevelManagementEnabled(): JsonField<Boolean> = accountLevelManagementEnabled
 
     /**
      * Returns the raw JSON value of [created].
@@ -175,16 +185,6 @@ private constructor(
     @JsonProperty("pan_range_start")
     @ExcludeMissing
     fun _panRangeStart(): JsonField<String> = panRangeStart
-
-    /**
-     * Returns the raw JSON value of [accountLevelManagementEnabled].
-     *
-     * Unlike [accountLevelManagementEnabled], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @JsonProperty("account_level_management_enabled")
-    @ExcludeMissing
-    fun _accountLevelManagementEnabled(): JsonField<Boolean> = accountLevelManagementEnabled
 
     /**
      * Returns the raw JSON value of [cardholderCurrency].
@@ -226,6 +226,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
+         * .accountLevelManagementEnabled()
          * .created()
          * .name()
          * .panRangeEnd()
@@ -239,11 +240,11 @@ private constructor(
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
+        private var accountLevelManagementEnabled: JsonField<Boolean>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var name: JsonField<String>? = null
         private var panRangeEnd: JsonField<String>? = null
         private var panRangeStart: JsonField<String>? = null
-        private var accountLevelManagementEnabled: JsonField<Boolean> = JsonMissing.of()
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var settlementCurrencies: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -251,11 +252,11 @@ private constructor(
         @JvmSynthetic
         internal fun from(cardProgram: CardProgram) = apply {
             token = cardProgram.token
+            accountLevelManagementEnabled = cardProgram.accountLevelManagementEnabled
             created = cardProgram.created
             name = cardProgram.name
             panRangeEnd = cardProgram.panRangeEnd
             panRangeStart = cardProgram.panRangeStart
-            accountLevelManagementEnabled = cardProgram.accountLevelManagementEnabled
             cardholderCurrency = cardProgram.cardholderCurrency
             settlementCurrencies = cardProgram.settlementCurrencies.map { it.toMutableList() }
             additionalProperties = cardProgram.additionalProperties.toMutableMap()
@@ -271,6 +272,25 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /**
+         * Whether the card program is participating in Account Level Management. Currently
+         * applicable to Visa card programs only.
+         */
+        fun accountLevelManagementEnabled(accountLevelManagementEnabled: Boolean) =
+            accountLevelManagementEnabled(JsonField.of(accountLevelManagementEnabled))
+
+        /**
+         * Sets [Builder.accountLevelManagementEnabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountLevelManagementEnabled] with a well-typed
+         * [Boolean] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun accountLevelManagementEnabled(accountLevelManagementEnabled: JsonField<Boolean>) =
+            apply {
+                this.accountLevelManagementEnabled = accountLevelManagementEnabled
+            }
 
         /** Timestamp of when the card program was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -320,25 +340,6 @@ private constructor(
         fun panRangeStart(panRangeStart: JsonField<String>) = apply {
             this.panRangeStart = panRangeStart
         }
-
-        /**
-         * Whether the card program is participating in Account Level Management. Currently
-         * applicable to Visa card programs only.
-         */
-        fun accountLevelManagementEnabled(accountLevelManagementEnabled: Boolean) =
-            accountLevelManagementEnabled(JsonField.of(accountLevelManagementEnabled))
-
-        /**
-         * Sets [Builder.accountLevelManagementEnabled] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.accountLevelManagementEnabled] with a well-typed
-         * [Boolean] value instead. This method is primarily for setting the field to an
-         * undocumented or not yet supported value.
-         */
-        fun accountLevelManagementEnabled(accountLevelManagementEnabled: JsonField<Boolean>) =
-            apply {
-                this.accountLevelManagementEnabled = accountLevelManagementEnabled
-            }
 
         /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
         fun cardholderCurrency(cardholderCurrency: String) =
@@ -412,6 +413,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
+         * .accountLevelManagementEnabled()
          * .created()
          * .name()
          * .panRangeEnd()
@@ -423,11 +425,11 @@ private constructor(
         fun build(): CardProgram =
             CardProgram(
                 checkRequired("token", token),
+                checkRequired("accountLevelManagementEnabled", accountLevelManagementEnabled),
                 checkRequired("created", created),
                 checkRequired("name", name),
                 checkRequired("panRangeEnd", panRangeEnd),
                 checkRequired("panRangeStart", panRangeStart),
-                accountLevelManagementEnabled,
                 cardholderCurrency,
                 (settlementCurrencies ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
@@ -442,11 +444,11 @@ private constructor(
         }
 
         token()
+        accountLevelManagementEnabled()
         created()
         name()
         panRangeEnd()
         panRangeStart()
-        accountLevelManagementEnabled()
         cardholderCurrency()
         settlementCurrencies()
         validated = true
@@ -468,11 +470,11 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (token.asKnown().isPresent) 1 else 0) +
+            (if (accountLevelManagementEnabled.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (panRangeEnd.asKnown().isPresent) 1 else 0) +
             (if (panRangeStart.asKnown().isPresent) 1 else 0) +
-            (if (accountLevelManagementEnabled.asKnown().isPresent) 1 else 0) +
             (if (cardholderCurrency.asKnown().isPresent) 1 else 0) +
             (settlementCurrencies.asKnown().getOrNull()?.size ?: 0)
 
@@ -483,11 +485,11 @@ private constructor(
 
         return other is CardProgram &&
             token == other.token &&
+            accountLevelManagementEnabled == other.accountLevelManagementEnabled &&
             created == other.created &&
             name == other.name &&
             panRangeEnd == other.panRangeEnd &&
             panRangeStart == other.panRangeStart &&
-            accountLevelManagementEnabled == other.accountLevelManagementEnabled &&
             cardholderCurrency == other.cardholderCurrency &&
             settlementCurrencies == other.settlementCurrencies &&
             additionalProperties == other.additionalProperties
@@ -496,11 +498,11 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             token,
+            accountLevelManagementEnabled,
             created,
             name,
             panRangeEnd,
             panRangeStart,
-            accountLevelManagementEnabled,
             cardholderCurrency,
             settlementCurrencies,
             additionalProperties,
@@ -510,5 +512,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CardProgram{token=$token, created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, accountLevelManagementEnabled=$accountLevelManagementEnabled, cardholderCurrency=$cardholderCurrency, settlementCurrencies=$settlementCurrencies, additionalProperties=$additionalProperties}"
+        "CardProgram{token=$token, accountLevelManagementEnabled=$accountLevelManagementEnabled, created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, cardholderCurrency=$cardholderCurrency, settlementCurrencies=$settlementCurrencies, additionalProperties=$additionalProperties}"
 }

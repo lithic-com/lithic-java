@@ -15,10 +15,8 @@ import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
-import com.lithic.api.models.TokenizationUpdateDigitalCardArtResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -276,15 +274,14 @@ interface TokenizationServiceAsync {
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
      * tokenization ecosystem.
      */
-    fun simulate(
-        params: TokenizationSimulateParams
-    ): CompletableFuture<TokenizationSimulateResponse> = simulate(params, RequestOptions.none())
+    fun simulate(params: TokenizationSimulateParams): CompletableFuture<Tokenization> =
+        simulate(params, RequestOptions.none())
 
     /** @see simulate */
     fun simulate(
         params: TokenizationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationSimulateResponse>
+    ): CompletableFuture<Tokenization>
 
     /**
      * This endpoint is used to ask the card network to unpause a tokenization. A successful
@@ -337,9 +334,7 @@ interface TokenizationServiceAsync {
      * with the art referenced in the card object's `digital_card_art_token` field. Reach out at
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
-    fun updateDigitalCardArt(
-        tokenizationToken: String
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+    fun updateDigitalCardArt(tokenizationToken: String): CompletableFuture<Tokenization> =
         updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
 
     /** @see updateDigitalCardArt */
@@ -348,7 +343,7 @@ interface TokenizationServiceAsync {
         params: TokenizationUpdateDigitalCardArtParams =
             TokenizationUpdateDigitalCardArtParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+    ): CompletableFuture<Tokenization> =
         updateDigitalCardArt(
             params.toBuilder().tokenizationToken(tokenizationToken).build(),
             requestOptions,
@@ -359,26 +354,25 @@ interface TokenizationServiceAsync {
         tokenizationToken: String,
         params: TokenizationUpdateDigitalCardArtParams =
             TokenizationUpdateDigitalCardArtParams.none(),
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+    ): CompletableFuture<Tokenization> =
         updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse>
+    ): CompletableFuture<Tokenization>
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
         params: TokenizationUpdateDigitalCardArtParams
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
-        updateDigitalCardArt(params, RequestOptions.none())
+    ): CompletableFuture<Tokenization> = updateDigitalCardArt(params, RequestOptions.none())
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
         tokenizationToken: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<TokenizationUpdateDigitalCardArtResponse> =
+    ): CompletableFuture<Tokenization> =
         updateDigitalCardArt(
             tokenizationToken,
             TokenizationUpdateDigitalCardArtParams.none(),
@@ -647,14 +641,14 @@ interface TokenizationServiceAsync {
          */
         fun simulate(
             params: TokenizationSimulateParams
-        ): CompletableFuture<HttpResponseFor<TokenizationSimulateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             simulate(params, RequestOptions.none())
 
         /** @see simulate */
         fun simulate(
             params: TokenizationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationSimulateResponse>>
+        ): CompletableFuture<HttpResponseFor<Tokenization>>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,
@@ -702,7 +696,7 @@ interface TokenizationServiceAsync {
          */
         fun updateDigitalCardArt(
             tokenizationToken: String
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
 
         /** @see updateDigitalCardArt */
@@ -711,7 +705,7 @@ interface TokenizationServiceAsync {
             params: TokenizationUpdateDigitalCardArtParams =
                 TokenizationUpdateDigitalCardArtParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             updateDigitalCardArt(
                 params.toBuilder().tokenizationToken(tokenizationToken).build(),
                 requestOptions,
@@ -722,26 +716,26 @@ interface TokenizationServiceAsync {
             tokenizationToken: String,
             params: TokenizationUpdateDigitalCardArtParams =
                 TokenizationUpdateDigitalCardArtParams.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
 
         /** @see updateDigitalCardArt */
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>>
+        ): CompletableFuture<HttpResponseFor<Tokenization>>
 
         /** @see updateDigitalCardArt */
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             updateDigitalCardArt(params, RequestOptions.none())
 
         /** @see updateDigitalCardArt */
         fun updateDigitalCardArt(
             tokenizationToken: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<TokenizationUpdateDigitalCardArtResponse>> =
+        ): CompletableFuture<HttpResponseFor<Tokenization>> =
             updateDigitalCardArt(
                 tokenizationToken,
                 TokenizationUpdateDigitalCardArtParams.none(),

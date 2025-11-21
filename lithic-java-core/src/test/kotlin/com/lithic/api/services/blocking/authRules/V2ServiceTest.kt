@@ -29,7 +29,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val v2 =
+        val authRule =
             v2Service.create(
                 AuthRuleV2CreateParams.builder()
                     .body(
@@ -61,7 +61,7 @@ internal class V2ServiceTest {
                     .build()
             )
 
-        v2.validate()
+        authRule.validate()
     }
 
     @Test
@@ -73,9 +73,9 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val v2 = v2Service.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val authRule = v2Service.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        v2.validate()
+        authRule.validate()
     }
 
     @Test
@@ -87,7 +87,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val v2 =
+        val authRule =
             v2Service.update(
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -102,7 +102,7 @@ internal class V2ServiceTest {
                     .build()
             )
 
-        v2.validate()
+        authRule.validate()
     }
 
     @Test
@@ -140,7 +140,7 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val response =
+        val authRule =
             v2Service.draft(
                 AuthRuleV2DraftParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -158,7 +158,7 @@ internal class V2ServiceTest {
                     .build()
             )
 
-        response.validate()
+        authRule.validate()
     }
 
     @Test
@@ -170,9 +170,9 @@ internal class V2ServiceTest {
                 .build()
         val v2Service = client.authRules().v2()
 
-        val response = v2Service.promote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val authRule = v2Service.promote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        response.validate()
+        authRule.validate()
     }
 
     @Test

@@ -17,6 +17,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
+import com.lithic.api.models.AuthRule
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
@@ -28,13 +29,8 @@ import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.V2CreateResponse
-import com.lithic.api.models.V2DraftResponse
-import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
 import com.lithic.api.models.V2RetrieveReportResponse
-import com.lithic.api.models.V2RetrieveResponse
-import com.lithic.api.models.V2UpdateResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
@@ -60,21 +56,21 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     override fun create(
         params: AuthRuleV2CreateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<V2CreateResponse> =
+    ): CompletableFuture<AuthRule> =
         // post /v2/auth_rules
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieve(
         params: AuthRuleV2RetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<V2RetrieveResponse> =
+    ): CompletableFuture<AuthRule> =
         // get /v2/auth_rules/{auth_rule_token}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun update(
         params: AuthRuleV2UpdateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<V2UpdateResponse> =
+    ): CompletableFuture<AuthRule> =
         // patch /v2/auth_rules/{auth_rule_token}
         withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
@@ -95,14 +91,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     override fun draft(
         params: AuthRuleV2DraftParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<V2DraftResponse> =
+    ): CompletableFuture<AuthRule> =
         // post /v2/auth_rules/{auth_rule_token}/draft
         withRawResponse().draft(params, requestOptions).thenApply { it.parse() }
 
     override fun promote(
         params: AuthRuleV2PromoteParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<V2PromoteResponse> =
+    ): CompletableFuture<AuthRule> =
         // post /v2/auth_rules/{auth_rule_token}/promote
         withRawResponse().promote(params, requestOptions).thenApply { it.parse() }
 
@@ -139,13 +135,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
 
         override fun backtests(): BacktestServiceAsync.WithRawResponse = backtests
 
-        private val createHandler: Handler<V2CreateResponse> =
-            jsonHandler<V2CreateResponse>(clientOptions.jsonMapper)
+        private val createHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
 
         override fun create(
             params: AuthRuleV2CreateParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2CreateResponse>> {
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -170,13 +166,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 }
         }
 
-        private val retrieveHandler: Handler<V2RetrieveResponse> =
-            jsonHandler<V2RetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AuthRuleV2RetrieveParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2RetrieveResponse>> {
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("authRuleToken", params.authRuleToken().getOrNull())
@@ -203,13 +199,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 }
         }
 
-        private val updateHandler: Handler<V2UpdateResponse> =
-            jsonHandler<V2UpdateResponse>(clientOptions.jsonMapper)
+        private val updateHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
 
         override fun update(
             params: AuthRuleV2UpdateParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2UpdateResponse>> {
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("authRuleToken", params.authRuleToken().getOrNull())
@@ -302,13 +298,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 }
         }
 
-        private val draftHandler: Handler<V2DraftResponse> =
-            jsonHandler<V2DraftResponse>(clientOptions.jsonMapper)
+        private val draftHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
 
         override fun draft(
             params: AuthRuleV2DraftParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2DraftResponse>> {
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("authRuleToken", params.authRuleToken().getOrNull())
@@ -336,13 +332,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 }
         }
 
-        private val promoteHandler: Handler<V2PromoteResponse> =
-            jsonHandler<V2PromoteResponse>(clientOptions.jsonMapper)
+        private val promoteHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
 
         override fun promote(
             params: AuthRuleV2PromoteParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2PromoteResponse>> {
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("authRuleToken", params.authRuleToken().getOrNull())
