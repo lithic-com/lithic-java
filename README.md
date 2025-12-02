@@ -345,13 +345,13 @@ The SDK uses the standard [OkHttp logging interceptor](https://github.com/square
 Enable logging by setting the `LITHIC_LOG` environment variable to `info`:
 
 ```sh
-$ export LITHIC_LOG=info
+export LITHIC_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export LITHIC_LOG=debug
+export LITHIC_LOG=debug
 ```
 
 ## Webhook Verification
