@@ -33,6 +33,8 @@ import com.lithic.api.services.async.BalanceServiceAsync
 import com.lithic.api.services.async.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.BookTransferServiceAsync
 import com.lithic.api.services.async.BookTransferServiceAsyncImpl
+import com.lithic.api.services.async.CardBulkOrderServiceAsync
+import com.lithic.api.services.async.CardBulkOrderServiceAsyncImpl
 import com.lithic.api.services.async.CardProgramServiceAsync
 import com.lithic.api.services.async.CardProgramServiceAsyncImpl
 import com.lithic.api.services.async.CardServiceAsync
@@ -57,6 +59,8 @@ import com.lithic.api.services.async.FraudServiceAsync
 import com.lithic.api.services.async.FraudServiceAsyncImpl
 import com.lithic.api.services.async.FundingEventServiceAsync
 import com.lithic.api.services.async.FundingEventServiceAsyncImpl
+import com.lithic.api.services.async.InternalTransactionServiceAsync
+import com.lithic.api.services.async.InternalTransactionServiceAsyncImpl
 import com.lithic.api.services.async.ManagementOperationServiceAsync
 import com.lithic.api.services.async.ManagementOperationServiceAsyncImpl
 import com.lithic.api.services.async.NetworkProgramServiceAsync
@@ -122,6 +126,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     }
 
     private val cards: CardServiceAsync by lazy { CardServiceAsyncImpl(clientOptionsWithUserAgent) }
+
+    private val cardBulkOrders: CardBulkOrderServiceAsync by lazy {
+        CardBulkOrderServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     private val balances: BalanceServiceAsync by lazy {
         BalanceServiceAsyncImpl(clientOptionsWithUserAgent)
@@ -199,6 +207,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         ManagementOperationServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val internalTransaction: InternalTransactionServiceAsync by lazy {
+        InternalTransactionServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val fundingEvents: FundingEventServiceAsync by lazy {
         FundingEventServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -237,6 +249,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
     override fun cards(): CardServiceAsync = cards
 
+    override fun cardBulkOrders(): CardBulkOrderServiceAsync = cardBulkOrders
+
     override fun balances(): BalanceServiceAsync = balances
 
     override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
@@ -274,6 +288,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     override fun externalPayments(): ExternalPaymentServiceAsync = externalPayments
 
     override fun managementOperations(): ManagementOperationServiceAsync = managementOperations
+
+    override fun internalTransaction(): InternalTransactionServiceAsync = internalTransaction
 
     override fun fundingEvents(): FundingEventServiceAsync = fundingEvents
 
@@ -325,6 +341,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
         private val cards: CardServiceAsync.WithRawResponse by lazy {
             CardServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val cardBulkOrders: CardBulkOrderServiceAsync.WithRawResponse by lazy {
+            CardBulkOrderServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val balances: BalanceServiceAsync.WithRawResponse by lazy {
@@ -403,6 +423,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
             ManagementOperationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val internalTransaction: InternalTransactionServiceAsync.WithRawResponse by lazy {
+            InternalTransactionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val fundingEvents: FundingEventServiceAsync.WithRawResponse by lazy {
             FundingEventServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -441,6 +465,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         override fun tokenizations(): TokenizationServiceAsync.WithRawResponse = tokenizations
 
         override fun cards(): CardServiceAsync.WithRawResponse = cards
+
+        override fun cardBulkOrders(): CardBulkOrderServiceAsync.WithRawResponse = cardBulkOrders
 
         override fun balances(): BalanceServiceAsync.WithRawResponse = balances
 
@@ -485,6 +511,9 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
         override fun managementOperations(): ManagementOperationServiceAsync.WithRawResponse =
             managementOperations
+
+        override fun internalTransaction(): InternalTransactionServiceAsync.WithRawResponse =
+            internalTransaction
 
         override fun fundingEvents(): FundingEventServiceAsync.WithRawResponse = fundingEvents
 

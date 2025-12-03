@@ -16,7 +16,7 @@ private constructor(
     private val service: NetworkTotalService,
     private val params: ReportSettlementNetworkTotalListParams,
     private val response: ReportSettlementNetworkTotalListPageResponse,
-) : Page<NetworkTotalListResponse> {
+) : Page<NetworkTotal> {
 
     /**
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
@@ -24,8 +24,7 @@ private constructor(
      *
      * @see ReportSettlementNetworkTotalListPageResponse.data
      */
-    fun data(): List<NetworkTotalListResponse> =
-        response._data().getOptional("data").getOrNull() ?: emptyList()
+    fun data(): List<NetworkTotal> = response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
      * Delegates to [ReportSettlementNetworkTotalListPageResponse], but gracefully handles missing
@@ -35,7 +34,7 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    override fun items(): List<NetworkTotalListResponse> = data()
+    override fun items(): List<NetworkTotal> = data()
 
     override fun hasNextPage(): Boolean = items().isNotEmpty()
 
@@ -48,7 +47,7 @@ private constructor(
 
     override fun nextPage(): ReportSettlementNetworkTotalListPage = service.list(nextPageParams())
 
-    fun autoPager(): AutoPager<NetworkTotalListResponse> = AutoPager.from(this)
+    fun autoPager(): AutoPager<NetworkTotal> = AutoPager.from(this)
 
     /** The parameters that were used to request this page. */
     fun params(): ReportSettlementNetworkTotalListParams = params

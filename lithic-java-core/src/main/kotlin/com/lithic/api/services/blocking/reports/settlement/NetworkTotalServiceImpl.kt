@@ -15,7 +15,7 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
-import com.lithic.api.models.NetworkTotalRetrieveResponse
+import com.lithic.api.models.NetworkTotal
 import com.lithic.api.models.ReportSettlementNetworkTotalListPage
 import com.lithic.api.models.ReportSettlementNetworkTotalListPageResponse
 import com.lithic.api.models.ReportSettlementNetworkTotalListParams
@@ -38,7 +38,7 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
     override fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
         requestOptions: RequestOptions,
-    ): NetworkTotalRetrieveResponse =
+    ): NetworkTotal =
         // get /v1/reports/settlement/network_totals/{token}
         withRawResponse().retrieve(params, requestOptions).parse()
 
@@ -62,13 +62,13 @@ class NetworkTotalServiceImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val retrieveHandler: Handler<NetworkTotalRetrieveResponse> =
-            jsonHandler<NetworkTotalRetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<NetworkTotal> =
+            jsonHandler<NetworkTotal>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<NetworkTotalRetrieveResponse> {
+        ): HttpResponseFor<NetworkTotal> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("token", params.token().getOrNull())

@@ -5,12 +5,12 @@ package com.lithic.api.services.async
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.models.FundingEvent
 import com.lithic.api.models.FundingEventListPageAsync
 import com.lithic.api.models.FundingEventListParams
 import com.lithic.api.models.FundingEventRetrieveDetailsParams
 import com.lithic.api.models.FundingEventRetrieveDetailsResponse
 import com.lithic.api.models.FundingEventRetrieveParams
-import com.lithic.api.models.FundingEventRetrieveResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -29,7 +29,7 @@ interface FundingEventServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): FundingEventServiceAsync
 
     /** Get funding event for program by id */
-    fun retrieve(fundingEventToken: String): CompletableFuture<FundingEventRetrieveResponse> =
+    fun retrieve(fundingEventToken: String): CompletableFuture<FundingEvent> =
         retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
     /** @see retrieve */
@@ -37,32 +37,30 @@ interface FundingEventServiceAsync {
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<FundingEventRetrieveResponse> =
+    ): CompletableFuture<FundingEvent> =
         retrieve(params.toBuilder().fundingEventToken(fundingEventToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
-    ): CompletableFuture<FundingEventRetrieveResponse> =
-        retrieve(fundingEventToken, params, RequestOptions.none())
+    ): CompletableFuture<FundingEvent> = retrieve(fundingEventToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: FundingEventRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<FundingEventRetrieveResponse>
+    ): CompletableFuture<FundingEvent>
 
     /** @see retrieve */
-    fun retrieve(
-        params: FundingEventRetrieveParams
-    ): CompletableFuture<FundingEventRetrieveResponse> = retrieve(params, RequestOptions.none())
+    fun retrieve(params: FundingEventRetrieveParams): CompletableFuture<FundingEvent> =
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<FundingEventRetrieveResponse> =
+    ): CompletableFuture<FundingEvent> =
         retrieve(fundingEventToken, FundingEventRetrieveParams.none(), requestOptions)
 
     /** Get all funding events for program */
@@ -145,9 +143,7 @@ interface FundingEventServiceAsync {
          * Returns a raw HTTP response for `get /v1/funding_events/{funding_event_token}`, but is
          * otherwise the same as [FundingEventServiceAsync.retrieve].
          */
-        fun retrieve(
-            fundingEventToken: String
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>> =
+        fun retrieve(fundingEventToken: String): CompletableFuture<HttpResponseFor<FundingEvent>> =
             retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
         /** @see retrieve */
@@ -155,7 +151,7 @@ interface FundingEventServiceAsync {
             fundingEventToken: String,
             params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<FundingEvent>> =
             retrieve(
                 params.toBuilder().fundingEventToken(fundingEventToken).build(),
                 requestOptions,
@@ -165,26 +161,26 @@ interface FundingEventServiceAsync {
         fun retrieve(
             fundingEventToken: String,
             params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<FundingEvent>> =
             retrieve(fundingEventToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             params: FundingEventRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>>
+        ): CompletableFuture<HttpResponseFor<FundingEvent>>
 
         /** @see retrieve */
         fun retrieve(
             params: FundingEventRetrieveParams
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<FundingEvent>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             fundingEventToken: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<FundingEventRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<FundingEvent>> =
             retrieve(fundingEventToken, FundingEventRetrieveParams.none(), requestOptions)
 
         /**

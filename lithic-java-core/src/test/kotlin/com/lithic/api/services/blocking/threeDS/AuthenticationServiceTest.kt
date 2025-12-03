@@ -21,9 +21,10 @@ internal class AuthenticationServiceTest {
                 .build()
         val authenticationService = client.threeDS().authentication()
 
-        val authentication = authenticationService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val threeDSAuthentication =
+            authenticationService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        authentication.validate()
+        threeDSAuthentication.validate()
     }
 
     @Test

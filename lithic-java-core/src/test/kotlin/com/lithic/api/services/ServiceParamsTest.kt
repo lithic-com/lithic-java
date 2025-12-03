@@ -47,6 +47,7 @@ internal class ServiceParamsTest {
             CardCreateParams.builder()
                 .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .cardProgramToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
                 .digitalCardArtToken("5e9483eb-8103-4e16-9794-2106111b2eca")

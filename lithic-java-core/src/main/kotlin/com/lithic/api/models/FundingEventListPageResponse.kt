@@ -21,7 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 class FundingEventListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<FundingEventListResponse>>,
+    private val data: JsonField<List<FundingEvent>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -30,7 +30,7 @@ private constructor(
     private constructor(
         @JsonProperty("data")
         @ExcludeMissing
-        data: JsonField<List<FundingEventListResponse>> = JsonMissing.of(),
+        data: JsonField<List<FundingEvent>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
@@ -40,7 +40,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): List<FundingEventListResponse> = data.getRequired("data")
+    fun data(): List<FundingEvent> = data.getRequired("data")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -53,9 +53,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data(): JsonField<List<FundingEventListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<FundingEvent>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -93,7 +91,7 @@ private constructor(
     /** A builder for [FundingEventListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<FundingEventListResponse>>? = null
+        private var data: JsonField<MutableList<FundingEvent>>? = null
         private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -105,25 +103,25 @@ private constructor(
         }
 
         /** Funding Event Response */
-        fun data(data: List<FundingEventListResponse>) = data(JsonField.of(data))
+        fun data(data: List<FundingEvent>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<FundingEventListResponse>`
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.data] with a well-typed `List<FundingEvent>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun data(data: JsonField<List<FundingEventListResponse>>) = apply {
+        fun data(data: JsonField<List<FundingEvent>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [FundingEventListResponse] to [Builder.data].
+         * Adds a single [FundingEvent] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: FundingEventListResponse) = apply {
+        fun addData(data: FundingEvent) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)

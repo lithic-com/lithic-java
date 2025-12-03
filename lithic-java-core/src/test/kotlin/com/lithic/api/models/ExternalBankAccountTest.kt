@@ -9,12 +9,12 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class ExternalBankAccountUnpauseResponseTest {
+internal class ExternalBankAccountTest {
 
     @Test
     fun create() {
-        val externalBankAccountUnpauseResponse =
-            ExternalBankAccountUnpauseResponse.builder()
+        val externalBankAccount =
+            ExternalBankAccount.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .country("country")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -23,11 +23,11 @@ internal class ExternalBankAccountUnpauseResponseTest {
                 .owner("owner")
                 .ownerType(OwnerType.INDIVIDUAL)
                 .routingNumber("routing_number")
-                .state(ExternalBankAccountUnpauseResponse.State.ENABLED)
-                .type(ExternalBankAccountUnpauseResponse.AccountType.CHECKING)
+                .state(ExternalBankAccount.State.ENABLED)
+                .type(ExternalBankAccount.AccountType.CHECKING)
                 .verificationAttempts(0L)
                 .verificationMethod(VerificationMethod.MANUAL)
-                .verificationState(ExternalBankAccountUnpauseResponse.VerificationState.PENDING)
+                .verificationState(ExternalBankAccount.VerificationState.PENDING)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .address(
                     ExternalBankAccountAddress.builder()
@@ -48,28 +48,24 @@ internal class ExternalBankAccountUnpauseResponseTest {
                 .verificationFailedReason("verification_failed_reason")
                 .build()
 
-        assertThat(externalBankAccountUnpauseResponse.token())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(externalBankAccountUnpauseResponse.country()).isEqualTo("country")
-        assertThat(externalBankAccountUnpauseResponse.created())
+        assertThat(externalBankAccount.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(externalBankAccount.country()).isEqualTo("country")
+        assertThat(externalBankAccount.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(externalBankAccountUnpauseResponse.currency()).isEqualTo("currency")
-        assertThat(externalBankAccountUnpauseResponse.lastFour()).isEqualTo("last_four")
-        assertThat(externalBankAccountUnpauseResponse.owner()).isEqualTo("owner")
-        assertThat(externalBankAccountUnpauseResponse.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
-        assertThat(externalBankAccountUnpauseResponse.routingNumber()).isEqualTo("routing_number")
-        assertThat(externalBankAccountUnpauseResponse.state())
-            .isEqualTo(ExternalBankAccountUnpauseResponse.State.ENABLED)
-        assertThat(externalBankAccountUnpauseResponse.type())
-            .isEqualTo(ExternalBankAccountUnpauseResponse.AccountType.CHECKING)
-        assertThat(externalBankAccountUnpauseResponse.verificationAttempts()).isEqualTo(0L)
-        assertThat(externalBankAccountUnpauseResponse.verificationMethod())
-            .isEqualTo(VerificationMethod.MANUAL)
-        assertThat(externalBankAccountUnpauseResponse.verificationState())
-            .isEqualTo(ExternalBankAccountUnpauseResponse.VerificationState.PENDING)
-        assertThat(externalBankAccountUnpauseResponse.accountToken())
+        assertThat(externalBankAccount.currency()).isEqualTo("currency")
+        assertThat(externalBankAccount.lastFour()).isEqualTo("last_four")
+        assertThat(externalBankAccount.owner()).isEqualTo("owner")
+        assertThat(externalBankAccount.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
+        assertThat(externalBankAccount.routingNumber()).isEqualTo("routing_number")
+        assertThat(externalBankAccount.state()).isEqualTo(ExternalBankAccount.State.ENABLED)
+        assertThat(externalBankAccount.type()).isEqualTo(ExternalBankAccount.AccountType.CHECKING)
+        assertThat(externalBankAccount.verificationAttempts()).isEqualTo(0L)
+        assertThat(externalBankAccount.verificationMethod()).isEqualTo(VerificationMethod.MANUAL)
+        assertThat(externalBankAccount.verificationState())
+            .isEqualTo(ExternalBankAccount.VerificationState.PENDING)
+        assertThat(externalBankAccount.accountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(externalBankAccountUnpauseResponse.address())
+        assertThat(externalBankAccount.address())
             .contains(
                 ExternalBankAccountAddress.builder()
                     .address1("x")
@@ -80,23 +76,22 @@ internal class ExternalBankAccountUnpauseResponseTest {
                     .address2("x")
                     .build()
             )
-        assertThat(externalBankAccountUnpauseResponse.companyId()).contains("company_id")
-        assertThat(externalBankAccountUnpauseResponse.dob()).contains(LocalDate.parse("2019-12-27"))
-        assertThat(externalBankAccountUnpauseResponse.doingBusinessAs())
-            .contains("doing_business_as")
-        assertThat(externalBankAccountUnpauseResponse.financialAccountToken())
+        assertThat(externalBankAccount.companyId()).contains("company_id")
+        assertThat(externalBankAccount.dob()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(externalBankAccount.doingBusinessAs()).contains("doing_business_as")
+        assertThat(externalBankAccount.financialAccountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(externalBankAccountUnpauseResponse.name()).contains("name")
-        assertThat(externalBankAccountUnpauseResponse.userDefinedId()).contains("user_defined_id")
-        assertThat(externalBankAccountUnpauseResponse.verificationFailedReason())
+        assertThat(externalBankAccount.name()).contains("name")
+        assertThat(externalBankAccount.userDefinedId()).contains("user_defined_id")
+        assertThat(externalBankAccount.verificationFailedReason())
             .contains("verification_failed_reason")
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val externalBankAccountUnpauseResponse =
-            ExternalBankAccountUnpauseResponse.builder()
+        val externalBankAccount =
+            ExternalBankAccount.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .country("country")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -105,11 +100,11 @@ internal class ExternalBankAccountUnpauseResponseTest {
                 .owner("owner")
                 .ownerType(OwnerType.INDIVIDUAL)
                 .routingNumber("routing_number")
-                .state(ExternalBankAccountUnpauseResponse.State.ENABLED)
-                .type(ExternalBankAccountUnpauseResponse.AccountType.CHECKING)
+                .state(ExternalBankAccount.State.ENABLED)
+                .type(ExternalBankAccount.AccountType.CHECKING)
                 .verificationAttempts(0L)
                 .verificationMethod(VerificationMethod.MANUAL)
-                .verificationState(ExternalBankAccountUnpauseResponse.VerificationState.PENDING)
+                .verificationState(ExternalBankAccount.VerificationState.PENDING)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .address(
                     ExternalBankAccountAddress.builder()
@@ -130,13 +125,12 @@ internal class ExternalBankAccountUnpauseResponseTest {
                 .verificationFailedReason("verification_failed_reason")
                 .build()
 
-        val roundtrippedExternalBankAccountUnpauseResponse =
+        val roundtrippedExternalBankAccount =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(externalBankAccountUnpauseResponse),
-                jacksonTypeRef<ExternalBankAccountUnpauseResponse>(),
+                jsonMapper.writeValueAsString(externalBankAccount),
+                jacksonTypeRef<ExternalBankAccount>(),
             )
 
-        assertThat(roundtrippedExternalBankAccountUnpauseResponse)
-            .isEqualTo(externalBankAccountUnpauseResponse)
+        assertThat(roundtrippedExternalBankAccount).isEqualTo(externalBankAccount)
     }
 }

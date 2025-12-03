@@ -9,15 +9,15 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class NetworkTotalRetrieveResponseTest {
+internal class NetworkTotalTest {
 
     @Test
     fun create() {
-        val networkTotalRetrieveResponse =
-            NetworkTotalRetrieveResponse.builder()
+        val networkTotal =
+            NetworkTotal.builder()
                 .token("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
                 .amounts(
-                    NetworkTotalRetrieveResponse.Amounts.builder()
+                    NetworkTotal.Amounts.builder()
                         .grossSettlement(100L)
                         .interchangeFees(-25L)
                         .netSettlement(85L)
@@ -28,7 +28,7 @@ internal class NetworkTotalRetrieveResponseTest {
                 .currency("CAD")
                 .institutionId("1000000000")
                 .isComplete(true)
-                .network(NetworkTotalRetrieveResponse.Network.VISA)
+                .network(NetworkTotal.Network.VISA)
                 .reportDate(LocalDate.parse("2025-02-25"))
                 .settlementInstitutionId("1000000001")
                 .settlementService("015")
@@ -36,41 +36,38 @@ internal class NetworkTotalRetrieveResponseTest {
                 .cycle(0L)
                 .build()
 
-        assertThat(networkTotalRetrieveResponse.token())
-            .isEqualTo("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
-        assertThat(networkTotalRetrieveResponse.amounts())
+        assertThat(networkTotal.token()).isEqualTo("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
+        assertThat(networkTotal.amounts())
             .isEqualTo(
-                NetworkTotalRetrieveResponse.Amounts.builder()
+                NetworkTotal.Amounts.builder()
                     .grossSettlement(100L)
                     .interchangeFees(-25L)
                     .netSettlement(85L)
                     .visaCharges(10L)
                     .build()
             )
-        assertThat(networkTotalRetrieveResponse.created())
+        assertThat(networkTotal.created())
             .isEqualTo(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
-        assertThat(networkTotalRetrieveResponse.currency()).isEqualTo("CAD")
-        assertThat(networkTotalRetrieveResponse.institutionId()).isEqualTo("1000000000")
-        assertThat(networkTotalRetrieveResponse.isComplete()).isEqualTo(true)
-        assertThat(networkTotalRetrieveResponse.network())
-            .isEqualTo(NetworkTotalRetrieveResponse.Network.VISA)
-        assertThat(networkTotalRetrieveResponse.reportDate())
-            .isEqualTo(LocalDate.parse("2025-02-25"))
-        assertThat(networkTotalRetrieveResponse.settlementInstitutionId()).isEqualTo("1000000001")
-        assertThat(networkTotalRetrieveResponse.settlementService()).isEqualTo("015")
-        assertThat(networkTotalRetrieveResponse.updated())
+        assertThat(networkTotal.currency()).isEqualTo("CAD")
+        assertThat(networkTotal.institutionId()).isEqualTo("1000000000")
+        assertThat(networkTotal.isComplete()).isEqualTo(true)
+        assertThat(networkTotal.network()).isEqualTo(NetworkTotal.Network.VISA)
+        assertThat(networkTotal.reportDate()).isEqualTo(LocalDate.parse("2025-02-25"))
+        assertThat(networkTotal.settlementInstitutionId()).isEqualTo("1000000001")
+        assertThat(networkTotal.settlementService()).isEqualTo("015")
+        assertThat(networkTotal.updated())
             .isEqualTo(OffsetDateTime.parse("2025-02-25T13:07:31.419631Z"))
-        assertThat(networkTotalRetrieveResponse.cycle()).contains(0L)
+        assertThat(networkTotal.cycle()).contains(0L)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val networkTotalRetrieveResponse =
-            NetworkTotalRetrieveResponse.builder()
+        val networkTotal =
+            NetworkTotal.builder()
                 .token("12cf7505-06a8-435e-b1c7-4c430d02f6c3")
                 .amounts(
-                    NetworkTotalRetrieveResponse.Amounts.builder()
+                    NetworkTotal.Amounts.builder()
                         .grossSettlement(100L)
                         .interchangeFees(-25L)
                         .netSettlement(85L)
@@ -81,7 +78,7 @@ internal class NetworkTotalRetrieveResponseTest {
                 .currency("CAD")
                 .institutionId("1000000000")
                 .isComplete(true)
-                .network(NetworkTotalRetrieveResponse.Network.VISA)
+                .network(NetworkTotal.Network.VISA)
                 .reportDate(LocalDate.parse("2025-02-25"))
                 .settlementInstitutionId("1000000001")
                 .settlementService("015")
@@ -89,12 +86,12 @@ internal class NetworkTotalRetrieveResponseTest {
                 .cycle(0L)
                 .build()
 
-        val roundtrippedNetworkTotalRetrieveResponse =
+        val roundtrippedNetworkTotal =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(networkTotalRetrieveResponse),
-                jacksonTypeRef<NetworkTotalRetrieveResponse>(),
+                jsonMapper.writeValueAsString(networkTotal),
+                jacksonTypeRef<NetworkTotal>(),
             )
 
-        assertThat(roundtrippedNetworkTotalRetrieveResponse).isEqualTo(networkTotalRetrieveResponse)
+        assertThat(roundtrippedNetworkTotal).isEqualTo(networkTotal)
     }
 }

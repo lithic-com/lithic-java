@@ -7,8 +7,8 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AuthenticationRetrieveResponse
 import com.lithic.api.models.AuthenticationSimulateResponse
+import com.lithic.api.models.ThreeDSAuthentication
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
@@ -29,7 +29,7 @@ interface AuthenticationService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthenticationService
 
     /** Get 3DS Authentication by token */
-    fun retrieve(threeDSAuthenticationToken: String): AuthenticationRetrieveResponse =
+    fun retrieve(threeDSAuthenticationToken: String): ThreeDSAuthentication =
         retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
     /** @see retrieve */
@@ -37,7 +37,7 @@ interface AuthenticationService {
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AuthenticationRetrieveResponse =
+    ): ThreeDSAuthentication =
         retrieve(
             params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
             requestOptions,
@@ -47,24 +47,23 @@ interface AuthenticationService {
     fun retrieve(
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
-    ): AuthenticationRetrieveResponse =
-        retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
+    ): ThreeDSAuthentication = retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AuthenticationRetrieveResponse
+    ): ThreeDSAuthentication
 
     /** @see retrieve */
-    fun retrieve(params: ThreeDSAuthenticationRetrieveParams): AuthenticationRetrieveResponse =
+    fun retrieve(params: ThreeDSAuthenticationRetrieveParams): ThreeDSAuthentication =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         threeDSAuthenticationToken: String,
         requestOptions: RequestOptions,
-    ): AuthenticationRetrieveResponse =
+    ): ThreeDSAuthentication =
         retrieve(
             threeDSAuthenticationToken,
             ThreeDSAuthenticationRetrieveParams.none(),
@@ -122,9 +121,7 @@ interface AuthenticationService {
          * as [AuthenticationService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            threeDSAuthenticationToken: String
-        ): HttpResponseFor<AuthenticationRetrieveResponse> =
+        fun retrieve(threeDSAuthenticationToken: String): HttpResponseFor<ThreeDSAuthentication> =
             retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
         /** @see retrieve */
@@ -134,7 +131,7 @@ interface AuthenticationService {
             params: ThreeDSAuthenticationRetrieveParams =
                 ThreeDSAuthenticationRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AuthenticationRetrieveResponse> =
+        ): HttpResponseFor<ThreeDSAuthentication> =
             retrieve(
                 params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
                 requestOptions,
@@ -145,7 +142,7 @@ interface AuthenticationService {
         fun retrieve(
             threeDSAuthenticationToken: String,
             params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
-        ): HttpResponseFor<AuthenticationRetrieveResponse> =
+        ): HttpResponseFor<ThreeDSAuthentication> =
             retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
         /** @see retrieve */
@@ -153,20 +150,20 @@ interface AuthenticationService {
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AuthenticationRetrieveResponse>
+        ): HttpResponseFor<ThreeDSAuthentication>
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams
-        ): HttpResponseFor<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
+        ): HttpResponseFor<ThreeDSAuthentication> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<AuthenticationRetrieveResponse> =
+        ): HttpResponseFor<ThreeDSAuthentication> =
             retrieve(
                 threeDSAuthenticationToken,
                 ThreeDSAuthenticationRetrieveParams.none(),

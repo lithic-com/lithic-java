@@ -8,25 +8,25 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class AuthenticationRetrieveResponseTest {
+internal class ThreeDSAuthenticationTest {
 
     @Test
     fun create() {
-        val authenticationRetrieveResponse =
-            AuthenticationRetrieveResponse.builder()
+        val threeDSAuthentication =
+            ThreeDSAuthentication.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountType(AuthenticationRetrieveResponse.AccountType.CREDIT)
-                .authenticationResult(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
-                .cardExpiryCheck(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
+                .accountType(ThreeDSAuthentication.AccountType.CREDIT)
+                .authenticationResult(ThreeDSAuthentication.AuthenticationResult.DECLINE)
+                .cardExpiryCheck(ThreeDSAuthentication.CardExpiryCheck.MATCH)
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardholder(
-                    AuthenticationRetrieveResponse.Cardholder.builder()
+                    ThreeDSAuthentication.Cardholder.builder()
                         .addressMatch(true)
                         .addressOnFileMatch(
-                            AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
+                            ThreeDSAuthentication.Cardholder.AddressMatchResult.MATCH
                         )
                         .billingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
+                            ThreeDSAuthentication.Cardholder.BillingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -41,7 +41,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .phoneNumberMobile("x")
                         .phoneNumberWork("x")
                         .shippingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
+                            ThreeDSAuthentication.Cardholder.ShippingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -52,37 +52,33 @@ internal class AuthenticationRetrieveResponseTest {
                         )
                         .build()
                 )
-                .channel(AuthenticationRetrieveResponse.Channel.APP_BASED)
+                .channel(ThreeDSAuthentication.Channel.APP_BASED)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .merchant(
-                    AuthenticationRetrieveResponse.Merchant.builder()
+                    ThreeDSAuthentication.Merchant.builder()
                         .riskIndicator(
-                            AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
+                            ThreeDSAuthentication.Merchant.RiskIndicator.builder()
                                 .deliveryEmailAddress("delivery_email_address")
                                 .deliveryTimeFrame(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .DeliveryTimeFrame
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.DeliveryTimeFrame
                                         .ELECTRONIC_DELIVERY
                                 )
                                 .giftCardAmount(0L)
                                 .giftCardCount(0L)
                                 .giftCardCurrency("xxx")
                                 .orderAvailability(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .OrderAvailability
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.OrderAvailability
                                         .FUTURE_AVAILABILITY
                                 )
                                 .preOrderAvailableDate(
                                     OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
                                 )
                                 .reorderItems(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .ReorderItems
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.ReorderItems
                                         .FIRST_TIME_ORDERED
                                 )
                                 .shippingMethod(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .ShippingMethod
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.ShippingMethod
                                         .DIGITAL_GOODS
                                 )
                                 .build()
@@ -93,22 +89,20 @@ internal class AuthenticationRetrieveResponseTest {
                         .name("name")
                         .build()
                 )
-                .messageCategory(
-                    AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION
-                )
+                .messageCategory(ThreeDSAuthentication.MessageCategory.NON_PAYMENT_AUTHENTICATION)
                 .threeDSRequestorChallengeIndicator(
-                    AuthenticationRetrieveResponse.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
+                    ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
                 .additionalData(
-                    AuthenticationRetrieveResponse.AdditionalData.builder()
+                    ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
-                            AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
+                            ThreeDSAuthentication.AdditionalData.NetworkDecision.LOW_RISK
                         )
                         .networkRiskScore(0L)
                         .build()
                 )
                 .app(
-                    AuthenticationRetrieveResponse.App.builder()
+                    ThreeDSAuthentication.App.builder()
                         .device("device")
                         .deviceInfo("device_info")
                         .ip("ip")
@@ -122,11 +116,9 @@ internal class AuthenticationRetrieveResponseTest {
                         .timeZone("time_zone")
                         .build()
                 )
-                .authenticationRequestType(
-                    AuthenticationRetrieveResponse.AuthenticationRequestType.ADD_CARD
-                )
+                .authenticationRequestType(ThreeDSAuthentication.AuthenticationRequestType.ADD_CARD)
                 .browser(
-                    AuthenticationRetrieveResponse.Browser.builder()
+                    ThreeDSAuthentication.Browser.builder()
                         .acceptHeader("accept_header")
                         .ip("ip")
                         .javaEnabled(true)
@@ -137,52 +129,43 @@ internal class AuthenticationRetrieveResponseTest {
                         .build()
                 )
                 .challengeMetadata(
-                    AuthenticationRetrieveResponse.ChallengeMetadata.builder()
-                        .methodType(
-                            AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP
-                        )
-                        .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
+                    ThreeDSAuthentication.ChallengeMetadata.builder()
+                        .methodType(ThreeDSAuthentication.ChallengeMetadata.MethodType.SMS_OTP)
+                        .status(ThreeDSAuthentication.ChallengeMetadata.Status.SUCCESS)
                         .phoneNumber("phone_number")
                         .build()
                 )
-                .challengeOrchestratedBy(
-                    AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
-                )
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
-                .threeRiRequestType(
-                    AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
-                )
+                .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
+                .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                .threeRiRequestType(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
                 .transaction(
-                    AuthenticationRetrieveResponse.Transaction.builder()
+                    ThreeDSAuthentication.Transaction.builder()
                         .amount(0.0)
                         .cardholderAmount(0.0)
                         .currency("xxx")
                         .currencyExponent(0.0)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
+                        .type(ThreeDSAuthentication.Transaction.Type.ACCOUNT_FUNDING)
                         .build()
                 )
                 .build()
 
-        assertThat(authenticationRetrieveResponse.token())
+        assertThat(threeDSAuthentication.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(threeDSAuthentication.accountType())
+            .contains(ThreeDSAuthentication.AccountType.CREDIT)
+        assertThat(threeDSAuthentication.authenticationResult())
+            .isEqualTo(ThreeDSAuthentication.AuthenticationResult.DECLINE)
+        assertThat(threeDSAuthentication.cardExpiryCheck())
+            .isEqualTo(ThreeDSAuthentication.CardExpiryCheck.MATCH)
+        assertThat(threeDSAuthentication.cardToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(authenticationRetrieveResponse.accountType())
-            .contains(AuthenticationRetrieveResponse.AccountType.CREDIT)
-        assertThat(authenticationRetrieveResponse.authenticationResult())
-            .isEqualTo(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
-        assertThat(authenticationRetrieveResponse.cardExpiryCheck())
-            .isEqualTo(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
-        assertThat(authenticationRetrieveResponse.cardToken())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(authenticationRetrieveResponse.cardholder())
+        assertThat(threeDSAuthentication.cardholder())
             .isEqualTo(
-                AuthenticationRetrieveResponse.Cardholder.builder()
+                ThreeDSAuthentication.Cardholder.builder()
                     .addressMatch(true)
-                    .addressOnFileMatch(
-                        AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
-                    )
+                    .addressOnFileMatch(ThreeDSAuthentication.Cardholder.AddressMatchResult.MATCH)
                     .billingAddress(
-                        AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
+                        ThreeDSAuthentication.Cardholder.BillingAddress.builder()
                             .address1("address1")
                             .address2("address2")
                             .address3("address3")
@@ -197,7 +180,7 @@ internal class AuthenticationRetrieveResponseTest {
                     .phoneNumberMobile("x")
                     .phoneNumberWork("x")
                     .shippingAddress(
-                        AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
+                        ThreeDSAuthentication.Cardholder.ShippingAddress.builder()
                             .address1("address1")
                             .address2("address2")
                             .address3("address3")
@@ -208,36 +191,34 @@ internal class AuthenticationRetrieveResponseTest {
                     )
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.channel())
-            .isEqualTo(AuthenticationRetrieveResponse.Channel.APP_BASED)
-        assertThat(authenticationRetrieveResponse.created())
+        assertThat(threeDSAuthentication.channel())
+            .isEqualTo(ThreeDSAuthentication.Channel.APP_BASED)
+        assertThat(threeDSAuthentication.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(authenticationRetrieveResponse.merchant())
+        assertThat(threeDSAuthentication.merchant())
             .isEqualTo(
-                AuthenticationRetrieveResponse.Merchant.builder()
+                ThreeDSAuthentication.Merchant.builder()
                     .riskIndicator(
-                        AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
+                        ThreeDSAuthentication.Merchant.RiskIndicator.builder()
                             .deliveryEmailAddress("delivery_email_address")
                             .deliveryTimeFrame(
-                                AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                    .DeliveryTimeFrame
+                                ThreeDSAuthentication.Merchant.RiskIndicator.DeliveryTimeFrame
                                     .ELECTRONIC_DELIVERY
                             )
                             .giftCardAmount(0L)
                             .giftCardCount(0L)
                             .giftCardCurrency("xxx")
                             .orderAvailability(
-                                AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                    .OrderAvailability
+                                ThreeDSAuthentication.Merchant.RiskIndicator.OrderAvailability
                                     .FUTURE_AVAILABILITY
                             )
                             .preOrderAvailableDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .reorderItems(
-                                AuthenticationRetrieveResponse.Merchant.RiskIndicator.ReorderItems
+                                ThreeDSAuthentication.Merchant.RiskIndicator.ReorderItems
                                     .FIRST_TIME_ORDERED
                             )
                             .shippingMethod(
-                                AuthenticationRetrieveResponse.Merchant.RiskIndicator.ShippingMethod
+                                ThreeDSAuthentication.Merchant.RiskIndicator.ShippingMethod
                                     .DIGITAL_GOODS
                             )
                             .build()
@@ -248,24 +229,20 @@ internal class AuthenticationRetrieveResponseTest {
                     .name("name")
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.messageCategory())
-            .isEqualTo(AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION)
-        assertThat(authenticationRetrieveResponse.threeDSRequestorChallengeIndicator())
-            .isEqualTo(
-                AuthenticationRetrieveResponse.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
-            )
-        assertThat(authenticationRetrieveResponse.additionalData())
+        assertThat(threeDSAuthentication.messageCategory())
+            .isEqualTo(ThreeDSAuthentication.MessageCategory.NON_PAYMENT_AUTHENTICATION)
+        assertThat(threeDSAuthentication.threeDSRequestorChallengeIndicator())
+            .isEqualTo(ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE)
+        assertThat(threeDSAuthentication.additionalData())
             .contains(
-                AuthenticationRetrieveResponse.AdditionalData.builder()
-                    .networkDecision(
-                        AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
-                    )
+                ThreeDSAuthentication.AdditionalData.builder()
+                    .networkDecision(ThreeDSAuthentication.AdditionalData.NetworkDecision.LOW_RISK)
                     .networkRiskScore(0L)
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.app())
+        assertThat(threeDSAuthentication.app())
             .contains(
-                AuthenticationRetrieveResponse.App.builder()
+                ThreeDSAuthentication.App.builder()
                     .device("device")
                     .deviceInfo("device_info")
                     .ip("ip")
@@ -279,11 +256,11 @@ internal class AuthenticationRetrieveResponseTest {
                     .timeZone("time_zone")
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.authenticationRequestType())
-            .contains(AuthenticationRetrieveResponse.AuthenticationRequestType.ADD_CARD)
-        assertThat(authenticationRetrieveResponse.browser())
+        assertThat(threeDSAuthentication.authenticationRequestType())
+            .contains(ThreeDSAuthentication.AuthenticationRequestType.ADD_CARD)
+        assertThat(threeDSAuthentication.browser())
             .contains(
-                AuthenticationRetrieveResponse.Browser.builder()
+                ThreeDSAuthentication.Browser.builder()
                     .acceptHeader("accept_header")
                     .ip("ip")
                     .javaEnabled(true)
@@ -293,29 +270,29 @@ internal class AuthenticationRetrieveResponseTest {
                     .userAgent("user_agent")
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.challengeMetadata())
+        assertThat(threeDSAuthentication.challengeMetadata())
             .contains(
-                AuthenticationRetrieveResponse.ChallengeMetadata.builder()
-                    .methodType(AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP)
-                    .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
+                ThreeDSAuthentication.ChallengeMetadata.builder()
+                    .methodType(ThreeDSAuthentication.ChallengeMetadata.MethodType.SMS_OTP)
+                    .status(ThreeDSAuthentication.ChallengeMetadata.Status.SUCCESS)
                     .phoneNumber("phone_number")
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.challengeOrchestratedBy())
-            .contains(AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC)
-        assertThat(authenticationRetrieveResponse.decisionMadeBy())
-            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
-        assertThat(authenticationRetrieveResponse.threeRiRequestType())
-            .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION)
-        assertThat(authenticationRetrieveResponse.transaction())
+        assertThat(threeDSAuthentication.challengeOrchestratedBy())
+            .contains(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
+        assertThat(threeDSAuthentication.decisionMadeBy())
+            .contains(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+        assertThat(threeDSAuthentication.threeRiRequestType())
+            .contains(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
+        assertThat(threeDSAuthentication.transaction())
             .contains(
-                AuthenticationRetrieveResponse.Transaction.builder()
+                ThreeDSAuthentication.Transaction.builder()
                     .amount(0.0)
                     .cardholderAmount(0.0)
                     .currency("xxx")
                     .currencyExponent(0.0)
                     .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
+                    .type(ThreeDSAuthentication.Transaction.Type.ACCOUNT_FUNDING)
                     .build()
             )
     }
@@ -323,21 +300,21 @@ internal class AuthenticationRetrieveResponseTest {
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val authenticationRetrieveResponse =
-            AuthenticationRetrieveResponse.builder()
+        val threeDSAuthentication =
+            ThreeDSAuthentication.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountType(AuthenticationRetrieveResponse.AccountType.CREDIT)
-                .authenticationResult(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
-                .cardExpiryCheck(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
+                .accountType(ThreeDSAuthentication.AccountType.CREDIT)
+                .authenticationResult(ThreeDSAuthentication.AuthenticationResult.DECLINE)
+                .cardExpiryCheck(ThreeDSAuthentication.CardExpiryCheck.MATCH)
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardholder(
-                    AuthenticationRetrieveResponse.Cardholder.builder()
+                    ThreeDSAuthentication.Cardholder.builder()
                         .addressMatch(true)
                         .addressOnFileMatch(
-                            AuthenticationRetrieveResponse.Cardholder.AddressMatchResult.MATCH
+                            ThreeDSAuthentication.Cardholder.AddressMatchResult.MATCH
                         )
                         .billingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.BillingAddress.builder()
+                            ThreeDSAuthentication.Cardholder.BillingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -352,7 +329,7 @@ internal class AuthenticationRetrieveResponseTest {
                         .phoneNumberMobile("x")
                         .phoneNumberWork("x")
                         .shippingAddress(
-                            AuthenticationRetrieveResponse.Cardholder.ShippingAddress.builder()
+                            ThreeDSAuthentication.Cardholder.ShippingAddress.builder()
                                 .address1("address1")
                                 .address2("address2")
                                 .address3("address3")
@@ -363,37 +340,33 @@ internal class AuthenticationRetrieveResponseTest {
                         )
                         .build()
                 )
-                .channel(AuthenticationRetrieveResponse.Channel.APP_BASED)
+                .channel(ThreeDSAuthentication.Channel.APP_BASED)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .merchant(
-                    AuthenticationRetrieveResponse.Merchant.builder()
+                    ThreeDSAuthentication.Merchant.builder()
                         .riskIndicator(
-                            AuthenticationRetrieveResponse.Merchant.RiskIndicator.builder()
+                            ThreeDSAuthentication.Merchant.RiskIndicator.builder()
                                 .deliveryEmailAddress("delivery_email_address")
                                 .deliveryTimeFrame(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .DeliveryTimeFrame
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.DeliveryTimeFrame
                                         .ELECTRONIC_DELIVERY
                                 )
                                 .giftCardAmount(0L)
                                 .giftCardCount(0L)
                                 .giftCardCurrency("xxx")
                                 .orderAvailability(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .OrderAvailability
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.OrderAvailability
                                         .FUTURE_AVAILABILITY
                                 )
                                 .preOrderAvailableDate(
                                     OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
                                 )
                                 .reorderItems(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .ReorderItems
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.ReorderItems
                                         .FIRST_TIME_ORDERED
                                 )
                                 .shippingMethod(
-                                    AuthenticationRetrieveResponse.Merchant.RiskIndicator
-                                        .ShippingMethod
+                                    ThreeDSAuthentication.Merchant.RiskIndicator.ShippingMethod
                                         .DIGITAL_GOODS
                                 )
                                 .build()
@@ -404,22 +377,20 @@ internal class AuthenticationRetrieveResponseTest {
                         .name("name")
                         .build()
                 )
-                .messageCategory(
-                    AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION
-                )
+                .messageCategory(ThreeDSAuthentication.MessageCategory.NON_PAYMENT_AUTHENTICATION)
                 .threeDSRequestorChallengeIndicator(
-                    AuthenticationRetrieveResponse.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
+                    ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
                 .additionalData(
-                    AuthenticationRetrieveResponse.AdditionalData.builder()
+                    ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
-                            AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
+                            ThreeDSAuthentication.AdditionalData.NetworkDecision.LOW_RISK
                         )
                         .networkRiskScore(0L)
                         .build()
                 )
                 .app(
-                    AuthenticationRetrieveResponse.App.builder()
+                    ThreeDSAuthentication.App.builder()
                         .device("device")
                         .deviceInfo("device_info")
                         .ip("ip")
@@ -433,11 +404,9 @@ internal class AuthenticationRetrieveResponseTest {
                         .timeZone("time_zone")
                         .build()
                 )
-                .authenticationRequestType(
-                    AuthenticationRetrieveResponse.AuthenticationRequestType.ADD_CARD
-                )
+                .authenticationRequestType(ThreeDSAuthentication.AuthenticationRequestType.ADD_CARD)
                 .browser(
-                    AuthenticationRetrieveResponse.Browser.builder()
+                    ThreeDSAuthentication.Browser.builder()
                         .acceptHeader("accept_header")
                         .ip("ip")
                         .javaEnabled(true)
@@ -448,40 +417,33 @@ internal class AuthenticationRetrieveResponseTest {
                         .build()
                 )
                 .challengeMetadata(
-                    AuthenticationRetrieveResponse.ChallengeMetadata.builder()
-                        .methodType(
-                            AuthenticationRetrieveResponse.ChallengeMetadata.MethodType.SMS_OTP
-                        )
-                        .status(AuthenticationRetrieveResponse.ChallengeMetadata.Status.SUCCESS)
+                    ThreeDSAuthentication.ChallengeMetadata.builder()
+                        .methodType(ThreeDSAuthentication.ChallengeMetadata.MethodType.SMS_OTP)
+                        .status(ThreeDSAuthentication.ChallengeMetadata.Status.SUCCESS)
                         .phoneNumber("phone_number")
                         .build()
                 )
-                .challengeOrchestratedBy(
-                    AuthenticationRetrieveResponse.ChallengeOrchestratedBy.LITHIC
-                )
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_RULES)
-                .threeRiRequestType(
-                    AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
-                )
+                .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
+                .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                .threeRiRequestType(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
                 .transaction(
-                    AuthenticationRetrieveResponse.Transaction.builder()
+                    ThreeDSAuthentication.Transaction.builder()
                         .amount(0.0)
                         .cardholderAmount(0.0)
                         .currency("xxx")
                         .currencyExponent(0.0)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
+                        .type(ThreeDSAuthentication.Transaction.Type.ACCOUNT_FUNDING)
                         .build()
                 )
                 .build()
 
-        val roundtrippedAuthenticationRetrieveResponse =
+        val roundtrippedThreeDSAuthentication =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(authenticationRetrieveResponse),
-                jacksonTypeRef<AuthenticationRetrieveResponse>(),
+                jsonMapper.writeValueAsString(threeDSAuthentication),
+                jacksonTypeRef<ThreeDSAuthentication>(),
             )
 
-        assertThat(roundtrippedAuthenticationRetrieveResponse)
-            .isEqualTo(authenticationRetrieveResponse)
+        assertThat(roundtrippedThreeDSAuthentication).isEqualTo(threeDSAuthentication)
     }
 }
