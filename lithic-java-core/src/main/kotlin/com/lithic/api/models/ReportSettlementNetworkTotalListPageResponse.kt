@@ -21,7 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 class ReportSettlementNetworkTotalListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<NetworkTotalListResponse>>,
+    private val data: JsonField<List<NetworkTotal>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -30,7 +30,7 @@ private constructor(
     private constructor(
         @JsonProperty("data")
         @ExcludeMissing
-        data: JsonField<List<NetworkTotalListResponse>> = JsonMissing.of(),
+        data: JsonField<List<NetworkTotal>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
@@ -38,7 +38,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): List<NetworkTotalListResponse> = data.getRequired("data")
+    fun data(): List<NetworkTotal> = data.getRequired("data")
 
     /**
      * Indicates whether there are more network total records to be retrieved.
@@ -53,9 +53,7 @@ private constructor(
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data(): JsonField<List<NetworkTotalListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<NetworkTotal>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -94,7 +92,7 @@ private constructor(
     /** A builder for [ReportSettlementNetworkTotalListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<NetworkTotalListResponse>>? = null
+        private var data: JsonField<MutableList<NetworkTotal>>? = null
         private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -109,25 +107,25 @@ private constructor(
                 reportSettlementNetworkTotalListPageResponse.additionalProperties.toMutableMap()
         }
 
-        fun data(data: List<NetworkTotalListResponse>) = data(JsonField.of(data))
+        fun data(data: List<NetworkTotal>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed `List<NetworkTotalListResponse>`
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.data] with a well-typed `List<NetworkTotal>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun data(data: JsonField<List<NetworkTotalListResponse>>) = apply {
+        fun data(data: JsonField<List<NetworkTotal>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [NetworkTotalListResponse] to [Builder.data].
+         * Adds a single [NetworkTotal] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: NetworkTotalListResponse) = apply {
+        fun addData(data: NetworkTotal) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)

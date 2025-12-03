@@ -19,14 +19,14 @@ private constructor(
     private val streamHandlerExecutor: Executor,
     private val params: CardBalanceListParams,
     private val response: CardBalanceListPageResponse,
-) : PageAsync<BalanceListResponse> {
+) : PageAsync<FinancialAccountBalance> {
 
     /**
      * Delegates to [CardBalanceListPageResponse], but gracefully handles missing data.
      *
      * @see CardBalanceListPageResponse.data
      */
-    fun data(): List<BalanceListResponse> =
+    fun data(): List<FinancialAccountBalance> =
         response._data().getOptional("data").getOrNull() ?: emptyList()
 
     /**
@@ -36,7 +36,7 @@ private constructor(
      */
     fun hasMore(): Optional<Boolean> = response._hasMore().getOptional("has_more")
 
-    override fun items(): List<BalanceListResponse> = data()
+    override fun items(): List<FinancialAccountBalance> = data()
 
     override fun hasNextPage(): Boolean = false
 
@@ -46,7 +46,7 @@ private constructor(
     override fun nextPage(): CompletableFuture<CardBalanceListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<BalanceListResponse> =
+    fun autoPager(): AutoPagerAsync<FinancialAccountBalance> =
         AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */

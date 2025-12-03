@@ -16,6 +16,7 @@ import com.lithic.api.services.blocking.AuthRuleService
 import com.lithic.api.services.blocking.AuthStreamEnrollmentService
 import com.lithic.api.services.blocking.BalanceService
 import com.lithic.api.services.blocking.BookTransferService
+import com.lithic.api.services.blocking.CardBulkOrderService
 import com.lithic.api.services.blocking.CardProgramService
 import com.lithic.api.services.blocking.CardService
 import com.lithic.api.services.blocking.CreditProductService
@@ -28,6 +29,7 @@ import com.lithic.api.services.blocking.ExternalPaymentService
 import com.lithic.api.services.blocking.FinancialAccountService
 import com.lithic.api.services.blocking.FraudService
 import com.lithic.api.services.blocking.FundingEventService
+import com.lithic.api.services.blocking.InternalTransactionService
 import com.lithic.api.services.blocking.ManagementOperationService
 import com.lithic.api.services.blocking.NetworkProgramService
 import com.lithic.api.services.blocking.PaymentService
@@ -91,6 +93,8 @@ interface LithicClient {
 
     fun cards(): CardService
 
+    fun cardBulkOrders(): CardBulkOrderService
+
     fun balances(): BalanceService
 
     fun aggregateBalances(): AggregateBalanceService
@@ -130,6 +134,8 @@ interface LithicClient {
     fun externalPayments(): ExternalPaymentService
 
     fun managementOperations(): ManagementOperationService
+
+    fun internalTransaction(): InternalTransactionService
 
     fun fundingEvents(): FundingEventService
 
@@ -193,6 +199,8 @@ interface LithicClient {
 
         fun cards(): CardService.WithRawResponse
 
+        fun cardBulkOrders(): CardBulkOrderService.WithRawResponse
+
         fun balances(): BalanceService.WithRawResponse
 
         fun aggregateBalances(): AggregateBalanceService.WithRawResponse
@@ -230,6 +238,8 @@ interface LithicClient {
         fun externalPayments(): ExternalPaymentService.WithRawResponse
 
         fun managementOperations(): ManagementOperationService.WithRawResponse
+
+        fun internalTransaction(): InternalTransactionService.WithRawResponse
 
         fun fundingEvents(): FundingEventService.WithRawResponse
 

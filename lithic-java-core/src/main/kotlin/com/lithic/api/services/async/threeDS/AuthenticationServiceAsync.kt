@@ -6,8 +6,8 @@ import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.AuthenticationRetrieveResponse
 import com.lithic.api.models.AuthenticationSimulateResponse
+import com.lithic.api.models.ThreeDSAuthentication
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateOtpEntryParams
 import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
@@ -29,9 +29,7 @@ interface AuthenticationServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AuthenticationServiceAsync
 
     /** Get 3DS Authentication by token */
-    fun retrieve(
-        threeDSAuthenticationToken: String
-    ): CompletableFuture<AuthenticationRetrieveResponse> =
+    fun retrieve(threeDSAuthenticationToken: String): CompletableFuture<ThreeDSAuthentication> =
         retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
     /** @see retrieve */
@@ -39,7 +37,7 @@ interface AuthenticationServiceAsync {
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AuthenticationRetrieveResponse> =
+    ): CompletableFuture<ThreeDSAuthentication> =
         retrieve(
             params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
             requestOptions,
@@ -49,25 +47,25 @@ interface AuthenticationServiceAsync {
     fun retrieve(
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
-    ): CompletableFuture<AuthenticationRetrieveResponse> =
+    ): CompletableFuture<ThreeDSAuthentication> =
         retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AuthenticationRetrieveResponse>
+    ): CompletableFuture<ThreeDSAuthentication>
 
     /** @see retrieve */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams
-    ): CompletableFuture<AuthenticationRetrieveResponse> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<ThreeDSAuthentication> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         threeDSAuthenticationToken: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<AuthenticationRetrieveResponse> =
+    ): CompletableFuture<ThreeDSAuthentication> =
         retrieve(
             threeDSAuthenticationToken,
             ThreeDSAuthenticationRetrieveParams.none(),
@@ -129,7 +127,7 @@ interface AuthenticationServiceAsync {
          */
         fun retrieve(
             threeDSAuthenticationToken: String
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
         /** @see retrieve */
@@ -138,7 +136,7 @@ interface AuthenticationServiceAsync {
             params: ThreeDSAuthenticationRetrieveParams =
                 ThreeDSAuthenticationRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(
                 params.toBuilder().threeDSAuthenticationToken(threeDSAuthenticationToken).build(),
                 requestOptions,
@@ -148,26 +146,26 @@ interface AuthenticationServiceAsync {
         fun retrieve(
             threeDSAuthenticationToken: String,
             params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>>
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>>
 
         /** @see retrieve */
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             threeDSAuthenticationToken: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AuthenticationRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(
                 threeDSAuthenticationToken,
                 ThreeDSAuthenticationRetrieveParams.none(),

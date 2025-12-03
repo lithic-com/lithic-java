@@ -15,7 +15,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
         val financialAccountBalanceListPageResponse =
             FinancialAccountBalanceListPageResponse.builder()
                 .addData(
-                    BalanceListResponse.builder()
+                    FinancialAccountBalance.builder()
                         .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .availableAmount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -24,7 +24,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
                         .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .totalAmount(0L)
-                        .type(BalanceListResponse.Type.ISSUING)
+                        .type(FinancialAccountBalance.Type.ISSUING)
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
@@ -33,7 +33,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
 
         assertThat(financialAccountBalanceListPageResponse.data())
             .containsExactly(
-                BalanceListResponse.builder()
+                FinancialAccountBalance.builder()
                     .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
                     .availableAmount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -42,7 +42,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
                     .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .pendingAmount(0L)
                     .totalAmount(0L)
-                    .type(BalanceListResponse.Type.ISSUING)
+                    .type(FinancialAccountBalance.Type.ISSUING)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
@@ -55,7 +55,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
         val financialAccountBalanceListPageResponse =
             FinancialAccountBalanceListPageResponse.builder()
                 .addData(
-                    BalanceListResponse.builder()
+                    FinancialAccountBalance.builder()
                         .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .availableAmount(0L)
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -64,7 +64,7 @@ internal class FinancialAccountBalanceListPageResponseTest {
                         .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .pendingAmount(0L)
                         .totalAmount(0L)
-                        .type(BalanceListResponse.Type.ISSUING)
+                        .type(FinancialAccountBalance.Type.ISSUING)
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )

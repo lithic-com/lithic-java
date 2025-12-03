@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class ExternalBankAccountUnpauseResponse
+class ExternalBankAccount
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
@@ -502,8 +502,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of
-         * [ExternalBankAccountUnpauseResponse].
+         * Returns a mutable builder for constructing an instance of [ExternalBankAccount].
          *
          * The following fields are required:
          * ```java
@@ -525,7 +524,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [ExternalBankAccountUnpauseResponse]. */
+    /** A builder for [ExternalBankAccount]. */
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
@@ -553,34 +552,31 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(externalBankAccountUnpauseResponse: ExternalBankAccountUnpauseResponse) =
-            apply {
-                token = externalBankAccountUnpauseResponse.token
-                country = externalBankAccountUnpauseResponse.country
-                created = externalBankAccountUnpauseResponse.created
-                currency = externalBankAccountUnpauseResponse.currency
-                lastFour = externalBankAccountUnpauseResponse.lastFour
-                owner = externalBankAccountUnpauseResponse.owner
-                ownerType = externalBankAccountUnpauseResponse.ownerType
-                routingNumber = externalBankAccountUnpauseResponse.routingNumber
-                state = externalBankAccountUnpauseResponse.state
-                type = externalBankAccountUnpauseResponse.type
-                verificationAttempts = externalBankAccountUnpauseResponse.verificationAttempts
-                verificationMethod = externalBankAccountUnpauseResponse.verificationMethod
-                verificationState = externalBankAccountUnpauseResponse.verificationState
-                accountToken = externalBankAccountUnpauseResponse.accountToken
-                address = externalBankAccountUnpauseResponse.address
-                companyId = externalBankAccountUnpauseResponse.companyId
-                dob = externalBankAccountUnpauseResponse.dob
-                doingBusinessAs = externalBankAccountUnpauseResponse.doingBusinessAs
-                financialAccountToken = externalBankAccountUnpauseResponse.financialAccountToken
-                name = externalBankAccountUnpauseResponse.name
-                userDefinedId = externalBankAccountUnpauseResponse.userDefinedId
-                verificationFailedReason =
-                    externalBankAccountUnpauseResponse.verificationFailedReason
-                additionalProperties =
-                    externalBankAccountUnpauseResponse.additionalProperties.toMutableMap()
-            }
+        internal fun from(externalBankAccount: ExternalBankAccount) = apply {
+            token = externalBankAccount.token
+            country = externalBankAccount.country
+            created = externalBankAccount.created
+            currency = externalBankAccount.currency
+            lastFour = externalBankAccount.lastFour
+            owner = externalBankAccount.owner
+            ownerType = externalBankAccount.ownerType
+            routingNumber = externalBankAccount.routingNumber
+            state = externalBankAccount.state
+            type = externalBankAccount.type
+            verificationAttempts = externalBankAccount.verificationAttempts
+            verificationMethod = externalBankAccount.verificationMethod
+            verificationState = externalBankAccount.verificationState
+            accountToken = externalBankAccount.accountToken
+            address = externalBankAccount.address
+            companyId = externalBankAccount.companyId
+            dob = externalBankAccount.dob
+            doingBusinessAs = externalBankAccount.doingBusinessAs
+            financialAccountToken = externalBankAccount.financialAccountToken
+            name = externalBankAccount.name
+            userDefinedId = externalBankAccount.userDefinedId
+            verificationFailedReason = externalBankAccount.verificationFailedReason
+            additionalProperties = externalBankAccount.additionalProperties.toMutableMap()
+        }
 
         /**
          * A globally unique identifier for this record of an external bank account association. If
@@ -943,7 +939,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [ExternalBankAccountUnpauseResponse].
+         * Returns an immutable instance of [ExternalBankAccount].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -966,8 +962,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): ExternalBankAccountUnpauseResponse =
-            ExternalBankAccountUnpauseResponse(
+        fun build(): ExternalBankAccount =
+            ExternalBankAccount(
                 checkRequired("token", token),
                 checkRequired("country", country),
                 checkRequired("created", created),
@@ -996,7 +992,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): ExternalBankAccountUnpauseResponse = apply {
+    fun validate(): ExternalBankAccount = apply {
         if (validated) {
             return@apply
         }
@@ -1472,7 +1468,7 @@ private constructor(
             return true
         }
 
-        return other is ExternalBankAccountUnpauseResponse &&
+        return other is ExternalBankAccount &&
             token == other.token &&
             country == other.country &&
             created == other.created &&
@@ -1529,5 +1525,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ExternalBankAccountUnpauseResponse{token=$token, country=$country, created=$created, currency=$currency, lastFour=$lastFour, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, type=$type, verificationAttempts=$verificationAttempts, verificationMethod=$verificationMethod, verificationState=$verificationState, accountToken=$accountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, financialAccountToken=$financialAccountToken, name=$name, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, additionalProperties=$additionalProperties}"
+        "ExternalBankAccount{token=$token, country=$country, created=$created, currency=$currency, lastFour=$lastFour, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, type=$type, verificationAttempts=$verificationAttempts, verificationMethod=$verificationMethod, verificationState=$verificationState, accountToken=$accountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, financialAccountToken=$financialAccountToken, name=$name, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, additionalProperties=$additionalProperties}"
 }

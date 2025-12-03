@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class NetworkTotalRetrieveResponse
+class NetworkTotal
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
@@ -289,7 +289,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [NetworkTotalRetrieveResponse].
+         * Returns a mutable builder for constructing an instance of [NetworkTotal].
          *
          * The following fields are required:
          * ```java
@@ -309,7 +309,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [NetworkTotalRetrieveResponse]. */
+    /** A builder for [NetworkTotal]. */
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
@@ -327,20 +327,20 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(networkTotalRetrieveResponse: NetworkTotalRetrieveResponse) = apply {
-            token = networkTotalRetrieveResponse.token
-            amounts = networkTotalRetrieveResponse.amounts
-            created = networkTotalRetrieveResponse.created
-            currency = networkTotalRetrieveResponse.currency
-            institutionId = networkTotalRetrieveResponse.institutionId
-            isComplete = networkTotalRetrieveResponse.isComplete
-            network = networkTotalRetrieveResponse.network
-            reportDate = networkTotalRetrieveResponse.reportDate
-            settlementInstitutionId = networkTotalRetrieveResponse.settlementInstitutionId
-            settlementService = networkTotalRetrieveResponse.settlementService
-            updated = networkTotalRetrieveResponse.updated
-            cycle = networkTotalRetrieveResponse.cycle
-            additionalProperties = networkTotalRetrieveResponse.additionalProperties.toMutableMap()
+        internal fun from(networkTotal: NetworkTotal) = apply {
+            token = networkTotal.token
+            amounts = networkTotal.amounts
+            created = networkTotal.created
+            currency = networkTotal.currency
+            institutionId = networkTotal.institutionId
+            isComplete = networkTotal.isComplete
+            network = networkTotal.network
+            reportDate = networkTotal.reportDate
+            settlementInstitutionId = networkTotal.settlementInstitutionId
+            settlementService = networkTotal.settlementService
+            updated = networkTotal.updated
+            cycle = networkTotal.cycle
+            additionalProperties = networkTotal.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier. */
@@ -522,7 +522,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [NetworkTotalRetrieveResponse].
+         * Returns an immutable instance of [NetworkTotal].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -543,8 +543,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): NetworkTotalRetrieveResponse =
-            NetworkTotalRetrieveResponse(
+        fun build(): NetworkTotal =
+            NetworkTotal(
                 checkRequired("token", token),
                 checkRequired("amounts", amounts),
                 checkRequired("created", created),
@@ -563,7 +563,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): NetworkTotalRetrieveResponse = apply {
+    fun validate(): NetworkTotal = apply {
         if (validated) {
             return@apply
         }
@@ -1071,7 +1071,7 @@ private constructor(
             return true
         }
 
-        return other is NetworkTotalRetrieveResponse &&
+        return other is NetworkTotal &&
             token == other.token &&
             amounts == other.amounts &&
             created == other.created &&
@@ -1108,5 +1108,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "NetworkTotalRetrieveResponse{token=$token, amounts=$amounts, created=$created, currency=$currency, institutionId=$institutionId, isComplete=$isComplete, network=$network, reportDate=$reportDate, settlementInstitutionId=$settlementInstitutionId, settlementService=$settlementService, updated=$updated, cycle=$cycle, additionalProperties=$additionalProperties}"
+        "NetworkTotal{token=$token, amounts=$amounts, created=$created, currency=$currency, institutionId=$institutionId, isComplete=$isComplete, network=$network, reportDate=$reportDate, settlementInstitutionId=$settlementInstitutionId, settlementService=$settlementService, updated=$updated, cycle=$cycle, additionalProperties=$additionalProperties}"
 }

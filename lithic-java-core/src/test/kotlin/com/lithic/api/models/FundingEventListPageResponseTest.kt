@@ -16,16 +16,14 @@ internal class FundingEventListPageResponseTest {
         val fundingEventListPageResponse =
             FundingEventListPageResponse.builder()
                 .addData(
-                    FundingEventListResponse.builder()
+                    FundingEvent.builder()
                         .token("b68b7424-aa69-4cbc-a946-30d90181b621")
-                        .collectionResourceType(
-                            FundingEventListResponse.CollectionResourceType.PAYMENT
-                        )
+                        .collectionResourceType(FundingEvent.CollectionResourceType.PAYMENT)
                         .addCollectionToken("b68b7424-aa69-4cbc-a946-30d90181b621")
                         .created(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                         .highWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                         .addNetworkSettlementSummary(
-                            FundingEventListResponse.FundingEventSettlement.builder()
+                            FundingEvent.FundingEventSettlement.builder()
                                 .networkSettlementDate(LocalDate.parse("2024-01-01"))
                                 .settledGrossAmount(0L)
                                 .build()
@@ -39,14 +37,14 @@ internal class FundingEventListPageResponseTest {
 
         assertThat(fundingEventListPageResponse.data())
             .containsExactly(
-                FundingEventListResponse.builder()
+                FundingEvent.builder()
                     .token("b68b7424-aa69-4cbc-a946-30d90181b621")
-                    .collectionResourceType(FundingEventListResponse.CollectionResourceType.PAYMENT)
+                    .collectionResourceType(FundingEvent.CollectionResourceType.PAYMENT)
                     .addCollectionToken("b68b7424-aa69-4cbc-a946-30d90181b621")
                     .created(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                     .highWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                     .addNetworkSettlementSummary(
-                        FundingEventListResponse.FundingEventSettlement.builder()
+                        FundingEvent.FundingEventSettlement.builder()
                             .networkSettlementDate(LocalDate.parse("2024-01-01"))
                             .settledGrossAmount(0L)
                             .build()
@@ -64,16 +62,14 @@ internal class FundingEventListPageResponseTest {
         val fundingEventListPageResponse =
             FundingEventListPageResponse.builder()
                 .addData(
-                    FundingEventListResponse.builder()
+                    FundingEvent.builder()
                         .token("b68b7424-aa69-4cbc-a946-30d90181b621")
-                        .collectionResourceType(
-                            FundingEventListResponse.CollectionResourceType.PAYMENT
-                        )
+                        .collectionResourceType(FundingEvent.CollectionResourceType.PAYMENT)
                         .addCollectionToken("b68b7424-aa69-4cbc-a946-30d90181b621")
                         .created(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                         .highWatermark(OffsetDateTime.parse("2024-01-01T00:00:00Z"))
                         .addNetworkSettlementSummary(
-                            FundingEventListResponse.FundingEventSettlement.builder()
+                            FundingEvent.FundingEventSettlement.builder()
                                 .networkSettlementDate(LocalDate.parse("2024-01-01"))
                                 .settledGrossAmount(0L)
                                 .build()
