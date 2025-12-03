@@ -37,6 +37,7 @@ private constructor(
     private val state: JsonField<State>,
     private val type: JsonField<Type>,
     private val authRuleTokens: JsonField<List<String>>,
+    private val bulkOrderToken: JsonField<String>,
     private val cardholderCurrency: JsonField<String>,
     private val comment: JsonField<String>,
     private val digitalCardArtToken: JsonField<String>,
@@ -80,6 +81,9 @@ private constructor(
         @JsonProperty("auth_rule_tokens")
         @ExcludeMissing
         authRuleTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("bulk_order_token")
+        @ExcludeMissing
+        bulkOrderToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("cardholder_currency")
         @ExcludeMissing
         cardholderCurrency: JsonField<String> = JsonMissing.of(),
@@ -117,6 +121,7 @@ private constructor(
         state,
         type,
         authRuleTokens,
+        bulkOrderToken,
         cardholderCurrency,
         comment,
         digitalCardArtToken,
@@ -259,6 +264,15 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun authRuleTokens(): Optional<List<String>> = authRuleTokens.getOptional("auth_rule_tokens")
+
+    /**
+     * Globally unique identifier for the bulk order associated with this card. Only applicable to
+     * physical cards that are part of a bulk shipment
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun bulkOrderToken(): Optional<String> = bulkOrderToken.getOptional("bulk_order_token")
 
     /**
      * 3-character alphabetic ISO 4217 code for the currency of the cardholder.
@@ -479,6 +493,15 @@ private constructor(
     fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
     /**
+     * Returns the raw JSON value of [bulkOrderToken].
+     *
+     * Unlike [bulkOrderToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("bulk_order_token")
+    @ExcludeMissing
+    fun _bulkOrderToken(): JsonField<String> = bulkOrderToken
+
+    /**
      * Returns the raw JSON value of [cardholderCurrency].
      *
      * Unlike [cardholderCurrency], this method doesn't throw if the JSON field has an unexpected
@@ -625,6 +648,7 @@ private constructor(
         private var state: JsonField<State>? = null
         private var type: JsonField<Type>? = null
         private var authRuleTokens: JsonField<MutableList<String>>? = null
+        private var bulkOrderToken: JsonField<String> = JsonMissing.of()
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var comment: JsonField<String> = JsonMissing.of()
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
@@ -653,6 +677,7 @@ private constructor(
             state = nonPciCard.state
             type = nonPciCard.type
             authRuleTokens = nonPciCard.authRuleTokens.map { it.toMutableList() }
+            bulkOrderToken = nonPciCard.bulkOrderToken
             cardholderCurrency = nonPciCard.cardholderCurrency
             comment = nonPciCard.comment
             digitalCardArtToken = nonPciCard.digitalCardArtToken
@@ -877,6 +902,28 @@ private constructor(
                 (authRuleTokens ?: JsonField.of(mutableListOf())).also {
                     checkKnown("authRuleTokens", it).add(authRuleToken)
                 }
+        }
+
+        /**
+         * Globally unique identifier for the bulk order associated with this card. Only applicable
+         * to physical cards that are part of a bulk shipment
+         */
+        fun bulkOrderToken(bulkOrderToken: String?) =
+            bulkOrderToken(JsonField.ofNullable(bulkOrderToken))
+
+        /** Alias for calling [Builder.bulkOrderToken] with `bulkOrderToken.orElse(null)`. */
+        fun bulkOrderToken(bulkOrderToken: Optional<String>) =
+            bulkOrderToken(bulkOrderToken.getOrNull())
+
+        /**
+         * Sets [Builder.bulkOrderToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.bulkOrderToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun bulkOrderToken(bulkOrderToken: JsonField<String>) = apply {
+            this.bulkOrderToken = bulkOrderToken
         }
 
         /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
@@ -1148,6 +1195,7 @@ private constructor(
                 checkRequired("state", state),
                 checkRequired("type", type),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                bulkOrderToken,
                 cardholderCurrency,
                 comment,
                 digitalCardArtToken,
@@ -1183,6 +1231,7 @@ private constructor(
         state().validate()
         type().validate()
         authRuleTokens()
+        bulkOrderToken()
         cardholderCurrency()
         comment()
         digitalCardArtToken()
@@ -1225,6 +1274,7 @@ private constructor(
             (state.asKnown().getOrNull()?.validity() ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
             (authRuleTokens.asKnown().getOrNull()?.size ?: 0) +
+            (if (bulkOrderToken.asKnown().isPresent) 1 else 0) +
             (if (cardholderCurrency.asKnown().isPresent) 1 else 0) +
             (if (comment.asKnown().isPresent) 1 else 0) +
             (if (digitalCardArtToken.asKnown().isPresent) 1 else 0) +
@@ -2601,6 +2651,7 @@ private constructor(
             state == other.state &&
             type == other.type &&
             authRuleTokens == other.authRuleTokens &&
+            bulkOrderToken == other.bulkOrderToken &&
             cardholderCurrency == other.cardholderCurrency &&
             comment == other.comment &&
             digitalCardArtToken == other.digitalCardArtToken &&
@@ -2630,6 +2681,7 @@ private constructor(
             state,
             type,
             authRuleTokens,
+            bulkOrderToken,
             cardholderCurrency,
             comment,
             digitalCardArtToken,
@@ -2649,5 +2701,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, comment=$comment, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, networkProgramToken=$networkProgramToken, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, substatus=$substatus, additionalProperties=$additionalProperties}"
+        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, bulkOrderToken=$bulkOrderToken, cardholderCurrency=$cardholderCurrency, comment=$comment, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, networkProgramToken=$networkProgramToken, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, substatus=$substatus, additionalProperties=$additionalProperties}"
 }

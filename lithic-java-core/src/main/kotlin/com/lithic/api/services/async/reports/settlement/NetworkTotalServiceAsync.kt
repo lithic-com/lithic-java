@@ -5,7 +5,7 @@ package com.lithic.api.services.async.reports.settlement
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
-import com.lithic.api.models.NetworkTotalRetrieveResponse
+import com.lithic.api.models.NetworkTotal
 import com.lithic.api.models.ReportSettlementNetworkTotalListPageAsync
 import com.lithic.api.models.ReportSettlementNetworkTotalListParams
 import com.lithic.api.models.ReportSettlementNetworkTotalRetrieveParams
@@ -27,7 +27,7 @@ interface NetworkTotalServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): NetworkTotalServiceAsync
 
     /** Retrieve a specific network total record by token. Not available in sandbox. */
-    fun retrieve(token: String): CompletableFuture<NetworkTotalRetrieveResponse> =
+    fun retrieve(token: String): CompletableFuture<NetworkTotal> =
         retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
     /** @see retrieve */
@@ -36,7 +36,7 @@ interface NetworkTotalServiceAsync {
         params: ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<NetworkTotalRetrieveResponse> =
+    ): CompletableFuture<NetworkTotal> =
         retrieve(params.toBuilder().token(token).build(), requestOptions)
 
     /** @see retrieve */
@@ -44,25 +44,21 @@ interface NetworkTotalServiceAsync {
         token: String,
         params: ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams.none(),
-    ): CompletableFuture<NetworkTotalRetrieveResponse> =
-        retrieve(token, params, RequestOptions.none())
+    ): CompletableFuture<NetworkTotal> = retrieve(token, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<NetworkTotalRetrieveResponse>
+    ): CompletableFuture<NetworkTotal>
 
     /** @see retrieve */
     fun retrieve(
         params: ReportSettlementNetworkTotalRetrieveParams
-    ): CompletableFuture<NetworkTotalRetrieveResponse> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<NetworkTotal> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(
-        token: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<NetworkTotalRetrieveResponse> =
+    fun retrieve(token: String, requestOptions: RequestOptions): CompletableFuture<NetworkTotal> =
         retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none(), requestOptions)
 
     /** List network total records with optional filters. Not available in sandbox. */
@@ -108,9 +104,7 @@ interface NetworkTotalServiceAsync {
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals/{token}`, but
          * is otherwise the same as [NetworkTotalServiceAsync.retrieve].
          */
-        fun retrieve(
-            token: String
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+        fun retrieve(token: String): CompletableFuture<HttpResponseFor<NetworkTotal>> =
             retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
         /** @see retrieve */
@@ -119,7 +113,7 @@ interface NetworkTotalServiceAsync {
             params: ReportSettlementNetworkTotalRetrieveParams =
                 ReportSettlementNetworkTotalRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<NetworkTotal>> =
             retrieve(params.toBuilder().token(token).build(), requestOptions)
 
         /** @see retrieve */
@@ -127,26 +121,26 @@ interface NetworkTotalServiceAsync {
             token: String,
             params: ReportSettlementNetworkTotalRetrieveParams =
                 ReportSettlementNetworkTotalRetrieveParams.none(),
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<NetworkTotal>> =
             retrieve(token, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>>
+        ): CompletableFuture<HttpResponseFor<NetworkTotal>>
 
         /** @see retrieve */
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<NetworkTotal>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             token: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<NetworkTotalRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<NetworkTotal>> =
             retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none(), requestOptions)
 
         /**

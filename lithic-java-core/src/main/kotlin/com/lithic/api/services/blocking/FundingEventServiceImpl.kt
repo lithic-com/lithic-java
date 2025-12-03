@@ -15,13 +15,13 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
+import com.lithic.api.models.FundingEvent
 import com.lithic.api.models.FundingEventListPage
 import com.lithic.api.models.FundingEventListPageResponse
 import com.lithic.api.models.FundingEventListParams
 import com.lithic.api.models.FundingEventRetrieveDetailsParams
 import com.lithic.api.models.FundingEventRetrieveDetailsResponse
 import com.lithic.api.models.FundingEventRetrieveParams
-import com.lithic.api.models.FundingEventRetrieveResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -40,7 +40,7 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
     override fun retrieve(
         params: FundingEventRetrieveParams,
         requestOptions: RequestOptions,
-    ): FundingEventRetrieveResponse =
+    ): FundingEvent =
         // get /v1/funding_events/{funding_event_token}
         withRawResponse().retrieve(params, requestOptions).parse()
 
@@ -71,13 +71,13 @@ class FundingEventServiceImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val retrieveHandler: Handler<FundingEventRetrieveResponse> =
-            jsonHandler<FundingEventRetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<FundingEvent> =
+            jsonHandler<FundingEvent>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: FundingEventRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<FundingEventRetrieveResponse> {
+        ): HttpResponseFor<FundingEvent> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("fundingEventToken", params.fundingEventToken().getOrNull())

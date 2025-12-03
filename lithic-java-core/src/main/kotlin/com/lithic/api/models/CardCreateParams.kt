@@ -63,6 +63,16 @@ private constructor(
     fun accountToken(): Optional<String> = body.accountToken()
 
     /**
+     * Globally unique identifier for an existing bulk order to associate this card with. When
+     * specified, the card will be added to the bulk order for batch shipment. Only applicable to
+     * cards of type PHYSICAL
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun bulkOrderToken(): Optional<String> = body.bulkOrderToken()
+
+    /**
      * For card programs with more than one BIN range. This must be configured with Lithic before
      * use. Identifies the card program/BIN range under which to create the card. If omitted, will
      * utilize the program's default `card_program_token`. In Sandbox, use
@@ -211,6 +221,7 @@ private constructor(
      * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
      * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
+     * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -267,6 +278,13 @@ private constructor(
      * Unlike [accountToken], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _accountToken(): JsonField<String> = body._accountToken()
+
+    /**
+     * Returns the raw JSON value of [bulkOrderToken].
+     *
+     * Unlike [bulkOrderToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _bulkOrderToken(): JsonField<String> = body._bulkOrderToken()
 
     /**
      * Returns the raw JSON value of [cardProgramToken].
@@ -437,9 +455,9 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [type]
          * - [accountToken]
+         * - [bulkOrderToken]
          * - [cardProgramToken]
          * - [carrier]
-         * - [digitalCardArtToken]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -486,6 +504,24 @@ private constructor(
          */
         fun accountToken(accountToken: JsonField<String>) = apply {
             body.accountToken(accountToken)
+        }
+
+        /**
+         * Globally unique identifier for an existing bulk order to associate this card with. When
+         * specified, the card will be added to the bulk order for batch shipment. Only applicable
+         * to cards of type PHYSICAL
+         */
+        fun bulkOrderToken(bulkOrderToken: String) = apply { body.bulkOrderToken(bulkOrderToken) }
+
+        /**
+         * Sets [Builder.bulkOrderToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.bulkOrderToken] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun bulkOrderToken(bulkOrderToken: JsonField<String>) = apply {
+            body.bulkOrderToken(bulkOrderToken)
         }
 
         /**
@@ -732,6 +768,7 @@ private constructor(
          * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
          * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
+         * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
             body.shippingMethod(shippingMethod)
@@ -951,6 +988,7 @@ private constructor(
     private constructor(
         private val type: JsonField<Type>,
         private val accountToken: JsonField<String>,
+        private val bulkOrderToken: JsonField<String>,
         private val cardProgramToken: JsonField<String>,
         private val carrier: JsonField<Carrier>,
         private val digitalCardArtToken: JsonField<String>,
@@ -977,6 +1015,9 @@ private constructor(
             @JsonProperty("account_token")
             @ExcludeMissing
             accountToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("bulk_order_token")
+            @ExcludeMissing
+            bulkOrderToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("card_program_token")
             @ExcludeMissing
             cardProgramToken: JsonField<String> = JsonMissing.of(),
@@ -1021,6 +1062,7 @@ private constructor(
         ) : this(
             type,
             accountToken,
+            bulkOrderToken,
             cardProgramToken,
             carrier,
             digitalCardArtToken,
@@ -1071,6 +1113,16 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
+
+        /**
+         * Globally unique identifier for an existing bulk order to associate this card with. When
+         * specified, the card will be added to the bulk order for batch shipment. Only applicable
+         * to cards of type PHYSICAL
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun bulkOrderToken(): Optional<String> = bulkOrderToken.getOptional("bulk_order_token")
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -1229,6 +1281,7 @@ private constructor(
          * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
          * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
+         * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1292,6 +1345,16 @@ private constructor(
         @JsonProperty("account_token")
         @ExcludeMissing
         fun _accountToken(): JsonField<String> = accountToken
+
+        /**
+         * Returns the raw JSON value of [bulkOrderToken].
+         *
+         * Unlike [bulkOrderToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("bulk_order_token")
+        @ExcludeMissing
+        fun _bulkOrderToken(): JsonField<String> = bulkOrderToken
 
         /**
          * Returns the raw JSON value of [cardProgramToken].
@@ -1469,6 +1532,7 @@ private constructor(
 
             private var type: JsonField<Type>? = null
             private var accountToken: JsonField<String> = JsonMissing.of()
+            private var bulkOrderToken: JsonField<String> = JsonMissing.of()
             private var cardProgramToken: JsonField<String> = JsonMissing.of()
             private var carrier: JsonField<Carrier> = JsonMissing.of()
             private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
@@ -1492,6 +1556,7 @@ private constructor(
             internal fun from(body: Body) = apply {
                 type = body.type
                 accountToken = body.accountToken
+                bulkOrderToken = body.bulkOrderToken
                 cardProgramToken = body.cardProgramToken
                 carrier = body.carrier
                 digitalCardArtToken = body.digitalCardArtToken
@@ -1556,6 +1621,25 @@ private constructor(
              */
             fun accountToken(accountToken: JsonField<String>) = apply {
                 this.accountToken = accountToken
+            }
+
+            /**
+             * Globally unique identifier for an existing bulk order to associate this card with.
+             * When specified, the card will be added to the bulk order for batch shipment. Only
+             * applicable to cards of type PHYSICAL
+             */
+            fun bulkOrderToken(bulkOrderToken: String) =
+                bulkOrderToken(JsonField.of(bulkOrderToken))
+
+            /**
+             * Sets [Builder.bulkOrderToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.bulkOrderToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun bulkOrderToken(bulkOrderToken: JsonField<String>) = apply {
+                this.bulkOrderToken = bulkOrderToken
             }
 
             /**
@@ -1809,6 +1893,7 @@ private constructor(
              *   tracking
              * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
              *   similar international option, with tracking
+             * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
              */
             fun shippingMethod(shippingMethod: ShippingMethod) =
                 shippingMethod(JsonField.of(shippingMethod))
@@ -1921,6 +2006,7 @@ private constructor(
                 Body(
                     checkRequired("type", type),
                     accountToken,
+                    bulkOrderToken,
                     cardProgramToken,
                     carrier,
                     digitalCardArtToken,
@@ -1951,6 +2037,7 @@ private constructor(
 
             type().validate()
             accountToken()
+            bulkOrderToken()
             cardProgramToken()
             carrier().ifPresent { it.validate() }
             digitalCardArtToken()
@@ -1989,6 +2076,7 @@ private constructor(
         internal fun validity(): Int =
             (type.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (accountToken.asKnown().isPresent) 1 else 0) +
+                (if (bulkOrderToken.asKnown().isPresent) 1 else 0) +
                 (if (cardProgramToken.asKnown().isPresent) 1 else 0) +
                 (carrier.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (digitalCardArtToken.asKnown().isPresent) 1 else 0) +
@@ -2015,6 +2103,7 @@ private constructor(
             return other is Body &&
                 type == other.type &&
                 accountToken == other.accountToken &&
+                bulkOrderToken == other.bulkOrderToken &&
                 cardProgramToken == other.cardProgramToken &&
                 carrier == other.carrier &&
                 digitalCardArtToken == other.digitalCardArtToken &&
@@ -2039,6 +2128,7 @@ private constructor(
             Objects.hash(
                 type,
                 accountToken,
+                bulkOrderToken,
                 cardProgramToken,
                 carrier,
                 digitalCardArtToken,
@@ -2063,7 +2153,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementComment=$replacementComment, replacementFor=$replacementFor, replacementSubstatus=$replacementSubstatus, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
+            "Body{type=$type, accountToken=$accountToken, bulkOrderToken=$bulkOrderToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementComment=$replacementComment, replacementFor=$replacementFor, replacementSubstatus=$replacementSubstatus, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -2448,6 +2538,7 @@ private constructor(
      * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
      * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
+     * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
      */
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
@@ -2466,6 +2557,8 @@ private constructor(
 
             @JvmField val _2_DAY = of("2_DAY")
 
+            @JvmField val BULK_EXPEDITED = of("BULK_EXPEDITED")
+
             @JvmField val EXPEDITED = of("EXPEDITED")
 
             @JvmField val EXPRESS = of("EXPRESS")
@@ -2482,6 +2575,7 @@ private constructor(
         /** An enum containing [ShippingMethod]'s known values. */
         enum class Known {
             _2_DAY,
+            BULK_EXPEDITED,
             EXPEDITED,
             EXPRESS,
             PRIORITY,
@@ -2500,6 +2594,7 @@ private constructor(
          */
         enum class Value {
             _2_DAY,
+            BULK_EXPEDITED,
             EXPEDITED,
             EXPRESS,
             PRIORITY,
@@ -2522,6 +2617,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 _2_DAY -> Value._2_DAY
+                BULK_EXPEDITED -> Value.BULK_EXPEDITED
                 EXPEDITED -> Value.EXPEDITED
                 EXPRESS -> Value.EXPRESS
                 PRIORITY -> Value.PRIORITY
@@ -2542,6 +2638,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 _2_DAY -> Known._2_DAY
+                BULK_EXPEDITED -> Known.BULK_EXPEDITED
                 EXPEDITED -> Known.EXPEDITED
                 EXPRESS -> Known.EXPRESS
                 PRIORITY -> Known.PRIORITY

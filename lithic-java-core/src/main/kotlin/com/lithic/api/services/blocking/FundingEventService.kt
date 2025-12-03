@@ -6,12 +6,12 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
+import com.lithic.api.models.FundingEvent
 import com.lithic.api.models.FundingEventListPage
 import com.lithic.api.models.FundingEventListParams
 import com.lithic.api.models.FundingEventRetrieveDetailsParams
 import com.lithic.api.models.FundingEventRetrieveDetailsResponse
 import com.lithic.api.models.FundingEventRetrieveParams
-import com.lithic.api.models.FundingEventRetrieveResponse
 import java.util.function.Consumer
 
 interface FundingEventService {
@@ -29,7 +29,7 @@ interface FundingEventService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): FundingEventService
 
     /** Get funding event for program by id */
-    fun retrieve(fundingEventToken: String): FundingEventRetrieveResponse =
+    fun retrieve(fundingEventToken: String): FundingEvent =
         retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
     /** @see retrieve */
@@ -37,30 +37,27 @@ interface FundingEventService {
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): FundingEventRetrieveResponse =
+    ): FundingEvent =
         retrieve(params.toBuilder().fundingEventToken(fundingEventToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         fundingEventToken: String,
         params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
-    ): FundingEventRetrieveResponse = retrieve(fundingEventToken, params, RequestOptions.none())
+    ): FundingEvent = retrieve(fundingEventToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: FundingEventRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): FundingEventRetrieveResponse
+    ): FundingEvent
 
     /** @see retrieve */
-    fun retrieve(params: FundingEventRetrieveParams): FundingEventRetrieveResponse =
+    fun retrieve(params: FundingEventRetrieveParams): FundingEvent =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(
-        fundingEventToken: String,
-        requestOptions: RequestOptions,
-    ): FundingEventRetrieveResponse =
+    fun retrieve(fundingEventToken: String, requestOptions: RequestOptions): FundingEvent =
         retrieve(fundingEventToken, FundingEventRetrieveParams.none(), requestOptions)
 
     /** Get all funding events for program */
@@ -139,7 +136,7 @@ interface FundingEventService {
          * otherwise the same as [FundingEventService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(fundingEventToken: String): HttpResponseFor<FundingEventRetrieveResponse> =
+        fun retrieve(fundingEventToken: String): HttpResponseFor<FundingEvent> =
             retrieve(fundingEventToken, FundingEventRetrieveParams.none())
 
         /** @see retrieve */
@@ -148,7 +145,7 @@ interface FundingEventService {
             fundingEventToken: String,
             params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<FundingEventRetrieveResponse> =
+        ): HttpResponseFor<FundingEvent> =
             retrieve(
                 params.toBuilder().fundingEventToken(fundingEventToken).build(),
                 requestOptions,
@@ -159,7 +156,7 @@ interface FundingEventService {
         fun retrieve(
             fundingEventToken: String,
             params: FundingEventRetrieveParams = FundingEventRetrieveParams.none(),
-        ): HttpResponseFor<FundingEventRetrieveResponse> =
+        ): HttpResponseFor<FundingEvent> =
             retrieve(fundingEventToken, params, RequestOptions.none())
 
         /** @see retrieve */
@@ -167,20 +164,19 @@ interface FundingEventService {
         fun retrieve(
             params: FundingEventRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<FundingEventRetrieveResponse>
+        ): HttpResponseFor<FundingEvent>
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(
-            params: FundingEventRetrieveParams
-        ): HttpResponseFor<FundingEventRetrieveResponse> = retrieve(params, RequestOptions.none())
+        fun retrieve(params: FundingEventRetrieveParams): HttpResponseFor<FundingEvent> =
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             fundingEventToken: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<FundingEventRetrieveResponse> =
+        ): HttpResponseFor<FundingEvent> =
             retrieve(fundingEventToken, FundingEventRetrieveParams.none(), requestOptions)
 
         /**

@@ -12,6 +12,7 @@ internal class CardCreateParamsTest {
         CardCreateParams.builder()
             .type(CardCreateParams.Type.VIRTUAL)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
             .cardProgramToken("5e9483eb-8103-4e16-9794-2106111b2eca")
             .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
             .digitalCardArtToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -52,6 +53,7 @@ internal class CardCreateParamsTest {
             CardCreateParams.builder()
                 .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .cardProgramToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
                 .digitalCardArtToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -89,6 +91,7 @@ internal class CardCreateParamsTest {
 
         assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
         assertThat(body.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.bulkOrderToken()).contains("5e9483eb-8103-4e16-9794-2106111b2eca")
         assertThat(body.cardProgramToken()).contains("5e9483eb-8103-4e16-9794-2106111b2eca")
         assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
         assertThat(body.digitalCardArtToken()).contains("5e9483eb-8103-4e16-9794-2106111b2eca")

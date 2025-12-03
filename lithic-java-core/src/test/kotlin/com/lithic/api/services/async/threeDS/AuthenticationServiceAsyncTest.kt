@@ -21,11 +21,11 @@ internal class AuthenticationServiceAsyncTest {
                 .build()
         val authenticationServiceAsync = client.threeDS().authentication()
 
-        val authenticationFuture =
+        val threeDSAuthenticationFuture =
             authenticationServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        val authentication = authenticationFuture.get()
-        authentication.validate()
+        val threeDSAuthentication = threeDSAuthenticationFuture.get()
+        threeDSAuthentication.validate()
     }
 
     @Test

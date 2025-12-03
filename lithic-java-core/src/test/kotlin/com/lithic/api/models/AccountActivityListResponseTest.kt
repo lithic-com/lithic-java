@@ -270,17 +270,13 @@ internal class AccountActivityListResponseTest {
                 )
                 .cardToken("aac502f9-aecc-458a-954e-4bcf6edb6123")
                 .cardholderAuthentication(
-                    Transaction.CardholderAuthentication.builder()
+                    CardholderAuthentication.builder()
                         .authenticationMethod(
-                            Transaction.CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
+                            CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
                         )
-                        .authenticationResult(
-                            Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
-                        )
-                        .decisionMadeBy(Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK)
-                        .liabilityShift(
-                            Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
-                        )
+                        .authenticationResult(CardholderAuthentication.AuthenticationResult.SUCCESS)
+                        .decisionMadeBy(CardholderAuthentication.DecisionMadeBy.NETWORK)
+                        .liabilityShift(CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED)
                         .threeDSAuthenticationToken("fc60d37d-95f7-419c-b628-dd9fbf9d80d0")
                         .build()
                 )
@@ -331,11 +327,7 @@ internal class AccountActivityListResponseTest {
                 .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
-                .tokenInfo(
-                    Transaction.TokenInfo.builder()
-                        .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
-                        .build()
-                )
+                .tokenInfo(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addEvent(
                     Transaction.TransactionEvent.builder()
@@ -508,20 +500,16 @@ internal class AccountActivityListResponseTest {
                     )
                     .cardToken("aac502f9-aecc-458a-954e-4bcf6edb6123")
                     .cardholderAuthentication(
-                        Transaction.CardholderAuthentication.builder()
+                        CardholderAuthentication.builder()
                             .authenticationMethod(
-                                Transaction.CardholderAuthentication.AuthenticationMethod
-                                    .FRICTIONLESS
+                                CardholderAuthentication.AuthenticationMethod.FRICTIONLESS
                             )
                             .authenticationResult(
-                                Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
+                                CardholderAuthentication.AuthenticationResult.SUCCESS
                             )
-                            .decisionMadeBy(
-                                Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK
-                            )
+                            .decisionMadeBy(CardholderAuthentication.DecisionMadeBy.NETWORK)
                             .liabilityShift(
-                                Transaction.CardholderAuthentication.LiabilityShift
-                                    ._3DS_AUTHENTICATED
+                                CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                             )
                             .threeDSAuthenticationToken("fc60d37d-95f7-419c-b628-dd9fbf9d80d0")
                             .build()
@@ -574,9 +562,7 @@ internal class AccountActivityListResponseTest {
                     .settledAmount(0L)
                     .status(Transaction.Status.PENDING)
                     .tokenInfo(
-                        Transaction.TokenInfo.builder()
-                            .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
-                            .build()
+                        TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                     )
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .addEvent(

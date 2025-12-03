@@ -16,6 +16,7 @@ import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.json
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
+import com.lithic.api.models.ExternalBankAccount
 import com.lithic.api.models.ExternalBankAccountCreateParams
 import com.lithic.api.models.ExternalBankAccountCreateResponse
 import com.lithic.api.models.ExternalBankAccountListPage
@@ -26,9 +27,7 @@ import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
-import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
 import com.lithic.api.models.ExternalBankAccountUnpauseParams
-import com.lithic.api.models.ExternalBankAccountUnpauseResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
@@ -94,14 +93,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     override fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams,
         requestOptions: RequestOptions,
-    ): ExternalBankAccountRetryPrenoteResponse =
+    ): ExternalBankAccount =
         // post /v1/external_bank_accounts/{external_bank_account_token}/retry_prenote
         withRawResponse().retryPrenote(params, requestOptions).parse()
 
     override fun unpause(
         params: ExternalBankAccountUnpauseParams,
         requestOptions: RequestOptions,
-    ): ExternalBankAccountUnpauseResponse =
+    ): ExternalBankAccount =
         // post /v1/external_bank_accounts/{external_bank_account_token}/unpause
         withRawResponse().unpause(params, requestOptions).parse()
 
@@ -284,13 +283,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             }
         }
 
-        private val retryPrenoteHandler: Handler<ExternalBankAccountRetryPrenoteResponse> =
-            jsonHandler<ExternalBankAccountRetryPrenoteResponse>(clientOptions.jsonMapper)
+        private val retryPrenoteHandler: Handler<ExternalBankAccount> =
+            jsonHandler<ExternalBankAccount>(clientOptions.jsonMapper)
 
         override fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<ExternalBankAccountRetryPrenoteResponse> {
+        ): HttpResponseFor<ExternalBankAccount> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
@@ -320,13 +319,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             }
         }
 
-        private val unpauseHandler: Handler<ExternalBankAccountUnpauseResponse> =
-            jsonHandler<ExternalBankAccountUnpauseResponse>(clientOptions.jsonMapper)
+        private val unpauseHandler: Handler<ExternalBankAccount> =
+            jsonHandler<ExternalBankAccount>(clientOptions.jsonMapper)
 
         override fun unpause(
             params: ExternalBankAccountUnpauseParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<ExternalBankAccountUnpauseResponse> {
+        ): HttpResponseFor<ExternalBankAccount> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
