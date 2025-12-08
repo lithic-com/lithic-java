@@ -406,6 +406,10 @@ private constructor(
 
             @JvmField val EXTERNAL_CHECK = of("EXTERNAL_CHECK")
 
+            @JvmField val EXTERNAL_FEDNOW = of("EXTERNAL_FEDNOW")
+
+            @JvmField val EXTERNAL_RTP = of("EXTERNAL_RTP")
+
             @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmField val EXTERNAL_WIRE = of("EXTERNAL_WIRE")
@@ -437,6 +441,8 @@ private constructor(
             CARD,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
+            EXTERNAL_FEDNOW,
+            EXTERNAL_RTP,
             EXTERNAL_TRANSFER,
             EXTERNAL_WIRE,
             MANAGEMENT_ADJUSTMENT,
@@ -467,6 +473,8 @@ private constructor(
             CARD,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
+            EXTERNAL_FEDNOW,
+            EXTERNAL_RTP,
             EXTERNAL_TRANSFER,
             EXTERNAL_WIRE,
             MANAGEMENT_ADJUSTMENT,
@@ -501,6 +509,8 @@ private constructor(
                 CARD -> Value.CARD
                 EXTERNAL_ACH -> Value.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
+                EXTERNAL_FEDNOW -> Value.EXTERNAL_FEDNOW
+                EXTERNAL_RTP -> Value.EXTERNAL_RTP
                 EXTERNAL_TRANSFER -> Value.EXTERNAL_TRANSFER
                 EXTERNAL_WIRE -> Value.EXTERNAL_WIRE
                 MANAGEMENT_ADJUSTMENT -> Value.MANAGEMENT_ADJUSTMENT
@@ -533,6 +543,8 @@ private constructor(
                 CARD -> Known.CARD
                 EXTERNAL_ACH -> Known.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Known.EXTERNAL_CHECK
+                EXTERNAL_FEDNOW -> Known.EXTERNAL_FEDNOW
+                EXTERNAL_RTP -> Known.EXTERNAL_RTP
                 EXTERNAL_TRANSFER -> Known.EXTERNAL_TRANSFER
                 EXTERNAL_WIRE -> Known.EXTERNAL_WIRE
                 MANAGEMENT_ADJUSTMENT -> Known.MANAGEMENT_ADJUSTMENT

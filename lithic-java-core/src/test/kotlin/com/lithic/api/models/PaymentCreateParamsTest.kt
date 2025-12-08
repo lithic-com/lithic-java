@@ -17,6 +17,7 @@ internal class PaymentCreateParamsTest {
             .methodAttributes(
                 PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                    .achHoldPeriod(0L)
                     .addenda("addenda")
                     .build()
             )
@@ -38,6 +39,7 @@ internal class PaymentCreateParamsTest {
                 .methodAttributes(
                     PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                         .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                        .achHoldPeriod(0L)
                         .addenda("addenda")
                         .build()
                 )
@@ -58,6 +60,7 @@ internal class PaymentCreateParamsTest {
             .isEqualTo(
                 PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                    .achHoldPeriod(0L)
                     .addenda("addenda")
                     .build()
             )

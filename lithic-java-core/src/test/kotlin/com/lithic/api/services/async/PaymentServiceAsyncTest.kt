@@ -36,6 +36,7 @@ internal class PaymentServiceAsyncTest {
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodRequestAttributes.builder()
                             .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
+                            .achHoldPeriod(0L)
                             .addenda("addenda")
                             .build()
                     )
