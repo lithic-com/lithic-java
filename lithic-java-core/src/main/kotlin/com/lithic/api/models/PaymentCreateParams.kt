@@ -1087,6 +1087,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val secCode: JsonField<SecCode>,
+        private val achHoldPeriod: JsonField<Long>,
         private val addenda: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -1096,14 +1097,25 @@ private constructor(
             @JsonProperty("sec_code")
             @ExcludeMissing
             secCode: JsonField<SecCode> = JsonMissing.of(),
+            @JsonProperty("ach_hold__period")
+            @ExcludeMissing
+            achHoldPeriod: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("addenda") @ExcludeMissing addenda: JsonField<String> = JsonMissing.of(),
-        ) : this(secCode, addenda, mutableMapOf())
+        ) : this(secCode, achHoldPeriod, addenda, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun secCode(): SecCode = secCode.getRequired("sec_code")
+
+        /**
+         * Number of days to hold the ACH payment
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun achHoldPeriod(): Optional<Long> = achHoldPeriod.getOptional("ach_hold__period")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1117,6 +1129,16 @@ private constructor(
          * Unlike [secCode], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("sec_code") @ExcludeMissing fun _secCode(): JsonField<SecCode> = secCode
+
+        /**
+         * Returns the raw JSON value of [achHoldPeriod].
+         *
+         * Unlike [achHoldPeriod], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("ach_hold__period")
+        @ExcludeMissing
+        fun _achHoldPeriod(): JsonField<Long> = achHoldPeriod
 
         /**
          * Returns the raw JSON value of [addenda].
@@ -1155,6 +1177,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var secCode: JsonField<SecCode>? = null
+            private var achHoldPeriod: JsonField<Long> = JsonMissing.of()
             private var addenda: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1162,6 +1185,7 @@ private constructor(
             internal fun from(paymentMethodRequestAttributes: PaymentMethodRequestAttributes) =
                 apply {
                     secCode = paymentMethodRequestAttributes.secCode
+                    achHoldPeriod = paymentMethodRequestAttributes.achHoldPeriod
                     addenda = paymentMethodRequestAttributes.addenda
                     additionalProperties =
                         paymentMethodRequestAttributes.additionalProperties.toMutableMap()
@@ -1177,6 +1201,20 @@ private constructor(
              * supported value.
              */
             fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
+
+            /** Number of days to hold the ACH payment */
+            fun achHoldPeriod(achHoldPeriod: Long) = achHoldPeriod(JsonField.of(achHoldPeriod))
+
+            /**
+             * Sets [Builder.achHoldPeriod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.achHoldPeriod] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun achHoldPeriod(achHoldPeriod: JsonField<Long>) = apply {
+                this.achHoldPeriod = achHoldPeriod
+            }
 
             fun addenda(addenda: String?) = addenda(JsonField.ofNullable(addenda))
 
@@ -1226,6 +1264,7 @@ private constructor(
             fun build(): PaymentMethodRequestAttributes =
                 PaymentMethodRequestAttributes(
                     checkRequired("secCode", secCode),
+                    achHoldPeriod,
                     addenda,
                     additionalProperties.toMutableMap(),
                 )
@@ -1239,6 +1278,7 @@ private constructor(
             }
 
             secCode().validate()
+            achHoldPeriod()
             addenda()
             validated = true
         }
@@ -1260,6 +1300,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (secCode.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (achHoldPeriod.asKnown().isPresent) 1 else 0) +
                 (if (addenda.asKnown().isPresent) 1 else 0)
 
         class SecCode @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -1405,16 +1446,19 @@ private constructor(
 
             return other is PaymentMethodRequestAttributes &&
                 secCode == other.secCode &&
+                achHoldPeriod == other.achHoldPeriod &&
                 addenda == other.addenda &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(secCode, addenda, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(secCode, achHoldPeriod, addenda, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentMethodRequestAttributes{secCode=$secCode, addenda=$addenda, additionalProperties=$additionalProperties}"
+            "PaymentMethodRequestAttributes{secCode=$secCode, achHoldPeriod=$achHoldPeriod, addenda=$addenda, additionalProperties=$additionalProperties}"
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

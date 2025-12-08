@@ -845,6 +845,10 @@ private constructor(
 
             @JvmField val EXTERNAL_CHECK = of("EXTERNAL_CHECK")
 
+            @JvmField val EXTERNAL_FEDNOW = of("EXTERNAL_FEDNOW")
+
+            @JvmField val EXTERNAL_RTP = of("EXTERNAL_RTP")
+
             @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmStatic fun of(value: String) = ExternalPaymentCategory(JsonField.of(value))
@@ -855,6 +859,8 @@ private constructor(
             EXTERNAL_WIRE,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
+            EXTERNAL_FEDNOW,
+            EXTERNAL_RTP,
             EXTERNAL_TRANSFER,
         }
 
@@ -873,6 +879,8 @@ private constructor(
             EXTERNAL_WIRE,
             EXTERNAL_ACH,
             EXTERNAL_CHECK,
+            EXTERNAL_FEDNOW,
+            EXTERNAL_RTP,
             EXTERNAL_TRANSFER,
             /**
              * An enum member indicating that [ExternalPaymentCategory] was instantiated with an
@@ -893,6 +901,8 @@ private constructor(
                 EXTERNAL_WIRE -> Value.EXTERNAL_WIRE
                 EXTERNAL_ACH -> Value.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
+                EXTERNAL_FEDNOW -> Value.EXTERNAL_FEDNOW
+                EXTERNAL_RTP -> Value.EXTERNAL_RTP
                 EXTERNAL_TRANSFER -> Value.EXTERNAL_TRANSFER
                 else -> Value._UNKNOWN
             }
@@ -911,6 +921,8 @@ private constructor(
                 EXTERNAL_WIRE -> Known.EXTERNAL_WIRE
                 EXTERNAL_ACH -> Known.EXTERNAL_ACH
                 EXTERNAL_CHECK -> Known.EXTERNAL_CHECK
+                EXTERNAL_FEDNOW -> Known.EXTERNAL_FEDNOW
+                EXTERNAL_RTP -> Known.EXTERNAL_RTP
                 EXTERNAL_TRANSFER -> Known.EXTERNAL_TRANSFER
                 else -> throw LithicInvalidDataException("Unknown ExternalPaymentCategory: $value")
             }
@@ -1705,6 +1717,26 @@ private constructor(
 
                 @JvmField val EXTERNAL_CHECK_RELEASED = of("EXTERNAL_CHECK_RELEASED")
 
+                @JvmField val EXTERNAL_FEDNOW_INITIATED = of("EXTERNAL_FEDNOW_INITIATED")
+
+                @JvmField val EXTERNAL_FEDNOW_CANCELED = of("EXTERNAL_FEDNOW_CANCELED")
+
+                @JvmField val EXTERNAL_FEDNOW_SETTLED = of("EXTERNAL_FEDNOW_SETTLED")
+
+                @JvmField val EXTERNAL_FEDNOW_REVERSED = of("EXTERNAL_FEDNOW_REVERSED")
+
+                @JvmField val EXTERNAL_FEDNOW_RELEASED = of("EXTERNAL_FEDNOW_RELEASED")
+
+                @JvmField val EXTERNAL_RTP_INITIATED = of("EXTERNAL_RTP_INITIATED")
+
+                @JvmField val EXTERNAL_RTP_CANCELED = of("EXTERNAL_RTP_CANCELED")
+
+                @JvmField val EXTERNAL_RTP_SETTLED = of("EXTERNAL_RTP_SETTLED")
+
+                @JvmField val EXTERNAL_RTP_REVERSED = of("EXTERNAL_RTP_REVERSED")
+
+                @JvmField val EXTERNAL_RTP_RELEASED = of("EXTERNAL_RTP_RELEASED")
+
                 @JvmStatic fun of(value: String) = ExternalPaymentEventType(JsonField.of(value))
             }
 
@@ -1730,6 +1762,16 @@ private constructor(
                 EXTERNAL_CHECK_SETTLED,
                 EXTERNAL_CHECK_REVERSED,
                 EXTERNAL_CHECK_RELEASED,
+                EXTERNAL_FEDNOW_INITIATED,
+                EXTERNAL_FEDNOW_CANCELED,
+                EXTERNAL_FEDNOW_SETTLED,
+                EXTERNAL_FEDNOW_REVERSED,
+                EXTERNAL_FEDNOW_RELEASED,
+                EXTERNAL_RTP_INITIATED,
+                EXTERNAL_RTP_CANCELED,
+                EXTERNAL_RTP_SETTLED,
+                EXTERNAL_RTP_REVERSED,
+                EXTERNAL_RTP_RELEASED,
             }
 
             /**
@@ -1764,6 +1806,16 @@ private constructor(
                 EXTERNAL_CHECK_SETTLED,
                 EXTERNAL_CHECK_REVERSED,
                 EXTERNAL_CHECK_RELEASED,
+                EXTERNAL_FEDNOW_INITIATED,
+                EXTERNAL_FEDNOW_CANCELED,
+                EXTERNAL_FEDNOW_SETTLED,
+                EXTERNAL_FEDNOW_REVERSED,
+                EXTERNAL_FEDNOW_RELEASED,
+                EXTERNAL_RTP_INITIATED,
+                EXTERNAL_RTP_CANCELED,
+                EXTERNAL_RTP_SETTLED,
+                EXTERNAL_RTP_REVERSED,
+                EXTERNAL_RTP_RELEASED,
                 /**
                  * An enum member indicating that [ExternalPaymentEventType] was instantiated with
                  * an unknown value.
@@ -1800,6 +1852,16 @@ private constructor(
                     EXTERNAL_CHECK_SETTLED -> Value.EXTERNAL_CHECK_SETTLED
                     EXTERNAL_CHECK_REVERSED -> Value.EXTERNAL_CHECK_REVERSED
                     EXTERNAL_CHECK_RELEASED -> Value.EXTERNAL_CHECK_RELEASED
+                    EXTERNAL_FEDNOW_INITIATED -> Value.EXTERNAL_FEDNOW_INITIATED
+                    EXTERNAL_FEDNOW_CANCELED -> Value.EXTERNAL_FEDNOW_CANCELED
+                    EXTERNAL_FEDNOW_SETTLED -> Value.EXTERNAL_FEDNOW_SETTLED
+                    EXTERNAL_FEDNOW_REVERSED -> Value.EXTERNAL_FEDNOW_REVERSED
+                    EXTERNAL_FEDNOW_RELEASED -> Value.EXTERNAL_FEDNOW_RELEASED
+                    EXTERNAL_RTP_INITIATED -> Value.EXTERNAL_RTP_INITIATED
+                    EXTERNAL_RTP_CANCELED -> Value.EXTERNAL_RTP_CANCELED
+                    EXTERNAL_RTP_SETTLED -> Value.EXTERNAL_RTP_SETTLED
+                    EXTERNAL_RTP_REVERSED -> Value.EXTERNAL_RTP_REVERSED
+                    EXTERNAL_RTP_RELEASED -> Value.EXTERNAL_RTP_RELEASED
                     else -> Value._UNKNOWN
                 }
 
@@ -1834,6 +1896,16 @@ private constructor(
                     EXTERNAL_CHECK_SETTLED -> Known.EXTERNAL_CHECK_SETTLED
                     EXTERNAL_CHECK_REVERSED -> Known.EXTERNAL_CHECK_REVERSED
                     EXTERNAL_CHECK_RELEASED -> Known.EXTERNAL_CHECK_RELEASED
+                    EXTERNAL_FEDNOW_INITIATED -> Known.EXTERNAL_FEDNOW_INITIATED
+                    EXTERNAL_FEDNOW_CANCELED -> Known.EXTERNAL_FEDNOW_CANCELED
+                    EXTERNAL_FEDNOW_SETTLED -> Known.EXTERNAL_FEDNOW_SETTLED
+                    EXTERNAL_FEDNOW_REVERSED -> Known.EXTERNAL_FEDNOW_REVERSED
+                    EXTERNAL_FEDNOW_RELEASED -> Known.EXTERNAL_FEDNOW_RELEASED
+                    EXTERNAL_RTP_INITIATED -> Known.EXTERNAL_RTP_INITIATED
+                    EXTERNAL_RTP_CANCELED -> Known.EXTERNAL_RTP_CANCELED
+                    EXTERNAL_RTP_SETTLED -> Known.EXTERNAL_RTP_SETTLED
+                    EXTERNAL_RTP_REVERSED -> Known.EXTERNAL_RTP_REVERSED
+                    EXTERNAL_RTP_RELEASED -> Known.EXTERNAL_RTP_RELEASED
                     else ->
                         throw LithicInvalidDataException("Unknown ExternalPaymentEventType: $value")
                 }

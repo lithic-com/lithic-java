@@ -1432,6 +1432,18 @@ private constructor(
 
             @JvmField val DISBURSE_REVERSAL = of("DISBURSE_REVERSAL")
 
+            @JvmField val ANNUAL = of("ANNUAL")
+
+            @JvmField val ANNUAL_REVERSAL = of("ANNUAL_REVERSAL")
+
+            @JvmField val QUARTERLY = of("QUARTERLY")
+
+            @JvmField val QUARTERLY_REVERSAL = of("QUARTERLY_REVERSAL")
+
+            @JvmField val MONTHLY = of("MONTHLY")
+
+            @JvmField val MONTHLY_REVERSAL = of("MONTHLY_REVERSAL")
+
             @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
         }
 
@@ -1456,6 +1468,12 @@ private constructor(
             DISPUTE_WON_REVERSAL,
             DISBURSE,
             DISBURSE_REVERSAL,
+            ANNUAL,
+            ANNUAL_REVERSAL,
+            QUARTERLY,
+            QUARTERLY_REVERSAL,
+            MONTHLY,
+            MONTHLY_REVERSAL,
         }
 
         /**
@@ -1489,6 +1507,12 @@ private constructor(
             DISPUTE_WON_REVERSAL,
             DISBURSE,
             DISBURSE_REVERSAL,
+            ANNUAL,
+            ANNUAL_REVERSAL,
+            QUARTERLY,
+            QUARTERLY_REVERSAL,
+            MONTHLY,
+            MONTHLY_REVERSAL,
             /**
              * An enum member indicating that [ManagementOperationEventType] was instantiated with
              * an unknown value.
@@ -1524,6 +1548,12 @@ private constructor(
                 DISPUTE_WON_REVERSAL -> Value.DISPUTE_WON_REVERSAL
                 DISBURSE -> Value.DISBURSE
                 DISBURSE_REVERSAL -> Value.DISBURSE_REVERSAL
+                ANNUAL -> Value.ANNUAL
+                ANNUAL_REVERSAL -> Value.ANNUAL_REVERSAL
+                QUARTERLY -> Value.QUARTERLY
+                QUARTERLY_REVERSAL -> Value.QUARTERLY_REVERSAL
+                MONTHLY -> Value.MONTHLY
+                MONTHLY_REVERSAL -> Value.MONTHLY_REVERSAL
                 else -> Value._UNKNOWN
             }
 
@@ -1557,6 +1587,12 @@ private constructor(
                 DISPUTE_WON_REVERSAL -> Known.DISPUTE_WON_REVERSAL
                 DISBURSE -> Known.DISBURSE
                 DISBURSE_REVERSAL -> Known.DISBURSE_REVERSAL
+                ANNUAL -> Known.ANNUAL
+                ANNUAL_REVERSAL -> Known.ANNUAL_REVERSAL
+                QUARTERLY -> Known.QUARTERLY
+                QUARTERLY_REVERSAL -> Known.QUARTERLY_REVERSAL
+                MONTHLY -> Known.MONTHLY
+                MONTHLY_REVERSAL -> Known.MONTHLY_REVERSAL
                 else ->
                     throw LithicInvalidDataException("Unknown ManagementOperationEventType: $value")
             }

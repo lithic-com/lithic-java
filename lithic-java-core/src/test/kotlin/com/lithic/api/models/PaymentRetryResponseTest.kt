@@ -45,6 +45,7 @@ internal class PaymentRetryResponseTest {
                 .methodAttributes(
                     Payment.MethodAttributes.AchMethodAttributes.builder()
                         .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                        .achHoldPeriod(1L)
                         .addenda(null)
                         .companyId("1111111111")
                         .receiptRoutingNumber(null)
@@ -120,6 +121,7 @@ internal class PaymentRetryResponseTest {
                 Payment.MethodAttributes.ofAch(
                     Payment.MethodAttributes.AchMethodAttributes.builder()
                         .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                        .achHoldPeriod(1L)
                         .addenda(null)
                         .companyId("1111111111")
                         .receiptRoutingNumber(null)
@@ -202,6 +204,7 @@ internal class PaymentRetryResponseTest {
                 .methodAttributes(
                     Payment.MethodAttributes.AchMethodAttributes.builder()
                         .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                        .achHoldPeriod(1L)
                         .addenda(null)
                         .companyId("1111111111")
                         .receiptRoutingNumber(null)

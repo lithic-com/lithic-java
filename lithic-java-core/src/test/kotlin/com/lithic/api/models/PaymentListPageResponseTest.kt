@@ -51,6 +51,7 @@ internal class PaymentListPageResponseTest {
                         .methodAttributes(
                             Payment.MethodAttributes.AchMethodAttributes.builder()
                                 .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                                .achHoldPeriod(1L)
                                 .addenda(null)
                                 .companyId("1111111111")
                                 .receiptRoutingNumber(null)
@@ -115,6 +116,7 @@ internal class PaymentListPageResponseTest {
                     .methodAttributes(
                         Payment.MethodAttributes.AchMethodAttributes.builder()
                             .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                            .achHoldPeriod(1L)
                             .addenda(null)
                             .companyId("1111111111")
                             .receiptRoutingNumber(null)
@@ -187,6 +189,7 @@ internal class PaymentListPageResponseTest {
                         .methodAttributes(
                             Payment.MethodAttributes.AchMethodAttributes.builder()
                                 .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                                .achHoldPeriod(1L)
                                 .addenda(null)
                                 .companyId("1111111111")
                                 .receiptRoutingNumber(null)
