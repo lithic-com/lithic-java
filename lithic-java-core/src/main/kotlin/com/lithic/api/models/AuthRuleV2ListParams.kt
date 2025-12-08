@@ -8,6 +8,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
@@ -21,6 +22,7 @@ private constructor(
     private val cardToken: String?,
     private val endingBefore: String?,
     private val eventStream: EventStream?,
+    private val eventStreams: List<EventStream>?,
     private val pageSize: Long?,
     private val scope: Scope?,
     private val startingAfter: String?,
@@ -43,8 +45,17 @@ private constructor(
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
-    /** Only return Auth rules that are executed during the provided event stream. */
+    /**
+     * Deprecated: Use event_streams instead. Only return Auth rules that are executed during the
+     * provided event stream.
+     */
     fun eventStream(): Optional<EventStream> = Optional.ofNullable(eventStream)
+
+    /**
+     * Only return Auth rules that are executed during any of the provided event streams. If
+     * event_streams and event_stream are specified, the values will be combined.
+     */
+    fun eventStreams(): Optional<List<EventStream>> = Optional.ofNullable(eventStreams)
 
     /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
@@ -82,6 +93,7 @@ private constructor(
         private var cardToken: String? = null
         private var endingBefore: String? = null
         private var eventStream: EventStream? = null
+        private var eventStreams: MutableList<EventStream>? = null
         private var pageSize: Long? = null
         private var scope: Scope? = null
         private var startingAfter: String? = null
@@ -95,6 +107,7 @@ private constructor(
             cardToken = authRuleV2ListParams.cardToken
             endingBefore = authRuleV2ListParams.endingBefore
             eventStream = authRuleV2ListParams.eventStream
+            eventStreams = authRuleV2ListParams.eventStreams?.toMutableList()
             pageSize = authRuleV2ListParams.pageSize
             scope = authRuleV2ListParams.scope
             startingAfter = authRuleV2ListParams.startingAfter
@@ -135,11 +148,35 @@ private constructor(
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
-        /** Only return Auth rules that are executed during the provided event stream. */
+        /**
+         * Deprecated: Use event_streams instead. Only return Auth rules that are executed during
+         * the provided event stream.
+         */
         fun eventStream(eventStream: EventStream?) = apply { this.eventStream = eventStream }
 
         /** Alias for calling [Builder.eventStream] with `eventStream.orElse(null)`. */
         fun eventStream(eventStream: Optional<EventStream>) = eventStream(eventStream.getOrNull())
+
+        /**
+         * Only return Auth rules that are executed during any of the provided event streams. If
+         * event_streams and event_stream are specified, the values will be combined.
+         */
+        fun eventStreams(eventStreams: List<EventStream>?) = apply {
+            this.eventStreams = eventStreams?.toMutableList()
+        }
+
+        /** Alias for calling [Builder.eventStreams] with `eventStreams.orElse(null)`. */
+        fun eventStreams(eventStreams: Optional<List<EventStream>>) =
+            eventStreams(eventStreams.getOrNull())
+
+        /**
+         * Adds a single [EventStream] to [eventStreams].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addEventStream(eventStream: EventStream) = apply {
+            eventStreams = (eventStreams ?: mutableListOf()).apply { add(eventStream) }
+        }
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -280,6 +317,7 @@ private constructor(
                 cardToken,
                 endingBefore,
                 eventStream,
+                eventStreams?.toImmutable(),
                 pageSize,
                 scope,
                 startingAfter,
@@ -298,6 +336,7 @@ private constructor(
                 cardToken?.let { put("card_token", it) }
                 endingBefore?.let { put("ending_before", it) }
                 eventStream?.let { put("event_stream", it.toString()) }
+                eventStreams?.let { put("event_streams", it.joinToString(",") { it.toString() }) }
                 pageSize?.let { put("page_size", it.toString()) }
                 scope?.let { put("scope", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
@@ -305,7 +344,157 @@ private constructor(
             }
             .build()
 
-    /** Only return Auth rules that are executed during the provided event stream. */
+    /**
+     * Deprecated: Use event_streams instead. Only return Auth rules that are executed during the
+     * provided event stream.
+     */
+    class EventStream @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AUTHORIZATION = of("AUTHORIZATION")
+
+            @JvmField val THREE_DS_AUTHENTICATION = of("THREE_DS_AUTHENTICATION")
+
+            @JvmField val TOKENIZATION = of("TOKENIZATION")
+
+            @JvmField val ACH_CREDIT_RECEIPT = of("ACH_CREDIT_RECEIPT")
+
+            @JvmField val ACH_DEBIT_RECEIPT = of("ACH_DEBIT_RECEIPT")
+
+            @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
+        }
+
+        /** An enum containing [EventStream]'s known values. */
+        enum class Known {
+            AUTHORIZATION,
+            THREE_DS_AUTHENTICATION,
+            TOKENIZATION,
+            ACH_CREDIT_RECEIPT,
+            ACH_DEBIT_RECEIPT,
+        }
+
+        /**
+         * An enum containing [EventStream]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [EventStream] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AUTHORIZATION,
+            THREE_DS_AUTHENTICATION,
+            TOKENIZATION,
+            ACH_CREDIT_RECEIPT,
+            ACH_DEBIT_RECEIPT,
+            /**
+             * An enum member indicating that [EventStream] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AUTHORIZATION -> Value.AUTHORIZATION
+                THREE_DS_AUTHENTICATION -> Value.THREE_DS_AUTHENTICATION
+                TOKENIZATION -> Value.TOKENIZATION
+                ACH_CREDIT_RECEIPT -> Value.ACH_CREDIT_RECEIPT
+                ACH_DEBIT_RECEIPT -> Value.ACH_DEBIT_RECEIPT
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AUTHORIZATION -> Known.AUTHORIZATION
+                THREE_DS_AUTHENTICATION -> Known.THREE_DS_AUTHENTICATION
+                TOKENIZATION -> Known.TOKENIZATION
+                ACH_CREDIT_RECEIPT -> Known.ACH_CREDIT_RECEIPT
+                ACH_DEBIT_RECEIPT -> Known.ACH_DEBIT_RECEIPT
+                else -> throw LithicInvalidDataException("Unknown EventStream: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): EventStream = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is EventStream && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** The event stream during which the rule will be evaluated. */
     class EventStream @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -607,6 +796,7 @@ private constructor(
             cardToken == other.cardToken &&
             endingBefore == other.endingBefore &&
             eventStream == other.eventStream &&
+            eventStreams == other.eventStreams &&
             pageSize == other.pageSize &&
             scope == other.scope &&
             startingAfter == other.startingAfter &&
@@ -621,6 +811,7 @@ private constructor(
             cardToken,
             endingBefore,
             eventStream,
+            eventStreams,
             pageSize,
             scope,
             startingAfter,
@@ -629,5 +820,5 @@ private constructor(
         )
 
     override fun toString() =
-        "AuthRuleV2ListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, cardToken=$cardToken, endingBefore=$endingBefore, eventStream=$eventStream, pageSize=$pageSize, scope=$scope, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AuthRuleV2ListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, cardToken=$cardToken, endingBefore=$endingBefore, eventStream=$eventStream, eventStreams=$eventStreams, pageSize=$pageSize, scope=$scope, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
