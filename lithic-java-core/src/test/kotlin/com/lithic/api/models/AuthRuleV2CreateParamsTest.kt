@@ -28,9 +28,7 @@ internal class AuthRuleV2CreateParamsTest {
                     )
                     .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .eventStream(
-                        AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
-                    )
+                    .eventStream(EventStream.AUTHORIZATION)
                     .name("name")
                     .build()
             )
@@ -60,9 +58,7 @@ internal class AuthRuleV2CreateParamsTest {
                         )
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .eventStream(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
-                        )
+                        .eventStream(EventStream.AUTHORIZATION)
                         .name("name")
                         .build()
                 )
@@ -91,9 +87,7 @@ internal class AuthRuleV2CreateParamsTest {
                         )
                         .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .eventStream(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream.AUTHORIZATION
-                        )
+                        .eventStream(EventStream.AUTHORIZATION)
                         .name("name")
                         .build()
                 )

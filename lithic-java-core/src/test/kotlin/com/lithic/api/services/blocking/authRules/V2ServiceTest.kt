@@ -13,6 +13,7 @@ import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.ConditionalAttribute
 import com.lithic.api.models.ConditionalBlockParameters
 import com.lithic.api.models.ConditionalOperation
+import com.lithic.api.models.EventStream
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -51,10 +52,7 @@ internal class V2ServiceTest {
                             )
                             .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .eventStream(
-                                AuthRuleV2CreateParams.Body.AccountLevelRule.EventStream
-                                    .AUTHORIZATION
-                            )
+                            .eventStream(EventStream.AUTHORIZATION)
                             .name("name")
                             .build()
                     )
