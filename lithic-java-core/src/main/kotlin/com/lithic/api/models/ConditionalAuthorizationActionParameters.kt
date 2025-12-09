@@ -15,6 +15,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
@@ -604,6 +605,9 @@ private constructor(
             /** Alias for calling [value] with `ConditionalValue.ofListOfStrings(listOfStrings)`. */
             fun valueOfListOfStrings(listOfStrings: List<String>) =
                 value(ConditionalValue.ofListOfStrings(listOfStrings))
+
+            /** Alias for calling [value] with `ConditionalValue.ofTimestamp(timestamp)`. */
+            fun value(timestamp: OffsetDateTime) = value(ConditionalValue.ofTimestamp(timestamp))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
